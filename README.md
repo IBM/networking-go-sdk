@@ -41,7 +41,7 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | Service Name                                                             | Package name         |
 | ------------------------------------------------------------------------ | -------------------- |
 | [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway) | transitgatewayapisv1 |
-| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link) | transitgatewayapisv1 |
+| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link) | directlinkapisv1 |
 
 ## Prerequisites
 
