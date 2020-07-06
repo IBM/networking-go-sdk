@@ -1,4 +1,4 @@
-module github.ibm.com/ibmcloud/networking-go-sdk
+module github.com/IBM/networking-go-sdk
 
 go 1.14
 
