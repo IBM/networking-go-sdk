@@ -51,10 +51,12 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Expect(err).To(BeNil())
 	})
 
+	timestamp := time.Now().Unix()
+
 	Describe("Direct Link Gateways", func() {
 
-		gatewayName := "GO-INT-SDK"
-		updatedGatewayName := "GO-INT-SDK-PATCH"
+		gatewayName := "GO-INT-SDK-" + strconv.FormatInt(timestamp, 10)
+		updatedGatewayName := "GO-INT-SDK-PATCH-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
 		bgpBaseCidr := "169.254.0.0/16"
 		crossConnectRouter := "LAB-xcr01.dal09"
@@ -277,9 +279,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 
 			It("create connect gateway", func() {
-				sec := time.Now().Unix()
-				timestamp := strconv.FormatInt(sec, 10)
-				gatewayName = "GO-INT-SDK-CONNECT-" + timestamp
+				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
 				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName,
 					speedMbps, "connect", portIdentity)
@@ -490,7 +490,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe("Direct Link Virtual Connections", func() {
-		gatewayName := "GO-INT-VC-SDK"
+		gatewayName := "GO-INT-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
 		bgpBaseCidr := "169.254.0.0/16"
 		crossConnectRouter := "LAB-xcr01.dal09"
@@ -526,7 +526,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 
 			It("Successfully create a CLASSIC virtual connection", func() {
-				vcName := "GO-INT-CLASSIC-VC-SDK"
+				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
 				Expect(err).To(BeNil())
@@ -539,7 +539,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 
 			It("Successfully get a CLASSIC virtual connection", func() {
-				vcName := "GO-INT-CLASSIC-VC-SDK"
+				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
 				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 				Expect(err).To(BeNil())
@@ -551,7 +551,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 
 			It("Successfully create a Gen 2 VPC virtual connection", func() {
-				vcName := "GO-INT-GEN2-VPC-VC-SDK"
+				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				vpcCrn := os.Getenv("GEN2_VPC_CRN")
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
 				createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
@@ -574,7 +574,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 
 				Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
-				Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK"))
+				Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
 				Expect(*result.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
 				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
 			})
@@ -593,7 +593,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			It("Successfully Update a virtual connection name", func() {
 				gatewayId := os.Getenv("GATEWAY_ID")
 				vcId := os.Getenv("GEN2_VPC_VC_ID")
-				vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK"
+				vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
 				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
 				patchGatewayOptions = patchGatewayOptions.SetName(vcName)
 
@@ -707,7 +707,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe("LOA and Completion Notice", func() {
-		gatewayName := "GO-INT-LOA-SDK"
+		gatewayName := "GO-INT-LOA-SDK-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
 		bgpBaseCidr := "169.254.0.0/16"
 		crossConnectRouter := "LAB-xcr01.dal09"
