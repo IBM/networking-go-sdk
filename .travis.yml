@@ -2,6 +2,9 @@ language: go
 
 dist: xenial
 
+go:
+- 1.12.x
+
 notifications:
   email: true
 
@@ -21,8 +24,7 @@ install:
 - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.21.0
 
 script:
-- go test `go list ./...` -tags integration
-- golangci-lint run
+- make travis-ci
 
 # To enable semantic-release, uncomment these sections.
 before_deploy:
