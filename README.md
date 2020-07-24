@@ -38,10 +38,36 @@ Go client library to interact with the various [IBM Cloud Networking Service API
 
 The IBM Cloud Networking Go SDK allows developers to programmatically interact with the following IBM Cloud services:
 
-| Service Name                                                             | Package name         |
-| ------------------------------------------------------------------------ | -------------------- |
-| [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway) | transitgatewayapisv1 |
-| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link) | directlinkapisv1 |
+| Service Name                                                                                   | Package name                |
+| ---------------------------------------------------------------------------------------------- | --------------------------- |
+| [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway)                          | transitgatewayapisv1        |
+| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link)                               | directlinkapisv1            |
+| [CIS: Cache](https://cloud.ibm.com/apidocs/cis/cache)                                          | cachingapiv1                |
+| [CIS: IP](https://cloud.ibm.com/apidocs/cis/ip)                                                | cisipapiv1                  |
+| [CIS: Custom Pages](https://cloud.ibm.com/apidocs/cis)                                         | custompagesv1               |
+| [CIS: DNS Records Bulk](https://cloud.ibm.com/apidocs/cis/dnsrecords)                          | dnsrecordbulkv1             |
+| [CIS: DNS Records](https://cloud.ibm.com/apidocs/cis/dnsrecords)                               | dnsrecordsv1                |
+| [CIS: Firewall Access Rules](https://cloud.ibm.com/apidocs/cis/firewall-access-rule)           | firewallaccessrulesv1       |
+| [CIS: Security Level Settings](https://cloud.ibm.com/apidocs/cis/security-level-settings)      | firewallapiv1               |
+| [CIS: GLB Events](https://cloud.ibm.com/apidocs/cis/glb-events)                                | globalloadbalancereventsv1  |
+| [CIS: GLB Monitor](https://cloud.ibm.com/apidocs/cis/glb-monitor)                              | globalloadbalancermonitorv1 |
+| [CIS: GLB Pools](https://cloud.ibm.com/apidocs/cis/glb-pool)                                   | globalloadbalancerpoolsv0   |
+| [CIS: GLB Service](https://cloud.ibm.com/apidocs/cis/glb)                                      | globalloadbalancerv1        |
+| [CIS: Page Rules](https://cloud.ibm.com/apidocs/cis/page-rules)                                | pageruleapiv1               |
+| [CIS: Range Application](https://cloud.ibm.com/apidocs/cis/range)                              | rangeapplicationsv1         |
+| [CIS: Routing](https://cloud.ibm.com/apidocs/cis/routing)                                      | routingv1                   |
+| [CIS: Security Events](https://cloud.ibm.com/apidocs/cis)                                      | securityeventsapiv1         |
+| [CIS: SSL/TLS](https://cloud.ibm.com/apidocs/cis/tls)                                          | sslcertificateapiv1         |
+| [CIS: User Agent Blocking Rules](https://cloud.ibm.com/apidocs/cis/user-agent-rules)           | useragentblockingrulesv1    |
+| [CIS: WAF Settings](https://cloud.ibm.com/apidocs/cis/waf)                                     | wafapiv1                    |
+| [CIS: WAF Rule Groups](https://cloud.ibm.com/apidocs/cis/waf-groups)                           | wafrulegroupsapiv1          |
+| [CIS: WAF Rule Packages](https://cloud.ibm.com/apidocs/cis/waf-packages)                       | wafrulepackagesapiv1        |
+| [CIS: WAF Rules](https://cloud.ibm.com/apidocs/cis/waf-rules)                                  | wafrulesapiv1               |
+| [CIS: Zone Firewall Access Rules](https://cloud.ibm.com/apidocs/cis/zone-firewall-access-rule) | zonefirewallaccessrulesv1   |
+| [CIS: Zone Lockdown](https://cloud.ibm.com/apidocs/cis/zone-lockdown)                          | zonelockdownv1              |
+| [CIS: Zone Rate Limits](https://cloud.ibm.com/apidocs/cis)                                     | zoneratelimitsv1            |
+| [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis/zonesettings)                           | zonessettingsv1             |
+| [CIS: Zones](https://cloud.ibm.com/apidocs/cis/zones)                                          | zonesv1                     |
 
 ## Prerequisites
 
@@ -74,12 +100,34 @@ Go application, like this:
 
 ```go
 import (
-	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
-)
-```
-```go
-import (
-	"github.com/IBM/networking-go-sdk/directlinkapisv1"
+  "github.com/IBM/networking-go-sdk/transitgatewayapisv1"
+  "github.com/IBM/networking-go-sdk/directlinkapisv1"
+  "github.com/IBM/networking-go-sdk/cachingapiv1"
+  "github.com/IBM/networking-go-sdk/cisipapiv1"
+  "github.com/IBM/networking-go-sdk/custompagesv1"
+  "github.com/IBM/networking-go-sdk/dnsrecordbulkv1"
+  "github.com/IBM/networking-go-sdk/dnsrecordsv1"
+  "github.com/IBM/networking-go-sdk/firewallaccessrulesv1"
+  "github.com/IBM/networking-go-sdk/firewallapiv1"
+  "github.com/IBM/networking-go-sdk/globalloadbalancereventsv1"
+  "github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
+  "github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
+  "github.com/IBM/networking-go-sdk/globalloadbalancerv1"
+  "github.com/IBM/networking-go-sdk/pageruleapiv1"
+  "github.com/IBM/networking-go-sdk/rangeapplicationsv1"
+  "github.com/IBM/networking-go-sdk/routingv1"
+  "github.com/IBM/networking-go-sdk/securityeventsapiv1"
+  "github.com/IBM/networking-go-sdk/sslcertificateapiv1"
+  "github.com/IBM/networking-go-sdk/useragentblockingrulesv1"
+  "github.com/IBM/networking-go-sdk/wafapiv1"
+  "github.com/IBM/networking-go-sdk/wafrulegroupsapiv1"
+  "github.com/IBM/networking-go-sdk/wafrulepackagesapiv1"
+  "github.com/IBM/networking-go-sdk/wafrulesapiv1"
+  "github.com/IBM/networking-go-sdk/zonefirewallaccessrulesv1"
+  "github.com/IBM/networking-go-sdk/zonelockdownv1"
+  "github.com/IBM/networking-go-sdk/zoneratelimitsv1"
+  "github.com/IBM/networking-go-sdk/zonessettingsv1"
+  "github.com/IBM/networking-go-sdk/zonesv1"
 )
 ```
 
