@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package directlinkapisv1_test
+package directlinkv1_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -22,7 +22,7 @@ import (
 	"testing"
 )
 
-func TestDirectLinkApisV1(t *testing.T) {
+func TestDirectLinkV1(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "DirectLinkApisV1 Suite")
+	RunSpecs(t, "DirectLinkV1 Suite")
 }
