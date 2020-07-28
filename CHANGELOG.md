@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/IBM/networking-go-sdk/compare/v0.1.0...v0.1.1) (2020-07-28)
+
+
+### Bug Fixes
+
+* **directlink:** Renamed the directlinkapisv1 to directlinkv1 ([3b37e1d](https://github.com/IBM/networking-go-sdk/commit/3b37e1dc9593bc120ae5fc43c59255ddfdbaa55d))
+
 # [0.1.0](https://github.com/IBM/networking-go-sdk/compare/v0.0.1...v0.1.0) (2020-07-14)
 
 
