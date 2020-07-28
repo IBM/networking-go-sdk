@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package directlinkapisv1_test
+package directlinkv1_test
 
 /*
 How to run this test:
-go test -v ./directlinkapisv1
+go test -v ./directlinkv1
 */
 
 import (
@@ -29,14 +29,13 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/directlinkapisv1"
-	"github.com/go-openapi/strfmt"
+	"github.com/IBM/networking-go-sdk/directlinkv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe(`DirectLinkApisV1`, func() {
+var _ = Describe(`DirectLinkV1`, func() {
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		Expect(err).To(BeNil())
@@ -47,23 +46,22 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		URL:    "https://iam.test.cloud.ibm.com/identity/token",
 	}
 
-	version := strfmt.Date(time.Now())
+	version := time.Now().Format("2006-01-02")
 	serviceURL := os.Getenv("SERVICE_URL")
-	options := &directlinkapisv1.DirectLinkApisV1Options{
-		ServiceName:   "DirectLinkApisV1_Mocking",
+	options := &directlinkv1.DirectLinkV1Options{
+		ServiceName:   "DirectLinkV1_Mocking",
 		Authenticator: authenticator,
 		URL:           serviceURL,
 		Version:       &version,
 	}
 
-	service, err := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(options)
-	It(`Successfully created DirectLinkApisV1 service instance`, func() {
+	service, err := directlinkv1.NewDirectLinkV1UsingExternalConfig(options)
+	It(`Successfully created DirectLinkV1 service instance`, func() {
 		Expect(err).To(BeNil())
 	})
 
-	timestamp := time.Now().Unix()
-
 	Describe("Direct Link Gateways", func() {
+		timestamp := time.Now().Unix()
 		gatewayName := "GO-INT-SDK-" + strconv.FormatInt(timestamp, 10)
 		updatedGatewayName := "GO-INT-SDK-PATCH-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
@@ -351,6 +349,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			portId := ""
 			portLocationDisplayName := ""
 			portLocationName := ""
+			timestamp := time.Now().Unix()
 
 			It("List ports and save the id of the first port", func() {
 				listPortsOptions := service.NewListPortsOptions()
@@ -365,8 +364,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			It("create connect gateway", func() {
 				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
-				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName,
-					speedMbps, "connect", portIdentity)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, "connect", portIdentity)
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 
@@ -517,6 +515,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
+
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 				Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
@@ -541,6 +540,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("connect", os.Getenv("OT_CONNECT_LOCATION_NAME"))
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
+
 				Expect(err).NotTo(BeNil())
 				Expect(err.Error()).To(Equal("The supplied OfferingType is not supported for this call"))
 				Expect(detailedResponse.StatusCode).To(Equal(400))
@@ -645,6 +645,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe("Direct Link Virtual Connections", func() {
+		timestamp := time.Now().Unix()
 		gatewayName := "GO-INT-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
 		bgpBaseCidr := "169.254.0.0/16"
@@ -682,7 +683,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 
 			It("Successfully create a CLASSIC virtual connection", func() {
 				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
+				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
@@ -691,7 +692,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 
 				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
 			})
@@ -705,7 +706,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 
 				Expect(*result.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
 				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
 			})
@@ -713,7 +714,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			It("Successfully create a Gen 2 VPC virtual connection", func() {
 				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				vpcCrn := os.Getenv("GEN2_VPC_CRN")
-				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
+				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
 				createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
 				Expect(err).To(BeNil())
@@ -726,7 +727,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(*result.Name).To(Equal(vcName))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
 				Expect(*result.NetworkID).To(Equal(vpcCrn))
 			})
 
@@ -740,7 +741,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
 				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
 			})
 
@@ -759,12 +760,12 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 						Expect(*vc.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
 						Expect(*vc.CreatedAt).NotTo(Equal(""))
 						Expect(*vc.Status).To(Equal("pending"))
-						Expect(*vc.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+						Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
 						Expect(*vc.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
 					} else {
 						Expect(*vc.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
 						Expect(*vc.Name).To(Equal("GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-						Expect(*vc.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+						Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
 						Expect(*vc.CreatedAt).NotTo(Equal(""))
 						Expect(*vc.Status).To(Equal("pending"))
 					}
@@ -786,7 +787,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(*result.Name).To(Equal(vcName))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkapisv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
 				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
 			})
 
@@ -794,7 +795,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				gatewayId := os.Getenv("GATEWAY_ID")
 				vcId := os.Getenv("GEN2_VPC_VC_ID")
 				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-				patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkapisv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
+				patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
 
 				result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
 
@@ -891,6 +892,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe("LOA and Completion Notice", func() {
+		timestamp := time.Now().Unix()
 		gatewayName := "GO-INT-LOA-SDK-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
 		bgpBaseCidr := "169.254.0.0/16"
