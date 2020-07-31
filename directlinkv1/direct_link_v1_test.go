@@ -14,48 +14,49 @@
  * limitations under the License.
  */
 
-package directlinkapisv1_test
+package directlinkv1_test
 
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/directlinkapisv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/directlinkv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-var _ = Describe(`DirectLinkApisV1`, func() {
+var _ = Describe(`DirectLinkV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
-		version := CreateMockDate()
+	Describe(`Service constructor tests`, func() {
+		version := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: version,
+				Version:       core.StringPtr(version),
 			})
 			Expect(testService).ToNot(BeNil())
 			Expect(testServiceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "https://directlinkapisv1/api",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "https://directlinkv1/api",
+				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
@@ -65,24 +66,24 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{})
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "noauth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -90,9 +91,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					URL: "https://testService/api",
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					URL:     "https://testService/api",
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -101,8 +102,8 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
@@ -115,13 +116,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "someOtherAuth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -133,13 +134,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_AUTH_TYPE":   "NOAuth",
+				"DIRECT_LINK_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -150,7 +151,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`ListGateways(listGatewaysOptions *ListGatewaysOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listGatewaysPath := "/gateways"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -160,8 +161,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -169,16 +169,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListGateways with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewaysOptions model
-				listGatewaysOptionsModel := new(directlinkapisv1.ListGatewaysOptions)
+				listGatewaysOptionsModel := new(directlinkv1.ListGatewaysOptions)
 				listGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListGateways(listGatewaysOptionsModel)
@@ -193,7 +193,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListGateways(listGatewaysOptions *ListGatewaysOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listGatewaysPath := "/gateways"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -203,19 +203,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, `{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -227,8 +226,8 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListGatewaysOptions model
-				listGatewaysOptionsModel := new(directlinkapisv1.ListGatewaysOptions)
- 				listGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listGatewaysOptionsModel := new(directlinkv1.ListGatewaysOptions)
+				listGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListGateways(listGatewaysOptionsModel)
@@ -237,16 +236,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListGateways with error: Operation request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewaysOptions model
-				listGatewaysOptionsModel := new(directlinkapisv1.ListGatewaysOptions)
+				listGatewaysOptionsModel := new(directlinkv1.ListGatewaysOptions)
 				listGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -263,7 +262,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`CreateGateway(createGatewayOptions *CreateGatewayOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayPath := "/gateways"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -273,8 +272,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
@@ -282,20 +280,20 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke CreateGateway with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
-				gatewayTemplateModel := new(directlinkapisv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
@@ -309,11 +307,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				gatewayTemplateModel.CarrierName = core.StringPtr("myCarrierName")
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
-				gatewayTemplateModel.DedicatedHostingID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
 
 				// Construct an instance of the CreateGatewayOptions model
-				createGatewayOptionsModel := new(directlinkapisv1.CreateGatewayOptions)
+				createGatewayOptionsModel := new(directlinkv1.CreateGatewayOptions)
 				createGatewayOptionsModel.GatewayTemplate = gatewayTemplateModel
 				createGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -329,7 +326,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`CreateGateway(createGatewayOptions *CreateGatewayOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayPath := "/gateways"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -339,19 +336,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -363,11 +359,11 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
-				gatewayTemplateModel := new(directlinkapisv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
@@ -381,13 +377,12 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				gatewayTemplateModel.CarrierName = core.StringPtr("myCarrierName")
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
-				gatewayTemplateModel.DedicatedHostingID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
 
 				// Construct an instance of the CreateGatewayOptions model
-				createGatewayOptionsModel := new(directlinkapisv1.CreateGatewayOptions)
+				createGatewayOptionsModel := new(directlinkv1.CreateGatewayOptions)
 				createGatewayOptionsModel.GatewayTemplate = gatewayTemplateModel
- 				createGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateGateway(createGatewayOptionsModel)
@@ -396,20 +391,20 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke CreateGateway with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
-				gatewayTemplateModel := new(directlinkapisv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
@@ -423,11 +418,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				gatewayTemplateModel.CarrierName = core.StringPtr("myCarrierName")
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
-				gatewayTemplateModel.DedicatedHostingID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
 
 				// Construct an instance of the CreateGatewayOptions model
-				createGatewayOptionsModel := new(directlinkapisv1.CreateGatewayOptions)
+				createGatewayOptionsModel := new(directlinkv1.CreateGatewayOptions)
 				createGatewayOptionsModel.GatewayTemplate = gatewayTemplateModel
 				createGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -439,7 +433,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the CreateGatewayOptions model with no property values
-				createGatewayOptionsModelNew := new(directlinkapisv1.CreateGatewayOptions)
+				createGatewayOptionsModelNew := new(directlinkv1.CreateGatewayOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.CreateGateway(createGatewayOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -453,7 +447,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`DeleteGateway(deleteGatewayOptions *DeleteGatewayOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		deleteGatewayPath := "/gateways/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -463,17 +457,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(deleteGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeleteGateway successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -484,9 +477,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 
 				// Construct an instance of the DeleteGatewayOptions model
-				deleteGatewayOptionsModel := new(directlinkapisv1.DeleteGatewayOptions)
+				deleteGatewayOptionsModel := new(directlinkv1.DeleteGatewayOptions)
 				deleteGatewayOptionsModel.ID = core.StringPtr("testString")
- 				deleteGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				response, operationErr = testService.DeleteGateway(deleteGatewayOptionsModel)
@@ -494,16 +487,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeleteGateway with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteGatewayOptions model
-				deleteGatewayOptionsModel := new(directlinkapisv1.DeleteGatewayOptions)
+				deleteGatewayOptionsModel := new(directlinkv1.DeleteGatewayOptions)
 				deleteGatewayOptionsModel.ID = core.StringPtr("testString")
 				deleteGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -514,7 +507,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeleteGatewayOptions model with no property values
-				deleteGatewayOptionsModelNew := new(directlinkapisv1.DeleteGatewayOptions)
+				deleteGatewayOptionsModelNew := new(directlinkv1.DeleteGatewayOptions)
 				// Invoke operation with invalid model (negative test)
 				response, operationErr = testService.DeleteGateway(deleteGatewayOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -526,7 +519,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`GetGateway(getGatewayOptions *GetGatewayOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		getGatewayPath := "/gateways/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -536,8 +529,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(getGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -545,16 +537,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke GetGateway with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayOptions model
-				getGatewayOptionsModel := new(directlinkapisv1.GetGatewayOptions)
+				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
 				getGatewayOptionsModel.ID = core.StringPtr("testString")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -570,7 +562,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`GetGateway(getGatewayOptions *GetGatewayOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		getGatewayPath := "/gateways/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -580,19 +572,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(getGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -604,9 +595,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetGatewayOptions model
-				getGatewayOptionsModel := new(directlinkapisv1.GetGatewayOptions)
+				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
 				getGatewayOptionsModel.ID = core.StringPtr("testString")
- 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetGateway(getGatewayOptionsModel)
@@ -615,16 +606,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke GetGateway with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayOptions model
-				getGatewayOptionsModel := new(directlinkapisv1.GetGatewayOptions)
+				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
 				getGatewayOptionsModel.ID = core.StringPtr("testString")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -636,7 +627,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the GetGatewayOptions model with no property values
-				getGatewayOptionsModelNew := new(directlinkapisv1.GetGatewayOptions)
+				getGatewayOptionsModelNew := new(directlinkv1.GetGatewayOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.GetGateway(getGatewayOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -649,7 +640,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`UpdateGateway(updateGatewayOptions *UpdateGatewayOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		updateGatewayPath := "/gateways/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -659,8 +650,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(updateGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -668,16 +658,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateGateway with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayOptions model
-				updateGatewayOptionsModel := new(directlinkapisv1.UpdateGatewayOptions)
+				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
@@ -699,7 +689,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`UpdateGateway(updateGatewayOptions *UpdateGatewayOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		updateGatewayPath := "/gateways/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -709,19 +699,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(updateGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -733,7 +722,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the UpdateGatewayOptions model
-				updateGatewayOptionsModel := new(directlinkapisv1.UpdateGatewayOptions)
+				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
@@ -741,7 +730,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
 				updateGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
- 				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.UpdateGateway(updateGatewayOptionsModel)
@@ -750,16 +739,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke UpdateGateway with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayOptions model
-				updateGatewayOptionsModel := new(directlinkapisv1.UpdateGatewayOptions)
+				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
@@ -777,7 +766,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the UpdateGatewayOptions model with no property values
-				updateGatewayOptionsModelNew := new(directlinkapisv1.UpdateGatewayOptions)
+				updateGatewayOptionsModelNew := new(directlinkv1.UpdateGatewayOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.UpdateGateway(updateGatewayOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -790,7 +779,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`CreateGatewayAction(createGatewayActionOptions *CreateGatewayActionOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayActionPath := "/gateways/testString/actions"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -800,8 +789,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayActionPath))
 					Expect(req.Method).To(Equal("POST"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -809,30 +797,30 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke CreateGatewayAction with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate model
-				gatewayActionTemplateUpdatesItemModel := new(directlinkapisv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
+				gatewayActionTemplateUpdatesItemModel := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 				gatewayActionTemplateUpdatesItemModel.SpeedMbps = core.Int64Ptr(int64(500))
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
 				// Construct an instance of the CreateGatewayActionOptions model
-				createGatewayActionOptionsModel := new(directlinkapisv1.CreateGatewayActionOptions)
+				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
-				createGatewayActionOptionsModel.Updates = []directlinkapisv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
+				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
 				createGatewayActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.CreateGatewayAction(createGatewayActionOptionsModel)
@@ -847,7 +835,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`CreateGatewayAction(createGatewayActionOptions *CreateGatewayActionOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayActionPath := "/gateways/testString/actions"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -857,19 +845,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayActionPath))
 					Expect(req.Method).To(Equal("POST"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -881,22 +868,22 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate model
-				gatewayActionTemplateUpdatesItemModel := new(directlinkapisv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
+				gatewayActionTemplateUpdatesItemModel := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 				gatewayActionTemplateUpdatesItemModel.SpeedMbps = core.Int64Ptr(int64(500))
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
 				// Construct an instance of the CreateGatewayActionOptions model
-				createGatewayActionOptionsModel := new(directlinkapisv1.CreateGatewayActionOptions)
+				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
-				createGatewayActionOptionsModel.Updates = []directlinkapisv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
- 				createGatewayActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
+				createGatewayActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateGatewayAction(createGatewayActionOptionsModel)
@@ -905,30 +892,30 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke CreateGatewayAction with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate model
-				gatewayActionTemplateUpdatesItemModel := new(directlinkapisv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
+				gatewayActionTemplateUpdatesItemModel := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 				gatewayActionTemplateUpdatesItemModel.SpeedMbps = core.Int64Ptr(int64(500))
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
 				// Construct an instance of the CreateGatewayActionOptions model
-				createGatewayActionOptionsModel := new(directlinkapisv1.CreateGatewayActionOptions)
+				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
-				createGatewayActionOptionsModel.Updates = []directlinkapisv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
+				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
 				createGatewayActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -939,7 +926,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the CreateGatewayActionOptions model with no property values
-				createGatewayActionOptionsModelNew := new(directlinkapisv1.CreateGatewayActionOptions)
+				createGatewayActionOptionsModelNew := new(directlinkv1.CreateGatewayActionOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.CreateGatewayAction(createGatewayActionOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -953,7 +940,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListGatewayCompletionNotice(listGatewayCompletionNoticeOptions *ListGatewayCompletionNoticeOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listGatewayCompletionNoticePath := "/gateways/testString/completion_notice"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -963,19 +950,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listGatewayCompletionNoticePath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/pdf")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `"unknown property type: OperationResponse"`)
+					fmt.Fprintf(res, `Contents of response byte-stream...`)
 				}))
 			})
 			It(`Invoke ListGatewayCompletionNotice successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -987,9 +973,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
-				listGatewayCompletionNoticeOptionsModel := new(directlinkapisv1.ListGatewayCompletionNoticeOptions)
+				listGatewayCompletionNoticeOptionsModel := new(directlinkv1.ListGatewayCompletionNoticeOptions)
 				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
- 				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListGatewayCompletionNotice(listGatewayCompletionNoticeOptionsModel)
@@ -998,16 +984,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListGatewayCompletionNotice with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
-				listGatewayCompletionNoticeOptionsModel := new(directlinkapisv1.ListGatewayCompletionNoticeOptions)
+				listGatewayCompletionNoticeOptionsModel := new(directlinkv1.ListGatewayCompletionNoticeOptions)
 				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
 				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1019,7 +1005,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the ListGatewayCompletionNoticeOptions model with no property values
-				listGatewayCompletionNoticeOptionsModelNew := new(directlinkapisv1.ListGatewayCompletionNoticeOptions)
+				listGatewayCompletionNoticeOptionsModelNew := new(directlinkv1.ListGatewayCompletionNoticeOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.ListGatewayCompletionNotice(listGatewayCompletionNoticeOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -1033,7 +1019,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`CreateGatewayCompletionNotice(createGatewayCompletionNoticeOptions *CreateGatewayCompletionNoticeOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayCompletionNoticePath := "/gateways/testString/completion_notice"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1043,17 +1029,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayCompletionNoticePath))
 					Expect(req.Method).To(Equal("PUT"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke CreateGatewayCompletionNotice successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -1064,11 +1049,11 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 
 				// Construct an instance of the CreateGatewayCompletionNoticeOptions model
-				createGatewayCompletionNoticeOptionsModel := new(directlinkapisv1.CreateGatewayCompletionNoticeOptions)
+				createGatewayCompletionNoticeOptionsModel := new(directlinkv1.CreateGatewayCompletionNoticeOptions)
 				createGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
 				createGatewayCompletionNoticeOptionsModel.Upload = CreateMockReader("This is a mock file.")
 				createGatewayCompletionNoticeOptionsModel.UploadContentType = core.StringPtr("testString")
- 				createGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				response, operationErr = testService.CreateGatewayCompletionNotice(createGatewayCompletionNoticeOptionsModel)
@@ -1076,32 +1061,32 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke CreateGatewayCompletionNotice with error: Param validation error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-					URL:  testServer.URL,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayCompletionNoticeOptions model
-				createGatewayCompletionNoticeOptionsModel := new(directlinkapisv1.CreateGatewayCompletionNoticeOptions)
+				createGatewayCompletionNoticeOptionsModel := new(directlinkv1.CreateGatewayCompletionNoticeOptions)
 				// Invoke operation with invalid options model (negative test)
 				response, operationErr := testService.CreateGatewayCompletionNotice(createGatewayCompletionNoticeOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 			})
 			It(`Invoke CreateGatewayCompletionNotice with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayCompletionNoticeOptions model
-				createGatewayCompletionNoticeOptionsModel := new(directlinkapisv1.CreateGatewayCompletionNoticeOptions)
+				createGatewayCompletionNoticeOptionsModel := new(directlinkv1.CreateGatewayCompletionNoticeOptions)
 				createGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
 				createGatewayCompletionNoticeOptionsModel.Upload = CreateMockReader("This is a mock file.")
 				createGatewayCompletionNoticeOptionsModel.UploadContentType = core.StringPtr("testString")
@@ -1114,7 +1099,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the CreateGatewayCompletionNoticeOptions model with no property values
-				createGatewayCompletionNoticeOptionsModelNew := new(directlinkapisv1.CreateGatewayCompletionNoticeOptions)
+				createGatewayCompletionNoticeOptionsModelNew := new(directlinkv1.CreateGatewayCompletionNoticeOptions)
 				// Invoke operation with invalid model (negative test)
 				response, operationErr = testService.CreateGatewayCompletionNotice(createGatewayCompletionNoticeOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -1127,7 +1112,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptions *ListGatewayLetterOfAuthorizationOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listGatewayLetterOfAuthorizationPath := "/gateways/testString/letter_of_authorization"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1137,19 +1122,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listGatewayLetterOfAuthorizationPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/pdf")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `"unknown property type: OperationResponse"`)
+					fmt.Fprintf(res, `Contents of response byte-stream...`)
 				}))
 			})
 			It(`Invoke ListGatewayLetterOfAuthorization successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -1161,9 +1145,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
-				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkapisv1.ListGatewayLetterOfAuthorizationOptions)
+				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
 				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("testString")
- 				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptionsModel)
@@ -1172,16 +1156,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListGatewayLetterOfAuthorization with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
-				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkapisv1.ListGatewayLetterOfAuthorizationOptions)
+				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
 				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("testString")
 				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1193,7 +1177,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the ListGatewayLetterOfAuthorizationOptions model with no property values
-				listGatewayLetterOfAuthorizationOptionsModelNew := new(directlinkapisv1.ListGatewayLetterOfAuthorizationOptions)
+				listGatewayLetterOfAuthorizationOptionsModelNew := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.ListGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -1205,28 +1189,28 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
-		version := CreateMockDate()
+	Describe(`Service constructor tests`, func() {
+		version := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: version,
+				Version:       core.StringPtr(version),
 			})
 			Expect(testService).ToNot(BeNil())
 			Expect(testServiceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "https://directlinkapisv1/api",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "https://directlinkv1/api",
+				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
@@ -1236,24 +1220,24 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{})
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "noauth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -1261,9 +1245,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					URL: "https://testService/api",
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					URL:     "https://testService/api",
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -1272,8 +1256,8 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
@@ -1286,13 +1270,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "someOtherAuth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -1304,13 +1288,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_AUTH_TYPE":   "NOAuth",
+				"DIRECT_LINK_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -1321,7 +1305,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listOfferingTypeLocationsPath := "/offering_types/dedicated/locations"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1331,8 +1315,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listOfferingTypeLocationsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1340,16 +1323,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListOfferingTypeLocations with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkapisv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
 				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1365,7 +1348,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listOfferingTypeLocationsPath := "/offering_types/dedicated/locations"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1375,8 +1358,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listOfferingTypeLocationsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1384,10 +1366,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListOfferingTypeLocations successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -1399,9 +1381,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkapisv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
 				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
- 				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
@@ -1410,16 +1392,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListOfferingTypeLocations with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkapisv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
 				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1431,7 +1413,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the ListOfferingTypeLocationsOptions model with no property values
-				listOfferingTypeLocationsOptionsModelNew := new(directlinkapisv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModelNew := new(directlinkv1.ListOfferingTypeLocationsOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -1444,7 +1426,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listOfferingTypeLocationCrossConnectRoutersPath := "/offering_types/dedicated/locations/testString/cross_connect_routers"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1454,8 +1436,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1463,16 +1444,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListOfferingTypeLocationCrossConnectRouters with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkapisv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1489,7 +1470,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listOfferingTypeLocationCrossConnectRoutersPath := "/offering_types/dedicated/locations/testString/cross_connect_routers"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1499,8 +1480,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1508,10 +1488,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -1523,10 +1503,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkapisv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
- 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
@@ -1535,16 +1515,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListOfferingTypeLocationCrossConnectRouters with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkapisv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
 				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1557,7 +1537,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model with no property values
-				listOfferingTypeLocationCrossConnectRoutersOptionsModelNew := new(directlinkapisv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModelNew := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -1570,7 +1550,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listOfferingTypeSpeedsPath := "/offering_types/dedicated/speeds"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1580,8 +1560,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listOfferingTypeSpeedsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1589,16 +1568,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListOfferingTypeSpeeds with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkapisv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
 				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1614,7 +1593,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listOfferingTypeSpeedsPath := "/offering_types/dedicated/speeds"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1624,8 +1603,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listOfferingTypeSpeedsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1633,10 +1611,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListOfferingTypeSpeeds successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -1648,9 +1626,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkapisv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
 				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
- 				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
@@ -1659,16 +1637,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListOfferingTypeSpeeds with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkapisv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
 				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
 				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1680,7 +1658,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the ListOfferingTypeSpeedsOptions model with no property values
-				listOfferingTypeSpeedsOptionsModelNew := new(directlinkapisv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModelNew := new(directlinkv1.ListOfferingTypeSpeedsOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -1692,28 +1670,28 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
-		version := CreateMockDate()
+	Describe(`Service constructor tests`, func() {
+		version := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: version,
+				Version:       core.StringPtr(version),
 			})
 			Expect(testService).ToNot(BeNil())
 			Expect(testServiceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "https://directlinkapisv1/api",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "https://directlinkv1/api",
+				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
@@ -1723,24 +1701,24 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{})
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "noauth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -1748,9 +1726,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					URL: "https://testService/api",
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					URL:     "https://testService/api",
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -1759,8 +1737,8 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
@@ -1773,13 +1751,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "someOtherAuth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -1791,13 +1769,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_AUTH_TYPE":   "NOAuth",
+				"DIRECT_LINK_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -1808,7 +1786,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`ListPorts(listPortsOptions *ListPortsOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listPortsPath := "/ports"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1818,12 +1796,11 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listPortsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 
@@ -1833,18 +1810,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListPorts with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkapisv1.ListPortsOptions)
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(38))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1860,7 +1837,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListPorts(listPortsOptions *ListPortsOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listPortsPath := "/ports"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1870,12 +1847,11 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listPortsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 
@@ -1885,10 +1861,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListPorts successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -1900,11 +1876,11 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkapisv1.ListPortsOptions)
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(38))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
- 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListPorts(listPortsOptionsModel)
@@ -1913,18 +1889,18 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListPorts with error: Operation request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkapisv1.ListPortsOptions)
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(38))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1942,7 +1918,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`GetPort(getPortOptions *GetPortOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		getPortPath := "/ports/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1952,8 +1928,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(getPortPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1961,16 +1936,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke GetPort with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkapisv1.GetPortOptions)
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
 				getPortOptionsModel.ID = core.StringPtr("testString")
 				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1986,7 +1961,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`GetPort(getPortOptions *GetPortOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		getPortPath := "/ports/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -1996,8 +1971,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(getPortPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2005,10 +1979,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke GetPort successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -2020,9 +1994,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkapisv1.GetPortOptions)
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
 				getPortOptionsModel.ID = core.StringPtr("testString")
- 				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetPort(getPortOptionsModel)
@@ -2031,16 +2005,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke GetPort with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkapisv1.GetPortOptions)
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
 				getPortOptionsModel.ID = core.StringPtr("testString")
 				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -2052,7 +2026,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the GetPortOptions model with no property values
-				getPortOptionsModelNew := new(directlinkapisv1.GetPortOptions)
+				getPortOptionsModelNew := new(directlinkv1.GetPortOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.GetPort(getPortOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -2064,28 +2038,28 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
-		version := CreateMockDate()
+	Describe(`Service constructor tests`, func() {
+		version := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: version,
+				Version:       core.StringPtr(version),
 			})
 			Expect(testService).ToNot(BeNil())
 			Expect(testServiceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "https://directlinkapisv1/api",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:     "https://directlinkv1/api",
+				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
@@ -2095,24 +2069,24 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{})
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{})
 			Expect(testService).To(BeNil())
 			Expect(testServiceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "noauth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -2120,9 +2094,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					URL: "https://testService/api",
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					URL:     "https://testService/api",
+					Version: core.StringPtr(version),
 				})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
@@ -2131,8 +2105,8 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-					Version: version,
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+					Version: core.StringPtr(version),
 				})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
@@ -2145,13 +2119,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_URL": "https://directlinkapisv1/api",
-				"DIRECT_LINK_APIS_AUTH_TYPE": "someOtherAuth",
+				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -2163,13 +2137,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_APIS_AUTH_TYPE":   "NOAuth",
+				"DIRECT_LINK_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1UsingExternalConfig(&directlinkapisv1.DirectLinkApisV1Options{
-				URL: "{BAD_URL_STRING",
-				Version: version,
+			testService, testServiceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -2180,7 +2154,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptions *ListGatewayVirtualConnectionsOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listGatewayVirtualConnectionsPath := "/gateways/testString/virtual_connections"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2190,8 +2164,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listGatewayVirtualConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2199,16 +2172,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListGatewayVirtualConnections with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
-				listGatewayVirtualConnectionsOptionsModel := new(directlinkapisv1.ListGatewayVirtualConnectionsOptions)
+				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
 				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -2224,7 +2197,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptions *ListGatewayVirtualConnectionsOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		listGatewayVirtualConnectionsPath := "/gateways/testString/virtual_connections"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2234,8 +2207,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listGatewayVirtualConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2243,10 +2215,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke ListGatewayVirtualConnections successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -2258,9 +2230,9 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
-				listGatewayVirtualConnectionsOptionsModel := new(directlinkapisv1.ListGatewayVirtualConnectionsOptions)
+				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
 				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
- 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptionsModel)
@@ -2269,16 +2241,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke ListGatewayVirtualConnections with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
-				listGatewayVirtualConnectionsOptionsModel := new(directlinkapisv1.ListGatewayVirtualConnectionsOptions)
+				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
 				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -2290,7 +2262,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the ListGatewayVirtualConnectionsOptions model with no property values
-				listGatewayVirtualConnectionsOptionsModelNew := new(directlinkapisv1.ListGatewayVirtualConnectionsOptions)
+				listGatewayVirtualConnectionsOptionsModelNew := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -2303,7 +2275,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptions *CreateGatewayVirtualConnectionOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2313,8 +2285,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("POST"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
@@ -2322,16 +2293,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke CreateGatewayVirtualConnection with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
-				createGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.CreateGatewayVirtualConnectionOptions)
+				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
 				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
@@ -2350,7 +2321,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptions *CreateGatewayVirtualConnectionOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		createGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2360,8 +2331,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(createGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("POST"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
@@ -2369,10 +2339,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke CreateGatewayVirtualConnection successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -2384,12 +2354,12 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
-				createGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.CreateGatewayVirtualConnectionOptions)
+				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
 				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
 				createGatewayVirtualConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
- 				createGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptionsModel)
@@ -2398,16 +2368,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke CreateGatewayVirtualConnection with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
-				createGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.CreateGatewayVirtualConnectionOptions)
+				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
 				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
@@ -2422,7 +2392,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the CreateGatewayVirtualConnectionOptions model with no property values
-				createGatewayVirtualConnectionOptionsModelNew := new(directlinkapisv1.CreateGatewayVirtualConnectionOptions)
+				createGatewayVirtualConnectionOptionsModelNew := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -2436,7 +2406,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`DeleteGatewayVirtualConnection(deleteGatewayVirtualConnectionOptions *DeleteGatewayVirtualConnectionOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		deleteGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2446,17 +2416,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(deleteGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("DELETE"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeleteGatewayVirtualConnection successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -2467,10 +2436,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 
 				// Construct an instance of the DeleteGatewayVirtualConnectionOptions model
-				deleteGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.DeleteGatewayVirtualConnectionOptions)
+				deleteGatewayVirtualConnectionOptionsModel := new(directlinkv1.DeleteGatewayVirtualConnectionOptions)
 				deleteGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				deleteGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
- 				deleteGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				response, operationErr = testService.DeleteGatewayVirtualConnection(deleteGatewayVirtualConnectionOptionsModel)
@@ -2478,16 +2447,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeleteGatewayVirtualConnection with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteGatewayVirtualConnectionOptions model
-				deleteGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.DeleteGatewayVirtualConnectionOptions)
+				deleteGatewayVirtualConnectionOptionsModel := new(directlinkv1.DeleteGatewayVirtualConnectionOptions)
 				deleteGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				deleteGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
 				deleteGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2499,7 +2468,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeleteGatewayVirtualConnectionOptions model with no property values
-				deleteGatewayVirtualConnectionOptionsModelNew := new(directlinkapisv1.DeleteGatewayVirtualConnectionOptions)
+				deleteGatewayVirtualConnectionOptionsModelNew := new(directlinkv1.DeleteGatewayVirtualConnectionOptions)
 				// Invoke operation with invalid model (negative test)
 				response, operationErr = testService.DeleteGatewayVirtualConnection(deleteGatewayVirtualConnectionOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -2511,7 +2480,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`GetGatewayVirtualConnection(getGatewayVirtualConnectionOptions *GetGatewayVirtualConnectionOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		getGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2521,8 +2490,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(getGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2530,16 +2498,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke GetGatewayVirtualConnection with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
-				getGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.GetGatewayVirtualConnectionOptions)
+				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
 				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2556,7 +2524,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`GetGatewayVirtualConnection(getGatewayVirtualConnectionOptions *GetGatewayVirtualConnectionOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		getGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2566,8 +2534,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(getGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("GET"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2575,10 +2542,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke GetGatewayVirtualConnection successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -2590,10 +2557,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
-				getGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.GetGatewayVirtualConnectionOptions)
+				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
 				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
- 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetGatewayVirtualConnection(getGatewayVirtualConnectionOptionsModel)
@@ -2602,16 +2569,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke GetGatewayVirtualConnection with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
-				getGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.GetGatewayVirtualConnectionOptions)
+				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
 				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2624,7 +2591,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the GetGatewayVirtualConnectionOptions model with no property values
-				getGatewayVirtualConnectionOptionsModelNew := new(directlinkapisv1.GetGatewayVirtualConnectionOptions)
+				getGatewayVirtualConnectionOptionsModelNew := new(directlinkv1.GetGatewayVirtualConnectionOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.GetGatewayVirtualConnection(getGatewayVirtualConnectionOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -2637,7 +2604,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 		})
 	})
 	Describe(`UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptions *UpdateGatewayVirtualConnectionOptions) - Operation response error`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		updateGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2647,8 +2614,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(updateGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("PATCH"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2656,16 +2622,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateGatewayVirtualConnection with error: Operation response processing error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
-				updateGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.UpdateGatewayVirtualConnectionOptions)
+				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
@@ -2684,7 +2650,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 
 	Describe(`UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptions *UpdateGatewayVirtualConnectionOptions)`, func() {
-		version := CreateMockDate()
+		version := "testString"
 		updateGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
@@ -2694,8 +2660,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(updateGatewayVirtualConnectionPath))
 					Expect(req.Method).To(Equal("PATCH"))
-
-					// TODO: Add check for version query parameter
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2703,10 +2668,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateGatewayVirtualConnection successfully`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -2718,12 +2683,12 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
-				updateGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.UpdateGatewayVirtualConnectionOptions)
+				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
- 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptionsModel)
@@ -2732,16 +2697,16 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(result).ToNot(BeNil())
 			})
 			It(`Invoke UpdateGatewayVirtualConnection with error: Operation validation and request error`, func() {
-				testService, testServiceErr := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: version,
+					Version:       core.StringPtr(version),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
-				updateGatewayVirtualConnectionOptionsModel := new(directlinkapisv1.UpdateGatewayVirtualConnectionOptions)
+				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
@@ -2756,7 +2721,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 				// Construct a second instance of the UpdateGatewayVirtualConnectionOptions model with no property values
-				updateGatewayVirtualConnectionOptionsModelNew := new(directlinkapisv1.UpdateGatewayVirtualConnectionOptions)
+				updateGatewayVirtualConnectionOptionsModelNew := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = testService.UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
@@ -2770,21 +2735,21 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
-			version := CreateMockDate()
-			testService, _ := directlinkapisv1.NewDirectLinkApisV1(&directlinkapisv1.DirectLinkApisV1Options{
-				URL:           "http://directlinkapisv1modelgenerator.com",
+			version := "testString"
+			testService, _ := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+				URL:           "http://directlinkv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: version,
+				Version:       core.StringPtr(version),
 			})
 			It(`Invoke NewCreateGatewayActionOptions successfully`, func() {
 				// Construct an instance of the GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate model
-				gatewayActionTemplateUpdatesItemModel := new(directlinkapisv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
+				gatewayActionTemplateUpdatesItemModel := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 				Expect(gatewayActionTemplateUpdatesItemModel).ToNot(BeNil())
 				gatewayActionTemplateUpdatesItemModel.SpeedMbps = core.Int64Ptr(int64(500))
 				Expect(gatewayActionTemplateUpdatesItemModel.SpeedMbps).To(Equal(core.Int64Ptr(int64(500))))
 
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("56969d6043e9465c883cb9f7363e78e8")))
@@ -2798,7 +2763,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				createGatewayActionOptionsModel.SetGlobal(true)
 				createGatewayActionOptionsModel.SetMetered(false)
 				createGatewayActionOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
-				createGatewayActionOptionsModel.SetUpdates([]directlinkapisv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel})
+				createGatewayActionOptionsModel.SetUpdates([]directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel})
 				createGatewayActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createGatewayActionOptionsModel).ToNot(BeNil())
 				Expect(createGatewayActionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
@@ -2806,7 +2771,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(createGatewayActionOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(createGatewayActionOptionsModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(createGatewayActionOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
-				Expect(createGatewayActionOptionsModel.Updates).To(Equal([]directlinkapisv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}))
+				Expect(createGatewayActionOptionsModel.Updates).To(Equal([]directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}))
 				Expect(createGatewayActionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateGatewayCompletionNoticeOptions successfully`, func() {
@@ -2825,13 +2790,13 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 			})
 			It(`Invoke NewCreateGatewayOptions successfully`, func() {
 				// Construct an instance of the ResourceGroupIdentity model
-				resourceGroupIdentityModel := new(directlinkapisv1.ResourceGroupIdentity)
+				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("56969d6043e9465c883cb9f7363e78e8")))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
-				gatewayTemplateModel := new(directlinkapisv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				Expect(gatewayTemplateModel).ToNot(BeNil())
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
@@ -2846,7 +2811,6 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				gatewayTemplateModel.CarrierName = core.StringPtr("myCarrierName")
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
-				gatewayTemplateModel.DedicatedHostingID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
 				Expect(gatewayTemplateModel.BgpAsn).To(Equal(core.Int64Ptr(int64(64999))))
 				Expect(gatewayTemplateModel.BgpBaseCidr).To(Equal(core.StringPtr("10.254.30.76/30")))
@@ -2861,11 +2825,10 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				Expect(gatewayTemplateModel.CarrierName).To(Equal(core.StringPtr("myCarrierName")))
 				Expect(gatewayTemplateModel.CrossConnectRouter).To(Equal(core.StringPtr("xcr01.dal03")))
 				Expect(gatewayTemplateModel.CustomerName).To(Equal(core.StringPtr("newCustomerName")))
-				Expect(gatewayTemplateModel.DedicatedHostingID).To(Equal(core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")))
 				Expect(gatewayTemplateModel.LocationName).To(Equal(core.StringPtr("dal03")))
 
 				// Construct an instance of the CreateGatewayOptions model
-				var gatewayTemplate directlinkapisv1.GatewayTemplateIntf = nil
+				var gatewayTemplate directlinkv1.GatewayTemplateIntf = nil
 				createGatewayOptionsModel := testService.NewCreateGatewayOptions(gatewayTemplate)
 				createGatewayOptionsModel.SetGatewayTemplate(gatewayTemplateModel)
 				createGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -3027,12 +2990,12 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := testService.NewListPortsOptions()
 				listPortsOptionsModel.SetStart("testString")
-				listPortsOptionsModel.SetLimit(int64(1))
+				listPortsOptionsModel.SetLimit(int64(38))
 				listPortsOptionsModel.SetLocationName("testString")
 				listPortsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPortsOptionsModel).ToNot(BeNil())
 				Expect(listPortsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listPortsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listPortsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listPortsOptionsModel.LocationName).To(Equal(core.StringPtr("testString")))
 				Expect(listPortsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -3089,7 +3052,7 @@ var _ = Describe(`DirectLinkApisV1`, func() {
 				name := "myGateway"
 				speedMbps := int64(1000)
 				typeVar := "dedicated"
-				var port *directlinkapisv1.GatewayPortIdentity = nil
+				var port *directlinkv1.GatewayPortIdentity = nil
 				_, err := testService.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, name, speedMbps, typeVar, port)
 				Expect(err).ToNot(BeNil())
 			})
