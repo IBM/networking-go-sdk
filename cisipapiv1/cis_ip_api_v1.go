@@ -19,9 +19,10 @@ package cisipapiv1
 
 import (
 	"encoding/json"
+	"reflect"
+
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
-	"reflect"
 )
 
 // CisIpApiV1 : This document describes CIS IP API.
