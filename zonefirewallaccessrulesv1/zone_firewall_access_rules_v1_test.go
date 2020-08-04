@@ -19,17 +19,18 @@ package zonefirewallaccessrulesv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/networking-go-sdk/zonefirewallaccessrulesv1"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/zonefirewallaccessrulesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`ZoneFirewallAccessRulesV1`, func() {
