@@ -9,11 +9,11 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/networking-go-sdk/wafrulepackagesapiv1"
+	. "github.com/IBM/networking-go-sdk/wafrulesapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/wafrulepackagesapiv1"
-	. "github.com/IBM/networking-go-sdk/wafrulesapiv1"
 )
 
 const configFile = "../cis.env"
@@ -91,8 +91,10 @@ var _ = Describe(`wafrulesapiv1`, func() {
 					Expect(listResp).ToNot(BeNil())
 					Expect(listResult).ToNot(BeNil())
 					Expect(*listResult.Success).Should(BeTrue())
+					fmt.Println("pack id:", *pack.ID)
 
 					for _, rule := range listResult.Result {
+						fmt.Println("rule id:", *rule.ID)
 						if *rule.Mode == WafRuleBodyCis_Mode_Default ||
 							*rule.Mode == WafRuleBodyCis_Mode_Block ||
 							*rule.Mode == WafRuleBodyCis_Mode_Challenge ||
