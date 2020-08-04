@@ -41,36 +41,39 @@ Go client library to interact with the various [IBM Cloud Networking Service API
 
 The IBM Cloud Networking Go SDK allows developers to programmatically interact with the following IBM Cloud services:
 
-| Service Name                                                                                   | Package name                |
-| ---------------------------------------------------------------------------------------------- | --------------------------- |
-| [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway)                          | transitgatewayapisv1        |
-| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link?code=go)                       | directlinkv1            |
-| [CIS: Cache](https://cloud.ibm.com/apidocs/cis/cache)                                          | cachingapiv1                |
-| [CIS: IP](https://cloud.ibm.com/apidocs/cis/ip)                                                | cisipapiv1                  |
-| [CIS: Custom Pages](https://cloud.ibm.com/apidocs/cis)                                         | custompagesv1               |
-| [CIS: DNS Records Bulk](https://cloud.ibm.com/apidocs/cis/dnsrecords)                          | dnsrecordbulkv1             |
-| [CIS: DNS Records](https://cloud.ibm.com/apidocs/cis/dnsrecords)                               | dnsrecordsv1                |
-| [CIS: Firewall Access Rules](https://cloud.ibm.com/apidocs/cis/firewall-access-rule)           | firewallaccessrulesv1       |
-| [CIS: Security Level Settings](https://cloud.ibm.com/apidocs/cis/security-level-settings)      | firewallapiv1               |
-| [CIS: GLB Events](https://cloud.ibm.com/apidocs/cis/glb-events)                                | globalloadbalancereventsv1  |
-| [CIS: GLB Monitor](https://cloud.ibm.com/apidocs/cis/glb-monitor)                              | globalloadbalancermonitorv1 |
-| [CIS: GLB Pools](https://cloud.ibm.com/apidocs/cis/glb-pool)                                   | globalloadbalancerpoolsv0   |
-| [CIS: GLB Service](https://cloud.ibm.com/apidocs/cis/glb)                                      | globalloadbalancerv1        |
-| [CIS: Page Rules](https://cloud.ibm.com/apidocs/cis/page-rules)                                | pageruleapiv1               |
-| [CIS: Range Application](https://cloud.ibm.com/apidocs/cis/range)                              | rangeapplicationsv1         |
-| [CIS: Routing](https://cloud.ibm.com/apidocs/cis/routing)                                      | routingv1                   |
-| [CIS: Security Events](https://cloud.ibm.com/apidocs/cis)                                      | securityeventsapiv1         |
-| [CIS: SSL/TLS](https://cloud.ibm.com/apidocs/cis/tls)                                          | sslcertificateapiv1         |
-| [CIS: User Agent Blocking Rules](https://cloud.ibm.com/apidocs/cis/user-agent-rules)           | useragentblockingrulesv1    |
-| [CIS: WAF Settings](https://cloud.ibm.com/apidocs/cis/waf)                                     | wafapiv1                    |
-| [CIS: WAF Rule Groups](https://cloud.ibm.com/apidocs/cis/waf-groups)                           | wafrulegroupsapiv1          |
-| [CIS: WAF Rule Packages](https://cloud.ibm.com/apidocs/cis/waf-packages)                       | wafrulepackagesapiv1        |
-| [CIS: WAF Rules](https://cloud.ibm.com/apidocs/cis/waf-rules)                                  | wafrulesapiv1               |
-| [CIS: Zone Firewall Access Rules](https://cloud.ibm.com/apidocs/cis/zone-firewall-access-rule) | zonefirewallaccessrulesv1   |
-| [CIS: Zone Lockdown](https://cloud.ibm.com/apidocs/cis/zone-lockdown)                          | zonelockdownv1              |
-| [CIS: Zone Rate Limits](https://cloud.ibm.com/apidocs/cis)                                     | zoneratelimitsv1            |
-| [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis/zonesettings)                           | zonessettingsv1             |
-| [CIS: Zones](https://cloud.ibm.com/apidocs/cis/zones)                                          | zonesv1                     |
+| Service Name                                                                                                         | Package name                   |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway)                                                | transitgatewayapisv1           |
+| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link)                                                     | directlinkv1                   |
+| [CIS: Cache](https://cloud.ibm.com/apidocs/cis?code=go#purge-all)                                                    | cachingapiv1                   |
+| [CIS: IP](https://cloud.ibm.com/apidocs/cis?code=go#list-of-all-ip-addresses-used-by-the-cis-proxy)                  | cisipapiv1                     |
+| [CIS: Custom Pages](https://cloud.ibm.com/apidocs/cis?code=go#list-all-custom-pages-for-a-given-instance)            | custompagesv1                  |
+| [CIS: DNS Records Bulk](https://cloud.ibm.com/apidocs/cis?code=go#export-zone-file)                                  | dnsrecordbulkv1                |
+| [CIS: DNS Records](https://cloud.ibm.com/apidocs/cis?code=go#export-zone-file)                                       | dnsrecordsv1                   |
+| [CIS: Firewall Access Rules](https://cloud.ibm.com/apidocs/cis?code=go#list-instance-level-firewall-access-rules)    | firewallaccessrulesv1          |
+| [CIS: Security Level Settings](https://cloud.ibm.com/apidocs/cis?code=go#get-security-level-setting)                 | firewallapiv1                  |
+| [CIS: GLB Events](https://cloud.ibm.com/apidocs/cis?code=go#list-all-load-balancer-events)                           | globalloadbalancereventsv1     |
+| [CIS: GLB Monitor](https://cloud.ibm.com/apidocs/cis?code=go#list-all-load-balancer-monitors)                        | globalloadbalancermonitorv1    |
+| [CIS: GLB Pools](https://cloud.ibm.com/apidocs/cis?code=go#list-all-pools)                                           | globalloadbalancerpoolsv0      |
+| [CIS: GLB Service](https://cloud.ibm.com/apidocs/cis?code=go#list-all-load-balancers)                                | globalloadbalancerv1           |
+| [CIS: Page Rules](https://cloud.ibm.com/apidocs/cis?code=go#get-page-rule)                                           | pageruleapiv1                  |
+| [CIS: Range Application](https://cloud.ibm.com/apidocs/cis?code=go#list-range-applications)                          | rangeapplicationsv1            |
+| [CIS: Routing](https://cloud.ibm.com/apidocs/cis?code=go#get-routing-feature-smart-routing-setting)                  | routingv1                      |
+| [CIS: Security Events](https://cloud.ibm.com/apidocs/cis?code=go#logs-of-the-mitigations-performed-by-firewall-feat) | securityeventsapiv1            |
+| [CIS: SSL/TLS](https://cloud.ibm.com/apidocs/cis?code=go#list-all-certificates)                                      | sslcertificateapiv1            |
+| [CIS: User Agent Blocking Rules](https://cloud.ibm.com/apidocs/cis?code=go#list-all-user-agent-blocking-rules)       | useragentblockingrulesv1       |
+| [CIS: WAF Settings](https://cloud.ibm.com/apidocs/cis?code=go#get-waf-setting)                                       | wafapiv1                       |
+| [CIS: WAF Rule Groups](https://cloud.ibm.com/apidocs/cis?code=go#list-all-waf-rule-groups)                           | wafrulegroupsapiv1             |
+| [CIS: WAF Rule Packages](https://cloud.ibm.com/apidocs/cis?code=go#list-all-waf-rule-packages)                       | wafrulepackagesapiv1           |
+| [CIS: WAF Rules](https://cloud.ibm.com/apidocs/cis?code=go#list-all-waf-rules)                                       | wafrulesapiv1                  |
+| [CIS: Zone Firewall Access Rules](https://cloud.ibm.com/apidocs/cis?code=go#list-all-firewall-access-rules)          | zonefirewallaccessrulesv1      |
+| [CIS: Zone Lockdown](https://cloud.ibm.com/apidocs/cis?code=go#list-all-lockdown-rules)                              | zonelockdownv1                 |
+| [CIS: Zone Rate Limits](https://cloud.ibm.com/apidocs/cis?code=go#list-all-rate-limits)                              | zoneratelimitsv1               |
+| [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis?code=go#get-zone-dnssec)                                      | zonessettingsv1                |
+| [CIS: Zones](https://cloud.ibm.com/apidocs/cis?code=go#list-all-zones)                                               | zonesv1                        |
+| [PDNS: DNS Zones](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-dns-zones)                                     | dnszonesv1                     |
+| [PDNS: Resource Records](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-resource-records)                       | resourcerecordsv1              |
+| [PDNS: Permitted Networks](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-permitted-networks)                   | permittednetworksfordnszonesv1 |
 
 ## Prerequisites
 
@@ -131,6 +134,9 @@ import (
   "github.com/IBM/networking-go-sdk/zoneratelimitsv1"
   "github.com/IBM/networking-go-sdk/zonessettingsv1"
   "github.com/IBM/networking-go-sdk/zonesv1"
+  "github.com/IBM/networking-go-sdk/dnszonesv1"
+  "github.com/IBM/networking-go-sdk/resourcerecordsv1"
+  "github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
 )
 ```
 
