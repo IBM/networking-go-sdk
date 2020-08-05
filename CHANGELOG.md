@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/networking-go-sdk/compare/v0.2.0...v0.3.0) (2020-08-05)
+
+
+### Features
+
+* message ([dadf578](https://github.com/IBM/networking-go-sdk/commit/dadf57824a1f999d0ca0daca3a622de84e5983d6))
+
 # [0.2.0](https://github.com/IBM/networking-go-sdk/compare/v0.1.1...v0.2.0) (2020-07-31)
 
 
