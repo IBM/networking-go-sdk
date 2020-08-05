@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2019.
+ * (C) Copyright IBM Corp. 2020.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-package common
+package resourcerecordsv1_test
 
-// Version of the SDK
-const Version = "0.2.0"
+import (
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+	"testing"
+)
+
+func TestResourceRecordsV1(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "ResourceRecordsV1 Suite")
+}

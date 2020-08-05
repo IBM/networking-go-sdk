@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/IBM/networking-go-sdk/compare/v0.1.1...v0.2.0) (2020-07-31)
+
+
+### Features
+
+* Transit cross account ([#9](https://github.com/IBM/networking-go-sdk/issues/9)) ([cc8f6b6](https://github.com/IBM/networking-go-sdk/commit/cc8f6b607d4e3127d42d54cde412ea6fc1e16206))
+
 ## [0.1.1](https://github.com/IBM/networking-go-sdk/compare/v0.1.0...v0.1.1) (2020-07-28)
 
 
