@@ -35,10 +35,26 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var configLoaded = false
+
+func shouldSkipTest() {
+	if !configLoaded {
+		Skip("External configuration is not available, skipping...")
+	}
+}
+
 var _ = Describe(`DirectLinkV1`, func() {
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
-		Expect(err).To(BeNil())
+		if err == nil {
+			serviceURLV2 := os.Getenv("SERVICE_URL_V2")
+			if serviceURLV2 != "" {
+				configLoaded = true
+			}
+		}
+		if !configLoaded {
+			Skip("External configuration could not be loaded, skipping...")
+		}
 	})
 
 	authenticator := &core.IamAuthenticator{
@@ -57,6 +73,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 	service, err := directlinkv1.NewDirectLinkV1UsingExternalConfig(options)
 	It(`Successfully created DirectLinkV1 service instance`, func() {
+		shouldSkipTest()
+
 		Expect(err).To(BeNil())
 	})
 
@@ -82,6 +100,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			getGatewayOptions := service.NewGetGatewayOptions(invalidGatewayId)
 
 			It(`Returns the http response with error code 404`, func() {
+				shouldSkipTest()
+
 				result, detailedResponse, err := service.GetGateway(getGatewayOptions)
 				Expect(result).To(BeNil())
 				Expect(err).NotTo(BeNil())
@@ -97,6 +117,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
 			It("Fails when Invalid BGP is provided", func() {
+				shouldSkipTest()
+
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65000, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
@@ -109,6 +131,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Fails when invalid bgp_base_cidr is provided", func() {
+				shouldSkipTest()
+
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, "169.254.0.0", global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
@@ -121,6 +145,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Fails when invalid speed_mbps is provided", func() {
+				shouldSkipTest()
+
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, 10000000000, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
@@ -133,6 +159,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Fails when invalid locations is provided", func() {
+				shouldSkipTest()
+
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, "InvalidCity")
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
@@ -145,6 +173,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully Creates a gateway", func() {
+				shouldSkipTest()
+
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
@@ -172,6 +202,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully fetches the created Gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				getGatewayOptions := service.NewGetGatewayOptions(gatewayId)
 
@@ -201,6 +233,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Throws an Error when creating a gateway with same name", func() {
+				shouldSkipTest()
+
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 				Expect(result).To(BeNil())
 				Expect(err).NotTo(BeNil())
@@ -215,6 +249,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			listGatewaysOptions := service.NewListGatewaysOptions()
 
 			It(`Successfully list all gateways`, func() {
+				shouldSkipTest()
+
 				result, detailedResponse, err := service.ListGateways(listGatewaysOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
@@ -255,6 +291,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Fail update Gateway", func() {
 			It("Fails if an invalid GatewayID is provided", func() {
+				shouldSkipTest()
+
 				patchGatewayOptions := service.NewUpdateGatewayOptions(invalidGatewayId).SetOperationalStatus("loa_accepted")
 
 				result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions)
@@ -265,6 +303,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully Updates the Gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				patchGatewayOptions := service.NewUpdateGatewayOptions(gatewayId)
 
@@ -294,6 +334,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully fetches the updated Gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				getGatewayOptions := service.NewGetGatewayOptions(gatewayId)
 
@@ -325,6 +367,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Delete a gateway", func() {
 			It("Fails if an invalid GatewayID is provided", func() {
+				shouldSkipTest()
+
 				deteleGatewayOptions := service.NewDeleteGatewayOptions(invalidGatewayId)
 
 				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
@@ -334,6 +378,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
 
@@ -352,6 +398,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			timestamp := time.Now().Unix()
 
 			It("List ports and save the id of the first port", func() {
+				shouldSkipTest()
+
 				listPortsOptions := service.NewListPortsOptions()
 				result, detailedResponse, err := service.ListPorts(listPortsOptions)
 				Expect(err).To(BeNil())
@@ -362,6 +410,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("create connect gateway", func() {
+				shouldSkipTest()
+
 				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
 				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, "connect", portIdentity)
@@ -396,6 +446,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully waits for connect gateway to be provisioned state", func() {
+				shouldSkipTest()
+
 				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
 
 				// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
@@ -445,6 +497,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully deletes connect gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
 				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
@@ -459,6 +513,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Locations", func() {
 			It("should fetch the locations for the type dedicated", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationsOptions := service.NewListOfferingTypeLocationsOptions("dedicated")
 				result, detailedResponse, err := service.ListOfferingTypeLocations(listOfferingTypeLocationsOptions)
 				Expect(err).To(BeNil())
@@ -480,6 +536,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should fetch the locations for the type connect", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationsOptions := service.NewListOfferingTypeLocationsOptions("connect")
 
 				result, detailedResponse, err := service.ListOfferingTypeLocations(listOfferingTypeLocationsOptions)
@@ -500,6 +558,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should return an error for invalid location type", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationsOptions := service.NewListOfferingTypeLocationsOptions("RANDOM")
 
 				result, detailedResponse, err := service.ListOfferingTypeLocations(listOfferingTypeLocationsOptions)
@@ -512,6 +572,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Cross Connect Routers", func() {
 			It("should list the location info for type dedicated and location short name", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
@@ -525,6 +587,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should list the location info for type dedicated and location display name", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_DISPLAY_NAME"))
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
@@ -537,6 +601,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should return proper error when unsupported offering type CONNECT is provided", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("connect", os.Getenv("OT_CONNECT_LOCATION_NAME"))
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
@@ -548,6 +614,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should return proper error when incorrect offering type is provided", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("random", os.Getenv("OT_CONNECT_LOCATION_DISPLAY_NAME"))
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
@@ -558,6 +626,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should return proper error when incorrect location is provided", func() {
+				shouldSkipTest()
+
 				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", "florida")
 
 				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
@@ -570,6 +640,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Offering Speeds", func() {
 			It("should fetch the offering speeds for the type dedicated", func() {
+				shouldSkipTest()
+
 				listOfferingTypeSpeedsOptions := service.NewListOfferingTypeSpeedsOptions("dedicated")
 
 				result, detailedResponse, err := service.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions)
@@ -579,6 +651,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should fetch the offering speeds for the type connect", func() {
+				shouldSkipTest()
+
 				listOfferingTypeSpeedsOptions := service.NewListOfferingTypeSpeedsOptions("connect")
 
 				result, detailedResponse, err := service.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions)
@@ -588,6 +662,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should proper error for invalid offering type", func() {
+				shouldSkipTest()
+
 				listOfferingTypeSpeedsOptions := service.NewListOfferingTypeSpeedsOptions("random")
 
 				result, detailedResponse, err := service.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions)
@@ -601,6 +677,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 	Describe("Ports", func() {
 		It("should fetch the ports", func() {
+			shouldSkipTest()
+
 			listPortsOptions := service.NewListPortsOptions()
 
 			result, detailedResponse, err := service.ListPorts(listPortsOptions)
@@ -624,6 +702,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 		})
 
 		It("should fetch the port by ID", func() {
+			shouldSkipTest()
+
 			portId := os.Getenv("PORT_ID")
 			locationDisplayName := os.Getenv("PORT_LOCATION_DISPLAY_NAME")
 			locationName := os.Getenv("PORT_LOCATION_NAME")
@@ -665,6 +745,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
 			It("Successfully created a gateway", func() {
+				shouldSkipTest()
+
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
@@ -682,6 +764,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully create a CLASSIC virtual connection", func() {
+				shouldSkipTest()
+
 				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
@@ -698,6 +782,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully get a CLASSIC virtual connection", func() {
+				shouldSkipTest()
+
 				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
 				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
@@ -712,6 +798,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully create a Gen 2 VPC virtual connection", func() {
+				shouldSkipTest()
+
 				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				vpcCrn := os.Getenv("GEN2_VPC_CRN")
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
@@ -732,6 +820,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully get a Gen 2 VPC virtual connection", func() {
+				shouldSkipTest()
+
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
 				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 				Expect(err).To(BeNil())
@@ -746,6 +836,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully list the virtual connections for a gateway", func() {
+				shouldSkipTest()
+
 				listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
 				result, detailedResponse, err := service.ListGatewayVirtualConnections(listVcOptions)
 				Expect(err).To(BeNil())
@@ -773,6 +865,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully Update a virtual connection name", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				vcId := os.Getenv("GEN2_VPC_VC_ID")
 				vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
@@ -792,6 +886,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Fail to Update a virtual connection status", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				vcId := os.Getenv("GEN2_VPC_VC_ID")
 				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
@@ -807,6 +903,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully delete a CLASSIC virtual connection for a gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				vcId := os.Getenv("CLASSIC_VC_ID")
 				deleteClassicVCOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
@@ -817,6 +915,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully waits for CLASSIC virtual connection to report as deleted", func() {
+				shouldSkipTest()
+
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
 
 				// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
@@ -844,6 +944,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully deletes GEN 2 VPC virtual connection for a gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				vcId := os.Getenv("GEN2_VPC_VC_ID")
 				deleteVpcVcOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
@@ -854,6 +956,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
+				shouldSkipTest()
+
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
 
 				// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
@@ -881,6 +985,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
 
@@ -914,6 +1020,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 		//
 		Context("Create gateway", func() {
 			It("Successfully created a gateway", func() {
+				shouldSkipTest()
+
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
@@ -925,6 +1033,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully call loa", func() {
+				shouldSkipTest()
+
 				listLOAOptions := service.NewListGatewayLetterOfAuthorizationOptions(os.Getenv("GATEWAY_ID"))
 				result, detailedResponse, err := service.ListGatewayLetterOfAuthorization(listLOAOptions)
 				Expect(err).NotTo(BeNil())
@@ -934,6 +1044,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully call PUT completion notice", func() {
+				shouldSkipTest()
+
 				buffer, err := ioutil.ReadFile("completion_notice.pdf")
 				Expect(err).To(BeNil())
 				r := ioutil.NopCloser(bytes.NewReader(buffer))
@@ -949,6 +1061,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully call completion notice", func() {
+				shouldSkipTest()
+
 				listCNOptions := service.NewListGatewayCompletionNoticeOptions(os.Getenv("GATEWAY_ID"))
 				result, detailedResponse, err := service.ListGatewayCompletionNotice(listCNOptions)
 
@@ -959,6 +1073,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
 
