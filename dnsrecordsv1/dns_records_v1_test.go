@@ -19,29 +19,28 @@ package dnsrecordsv1_test
 import (
 	"bytes"
 	"fmt"
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
-
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 )
 
 var _ = Describe(`DnsRecordsV1`, func() {
 	var testServer *httptest.Server
-	Describe(`Service constructor tests`, func() {
+    Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				Authenticator:  &core.NoAuthAuthenticator{},
-				Crn:            core.StringPtr(crn),
+				Authenticator: &core.NoAuthAuthenticator{},
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(testService).ToNot(BeNil())
@@ -49,8 +48,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "{BAD_URL_STRING",
-				Crn:            core.StringPtr(crn),
+				URL: "{BAD_URL_STRING",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(testService).To(BeNil())
@@ -58,8 +57,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "https://dnsrecordsv1/api",
-				Crn:            core.StringPtr(crn),
+				URL: "https://dnsrecordsv1/api",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +80,14 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_URL":       "https://dnsrecordsv1/api",
+				"DNS_RECORDS_URL": "https://dnsrecordsv1/api",
 				"DNS_RECORDS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					Crn:            core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testService).ToNot(BeNil())
@@ -98,8 +97,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            "https://testService/api",
-					Crn:            core.StringPtr(crn),
+					URL: "https://testService/api",
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testService).ToNot(BeNil())
@@ -110,7 +109,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					Crn:            core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := testService.SetServiceURL("https://testService/api")
@@ -124,13 +123,13 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_URL":       "https://dnsrecordsv1/api",
+				"DNS_RECORDS_URL": "https://dnsrecordsv1/api",
 				"DNS_RECORDS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-				Crn:            core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -143,13 +142,13 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_AUTH_TYPE": "NOAuth",
+				"DNS_RECORDS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "{BAD_URL_STRING",
-				Crn:            core.StringPtr(crn),
+				URL: "{BAD_URL_STRING",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -195,9 +194,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation response processing error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -261,9 +260,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke ListAllDnsRecords successfully`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -285,7 +284,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Order = core.StringPtr("type")
 				listAllDnsRecordsOptionsModel.Direction = core.StringPtr("asc")
 				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
-				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
@@ -295,9 +294,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation request error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -347,9 +346,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke CreateDnsRecord with error: Operation response processing error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -359,6 +358,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
 				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
@@ -394,9 +394,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke CreateDnsRecord successfully`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -412,10 +412,11 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
 				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
-				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateDnsRecord(createDnsRecordOptionsModel)
@@ -425,9 +426,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke CreateDnsRecord with error: Operation request error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -437,6 +438,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
 				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
@@ -474,9 +476,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation response processing error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -517,9 +519,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke DeleteDnsRecord successfully`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -534,7 +536,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				// Construct an instance of the DeleteDnsRecordOptions model
 				deleteDnsRecordOptionsModel := new(dnsrecordsv1.DeleteDnsRecordOptions)
 				deleteDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
-				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
@@ -544,9 +546,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation validation and request error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -596,9 +598,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke GetDnsRecord with error: Operation response processing error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -639,9 +641,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke GetDnsRecord successfully`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -656,7 +658,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				// Construct an instance of the GetDnsRecordOptions model
 				getDnsRecordOptionsModel := new(dnsrecordsv1.GetDnsRecordOptions)
 				getDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
-				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetDnsRecord(getDnsRecordOptionsModel)
@@ -666,9 +668,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke GetDnsRecord with error: Operation validation and request error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -718,9 +720,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation response processing error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -767,9 +769,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke UpdateDnsRecord successfully`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -790,7 +792,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
 				updateDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
-				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.UpdateDnsRecord(updateDnsRecordOptionsModel)
@@ -800,9 +802,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation validation and request error`, func() {
 				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(testServiceErr).To(BeNil())
@@ -844,9 +846,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			testService, _ := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "http://dnsrecordsv1modelgenerator.com",
-				Authenticator:  &core.NoAuthAuthenticator{},
-				Crn:            core.StringPtr(crn),
+				URL:           "http://dnsrecordsv1modelgenerator.com",
+				Authenticator: &core.NoAuthAuthenticator{},
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateDnsRecordOptions successfully`, func() {
@@ -854,6 +856,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel := testService.NewCreateDnsRecordOptions()
 				createDnsRecordOptionsModel.SetName("host-1.test-example.com")
 				createDnsRecordOptionsModel.SetType("A")
+				createDnsRecordOptionsModel.SetTTL(int64(120))
 				createDnsRecordOptionsModel.SetContent("1.2.3.4")
 				createDnsRecordOptionsModel.SetPriority(int64(5))
 				createDnsRecordOptionsModel.SetData(map[string]interface{}{"anyKey": "anyValue"})
@@ -861,6 +864,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(createDnsRecordOptionsModel).ToNot(BeNil())
 				Expect(createDnsRecordOptionsModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
 				Expect(createDnsRecordOptionsModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(createDnsRecordOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(createDnsRecordOptionsModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
 				Expect(createDnsRecordOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(createDnsRecordOptionsModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))

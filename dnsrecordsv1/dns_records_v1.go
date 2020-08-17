@@ -20,12 +20,9 @@ package dnsrecordsv1
 import (
 	"encoding/json"
 	"fmt"
-
-	common "github.com/IBM/networking-go-sdk/common"
-
-	"reflect"
-
 	"github.com/IBM/go-sdk-core/v4/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"reflect"
 )
 
 // DnsRecordsV1 : DNS records
@@ -114,8 +111,8 @@ func NewDnsRecordsV1(options *DnsRecordsV1Options) (service *DnsRecordsV1, err e
 	}
 
 	service = &DnsRecordsV1{
-		Service:        baseService,
-		Crn:            options.Crn,
+		Service: baseService,
+		Crn: options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -198,7 +195,7 @@ func (dnsRecords *DnsRecordsV1) ListAllDnsRecords(listAllDnsRecordsOptions *List
 	return
 }
 
-// CreateDnsRecord : Create a DNS record
+// CreateDnsRecord : Create DNS record
 // Add a new DNS record for a given zone for a given service instance.
 func (dnsRecords *DnsRecordsV1) CreateDnsRecord(createDnsRecordOptions *CreateDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createDnsRecordOptions, "createDnsRecordOptions")
@@ -233,6 +230,9 @@ func (dnsRecords *DnsRecordsV1) CreateDnsRecord(createDnsRecordOptions *CreateDn
 	if createDnsRecordOptions.Type != nil {
 		body["type"] = createDnsRecordOptions.Type
 	}
+	if createDnsRecordOptions.TTL != nil {
+		body["ttl"] = createDnsRecordOptions.TTL
+	}
 	if createDnsRecordOptions.Content != nil {
 		body["content"] = createDnsRecordOptions.Content
 	}
@@ -266,7 +266,7 @@ func (dnsRecords *DnsRecordsV1) CreateDnsRecord(createDnsRecordOptions *CreateDn
 	return
 }
 
-// DeleteDnsRecord : Delete a DNS record
+// DeleteDnsRecord : Delete DNS record
 // Delete a DNS record given its id.
 func (dnsRecords *DnsRecordsV1) DeleteDnsRecord(deleteDnsRecordOptions *DeleteDnsRecordOptions) (result *DeleteDnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDnsRecordOptions, "deleteDnsRecordOptions cannot be nil")
@@ -316,7 +316,7 @@ func (dnsRecords *DnsRecordsV1) DeleteDnsRecord(deleteDnsRecordOptions *DeleteDn
 	return
 }
 
-// GetDnsRecord : Get a DNS record
+// GetDnsRecord : Get DNS record
 // Get the details of a DNS record for a given zone under a given service instance.
 func (dnsRecords *DnsRecordsV1) GetDnsRecord(getDnsRecordOptions *GetDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDnsRecordOptions, "getDnsRecordOptions cannot be nil")
@@ -366,7 +366,7 @@ func (dnsRecords *DnsRecordsV1) GetDnsRecord(getDnsRecordOptions *GetDnsRecordOp
 	return
 }
 
-// UpdateDnsRecord : Update a DNS record
+// UpdateDnsRecord : Update DNS record
 // Update an existing DNS record for a given zone under a given service instance.
 func (dnsRecords *DnsRecordsV1) UpdateDnsRecord(updateDnsRecordOptions *UpdateDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateDnsRecordOptions, "updateDnsRecordOptions cannot be nil")
@@ -449,6 +449,9 @@ type CreateDnsRecordOptions struct {
 	// dns record type.
 	Type *string `json:"type,omitempty"`
 
+	// dns record ttl value.
+	TTL *int64 `json:"ttl,omitempty"`
+
 	// dns record content.
 	Content *string `json:"content,omitempty"`
 
@@ -465,16 +468,16 @@ type CreateDnsRecordOptions struct {
 // Constants associated with the CreateDnsRecordOptions.Type property.
 // dns record type.
 const (
-	CreateDnsRecordOptions_Type_A     = "A"
-	CreateDnsRecordOptions_Type_Aaaa  = "AAAA"
-	CreateDnsRecordOptions_Type_Caa   = "CAA"
+	CreateDnsRecordOptions_Type_A = "A"
+	CreateDnsRecordOptions_Type_Aaaa = "AAAA"
+	CreateDnsRecordOptions_Type_Caa = "CAA"
 	CreateDnsRecordOptions_Type_Cname = "CNAME"
-	CreateDnsRecordOptions_Type_Loc   = "LOC"
-	CreateDnsRecordOptions_Type_Mx    = "MX"
-	CreateDnsRecordOptions_Type_Ns    = "NS"
-	CreateDnsRecordOptions_Type_Spf   = "SPF"
-	CreateDnsRecordOptions_Type_Srv   = "SRV"
-	CreateDnsRecordOptions_Type_Txt   = "TXT"
+	CreateDnsRecordOptions_Type_Loc = "LOC"
+	CreateDnsRecordOptions_Type_Mx = "MX"
+	CreateDnsRecordOptions_Type_Ns = "NS"
+	CreateDnsRecordOptions_Type_Spf = "SPF"
+	CreateDnsRecordOptions_Type_Srv = "SRV"
+	CreateDnsRecordOptions_Type_Txt = "TXT"
 )
 
 // NewCreateDnsRecordOptions : Instantiate CreateDnsRecordOptions
@@ -491,6 +494,12 @@ func (options *CreateDnsRecordOptions) SetName(name string) *CreateDnsRecordOpti
 // SetType : Allow user to set Type
 func (options *CreateDnsRecordOptions) SetType(typeVar string) *CreateDnsRecordOptions {
 	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetTTL : Allow user to set TTL
+func (options *CreateDnsRecordOptions) SetTTL(ttl int64) *CreateDnsRecordOptions {
+	options.TTL = core.Int64Ptr(ttl)
 	return options
 }
 
@@ -551,6 +560,7 @@ type DeleteDnsrecordRespResult struct {
 	// dns record id.
 	ID *string `json:"id" validate:"required"`
 }
+
 
 // UnmarshalDeleteDnsrecordRespResult unmarshals an instance of DeleteDnsrecordRespResult from the specified map of raw messages.
 func UnmarshalDeleteDnsrecordRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -625,16 +635,16 @@ type ListAllDnsRecordsOptions struct {
 // Field by which to order list of DNS records.
 const (
 	ListAllDnsRecordsOptions_Order_Content = "content"
-	ListAllDnsRecordsOptions_Order_Name    = "name"
+	ListAllDnsRecordsOptions_Order_Name = "name"
 	ListAllDnsRecordsOptions_Order_Proxied = "proxied"
-	ListAllDnsRecordsOptions_Order_TTL     = "ttl"
-	ListAllDnsRecordsOptions_Order_Type    = "type"
+	ListAllDnsRecordsOptions_Order_TTL = "ttl"
+	ListAllDnsRecordsOptions_Order_Type = "type"
 )
 
 // Constants associated with the ListAllDnsRecordsOptions.Direction property.
 // Direction in which to order results [ascending/descending order].
 const (
-	ListAllDnsRecordsOptions_Direction_Asc  = "asc"
+	ListAllDnsRecordsOptions_Direction_Asc = "asc"
 	ListAllDnsRecordsOptions_Direction_Desc = "desc"
 )
 
@@ -734,16 +744,16 @@ type UpdateDnsRecordOptions struct {
 // Constants associated with the UpdateDnsRecordOptions.Type property.
 // dns record type.
 const (
-	UpdateDnsRecordOptions_Type_A     = "A"
-	UpdateDnsRecordOptions_Type_Aaaa  = "AAAA"
-	UpdateDnsRecordOptions_Type_Caa   = "CAA"
+	UpdateDnsRecordOptions_Type_A = "A"
+	UpdateDnsRecordOptions_Type_Aaaa = "AAAA"
+	UpdateDnsRecordOptions_Type_Caa = "CAA"
 	UpdateDnsRecordOptions_Type_Cname = "CNAME"
-	UpdateDnsRecordOptions_Type_Loc   = "LOC"
-	UpdateDnsRecordOptions_Type_Mx    = "MX"
-	UpdateDnsRecordOptions_Type_Ns    = "NS"
-	UpdateDnsRecordOptions_Type_Spf   = "SPF"
-	UpdateDnsRecordOptions_Type_Srv   = "SRV"
-	UpdateDnsRecordOptions_Type_Txt   = "TXT"
+	UpdateDnsRecordOptions_Type_Loc = "LOC"
+	UpdateDnsRecordOptions_Type_Mx = "MX"
+	UpdateDnsRecordOptions_Type_Ns = "NS"
+	UpdateDnsRecordOptions_Type_Spf = "SPF"
+	UpdateDnsRecordOptions_Type_Srv = "SRV"
+	UpdateDnsRecordOptions_Type_Txt = "TXT"
 )
 
 // NewUpdateDnsRecordOptions : Instantiate UpdateDnsRecordOptions
@@ -816,6 +826,7 @@ type DeleteDnsrecordResp struct {
 	Result *DeleteDnsrecordRespResult `json:"result" validate:"required"`
 }
 
+
 // UnmarshalDeleteDnsrecordResp unmarshals an instance of DeleteDnsrecordResp from the specified map of raw messages.
 func UnmarshalDeleteDnsrecordResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteDnsrecordResp)
@@ -884,17 +895,18 @@ type DnsrecordDetails struct {
 // Constants associated with the DnsrecordDetails.Type property.
 // dns record type.
 const (
-	DnsrecordDetails_Type_A     = "A"
-	DnsrecordDetails_Type_Aaaa  = "AAAA"
-	DnsrecordDetails_Type_Caa   = "CAA"
+	DnsrecordDetails_Type_A = "A"
+	DnsrecordDetails_Type_Aaaa = "AAAA"
+	DnsrecordDetails_Type_Caa = "CAA"
 	DnsrecordDetails_Type_Cname = "CNAME"
-	DnsrecordDetails_Type_Loc   = "LOC"
-	DnsrecordDetails_Type_Mx    = "MX"
-	DnsrecordDetails_Type_Ns    = "NS"
-	DnsrecordDetails_Type_Spf   = "SPF"
-	DnsrecordDetails_Type_Srv   = "SRV"
-	DnsrecordDetails_Type_Txt   = "TXT"
+	DnsrecordDetails_Type_Loc = "LOC"
+	DnsrecordDetails_Type_Mx = "MX"
+	DnsrecordDetails_Type_Ns = "NS"
+	DnsrecordDetails_Type_Spf = "SPF"
+	DnsrecordDetails_Type_Srv = "SRV"
+	DnsrecordDetails_Type_Txt = "TXT"
 )
+
 
 // UnmarshalDnsrecordDetails unmarshals an instance of DnsrecordDetails from the specified map of raw messages.
 func UnmarshalDnsrecordDetails(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -970,6 +982,7 @@ type DnsrecordResp struct {
 	Result *DnsrecordDetails `json:"result" validate:"required"`
 }
 
+
 // UnmarshalDnsrecordResp unmarshals an instance of DnsrecordResp from the specified map of raw messages.
 func UnmarshalDnsrecordResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DnsrecordResp)
@@ -1010,6 +1023,7 @@ type ListDnsrecordsResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
+
 
 // UnmarshalListDnsrecordsResp unmarshals an instance of ListDnsrecordsResp from the specified map of raw messages.
 func UnmarshalListDnsrecordsResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1052,6 +1066,7 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
+
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
