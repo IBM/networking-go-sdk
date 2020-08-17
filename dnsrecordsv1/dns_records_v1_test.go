@@ -20,10 +20,10 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.ibm.com/ibmcloud/networking-go-sdk/dnsrecordsv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -733,6 +733,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
@@ -788,6 +789,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
@@ -815,6 +817,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
@@ -920,6 +923,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.SetDnsrecordIdentifier("testString")
 				updateDnsRecordOptionsModel.SetName("host-1.test-example.com")
 				updateDnsRecordOptionsModel.SetType("A")
+				updateDnsRecordOptionsModel.SetTTL(int64(120))
 				updateDnsRecordOptionsModel.SetContent("1.2.3.4")
 				updateDnsRecordOptionsModel.SetPriority(int64(5))
 				updateDnsRecordOptionsModel.SetProxied(false)
@@ -929,6 +933,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(updateDnsRecordOptionsModel.DnsrecordIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(updateDnsRecordOptionsModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
 				Expect(updateDnsRecordOptionsModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(updateDnsRecordOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(updateDnsRecordOptionsModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
 				Expect(updateDnsRecordOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(updateDnsRecordOptionsModel.Proxied).To(Equal(core.BoolPtr(false)))
