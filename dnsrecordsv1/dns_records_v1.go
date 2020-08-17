@@ -405,6 +405,9 @@ func (dnsRecords *DnsRecordsV1) UpdateDnsRecord(updateDnsRecordOptions *UpdateDn
 	if updateDnsRecordOptions.Type != nil {
 		body["type"] = updateDnsRecordOptions.Type
 	}
+	if updateDnsRecordOptions.TTL != nil {
+		body["ttl"] = updateDnsRecordOptions.TTL
+	}
 	if updateDnsRecordOptions.Content != nil {
 		body["content"] = updateDnsRecordOptions.Content
 	}
@@ -725,6 +728,9 @@ type UpdateDnsRecordOptions struct {
 	// dns record type.
 	Type *string `json:"type,omitempty"`
 
+	// dns record ttl value.
+	TTL *int64 `json:"ttl,omitempty"`
+
 	// content of dns record.
 	Content *string `json:"content,omitempty"`
 
@@ -778,6 +784,12 @@ func (options *UpdateDnsRecordOptions) SetName(name string) *UpdateDnsRecordOpti
 // SetType : Allow user to set Type
 func (options *UpdateDnsRecordOptions) SetType(typeVar string) *UpdateDnsRecordOptions {
 	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetTTL : Allow user to set TTL
+func (options *UpdateDnsRecordOptions) SetTTL(ttl int64) *UpdateDnsRecordOptions {
+	options.TTL = core.Int64Ptr(ttl)
 	return options
 }
 
