@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/IBM/networking-go-sdk/compare/v0.3.0...v0.4.0) (2020-08-17)
+
+
+### Features
+
+* cis env changes ([b068dca](https://github.com/IBM/networking-go-sdk/commit/b068dca524a08091364451564f504dbe36a9e847))
+
 # [0.3.0](https://github.com/IBM/networking-go-sdk/compare/v0.2.0...v0.3.0) (2020-08-05)
 
 
