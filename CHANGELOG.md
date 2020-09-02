@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/IBM/networking-go-sdk/compare/v0.4.0...v0.4.1) (2020-09-02)
+
+
+### Bug Fixes
+
+* fixed the integration tests for direct link ([e54f6fe](https://github.com/IBM/networking-go-sdk/commit/e54f6fe9993288aa41c9da0ebd0eb0d5b73afbed))
+
 # [0.4.0](https://github.com/IBM/networking-go-sdk/compare/v0.3.0...v0.4.0) (2020-08-17)
 
 
