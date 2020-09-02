@@ -19,28 +19,27 @@ package globalloadbalancerpoolsv0_test
 import (
 	"bytes"
 	"fmt"
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
-
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
 )
 
 var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	var testServer *httptest.Server
-	Describe(`Service constructor tests`, func() {
+    Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		It(`Instantiate service client`, func() {
 			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn:           core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 			})
 			Expect(testService).ToNot(BeNil())
 			Expect(testServiceErr).To(BeNil())
@@ -76,7 +75,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_POOLS_URL":       "https://globalloadbalancerpoolsv0/api",
+				"GLOBAL_LOAD_BALANCER_POOLS_URL": "https://globalloadbalancerpoolsv0/api",
 				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE": "noauth",
 			}
 
@@ -116,7 +115,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_POOLS_URL":       "https://globalloadbalancerpoolsv0/api",
+				"GLOBAL_LOAD_BALANCER_POOLS_URL": "https://globalloadbalancerpoolsv0/api",
 				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -134,7 +133,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE": "NOAuth",
+				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -170,7 +169,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -203,14 +202,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke ListAllLoadBalancerPools successfully`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -223,7 +222,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 
 				// Construct an instance of the ListAllLoadBalancerPoolsOptions model
 				listAllLoadBalancerPoolsOptionsModel := new(globalloadbalancerpoolsv0.ListAllLoadBalancerPoolsOptions)
-				listAllLoadBalancerPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				listAllLoadBalancerPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
@@ -235,7 +234,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -277,7 +276,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -287,6 +286,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.CreateLoadBalancerPoolOptions)
@@ -324,14 +324,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerPool successfully`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -347,6 +347,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.CreateLoadBalancerPoolOptions)
@@ -358,7 +359,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				createLoadBalancerPoolOptionsModel.Enabled = core.BoolPtr(true)
 				createLoadBalancerPoolOptionsModel.Monitor = core.StringPtr("f1aba936b94213e5b8dca0c0dbf1f9cc")
 				createLoadBalancerPoolOptionsModel.NotificationEmail = core.StringPtr("someone@example.com")
-				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
@@ -370,7 +371,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -380,6 +381,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.CreateLoadBalancerPoolOptions)
@@ -426,7 +428,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -460,14 +462,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerPool successfully`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -481,7 +483,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				// Construct an instance of the GetLoadBalancerPoolOptions model
 				getLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.GetLoadBalancerPoolOptions)
 				getLoadBalancerPoolOptionsModel.PoolIdentifier = core.StringPtr("testString")
-				getLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				getLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
@@ -493,7 +495,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -543,7 +545,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -584,7 +586,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -598,7 +600,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				// Construct an instance of the DeleteLoadBalancerPoolOptions model
 				deleteLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.DeleteLoadBalancerPoolOptions)
 				deleteLoadBalancerPoolOptionsModel.PoolIdentifier = core.StringPtr("testString")
-				deleteLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				deleteLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
@@ -610,7 +612,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -660,7 +662,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -670,6 +672,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				editLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
@@ -708,14 +711,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke EditLoadBalancerPool successfully`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -731,6 +734,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				editLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
@@ -743,7 +747,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				editLoadBalancerPoolOptionsModel.Enabled = core.BoolPtr(true)
 				editLoadBalancerPoolOptionsModel.Monitor = core.StringPtr("f1aba936b94213e5b8dca0c0dbf1f9cc")
 				editLoadBalancerPoolOptionsModel.NotificationEmail = core.StringPtr("someone@example.com")
-				editLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				editLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
@@ -755,7 +759,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -765,6 +769,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				editLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
@@ -805,7 +810,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 			testService, _ := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				URL:           "http://globalloadbalancerpoolsv0modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn:           core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateLoadBalancerPoolOptions successfully`, func() {
 				// Construct an instance of the LoadBalancerPoolReqOriginsItem model
@@ -814,9 +819,11 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 				Expect(loadBalancerPoolReqOriginsItemModel.Name).To(Equal(core.StringPtr("app-server-1")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Address).To(Equal(core.StringPtr("0.0.0.0")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Enabled).To(Equal(core.BoolPtr(true)))
+				Expect(loadBalancerPoolReqOriginsItemModel.Weight).To(Equal(core.Float64Ptr(float64(1))))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := testService.NewCreateLoadBalancerPoolOptions()
@@ -857,9 +864,11 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 				Expect(loadBalancerPoolReqOriginsItemModel.Name).To(Equal(core.StringPtr("app-server-1")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Address).To(Equal(core.StringPtr("0.0.0.0")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Enabled).To(Equal(core.BoolPtr(true)))
+				Expect(loadBalancerPoolReqOriginsItemModel.Weight).To(Equal(core.Float64Ptr(float64(1))))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				poolIdentifier := "testString"

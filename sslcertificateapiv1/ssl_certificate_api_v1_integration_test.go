@@ -184,10 +184,12 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(*getResult.Success).Should(BeTrue())
 
 				// update custom certificate
+				updateGeoOpt, updateErr := service.NewCustomCertReqGeoRestrictions("eu")
+				Expect(updateErr).To(BeNil())
 				updateOpt := service.NewUpdateCustomCertificateOptions(*uploadResult.Result.ID)
 				updateOpt.SetBundleMethod(UpdateCustomCertificateOptions_BundleMethod_Ubiquitous)
 				updateOpt.SetCertificate(updateCertificate)
-				updateOpt.SetGeoRestrictions(geoOpt)
+				updateOpt.SetGeoRestrictions(updateGeoOpt)
 				updateOpt.SetPrivateKey(updatePrivateKey)
 
 				updateResult, updateResp, updateErr := service.UpdateCustomCertificate(updateOpt)

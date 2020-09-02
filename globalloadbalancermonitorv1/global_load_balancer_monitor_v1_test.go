@@ -19,28 +19,27 @@ package globalloadbalancermonitorv1_test
 import (
 	"bytes"
 	"fmt"
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
-
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
 )
 
 var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	var testServer *httptest.Server
-	Describe(`Service constructor tests`, func() {
+    Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		It(`Instantiate service client`, func() {
 			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn:           core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 			})
 			Expect(testService).ToNot(BeNil())
 			Expect(testServiceErr).To(BeNil())
@@ -76,7 +75,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_MONITOR_URL":       "https://globalloadbalancermonitorv1/api",
+				"GLOBAL_LOAD_BALANCER_MONITOR_URL": "https://globalloadbalancermonitorv1/api",
 				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE": "noauth",
 			}
 
@@ -116,7 +115,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_MONITOR_URL":       "https://globalloadbalancermonitorv1/api",
+				"GLOBAL_LOAD_BALANCER_MONITOR_URL": "https://globalloadbalancermonitorv1/api",
 				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -134,7 +133,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE": "NOAuth",
+				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -170,7 +169,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -210,7 +209,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -223,7 +222,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 
 				// Construct an instance of the ListAllLoadBalancerMonitorsOptions model
 				listAllLoadBalancerMonitorsOptionsModel := new(globalloadbalancermonitorv1.ListAllLoadBalancerMonitorsOptions)
-				listAllLoadBalancerMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				listAllLoadBalancerMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
@@ -235,7 +234,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -277,7 +276,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -296,6 +295,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.FollowRedirects = core.BoolPtr(true)
 				createLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				createLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
+				createLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
@@ -329,7 +329,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -354,7 +354,8 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.FollowRedirects = core.BoolPtr(true)
 				createLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				createLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
-				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
+ 				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
@@ -366,7 +367,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -385,6 +386,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.FollowRedirects = core.BoolPtr(true)
 				createLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				createLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
+				createLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -420,7 +422,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -440,6 +442,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.FollowRedirects = core.BoolPtr(true)
 				editLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				editLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
+				editLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
@@ -473,7 +476,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -499,7 +502,8 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.FollowRedirects = core.BoolPtr(true)
 				editLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				editLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
-				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				editLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
+ 				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
@@ -511,7 +515,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -531,6 +535,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.FollowRedirects = core.BoolPtr(true)
 				editLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				editLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
+				editLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -573,7 +578,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -614,7 +619,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -628,7 +633,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct an instance of the DeleteLoadBalancerMonitorOptions model
 				deleteLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.DeleteLoadBalancerMonitorOptions)
 				deleteLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
-				deleteLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				deleteLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
@@ -640,7 +645,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -690,7 +695,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -731,7 +736,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -745,7 +750,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct an instance of the GetLoadBalancerMonitorOptions model
 				getLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.GetLoadBalancerMonitorOptions)
 				getLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
-				getLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+ 				getLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
@@ -757,7 +762,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -793,7 +798,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			testService, _ := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				URL:           "http://globalloadbalancermonitorv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn:           core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateLoadBalancerMonitorOptions successfully`, func() {
 				// Construct an instance of the CreateLoadBalancerMonitorOptions model
@@ -810,6 +815,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.SetFollowRedirects(true)
 				createLoadBalancerMonitorOptionsModel.SetExpectedBody("alive")
 				createLoadBalancerMonitorOptionsModel.SetAllowInsecure(true)
+				createLoadBalancerMonitorOptionsModel.SetHeader(make(map[string][]string))
 				createLoadBalancerMonitorOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createLoadBalancerMonitorOptionsModel).ToNot(BeNil())
 				Expect(createLoadBalancerMonitorOptionsModel.Type).To(Equal(core.StringPtr("http")))
@@ -824,6 +830,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				Expect(createLoadBalancerMonitorOptionsModel.FollowRedirects).To(Equal(core.BoolPtr(true)))
 				Expect(createLoadBalancerMonitorOptionsModel.ExpectedBody).To(Equal(core.StringPtr("alive")))
 				Expect(createLoadBalancerMonitorOptionsModel.AllowInsecure).To(Equal(core.BoolPtr(true)))
+				Expect(createLoadBalancerMonitorOptionsModel.Header).To(Equal(make(map[string][]string)))
 				Expect(createLoadBalancerMonitorOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteLoadBalancerMonitorOptions successfully`, func() {
@@ -853,6 +860,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.SetFollowRedirects(true)
 				editLoadBalancerMonitorOptionsModel.SetExpectedBody("alive")
 				editLoadBalancerMonitorOptionsModel.SetAllowInsecure(true)
+				editLoadBalancerMonitorOptionsModel.SetHeader(make(map[string][]string))
 				editLoadBalancerMonitorOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(editLoadBalancerMonitorOptionsModel).ToNot(BeNil())
 				Expect(editLoadBalancerMonitorOptionsModel.MonitorIdentifier).To(Equal(core.StringPtr("testString")))
@@ -868,6 +876,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				Expect(editLoadBalancerMonitorOptionsModel.FollowRedirects).To(Equal(core.BoolPtr(true)))
 				Expect(editLoadBalancerMonitorOptionsModel.ExpectedBody).To(Equal(core.StringPtr("alive")))
 				Expect(editLoadBalancerMonitorOptionsModel.AllowInsecure).To(Equal(core.BoolPtr(true)))
+				Expect(editLoadBalancerMonitorOptionsModel.Header).To(Equal(make(map[string][]string)))
 				Expect(editLoadBalancerMonitorOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetLoadBalancerMonitorOptions successfully`, func() {

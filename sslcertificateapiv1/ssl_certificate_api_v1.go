@@ -21,8 +21,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
 	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 	"reflect"
 )
 
