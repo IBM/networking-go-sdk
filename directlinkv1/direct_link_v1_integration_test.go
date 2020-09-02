@@ -119,7 +119,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It("Fails when Invalid BGP is provided", func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65000, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65500, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
