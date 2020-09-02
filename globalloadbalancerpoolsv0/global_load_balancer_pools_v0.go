@@ -19,10 +19,9 @@ package globalloadbalancerpoolsv0
 
 import (
 	"encoding/json"
-	"reflect"
-
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"reflect"
 )
 
 // GlobalLoadBalancerPoolsV0 : GLB Pools
@@ -106,7 +105,7 @@ func NewGlobalLoadBalancerPoolsV0(options *GlobalLoadBalancerPoolsV0Options) (se
 
 	service = &GlobalLoadBalancerPoolsV0{
 		Service: baseService,
-		Crn:     options.Crn,
+		Crn: options.Crn,
 	}
 
 	return
@@ -117,7 +116,7 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) SetServiceURL(url stri
 	return globalLoadBalancerPools.Service.SetServiceURL(url)
 }
 
-// ListAllLoadBalancerPools : List configured pools
+// ListAllLoadBalancerPools : List all pools
 // List all configured load balancer pools.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptions *ListAllLoadBalancerPoolsOptions) (result *ListLoadBalancerPoolsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAllLoadBalancerPoolsOptions, "listAllLoadBalancerPoolsOptions")
@@ -163,7 +162,7 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) ListAllLoadBalancerPoo
 	return
 }
 
-// CreateLoadBalancerPool : Create a new pool
+// CreateLoadBalancerPool : Create pool
 // Create a new load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createLoadBalancerPoolOptions, "createLoadBalancerPoolOptions")
@@ -240,7 +239,7 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) CreateLoadBalancerPool
 	return
 }
 
-// GetLoadBalancerPool : Get details of a pool
+// GetLoadBalancerPool : Get pool
 // Get a single configured load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerPoolOptions, "getLoadBalancerPoolOptions cannot be nil")
@@ -290,7 +289,7 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetLoadBalancerPool(ge
 	return
 }
 
-// DeleteLoadBalancerPool : Delete a configured pool
+// DeleteLoadBalancerPool : Delete pool
 // Delete a specific configured load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions) (result *DeleteLoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerPoolOptions, "deleteLoadBalancerPoolOptions cannot be nil")
@@ -340,7 +339,7 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DeleteLoadBalancerPool
 	return
 }
 
-// EditLoadBalancerPool : Edit a configured pool
+// EditLoadBalancerPool : Edit pool
 // Edit a specific configured load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) EditLoadBalancerPool(editLoadBalancerPoolOptions *EditLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editLoadBalancerPoolOptions, "editLoadBalancerPoolOptions cannot be nil")
@@ -544,6 +543,7 @@ type DeleteLoadBalancerPoolRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
+
 // UnmarshalDeleteLoadBalancerPoolRespResult unmarshals an instance of DeleteLoadBalancerPoolRespResult from the specified map of raw messages.
 func UnmarshalDeleteLoadBalancerPoolRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteLoadBalancerPoolRespResult)
@@ -714,7 +714,11 @@ type LoadBalancerPoolPackOriginsItem struct {
 
 	// healthy.
 	Healthy *bool `json:"healthy,omitempty"`
+
+	// weight.
+	Weight *float64 `json:"weight,omitempty"`
 }
+
 
 // UnmarshalLoadBalancerPoolPackOriginsItem unmarshals an instance of LoadBalancerPoolPackOriginsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolPackOriginsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -735,6 +739,10 @@ func UnmarshalLoadBalancerPoolPackOriginsItem(m map[string]json.RawMessage, resu
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "weight", &obj.Weight)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -749,7 +757,11 @@ type LoadBalancerPoolReqOriginsItem struct {
 
 	// enabled/disabled.
 	Enabled *bool `json:"enabled,omitempty"`
+
+	// weight.
+	Weight *float64 `json:"weight,omitempty"`
 }
+
 
 // UnmarshalLoadBalancerPoolReqOriginsItem unmarshals an instance of LoadBalancerPoolReqOriginsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolReqOriginsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -763,6 +775,10 @@ func UnmarshalLoadBalancerPoolReqOriginsItem(m map[string]json.RawMessage, resul
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "weight", &obj.Weight)
 	if err != nil {
 		return
 	}
@@ -784,6 +800,7 @@ type DeleteLoadBalancerPoolResp struct {
 	// result.
 	Result *DeleteLoadBalancerPoolRespResult `json:"result" validate:"required"`
 }
+
 
 // UnmarshalDeleteLoadBalancerPoolResp unmarshals an instance of DeleteLoadBalancerPoolResp from the specified map of raw messages.
 func UnmarshalDeleteLoadBalancerPoolResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -825,6 +842,7 @@ type ListLoadBalancerPoolsResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
+
 
 // UnmarshalListLoadBalancerPoolsResp unmarshals an instance of ListLoadBalancerPoolsResp from the specified map of raw messages.
 func UnmarshalListLoadBalancerPoolsResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -885,6 +903,7 @@ type LoadBalancerPoolPack struct {
 	// notification email.
 	NotificationEmail *string `json:"notification_email,omitempty"`
 }
+
 
 // UnmarshalLoadBalancerPoolPack unmarshals an instance of LoadBalancerPoolPack from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolPack(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -951,6 +970,7 @@ type LoadBalancerPoolResp struct {
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
 
+
 // UnmarshalLoadBalancerPoolResp unmarshals an instance of LoadBalancerPoolResp from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerPoolResp)
@@ -992,6 +1012,7 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
+
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {

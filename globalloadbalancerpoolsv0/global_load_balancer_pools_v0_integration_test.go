@@ -11,11 +11,11 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
+	. "github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
-	. "github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
 )
 
 const configFile = "../cis.env"
@@ -176,6 +176,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					Name:    core.StringPtr("app-server-1"),
 					Address: core.StringPtr("www.test.com"),
 					Enabled: core.BoolPtr(true),
+					Weight:  core.Float64Ptr(0.1),
 				}
 				origins := []LoadBalancerPoolReqOriginsItem{*origin}
 				option.SetOrigins(origins)
