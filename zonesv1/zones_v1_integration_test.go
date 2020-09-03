@@ -10,11 +10,11 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/zonesv1"
 	guuid "github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/zonesv1"
 )
 
 const configFile = "../cis.env"
@@ -27,7 +27,7 @@ func shouldSkipTest() {
 	}
 }
 
-var _ = Describe(`zoneratelimitsv1`, func() {
+var _ = Describe(`zonesv1_test`, func() {
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}

@@ -189,7 +189,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					"example":  example,
 					"example1": example1,
 				}
-
+				options.SetHeader(test)
 				// create global load balancer monitor with type HTTP
 				result, response, err = testService.EditLoadBalancerMonitor(editOptions)
 				Expect(err).To(BeNil())
