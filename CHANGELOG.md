@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/IBM/networking-go-sdk/compare/v0.4.1...v0.5.0) (2020-09-04)
+
+
+### Features
+
+* **glb monitor/pool:** added header and weight field ([406f556](https://github.com/IBM/networking-go-sdk/commit/406f55635074e5db2a1feb3ac049fdaa00ec5d70))
+
 ## [0.4.1](https://github.com/IBM/networking-go-sdk/compare/v0.4.0...v0.4.1) (2020-09-02)
 
 
