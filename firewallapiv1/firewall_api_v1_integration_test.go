@@ -9,10 +9,10 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/firewallapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/firewallapiv1"
 )
 
 const configFile = "../cis.env"
@@ -54,8 +54,8 @@ var _ = Describe(`firewallapiv1_test`, func() {
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
-	Describe(`zoneratelimitsv1_test`, func() {
-		Context(`zoneratelimitsv1_test`, func() {
+	Describe(`firewallapiv1_test`, func() {
+		Context(`firewallapiv1_test`, func() {
 			It(`security level setting test`, func() {
 				shouldSkipTest()
 				values := []string{
