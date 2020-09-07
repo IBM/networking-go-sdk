@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/IBM/networking-go-sdk/compare/v0.5.0...v0.6.0) (2020-09-07)
+
+
+### Features
+
+* **glb monitor:** added header field in output ([a253b8d](https://github.com/IBM/networking-go-sdk/commit/a253b8df7d6272462e7bb2c7866466cef2e18ec3))
+
 # [0.5.0](https://github.com/IBM/networking-go-sdk/compare/v0.4.1...v0.5.0) (2020-09-04)
 
 
