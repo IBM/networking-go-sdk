@@ -9,10 +9,10 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/cachingapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/cachingapiv1"
 )
 
 const configFile = "../cis.env"
@@ -54,8 +54,8 @@ var _ = Describe(`cachingapiv1_test`, func() {
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
-	Describe(`zoneratelimitsv1_test`, func() {
-		Context(`zoneratelimitsv1_test`, func() {
+	Describe(`cachingapiv1_test`, func() {
+		Context(`cachingapiv1_test`, func() {
 			It(`cache purge by urls`, func() {
 				shouldSkipTest()
 				cacheOpt := service.NewPurgeByUrlsOptions()

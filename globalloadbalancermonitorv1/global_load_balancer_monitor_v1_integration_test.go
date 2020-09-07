@@ -65,7 +65,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	if testServiceErr != nil {
 		fmt.Println(testServiceErr)
 	}
-	Describe(`CIS_Frontend_API_Spec-GLB_Monitor.yaml`, func() {
+	Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Global Load Balancer Monitor`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
