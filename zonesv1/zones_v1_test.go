@@ -20,10 +20,10 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/zonesv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/zonesv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -160,6 +160,10 @@ var _ = Describe(`ZonesV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listZonesPath))
 					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
+
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprintf(res, `} this is not valid json {`)
@@ -176,6 +180,8 @@ var _ = Describe(`ZonesV1`, func() {
 
 				// Construct an instance of the ListZonesOptions model
 				listZonesOptionsModel := new(zonesv1.ListZonesOptions)
+				listZonesOptionsModel.Page = core.Int64Ptr(int64(38))
+				listZonesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListZones(listZonesOptionsModel)
@@ -200,6 +206,10 @@ var _ = Describe(`ZonesV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(listZonesPath))
 					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
+
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
@@ -222,6 +232,8 @@ var _ = Describe(`ZonesV1`, func() {
 
 				// Construct an instance of the ListZonesOptions model
 				listZonesOptionsModel := new(zonesv1.ListZonesOptions)
+				listZonesOptionsModel.Page = core.Int64Ptr(int64(38))
+				listZonesOptionsModel.PerPage = core.Int64Ptr(int64(5))
  				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -241,6 +253,8 @@ var _ = Describe(`ZonesV1`, func() {
 
 				// Construct an instance of the ListZonesOptions model
 				listZonesOptionsModel := new(zonesv1.ListZonesOptions)
+				listZonesOptionsModel.Page = core.Int64Ptr(int64(38))
+				listZonesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -877,8 +891,12 @@ var _ = Describe(`ZonesV1`, func() {
 			It(`Invoke NewListZonesOptions successfully`, func() {
 				// Construct an instance of the ListZonesOptions model
 				listZonesOptionsModel := testService.NewListZonesOptions()
+				listZonesOptionsModel.SetPage(int64(38))
+				listZonesOptionsModel.SetPerPage(int64(5))
 				listZonesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listZonesOptionsModel).ToNot(BeNil())
+				Expect(listZonesOptionsModel.Page).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listZonesOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(listZonesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateZoneOptions successfully`, func() {
