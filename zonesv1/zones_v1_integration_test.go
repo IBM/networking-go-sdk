@@ -10,11 +10,11 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
-	. "github.com/IBM/networking-go-sdk/zonesv1"
 	guuid "github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	. "github.com/IBM/networking-go-sdk/zonesv1"
 )
 
 const configFile = "../cis.env"
@@ -59,6 +59,8 @@ var _ = Describe(`zonesv1_test`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
 				listOpt := service.NewListZonesOptions()
+				listOpt.SetPage(1)
+				listOpt.SetPerPage(1000)
 				listResult, listResp, listErr := service.ListZones(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
@@ -79,6 +81,8 @@ var _ = Describe(`zonesv1_test`, func() {
 			AfterEach(func() {
 				shouldSkipTest()
 				listOpt := service.NewListZonesOptions()
+				listOpt.SetPage(1)
+				listOpt.SetPerPage(1000)
 				listResult, listResp, listErr := service.ListZones(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
@@ -157,6 +161,8 @@ var _ = Describe(`zonesv1_test`, func() {
 
 				// list all zones
 				listOpt := service.NewListZonesOptions()
+				listOpt.SetPage(1)
+				listOpt.SetPerPage(1000)
 				listResult, listResp, listErr := service.ListZones(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
