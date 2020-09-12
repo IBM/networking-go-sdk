@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/IBM/networking-go-sdk/compare/v0.6.0...v0.7.0) (2020-09-12)
+
+
+### Features
+
+* **cis zones:** CIS Zones pagination update ([19f6b48](https://github.com/IBM/networking-go-sdk/commit/19f6b482cfe8728b8eb7bd4fc975efdd3a7b1451))
+
 # [0.6.0](https://github.com/IBM/networking-go-sdk/compare/v0.5.0...v0.6.0) (2020-09-07)
 
 
