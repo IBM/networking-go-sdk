@@ -582,9 +582,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
 
-				_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+				_, detailedResponse, err := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
 
+				if err != nil {
+					fmt.Println("Error Successfully request gateway delete using provider account  --- ", gatewayId)
+					fmt.Println(err.Error())
+				}
 				fmt.Println(detailedResponse.StatusCode)
+				fmt.Println("Gateway Id --- ", gatewayId)
 				Expect(detailedResponse.StatusCode).To(Equal(202))
 			})
 
