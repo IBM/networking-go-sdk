@@ -125,7 +125,7 @@ var _ = Describe(`edgefunctionsapiv1_test`, func() {
 				delOpt := testService.NewDeleteEdgeFunctionsActionOptions("test-script")
 				_, _, _ = testService.DeleteEdgeFunctionsAction(delOpt)
 			})
-			It(`upload/delete Edge Functions`, func() {
+			It(`upload/delete/get Edge Functions actions and triggers`, func() {
 				shouldSkipTest()
 
 				// Script upload test
