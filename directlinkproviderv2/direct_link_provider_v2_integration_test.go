@@ -23,7 +23,6 @@ go test -v ./directlinkproviderv2
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -544,18 +543,19 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It("Successfully waits for updated gateway to go back to provisioned state", func() {
 				shouldSkipTest()
 
-				getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+				getProviderGatewayOptions := new(directlinkproviderv2.GetProviderGatewayOptions)
+				getProviderGatewayOptions.ID = core.StringPtr(os.Getenv("GATEWAY_ID"))
 
 				// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
 				// the new gateway to go to provisioned so we can delete it.
 				timer := 0
 				for {
 					// Get the current status for the gateway
-					result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+					result, detailedResponse, err := serviceV2.GetProviderGateway(getProviderGatewayOptions)
 
 					Expect(err).To(BeNil())
 					Expect(detailedResponse.StatusCode).To(Equal(200))
-					fmt.Println("Operational Status after updating gateways - ", *result.OperationalStatus)
 					// if operational status is "provisioned" then we are done
 					if *result.OperationalStatus == "provisioned" {
 						Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
@@ -566,7 +566,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
 					if timer > 24 { // 2 min timer (24x5sec)
-						fmt.Println("Operational Status after timer expired - ", *result.OperationalStatus)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
@@ -615,17 +614,49 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				Expect(result.ChangeRequest).To(BeNil())
 			})
 
+			It("Successfully waits for gateway to go back to provisioned state after reject gateway delete", func() {
+				shouldSkipTest()
+
+				getProviderGatewayOptions := new(directlinkproviderv2.GetProviderGatewayOptions)
+				getProviderGatewayOptions.ID = core.StringPtr(os.Getenv("GATEWAY_ID"))
+
+				// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+				// the new gateway to go to provisioned so we can delete it.
+				timer := 0
+				for {
+					// Get the current status for the gateway
+					result, detailedResponse, err := serviceV2.GetProviderGateway(getProviderGatewayOptions)
+
+					Expect(err).To(BeNil())
+					Expect(detailedResponse.StatusCode).To(Equal(200))
+					// if operational status is "provisioned" then we are done
+					if *result.OperationalStatus == "provisioned" {
+						Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+						Expect(*result.SpeedMbps).To(Equal(updatedSpeedMbps))
+						Expect(*result.OperationalStatus).To(Equal("provisioned"))
+						break
+					}
+
+					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 24 { // 2 min timer (24x5sec)
+						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+						break
+					} else {
+						// Still exists, wait 5 sec
+						time.Sleep(time.Duration(5) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+
 			It("Successfully re-request gateway delete using provider account", func() {
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
 
-				_, detailedResponse, err := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+				_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
 
-				if err != nil {
-					fmt.Println("Successfully re-request gateway delete using provider account Error - ", err.Error())
-				}
 				Expect(detailedResponse.StatusCode).To(Equal(202))
 			})
 
@@ -636,11 +667,8 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					"delete_gateway_approve")
 
 				// Get the current status for the gateway
-				_, detailedResponse, err := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+				_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 
-				if err != nil {
-					fmt.Println("Successfully approve gateway delete using client account Error - ", err.Error())
-				}
 				Expect(detailedResponse.StatusCode).To(Equal(204))
 			})
 		})
