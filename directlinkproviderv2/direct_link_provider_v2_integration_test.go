@@ -23,6 +23,7 @@ go test -v ./directlinkproviderv2
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -554,7 +555,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					Expect(err).To(BeNil())
 					Expect(detailedResponse.StatusCode).To(Equal(200))
-
+					fmt.Println("Operational Status after updating gateways - ", *result.OperationalStatus)
 					// if operational status is "provisioned" then we are done
 					if *result.OperationalStatus == "provisioned" {
 						Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
@@ -565,6 +566,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
 					if timer > 24 { // 2 min timer (24x5sec)
+						fmt.Println("Operational Status after timer expired - ", *result.OperationalStatus)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
