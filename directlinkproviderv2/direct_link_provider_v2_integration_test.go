@@ -23,6 +23,7 @@ go test -v ./directlinkproviderv2
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -583,6 +584,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 				_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
 
+				fmt.Println(detailedResponse.StatusCode)
 				Expect(detailedResponse.StatusCode).To(Equal(202))
 			})
 
