@@ -23,7 +23,6 @@ go test -v ./directlinkproviderv2
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -556,7 +555,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(err).To(BeNil())
 					Expect(detailedResponse.StatusCode).To(Equal(200))
 
-					fmt.Println("After Update status ---- ", *result.OperationalStatus)
 					// if operational status is "provisioned" then we are done
 					if *result.OperationalStatus == "provisioned" {
 						Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
@@ -567,7 +565,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
 					if timer > 24 { // 2 min timer (24x5sec)
-						fmt.Println("After Update and after timer status ---- ", *result.OperationalStatus)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
@@ -584,14 +581,8 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
 
-				_, detailedResponse, err := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+				_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
 
-				if err != nil {
-					fmt.Println("Error Successfully request gateway delete using provider account  --- ", gatewayId)
-					fmt.Println(err.Error())
-				}
-				fmt.Println(detailedResponse.StatusCode)
-				fmt.Println("Gateway Id --- ", gatewayId)
 				Expect(detailedResponse.StatusCode).To(Equal(202))
 			})
 
