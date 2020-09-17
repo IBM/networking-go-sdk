@@ -7,11 +7,11 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
-	"github.com/IBM/networking-go-sdk/dnsrecordbulkv1"
-	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/IBM/networking-go-sdk/dnsrecordbulkv1"
+	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 )
 
 const configFile = "../cis.env"
@@ -69,7 +69,6 @@ var _ = Describe(`DnsRecordBulkV1`, func() {
 	Describe(`CIS_Frontend_API_Spec-DNS_Records_Bulk.yaml`, func() {
 		Context("DnsRecordsbulkV1Options_get", func() {
 			BeforeEach(func() {
-				shouldSkipTest()
 				listResult, listResponse, listErr := dnsTestService.ListAllDnsRecords(dnsTestService.NewListAllDnsRecordsOptions())
 				Expect(listErr).To(BeNil())
 				Expect(listResponse).ToNot(BeNil())
@@ -156,7 +155,6 @@ var _ = Describe(`DnsRecordBulkV1`, func() {
 
 			})
 			AfterEach(func() {
-				shouldSkipTest()
 				result, response, operationErr := dnsTestService.ListAllDnsRecords(dnsTestService.NewListAllDnsRecordsOptions())
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -204,7 +202,7 @@ var _ = Describe(`DnsRecordBulkV1`, func() {
 				}
 				postOptions := testService.NewPostDnsRecordsBulkOptions()
 				var reader io.ReadCloser
-				reader, err = os.Open("../records.txt")
+				reader, err = os.Open("./records.txt")
 				Expect(err).To(BeNil())
 				postOptions.SetFile(reader)
 				postResult, postResponse, postErr := testService.PostDnsRecordsBulk(postOptions)
