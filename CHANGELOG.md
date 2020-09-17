@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/IBM/networking-go-sdk/compare/v0.7.0...v0.8.0) (2020-09-17)
+
+
+### Features
+
+* **CIS:** Edge functions actions and triggers ([3c5f69c](https://github.com/IBM/networking-go-sdk/commit/3c5f69c8389aa2c192759a7232386b95e3dc06d6))
+
 # [0.7.0](https://github.com/IBM/networking-go-sdk/compare/v0.6.0...v0.7.0) (2020-09-12)
 
 
