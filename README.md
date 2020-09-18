@@ -44,7 +44,8 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | Service Name                                                                                                         | Package name                   |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway)                                                | transitgatewayapisv1           |
-| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link)                                                     | directlinkv1                   |
+| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link?code=go)                                             | directlinkv1                   |
+| [Direct Link Provider Service](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=go)                       | directlinkproviderv2           |
 | [CIS: Cache](https://cloud.ibm.com/apidocs/cis?code=go#purge-all)                                                    | cachingapiv1                   |
 | [CIS: IP](https://cloud.ibm.com/apidocs/cis?code=go#list-of-all-ip-addresses-used-by-the-cis-proxy)                  | cisipapiv1                     |
 | [CIS: Custom Pages](https://cloud.ibm.com/apidocs/cis?code=go#list-all-custom-pages-for-a-given-instance)            | custompagesv1                  |
@@ -108,6 +109,7 @@ Go application, like this:
 import (
   "github.com/IBM/networking-go-sdk/transitgatewayapisv1"
   "github.com/IBM/networking-go-sdk/directlinkv1"
+  "github.com/IBM/networking-go-sdk/directlinkproviderv2"
   "github.com/IBM/networking-go-sdk/cachingapiv1"
   "github.com/IBM/networking-go-sdk/cisipapiv1"
   "github.com/IBM/networking-go-sdk/custompagesv1"
