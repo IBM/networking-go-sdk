@@ -526,7 +526,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Locations[0].BillingLocation).NotTo(Equal(""))
 				Expect(*result.Locations[0].BuildingColocationOwner).NotTo(Equal(""))
 				Expect(*result.Locations[0].LocationType).NotTo(Equal(""))
-				Expect(*result.Locations[0].Market).NotTo(Equal(""))
+				// Expect(*result.Locations[0].Market).NotTo(Equal(""))
 				Expect(*result.Locations[0].MarketGeography).NotTo(Equal(""))
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("dedicated"))
@@ -549,7 +549,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				Expect(*result.Locations[0].BillingLocation).NotTo(Equal(""))
 				Expect(*result.Locations[0].LocationType).NotTo(Equal(""))
-				Expect(*result.Locations[0].Market).NotTo(Equal(""))
+				// Expect(*result.Locations[0].Market).NotTo(Equal(""))
 				Expect(*result.Locations[0].MarketGeography).NotTo(Equal(""))
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("connect"))
