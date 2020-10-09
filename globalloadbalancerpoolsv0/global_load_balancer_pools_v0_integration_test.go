@@ -191,12 +191,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				Expect(createResponse).ToNot(BeNil())
 				Expect(createResult).ToNot(BeNil())
 				Expect(*createResult.Success).Should(BeTrue())
+				Expect(*createResult.Result.MinimumOrigins).Should(BeEquivalentTo(1))
+				Expect(createResult.Result.CheckRegions).Should(BeEquivalentTo(regions))
 				poolID := *createResult.Result.ID
 
 				// update glb pool
 				opt := testService.NewEditLoadBalancerPoolOptions(poolID)
 				opt.SetName("glbpooltest-pool2")
-				regions = []string{"WEU", "WNAM"}
+				regions = []string{"WEU", "ENAM"}
 				opt.SetCheckRegions(regions)
 				origin = &LoadBalancerPoolReqOriginsItem{
 					Name:    core.StringPtr("app-server-2"),
@@ -216,6 +218,9 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				Expect(editResponse).ToNot(BeNil())
 				Expect(editResult).ToNot(BeNil())
 				Expect(*editResult.Success).Should(BeTrue())
+				Expect(*createResult.Result.MinimumOrigins).Should(BeEquivalentTo(1))
+				Expect(createResult.Result.CheckRegions[0]).Should(BeEquivalentTo(regions[0]))
+				Expect(createResult.Result.CheckRegions[1]).Should(BeEquivalentTo(regions[1]))
 
 				// get glb pool by id
 				getOpt := testService.NewGetLoadBalancerPoolOptions(poolID)
@@ -240,7 +245,6 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					option.SetName("glbpooltest-pool" + strconv.Itoa(i))
 					regions := []string{"WEU", "ENAM"}
 					option.SetCheckRegions(regions)
-					print("www.test" + strconv.Itoa(i) + ".com")
 					origin := &LoadBalancerPoolReqOriginsItem{
 						Name:    core.StringPtr("app-server-" + strconv.Itoa(i)),
 						Address: core.StringPtr("www.test" + strconv.Itoa(i) + ".com"),
