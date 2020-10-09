@@ -166,7 +166,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					}
 				}
 			})
-			It(`GlobalLoadBalancerPool Test`, func() {
+			It(`GlobalLoadBalancerPoolTest`, func() {
 				// create glb pool
 				option := testService.NewCreateLoadBalancerPoolOptions()
 				option.SetName("glbpooltest-pool1")
