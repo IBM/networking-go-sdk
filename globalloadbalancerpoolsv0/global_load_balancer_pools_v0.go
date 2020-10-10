@@ -717,6 +717,12 @@ type LoadBalancerPoolPackOriginsItem struct {
 
 	// weight.
 	Weight *float64 `json:"weight,omitempty"`
+
+	// Pool origin disabled date.
+	DisabledAt *string `json:"disabled_at,omitempty"`
+
+	// Reason for failure.
+	FailureReason *string `json:"failure_reason,omitempty"`
 }
 
 
@@ -740,6 +746,14 @@ func UnmarshalLoadBalancerPoolPackOriginsItem(m map[string]json.RawMessage, resu
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "weight", &obj.Weight)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "disabled_at", &obj.DisabledAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "failure_reason", &obj.FailureReason)
 	if err != nil {
 		return
 	}
@@ -897,6 +911,12 @@ type LoadBalancerPoolPack struct {
 	// monitor.
 	Monitor *string `json:"monitor,omitempty"`
 
+	// Minimum origin count.
+	MinimumOrigins *int64 `json:"minimum_origins,omitempty"`
+
+	// regions check.
+	CheckRegions []string `json:"check_regions,omitempty"`
+
 	// original.
 	Origins []LoadBalancerPoolPackOriginsItem `json:"origins" validate:"required"`
 
@@ -937,6 +957,14 @@ func UnmarshalLoadBalancerPoolPack(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "monitor", &obj.Monitor)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "minimum_origins", &obj.MinimumOrigins)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "check_regions", &obj.CheckRegions)
 	if err != nil {
 		return
 	}
