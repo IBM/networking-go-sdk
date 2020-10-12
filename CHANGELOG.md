@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/IBM/networking-go-sdk/compare/v0.9.0...v0.10.0) (2020-10-12)
+
+
+### Features
+
+* **CIS:** glb pool regions and origins result update ([998d726](https://github.com/IBM/networking-go-sdk/commit/998d726d1c13c959b24036b023183c02ba051f06))
+
 # [0.9.0](https://github.com/IBM/networking-go-sdk/compare/v0.8.0...v0.9.0) (2020-09-18)
 
 
