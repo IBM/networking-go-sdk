@@ -243,7 +243,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				for i := 1; i < 5; i++ {
 					option := testService.NewCreateLoadBalancerPoolOptions()
 					option.SetName("glbpooltest-pool" + strconv.Itoa(i))
-					regions := []string{"WEU", "WNAM"}
+					regions := []string{"WEU", "ENAM"}
 					option.SetCheckRegions(regions)
 					origin := &LoadBalancerPoolReqOriginsItem{
 						Name:    core.StringPtr("app-server-" + strconv.Itoa(i)),
