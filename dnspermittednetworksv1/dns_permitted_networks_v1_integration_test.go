@@ -1,4 +1,4 @@
-package permittednetworksfordnszonesv1_test
+package dnspermittednetworksv1_test
 
 import (
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	. "github.com/IBM/networking-go-sdk/dnspermittednetworksv1"
 	"github.com/IBM/networking-go-sdk/dnszonesv1"
-	. "github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
 )
 
 const configFile = "../pdns.env"
@@ -42,13 +42,13 @@ var _ = Describe(`permittednetworksfordnszonesv1`, func() {
 	serviceURL := os.Getenv("API_ENDPOINT")
 	instanceID := os.Getenv("INSTANCE_ID")
 	vpcCrn := os.Getenv("VPC_CRN")
-	globalOptions := &PermittedNetworksForDnsZonesV1Options{
+	globalOptions := &DnsPermittedNetworksV1Options{
 		ServiceName:   "pdns_services",
 		URL:           serviceURL,
 		Authenticator: authenticator,
 	}
 
-	service, serviceErr := NewPermittedNetworksForDnsZonesV1(globalOptions)
+	service, serviceErr := NewDnsPermittedNetworksV1(globalOptions)
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}

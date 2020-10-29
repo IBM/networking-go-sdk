@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-/*
- * IBM OpenAPI SDK Code Generator Version: 3.12.0-64fe8d3f-20200820-144050
- */
- 
-
-// Package globalloadbalancersv1 : Operations and models for the GlobalLoadBalancersV1 service
-// Deprecated: This module is deprecated. For more detail https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md
-package globalloadbalancersv1
+// Package dnsgloballoadbalancersv1 : Operations and models for the DnsGlobalLoadBalancersV1 service
+package dnsgloballoadbalancersv1
 
 import (
 	"encoding/json"
@@ -31,10 +25,10 @@ import (
 	"reflect"
 )
 
-// GlobalLoadBalancersV1 : Global Load Balancers
+// DnsGlobalLoadBalancersV1 : Global Load Balancers
 //
 // Version: 1.0.0
-type GlobalLoadBalancersV1 struct {
+type DnsGlobalLoadBalancersV1 struct {
 	Service *core.BaseService
 }
 
@@ -42,17 +36,17 @@ type GlobalLoadBalancersV1 struct {
 const DefaultServiceURL = "https://api.dns-svcs.cloud.ibm.com/v1"
 
 // DefaultServiceName is the default key used to find external configuration information.
-const DefaultServiceName = "global_load_balancers"
+const DefaultServiceName = "dns_global_load_balancers"
 
-// GlobalLoadBalancersV1Options : Service options
-type GlobalLoadBalancersV1Options struct {
+// DnsGlobalLoadBalancersV1Options : Service options
+type DnsGlobalLoadBalancersV1Options struct {
 	ServiceName   string
 	URL           string
 	Authenticator core.Authenticator
 }
 
-// NewGlobalLoadBalancersV1UsingExternalConfig : constructs an instance of GlobalLoadBalancersV1 with passed in options and external configuration.
-func NewGlobalLoadBalancersV1UsingExternalConfig(options *GlobalLoadBalancersV1Options) (globalLoadBalancers *GlobalLoadBalancersV1, err error) {
+// NewDnsGlobalLoadBalancersV1UsingExternalConfig : constructs an instance of DnsGlobalLoadBalancersV1 with passed in options and external configuration.
+func NewDnsGlobalLoadBalancersV1UsingExternalConfig(options *DnsGlobalLoadBalancersV1Options) (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1, err error) {
 	if options.ServiceName == "" {
 		options.ServiceName = DefaultServiceName
 	}
@@ -64,24 +58,24 @@ func NewGlobalLoadBalancersV1UsingExternalConfig(options *GlobalLoadBalancersV1O
 		}
 	}
 
-	globalLoadBalancers, err = NewGlobalLoadBalancersV1(options)
+	dnsGlobalLoadBalancers, err = NewDnsGlobalLoadBalancersV1(options)
 	if err != nil {
 		return
 	}
 
-	err = globalLoadBalancers.Service.ConfigureService(options.ServiceName)
+	err = dnsGlobalLoadBalancers.Service.ConfigureService(options.ServiceName)
 	if err != nil {
 		return
 	}
 
 	if options.URL != "" {
-		err = globalLoadBalancers.Service.SetServiceURL(options.URL)
+		err = dnsGlobalLoadBalancers.Service.SetServiceURL(options.URL)
 	}
 	return
 }
 
-// NewGlobalLoadBalancersV1 : constructs an instance of GlobalLoadBalancersV1 with passed in options.
-func NewGlobalLoadBalancersV1(options *GlobalLoadBalancersV1Options) (service *GlobalLoadBalancersV1, err error) {
+// NewDnsGlobalLoadBalancersV1 : constructs an instance of DnsGlobalLoadBalancersV1 with passed in options.
+func NewDnsGlobalLoadBalancersV1(options *DnsGlobalLoadBalancersV1Options) (service *DnsGlobalLoadBalancersV1, err error) {
 	serviceOptions := &core.ServiceOptions{
 		URL:           DefaultServiceURL,
 		Authenticator: options.Authenticator,
@@ -99,7 +93,7 @@ func NewGlobalLoadBalancersV1(options *GlobalLoadBalancersV1Options) (service *G
 		}
 	}
 
-	service = &GlobalLoadBalancersV1{
+	service = &DnsGlobalLoadBalancersV1{
 		Service: baseService,
 	}
 
@@ -107,13 +101,13 @@ func NewGlobalLoadBalancersV1(options *GlobalLoadBalancersV1Options) (service *G
 }
 
 // SetServiceURL sets the service URL
-func (globalLoadBalancers *GlobalLoadBalancersV1) SetServiceURL(url string) error {
-	return globalLoadBalancers.Service.SetServiceURL(url)
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) SetServiceURL(url string) error {
+	return dnsGlobalLoadBalancers.Service.SetServiceURL(url)
 }
 
 // ListLoadBalancers : List load balancers
 // List the Global Load Balancers for a given DNS zone.
-func (globalLoadBalancers *GlobalLoadBalancersV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) (result *ListLoadBalancers, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) (result *ListLoadBalancers, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancersOptions, "listLoadBalancersOptions cannot be nil")
 	if err != nil {
 		return
@@ -127,7 +121,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListLoadBalancers(listLoadBala
 	pathParameters := []string{*listLoadBalancersOptions.InstanceID, *listLoadBalancersOptions.DnszoneID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -136,7 +130,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListLoadBalancers(listLoadBala
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "ListLoadBalancers")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "ListLoadBalancers")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -151,7 +145,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListLoadBalancers(listLoadBala
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -166,7 +160,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListLoadBalancers(listLoadBala
 
 // CreateLoadBalancer : Create a load balancer
 // Create a load balancer for a given DNS zone.
-func (globalLoadBalancers *GlobalLoadBalancersV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerOptions, "createLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -180,7 +174,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateLoadBalancer(createLoadB
 	pathParameters := []string{*createLoadBalancerOptions.InstanceID, *createLoadBalancerOptions.DnszoneID}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -189,7 +183,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateLoadBalancer(createLoadB
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "CreateLoadBalancer")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "CreateLoadBalancer")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -232,7 +226,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateLoadBalancer(createLoadB
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -247,7 +241,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateLoadBalancer(createLoadB
 
 // DeleteLoadBalancer : Delete a load balancer
 // Delete a load balancer.
-func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerOptions, "deleteLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -261,7 +255,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteLoadBalancer(deleteLoadB
 	pathParameters := []string{*deleteLoadBalancerOptions.InstanceID, *deleteLoadBalancerOptions.DnszoneID, *deleteLoadBalancerOptions.LbID}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -270,7 +264,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteLoadBalancer(deleteLoadB
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "DeleteLoadBalancer")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "DeleteLoadBalancer")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -283,14 +277,14 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteLoadBalancer(deleteLoadB
 		return
 	}
 
-	response, err = globalLoadBalancers.Service.Request(request, nil)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, nil)
 
 	return
 }
 
 // GetLoadBalancer : Get a load balancer
 // Get details of a load balancer.
-func (globalLoadBalancers *GlobalLoadBalancersV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerOptions, "getLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -304,7 +298,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetLoadBalancer(getLoadBalance
 	pathParameters := []string{*getLoadBalancerOptions.InstanceID, *getLoadBalancerOptions.DnszoneID, *getLoadBalancerOptions.LbID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -313,7 +307,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetLoadBalancer(getLoadBalance
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "GetLoadBalancer")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "GetLoadBalancer")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -328,7 +322,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetLoadBalancer(getLoadBalance
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -343,7 +337,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetLoadBalancer(getLoadBalance
 
 // UpdateLoadBalancer : Update the properties of a load balancer
 // Update the properties of a load balancer.
-func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerOptions, "updateLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -357,7 +351,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateLoadBalancer(updateLoadB
 	pathParameters := []string{*updateLoadBalancerOptions.InstanceID, *updateLoadBalancerOptions.DnszoneID, *updateLoadBalancerOptions.LbID}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -366,7 +360,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateLoadBalancer(updateLoadB
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "UpdateLoadBalancer")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "UpdateLoadBalancer")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -409,7 +403,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateLoadBalancer(updateLoadB
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -424,7 +418,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateLoadBalancer(updateLoadB
 
 // ListPools : List load balancer pools
 // List the load balancer pools.
-func (globalLoadBalancers *GlobalLoadBalancersV1) ListPools(listPoolsOptions *ListPoolsOptions) (result *ListPools, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) ListPools(listPoolsOptions *ListPoolsOptions) (result *ListPools, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listPoolsOptions, "listPoolsOptions cannot be nil")
 	if err != nil {
 		return
@@ -438,7 +432,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListPools(listPoolsOptions *Li
 	pathParameters := []string{*listPoolsOptions.InstanceID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -447,7 +441,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListPools(listPoolsOptions *Li
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "ListPools")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "ListPools")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -462,7 +456,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListPools(listPoolsOptions *Li
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -477,7 +471,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListPools(listPoolsOptions *Li
 
 // CreatePool : Create a load balancer pool
 // Create a load balancer pool.
-func (globalLoadBalancers *GlobalLoadBalancersV1) CreatePool(createPoolOptions *CreatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) CreatePool(createPoolOptions *CreatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPoolOptions, "createPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -491,7 +485,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreatePool(createPoolOptions *
 	pathParameters := []string{*createPoolOptions.InstanceID}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -500,7 +494,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreatePool(createPoolOptions *
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "CreatePool")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "CreatePool")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -549,7 +543,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreatePool(createPoolOptions *
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -564,7 +558,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreatePool(createPoolOptions *
 
 // DeletePool : Delete a load balancer pool
 // Delete a load balancer pool.
-func (globalLoadBalancers *GlobalLoadBalancersV1) DeletePool(deletePoolOptions *DeletePoolOptions) (response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) DeletePool(deletePoolOptions *DeletePoolOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deletePoolOptions, "deletePoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -578,7 +572,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeletePool(deletePoolOptions *
 	pathParameters := []string{*deletePoolOptions.InstanceID, *deletePoolOptions.PoolID}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -587,7 +581,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeletePool(deletePoolOptions *
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "DeletePool")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "DeletePool")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -600,14 +594,14 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeletePool(deletePoolOptions *
 		return
 	}
 
-	response, err = globalLoadBalancers.Service.Request(request, nil)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, nil)
 
 	return
 }
 
 // GetPool : Get a load balancer pool
 // Get details of a load balancer pool.
-func (globalLoadBalancers *GlobalLoadBalancersV1) GetPool(getPoolOptions *GetPoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) GetPool(getPoolOptions *GetPoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPoolOptions, "getPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -621,7 +615,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetPool(getPoolOptions *GetPoo
 	pathParameters := []string{*getPoolOptions.InstanceID, *getPoolOptions.PoolID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -630,7 +624,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetPool(getPoolOptions *GetPoo
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "GetPool")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "GetPool")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -645,7 +639,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetPool(getPoolOptions *GetPoo
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -660,7 +654,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetPool(getPoolOptions *GetPoo
 
 // UpdatePool : Update the properties of a load balancer pool
 // Update the properties of a load balancer pool.
-func (globalLoadBalancers *GlobalLoadBalancersV1) UpdatePool(updatePoolOptions *UpdatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) UpdatePool(updatePoolOptions *UpdatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePoolOptions, "updatePoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -674,7 +668,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdatePool(updatePoolOptions *
 	pathParameters := []string{*updatePoolOptions.InstanceID, *updatePoolOptions.PoolID}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -683,7 +677,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdatePool(updatePoolOptions *
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "UpdatePool")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "UpdatePool")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -732,7 +726,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdatePool(updatePoolOptions *
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -747,7 +741,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdatePool(updatePoolOptions *
 
 // ListMonitors : List load balancer monitors
 // List the load balancer monitors.
-func (globalLoadBalancers *GlobalLoadBalancersV1) ListMonitors(listMonitorsOptions *ListMonitorsOptions) (result *ListMonitors, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) ListMonitors(listMonitorsOptions *ListMonitorsOptions) (result *ListMonitors, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listMonitorsOptions, "listMonitorsOptions cannot be nil")
 	if err != nil {
 		return
@@ -761,7 +755,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListMonitors(listMonitorsOptio
 	pathParameters := []string{*listMonitorsOptions.InstanceID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -770,7 +764,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListMonitors(listMonitorsOptio
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "ListMonitors")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "ListMonitors")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -785,7 +779,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListMonitors(listMonitorsOptio
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -800,7 +794,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) ListMonitors(listMonitorsOptio
 
 // CreateMonitor : Create a load balancer monitor
 // Create a load balancer monitor.
-func (globalLoadBalancers *GlobalLoadBalancersV1) CreateMonitor(createMonitorOptions *CreateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) CreateMonitor(createMonitorOptions *CreateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createMonitorOptions, "createMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -814,7 +808,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateMonitor(createMonitorOpt
 	pathParameters := []string{*createMonitorOptions.InstanceID}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -823,7 +817,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateMonitor(createMonitorOpt
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "CreateMonitor")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "CreateMonitor")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -884,7 +878,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateMonitor(createMonitorOpt
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -899,7 +893,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) CreateMonitor(createMonitorOpt
 
 // DeleteMonitor : Delete a load balancer monitor
 // Delete a load balancer monitor.
-func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteMonitor(deleteMonitorOptions *DeleteMonitorOptions) (response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) DeleteMonitor(deleteMonitorOptions *DeleteMonitorOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteMonitorOptions, "deleteMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -913,7 +907,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteMonitor(deleteMonitorOpt
 	pathParameters := []string{*deleteMonitorOptions.InstanceID, *deleteMonitorOptions.MonitorID}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -922,7 +916,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteMonitor(deleteMonitorOpt
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "DeleteMonitor")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "DeleteMonitor")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -935,14 +929,14 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) DeleteMonitor(deleteMonitorOpt
 		return
 	}
 
-	response, err = globalLoadBalancers.Service.Request(request, nil)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, nil)
 
 	return
 }
 
 // GetMonitor : Get a load balancer monitor
 // Get details of a load balancer monitor.
-func (globalLoadBalancers *GlobalLoadBalancersV1) GetMonitor(getMonitorOptions *GetMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) GetMonitor(getMonitorOptions *GetMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getMonitorOptions, "getMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -956,7 +950,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetMonitor(getMonitorOptions *
 	pathParameters := []string{*getMonitorOptions.InstanceID, *getMonitorOptions.MonitorID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -965,7 +959,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetMonitor(getMonitorOptions *
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "GetMonitor")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "GetMonitor")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -980,7 +974,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetMonitor(getMonitorOptions *
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -995,7 +989,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) GetMonitor(getMonitorOptions *
 
 // UpdateMonitor : Update the properties of a load balancer monitor
 // Update the properties of a load balancer monitor.
-func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateMonitor(updateMonitorOptions *UpdateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
+func (dnsGlobalLoadBalancers *DnsGlobalLoadBalancersV1) UpdateMonitor(updateMonitorOptions *UpdateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateMonitorOptions, "updateMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -1009,7 +1003,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateMonitor(updateMonitorOpt
 	pathParameters := []string{*updateMonitorOptions.InstanceID, *updateMonitorOptions.MonitorID}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsGlobalLoadBalancers.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -1018,7 +1012,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateMonitor(updateMonitorOpt
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("global_load_balancers", "V1", "UpdateMonitor")
+	sdkHeaders := common.GetSdkHeaders("dns_global_load_balancers", "V1", "UpdateMonitor")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -1079,7 +1073,7 @@ func (globalLoadBalancers *GlobalLoadBalancersV1) UpdateMonitor(updateMonitorOpt
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = globalLoadBalancers.Service.Request(request, &rawResponse)
+	response, err = dnsGlobalLoadBalancers.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -1130,7 +1124,7 @@ type CreateLoadBalancerOptions struct {
 }
 
 // NewCreateLoadBalancerOptions : Instantiate CreateLoadBalancerOptions
-func (*GlobalLoadBalancersV1) NewCreateLoadBalancerOptions(instanceID string, dnszoneID string) *CreateLoadBalancerOptions {
+func (*DnsGlobalLoadBalancersV1) NewCreateLoadBalancerOptions(instanceID string, dnszoneID string) *CreateLoadBalancerOptions {
 	return &CreateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -1276,7 +1270,7 @@ const (
 )
 
 // NewCreateMonitorOptions : Instantiate CreateMonitorOptions
-func (*GlobalLoadBalancersV1) NewCreateMonitorOptions(instanceID string) *CreateMonitorOptions {
+func (*DnsGlobalLoadBalancersV1) NewCreateMonitorOptions(instanceID string) *CreateMonitorOptions {
 	return &CreateMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
 	}
@@ -1431,7 +1425,7 @@ const (
 )
 
 // NewCreatePoolOptions : Instantiate CreatePoolOptions
-func (*GlobalLoadBalancersV1) NewCreatePoolOptions(instanceID string) *CreatePoolOptions {
+func (*DnsGlobalLoadBalancersV1) NewCreatePoolOptions(instanceID string) *CreatePoolOptions {
 	return &CreatePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
 	}
@@ -1528,7 +1522,7 @@ type DeleteLoadBalancerOptions struct {
 }
 
 // NewDeleteLoadBalancerOptions : Instantiate DeleteLoadBalancerOptions
-func (*GlobalLoadBalancersV1) NewDeleteLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *DeleteLoadBalancerOptions {
+func (*DnsGlobalLoadBalancersV1) NewDeleteLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *DeleteLoadBalancerOptions {
 	return &DeleteLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -1582,7 +1576,7 @@ type DeleteMonitorOptions struct {
 }
 
 // NewDeleteMonitorOptions : Instantiate DeleteMonitorOptions
-func (*GlobalLoadBalancersV1) NewDeleteMonitorOptions(instanceID string, monitorID string) *DeleteMonitorOptions {
+func (*DnsGlobalLoadBalancersV1) NewDeleteMonitorOptions(instanceID string, monitorID string) *DeleteMonitorOptions {
 	return &DeleteMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
 		MonitorID: core.StringPtr(monitorID),
@@ -1629,7 +1623,7 @@ type DeletePoolOptions struct {
 }
 
 // NewDeletePoolOptions : Instantiate DeletePoolOptions
-func (*GlobalLoadBalancersV1) NewDeletePoolOptions(instanceID string, poolID string) *DeletePoolOptions {
+func (*DnsGlobalLoadBalancersV1) NewDeletePoolOptions(instanceID string, poolID string) *DeletePoolOptions {
 	return &DeletePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
 		PoolID: core.StringPtr(poolID),
@@ -1679,7 +1673,7 @@ type GetLoadBalancerOptions struct {
 }
 
 // NewGetLoadBalancerOptions : Instantiate GetLoadBalancerOptions
-func (*GlobalLoadBalancersV1) NewGetLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *GetLoadBalancerOptions {
+func (*DnsGlobalLoadBalancersV1) NewGetLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *GetLoadBalancerOptions {
 	return &GetLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -1733,7 +1727,7 @@ type GetMonitorOptions struct {
 }
 
 // NewGetMonitorOptions : Instantiate GetMonitorOptions
-func (*GlobalLoadBalancersV1) NewGetMonitorOptions(instanceID string, monitorID string) *GetMonitorOptions {
+func (*DnsGlobalLoadBalancersV1) NewGetMonitorOptions(instanceID string, monitorID string) *GetMonitorOptions {
 	return &GetMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
 		MonitorID: core.StringPtr(monitorID),
@@ -1780,7 +1774,7 @@ type GetPoolOptions struct {
 }
 
 // NewGetPoolOptions : Instantiate GetPoolOptions
-func (*GlobalLoadBalancersV1) NewGetPoolOptions(instanceID string, poolID string) *GetPoolOptions {
+func (*DnsGlobalLoadBalancersV1) NewGetPoolOptions(instanceID string, poolID string) *GetPoolOptions {
 	return &GetPoolOptions{
 		InstanceID: core.StringPtr(instanceID),
 		PoolID: core.StringPtr(poolID),
@@ -1827,7 +1821,7 @@ type ListLoadBalancersOptions struct {
 }
 
 // NewListLoadBalancersOptions : Instantiate ListLoadBalancersOptions
-func (*GlobalLoadBalancersV1) NewListLoadBalancersOptions(instanceID string, dnszoneID string) *ListLoadBalancersOptions {
+func (*DnsGlobalLoadBalancersV1) NewListLoadBalancersOptions(instanceID string, dnszoneID string) *ListLoadBalancersOptions {
 	return &ListLoadBalancersOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -1871,7 +1865,7 @@ type ListMonitorsOptions struct {
 }
 
 // NewListMonitorsOptions : Instantiate ListMonitorsOptions
-func (*GlobalLoadBalancersV1) NewListMonitorsOptions(instanceID string) *ListMonitorsOptions {
+func (*DnsGlobalLoadBalancersV1) NewListMonitorsOptions(instanceID string) *ListMonitorsOptions {
 	return &ListMonitorsOptions{
 		InstanceID: core.StringPtr(instanceID),
 	}
@@ -1908,7 +1902,7 @@ type ListPoolsOptions struct {
 }
 
 // NewListPoolsOptions : Instantiate ListPoolsOptions
-func (*GlobalLoadBalancersV1) NewListPoolsOptions(instanceID string) *ListPoolsOptions {
+func (*DnsGlobalLoadBalancersV1) NewListPoolsOptions(instanceID string) *ListPoolsOptions {
 	return &ListPoolsOptions{
 		InstanceID: core.StringPtr(instanceID),
 	}
@@ -1998,7 +1992,7 @@ type UpdateLoadBalancerOptions struct {
 }
 
 // NewUpdateLoadBalancerOptions : Instantiate UpdateLoadBalancerOptions
-func (*GlobalLoadBalancersV1) NewUpdateLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *UpdateLoadBalancerOptions {
+func (*DnsGlobalLoadBalancersV1) NewUpdateLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *UpdateLoadBalancerOptions {
 	return &UpdateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -2155,7 +2149,7 @@ const (
 )
 
 // NewUpdateMonitorOptions : Instantiate UpdateMonitorOptions
-func (*GlobalLoadBalancersV1) NewUpdateMonitorOptions(instanceID string, monitorID string) *UpdateMonitorOptions {
+func (*DnsGlobalLoadBalancersV1) NewUpdateMonitorOptions(instanceID string, monitorID string) *UpdateMonitorOptions {
 	return &UpdateMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
 		MonitorID: core.StringPtr(monitorID),
@@ -2320,7 +2314,7 @@ const (
 )
 
 // NewUpdatePoolOptions : Instantiate UpdatePoolOptions
-func (*GlobalLoadBalancersV1) NewUpdatePoolOptions(instanceID string, poolID string) *UpdatePoolOptions {
+func (*DnsGlobalLoadBalancersV1) NewUpdatePoolOptions(instanceID string, poolID string) *UpdatePoolOptions {
 	return &UpdatePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
 		PoolID: core.StringPtr(poolID),
@@ -2434,7 +2428,7 @@ type HealthcheckHeader struct {
 
 
 // NewHealthcheckHeader : Instantiate HealthcheckHeader (Generic Model Constructor)
-func (*GlobalLoadBalancersV1) NewHealthcheckHeader(name string, value []string) (model *HealthcheckHeader, err error) {
+func (*DnsGlobalLoadBalancersV1) NewHealthcheckHeader(name string, value []string) (model *HealthcheckHeader, err error) {
 	model = &HealthcheckHeader{
 		Name: core.StringPtr(name),
 		Value: value,

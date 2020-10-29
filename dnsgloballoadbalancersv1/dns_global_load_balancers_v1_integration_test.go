@@ -1,4 +1,4 @@
-package globalloadbalancersv1_test
+package dnsgloballoadbalancersv1_test
 
 import (
 	"fmt"
@@ -12,8 +12,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	. "github.com/IBM/networking-go-sdk/dnsgloballoadbalancersv1"
 	"github.com/IBM/networking-go-sdk/dnszonesv1"
-	. "github.com/IBM/networking-go-sdk/globalloadbalancersv1"
 )
 
 const configFile = "../pdns.env"
@@ -42,7 +42,7 @@ var _ = Describe(`PDNSgloballoadbalancersv1`, func() {
 	}
 	serviceURL := os.Getenv("API_ENDPOINT")
 	instanceID := os.Getenv("INSTANCE_ID")
-	dnsRecordOptions := &GlobalLoadBalancersV1Options{
+	dnsRecordOptions := &DnsGlobalLoadBalancersV1Options{
 		ServiceName:   "pdns_glb_services",
 		URL:           serviceURL,
 		Authenticator: authenticator,
@@ -54,7 +54,7 @@ var _ = Describe(`PDNSgloballoadbalancersv1`, func() {
 		Authenticator: authenticator,
 	}
 
-	service, serviceErr := NewGlobalLoadBalancersV1(dnsRecordOptions)
+	service, serviceErr := NewDnsGlobalLoadBalancersV1(dnsRecordOptions)
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
@@ -77,7 +77,7 @@ var _ = Describe(`PDNSgloballoadbalancersv1`, func() {
 				Expect(listResult).ToNot(BeNil())
 				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
 				for _, zone := range listResult.Dnszones {
-					if strings.Contains(*zone.Name, "test-example") {
+					if strings.Contains(*zone.Name, "glb-example") {
 						//delete all PDNS GLB load balancers
 						listLoadBalancerOptions := service.NewListLoadBalancersOptions(instanceID, *zone.ID)
 						listLoadBalancerResult, listLoadBalancerResp, listLoadBalancerErr := service.ListLoadBalancers(listLoadBalancerOptions)
@@ -127,7 +127,7 @@ var _ = Describe(`PDNSgloballoadbalancersv1`, func() {
 				}
 
 				// Create DNS Zone
-				zoneName := fmt.Sprintf("test-example%s.com", guuid.New().String())
+				zoneName := fmt.Sprintf("glb-example%s.com", guuid.New().String())
 				createDnszoneOptions := zoneService.NewCreateDnszoneOptions(instanceID)
 				createDnszoneOptions.SetName(zoneName)
 				createDnszoneOptions.SetDescription("testString")
@@ -151,7 +151,7 @@ var _ = Describe(`PDNSgloballoadbalancersv1`, func() {
 				Expect(listResult).ToNot(BeNil())
 				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
 				for _, zone := range listResult.Dnszones {
-					if strings.Contains(*zone.Name, "test-example") {
+					if strings.Contains(*zone.Name, "glb-example") {
 						//delete all PDNS GLB load balancers
 						listLoadBalancerOptions := service.NewListLoadBalancersOptions(instanceID, *zone.ID)
 						listLoadBalancerResult, listLoadBalancerResp, listLoadBalancerErr := service.ListLoadBalancers(listLoadBalancerOptions)

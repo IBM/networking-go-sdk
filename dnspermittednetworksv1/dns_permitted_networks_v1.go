@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-// Package permittednetworksfordnszonesv1 : Operations and models for the PermittedNetworksForDnsZonesV1 service
-// Deprecated: This module is deprecated. For more detail https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md
-package permittednetworksfordnszonesv1
+// Package dnspermittednetworksv1 : Operations and models for the DnsPermittedNetworksV1 service
+package dnspermittednetworksv1
 
 import (
 	"encoding/json"
@@ -26,10 +25,10 @@ import (
 	"reflect"
 )
 
-// PermittedNetworksForDnsZonesV1 : Permitted Networks for DNS Zones
+// DnsPermittedNetworksV1 : Permitted Networks for DNS Zones
 //
 // Version: 1.0.0
-type PermittedNetworksForDnsZonesV1 struct {
+type DnsPermittedNetworksV1 struct {
 	Service *core.BaseService
 }
 
@@ -37,17 +36,17 @@ type PermittedNetworksForDnsZonesV1 struct {
 const DefaultServiceURL = "https://api.dns-svcs.cloud.ibm.com/v1"
 
 // DefaultServiceName is the default key used to find external configuration information.
-const DefaultServiceName = "permitted_networks_for_dns_zones"
+const DefaultServiceName = "dns_permitted_networks"
 
-// PermittedNetworksForDnsZonesV1Options : Service options
-type PermittedNetworksForDnsZonesV1Options struct {
+// DnsPermittedNetworksV1Options : Service options
+type DnsPermittedNetworksV1Options struct {
 	ServiceName   string
 	URL           string
 	Authenticator core.Authenticator
 }
 
-// NewPermittedNetworksForDnsZonesV1UsingExternalConfig : constructs an instance of PermittedNetworksForDnsZonesV1 with passed in options and external configuration.
-func NewPermittedNetworksForDnsZonesV1UsingExternalConfig(options *PermittedNetworksForDnsZonesV1Options) (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1, err error) {
+// NewDnsPermittedNetworksV1UsingExternalConfig : constructs an instance of DnsPermittedNetworksV1 with passed in options and external configuration.
+func NewDnsPermittedNetworksV1UsingExternalConfig(options *DnsPermittedNetworksV1Options) (dnsPermittedNetworks *DnsPermittedNetworksV1, err error) {
 	if options.ServiceName == "" {
 		options.ServiceName = DefaultServiceName
 	}
@@ -59,24 +58,24 @@ func NewPermittedNetworksForDnsZonesV1UsingExternalConfig(options *PermittedNetw
 		}
 	}
 
-	permittedNetworksForDnsZones, err = NewPermittedNetworksForDnsZonesV1(options)
+	dnsPermittedNetworks, err = NewDnsPermittedNetworksV1(options)
 	if err != nil {
 		return
 	}
 
-	err = permittedNetworksForDnsZones.Service.ConfigureService(options.ServiceName)
+	err = dnsPermittedNetworks.Service.ConfigureService(options.ServiceName)
 	if err != nil {
 		return
 	}
 
 	if options.URL != "" {
-		err = permittedNetworksForDnsZones.Service.SetServiceURL(options.URL)
+		err = dnsPermittedNetworks.Service.SetServiceURL(options.URL)
 	}
 	return
 }
 
-// NewPermittedNetworksForDnsZonesV1 : constructs an instance of PermittedNetworksForDnsZonesV1 with passed in options.
-func NewPermittedNetworksForDnsZonesV1(options *PermittedNetworksForDnsZonesV1Options) (service *PermittedNetworksForDnsZonesV1, err error) {
+// NewDnsPermittedNetworksV1 : constructs an instance of DnsPermittedNetworksV1 with passed in options.
+func NewDnsPermittedNetworksV1(options *DnsPermittedNetworksV1Options) (service *DnsPermittedNetworksV1, err error) {
 	serviceOptions := &core.ServiceOptions{
 		URL:           DefaultServiceURL,
 		Authenticator: options.Authenticator,
@@ -94,7 +93,7 @@ func NewPermittedNetworksForDnsZonesV1(options *PermittedNetworksForDnsZonesV1Op
 		}
 	}
 
-	service = &PermittedNetworksForDnsZonesV1{
+	service = &DnsPermittedNetworksV1{
 		Service: baseService,
 	}
 
@@ -102,13 +101,13 @@ func NewPermittedNetworksForDnsZonesV1(options *PermittedNetworksForDnsZonesV1Op
 }
 
 // SetServiceURL sets the service URL
-func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) SetServiceURL(url string) error {
-	return permittedNetworksForDnsZones.Service.SetServiceURL(url)
+func (dnsPermittedNetworks *DnsPermittedNetworksV1) SetServiceURL(url string) error {
+	return dnsPermittedNetworks.Service.SetServiceURL(url)
 }
 
 // ListPermittedNetworks : List permitted networks
 // List the permitted networks for a given DNS zone.
-func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) ListPermittedNetworks(listPermittedNetworksOptions *ListPermittedNetworksOptions) (result *ListPermittedNetworks, response *core.DetailedResponse, err error) {
+func (dnsPermittedNetworks *DnsPermittedNetworksV1) ListPermittedNetworks(listPermittedNetworksOptions *ListPermittedNetworksOptions) (result *ListPermittedNetworks, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listPermittedNetworksOptions, "listPermittedNetworksOptions cannot be nil")
 	if err != nil {
 		return
@@ -122,7 +121,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) ListPermitte
 	pathParameters := []string{*listPermittedNetworksOptions.InstanceID, *listPermittedNetworksOptions.DnszoneID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(permittedNetworksForDnsZones.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsPermittedNetworks.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -131,7 +130,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) ListPermitte
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("permitted_networks_for_dns_zones", "V1", "ListPermittedNetworks")
+	sdkHeaders := common.GetSdkHeaders("dns_permitted_networks", "V1", "ListPermittedNetworks")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -153,7 +152,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) ListPermitte
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = permittedNetworksForDnsZones.Service.Request(request, &rawResponse)
+	response, err = dnsPermittedNetworks.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -168,7 +167,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) ListPermitte
 
 // CreatePermittedNetwork : Create a permitted network
 // Create a permitted network for a given DNS zone.
-func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) CreatePermittedNetwork(createPermittedNetworkOptions *CreatePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
+func (dnsPermittedNetworks *DnsPermittedNetworksV1) CreatePermittedNetwork(createPermittedNetworkOptions *CreatePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPermittedNetworkOptions, "createPermittedNetworkOptions cannot be nil")
 	if err != nil {
 		return
@@ -182,7 +181,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) CreatePermit
 	pathParameters := []string{*createPermittedNetworkOptions.InstanceID, *createPermittedNetworkOptions.DnszoneID}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(permittedNetworksForDnsZones.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsPermittedNetworks.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -191,7 +190,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) CreatePermit
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("permitted_networks_for_dns_zones", "V1", "CreatePermittedNetwork")
+	sdkHeaders := common.GetSdkHeaders("dns_permitted_networks", "V1", "CreatePermittedNetwork")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -219,7 +218,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) CreatePermit
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = permittedNetworksForDnsZones.Service.Request(request, &rawResponse)
+	response, err = dnsPermittedNetworks.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -234,7 +233,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) CreatePermit
 
 // DeletePermittedNetwork : Remove a permitted network
 // Remove a permitted network.
-func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) DeletePermittedNetwork(deletePermittedNetworkOptions *DeletePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
+func (dnsPermittedNetworks *DnsPermittedNetworksV1) DeletePermittedNetwork(deletePermittedNetworkOptions *DeletePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deletePermittedNetworkOptions, "deletePermittedNetworkOptions cannot be nil")
 	if err != nil {
 		return
@@ -248,7 +247,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) DeletePermit
 	pathParameters := []string{*deletePermittedNetworkOptions.InstanceID, *deletePermittedNetworkOptions.DnszoneID, *deletePermittedNetworkOptions.PermittedNetworkID}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(permittedNetworksForDnsZones.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsPermittedNetworks.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -257,7 +256,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) DeletePermit
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("permitted_networks_for_dns_zones", "V1", "DeletePermittedNetwork")
+	sdkHeaders := common.GetSdkHeaders("dns_permitted_networks", "V1", "DeletePermittedNetwork")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -272,7 +271,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) DeletePermit
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = permittedNetworksForDnsZones.Service.Request(request, &rawResponse)
+	response, err = dnsPermittedNetworks.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -287,7 +286,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) DeletePermit
 
 // GetPermittedNetwork : Get a permitted network
 // Get details of a permitted network.
-func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) GetPermittedNetwork(getPermittedNetworkOptions *GetPermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
+func (dnsPermittedNetworks *DnsPermittedNetworksV1) GetPermittedNetwork(getPermittedNetworkOptions *GetPermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPermittedNetworkOptions, "getPermittedNetworkOptions cannot be nil")
 	if err != nil {
 		return
@@ -301,7 +300,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) GetPermitted
 	pathParameters := []string{*getPermittedNetworkOptions.InstanceID, *getPermittedNetworkOptions.DnszoneID, *getPermittedNetworkOptions.PermittedNetworkID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(permittedNetworksForDnsZones.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsPermittedNetworks.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -310,7 +309,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) GetPermitted
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("permitted_networks_for_dns_zones", "V1", "GetPermittedNetwork")
+	sdkHeaders := common.GetSdkHeaders("dns_permitted_networks", "V1", "GetPermittedNetwork")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -325,7 +324,7 @@ func (permittedNetworksForDnsZones *PermittedNetworksForDnsZonesV1) GetPermitted
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = permittedNetworksForDnsZones.Service.Request(request, &rawResponse)
+	response, err = dnsPermittedNetworks.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -366,7 +365,7 @@ const (
 )
 
 // NewCreatePermittedNetworkOptions : Instantiate CreatePermittedNetworkOptions
-func (*PermittedNetworksForDnsZonesV1) NewCreatePermittedNetworkOptions(instanceID string, dnszoneID string) *CreatePermittedNetworkOptions {
+func (*DnsPermittedNetworksV1) NewCreatePermittedNetworkOptions(instanceID string, dnszoneID string) *CreatePermittedNetworkOptions {
 	return &CreatePermittedNetworkOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -428,7 +427,7 @@ type DeletePermittedNetworkOptions struct {
 }
 
 // NewDeletePermittedNetworkOptions : Instantiate DeletePermittedNetworkOptions
-func (*PermittedNetworksForDnsZonesV1) NewDeletePermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *DeletePermittedNetworkOptions {
+func (*DnsPermittedNetworksV1) NewDeletePermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *DeletePermittedNetworkOptions {
 	return &DeletePermittedNetworkOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -485,7 +484,7 @@ type GetPermittedNetworkOptions struct {
 }
 
 // NewGetPermittedNetworkOptions : Instantiate GetPermittedNetworkOptions
-func (*PermittedNetworksForDnsZonesV1) NewGetPermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *GetPermittedNetworkOptions {
+func (*DnsPermittedNetworksV1) NewGetPermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *GetPermittedNetworkOptions {
 	return &GetPermittedNetworkOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -545,7 +544,7 @@ type ListPermittedNetworksOptions struct {
 }
 
 // NewListPermittedNetworksOptions : Instantiate ListPermittedNetworksOptions
-func (*PermittedNetworksForDnsZonesV1) NewListPermittedNetworksOptions(instanceID string, dnszoneID string) *ListPermittedNetworksOptions {
+func (*DnsPermittedNetworksV1) NewListPermittedNetworksOptions(instanceID string, dnszoneID string) *ListPermittedNetworksOptions {
 	return &ListPermittedNetworksOptions{
 		InstanceID: core.StringPtr(instanceID),
 		DnszoneID: core.StringPtr(dnszoneID),
@@ -751,7 +750,7 @@ type PermittedNetworkVpc struct {
 
 
 // NewPermittedNetworkVpc : Instantiate PermittedNetworkVpc (Generic Model Constructor)
-func (*PermittedNetworksForDnsZonesV1) NewPermittedNetworkVpc(vpcCrn string) (model *PermittedNetworkVpc, err error) {
+func (*DnsPermittedNetworksV1) NewPermittedNetworkVpc(vpcCrn string) (model *PermittedNetworkVpc, err error) {
 	model = &PermittedNetworkVpc{
 		VpcCrn: core.StringPtr(vpcCrn),
 	}
