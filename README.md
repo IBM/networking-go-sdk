@@ -73,8 +73,9 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis?code=go#get-zone-dnssec)                                      | zonessettingsv1                |
 | [CIS: Zones](https://cloud.ibm.com/apidocs/cis?code=go#list-all-zones)                                               | zonesv1                        |
 | [PDNS: DNS Zones](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-dns-zones)                                     | dnszonesv1                     |
-| [PDNS: Resource Records](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-resource-records)                       | resourcerecordsv1              |
-| [PDNS: Permitted Networks](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-permitted-networks)                   | permittednetworksfordnszonesv1 |
+| [PDNS: Resource Records](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-resource-records) | ~resourcerecordsv1~ dnsresourcerecordsv1 |
+| [PDNS: Permitted Networks](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-permitted-networks) | ~permittednetworksfordnszonesv1~ dnspermittednetworksv1|
+| [PDNS: Global Load Balancers]() | ~globalloadbalancersv1~ dnsgloballoadbalancersv1 |
 
 ## Prerequisites
 
@@ -137,8 +138,12 @@ import (
   "github.com/IBM/networking-go-sdk/zonessettingsv1"
   "github.com/IBM/networking-go-sdk/zonesv1"
   "github.com/IBM/networking-go-sdk/dnszonesv1"
-  "github.com/IBM/networking-go-sdk/resourcerecordsv1"
-  "github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
+  ~"github.com/IBM/networking-go-sdk/resourcerecordsv1"~
+  ~"github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"`
+  ~"github.com/IBM/networking-go-sdk/globalloadbalancersv1"~
+  "github.com/IBM/networking-go-sdk/dnsresourcerecordsv1"
+  "github.com/IBM/networking-go-sdk/dnspermittednetworksv1"
+  "github.com/IBM/networking-go-sdk/dnsgloballoadbalancersv1"
 )
 ```
 
@@ -174,6 +179,10 @@ please ask a question at
 If you encounter an issue with the project, you are welcome to submit a
 [bug report](https://github.com/IBM/networking-go-sdk/issues).
 Before that, please search for similar issues. It's possible that someone has already reported the problem.
+
+## Deprecation Notice
+
+For deprecation notice, please see [this link](https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md)
 
 ## Open source @ IBM
 

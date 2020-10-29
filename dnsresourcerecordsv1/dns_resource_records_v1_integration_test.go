@@ -2,7 +2,7 @@
  * (C) Copyright IBM Corp. 2020.
  */
 
-package resourcerecordsv1_test
+package dnsresourcerecordsv1_test
 
 import (
 	"fmt"
@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/dnsresourcerecordsv1"
 	"github.com/IBM/networking-go-sdk/dnszonesv1"
-	. "github.com/IBM/networking-go-sdk/resourcerecordsv1"
 	guuid "github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
@@ -28,7 +28,7 @@ func shouldSkipTest() {
 	}
 }
 
-var _ = Describe(`resourcerecordsv1`, func() {
+var _ = Describe(`dnsresourcerecordsv1`, func() {
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -44,7 +44,7 @@ var _ = Describe(`resourcerecordsv1`, func() {
 	}
 	serviceURL := os.Getenv("API_ENDPOINT")
 	instanceID := os.Getenv("INSTANCE_ID")
-	dnsRecordOptions := &ResourceRecordsV1Options{
+	dnsRecordOptions := &DnsResourceRecordsV1Options{
 		ServiceName:   "pdns_services",
 		URL:           serviceURL,
 		Authenticator: authenticator,
@@ -56,7 +56,7 @@ var _ = Describe(`resourcerecordsv1`, func() {
 		Authenticator: authenticator,
 	}
 
-	service, serviceErr := NewResourceRecordsV1(dnsRecordOptions)
+	service, serviceErr := NewDnsResourceRecordsV1(dnsRecordOptions)
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
