@@ -1,3 +1,10 @@
+## [0.11.1](https://github.com/IBM/networking-go-sdk/compare/v0.11.0...v0.11.1) (2020-10-30)
+
+
+### Bug Fixes
+
+* updated the macsec fields as per latest api spec ([59633e0](https://github.com/IBM/networking-go-sdk/commit/59633e0441ec3a85e78bc10901ed2793069b2fd2))
+
 # [0.11.0](https://github.com/IBM/networking-go-sdk/compare/v0.10.0...v0.11.0) (2020-10-30)
 
 
