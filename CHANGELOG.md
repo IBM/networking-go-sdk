@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/IBM/networking-go-sdk/compare/v0.10.0...v0.11.0) (2020-10-30)
+
+
+### Features
+
+* added the support for macsec enabled gateways in direct link ([a5f043c](https://github.com/IBM/networking-go-sdk/commit/a5f043c0aa6caf7afa1c78e5a256585ac9cf749b))
+
 # [0.10.0](https://github.com/IBM/networking-go-sdk/compare/v0.9.0...v0.10.0) (2020-10-12)
 
 
