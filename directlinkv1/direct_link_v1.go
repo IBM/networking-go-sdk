@@ -619,7 +619,8 @@ func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorization(listGatewayLett
 }
 
 // GetGatewayStatistics : Gateway statistics
-// Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.
+// Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.  Currently data
+// retrieval is only supported for MACsec configurations.
 func (directLink *DirectLinkV1) GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions) (result *GatewayStatisticCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayStatisticsOptions, "getGatewayStatisticsOptions cannot be nil")
 	if err != nil {
@@ -1937,79 +1938,84 @@ func UnmarshalGatewayCollection(m map[string]json.RawMessage, result interface{}
 	return
 }
 
-// GatewayMacsecCak : MACsec connectivity association key.
-type GatewayMacsecCak struct {
-	// connectivity association key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// NewGatewayMacsecCak : Instantiate GatewayMacsecCak (Generic Model Constructor)
-func (*DirectLinkV1) NewGatewayMacsecCak(crn string) (model *GatewayMacsecCak, err error) {
-	model = &GatewayMacsecCak{
-		Crn: core.StringPtr(crn),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
-// UnmarshalGatewayMacsecCak unmarshals an instance of GatewayMacsecCak from the specified map of raw messages.
-func UnmarshalGatewayMacsecCak(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecCak)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // GatewayMacsecConfig : MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
 // Contact IBM support for access to MACsec.
 type GatewayMacsecConfig struct {
-	// Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled gateway.
+	// Indicate whether MACsec should currently be active (true) or inactive (false) for a MACsec enabled gateway.   To be
+	// MACsec enabled a `macsec_config` must be specified at gateway create time.
 	Active *bool `json:"active" validate:"required"`
 
-	// Active connectivity association key.  Normally will be the same as the primary_cak.  During CAK changes this field
-	// can be used to indicate which key is currently active.
-	ActiveCak *GatewayMacsecCak `json:"active_cak,omitempty"`
+	// Active connectivity association key.
+	//
+	// During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be
+	// used to indicate which key is currently active on the gateway.
+	ActiveCak *GatewayMacsecConfigActiveCak `json:"active_cak,omitempty"`
 
 	// SAK cipher suite.
 	CipherSuite *string `json:"cipher_suite,omitempty"`
 
 	// confidentiality offset.
-	ConfidentialityOffset *int64 `json:"confidentiality_offset" validate:"required"`
+	ConfidentialityOffset *int64 `json:"confidentiality_offset,omitempty"`
 
 	// cryptographic algorithm.
 	CryptographicAlgorithm *string `json:"cryptographic_algorithm,omitempty"`
 
 	// fallback connectivity association key.
-	FallbackCak *GatewayMacsecCak `json:"fallback_cak,omitempty"`
+	FallbackCak *GatewayMacsecConfigFallbackCak `json:"fallback_cak,omitempty"`
 
 	// key server priority.
 	KeyServerPriority *int64 `json:"key_server_priority,omitempty"`
 
 	// desired primary connectivity association key.
-	PrimaryCak *GatewayMacsecCak `json:"primary_cak" validate:"required"`
+	PrimaryCak *GatewayMacsecConfigPrimaryCak `json:"primary_cak" validate:"required"`
 
 	// Secure Association Key (SAK) expiry time in seconds.
 	SakExpiryTime *int64 `json:"sak_expiry_time,omitempty"`
 
-	// The current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway creation
-	// and deletion.
+	// Packets without MACsec headers are not dropped when security_policy is `should_secure`.
+	SecurityPolicy *string `json:"security_policy,omitempty"`
+
+	// Current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway creation and
+	// deletion. Status `key_error` indicates Direct Link was unable to retrieve key materials for one of the specified.
+	// This usually due to inadequate service to service authorization.   Verify the key exists and verify a service to
+	// service policy exists authorization the Direct Link service to access its key material. Correct any problems and
+	// respecify the desired key.  If the problem persists contact IBM support.
 	Status *string `json:"status" validate:"required"`
 
 	// replay protection window size.
 	WindowSize *int64 `json:"window_size,omitempty"`
 }
 
-// Constants associated with the GatewayMacsecConfig.Status property.
-// The current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway creation
-// and deletion.
+// Constants associated with the GatewayMacsecConfig.CipherSuite property.
+// SAK cipher suite.
 const (
-	GatewayMacsecConfig_Status_Init    = "init"
-	GatewayMacsecConfig_Status_Pending = "pending"
-	GatewayMacsecConfig_Status_Secured = "secured"
-	GatewayMacsecConfig_Status_Unknown = "unknown"
+	GatewayMacsecConfig_CipherSuite_GcmAesXpn256 = "gcm_aes_xpn_256"
+)
+
+// Constants associated with the GatewayMacsecConfig.CryptographicAlgorithm property.
+// cryptographic algorithm.
+const (
+	GatewayMacsecConfig_CryptographicAlgorithm_Aes256Cmac = "aes_256_cmac"
+)
+
+// Constants associated with the GatewayMacsecConfig.SecurityPolicy property.
+// Packets without MACsec headers are not dropped when security_policy is `should_secure`.
+const (
+	GatewayMacsecConfig_SecurityPolicy_ShouldSecure = "should_secure"
+)
+
+// Constants associated with the GatewayMacsecConfig.Status property.
+// Current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway creation and
+// deletion. Status `key_error` indicates Direct Link was unable to retrieve key materials for one of the specified.
+// This usually due to inadequate service to service authorization.   Verify the key exists and verify a service to
+// service policy exists authorization the Direct Link service to access its key material. Correct any problems and
+// respecify the desired key.  If the problem persists contact IBM support.
+const (
+	GatewayMacsecConfig_Status_Init     = "init"
+	GatewayMacsecConfig_Status_KeyError = "key_error"
+	GatewayMacsecConfig_Status_Pending  = "pending"
+	GatewayMacsecConfig_Status_Secured  = "secured"
+	GatewayMacsecConfig_Status_Unknown  = "unknown"
 )
 
 // UnmarshalGatewayMacsecConfig unmarshals an instance of GatewayMacsecConfig from the specified map of raw messages.
@@ -2019,7 +2025,7 @@ func UnmarshalGatewayMacsecConfig(m map[string]json.RawMessage, result interface
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "active_cak", &obj.ActiveCak, UnmarshalGatewayMacsecCak)
+	err = core.UnmarshalModel(m, "active_cak", &obj.ActiveCak, UnmarshalGatewayMacsecConfigActiveCak)
 	if err != nil {
 		return
 	}
@@ -2035,7 +2041,7 @@ func UnmarshalGatewayMacsecConfig(m map[string]json.RawMessage, result interface
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecCak)
+	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecConfigFallbackCak)
 	if err != nil {
 		return
 	}
@@ -2043,11 +2049,15 @@ func UnmarshalGatewayMacsecConfig(m map[string]json.RawMessage, result interface
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecCak)
+	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecConfigPrimaryCak)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "sak_expiry_time", &obj.SakExpiryTime)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "security_policy", &obj.SecurityPolicy)
 	if err != nil {
 		return
 	}
@@ -2063,24 +2073,86 @@ func UnmarshalGatewayMacsecConfig(m map[string]json.RawMessage, result interface
 	return
 }
 
+// GatewayMacsecConfigActiveCak : Active connectivity association key.
+//
+// During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be used
+// to indicate which key is currently active on the gateway.
+type GatewayMacsecConfigActiveCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+
+	// connectivity association key status.
+	Status *string `json:"status" validate:"required"`
+}
+
+// UnmarshalGatewayMacsecConfigActiveCak unmarshals an instance of GatewayMacsecConfigActiveCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigActiveCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigActiveCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigFallbackCak : fallback connectivity association key.
+type GatewayMacsecConfigFallbackCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+
+	// connectivity association key status.
+	Status *string `json:"status" validate:"required"`
+}
+
+// UnmarshalGatewayMacsecConfigFallbackCak unmarshals an instance of GatewayMacsecConfigFallbackCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigFallbackCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigFallbackCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GatewayMacsecConfigPatchTemplate : MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the
 // patch request.  Contact IBM support for access to MACsec.
 //
-// Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+// A MACsec config cannot be added to a gateway created without MACsec.
 type GatewayMacsecConfigPatchTemplate struct {
 	// Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled gateway.
 	Active *bool `json:"active,omitempty"`
 
-	// Fallback connectivity association key.  Keys used for MACsec configuration must have names with an even number of
-	// characters from [0-9a-fA-F].
-	FallbackCak *GatewayMacsecCak `json:"fallback_cak,omitempty"`
+	// Fallback connectivity association key.
+	//
+	// The `fallback_cak` crn cannot match the `primary_cak` crn.
+	//
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	//
+	// To clear the optional `fallback_cak` field patch its crn to `""`.
+	//
+	// A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+	FallbackCak *GatewayMacsecConfigPatchTemplateFallbackCak `json:"fallback_cak,omitempty"`
 
-	// Desired primary connectivity association key.  Keys for a MACsec configuration must have names with an even number
-	// of characters from [0-9a-fA-F].
-	PrimaryCak *GatewayMacsecCak `json:"primary_cak,omitempty"`
-
-	// Secure Association Key (SAK) expiry time in seconds.
-	SakExpiryTime *int64 `json:"sak_expiry_time,omitempty"`
+	// Desired primary connectivity association key.
+	//
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	//
+	// A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+	PrimaryCak *GatewayMacsecConfigPatchTemplatePrimaryCak `json:"primary_cak,omitempty"`
 
 	// replay protection window size.
 	WindowSize *int64 `json:"window_size,omitempty"`
@@ -2093,15 +2165,11 @@ func UnmarshalGatewayMacsecConfigPatchTemplate(m map[string]json.RawMessage, res
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecCak)
+	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecConfigPatchTemplateFallbackCak)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecCak)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "sak_expiry_time", &obj.SakExpiryTime)
+	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecConfigPatchTemplatePrimaryCak)
 	if err != nil {
 		return
 	}
@@ -2113,30 +2181,122 @@ func UnmarshalGatewayMacsecConfigPatchTemplate(m map[string]json.RawMessage, res
 	return
 }
 
-// GatewayMacsecConfigTemplate : MACsec configuration information.  Contact IBM support for access to MACsec.
+// GatewayMacsecConfigPatchTemplateFallbackCak : Fallback connectivity association key.
 //
-// Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+// The `fallback_cak` crn cannot match the `primary_cak` crn.
+//
+// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+// [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+//
+// To clear the optional `fallback_cak` field patch its crn to `""`.
+//
+// A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+type GatewayMacsecConfigPatchTemplateFallbackCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecConfigPatchTemplateFallbackCak : Instantiate GatewayMacsecConfigPatchTemplateFallbackCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigPatchTemplateFallbackCak(crn string) (model *GatewayMacsecConfigPatchTemplateFallbackCak, err error) {
+	model = &GatewayMacsecConfigPatchTemplateFallbackCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayMacsecConfigPatchTemplateFallbackCak unmarshals an instance of GatewayMacsecConfigPatchTemplateFallbackCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPatchTemplateFallbackCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPatchTemplateFallbackCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigPatchTemplatePrimaryCak : Desired primary connectivity association key.
+//
+// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+// [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+//
+// A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+type GatewayMacsecConfigPatchTemplatePrimaryCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecConfigPatchTemplatePrimaryCak : Instantiate GatewayMacsecConfigPatchTemplatePrimaryCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigPatchTemplatePrimaryCak(crn string) (model *GatewayMacsecConfigPatchTemplatePrimaryCak, err error) {
+	model = &GatewayMacsecConfigPatchTemplatePrimaryCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayMacsecConfigPatchTemplatePrimaryCak unmarshals an instance of GatewayMacsecConfigPatchTemplatePrimaryCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPatchTemplatePrimaryCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPatchTemplatePrimaryCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigPrimaryCak : desired primary connectivity association key.
+type GatewayMacsecConfigPrimaryCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+
+	// connectivity association key status.
+	Status *string `json:"status" validate:"required"`
+}
+
+// UnmarshalGatewayMacsecConfigPrimaryCak unmarshals an instance of GatewayMacsecConfigPrimaryCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPrimaryCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPrimaryCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigTemplate : MACsec configuration information.  Contact IBM support for access to MACsec.
 type GatewayMacsecConfigTemplate struct {
 	// Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled gateway.
 	Active *bool `json:"active" validate:"required"`
 
-	// Fallback connectivity association key.  Keys used for MACsec configuration must have names with an even number of
-	// characters from [0-9a-fA-F].
-	FallbackCak *GatewayMacsecCak `json:"fallback_cak,omitempty"`
+	// Fallback connectivity association key.
+	//
+	// The `fallback_cak` crn cannot match the `primary_cak` crn.
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	FallbackCak *GatewayMacsecConfigTemplateFallbackCak `json:"fallback_cak,omitempty"`
 
-	// Desired primary connectivity association key.  Keys used for MACsec configuration must have names with an even
-	// number of characters from [0-9a-fA-F].
-	PrimaryCak *GatewayMacsecCak `json:"primary_cak" validate:"required"`
-
-	// Secure Association Key (SAK) expiry time in seconds.
-	SakExpiryTime *int64 `json:"sak_expiry_time,omitempty"`
+	// Desired primary connectivity association key.
+	//
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	PrimaryCak *GatewayMacsecConfigTemplatePrimaryCak `json:"primary_cak" validate:"required"`
 
 	// replay protection window size.
 	WindowSize *int64 `json:"window_size,omitempty"`
 }
 
 // NewGatewayMacsecConfigTemplate : Instantiate GatewayMacsecConfigTemplate (Generic Model Constructor)
-func (*DirectLinkV1) NewGatewayMacsecConfigTemplate(active bool, primaryCak *GatewayMacsecCak) (model *GatewayMacsecConfigTemplate, err error) {
+func (*DirectLinkV1) NewGatewayMacsecConfigTemplate(active bool, primaryCak *GatewayMacsecConfigTemplatePrimaryCak) (model *GatewayMacsecConfigTemplate, err error) {
 	model = &GatewayMacsecConfigTemplate{
 		Active:     core.BoolPtr(active),
 		PrimaryCak: primaryCak,
@@ -2152,19 +2312,74 @@ func UnmarshalGatewayMacsecConfigTemplate(m map[string]json.RawMessage, result i
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecCak)
+	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecConfigTemplateFallbackCak)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecCak)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "sak_expiry_time", &obj.SakExpiryTime)
+	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecConfigTemplatePrimaryCak)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "window_size", &obj.WindowSize)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigTemplateFallbackCak : Fallback connectivity association key.
+//
+// The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be type=standard with key name lengths
+// between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in
+// length and contain only [a-fA-F0-9].
+type GatewayMacsecConfigTemplateFallbackCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecConfigTemplateFallbackCak : Instantiate GatewayMacsecConfigTemplateFallbackCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigTemplateFallbackCak(crn string) (model *GatewayMacsecConfigTemplateFallbackCak, err error) {
+	model = &GatewayMacsecConfigTemplateFallbackCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayMacsecConfigTemplateFallbackCak unmarshals an instance of GatewayMacsecConfigTemplateFallbackCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigTemplateFallbackCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigTemplateFallbackCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigTemplatePrimaryCak : Desired primary connectivity association key.
+//
+// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+// [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+type GatewayMacsecConfigTemplatePrimaryCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecConfigTemplatePrimaryCak : Instantiate GatewayMacsecConfigTemplatePrimaryCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigTemplatePrimaryCak(crn string) (model *GatewayMacsecConfigTemplatePrimaryCak, err error) {
+	model = &GatewayMacsecConfigTemplatePrimaryCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayMacsecConfigTemplatePrimaryCak unmarshals an instance of GatewayMacsecConfigTemplatePrimaryCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigTemplatePrimaryCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigTemplatePrimaryCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
 		return
 	}
@@ -2215,7 +2430,7 @@ func UnmarshalGatewayPortIdentity(m map[string]json.RawMessage, result interface
 	return
 }
 
-// GatewayStatistic : MACsec statistics.
+// GatewayStatistic : Gateway statistics.  Currently data retrieval is only supported for MACsec configurations.
 type GatewayStatistic struct {
 	// Date and time data was collected.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
@@ -2230,8 +2445,9 @@ type GatewayStatistic struct {
 // Constants associated with the GatewayStatistic.Type property.
 // statistic type.
 const (
-	GatewayStatistic_Type_MacsecMkaPolicy  = "macsec_mka_policy"
-	GatewayStatistic_Type_MacsecMkaSession = "macsec_mka_session"
+	GatewayStatistic_Type_MacsecMkaSession    = "macsec_mka_session"
+	GatewayStatistic_Type_MacsecMkaStatistics = "macsec_mka_statistics"
+	GatewayStatistic_Type_MacsecPolicy        = "macsec_policy"
 )
 
 // UnmarshalGatewayStatistic unmarshals an instance of GatewayStatistic from the specified map of raw messages.
@@ -2322,8 +2538,6 @@ type GatewayTemplate struct {
 	LocationName *string `json:"location_name,omitempty"`
 
 	// MACsec configuration information.  Contact IBM support for access to MACsec.
-	//
-	// Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
 	MacsecConfig *GatewayMacsecConfigTemplate `json:"macsec_config,omitempty"`
 
 	// Select Port Label for new type=connect gateway.
@@ -3302,7 +3516,7 @@ type UpdateGatewayOptions struct {
 	// MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the
 	// patch request.  Contact IBM support for access to MACsec.
 	//
-	// Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+	// A MACsec config cannot be added to a gateway created without MACsec.
 	MacsecConfig *GatewayMacsecConfigPatchTemplate `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
@@ -3794,8 +4008,6 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	LocationName *string `json:"location_name" validate:"required"`
 
 	// MACsec configuration information.  Contact IBM support for access to MACsec.
-	//
-	// Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
 	MacsecConfig *GatewayMacsecConfigTemplate `json:"macsec_config,omitempty"`
 }
 
