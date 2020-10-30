@@ -17,8 +17,8 @@
 package directlinkv1_test
 
 /*
-How to run this test:
-go test -v ./directlinkv1
+ How to run this test:
+ go test -v ./directlinkv1
 */
 
 import (
@@ -47,8 +47,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
-			serviceURLV2 := os.Getenv("SERVICE_URL_V2")
-			if serviceURLV2 != "" {
+			serviceURL := os.Getenv("SERVICE_URL")
+			if serviceURL != "" {
 				configLoaded = true
 			}
 		}
@@ -74,7 +74,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 	service, err := directlinkv1.NewDirectLinkV1UsingExternalConfig(options)
 	It(`Successfully created DirectLinkV1 service instance`, func() {
 		shouldSkipTest()
-
 		Expect(err).To(BeNil())
 	})
 
@@ -101,7 +100,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 			It(`Returns the http response with error code 404`, func() {
 				shouldSkipTest()
-
 				result, detailedResponse, err := service.GetGateway(getGatewayOptions)
 				Expect(result).To(BeNil())
 				Expect(err).NotTo(BeNil())
@@ -127,20 +125,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(result).To(BeNil())
 				Expect(err).NotTo(BeNil())
 				Expect(err.Error()).To(Equal("BGP AS Number is invalid."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
-
-			It("Fails when invalid bgp_base_cidr is provided", func() {
-				shouldSkipTest()
-
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, "169.254.0.0", global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("cidr is not 169.254.0.0/16 range, localIP and remoteIP must be manually assigned"))
 				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
@@ -431,7 +415,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.SpeedMbps).To(Equal(speedMbps))
 				Expect(*result.LocationName).To(Equal(portLocationName))
 				Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-				Expect(*result.BgpBaseCidr).NotTo(BeEmpty())
 				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
 				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
 				Expect(*result.BgpIbmAsn).NotTo(Equal(0))
@@ -466,7 +449,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(*result.SpeedMbps).To(Equal(speedMbps))
 					Expect(*result.LocationName).To(Equal(portLocationName))
 					Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-					//	Expect(*result.BgpBaseCidr).NotTo(BeEmpty())
 					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
 					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
 					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
@@ -507,6 +489,166 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(204))
 			})
 		})
+
+		// Context("DirectLink MACsec Enabled Gateway", func() {
+		// 	timestamp := time.Now().Unix()
+		// 	gatewayName := "GO-INT-SDK-MACSEC" + strconv.FormatInt(timestamp, 10)
+		// 	updatedGatewayName := "GO-INT-SDK-MACSEC-PATCH-" + strconv.FormatInt(timestamp, 10)
+		// 	bgpAsn := int64(64999)
+		// 	bgpBaseCidr := "169.254.0.0/16"
+		// 	crossConnectRouter := "LAB-xcr01.dal09"
+		// 	global := true
+		// 	locationName := os.Getenv("LOCATION_NAME")
+		// 	speedMbps := int64(1000)
+		// 	metered := false
+		// 	carrierName := "carrier1"
+		// 	customerName := "customer1"
+		// 	gatewayType := "dedicated"
+		// 	macsecCak := os.Getenv("MACSEC_CAK")
+		// 	macsecSakExpiryTime := int64(86400)
+		// 	macsecWindowSize := int64(64)
+
+		// 	It("Create a macsec enabled dedicated gateway", func() {
+		// 		shouldSkipTest()
+
+		// 		// Construct an instance of the GatewayMacsecCak model
+		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecCak)
+		// 		gatewayMacsecCak.Crn = core.StringPtr(macsecCak)
+
+		// 		// Construct an instance of the GatewayMacsecConfigTemplate model
+		// 		gatewayMacsecConfigTemplate := new(directlinkv1.GatewayMacsecConfigTemplate)
+		// 		gatewayMacsecConfigTemplate.Active = core.BoolPtr(true)
+		// 		gatewayMacsecConfigTemplate.PrimaryCak = gatewayMacsecCak
+		// 		gatewayMacsecConfigTemplate.SakExpiryTime = core.Int64Ptr(macsecSakExpiryTime)
+		// 		gatewayMacsecConfigTemplate.WindowSize = core.Int64Ptr(macsecWindowSize)
+
+		// 		gatewayTemplate := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+		// 		gatewayTemplate.BgpAsn = core.Int64Ptr(bgpAsn)
+		// 		gatewayTemplate.BgpBaseCidr = core.StringPtr(bgpBaseCidr)
+		// 		gatewayTemplate.Global = core.BoolPtr(global)
+		// 		gatewayTemplate.Metered = core.BoolPtr(metered)
+		// 		gatewayTemplate.Name = core.StringPtr(gatewayName)
+		// 		gatewayTemplate.SpeedMbps = core.Int64Ptr(int64(1000))
+		// 		gatewayTemplate.Type = core.StringPtr(gatewayType)
+		// 		gatewayTemplate.CarrierName = core.StringPtr(carrierName)
+		// 		gatewayTemplate.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+		// 		gatewayTemplate.CustomerName = core.StringPtr(customerName)
+		// 		gatewayTemplate.LocationName = core.StringPtr(locationName)
+		// 		gatewayTemplate.MacsecConfig = gatewayMacsecConfigTemplate
+
+		// 		createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplate)
+		// 		result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+		// 		Expect(err).To(BeNil())
+		// 		Expect(detailedResponse.StatusCode).To(Equal(201))
+
+		// 		os.Setenv("GATEWAY_ID", *result.ID)
+
+		// 		Expect(*result.Name).To(Equal(gatewayName))
+		// 		Expect(*result.BgpAsn).To(Equal(bgpAsn))
+		// 		Expect(*result.Global).To(Equal(global))
+		// 		Expect(*result.Metered).To(Equal(metered))
+		// 		Expect(*result.SpeedMbps).To(Equal(speedMbps))
+		// 		Expect(*result.Type).To(Equal(gatewayType))
+		// 		Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+		// 		Expect(*result.LocationName).To(Equal(locationName))
+		// 		Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+		// 		Expect(*result.MacsecConfig.Active).To(Equal(true))
+		// 		Expect(*result.MacsecConfig.PrimaryCak.Crn).To(Equal(macsecCak))
+		// 		Expect(*result.MacsecConfig.SakExpiryTime).To(Equal(macsecSakExpiryTime))
+		// 		Expect(*result.MacsecConfig.WindowSize).To(Equal(macsecWindowSize))
+		// 	})
+
+		// 	It("Should successfully update the macsec enabled gateway", func() {
+		// 		shouldSkipTest()
+
+		// 		// Construct an instance of the GatewayMacsecCak model
+		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecCak)
+		// 		gatewayMacsecCak.Crn = core.StringPtr(macsecCak)
+
+		// 		// Construct an instance of the GatewayMacsecConfigTemplate model
+		// 		gatewayMacsecConfigPatchTemplate := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+		// 		gatewayMacsecConfigPatchTemplate.FallbackCak = gatewayMacsecCak
+
+		// 		gatewayId := os.Getenv("GATEWAY_ID")
+		// 		patchGatewayOptions := service.NewUpdateGatewayOptions(gatewayId)
+
+		// 		result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions.SetName(updatedGatewayName).SetMacsecConfig(gatewayMacsecConfigPatchTemplate))
+		// 		Expect(err).To(BeNil())
+		// 		Expect(detailedResponse.StatusCode).To(Equal(200))
+
+		// 		Expect(*result.ID).To(Equal(gatewayId))
+		// 		Expect(*result.Name).To(Equal(updatedGatewayName))
+		// 		Expect(*result.MacsecConfig.Active).To(Equal(true))
+		// 		Expect(*result.MacsecConfig.PrimaryCak.Crn).To(Equal(macsecCak))
+		// 		Expect(*result.MacsecConfig.FallbackCak.Crn).To(Equal(macsecCak))
+		// 		Expect(*result.MacsecConfig.SakExpiryTime).To(Equal(macsecSakExpiryTime))
+		// 		Expect(*result.MacsecConfig.WindowSize).To(Equal(macsecWindowSize))
+
+		// 	})
+
+		// 	It("Successfully waits for macsec enabled gateway to be provisioned state", func() {
+		// 		shouldSkipTest()
+
+		// 		getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+		// 		// before a dedicated gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+		// 		// the new gateway to go to provisioned so we can delete it.
+		// 		timer := 0
+		// 		for {
+		// 			// Get the current status for the gateway
+		// 			result, detailedResponse, err := service.GetGateway(getGatewayOptions)
+		// 			Expect(err).To(BeNil())
+		// 			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+		// 			Expect(*result.Name).To(Equal(updatedGatewayName))
+		// 			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+		// 			Expect(*result.Global).To(Equal(true))
+		// 			Expect(*result.Metered).To(Equal(metered))
+		// 			Expect(*result.SpeedMbps).To(Equal(speedMbps))
+		// 			Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+		// 			Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+		// 			Expect(*result.BgpIbmAsn).NotTo(Equal(0))
+		// 			Expect(*result.BgpStatus).To(Equal("idle"))
+		// 			Expect(*result.CreatedAt).NotTo(Equal(""))
+		// 			Expect(*result.Crn).To(HavePrefix("crn:v1"))
+		// 			Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+		// 			Expect(*result.Type).To(Equal("dedicated"))
+		// 			Expect(*result.ProviderApiManaged).To(Equal(false))
+		// 			Expect(*result.MacsecConfig.Active).To(Equal(true))
+		// 			Expect(*result.MacsecConfig.PrimaryCak.Crn).To(Equal(macsecCak))
+		// 			Expect(*result.MacsecConfig.FallbackCak.Crn).To(Equal(macsecCak))
+		// 			Expect(*result.MacsecConfig.SakExpiryTime).To(Equal(macsecSakExpiryTime))
+		// 			Expect(*result.MacsecConfig.WindowSize).To(Equal(macsecWindowSize))
+
+		// 			// if operational status is "provisioned" then we are done
+		// 			if *result.OperationalStatus == "provisioned" {
+		// 				Expect(*result.OperationalStatus).To(Equal("provisioned"))
+		// 				break
+		// 			}
+
+		// 			// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+		// 			if timer > 24 { // 2 min timer (24x5sec)
+		// 				Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+		// 				break
+		// 			} else {
+		// 				// Still exists, wait 5 sec
+		// 				time.Sleep(time.Duration(5) * time.Second)
+		// 				timer = timer + 1
+		// 			}
+		// 		}
+		// 	})
+
+		// 	It("Successfully deletes macsec enabled gateway gateway", func() {
+		// 		shouldSkipTest()
+
+		// 		gatewayId := os.Getenv("GATEWAY_ID")
+		// 		deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+		// 		detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+
+		// 		Expect(err).To(BeNil())
+		// 		Expect(detailedResponse.StatusCode).To(Equal(204))
+		// 	})
+		// })
 	})
 
 	Describe("Offering Types", func() {
