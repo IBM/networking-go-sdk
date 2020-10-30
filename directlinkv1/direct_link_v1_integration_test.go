@@ -512,14 +512,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 		// 		shouldSkipTest()
 
 		// 		// Construct an instance of the GatewayMacsecCak model
-		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecCak)
+		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
 		// 		gatewayMacsecCak.Crn = core.StringPtr(macsecCak)
 
 		// 		// Construct an instance of the GatewayMacsecConfigTemplate model
 		// 		gatewayMacsecConfigTemplate := new(directlinkv1.GatewayMacsecConfigTemplate)
 		// 		gatewayMacsecConfigTemplate.Active = core.BoolPtr(true)
 		// 		gatewayMacsecConfigTemplate.PrimaryCak = gatewayMacsecCak
-		// 		gatewayMacsecConfigTemplate.SakExpiryTime = core.Int64Ptr(macsecSakExpiryTime)
 		// 		gatewayMacsecConfigTemplate.WindowSize = core.Int64Ptr(macsecWindowSize)
 
 		// 		gatewayTemplate := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
@@ -562,7 +561,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 		// 		shouldSkipTest()
 
 		// 		// Construct an instance of the GatewayMacsecCak model
-		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecCak)
+		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
 		// 		gatewayMacsecCak.Crn = core.StringPtr(macsecCak)
 
 		// 		// Construct an instance of the GatewayMacsecConfigTemplate model
