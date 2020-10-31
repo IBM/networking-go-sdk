@@ -1,3 +1,10 @@
+## [0.11.2](https://github.com/IBM/networking-go-sdk/compare/v0.11.1...v0.11.2) (2020-10-31)
+
+
+### Bug Fixes
+
+* PDNS - Added renamed-sdk and deprecation notice ([#28](https://github.com/IBM/networking-go-sdk/issues/28)) ([a3a5aaf](https://github.com/IBM/networking-go-sdk/commit/a3a5aafbe4957a50fde0e6f6e70d6b6c4e5e129e))
+
 ## [0.11.1](https://github.com/IBM/networking-go-sdk/compare/v0.11.0...v0.11.1) (2020-10-30)
 
 
