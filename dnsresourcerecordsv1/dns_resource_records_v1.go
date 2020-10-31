@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-// Package resourcerecordsv1 : Operations and models for the ResourceRecordsV1 service
-// Deprecated: This module is deprecated. For more detail https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md
-package resourcerecordsv1
+// Package dnsresourcerecordsv1 : Operations and models for the DnsResourceRecordsV1 service
+package dnsresourcerecordsv1
 
 import (
 	"encoding/json"
 	"fmt"
-	"reflect"
-
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"reflect"
 )
 
-// ResourceRecordsV1 : Resource Records
+// DnsResourceRecordsV1 : Resource Records
 //
 // Version: 1.0.0
-type ResourceRecordsV1 struct {
+type DnsResourceRecordsV1 struct {
 	Service *core.BaseService
 }
 
@@ -38,17 +36,17 @@ type ResourceRecordsV1 struct {
 const DefaultServiceURL = "https://api.dns-svcs.cloud.ibm.com/v1"
 
 // DefaultServiceName is the default key used to find external configuration information.
-const DefaultServiceName = "resource_records"
+const DefaultServiceName = "dns_resource_records"
 
-// ResourceRecordsV1Options : Service options
-type ResourceRecordsV1Options struct {
+// DnsResourceRecordsV1Options : Service options
+type DnsResourceRecordsV1Options struct {
 	ServiceName   string
 	URL           string
 	Authenticator core.Authenticator
 }
 
-// NewResourceRecordsV1UsingExternalConfig : constructs an instance of ResourceRecordsV1 with passed in options and external configuration.
-func NewResourceRecordsV1UsingExternalConfig(options *ResourceRecordsV1Options) (resourceRecords *ResourceRecordsV1, err error) {
+// NewDnsResourceRecordsV1UsingExternalConfig : constructs an instance of DnsResourceRecordsV1 with passed in options and external configuration.
+func NewDnsResourceRecordsV1UsingExternalConfig(options *DnsResourceRecordsV1Options) (dnsResourceRecords *DnsResourceRecordsV1, err error) {
 	if options.ServiceName == "" {
 		options.ServiceName = DefaultServiceName
 	}
@@ -60,24 +58,24 @@ func NewResourceRecordsV1UsingExternalConfig(options *ResourceRecordsV1Options) 
 		}
 	}
 
-	resourceRecords, err = NewResourceRecordsV1(options)
+	dnsResourceRecords, err = NewDnsResourceRecordsV1(options)
 	if err != nil {
 		return
 	}
 
-	err = resourceRecords.Service.ConfigureService(options.ServiceName)
+	err = dnsResourceRecords.Service.ConfigureService(options.ServiceName)
 	if err != nil {
 		return
 	}
 
 	if options.URL != "" {
-		err = resourceRecords.Service.SetServiceURL(options.URL)
+		err = dnsResourceRecords.Service.SetServiceURL(options.URL)
 	}
 	return
 }
 
-// NewResourceRecordsV1 : constructs an instance of ResourceRecordsV1 with passed in options.
-func NewResourceRecordsV1(options *ResourceRecordsV1Options) (service *ResourceRecordsV1, err error) {
+// NewDnsResourceRecordsV1 : constructs an instance of DnsResourceRecordsV1 with passed in options.
+func NewDnsResourceRecordsV1(options *DnsResourceRecordsV1Options) (service *DnsResourceRecordsV1, err error) {
 	serviceOptions := &core.ServiceOptions{
 		URL:           DefaultServiceURL,
 		Authenticator: options.Authenticator,
@@ -95,7 +93,7 @@ func NewResourceRecordsV1(options *ResourceRecordsV1Options) (service *ResourceR
 		}
 	}
 
-	service = &ResourceRecordsV1{
+	service = &DnsResourceRecordsV1{
 		Service: baseService,
 	}
 
@@ -103,13 +101,13 @@ func NewResourceRecordsV1(options *ResourceRecordsV1Options) (service *ResourceR
 }
 
 // SetServiceURL sets the service URL
-func (resourceRecords *ResourceRecordsV1) SetServiceURL(url string) error {
-	return resourceRecords.Service.SetServiceURL(url)
+func (dnsResourceRecords *DnsResourceRecordsV1) SetServiceURL(url string) error {
+	return dnsResourceRecords.Service.SetServiceURL(url)
 }
 
 // ListResourceRecords : List Resource Records
 // List the Resource Records for a given DNS zone.
-func (resourceRecords *ResourceRecordsV1) ListResourceRecords(listResourceRecordsOptions *ListResourceRecordsOptions) (result *ListResourceRecords, response *core.DetailedResponse, err error) {
+func (dnsResourceRecords *DnsResourceRecordsV1) ListResourceRecords(listResourceRecordsOptions *ListResourceRecordsOptions) (result *ListResourceRecords, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listResourceRecordsOptions, "listResourceRecordsOptions cannot be nil")
 	if err != nil {
 		return
@@ -123,7 +121,7 @@ func (resourceRecords *ResourceRecordsV1) ListResourceRecords(listResourceRecord
 	pathParameters := []string{*listResourceRecordsOptions.InstanceID, *listResourceRecordsOptions.DnszoneID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(resourceRecords.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsResourceRecords.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -132,7 +130,7 @@ func (resourceRecords *ResourceRecordsV1) ListResourceRecords(listResourceRecord
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("resource_records", "V1", "ListResourceRecords")
+	sdkHeaders := common.GetSdkHeaders("dns_resource_records", "V1", "ListResourceRecords")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -154,7 +152,7 @@ func (resourceRecords *ResourceRecordsV1) ListResourceRecords(listResourceRecord
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = resourceRecords.Service.Request(request, &rawResponse)
+	response, err = dnsResourceRecords.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -169,7 +167,7 @@ func (resourceRecords *ResourceRecordsV1) ListResourceRecords(listResourceRecord
 
 // CreateResourceRecord : Create a resource record
 // Create a resource record for a given DNS zone.
-func (resourceRecords *ResourceRecordsV1) CreateResourceRecord(createResourceRecordOptions *CreateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
+func (dnsResourceRecords *DnsResourceRecordsV1) CreateResourceRecord(createResourceRecordOptions *CreateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createResourceRecordOptions, "createResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -183,7 +181,7 @@ func (resourceRecords *ResourceRecordsV1) CreateResourceRecord(createResourceRec
 	pathParameters := []string{*createResourceRecordOptions.InstanceID, *createResourceRecordOptions.DnszoneID}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(resourceRecords.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsResourceRecords.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -192,7 +190,7 @@ func (resourceRecords *ResourceRecordsV1) CreateResourceRecord(createResourceRec
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("resource_records", "V1", "CreateResourceRecord")
+	sdkHeaders := common.GetSdkHeaders("dns_resource_records", "V1", "CreateResourceRecord")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -232,7 +230,7 @@ func (resourceRecords *ResourceRecordsV1) CreateResourceRecord(createResourceRec
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = resourceRecords.Service.Request(request, &rawResponse)
+	response, err = dnsResourceRecords.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -247,7 +245,7 @@ func (resourceRecords *ResourceRecordsV1) CreateResourceRecord(createResourceRec
 
 // DeleteResourceRecord : Delete a resource record
 // Delete a resource record.
-func (resourceRecords *ResourceRecordsV1) DeleteResourceRecord(deleteResourceRecordOptions *DeleteResourceRecordOptions) (response *core.DetailedResponse, err error) {
+func (dnsResourceRecords *DnsResourceRecordsV1) DeleteResourceRecord(deleteResourceRecordOptions *DeleteResourceRecordOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteResourceRecordOptions, "deleteResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -261,7 +259,7 @@ func (resourceRecords *ResourceRecordsV1) DeleteResourceRecord(deleteResourceRec
 	pathParameters := []string{*deleteResourceRecordOptions.InstanceID, *deleteResourceRecordOptions.DnszoneID, *deleteResourceRecordOptions.RecordID}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(resourceRecords.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsResourceRecords.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -270,7 +268,7 @@ func (resourceRecords *ResourceRecordsV1) DeleteResourceRecord(deleteResourceRec
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("resource_records", "V1", "DeleteResourceRecord")
+	sdkHeaders := common.GetSdkHeaders("dns_resource_records", "V1", "DeleteResourceRecord")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -283,14 +281,14 @@ func (resourceRecords *ResourceRecordsV1) DeleteResourceRecord(deleteResourceRec
 		return
 	}
 
-	response, err = resourceRecords.Service.Request(request, nil)
+	response, err = dnsResourceRecords.Service.Request(request, nil)
 
 	return
 }
 
 // GetResourceRecord : Get a resource record
 // Get details of a resource record.
-func (resourceRecords *ResourceRecordsV1) GetResourceRecord(getResourceRecordOptions *GetResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
+func (dnsResourceRecords *DnsResourceRecordsV1) GetResourceRecord(getResourceRecordOptions *GetResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getResourceRecordOptions, "getResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -304,7 +302,7 @@ func (resourceRecords *ResourceRecordsV1) GetResourceRecord(getResourceRecordOpt
 	pathParameters := []string{*getResourceRecordOptions.InstanceID, *getResourceRecordOptions.DnszoneID, *getResourceRecordOptions.RecordID}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(resourceRecords.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsResourceRecords.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -313,7 +311,7 @@ func (resourceRecords *ResourceRecordsV1) GetResourceRecord(getResourceRecordOpt
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("resource_records", "V1", "GetResourceRecord")
+	sdkHeaders := common.GetSdkHeaders("dns_resource_records", "V1", "GetResourceRecord")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -328,7 +326,7 @@ func (resourceRecords *ResourceRecordsV1) GetResourceRecord(getResourceRecordOpt
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = resourceRecords.Service.Request(request, &rawResponse)
+	response, err = dnsResourceRecords.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -343,7 +341,7 @@ func (resourceRecords *ResourceRecordsV1) GetResourceRecord(getResourceRecordOpt
 
 // UpdateResourceRecord : Update the properties of a resource record
 // Update the properties of a resource record.
-func (resourceRecords *ResourceRecordsV1) UpdateResourceRecord(updateResourceRecordOptions *UpdateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
+func (dnsResourceRecords *DnsResourceRecordsV1) UpdateResourceRecord(updateResourceRecordOptions *UpdateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateResourceRecordOptions, "updateResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -357,7 +355,7 @@ func (resourceRecords *ResourceRecordsV1) UpdateResourceRecord(updateResourceRec
 	pathParameters := []string{*updateResourceRecordOptions.InstanceID, *updateResourceRecordOptions.DnszoneID, *updateResourceRecordOptions.RecordID}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(resourceRecords.Service.Options.URL, pathSegments, pathParameters)
+	_, err = builder.ConstructHTTPURL(dnsResourceRecords.Service.Options.URL, pathSegments, pathParameters)
 	if err != nil {
 		return
 	}
@@ -366,7 +364,7 @@ func (resourceRecords *ResourceRecordsV1) UpdateResourceRecord(updateResourceRec
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("resource_records", "V1", "UpdateResourceRecord")
+	sdkHeaders := common.GetSdkHeaders("dns_resource_records", "V1", "UpdateResourceRecord")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -403,7 +401,7 @@ func (resourceRecords *ResourceRecordsV1) UpdateResourceRecord(updateResourceRec
 	}
 
 	var rawResponse map[string]json.RawMessage
-	response, err = resourceRecords.Service.Request(request, &rawResponse)
+	response, err = dnsResourceRecords.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
@@ -452,20 +450,20 @@ type CreateResourceRecordOptions struct {
 // Constants associated with the CreateResourceRecordOptions.Type property.
 // Type of the resource record.
 const (
-	CreateResourceRecordOptions_Type_A     = "A"
-	CreateResourceRecordOptions_Type_Aaaa  = "AAAA"
+	CreateResourceRecordOptions_Type_A = "A"
+	CreateResourceRecordOptions_Type_Aaaa = "AAAA"
 	CreateResourceRecordOptions_Type_Cname = "CNAME"
-	CreateResourceRecordOptions_Type_Mx    = "MX"
-	CreateResourceRecordOptions_Type_Ptr   = "PTR"
-	CreateResourceRecordOptions_Type_Srv   = "SRV"
-	CreateResourceRecordOptions_Type_Txt   = "TXT"
+	CreateResourceRecordOptions_Type_Mx = "MX"
+	CreateResourceRecordOptions_Type_Ptr = "PTR"
+	CreateResourceRecordOptions_Type_Srv = "SRV"
+	CreateResourceRecordOptions_Type_Txt = "TXT"
 )
 
 // NewCreateResourceRecordOptions : Instantiate CreateResourceRecordOptions
-func (*ResourceRecordsV1) NewCreateResourceRecordOptions(instanceID string, dnszoneID string) *CreateResourceRecordOptions {
+func (*DnsResourceRecordsV1) NewCreateResourceRecordOptions(instanceID string, dnszoneID string) *CreateResourceRecordOptions {
 	return &CreateResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID:  core.StringPtr(dnszoneID),
+		DnszoneID: core.StringPtr(dnszoneID),
 	}
 }
 
@@ -548,11 +546,11 @@ type DeleteResourceRecordOptions struct {
 }
 
 // NewDeleteResourceRecordOptions : Instantiate DeleteResourceRecordOptions
-func (*ResourceRecordsV1) NewDeleteResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *DeleteResourceRecordOptions {
+func (*DnsResourceRecordsV1) NewDeleteResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *DeleteResourceRecordOptions {
 	return &DeleteResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID:  core.StringPtr(dnszoneID),
-		RecordID:   core.StringPtr(recordID),
+		DnszoneID: core.StringPtr(dnszoneID),
+		RecordID: core.StringPtr(recordID),
 	}
 }
 
@@ -605,11 +603,11 @@ type GetResourceRecordOptions struct {
 }
 
 // NewGetResourceRecordOptions : Instantiate GetResourceRecordOptions
-func (*ResourceRecordsV1) NewGetResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *GetResourceRecordOptions {
+func (*DnsResourceRecordsV1) NewGetResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *GetResourceRecordOptions {
 	return &GetResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID:  core.StringPtr(dnszoneID),
-		RecordID:   core.StringPtr(recordID),
+		DnszoneID: core.StringPtr(dnszoneID),
+		RecordID: core.StringPtr(recordID),
 	}
 }
 
@@ -665,10 +663,10 @@ type ListResourceRecordsOptions struct {
 }
 
 // NewListResourceRecordsOptions : Instantiate ListResourceRecordsOptions
-func (*ResourceRecordsV1) NewListResourceRecordsOptions(instanceID string, dnszoneID string) *ListResourceRecordsOptions {
+func (*DnsResourceRecordsV1) NewListResourceRecordsOptions(instanceID string, dnszoneID string) *ListResourceRecordsOptions {
 	return &ListResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID:  core.StringPtr(dnszoneID),
+		DnszoneID: core.StringPtr(dnszoneID),
 	}
 }
 
@@ -934,11 +932,11 @@ type UpdateResourceRecordOptions struct {
 }
 
 // NewUpdateResourceRecordOptions : Instantiate UpdateResourceRecordOptions
-func (*ResourceRecordsV1) NewUpdateResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *UpdateResourceRecordOptions {
+func (*DnsResourceRecordsV1) NewUpdateResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *UpdateResourceRecordOptions {
 	return &UpdateResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID:  core.StringPtr(dnszoneID),
-		RecordID:   core.StringPtr(recordID),
+		DnszoneID: core.StringPtr(dnszoneID),
+		RecordID: core.StringPtr(recordID),
 	}
 }
 
@@ -1008,6 +1006,7 @@ type FirstHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
+
 // UnmarshalFirstHref unmarshals an instance of FirstHref from the specified map of raw messages.
 func UnmarshalFirstHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FirstHref)
@@ -1039,6 +1038,7 @@ type ListResourceRecords struct {
 	// href.
 	Next *NextHref `json:"next,omitempty"`
 }
+
 
 // UnmarshalListResourceRecords unmarshals an instance of ListResourceRecords from the specified map of raw messages.
 func UnmarshalListResourceRecords(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1076,6 +1076,7 @@ type NextHref struct {
 	// href.
 	Href *string `json:"href,omitempty"`
 }
+
 
 // UnmarshalNextHref unmarshals an instance of NextHref from the specified map of raw messages.
 func UnmarshalNextHref(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1121,14 +1122,15 @@ type ResourceRecord struct {
 // Constants associated with the ResourceRecord.Type property.
 // Type of the resource record.
 const (
-	ResourceRecord_Type_A     = "A"
-	ResourceRecord_Type_Aaaa  = "AAAA"
+	ResourceRecord_Type_A = "A"
+	ResourceRecord_Type_Aaaa = "AAAA"
 	ResourceRecord_Type_Cname = "CNAME"
-	ResourceRecord_Type_Mx    = "MX"
-	ResourceRecord_Type_Ptr   = "PTR"
-	ResourceRecord_Type_Srv   = "SRV"
-	ResourceRecord_Type_Txt   = "TXT"
+	ResourceRecord_Type_Mx = "MX"
+	ResourceRecord_Type_Ptr = "PTR"
+	ResourceRecord_Type_Srv = "SRV"
+	ResourceRecord_Type_Txt = "TXT"
 )
+
 
 // UnmarshalResourceRecord unmarshals an instance of ResourceRecord from the specified map of raw messages.
 func UnmarshalResourceRecord(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1180,8 +1182,9 @@ type ResourceRecordInputRdataRdataARecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataARecord : Instantiate ResourceRecordInputRdataRdataARecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataARecord(ip string) (model *ResourceRecordInputRdataRdataARecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataARecord(ip string) (model *ResourceRecordInputRdataRdataARecord, err error) {
 	model = &ResourceRecordInputRdataRdataARecord{
 		Ip: core.StringPtr(ip),
 	}
@@ -1211,8 +1214,9 @@ type ResourceRecordInputRdataRdataAaaaRecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataAaaaRecord : Instantiate ResourceRecordInputRdataRdataAaaaRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordInputRdataRdataAaaaRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordInputRdataRdataAaaaRecord, err error) {
 	model = &ResourceRecordInputRdataRdataAaaaRecord{
 		Ip: core.StringPtr(ip),
 	}
@@ -1242,8 +1246,9 @@ type ResourceRecordInputRdataRdataCnameRecord struct {
 	Cname *string `json:"cname" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataCnameRecord : Instantiate ResourceRecordInputRdataRdataCnameRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataCnameRecord(cname string) (model *ResourceRecordInputRdataRdataCnameRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataCnameRecord(cname string) (model *ResourceRecordInputRdataRdataCnameRecord, err error) {
 	model = &ResourceRecordInputRdataRdataCnameRecord{
 		Cname: core.StringPtr(cname),
 	}
@@ -1276,10 +1281,11 @@ type ResourceRecordInputRdataRdataMxRecord struct {
 	Preference *int64 `json:"preference" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataMxRecord : Instantiate ResourceRecordInputRdataRdataMxRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordInputRdataRdataMxRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordInputRdataRdataMxRecord, err error) {
 	model = &ResourceRecordInputRdataRdataMxRecord{
-		Exchange:   core.StringPtr(exchange),
+		Exchange: core.StringPtr(exchange),
 		Preference: core.Int64Ptr(preference),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -1312,8 +1318,9 @@ type ResourceRecordInputRdataRdataPtrRecord struct {
 	Ptrdname *string `json:"ptrdname" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataPtrRecord : Instantiate ResourceRecordInputRdataRdataPtrRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordInputRdataRdataPtrRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordInputRdataRdataPtrRecord, err error) {
 	model = &ResourceRecordInputRdataRdataPtrRecord{
 		Ptrdname: core.StringPtr(ptrdname),
 	}
@@ -1352,13 +1359,14 @@ type ResourceRecordInputRdataRdataSrvRecord struct {
 	Weight *int64 `json:"weight" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataSrvRecord : Instantiate ResourceRecordInputRdataRdataSrvRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordInputRdataRdataSrvRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordInputRdataRdataSrvRecord, err error) {
 	model = &ResourceRecordInputRdataRdataSrvRecord{
-		Port:     core.Int64Ptr(port),
+		Port: core.Int64Ptr(port),
 		Priority: core.Int64Ptr(priority),
-		Target:   core.StringPtr(target),
-		Weight:   core.Int64Ptr(weight),
+		Target: core.StringPtr(target),
+		Weight: core.Int64Ptr(weight),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -1398,8 +1406,9 @@ type ResourceRecordInputRdataRdataTxtRecord struct {
 	Text *string `json:"text" validate:"required"`
 }
 
+
 // NewResourceRecordInputRdataRdataTxtRecord : Instantiate ResourceRecordInputRdataRdataTxtRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordInputRdataRdataTxtRecord(text string) (model *ResourceRecordInputRdataRdataTxtRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordInputRdataRdataTxtRecord(text string) (model *ResourceRecordInputRdataRdataTxtRecord, err error) {
 	model = &ResourceRecordInputRdataRdataTxtRecord{
 		Text: core.StringPtr(text),
 	}
@@ -1429,8 +1438,9 @@ type ResourceRecordUpdateInputRdataRdataARecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataARecord : Instantiate ResourceRecordUpdateInputRdataRdataARecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataARecord(ip string) (model *ResourceRecordUpdateInputRdataRdataARecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataARecord(ip string) (model *ResourceRecordUpdateInputRdataRdataARecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataARecord{
 		Ip: core.StringPtr(ip),
 	}
@@ -1460,8 +1470,9 @@ type ResourceRecordUpdateInputRdataRdataAaaaRecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataAaaaRecord : Instantiate ResourceRecordUpdateInputRdataRdataAaaaRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordUpdateInputRdataRdataAaaaRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordUpdateInputRdataRdataAaaaRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataAaaaRecord{
 		Ip: core.StringPtr(ip),
 	}
@@ -1491,8 +1502,9 @@ type ResourceRecordUpdateInputRdataRdataCnameRecord struct {
 	Cname *string `json:"cname" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataCnameRecord : Instantiate ResourceRecordUpdateInputRdataRdataCnameRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataCnameRecord(cname string) (model *ResourceRecordUpdateInputRdataRdataCnameRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataCnameRecord(cname string) (model *ResourceRecordUpdateInputRdataRdataCnameRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataCnameRecord{
 		Cname: core.StringPtr(cname),
 	}
@@ -1525,10 +1537,11 @@ type ResourceRecordUpdateInputRdataRdataMxRecord struct {
 	Preference *int64 `json:"preference" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataMxRecord : Instantiate ResourceRecordUpdateInputRdataRdataMxRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordUpdateInputRdataRdataMxRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordUpdateInputRdataRdataMxRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataMxRecord{
-		Exchange:   core.StringPtr(exchange),
+		Exchange: core.StringPtr(exchange),
 		Preference: core.Int64Ptr(preference),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -1561,8 +1574,9 @@ type ResourceRecordUpdateInputRdataRdataPtrRecord struct {
 	Ptrdname *string `json:"ptrdname" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataPtrRecord : Instantiate ResourceRecordUpdateInputRdataRdataPtrRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordUpdateInputRdataRdataPtrRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordUpdateInputRdataRdataPtrRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataPtrRecord{
 		Ptrdname: core.StringPtr(ptrdname),
 	}
@@ -1601,13 +1615,14 @@ type ResourceRecordUpdateInputRdataRdataSrvRecord struct {
 	Weight *int64 `json:"weight" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataSrvRecord : Instantiate ResourceRecordUpdateInputRdataRdataSrvRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordUpdateInputRdataRdataSrvRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordUpdateInputRdataRdataSrvRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataSrvRecord{
-		Port:     core.Int64Ptr(port),
+		Port: core.Int64Ptr(port),
 		Priority: core.Int64Ptr(priority),
-		Target:   core.StringPtr(target),
-		Weight:   core.Int64Ptr(weight),
+		Target: core.StringPtr(target),
+		Weight: core.Int64Ptr(weight),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -1647,8 +1662,9 @@ type ResourceRecordUpdateInputRdataRdataTxtRecord struct {
 	Text *string `json:"text" validate:"required"`
 }
 
+
 // NewResourceRecordUpdateInputRdataRdataTxtRecord : Instantiate ResourceRecordUpdateInputRdataRdataTxtRecord (Generic Model Constructor)
-func (*ResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataTxtRecord(text string) (model *ResourceRecordUpdateInputRdataRdataTxtRecord, err error) {
+func (*DnsResourceRecordsV1) NewResourceRecordUpdateInputRdataRdataTxtRecord(text string) (model *ResourceRecordUpdateInputRdataRdataTxtRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataTxtRecord{
 		Text: core.StringPtr(text),
 	}
