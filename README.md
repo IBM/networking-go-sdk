@@ -75,7 +75,7 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | [PDNS: DNS Zones](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-dns-zones)                                     | dnszonesv1                     |
 | [PDNS: Resource Records](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-resource-records) | ~resourcerecordsv1~ dnsresourcerecordsv1 |
 | [PDNS: Permitted Networks](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-permitted-networks) | ~permittednetworksfordnszonesv1~ dnspermittednetworksv1|
-| [PDNS: Global Load Balancers]() | ~globalloadbalancersv1~ dnsgloballoadbalancersv1 |
+| [PDNS: Global Load Balancers](https://cloud.ibm.com/apidocs/dns-svcs) | ~globalloadbalancersv1~ dnsgloballoadbalancersv1 |
 
 ## Prerequisites
 
@@ -138,9 +138,9 @@ import (
   "github.com/IBM/networking-go-sdk/zonessettingsv1"
   "github.com/IBM/networking-go-sdk/zonesv1"
   "github.com/IBM/networking-go-sdk/dnszonesv1"
-  ~"github.com/IBM/networking-go-sdk/resourcerecordsv1"~
-  ~"github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"`
-  ~"github.com/IBM/networking-go-sdk/globalloadbalancersv1"~
+  "github.com/IBM/networking-go-sdk/resourcerecordsv1"
+  "github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
+  "github.com/IBM/networking-go-sdk/globalloadbalancersv1"
   "github.com/IBM/networking-go-sdk/dnsresourcerecordsv1"
   "github.com/IBM/networking-go-sdk/dnspermittednetworksv1"
   "github.com/IBM/networking-go-sdk/dnsgloballoadbalancersv1"
