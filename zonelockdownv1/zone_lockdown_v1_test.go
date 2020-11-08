@@ -20,10 +20,10 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/zonelockdownv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/zonelockdownv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -225,7 +225,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke ListAllZoneLockownRules successfully`, func() {
@@ -324,6 +324,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.Description = core.StringPtr("Restrict access to these endpoints to requests from a known IP address")
 				createZoneLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				createZoneLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
+				createZoneLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
@@ -351,7 +352,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneLockdownRule successfully`, func() {
@@ -382,6 +383,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.Description = core.StringPtr("Restrict access to these endpoints to requests from a known IP address")
 				createZoneLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				createZoneLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
+				createZoneLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
  				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -412,6 +414,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.Description = core.StringPtr("Restrict access to these endpoints to requests from a known IP address")
 				createZoneLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				createZoneLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
+				createZoneLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -606,7 +609,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
 				}))
 			})
 			It(`Invoke GetLockdown successfully`, func() {
@@ -711,6 +714,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.Description = core.StringPtr("Restrict access to these endpoints to requests from a known IP address")
 				updateLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				updateLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
+				updateLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
@@ -738,7 +742,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
+					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateLockdownRule successfully`, func() {
@@ -770,6 +774,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.Description = core.StringPtr("Restrict access to these endpoints to requests from a known IP address")
 				updateLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				updateLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
+				updateLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
  				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -801,6 +806,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.Description = core.StringPtr("Restrict access to these endpoints to requests from a known IP address")
 				updateLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				updateLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
+				updateLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -849,6 +855,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.SetDescription("Restrict access to these endpoints to requests from a known IP address")
 				createZoneLockdownRuleOptionsModel.SetUrls([]string{"api.mysite.com/some/endpoint*"})
 				createZoneLockdownRuleOptionsModel.SetConfigurations([]zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel})
+				createZoneLockdownRuleOptionsModel.SetPriority(int64(5))
 				createZoneLockdownRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createZoneLockdownRuleOptionsModel).ToNot(BeNil())
 				Expect(createZoneLockdownRuleOptionsModel.ID).To(Equal(core.StringPtr("372e67954025e0ba6aaa6d586b9e0b59")))
@@ -856,6 +863,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				Expect(createZoneLockdownRuleOptionsModel.Description).To(Equal(core.StringPtr("Restrict access to these endpoints to requests from a known IP address")))
 				Expect(createZoneLockdownRuleOptionsModel.Urls).To(Equal([]string{"api.mysite.com/some/endpoint*"}))
 				Expect(createZoneLockdownRuleOptionsModel.Configurations).To(Equal([]zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}))
+				Expect(createZoneLockdownRuleOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(createZoneLockdownRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteZoneLockdownRuleOptions successfully`, func() {
@@ -914,6 +922,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.SetDescription("Restrict access to these endpoints to requests from a known IP address")
 				updateLockdownRuleOptionsModel.SetUrls([]string{"api.mysite.com/some/endpoint*"})
 				updateLockdownRuleOptionsModel.SetConfigurations([]zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel})
+				updateLockdownRuleOptionsModel.SetPriority(int64(5))
 				updateLockdownRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLockdownRuleOptionsModel).ToNot(BeNil())
 				Expect(updateLockdownRuleOptionsModel.LockdownRuleIdentifier).To(Equal(core.StringPtr("testString")))
@@ -922,6 +931,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				Expect(updateLockdownRuleOptionsModel.Description).To(Equal(core.StringPtr("Restrict access to these endpoints to requests from a known IP address")))
 				Expect(updateLockdownRuleOptionsModel.Urls).To(Equal([]string{"api.mysite.com/some/endpoint*"}))
 				Expect(updateLockdownRuleOptionsModel.Configurations).To(Equal([]zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}))
+				Expect(updateLockdownRuleOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(updateLockdownRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 		})

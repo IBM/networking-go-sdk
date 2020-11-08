@@ -237,7 +237,7 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(updateResp).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())
 				Expect(*updateResult.Success).Should(BeTrue())
-				Expect(updateResult.Result.Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("beta.%s", url)))
+				Expect(updateResult.Result.Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("ibm.%s", url)))
 				Expect(updateResult.Result.Issuer).ToNot(BeNil())
 				Expect(updateResult.Result.Priority).ToNot(BeNil())
 				Expect(updateResult.Result.Signature).ToNot(BeNil())
@@ -253,7 +253,7 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(listResult).ToNot(BeNil())
 				Expect(*listResult.Success).Should(BeTrue())
 
-				Expect(listResult.Result[0].Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("beta.%s", url)))
+				Expect(listResult.Result[0].Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("ibm.%s", url)))
 				Expect(listResult.Result[0].Issuer).ToNot(BeNil())
 				Expect(listResult.Result[0].Priority).ToNot(BeNil())
 				Expect(listResult.Result[0].Signature).ToNot(BeNil())
