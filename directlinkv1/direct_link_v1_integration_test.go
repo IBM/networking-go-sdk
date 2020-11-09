@@ -82,7 +82,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 		gatewayName := "GO-INT-SDK-" + strconv.FormatInt(timestamp, 10)
 		updatedGatewayName := "GO-INT-SDK-PATCH-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
-		bgpBaseCidr := "169.254.0.0/16"
 		crossConnectRouter := "LAB-xcr01.dal09"
 		global := true
 		locationName := os.Getenv("LOCATION_NAME")
@@ -110,14 +109,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 		})
 
 		Context("Create gateway", func() {
-			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
 			It("Fails when Invalid BGP is provided", func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65500, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65500, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
@@ -131,7 +130,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It("Fails when invalid speed_mbps is provided", func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, 10000000000, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, 10000000000, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
@@ -145,7 +144,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It("Fails when invalid locations is provided", func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, "InvalidCity")
+				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, "InvalidCity")
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
@@ -398,7 +397,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
-				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, "connect", portIdentity)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 
@@ -495,7 +494,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 		// 	gatewayName := "GO-INT-SDK-MACSEC" + strconv.FormatInt(timestamp, 10)
 		// 	updatedGatewayName := "GO-INT-SDK-MACSEC-PATCH-" + strconv.FormatInt(timestamp, 10)
 		// 	bgpAsn := int64(64999)
-		// 	bgpBaseCidr := "169.254.0.0/16"
 		// 	crossConnectRouter := "LAB-xcr01.dal09"
 		// 	global := true
 		// 	locationName := os.Getenv("LOCATION_NAME")
@@ -523,7 +521,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		// 		gatewayTemplate := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 		// 		gatewayTemplate.BgpAsn = core.Int64Ptr(bgpAsn)
-		// 		gatewayTemplate.BgpBaseCidr = core.StringPtr(bgpBaseCidr)
 		// 		gatewayTemplate.Global = core.BoolPtr(global)
 		// 		gatewayTemplate.Metered = core.BoolPtr(metered)
 		// 		gatewayTemplate.Name = core.StringPtr(gatewayName)
@@ -869,7 +866,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 		timestamp := time.Now().Unix()
 		gatewayName := "GO-INT-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
-		bgpBaseCidr := "169.254.0.0/16"
 		crossConnectRouter := "LAB-xcr01.dal09"
 		global := true
 		locationName := os.Getenv("LOCATION_NAME")
@@ -881,7 +877,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Create gateway", func() {
 
-			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
 			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
@@ -1142,7 +1138,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 		timestamp := time.Now().Unix()
 		gatewayName := "GO-INT-LOA-SDK-" + strconv.FormatInt(timestamp, 10)
 		bgpAsn := int64(64999)
-		bgpBaseCidr := "169.254.0.0/16"
 		crossConnectRouter := "LAB-xcr01.dal09"
 		global := true
 		locationName := os.Getenv("LOCATION_NAME")
@@ -1163,7 +1158,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It("Successfully created a gateway", func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
