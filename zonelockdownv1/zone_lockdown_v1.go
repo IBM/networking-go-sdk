@@ -124,7 +124,7 @@ func (zoneLockdown *ZoneLockdownV1) SetServiceURL(url string) error {
 	return zoneLockdown.Service.SetServiceURL(url)
 }
 
-// ListAllZoneLockownRules : List all lockdown rules for a zone
+// ListAllZoneLockownRules : List all lockdown rules
 // List all lockdown rules for a zone.
 func (zoneLockdown *ZoneLockdownV1) ListAllZoneLockownRules(listAllZoneLockownRulesOptions *ListAllZoneLockownRulesOptions) (result *ListLockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAllZoneLockownRulesOptions, "listAllZoneLockownRulesOptions")
@@ -177,7 +177,7 @@ func (zoneLockdown *ZoneLockdownV1) ListAllZoneLockownRules(listAllZoneLockownRu
 	return
 }
 
-// CreateZoneLockdownRule : Create a new lockdown rule
+// CreateZoneLockdownRule : Create lockdown rule
 // Create a new lockdown rule for a given zone under a service instance.
 func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRule(createZoneLockdownRuleOptions *CreateZoneLockdownRuleOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createZoneLockdownRuleOptions, "createZoneLockdownRuleOptions")
@@ -221,6 +221,9 @@ func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRule(createZoneLockdownRul
 	if createZoneLockdownRuleOptions.Configurations != nil {
 		body["configurations"] = createZoneLockdownRuleOptions.Configurations
 	}
+	if createZoneLockdownRuleOptions.Priority != nil {
+		body["priority"] = createZoneLockdownRuleOptions.Priority
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -245,7 +248,7 @@ func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRule(createZoneLockdownRul
 	return
 }
 
-// DeleteZoneLockdownRule : Delete a lockdown rule
+// DeleteZoneLockdownRule : Delete lockdown rule
 // Delete a lockdown rule for a particular zone, given its id.
 func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRule(deleteZoneLockdownRuleOptions *DeleteZoneLockdownRuleOptions) (result *DeleteLockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteZoneLockdownRuleOptions, "deleteZoneLockdownRuleOptions cannot be nil")
@@ -295,7 +298,7 @@ func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRule(deleteZoneLockdownRul
 	return
 }
 
-// GetLockdown : Get a lockdown rule's details by id
+// GetLockdown : Get lockdown rule
 // For a given service instance, zone id and lockdown rule id, get the lockdown rule details.
 func (zoneLockdown *ZoneLockdownV1) GetLockdown(getLockdownOptions *GetLockdownOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLockdownOptions, "getLockdownOptions cannot be nil")
@@ -345,7 +348,7 @@ func (zoneLockdown *ZoneLockdownV1) GetLockdown(getLockdownOptions *GetLockdownO
 	return
 }
 
-// UpdateLockdownRule : Update a lockdown rule
+// UpdateLockdownRule : Update lockdown rule
 // Update an existing lockdown rule for a given zone under a given service instance.
 func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRule(updateLockdownRuleOptions *UpdateLockdownRuleOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLockdownRuleOptions, "updateLockdownRuleOptions cannot be nil")
@@ -393,6 +396,9 @@ func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRule(updateLockdownRuleOptions
 	if updateLockdownRuleOptions.Configurations != nil {
 		body["configurations"] = updateLockdownRuleOptions.Configurations
 	}
+	if updateLockdownRuleOptions.Priority != nil {
+		body["priority"] = updateLockdownRuleOptions.Priority
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -436,6 +442,9 @@ type CreateZoneLockdownRuleOptions struct {
 	// configurations that can access the provided URLs.
 	Configurations []LockdownInputConfigurationsItem `json:"configurations,omitempty"`
 
+	// firewall priority.
+	Priority *int64 `json:"priority,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -472,6 +481,12 @@ func (options *CreateZoneLockdownRuleOptions) SetUrls(urls []string) *CreateZone
 // SetConfigurations : Allow user to set Configurations
 func (options *CreateZoneLockdownRuleOptions) SetConfigurations(configurations []LockdownInputConfigurationsItem) *CreateZoneLockdownRuleOptions {
 	options.Configurations = configurations
+	return options
+}
+
+// SetPriority : Allow user to set Priority
+func (options *CreateZoneLockdownRuleOptions) SetPriority(priority int64) *CreateZoneLockdownRuleOptions {
+	options.Priority = core.Int64Ptr(priority)
 	return options
 }
 
@@ -725,6 +740,9 @@ type UpdateLockdownRuleOptions struct {
 	// configurations that can access the provided URLs.
 	Configurations []LockdownInputConfigurationsItem `json:"configurations,omitempty"`
 
+	// firewall priority.
+	Priority *int64 `json:"priority,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -769,6 +787,12 @@ func (options *UpdateLockdownRuleOptions) SetUrls(urls []string) *UpdateLockdown
 // SetConfigurations : Allow user to set Configurations
 func (options *UpdateLockdownRuleOptions) SetConfigurations(configurations []LockdownInputConfigurationsItem) *UpdateLockdownRuleOptions {
 	options.Configurations = configurations
+	return options
+}
+
+// SetPriority : Allow user to set Priority
+func (options *UpdateLockdownRuleOptions) SetPriority(priority int64) *UpdateLockdownRuleOptions {
+	options.Priority = core.Int64Ptr(priority)
 	return options
 }
 
@@ -868,6 +892,9 @@ type LockdownObject struct {
 	// Lockdown rule identifier.
 	ID *string `json:"id" validate:"required"`
 
+	// firewall priority.
+	Priority *int64 `json:"priority,omitempty"`
+
 	// Whether this zone lockdown is currently paused.
 	Paused *bool `json:"paused" validate:"required"`
 
@@ -888,6 +915,10 @@ type LockdownObject struct {
 func UnmarshalLockdownObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LockdownObject)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "priority", &obj.Priority)
 	if err != nil {
 		return
 	}
