@@ -1,3 +1,10 @@
+## [0.11.3](https://github.com/IBM/networking-go-sdk/compare/v0.11.2...v0.11.3) (2020-11-09)
+
+
+### Bug Fixes
+
+* CIS - zone lockdown priority update ([#32](https://github.com/IBM/networking-go-sdk/issues/32)) ([ea9a58c](https://github.com/IBM/networking-go-sdk/commit/ea9a58cf4a4c912defaa72b5e29128d56a1e27dc))
+
 ## [0.11.2](https://github.com/IBM/networking-go-sdk/compare/v0.11.1...v0.11.2) (2020-10-31)
 
 
