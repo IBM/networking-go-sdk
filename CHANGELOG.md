@@ -1,3 +1,10 @@
+## [0.11.4](https://github.com/IBM/networking-go-sdk/compare/v0.11.3...v0.11.4) (2020-11-10)
+
+
+### Bug Fixes
+
+* made bgp_base_cidr optional and added customer and carrier name in get gateways ([87d2fcb](https://github.com/IBM/networking-go-sdk/commit/87d2fcb9cbd7d749b2596c99b62e4bf7666e6a78))
+
 ## [0.11.3](https://github.com/IBM/networking-go-sdk/compare/v0.11.2...v0.11.3) (2020-11-09)
 
 
