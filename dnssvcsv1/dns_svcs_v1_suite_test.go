@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dnsresourcerecordsv1_test
+package dnssvcsv1_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -22,7 +22,7 @@ import (
 	"testing"
 )
 
-func TestDnsResourceRecordsV1(t *testing.T) {
+func TestDnsSvcsV1(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "DnsResourceRecordsV1 Suite")
+	RunSpecs(t, "DnsSvcsV1 Suite")
 }
