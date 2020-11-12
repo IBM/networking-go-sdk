@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/IBM/networking-go-sdk/compare/v0.11.4...v0.12.0) (2020-11-12)
+
+
+### Features
+
+* PDNS - DNS Services ([f8c46e6](https://github.com/IBM/networking-go-sdk/commit/f8c46e60e6f60bdee39d07f76b1a8b1941380535))
+
 ## [0.11.4](https://github.com/IBM/networking-go-sdk/compare/v0.11.3...v0.11.4) (2020-11-10)
 
 
