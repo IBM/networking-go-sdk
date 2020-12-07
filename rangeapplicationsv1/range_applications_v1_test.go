@@ -18,12 +18,13 @@ package rangeapplicationsv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/rangeapplicationsv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/rangeapplicationsv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`RangeApplicationsV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(rangeApplicationsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(rangeApplicationsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 				URL: "https://rangeapplicationsv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
@@ -65,13 +66,13 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(rangeApplicationsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{})
+			Expect(rangeApplicationsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := rangeApplicationsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != rangeApplicationsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(rangeApplicationsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(rangeApplicationsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := rangeApplicationsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != rangeApplicationsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(rangeApplicationsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(rangeApplicationsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := rangeApplicationsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := rangeApplicationsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != rangeApplicationsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(rangeApplicationsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(rangeApplicationsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
+			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(rangeApplicationsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
+			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(rangeApplicationsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = rangeapplicationsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListRangeApps(listRangeAppsOptions *ListRangeAppsOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRangeAppsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRangeAppsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
@@ -185,14 +214,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				}))
 			})
 			It(`Invoke ListRangeApps with error: Operation response processing error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the ListRangeAppsOptions model
 				listRangeAppsOptionsModel := new(rangeapplicationsv1.ListRangeAppsOptions)
@@ -202,7 +231,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				listRangeAppsOptionsModel.Direction = core.StringPtr("asc")
 				listRangeAppsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListRangeApps(listRangeAppsOptionsModel)
+				result, response, operationErr := rangeApplicationsService.ListRangeApps(listRangeAppsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				rangeApplicationsService.EnableRetries(0, 0)
+				result, response, operationErr = rangeApplicationsService.ListRangeApps(listRangeAppsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -217,14 +253,17 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listRangeAppsPath := "/v1/testString/zones/testString/range/apps"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRangeAppsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRangeAppsPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
@@ -233,23 +272,28 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"asc"}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}]}`)
 				}))
 			})
 			It(`Invoke ListRangeApps successfully`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				rangeApplicationsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListRangeApps(nil)
+				result, response, operationErr := rangeApplicationsService.ListRangeApps(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -260,23 +304,48 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				listRangeAppsOptionsModel.PerPage = core.Int64Ptr(int64(1))
 				listRangeAppsOptionsModel.Order = core.StringPtr("protocol")
 				listRangeAppsOptionsModel.Direction = core.StringPtr("asc")
- 				listRangeAppsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listRangeAppsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListRangeApps(listRangeAppsOptionsModel)
+				result, response, operationErr = rangeApplicationsService.ListRangeApps(listRangeAppsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.ListRangeAppsWithContext(ctx, listRangeAppsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				rangeApplicationsService.DisableRetries()
+				result, response, operationErr = rangeApplicationsService.ListRangeApps(listRangeAppsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.ListRangeAppsWithContext(ctx, listRangeAppsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListRangeApps with error: Operation request error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the ListRangeAppsOptions model
 				listRangeAppsOptionsModel := new(rangeapplicationsv1.ListRangeAppsOptions)
@@ -286,9 +355,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				listRangeAppsOptionsModel.Direction = core.StringPtr("asc")
 				listRangeAppsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := rangeApplicationsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListRangeApps(listRangeAppsOptionsModel)
+				result, response, operationErr := rangeApplicationsService.ListRangeApps(listRangeAppsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -309,7 +378,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createRangeAppPath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -317,28 +386,28 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				}))
 			})
 			It(`Invoke CreateRangeApp with error: Operation response processing error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the RangeAppReqDns model
 				rangeAppReqDnsModel := new(rangeapplicationsv1.RangeAppReqDns)
 				rangeAppReqDnsModel.Type = core.StringPtr("CNAME")
 				rangeAppReqDnsModel.Name = core.StringPtr("ssh.example.com")
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				rangeAppReqEdgeIpsModel.Type = core.StringPtr("dynamic")
 				rangeAppReqEdgeIpsModel.Connectivity = core.StringPtr("all")
-
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
 
 				// Construct an instance of the CreateRangeAppOptions model
 				createRangeAppOptionsModel := new(rangeapplicationsv1.CreateRangeAppOptions)
@@ -354,7 +423,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				createRangeAppOptionsModel.Tls = core.StringPtr("off")
 				createRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateRangeApp(createRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.CreateRangeApp(createRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				rangeApplicationsService.EnableRetries(0, 0)
+				result, response, operationErr = rangeApplicationsService.CreateRangeApp(createRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -369,31 +445,55 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		createRangeAppPath := "/v1/testString/zones/testString/range/apps"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createRangeAppPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
 				}))
 			})
 			It(`Invoke CreateRangeApp successfully`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				rangeApplicationsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateRangeApp(nil)
+				result, response, operationErr := rangeApplicationsService.CreateRangeApp(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -403,14 +503,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				rangeAppReqDnsModel.Type = core.StringPtr("CNAME")
 				rangeAppReqDnsModel.Name = core.StringPtr("ssh.example.com")
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				rangeAppReqEdgeIpsModel.Type = core.StringPtr("dynamic")
 				rangeAppReqEdgeIpsModel.Connectivity = core.StringPtr("all")
-
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
 
 				// Construct an instance of the CreateRangeAppOptions model
 				createRangeAppOptionsModel := new(rangeapplicationsv1.CreateRangeAppOptions)
@@ -424,37 +524,62 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				createRangeAppOptionsModel.EdgeIps = rangeAppReqEdgeIpsModel
 				createRangeAppOptionsModel.TrafficType = core.StringPtr("direct")
 				createRangeAppOptionsModel.Tls = core.StringPtr("off")
- 				createRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateRangeApp(createRangeAppOptionsModel)
+				result, response, operationErr = rangeApplicationsService.CreateRangeApp(createRangeAppOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.CreateRangeAppWithContext(ctx, createRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				rangeApplicationsService.DisableRetries()
+				result, response, operationErr = rangeApplicationsService.CreateRangeApp(createRangeAppOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.CreateRangeAppWithContext(ctx, createRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateRangeApp with error: Operation validation and request error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the RangeAppReqDns model
 				rangeAppReqDnsModel := new(rangeapplicationsv1.RangeAppReqDns)
 				rangeAppReqDnsModel.Type = core.StringPtr("CNAME")
 				rangeAppReqDnsModel.Name = core.StringPtr("ssh.example.com")
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				rangeAppReqEdgeIpsModel.Type = core.StringPtr("dynamic")
 				rangeAppReqEdgeIpsModel.Connectivity = core.StringPtr("all")
-
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
 
 				// Construct an instance of the CreateRangeAppOptions model
 				createRangeAppOptionsModel := new(rangeapplicationsv1.CreateRangeAppOptions)
@@ -470,9 +595,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				createRangeAppOptionsModel.Tls = core.StringPtr("off")
 				createRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := rangeApplicationsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateRangeApp(createRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.CreateRangeApp(createRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -480,7 +605,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				// Construct a second instance of the CreateRangeAppOptions model with no property values
 				createRangeAppOptionsModelNew := new(rangeapplicationsv1.CreateRangeAppOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreateRangeApp(createRangeAppOptionsModelNew)
+				result, response, operationErr = rangeApplicationsService.CreateRangeApp(createRangeAppOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -500,7 +625,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRangeAppPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -508,21 +633,28 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				}))
 			})
 			It(`Invoke GetRangeApp with error: Operation response processing error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the GetRangeAppOptions model
 				getRangeAppOptionsModel := new(rangeapplicationsv1.GetRangeAppOptions)
 				getRangeAppOptionsModel.AppIdentifier = core.StringPtr("testString")
 				getRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetRangeApp(getRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.GetRangeApp(getRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				rangeApplicationsService.EnableRetries(0, 0)
+				result, response, operationErr = rangeApplicationsService.GetRangeApp(getRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -537,31 +669,39 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getRangeAppPath := "/v1/testString/zones/testString/range/apps/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRangeAppPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
 				}))
 			})
 			It(`Invoke GetRangeApp successfully`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				rangeApplicationsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetRangeApp(nil)
+				result, response, operationErr := rangeApplicationsService.GetRangeApp(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -569,32 +709,57 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				// Construct an instance of the GetRangeAppOptions model
 				getRangeAppOptionsModel := new(rangeapplicationsv1.GetRangeAppOptions)
 				getRangeAppOptionsModel.AppIdentifier = core.StringPtr("testString")
- 				getRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetRangeApp(getRangeAppOptionsModel)
+				result, response, operationErr = rangeApplicationsService.GetRangeApp(getRangeAppOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.GetRangeAppWithContext(ctx, getRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				rangeApplicationsService.DisableRetries()
+				result, response, operationErr = rangeApplicationsService.GetRangeApp(getRangeAppOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.GetRangeAppWithContext(ctx, getRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetRangeApp with error: Operation validation and request error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the GetRangeAppOptions model
 				getRangeAppOptionsModel := new(rangeapplicationsv1.GetRangeAppOptions)
 				getRangeAppOptionsModel.AppIdentifier = core.StringPtr("testString")
 				getRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := rangeApplicationsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetRangeApp(getRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.GetRangeApp(getRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -602,7 +767,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				// Construct a second instance of the GetRangeAppOptions model with no property values
 				getRangeAppOptionsModelNew := new(rangeapplicationsv1.GetRangeAppOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetRangeApp(getRangeAppOptionsModelNew)
+				result, response, operationErr = rangeApplicationsService.GetRangeApp(getRangeAppOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -622,7 +787,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateRangeAppPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -630,28 +795,28 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateRangeApp with error: Operation response processing error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the RangeAppReqDns model
 				rangeAppReqDnsModel := new(rangeapplicationsv1.RangeAppReqDns)
 				rangeAppReqDnsModel.Type = core.StringPtr("CNAME")
 				rangeAppReqDnsModel.Name = core.StringPtr("ssh.example.com")
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				rangeAppReqEdgeIpsModel.Type = core.StringPtr("dynamic")
 				rangeAppReqEdgeIpsModel.Connectivity = core.StringPtr("all")
-
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
 
 				// Construct an instance of the UpdateRangeAppOptions model
 				updateRangeAppOptionsModel := new(rangeapplicationsv1.UpdateRangeAppOptions)
@@ -668,7 +833,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				updateRangeAppOptionsModel.Tls = core.StringPtr("off")
 				updateRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateRangeApp(updateRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.UpdateRangeApp(updateRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				rangeApplicationsService.EnableRetries(0, 0)
+				result, response, operationErr = rangeApplicationsService.UpdateRangeApp(updateRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -683,31 +855,55 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateRangeAppPath := "/v1/testString/zones/testString/range/apps/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateRangeAppPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
 				}))
 			})
 			It(`Invoke UpdateRangeApp successfully`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				rangeApplicationsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateRangeApp(nil)
+				result, response, operationErr := rangeApplicationsService.UpdateRangeApp(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -717,14 +913,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				rangeAppReqDnsModel.Type = core.StringPtr("CNAME")
 				rangeAppReqDnsModel.Name = core.StringPtr("ssh.example.com")
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				rangeAppReqEdgeIpsModel.Type = core.StringPtr("dynamic")
 				rangeAppReqEdgeIpsModel.Connectivity = core.StringPtr("all")
-
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
 
 				// Construct an instance of the UpdateRangeAppOptions model
 				updateRangeAppOptionsModel := new(rangeapplicationsv1.UpdateRangeAppOptions)
@@ -739,37 +935,62 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				updateRangeAppOptionsModel.EdgeIps = rangeAppReqEdgeIpsModel
 				updateRangeAppOptionsModel.TrafficType = core.StringPtr("direct")
 				updateRangeAppOptionsModel.Tls = core.StringPtr("off")
- 				updateRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateRangeApp(updateRangeAppOptionsModel)
+				result, response, operationErr = rangeApplicationsService.UpdateRangeApp(updateRangeAppOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.UpdateRangeAppWithContext(ctx, updateRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				rangeApplicationsService.DisableRetries()
+				result, response, operationErr = rangeApplicationsService.UpdateRangeApp(updateRangeAppOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.UpdateRangeAppWithContext(ctx, updateRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateRangeApp with error: Operation validation and request error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the RangeAppReqDns model
 				rangeAppReqDnsModel := new(rangeapplicationsv1.RangeAppReqDns)
 				rangeAppReqDnsModel.Type = core.StringPtr("CNAME")
 				rangeAppReqDnsModel.Name = core.StringPtr("ssh.example.com")
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				rangeAppReqEdgeIpsModel.Type = core.StringPtr("dynamic")
 				rangeAppReqEdgeIpsModel.Connectivity = core.StringPtr("all")
-
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
 
 				// Construct an instance of the UpdateRangeAppOptions model
 				updateRangeAppOptionsModel := new(rangeapplicationsv1.UpdateRangeAppOptions)
@@ -786,9 +1007,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				updateRangeAppOptionsModel.Tls = core.StringPtr("off")
 				updateRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := rangeApplicationsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateRangeApp(updateRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.UpdateRangeApp(updateRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -796,7 +1017,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				// Construct a second instance of the UpdateRangeAppOptions model with no property values
 				updateRangeAppOptionsModelNew := new(rangeapplicationsv1.UpdateRangeAppOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateRangeApp(updateRangeAppOptionsModelNew)
+				result, response, operationErr = rangeApplicationsService.UpdateRangeApp(updateRangeAppOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -816,7 +1037,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteRangeAppPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -824,21 +1045,28 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				}))
 			})
 			It(`Invoke DeleteRangeApp with error: Operation response processing error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteRangeAppOptions model
 				deleteRangeAppOptionsModel := new(rangeapplicationsv1.DeleteRangeAppOptions)
 				deleteRangeAppOptionsModel.AppIdentifier = core.StringPtr("testString")
 				deleteRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteRangeApp(deleteRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.DeleteRangeApp(deleteRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				rangeApplicationsService.EnableRetries(0, 0)
+				result, response, operationErr = rangeApplicationsService.DeleteRangeApp(deleteRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -853,31 +1081,39 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		deleteRangeAppPath := "/v1/testString/zones/testString/range/apps/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteRangeAppPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteRangeAppPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["OriginDirect"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}}`)
 				}))
 			})
 			It(`Invoke DeleteRangeApp successfully`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
+				rangeApplicationsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteRangeApp(nil)
+				result, response, operationErr := rangeApplicationsService.DeleteRangeApp(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -885,32 +1121,57 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				// Construct an instance of the DeleteRangeAppOptions model
 				deleteRangeAppOptionsModel := new(rangeapplicationsv1.DeleteRangeAppOptions)
 				deleteRangeAppOptionsModel.AppIdentifier = core.StringPtr("testString")
- 				deleteRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteRangeApp(deleteRangeAppOptionsModel)
+				result, response, operationErr = rangeApplicationsService.DeleteRangeApp(deleteRangeAppOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.DeleteRangeAppWithContext(ctx, deleteRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				rangeApplicationsService.DisableRetries()
+				result, response, operationErr = rangeApplicationsService.DeleteRangeApp(deleteRangeAppOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = rangeApplicationsService.DeleteRangeAppWithContext(ctx, deleteRangeAppOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteRangeApp with error: Operation validation and request error`, func() {
-				testService, testServiceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(rangeApplicationsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteRangeAppOptions model
 				deleteRangeAppOptionsModel := new(rangeapplicationsv1.DeleteRangeAppOptions)
 				deleteRangeAppOptionsModel.AppIdentifier = core.StringPtr("testString")
 				deleteRangeAppOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := rangeApplicationsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteRangeApp(deleteRangeAppOptionsModel)
+				result, response, operationErr := rangeApplicationsService.DeleteRangeApp(deleteRangeAppOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -918,7 +1179,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				// Construct a second instance of the DeleteRangeAppOptions model with no property values
 				deleteRangeAppOptionsModelNew := new(rangeapplicationsv1.DeleteRangeAppOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteRangeApp(deleteRangeAppOptionsModelNew)
+				result, response, operationErr = rangeApplicationsService.DeleteRangeApp(deleteRangeAppOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -932,7 +1193,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
-			testService, _ := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
+			rangeApplicationsService, _ := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
 				URL:           "http://rangeapplicationsv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -947,6 +1208,12 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				Expect(rangeAppReqDnsModel.Type).To(Equal(core.StringPtr("CNAME")))
 				Expect(rangeAppReqDnsModel.Name).To(Equal(core.StringPtr("ssh.example.com")))
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				Expect(rangeAppReqOriginDnsModel).ToNot(BeNil())
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+				Expect(rangeAppReqOriginDnsModel.Name).To(Equal(core.StringPtr("origin.net")))
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				Expect(rangeAppReqEdgeIpsModel).ToNot(BeNil())
@@ -955,16 +1222,10 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				Expect(rangeAppReqEdgeIpsModel.Type).To(Equal(core.StringPtr("dynamic")))
 				Expect(rangeAppReqEdgeIpsModel.Connectivity).To(Equal(core.StringPtr("all")))
 
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				Expect(rangeAppReqOriginDnsModel).ToNot(BeNil())
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
-				Expect(rangeAppReqOriginDnsModel.Name).To(Equal(core.StringPtr("origin.net")))
-
 				// Construct an instance of the CreateRangeAppOptions model
 				createRangeAppOptionsProtocol := "tcp/22"
 				var createRangeAppOptionsDns *rangeapplicationsv1.RangeAppReqDns = nil
-				createRangeAppOptionsModel := testService.NewCreateRangeAppOptions(createRangeAppOptionsProtocol, createRangeAppOptionsDns)
+				createRangeAppOptionsModel := rangeApplicationsService.NewCreateRangeAppOptions(createRangeAppOptionsProtocol, createRangeAppOptionsDns)
 				createRangeAppOptionsModel.SetProtocol("tcp/22")
 				createRangeAppOptionsModel.SetDns(rangeAppReqDnsModel)
 				createRangeAppOptionsModel.SetOriginDirect([]string{"testString"})
@@ -992,7 +1253,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			It(`Invoke NewDeleteRangeAppOptions successfully`, func() {
 				// Construct an instance of the DeleteRangeAppOptions model
 				appIdentifier := "testString"
-				deleteRangeAppOptionsModel := testService.NewDeleteRangeAppOptions(appIdentifier)
+				deleteRangeAppOptionsModel := rangeApplicationsService.NewDeleteRangeAppOptions(appIdentifier)
 				deleteRangeAppOptionsModel.SetAppIdentifier("testString")
 				deleteRangeAppOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteRangeAppOptionsModel).ToNot(BeNil())
@@ -1002,7 +1263,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			It(`Invoke NewGetRangeAppOptions successfully`, func() {
 				// Construct an instance of the GetRangeAppOptions model
 				appIdentifier := "testString"
-				getRangeAppOptionsModel := testService.NewGetRangeAppOptions(appIdentifier)
+				getRangeAppOptionsModel := rangeApplicationsService.NewGetRangeAppOptions(appIdentifier)
 				getRangeAppOptionsModel.SetAppIdentifier("testString")
 				getRangeAppOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getRangeAppOptionsModel).ToNot(BeNil())
@@ -1011,7 +1272,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke NewListRangeAppsOptions successfully`, func() {
 				// Construct an instance of the ListRangeAppsOptions model
-				listRangeAppsOptionsModel := testService.NewListRangeAppsOptions()
+				listRangeAppsOptionsModel := rangeApplicationsService.NewListRangeAppsOptions()
 				listRangeAppsOptionsModel.SetPage(int64(38))
 				listRangeAppsOptionsModel.SetPerPage(int64(1))
 				listRangeAppsOptionsModel.SetOrder("protocol")
@@ -1026,7 +1287,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke NewRangeAppReqOriginDns successfully`, func() {
 				name := "origin.net"
-				model, err := testService.NewRangeAppReqOriginDns(name)
+				model, err := rangeApplicationsService.NewRangeAppReqOriginDns(name)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -1039,6 +1300,12 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				Expect(rangeAppReqDnsModel.Type).To(Equal(core.StringPtr("CNAME")))
 				Expect(rangeAppReqDnsModel.Name).To(Equal(core.StringPtr("ssh.example.com")))
 
+				// Construct an instance of the RangeAppReqOriginDns model
+				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
+				Expect(rangeAppReqOriginDnsModel).ToNot(BeNil())
+				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
+				Expect(rangeAppReqOriginDnsModel.Name).To(Equal(core.StringPtr("origin.net")))
+
 				// Construct an instance of the RangeAppReqEdgeIps model
 				rangeAppReqEdgeIpsModel := new(rangeapplicationsv1.RangeAppReqEdgeIps)
 				Expect(rangeAppReqEdgeIpsModel).ToNot(BeNil())
@@ -1047,17 +1314,11 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 				Expect(rangeAppReqEdgeIpsModel.Type).To(Equal(core.StringPtr("dynamic")))
 				Expect(rangeAppReqEdgeIpsModel.Connectivity).To(Equal(core.StringPtr("all")))
 
-				// Construct an instance of the RangeAppReqOriginDns model
-				rangeAppReqOriginDnsModel := new(rangeapplicationsv1.RangeAppReqOriginDns)
-				Expect(rangeAppReqOriginDnsModel).ToNot(BeNil())
-				rangeAppReqOriginDnsModel.Name = core.StringPtr("origin.net")
-				Expect(rangeAppReqOriginDnsModel.Name).To(Equal(core.StringPtr("origin.net")))
-
 				// Construct an instance of the UpdateRangeAppOptions model
 				appIdentifier := "testString"
 				updateRangeAppOptionsProtocol := "tcp/22"
 				var updateRangeAppOptionsDns *rangeapplicationsv1.RangeAppReqDns = nil
-				updateRangeAppOptionsModel := testService.NewUpdateRangeAppOptions(appIdentifier, updateRangeAppOptionsProtocol, updateRangeAppOptionsDns)
+				updateRangeAppOptionsModel := rangeApplicationsService.NewUpdateRangeAppOptions(appIdentifier, updateRangeAppOptionsProtocol, updateRangeAppOptionsDns)
 				updateRangeAppOptionsModel.SetAppIdentifier("testString")
 				updateRangeAppOptionsModel.SetProtocol("tcp/22")
 				updateRangeAppOptionsModel.SetDns(rangeAppReqDnsModel)

@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package dnsrecordbulkv1 : Operations and models for the DnsRecordBulkV1 service
 package dnsrecordbulkv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
 	"io"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // DnsRecordBulkV1 : Import/Export zone files
@@ -120,24 +128,79 @@ func NewDnsRecordBulkV1(options *DnsRecordBulkV1Options) (service *DnsRecordBulk
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "dnsRecordBulk" suitable for processing requests.
+func (dnsRecordBulk *DnsRecordBulkV1) Clone() *DnsRecordBulkV1 {
+	if core.IsNil(dnsRecordBulk) {
+		return nil
+	}
+	clone := *dnsRecordBulk
+	clone.Service = dnsRecordBulk.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (dnsRecordBulk *DnsRecordBulkV1) SetServiceURL(url string) error {
 	return dnsRecordBulk.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (dnsRecordBulk *DnsRecordBulkV1) GetServiceURL() string {
+	return dnsRecordBulk.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (dnsRecordBulk *DnsRecordBulkV1) SetDefaultHeaders(headers http.Header) {
+	dnsRecordBulk.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (dnsRecordBulk *DnsRecordBulkV1) SetEnableGzipCompression(enableGzip bool) {
+	dnsRecordBulk.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (dnsRecordBulk *DnsRecordBulkV1) GetEnableGzipCompression() bool {
+	return dnsRecordBulk.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (dnsRecordBulk *DnsRecordBulkV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	dnsRecordBulk.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (dnsRecordBulk *DnsRecordBulkV1) DisableRetries() {
+	dnsRecordBulk.Service.DisableRetries()
+}
+
 // GetDnsRecordsBulk : Export zone file
 // Export zone file.
 func (dnsRecordBulk *DnsRecordBulkV1) GetDnsRecordsBulk(getDnsRecordsBulkOptions *GetDnsRecordsBulkOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+	return dnsRecordBulk.GetDnsRecordsBulkWithContext(context.Background(), getDnsRecordsBulkOptions)
+}
+
+// GetDnsRecordsBulkWithContext is an alternate form of the GetDnsRecordsBulk method which supports a Context parameter
+func (dnsRecordBulk *DnsRecordBulkV1) GetDnsRecordsBulkWithContext(ctx context.Context, getDnsRecordsBulkOptions *GetDnsRecordsBulkOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getDnsRecordsBulkOptions, "getDnsRecordsBulkOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records_bulk"}
-	pathParameters := []string{*dnsRecordBulk.Crn, *dnsRecordBulk.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecordBulk.Crn,
+		"zone_identifier": *dnsRecordBulk.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsRecordBulk.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecordBulk.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecordBulk.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records_bulk`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -165,6 +228,11 @@ func (dnsRecordBulk *DnsRecordBulkV1) GetDnsRecordsBulk(getDnsRecordsBulkOptions
 // PostDnsRecordsBulk : Import zone file
 // Import zone file.
 func (dnsRecordBulk *DnsRecordBulkV1) PostDnsRecordsBulk(postDnsRecordsBulkOptions *PostDnsRecordsBulkOptions) (result *DnsRecordsObject, response *core.DetailedResponse, err error) {
+	return dnsRecordBulk.PostDnsRecordsBulkWithContext(context.Background(), postDnsRecordsBulkOptions)
+}
+
+// PostDnsRecordsBulkWithContext is an alternate form of the PostDnsRecordsBulk method which supports a Context parameter
+func (dnsRecordBulk *DnsRecordBulkV1) PostDnsRecordsBulkWithContext(ctx context.Context, postDnsRecordsBulkOptions *PostDnsRecordsBulkOptions) (result *DnsRecordsObject, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(postDnsRecordsBulkOptions, "postDnsRecordsBulkOptions cannot be nil")
 	if err != nil {
 		return
@@ -178,11 +246,15 @@ func (dnsRecordBulk *DnsRecordBulkV1) PostDnsRecordsBulk(postDnsRecordsBulkOptio
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records_bulk"}
-	pathParameters := []string{*dnsRecordBulk.Crn, *dnsRecordBulk.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecordBulk.Crn,
+		"zone_identifier": *dnsRecordBulk.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsRecordBulk.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecordBulk.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecordBulk.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records_bulk`, pathParamsMap)
 	if err != nil {
 		return
 	}

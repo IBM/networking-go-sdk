@@ -18,12 +18,13 @@ package globalloadbalancereventsv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancereventsv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/globalloadbalancereventsv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,26 +35,26 @@ import (
 
 var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(globalLoadBalancerEventsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(globalLoadBalancerEventsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				URL: "https://globalloadbalancereventsv1/api",
 				Crn: core.StringPtr(crn),
 				Authenticator: &core.BasicAuthenticator{
@@ -61,13 +62,13 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(globalLoadBalancerEventsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{})
+			Expect(globalLoadBalancerEventsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -81,35 +82,53 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerEventsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerEventsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerEventsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerEventsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerEventsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerEventsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerEventsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerEventsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerEventsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					Crn: core.StringPtr(crn),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := globalLoadBalancerEventsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerEventsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerEventsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerEventsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerEventsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerEventsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -120,13 +139,13 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(globalLoadBalancerEventsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -137,16 +156,26 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1UsingExternalConfig(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(globalLoadBalancerEventsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = globalloadbalancereventsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`GetLoadBalancerEvents(getLoadBalancerEventsOptions *GetLoadBalancerEventsOptions) - Operation response error`, func() {
@@ -158,7 +187,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerEventsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerEventsPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -166,19 +195,26 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 				}))
 			})
 			It(`Invoke GetLoadBalancerEvents with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerEventsOptions model
 				getLoadBalancerEventsOptionsModel := new(globalloadbalancereventsv1.GetLoadBalancerEventsOptions)
 				getLoadBalancerEventsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
+				result, response, operationErr := globalLoadBalancerEventsService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerEventsService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerEventsService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -192,60 +228,93 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 	Describe(`GetLoadBalancerEvents(getLoadBalancerEventsOptions *GetLoadBalancerEventsOptions)`, func() {
 		crn := "testString"
 		getLoadBalancerEventsPath := "/v1/testString/load_balancers/events"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerEventsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerEventsPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "timestamp": "2019-01-01T12:00:00", "pool": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "name": "some-pool", "healthy": true, "changed": true, "minimum_origins": 1}], "origins": [{"name": "f1aba936b94213e5b8dca0c0dbf1f9cc", "address": "1.2.3.4", "ip": "1.2.3.4", "enabled": true, "healthy": true, "failure_reason": "No failures", "changed": true}]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "timestamp": "2019-01-01T12:00:00", "pool": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "name": "some-pool", "healthy": true, "changed": true, "minimum_origins": 1}], "origins": [{"name": "f1aba936b94213e5b8dca0c0dbf1f9cc", "address": "1.2.3.4", "ip": "1.2.3.4", "enabled": true, "healthy": true, "failure_reason": "No failures", "changed": true}]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerEvents successfully`, func() {
-				testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
+				globalLoadBalancerEventsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetLoadBalancerEvents(nil)
+				result, response, operationErr := globalLoadBalancerEventsService.GetLoadBalancerEvents(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetLoadBalancerEventsOptions model
 				getLoadBalancerEventsOptionsModel := new(globalloadbalancereventsv1.GetLoadBalancerEventsOptions)
- 				getLoadBalancerEventsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getLoadBalancerEventsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
+				result, response, operationErr = globalLoadBalancerEventsService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerEventsService.GetLoadBalancerEventsWithContext(ctx, getLoadBalancerEventsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerEventsService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerEventsService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerEventsService.GetLoadBalancerEventsWithContext(ctx, getLoadBalancerEventsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetLoadBalancerEvents with error: Operation request error`, func() {
-				testService, testServiceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerEventsOptions model
 				getLoadBalancerEventsOptionsModel := new(globalloadbalancereventsv1.GetLoadBalancerEventsOptions)
 				getLoadBalancerEventsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerEventsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
+				result, response, operationErr := globalLoadBalancerEventsService.GetLoadBalancerEvents(getLoadBalancerEventsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -259,14 +328,14 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
-			testService, _ := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
+			globalLoadBalancerEventsService, _ := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				URL:           "http://globalloadbalancereventsv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 			})
 			It(`Invoke NewGetLoadBalancerEventsOptions successfully`, func() {
 				// Construct an instance of the GetLoadBalancerEventsOptions model
-				getLoadBalancerEventsOptionsModel := testService.NewGetLoadBalancerEventsOptions()
+				getLoadBalancerEventsOptionsModel := globalLoadBalancerEventsService.NewGetLoadBalancerEventsOptions()
 				getLoadBalancerEventsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getLoadBalancerEventsOptionsModel).ToNot(BeNil())
 				Expect(getLoadBalancerEventsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))

@@ -18,12 +18,13 @@ package cisipapiv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/cisipapiv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/cisipapiv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,31 +35,31 @@ import (
 
 var _ = Describe(`CisIpApiV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(cisIpApiService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(cisIpApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 				URL: "https://cisipapiv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(cisIpApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -71,32 +72,50 @@ var _ = Describe(`CisIpApiV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(cisIpApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cisIpApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cisIpApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cisIpApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cisIpApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(cisIpApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cisIpApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cisIpApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cisIpApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cisIpApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cisIpApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := cisIpApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(cisIpApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cisIpApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cisIpApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cisIpApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cisIpApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cisIpApiService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -107,12 +126,12 @@ var _ = Describe(`CisIpApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
+			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(cisIpApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -123,15 +142,25 @@ var _ = Describe(`CisIpApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
+			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(cisIpApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = cisipapiv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListIps(listIpsOptions *ListIpsOptions) - Operation response error`, func() {
@@ -142,7 +171,7 @@ var _ = Describe(`CisIpApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -150,18 +179,25 @@ var _ = Describe(`CisIpApiV1`, func() {
 				}))
 			})
 			It(`Invoke ListIps with error: Operation response processing error`, func() {
-				testService, testServiceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cisIpApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListIpsOptions model
 				listIpsOptionsModel := new(cisipapiv1.ListIpsOptions)
 				listIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListIps(listIpsOptionsModel)
+				result, response, operationErr := cisIpApiService.ListIps(listIpsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cisIpApiService.EnableRetries(0, 0)
+				result, response, operationErr = cisIpApiService.ListIps(listIpsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -174,58 +210,91 @@ var _ = Describe(`CisIpApiV1`, func() {
 
 	Describe(`ListIps(listIpsOptions *ListIpsOptions)`, func() {
 		listIpsPath := "/v1/ips"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"ipv4_cidrs": ["180.15.128.0/20"], "ipv6_cidrs": ["2400:cb00::/32"]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"ipv4_cidrs": ["180.15.128.0/20"], "ipv6_cidrs": ["2400:cb00::/32"]}}`)
 				}))
 			})
 			It(`Invoke ListIps successfully`, func() {
-				testService, testServiceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cisIpApiService).ToNot(BeNil())
+				cisIpApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListIps(nil)
+				result, response, operationErr := cisIpApiService.ListIps(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListIpsOptions model
 				listIpsOptionsModel := new(cisipapiv1.ListIpsOptions)
- 				listIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListIps(listIpsOptionsModel)
+				result, response, operationErr = cisIpApiService.ListIps(listIpsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = cisIpApiService.ListIpsWithContext(ctx, listIpsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				cisIpApiService.DisableRetries()
+				result, response, operationErr = cisIpApiService.ListIps(listIpsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = cisIpApiService.ListIpsWithContext(ctx, listIpsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListIps with error: Operation request error`, func() {
-				testService, testServiceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cisIpApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListIpsOptions model
 				listIpsOptionsModel := new(cisipapiv1.ListIpsOptions)
 				listIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cisIpApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListIps(listIpsOptionsModel)
+				result, response, operationErr := cisIpApiService.ListIps(listIpsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -238,13 +307,13 @@ var _ = Describe(`CisIpApiV1`, func() {
 	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
-			testService, _ := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
+			cisIpApiService, _ := cisipapiv1.NewCisIpApiV1(&cisipapiv1.CisIpApiV1Options{
 				URL:           "http://cisipapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
 			It(`Invoke NewListIpsOptions successfully`, func() {
 				// Construct an instance of the ListIpsOptions model
-				listIpsOptionsModel := testService.NewListIpsOptions()
+				listIpsOptionsModel := cisIpApiService.NewListIpsOptions()
 				listIpsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listIpsOptionsModel).ToNot(BeNil())
 				Expect(listIpsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))

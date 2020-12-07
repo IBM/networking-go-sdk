@@ -18,6 +18,7 @@ package zonesv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/networking-go-sdk/zonesv1"
@@ -34,26 +35,26 @@ import (
 
 var _ = Describe(`ZonesV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+			zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(zonesService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+			zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(zonesService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+			zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 				URL: "https://zonesv1/api",
 				Crn: core.StringPtr(crn),
 				Authenticator: &core.BasicAuthenticator{
@@ -61,13 +62,13 @@ var _ = Describe(`ZonesV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(zonesService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{})
+			Expect(zonesService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -81,35 +82,53 @@ var _ = Describe(`ZonesV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := zonesService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != zonesService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(zonesService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(zonesService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(zonesService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := zonesService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != zonesService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(zonesService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(zonesService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
 					Crn: core.StringPtr(crn),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := zonesService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(zonesService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := zonesService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != zonesService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(zonesService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(zonesService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -120,13 +139,13 @@ var _ = Describe(`ZonesV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
+			zonesService, serviceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(zonesService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -137,16 +156,26 @@ var _ = Describe(`ZonesV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
+			zonesService, serviceErr := zonesv1.NewZonesV1UsingExternalConfig(&zonesv1.ZonesV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(zonesService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = zonesv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListZones(listZonesOptions *ListZonesOptions) - Operation response error`, func() {
@@ -158,7 +187,7 @@ var _ = Describe(`ZonesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listZonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listZonesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
@@ -170,13 +199,13 @@ var _ = Describe(`ZonesV1`, func() {
 				}))
 			})
 			It(`Invoke ListZones with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the ListZonesOptions model
 				listZonesOptionsModel := new(zonesv1.ListZonesOptions)
@@ -184,7 +213,14 @@ var _ = Describe(`ZonesV1`, func() {
 				listZonesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListZones(listZonesOptionsModel)
+				result, response, operationErr := zonesService.ListZones(listZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesService.EnableRetries(0, 0)
+				result, response, operationErr = zonesService.ListZones(listZonesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -198,34 +234,42 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`ListZones(listZonesOptions *ListZonesOptions)`, func() {
 		crn := "testString"
 		listZonesPath := "/v1/testString/zones"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listZonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listZonesPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke ListZones successfully`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				zonesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListZones(nil)
+				result, response, operationErr := zonesService.ListZones(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -234,22 +278,47 @@ var _ = Describe(`ZonesV1`, func() {
 				listZonesOptionsModel := new(zonesv1.ListZonesOptions)
 				listZonesOptionsModel.Page = core.Int64Ptr(int64(38))
 				listZonesOptionsModel.PerPage = core.Int64Ptr(int64(5))
- 				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListZones(listZonesOptionsModel)
+				result, response, operationErr = zonesService.ListZones(listZonesOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.ListZonesWithContext(ctx, listZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zonesService.DisableRetries()
+				result, response, operationErr = zonesService.ListZones(listZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.ListZonesWithContext(ctx, listZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListZones with error: Operation request error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the ListZonesOptions model
 				listZonesOptionsModel := new(zonesv1.ListZonesOptions)
@@ -257,9 +326,9 @@ var _ = Describe(`ZonesV1`, func() {
 				listZonesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zonesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListZones(listZonesOptionsModel)
+				result, response, operationErr := zonesService.ListZones(listZonesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -279,7 +348,7 @@ var _ = Describe(`ZonesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createZonePath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -287,20 +356,27 @@ var _ = Describe(`ZonesV1`, func() {
 				}))
 			})
 			It(`Invoke CreateZone with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the CreateZoneOptions model
 				createZoneOptionsModel := new(zonesv1.CreateZoneOptions)
 				createZoneOptionsModel.Name = core.StringPtr("test-example.com")
 				createZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateZone(createZoneOptionsModel)
+				result, response, operationErr := zonesService.CreateZone(createZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesService.EnableRetries(0, 0)
+				result, response, operationErr = zonesService.CreateZone(createZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -314,30 +390,54 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`CreateZone(createZoneOptions *CreateZoneOptions)`, func() {
 		crn := "testString"
 		createZonePath := "/v1/testString/zones"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createZonePath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}`)
 				}))
 			})
 			It(`Invoke CreateZone successfully`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				zonesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateZone(nil)
+				result, response, operationErr := zonesService.CreateZone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -345,31 +445,56 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct an instance of the CreateZoneOptions model
 				createZoneOptionsModel := new(zonesv1.CreateZoneOptions)
 				createZoneOptionsModel.Name = core.StringPtr("test-example.com")
- 				createZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateZone(createZoneOptionsModel)
+				result, response, operationErr = zonesService.CreateZone(createZoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.CreateZoneWithContext(ctx, createZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zonesService.DisableRetries()
+				result, response, operationErr = zonesService.CreateZone(createZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.CreateZoneWithContext(ctx, createZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateZone with error: Operation request error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the CreateZoneOptions model
 				createZoneOptionsModel := new(zonesv1.CreateZoneOptions)
 				createZoneOptionsModel.Name = core.StringPtr("test-example.com")
 				createZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zonesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateZone(createZoneOptionsModel)
+				result, response, operationErr := zonesService.CreateZone(createZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -389,7 +514,7 @@ var _ = Describe(`ZonesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteZonePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -397,20 +522,27 @@ var _ = Describe(`ZonesV1`, func() {
 				}))
 			})
 			It(`Invoke DeleteZone with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteZoneOptions model
 				deleteZoneOptionsModel := new(zonesv1.DeleteZoneOptions)
 				deleteZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				deleteZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteZone(deleteZoneOptionsModel)
+				result, response, operationErr := zonesService.DeleteZone(deleteZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesService.EnableRetries(0, 0)
+				result, response, operationErr = zonesService.DeleteZone(deleteZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -424,30 +556,38 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`DeleteZone(deleteZoneOptions *DeleteZoneOptions)`, func() {
 		crn := "testString"
 		deleteZonePath := "/v1/testString/zones/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteZonePath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
 				}))
 			})
 			It(`Invoke DeleteZone successfully`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				zonesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteZone(nil)
+				result, response, operationErr := zonesService.DeleteZone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -455,31 +595,56 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct an instance of the DeleteZoneOptions model
 				deleteZoneOptionsModel := new(zonesv1.DeleteZoneOptions)
 				deleteZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
- 				deleteZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteZone(deleteZoneOptionsModel)
+				result, response, operationErr = zonesService.DeleteZone(deleteZoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.DeleteZoneWithContext(ctx, deleteZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zonesService.DisableRetries()
+				result, response, operationErr = zonesService.DeleteZone(deleteZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.DeleteZoneWithContext(ctx, deleteZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteZone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteZoneOptions model
 				deleteZoneOptionsModel := new(zonesv1.DeleteZoneOptions)
 				deleteZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				deleteZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zonesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteZone(deleteZoneOptionsModel)
+				result, response, operationErr := zonesService.DeleteZone(deleteZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -487,7 +652,7 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct a second instance of the DeleteZoneOptions model with no property values
 				deleteZoneOptionsModelNew := new(zonesv1.DeleteZoneOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteZone(deleteZoneOptionsModelNew)
+				result, response, operationErr = zonesService.DeleteZone(deleteZoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -506,7 +671,7 @@ var _ = Describe(`ZonesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getZonePath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -514,20 +679,27 @@ var _ = Describe(`ZonesV1`, func() {
 				}))
 			})
 			It(`Invoke GetZone with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the GetZoneOptions model
 				getZoneOptionsModel := new(zonesv1.GetZoneOptions)
 				getZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				getZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetZone(getZoneOptionsModel)
+				result, response, operationErr := zonesService.GetZone(getZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesService.EnableRetries(0, 0)
+				result, response, operationErr = zonesService.GetZone(getZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -541,30 +713,38 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`GetZone(getZoneOptions *GetZoneOptions)`, func() {
 		crn := "testString"
 		getZonePath := "/v1/testString/zones/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getZonePath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}`)
 				}))
 			})
 			It(`Invoke GetZone successfully`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				zonesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetZone(nil)
+				result, response, operationErr := zonesService.GetZone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -572,31 +752,56 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct an instance of the GetZoneOptions model
 				getZoneOptionsModel := new(zonesv1.GetZoneOptions)
 				getZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
- 				getZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetZone(getZoneOptionsModel)
+				result, response, operationErr = zonesService.GetZone(getZoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.GetZoneWithContext(ctx, getZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zonesService.DisableRetries()
+				result, response, operationErr = zonesService.GetZone(getZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.GetZoneWithContext(ctx, getZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetZone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the GetZoneOptions model
 				getZoneOptionsModel := new(zonesv1.GetZoneOptions)
 				getZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				getZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zonesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetZone(getZoneOptionsModel)
+				result, response, operationErr := zonesService.GetZone(getZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -604,7 +809,7 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct a second instance of the GetZoneOptions model with no property values
 				getZoneOptionsModelNew := new(zonesv1.GetZoneOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetZone(getZoneOptionsModelNew)
+				result, response, operationErr = zonesService.GetZone(getZoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -623,7 +828,7 @@ var _ = Describe(`ZonesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateZonePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -631,13 +836,13 @@ var _ = Describe(`ZonesV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateZone with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateZoneOptions model
 				updateZoneOptionsModel := new(zonesv1.UpdateZoneOptions)
@@ -645,7 +850,14 @@ var _ = Describe(`ZonesV1`, func() {
 				updateZoneOptionsModel.Paused = core.BoolPtr(false)
 				updateZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateZone(updateZoneOptionsModel)
+				result, response, operationErr := zonesService.UpdateZone(updateZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesService.EnableRetries(0, 0)
+				result, response, operationErr = zonesService.UpdateZone(updateZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -659,30 +871,54 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`UpdateZone(updateZoneOptions *UpdateZoneOptions)`, func() {
 		crn := "testString"
 		updateZonePath := "/v1/testString/zones/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateZonePath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}`)
 				}))
 			})
 			It(`Invoke UpdateZone successfully`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				zonesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateZone(nil)
+				result, response, operationErr := zonesService.UpdateZone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -691,22 +927,47 @@ var _ = Describe(`ZonesV1`, func() {
 				updateZoneOptionsModel := new(zonesv1.UpdateZoneOptions)
 				updateZoneOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				updateZoneOptionsModel.Paused = core.BoolPtr(false)
- 				updateZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateZone(updateZoneOptionsModel)
+				result, response, operationErr = zonesService.UpdateZone(updateZoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.UpdateZoneWithContext(ctx, updateZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zonesService.DisableRetries()
+				result, response, operationErr = zonesService.UpdateZone(updateZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.UpdateZoneWithContext(ctx, updateZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateZone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateZoneOptions model
 				updateZoneOptionsModel := new(zonesv1.UpdateZoneOptions)
@@ -714,9 +975,9 @@ var _ = Describe(`ZonesV1`, func() {
 				updateZoneOptionsModel.Paused = core.BoolPtr(false)
 				updateZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zonesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateZone(updateZoneOptionsModel)
+				result, response, operationErr := zonesService.UpdateZone(updateZoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -724,7 +985,7 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct a second instance of the UpdateZoneOptions model with no property values
 				updateZoneOptionsModelNew := new(zonesv1.UpdateZoneOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateZone(updateZoneOptionsModelNew)
+				result, response, operationErr = zonesService.UpdateZone(updateZoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -743,7 +1004,7 @@ var _ = Describe(`ZonesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(zoneActivationCheckPath))
+					Expect(req.URL.EscapedPath()).To(Equal(zoneActivationCheckPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -751,20 +1012,27 @@ var _ = Describe(`ZonesV1`, func() {
 				}))
 			})
 			It(`Invoke ZoneActivationCheck with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the ZoneActivationCheckOptions model
 				zoneActivationCheckOptionsModel := new(zonesv1.ZoneActivationCheckOptions)
 				zoneActivationCheckOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				zoneActivationCheckOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
+				result, response, operationErr := zonesService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesService.EnableRetries(0, 0)
+				result, response, operationErr = zonesService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -778,30 +1046,38 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`ZoneActivationCheck(zoneActivationCheckOptions *ZoneActivationCheckOptions)`, func() {
 		crn := "testString"
 		zoneActivationCheckPath := "/v1/testString/zones/testString/activation_check"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(zoneActivationCheckPath))
+					Expect(req.URL.EscapedPath()).To(Equal(zoneActivationCheckPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
 				}))
 			})
 			It(`Invoke ZoneActivationCheck successfully`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
+				zonesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ZoneActivationCheck(nil)
+				result, response, operationErr := zonesService.ZoneActivationCheck(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -809,31 +1085,56 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct an instance of the ZoneActivationCheckOptions model
 				zoneActivationCheckOptionsModel := new(zonesv1.ZoneActivationCheckOptions)
 				zoneActivationCheckOptionsModel.ZoneIdentifier = core.StringPtr("testString")
- 				zoneActivationCheckOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				zoneActivationCheckOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
+				result, response, operationErr = zonesService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.ZoneActivationCheckWithContext(ctx, zoneActivationCheckOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zonesService.DisableRetries()
+				result, response, operationErr = zonesService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zonesService.ZoneActivationCheckWithContext(ctx, zoneActivationCheckOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ZoneActivationCheck with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesService).ToNot(BeNil())
 
 				// Construct an instance of the ZoneActivationCheckOptions model
 				zoneActivationCheckOptionsModel := new(zonesv1.ZoneActivationCheckOptions)
 				zoneActivationCheckOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				zoneActivationCheckOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zonesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
+				result, response, operationErr := zonesService.ZoneActivationCheck(zoneActivationCheckOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -841,7 +1142,7 @@ var _ = Describe(`ZonesV1`, func() {
 				// Construct a second instance of the ZoneActivationCheckOptions model with no property values
 				zoneActivationCheckOptionsModelNew := new(zonesv1.ZoneActivationCheckOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ZoneActivationCheck(zoneActivationCheckOptionsModelNew)
+				result, response, operationErr = zonesService.ZoneActivationCheck(zoneActivationCheckOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -854,14 +1155,14 @@ var _ = Describe(`ZonesV1`, func() {
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
-			testService, _ := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
+			zonesService, _ := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 				URL:           "http://zonesv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateZoneOptions successfully`, func() {
 				// Construct an instance of the CreateZoneOptions model
-				createZoneOptionsModel := testService.NewCreateZoneOptions()
+				createZoneOptionsModel := zonesService.NewCreateZoneOptions()
 				createZoneOptionsModel.SetName("test-example.com")
 				createZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createZoneOptionsModel).ToNot(BeNil())
@@ -871,7 +1172,7 @@ var _ = Describe(`ZonesV1`, func() {
 			It(`Invoke NewDeleteZoneOptions successfully`, func() {
 				// Construct an instance of the DeleteZoneOptions model
 				zoneIdentifier := "testString"
-				deleteZoneOptionsModel := testService.NewDeleteZoneOptions(zoneIdentifier)
+				deleteZoneOptionsModel := zonesService.NewDeleteZoneOptions(zoneIdentifier)
 				deleteZoneOptionsModel.SetZoneIdentifier("testString")
 				deleteZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteZoneOptionsModel).ToNot(BeNil())
@@ -881,7 +1182,7 @@ var _ = Describe(`ZonesV1`, func() {
 			It(`Invoke NewGetZoneOptions successfully`, func() {
 				// Construct an instance of the GetZoneOptions model
 				zoneIdentifier := "testString"
-				getZoneOptionsModel := testService.NewGetZoneOptions(zoneIdentifier)
+				getZoneOptionsModel := zonesService.NewGetZoneOptions(zoneIdentifier)
 				getZoneOptionsModel.SetZoneIdentifier("testString")
 				getZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getZoneOptionsModel).ToNot(BeNil())
@@ -890,7 +1191,7 @@ var _ = Describe(`ZonesV1`, func() {
 			})
 			It(`Invoke NewListZonesOptions successfully`, func() {
 				// Construct an instance of the ListZonesOptions model
-				listZonesOptionsModel := testService.NewListZonesOptions()
+				listZonesOptionsModel := zonesService.NewListZonesOptions()
 				listZonesOptionsModel.SetPage(int64(38))
 				listZonesOptionsModel.SetPerPage(int64(5))
 				listZonesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -902,7 +1203,7 @@ var _ = Describe(`ZonesV1`, func() {
 			It(`Invoke NewUpdateZoneOptions successfully`, func() {
 				// Construct an instance of the UpdateZoneOptions model
 				zoneIdentifier := "testString"
-				updateZoneOptionsModel := testService.NewUpdateZoneOptions(zoneIdentifier)
+				updateZoneOptionsModel := zonesService.NewUpdateZoneOptions(zoneIdentifier)
 				updateZoneOptionsModel.SetZoneIdentifier("testString")
 				updateZoneOptionsModel.SetPaused(false)
 				updateZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -914,7 +1215,7 @@ var _ = Describe(`ZonesV1`, func() {
 			It(`Invoke NewZoneActivationCheckOptions successfully`, func() {
 				// Construct an instance of the ZoneActivationCheckOptions model
 				zoneIdentifier := "testString"
-				zoneActivationCheckOptionsModel := testService.NewZoneActivationCheckOptions(zoneIdentifier)
+				zoneActivationCheckOptionsModel := zonesService.NewZoneActivationCheckOptions(zoneIdentifier)
 				zoneActivationCheckOptionsModel.SetZoneIdentifier("testString")
 				zoneActivationCheckOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(zoneActivationCheckOptionsModel).ToNot(BeNil())

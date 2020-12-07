@@ -18,6 +18,7 @@ package globalloadbalancermonitorv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
@@ -34,26 +35,26 @@ import (
 
 var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(globalLoadBalancerMonitorService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				URL: "https://globalloadbalancermonitorv1/api",
 				Crn: core.StringPtr(crn),
 				Authenticator: &core.BasicAuthenticator{
@@ -61,13 +62,13 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(globalLoadBalancerMonitorService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{})
+			Expect(globalLoadBalancerMonitorService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -81,35 +82,53 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerMonitorService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerMonitorService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerMonitorService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerMonitorService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerMonitorService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerMonitorService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerMonitorService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerMonitorService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					Crn: core.StringPtr(crn),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := globalLoadBalancerMonitorService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerMonitorService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerMonitorService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerMonitorService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerMonitorService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -120,13 +139,13 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(globalLoadBalancerMonitorService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -137,16 +156,26 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1UsingExternalConfig(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(globalLoadBalancerMonitorService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = globalloadbalancermonitorv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptions *ListAllLoadBalancerMonitorsOptions) - Operation response error`, func() {
@@ -158,7 +187,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllLoadBalancerMonitorsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllLoadBalancerMonitorsPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -166,19 +195,26 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				}))
 			})
 			It(`Invoke ListAllLoadBalancerMonitors with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllLoadBalancerMonitorsOptions model
 				listAllLoadBalancerMonitorsOptionsModel := new(globalloadbalancermonitorv1.ListAllLoadBalancerMonitorsOptions)
 				listAllLoadBalancerMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerMonitorService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -192,60 +228,93 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	Describe(`ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptions *ListAllLoadBalancerMonitorsOptions)`, func() {
 		crn := "testString"
 		listAllLoadBalancerMonitorsPath := "/v1/testString/load_balancers/monitors"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllLoadBalancerMonitorsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllLoadBalancerMonitorsPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke ListAllLoadBalancerMonitors successfully`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListAllLoadBalancerMonitors(nil)
+				result, response, operationErr := globalLoadBalancerMonitorService.ListAllLoadBalancerMonitors(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the ListAllLoadBalancerMonitorsOptions model
 				listAllLoadBalancerMonitorsOptionsModel := new(globalloadbalancermonitorv1.ListAllLoadBalancerMonitorsOptions)
- 				listAllLoadBalancerMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listAllLoadBalancerMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
+				result, response, operationErr = globalLoadBalancerMonitorService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.ListAllLoadBalancerMonitorsWithContext(ctx, listAllLoadBalancerMonitorsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerMonitorService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerMonitorService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.ListAllLoadBalancerMonitorsWithContext(ctx, listAllLoadBalancerMonitorsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListAllLoadBalancerMonitors with error: Operation request error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllLoadBalancerMonitorsOptions model
 				listAllLoadBalancerMonitorsOptionsModel := new(globalloadbalancermonitorv1.ListAllLoadBalancerMonitorsOptions)
 				listAllLoadBalancerMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerMonitorService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.ListAllLoadBalancerMonitors(listAllLoadBalancerMonitorsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -265,7 +334,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -273,13 +342,13 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				}))
 			})
 			It(`Invoke CreateLoadBalancerMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the CreateLoadBalancerMonitorOptions model
 				createLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.CreateLoadBalancerMonitorOptions)
@@ -298,7 +367,14 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerMonitorService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -312,30 +388,54 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	Describe(`CreateLoadBalancerMonitor(createLoadBalancerMonitorOptions *CreateLoadBalancerMonitorOptions)`, func() {
 		crn := "testString"
 		createLoadBalancerMonitorPath := "/v1/testString/load_balancers/monitors"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerMonitor successfully`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateLoadBalancerMonitor(nil)
+				result, response, operationErr := globalLoadBalancerMonitorService.CreateLoadBalancerMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -355,22 +455,47 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				createLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
 				createLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
- 				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
+				result, response, operationErr = globalLoadBalancerMonitorService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.CreateLoadBalancerMonitorWithContext(ctx, createLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerMonitorService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerMonitorService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.CreateLoadBalancerMonitorWithContext(ctx, createLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateLoadBalancerMonitor with error: Operation request error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the CreateLoadBalancerMonitorOptions model
 				createLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.CreateLoadBalancerMonitorOptions)
@@ -389,9 +514,9 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				createLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				createLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerMonitorService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.CreateLoadBalancerMonitor(createLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -411,7 +536,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(editLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(editLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -419,13 +544,13 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				}))
 			})
 			It(`Invoke EditLoadBalancerMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the EditLoadBalancerMonitorOptions model
 				editLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.EditLoadBalancerMonitorOptions)
@@ -445,7 +570,14 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerMonitorService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -459,30 +591,54 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	Describe(`EditLoadBalancerMonitor(editLoadBalancerMonitorOptions *EditLoadBalancerMonitorOptions)`, func() {
 		crn := "testString"
 		editLoadBalancerMonitorPath := "/v1/testString/load_balancers/monitors/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(editLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(editLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}}`)
 				}))
 			})
 			It(`Invoke EditLoadBalancerMonitor successfully`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.EditLoadBalancerMonitor(nil)
+				result, response, operationErr := globalLoadBalancerMonitorService.EditLoadBalancerMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -503,22 +659,47 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				editLoadBalancerMonitorOptionsModel.AllowInsecure = core.BoolPtr(true)
 				editLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
- 				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
+				result, response, operationErr = globalLoadBalancerMonitorService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.EditLoadBalancerMonitorWithContext(ctx, editLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerMonitorService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerMonitorService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.EditLoadBalancerMonitorWithContext(ctx, editLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke EditLoadBalancerMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the EditLoadBalancerMonitorOptions model
 				editLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.EditLoadBalancerMonitorOptions)
@@ -538,9 +719,9 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editLoadBalancerMonitorOptionsModel.Header = make(map[string][]string)
 				editLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerMonitorService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -548,7 +729,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct a second instance of the EditLoadBalancerMonitorOptions model with no property values
 				editLoadBalancerMonitorOptionsModelNew := new(globalloadbalancermonitorv1.EditLoadBalancerMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModelNew)
+				result, response, operationErr = globalLoadBalancerMonitorService.EditLoadBalancerMonitor(editLoadBalancerMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -567,7 +748,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -575,20 +756,27 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				}))
 			})
 			It(`Invoke DeleteLoadBalancerMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteLoadBalancerMonitorOptions model
 				deleteLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.DeleteLoadBalancerMonitorOptions)
 				deleteLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
 				deleteLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -602,30 +790,38 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	Describe(`DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptions *DeleteLoadBalancerMonitorOptions)`, func() {
 		crn := "testString"
 		deleteLoadBalancerMonitorPath := "/v1/testString/load_balancers/monitors/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
 				}))
 			})
 			It(`Invoke DeleteLoadBalancerMonitor successfully`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteLoadBalancerMonitor(nil)
+				result, response, operationErr := globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -633,31 +829,56 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct an instance of the DeleteLoadBalancerMonitorOptions model
 				deleteLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.DeleteLoadBalancerMonitorOptions)
 				deleteLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
- 				deleteLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
+				result, response, operationErr = globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.DeleteLoadBalancerMonitorWithContext(ctx, deleteLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerMonitorService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.DeleteLoadBalancerMonitorWithContext(ctx, deleteLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteLoadBalancerMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteLoadBalancerMonitorOptions model
 				deleteLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.DeleteLoadBalancerMonitorOptions)
 				deleteLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
 				deleteLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerMonitorService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -665,7 +886,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct a second instance of the DeleteLoadBalancerMonitorOptions model with no property values
 				deleteLoadBalancerMonitorOptionsModelNew := new(globalloadbalancermonitorv1.DeleteLoadBalancerMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModelNew)
+				result, response, operationErr = globalLoadBalancerMonitorService.DeleteLoadBalancerMonitor(deleteLoadBalancerMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -684,7 +905,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -692,20 +913,27 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				}))
 			})
 			It(`Invoke GetLoadBalancerMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerMonitorOptions model
 				getLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.GetLoadBalancerMonitorOptions)
 				getLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
 				getLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerMonitorService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -719,30 +947,38 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	Describe(`GetLoadBalancerMonitor(getLoadBalancerMonitorOptions *GetLoadBalancerMonitorOptions)`, func() {
 		crn := "testString"
 		getLoadBalancerMonitorPath := "/v1/testString/load_balancers/monitors/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerMonitorPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["Inner"]}}}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerMonitor successfully`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
+				globalLoadBalancerMonitorService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetLoadBalancerMonitor(nil)
+				result, response, operationErr := globalLoadBalancerMonitorService.GetLoadBalancerMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -750,31 +986,56 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct an instance of the GetLoadBalancerMonitorOptions model
 				getLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.GetLoadBalancerMonitorOptions)
 				getLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
- 				getLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
+				result, response, operationErr = globalLoadBalancerMonitorService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.GetLoadBalancerMonitorWithContext(ctx, getLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerMonitorService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerMonitorService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerMonitorService.GetLoadBalancerMonitorWithContext(ctx, getLoadBalancerMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetLoadBalancerMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerMonitorOptions model
 				getLoadBalancerMonitorOptionsModel := new(globalloadbalancermonitorv1.GetLoadBalancerMonitorOptions)
 				getLoadBalancerMonitorOptionsModel.MonitorIdentifier = core.StringPtr("testString")
 				getLoadBalancerMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerMonitorService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
+				result, response, operationErr := globalLoadBalancerMonitorService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -782,7 +1043,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				// Construct a second instance of the GetLoadBalancerMonitorOptions model with no property values
 				getLoadBalancerMonitorOptionsModelNew := new(globalloadbalancermonitorv1.GetLoadBalancerMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModelNew)
+				result, response, operationErr = globalLoadBalancerMonitorService.GetLoadBalancerMonitor(getLoadBalancerMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -795,14 +1056,14 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
-			testService, _ := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
+			globalLoadBalancerMonitorService, _ := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				URL:           "http://globalloadbalancermonitorv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateLoadBalancerMonitorOptions successfully`, func() {
 				// Construct an instance of the CreateLoadBalancerMonitorOptions model
-				createLoadBalancerMonitorOptionsModel := testService.NewCreateLoadBalancerMonitorOptions()
+				createLoadBalancerMonitorOptionsModel := globalLoadBalancerMonitorService.NewCreateLoadBalancerMonitorOptions()
 				createLoadBalancerMonitorOptionsModel.SetType("http")
 				createLoadBalancerMonitorOptionsModel.SetDescription("Login page monitor")
 				createLoadBalancerMonitorOptionsModel.SetMethod("GET")
@@ -836,7 +1097,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			It(`Invoke NewDeleteLoadBalancerMonitorOptions successfully`, func() {
 				// Construct an instance of the DeleteLoadBalancerMonitorOptions model
 				monitorIdentifier := "testString"
-				deleteLoadBalancerMonitorOptionsModel := testService.NewDeleteLoadBalancerMonitorOptions(monitorIdentifier)
+				deleteLoadBalancerMonitorOptionsModel := globalLoadBalancerMonitorService.NewDeleteLoadBalancerMonitorOptions(monitorIdentifier)
 				deleteLoadBalancerMonitorOptionsModel.SetMonitorIdentifier("testString")
 				deleteLoadBalancerMonitorOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteLoadBalancerMonitorOptionsModel).ToNot(BeNil())
@@ -846,7 +1107,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			It(`Invoke NewEditLoadBalancerMonitorOptions successfully`, func() {
 				// Construct an instance of the EditLoadBalancerMonitorOptions model
 				monitorIdentifier := "testString"
-				editLoadBalancerMonitorOptionsModel := testService.NewEditLoadBalancerMonitorOptions(monitorIdentifier)
+				editLoadBalancerMonitorOptionsModel := globalLoadBalancerMonitorService.NewEditLoadBalancerMonitorOptions(monitorIdentifier)
 				editLoadBalancerMonitorOptionsModel.SetMonitorIdentifier("testString")
 				editLoadBalancerMonitorOptionsModel.SetType("http")
 				editLoadBalancerMonitorOptionsModel.SetDescription("Login page monitor")
@@ -882,7 +1143,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			It(`Invoke NewGetLoadBalancerMonitorOptions successfully`, func() {
 				// Construct an instance of the GetLoadBalancerMonitorOptions model
 				monitorIdentifier := "testString"
-				getLoadBalancerMonitorOptionsModel := testService.NewGetLoadBalancerMonitorOptions(monitorIdentifier)
+				getLoadBalancerMonitorOptionsModel := globalLoadBalancerMonitorService.NewGetLoadBalancerMonitorOptions(monitorIdentifier)
 				getLoadBalancerMonitorOptionsModel.SetMonitorIdentifier("testString")
 				getLoadBalancerMonitorOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getLoadBalancerMonitorOptionsModel).ToNot(BeNil())
@@ -891,7 +1152,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			})
 			It(`Invoke NewListAllLoadBalancerMonitorsOptions successfully`, func() {
 				// Construct an instance of the ListAllLoadBalancerMonitorsOptions model
-				listAllLoadBalancerMonitorsOptionsModel := testService.NewListAllLoadBalancerMonitorsOptions()
+				listAllLoadBalancerMonitorsOptionsModel := globalLoadBalancerMonitorService.NewListAllLoadBalancerMonitorsOptions()
 				listAllLoadBalancerMonitorsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listAllLoadBalancerMonitorsOptionsModel).ToNot(BeNil())
 				Expect(listAllLoadBalancerMonitorsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))

@@ -18,6 +18,7 @@ package zonelockdownv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/networking-go-sdk/zonelockdownv1"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`ZoneLockdownV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(zoneLockdownService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(zoneLockdownService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 				URL: "https://zonelockdownv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
@@ -65,13 +66,13 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(zoneLockdownService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{})
+			Expect(zoneLockdownService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := zoneLockdownService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != zoneLockdownService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(zoneLockdownService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(zoneLockdownService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(zoneLockdownService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := zoneLockdownService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != zoneLockdownService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(zoneLockdownService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(zoneLockdownService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := zoneLockdownService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(zoneLockdownService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := zoneLockdownService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != zoneLockdownService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(zoneLockdownService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(zoneLockdownService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
+			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(zoneLockdownService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
+			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(zoneLockdownService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = zonelockdownv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListAllZoneLockownRules(listAllZoneLockownRulesOptions *ListAllZoneLockownRulesOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllZoneLockownRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllZoneLockownRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
@@ -181,14 +210,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				}))
 			})
 			It(`Invoke ListAllZoneLockownRules with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllZoneLockownRulesOptions model
 				listAllZoneLockownRulesOptionsModel := new(zonelockdownv1.ListAllZoneLockownRulesOptions)
@@ -196,7 +225,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				listAllZoneLockownRulesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listAllZoneLockownRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
+				result, response, operationErr := zoneLockdownService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zoneLockdownService.EnableRetries(0, 0)
+				result, response, operationErr = zoneLockdownService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -211,35 +247,43 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listAllZoneLockownRulesPath := "/v1/testString/zones/testString/firewall/lockdowns"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllZoneLockownRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllZoneLockownRulesPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke ListAllZoneLockownRules successfully`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
+				zoneLockdownService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListAllZoneLockownRules(nil)
+				result, response, operationErr := zoneLockdownService.ListAllZoneLockownRules(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -248,23 +292,48 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				listAllZoneLockownRulesOptionsModel := new(zonelockdownv1.ListAllZoneLockownRulesOptions)
 				listAllZoneLockownRulesOptionsModel.Page = core.Int64Ptr(int64(38))
 				listAllZoneLockownRulesOptionsModel.PerPage = core.Int64Ptr(int64(5))
- 				listAllZoneLockownRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listAllZoneLockownRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
+				result, response, operationErr = zoneLockdownService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.ListAllZoneLockownRulesWithContext(ctx, listAllZoneLockownRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zoneLockdownService.DisableRetries()
+				result, response, operationErr = zoneLockdownService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.ListAllZoneLockownRulesWithContext(ctx, listAllZoneLockownRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListAllZoneLockownRules with error: Operation request error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllZoneLockownRulesOptions model
 				listAllZoneLockownRulesOptionsModel := new(zonelockdownv1.ListAllZoneLockownRulesOptions)
@@ -272,9 +341,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				listAllZoneLockownRulesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listAllZoneLockownRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zoneLockdownService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
+				result, response, operationErr := zoneLockdownService.ListAllZoneLockownRules(listAllZoneLockownRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -295,7 +364,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createZoneLockdownRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createZoneLockdownRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -303,14 +372,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				}))
 			})
 			It(`Invoke CreateZoneLockdownRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the LockdownInputConfigurationsItem model
 				lockdownInputConfigurationsItemModel := new(zonelockdownv1.LockdownInputConfigurationsItem)
@@ -327,7 +396,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
+				result, response, operationErr := zoneLockdownService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zoneLockdownService.EnableRetries(0, 0)
+				result, response, operationErr = zoneLockdownService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -342,31 +418,55 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		createZoneLockdownRulePath := "/v1/testString/zones/testString/firewall/lockdowns"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createZoneLockdownRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createZoneLockdownRulePath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneLockdownRule successfully`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
+				zoneLockdownService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateZoneLockdownRule(nil)
+				result, response, operationErr := zoneLockdownService.CreateZoneLockdownRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -384,23 +484,48 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				createZoneLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
 				createZoneLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
- 				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
+				result, response, operationErr = zoneLockdownService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.CreateZoneLockdownRuleWithContext(ctx, createZoneLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zoneLockdownService.DisableRetries()
+				result, response, operationErr = zoneLockdownService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.CreateZoneLockdownRuleWithContext(ctx, createZoneLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateZoneLockdownRule with error: Operation request error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the LockdownInputConfigurationsItem model
 				lockdownInputConfigurationsItemModel := new(zonelockdownv1.LockdownInputConfigurationsItem)
@@ -417,9 +542,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				createZoneLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zoneLockdownService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
+				result, response, operationErr := zoneLockdownService.CreateZoneLockdownRule(createZoneLockdownRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -440,7 +565,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteZoneLockdownRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteZoneLockdownRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -448,21 +573,28 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				}))
 			})
 			It(`Invoke DeleteZoneLockdownRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteZoneLockdownRuleOptions model
 				deleteZoneLockdownRuleOptionsModel := new(zonelockdownv1.DeleteZoneLockdownRuleOptions)
 				deleteZoneLockdownRuleOptionsModel.LockdownRuleIdentifier = core.StringPtr("testString")
 				deleteZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
+				result, response, operationErr := zoneLockdownService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zoneLockdownService.EnableRetries(0, 0)
+				result, response, operationErr = zoneLockdownService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -477,31 +609,39 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		deleteZoneLockdownRulePath := "/v1/testString/zones/testString/firewall/lockdowns/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteZoneLockdownRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteZoneLockdownRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneLockdownRule successfully`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
+				zoneLockdownService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteZoneLockdownRule(nil)
+				result, response, operationErr := zoneLockdownService.DeleteZoneLockdownRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -509,32 +649,57 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				// Construct an instance of the DeleteZoneLockdownRuleOptions model
 				deleteZoneLockdownRuleOptionsModel := new(zonelockdownv1.DeleteZoneLockdownRuleOptions)
 				deleteZoneLockdownRuleOptionsModel.LockdownRuleIdentifier = core.StringPtr("testString")
- 				deleteZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
+				result, response, operationErr = zoneLockdownService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.DeleteZoneLockdownRuleWithContext(ctx, deleteZoneLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zoneLockdownService.DisableRetries()
+				result, response, operationErr = zoneLockdownService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.DeleteZoneLockdownRuleWithContext(ctx, deleteZoneLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteZoneLockdownRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteZoneLockdownRuleOptions model
 				deleteZoneLockdownRuleOptionsModel := new(zonelockdownv1.DeleteZoneLockdownRuleOptions)
 				deleteZoneLockdownRuleOptionsModel.LockdownRuleIdentifier = core.StringPtr("testString")
 				deleteZoneLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zoneLockdownService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
+				result, response, operationErr := zoneLockdownService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -542,7 +707,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				// Construct a second instance of the DeleteZoneLockdownRuleOptions model with no property values
 				deleteZoneLockdownRuleOptionsModelNew := new(zonelockdownv1.DeleteZoneLockdownRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModelNew)
+				result, response, operationErr = zoneLockdownService.DeleteZoneLockdownRule(deleteZoneLockdownRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -562,7 +727,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLockdownPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLockdownPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -570,21 +735,28 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				}))
 			})
 			It(`Invoke GetLockdown with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the GetLockdownOptions model
 				getLockdownOptionsModel := new(zonelockdownv1.GetLockdownOptions)
 				getLockdownOptionsModel.LockdownRuleIdentifier = core.StringPtr("testString")
 				getLockdownOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetLockdown(getLockdownOptionsModel)
+				result, response, operationErr := zoneLockdownService.GetLockdown(getLockdownOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zoneLockdownService.EnableRetries(0, 0)
+				result, response, operationErr = zoneLockdownService.GetLockdown(getLockdownOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -599,31 +771,39 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getLockdownPath := "/v1/testString/zones/testString/firewall/lockdowns/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLockdownPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLockdownPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
 				}))
 			})
 			It(`Invoke GetLockdown successfully`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
+				zoneLockdownService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetLockdown(nil)
+				result, response, operationErr := zoneLockdownService.GetLockdown(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -631,32 +811,57 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				// Construct an instance of the GetLockdownOptions model
 				getLockdownOptionsModel := new(zonelockdownv1.GetLockdownOptions)
 				getLockdownOptionsModel.LockdownRuleIdentifier = core.StringPtr("testString")
- 				getLockdownOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getLockdownOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetLockdown(getLockdownOptionsModel)
+				result, response, operationErr = zoneLockdownService.GetLockdown(getLockdownOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.GetLockdownWithContext(ctx, getLockdownOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zoneLockdownService.DisableRetries()
+				result, response, operationErr = zoneLockdownService.GetLockdown(getLockdownOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.GetLockdownWithContext(ctx, getLockdownOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetLockdown with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the GetLockdownOptions model
 				getLockdownOptionsModel := new(zonelockdownv1.GetLockdownOptions)
 				getLockdownOptionsModel.LockdownRuleIdentifier = core.StringPtr("testString")
 				getLockdownOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zoneLockdownService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetLockdown(getLockdownOptionsModel)
+				result, response, operationErr := zoneLockdownService.GetLockdown(getLockdownOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -664,7 +869,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				// Construct a second instance of the GetLockdownOptions model with no property values
 				getLockdownOptionsModelNew := new(zonelockdownv1.GetLockdownOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetLockdown(getLockdownOptionsModelNew)
+				result, response, operationErr = zoneLockdownService.GetLockdown(getLockdownOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -684,7 +889,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLockdownRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLockdownRulePath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -692,14 +897,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateLockdownRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the LockdownInputConfigurationsItem model
 				lockdownInputConfigurationsItemModel := new(zonelockdownv1.LockdownInputConfigurationsItem)
@@ -717,7 +922,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
+				result, response, operationErr := zoneLockdownService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zoneLockdownService.EnableRetries(0, 0)
+				result, response, operationErr = zoneLockdownService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -732,31 +944,55 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateLockdownRulePath := "/v1/testString/zones/testString/firewall/lockdowns/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLockdownRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLockdownRulePath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateLockdownRule successfully`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
+				zoneLockdownService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateLockdownRule(nil)
+				result, response, operationErr := zoneLockdownService.UpdateLockdownRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -775,23 +1011,48 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.Urls = []string{"api.mysite.com/some/endpoint*"}
 				updateLockdownRuleOptionsModel.Configurations = []zonelockdownv1.LockdownInputConfigurationsItem{*lockdownInputConfigurationsItemModel}
 				updateLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
- 				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
+				result, response, operationErr = zoneLockdownService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.UpdateLockdownRuleWithContext(ctx, updateLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				zoneLockdownService.DisableRetries()
+				result, response, operationErr = zoneLockdownService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = zoneLockdownService.UpdateLockdownRuleWithContext(ctx, updateLockdownRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateLockdownRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(zoneLockdownService).ToNot(BeNil())
 
 				// Construct an instance of the LockdownInputConfigurationsItem model
 				lockdownInputConfigurationsItemModel := new(zonelockdownv1.LockdownInputConfigurationsItem)
@@ -809,9 +1070,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				updateLockdownRuleOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateLockdownRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := zoneLockdownService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
+				result, response, operationErr := zoneLockdownService.UpdateLockdownRule(updateLockdownRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -819,7 +1080,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				// Construct a second instance of the UpdateLockdownRuleOptions model with no property values
 				updateLockdownRuleOptionsModelNew := new(zonelockdownv1.UpdateLockdownRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateLockdownRule(updateLockdownRuleOptionsModelNew)
+				result, response, operationErr = zoneLockdownService.UpdateLockdownRule(updateLockdownRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -833,7 +1094,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
-			testService, _ := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
+			zoneLockdownService, _ := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
 				URL:           "http://zonelockdownv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -849,7 +1110,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 				Expect(lockdownInputConfigurationsItemModel.Value).To(Equal(core.StringPtr("198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range")))
 
 				// Construct an instance of the CreateZoneLockdownRuleOptions model
-				createZoneLockdownRuleOptionsModel := testService.NewCreateZoneLockdownRuleOptions()
+				createZoneLockdownRuleOptionsModel := zoneLockdownService.NewCreateZoneLockdownRuleOptions()
 				createZoneLockdownRuleOptionsModel.SetID("372e67954025e0ba6aaa6d586b9e0b59")
 				createZoneLockdownRuleOptionsModel.SetPaused(false)
 				createZoneLockdownRuleOptionsModel.SetDescription("Restrict access to these endpoints to requests from a known IP address")
@@ -869,7 +1130,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			It(`Invoke NewDeleteZoneLockdownRuleOptions successfully`, func() {
 				// Construct an instance of the DeleteZoneLockdownRuleOptions model
 				lockdownRuleIdentifier := "testString"
-				deleteZoneLockdownRuleOptionsModel := testService.NewDeleteZoneLockdownRuleOptions(lockdownRuleIdentifier)
+				deleteZoneLockdownRuleOptionsModel := zoneLockdownService.NewDeleteZoneLockdownRuleOptions(lockdownRuleIdentifier)
 				deleteZoneLockdownRuleOptionsModel.SetLockdownRuleIdentifier("testString")
 				deleteZoneLockdownRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteZoneLockdownRuleOptionsModel).ToNot(BeNil())
@@ -879,7 +1140,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			It(`Invoke NewGetLockdownOptions successfully`, func() {
 				// Construct an instance of the GetLockdownOptions model
 				lockdownRuleIdentifier := "testString"
-				getLockdownOptionsModel := testService.NewGetLockdownOptions(lockdownRuleIdentifier)
+				getLockdownOptionsModel := zoneLockdownService.NewGetLockdownOptions(lockdownRuleIdentifier)
 				getLockdownOptionsModel.SetLockdownRuleIdentifier("testString")
 				getLockdownOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getLockdownOptionsModel).ToNot(BeNil())
@@ -888,7 +1149,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke NewListAllZoneLockownRulesOptions successfully`, func() {
 				// Construct an instance of the ListAllZoneLockownRulesOptions model
-				listAllZoneLockownRulesOptionsModel := testService.NewListAllZoneLockownRulesOptions()
+				listAllZoneLockownRulesOptionsModel := zoneLockdownService.NewListAllZoneLockownRulesOptions()
 				listAllZoneLockownRulesOptionsModel.SetPage(int64(38))
 				listAllZoneLockownRulesOptionsModel.SetPerPage(int64(5))
 				listAllZoneLockownRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -900,7 +1161,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			It(`Invoke NewLockdownInputConfigurationsItem successfully`, func() {
 				target := "ip"
 				value := "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"
-				model, err := testService.NewLockdownInputConfigurationsItem(target, value)
+				model, err := zoneLockdownService.NewLockdownInputConfigurationsItem(target, value)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -915,7 +1176,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 
 				// Construct an instance of the UpdateLockdownRuleOptions model
 				lockdownRuleIdentifier := "testString"
-				updateLockdownRuleOptionsModel := testService.NewUpdateLockdownRuleOptions(lockdownRuleIdentifier)
+				updateLockdownRuleOptionsModel := zoneLockdownService.NewUpdateLockdownRuleOptions(lockdownRuleIdentifier)
 				updateLockdownRuleOptionsModel.SetLockdownRuleIdentifier("testString")
 				updateLockdownRuleOptionsModel.SetID("372e67954025e0ba6aaa6d586b9e0b59")
 				updateLockdownRuleOptionsModel.SetPaused(false)
