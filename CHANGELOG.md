@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/IBM/networking-go-sdk/compare/v0.12.0...v0.12.1) (2020-12-08)
+
+
+### Bug Fixes
+
+* Merge pull request [#35](https://github.com/IBM/networking-go-sdk/issues/35) from IBM/issue-tf ([a193e43](https://github.com/IBM/networking-go-sdk/commit/a193e43c2377f1ede66fd3e66e73c05f7e9bf605))
+
 # [0.12.0](https://github.com/IBM/networking-go-sdk/compare/v0.11.4...v0.12.0) (2020-11-12)
 
 
