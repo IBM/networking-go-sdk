@@ -18,12 +18,13 @@ package pageruleapiv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/pageruleapiv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/pageruleapiv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`PageRuleApiV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(pageRuleApiService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(pageRuleApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 				URL: "https://pageruleapiv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
@@ -65,13 +66,13 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(pageRuleApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{})
+			Expect(pageRuleApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`PageRuleApiV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := pageRuleApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != pageRuleApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(pageRuleApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(pageRuleApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(pageRuleApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := pageRuleApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != pageRuleApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(pageRuleApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(pageRuleApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := pageRuleApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(pageRuleApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := pageRuleApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != pageRuleApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(pageRuleApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(pageRuleApiService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
+			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(pageRuleApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
+			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(pageRuleApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = pageruleapiv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`GetPageRule(getPageRuleOptions *GetPageRuleOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPageRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -177,21 +206,28 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetPageRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetPageRuleOptions model
 				getPageRuleOptionsModel := new(pageruleapiv1.GetPageRuleOptions)
 				getPageRuleOptionsModel.RuleID = core.StringPtr("testString")
 				getPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetPageRule(getPageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.GetPageRule(getPageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				pageRuleApiService.EnableRetries(0, 0)
+				result, response, operationErr = pageRuleApiService.GetPageRule(getPageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -206,31 +242,39 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getPageRulePath := "/v1/testString/zones/testString/pagerules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPageRulePath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetPageRule successfully`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				pageRuleApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetPageRule(nil)
+				result, response, operationErr := pageRuleApiService.GetPageRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -238,32 +282,57 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				// Construct an instance of the GetPageRuleOptions model
 				getPageRuleOptionsModel := new(pageruleapiv1.GetPageRuleOptions)
 				getPageRuleOptionsModel.RuleID = core.StringPtr("testString")
- 				getPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetPageRule(getPageRuleOptionsModel)
+				result, response, operationErr = pageRuleApiService.GetPageRule(getPageRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.GetPageRuleWithContext(ctx, getPageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				pageRuleApiService.DisableRetries()
+				result, response, operationErr = pageRuleApiService.GetPageRule(getPageRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.GetPageRuleWithContext(ctx, getPageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetPageRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetPageRuleOptions model
 				getPageRuleOptionsModel := new(pageruleapiv1.GetPageRuleOptions)
 				getPageRuleOptionsModel.RuleID = core.StringPtr("testString")
 				getPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := pageRuleApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetPageRule(getPageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.GetPageRule(getPageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -271,7 +340,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				// Construct a second instance of the GetPageRuleOptions model with no property values
 				getPageRuleOptionsModelNew := new(pageruleapiv1.GetPageRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetPageRule(getPageRuleOptionsModelNew)
+				result, response, operationErr = pageRuleApiService.GetPageRule(getPageRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -291,7 +360,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(changePageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(changePageRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -299,29 +368,29 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				}))
 			})
 			It(`Invoke ChangePageRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the TargetsItemConstraint model
 				targetsItemConstraintModel := new(pageruleapiv1.TargetsItemConstraint)
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the ChangePageRuleOptions model
 				changePageRuleOptionsModel := new(pageruleapiv1.ChangePageRuleOptions)
@@ -332,7 +401,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				changePageRuleOptionsModel.Status = core.StringPtr("active")
 				changePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ChangePageRule(changePageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.ChangePageRule(changePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				pageRuleApiService.EnableRetries(0, 0)
+				result, response, operationErr = pageRuleApiService.ChangePageRule(changePageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -347,31 +423,55 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		changePageRulePath := "/v1/testString/zones/testString/pagerules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(changePageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(changePageRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke ChangePageRule successfully`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				pageRuleApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ChangePageRule(nil)
+				result, response, operationErr := pageRuleApiService.ChangePageRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -381,15 +481,15 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the ChangePageRuleOptions model
 				changePageRuleOptionsModel := new(pageruleapiv1.ChangePageRuleOptions)
@@ -398,38 +498,63 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				changePageRuleOptionsModel.Actions = []pageruleapiv1.PageRulesBodyActionsItemIntf{pageRulesBodyActionsItemModel}
 				changePageRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				changePageRuleOptionsModel.Status = core.StringPtr("active")
- 				changePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				changePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ChangePageRule(changePageRuleOptionsModel)
+				result, response, operationErr = pageRuleApiService.ChangePageRule(changePageRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.ChangePageRuleWithContext(ctx, changePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				pageRuleApiService.DisableRetries()
+				result, response, operationErr = pageRuleApiService.ChangePageRule(changePageRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.ChangePageRuleWithContext(ctx, changePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ChangePageRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the TargetsItemConstraint model
 				targetsItemConstraintModel := new(pageruleapiv1.TargetsItemConstraint)
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the ChangePageRuleOptions model
 				changePageRuleOptionsModel := new(pageruleapiv1.ChangePageRuleOptions)
@@ -440,9 +565,9 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				changePageRuleOptionsModel.Status = core.StringPtr("active")
 				changePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := pageRuleApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ChangePageRule(changePageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.ChangePageRule(changePageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -450,7 +575,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				// Construct a second instance of the ChangePageRuleOptions model with no property values
 				changePageRuleOptionsModelNew := new(pageruleapiv1.ChangePageRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ChangePageRule(changePageRuleOptionsModelNew)
+				result, response, operationErr = pageRuleApiService.ChangePageRule(changePageRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -470,7 +595,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePageRulePath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -478,29 +603,29 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdatePageRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the TargetsItemConstraint model
 				targetsItemConstraintModel := new(pageruleapiv1.TargetsItemConstraint)
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the UpdatePageRuleOptions model
 				updatePageRuleOptionsModel := new(pageruleapiv1.UpdatePageRuleOptions)
@@ -511,7 +636,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				updatePageRuleOptionsModel.Status = core.StringPtr("active")
 				updatePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdatePageRule(updatePageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.UpdatePageRule(updatePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				pageRuleApiService.EnableRetries(0, 0)
+				result, response, operationErr = pageRuleApiService.UpdatePageRule(updatePageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -526,31 +658,55 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updatePageRulePath := "/v1/testString/zones/testString/pagerules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePageRulePath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdatePageRule successfully`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				pageRuleApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdatePageRule(nil)
+				result, response, operationErr := pageRuleApiService.UpdatePageRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -560,15 +716,15 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the UpdatePageRuleOptions model
 				updatePageRuleOptionsModel := new(pageruleapiv1.UpdatePageRuleOptions)
@@ -577,38 +733,63 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				updatePageRuleOptionsModel.Actions = []pageruleapiv1.PageRulesBodyActionsItemIntf{pageRulesBodyActionsItemModel}
 				updatePageRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				updatePageRuleOptionsModel.Status = core.StringPtr("active")
- 				updatePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updatePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdatePageRule(updatePageRuleOptionsModel)
+				result, response, operationErr = pageRuleApiService.UpdatePageRule(updatePageRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.UpdatePageRuleWithContext(ctx, updatePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				pageRuleApiService.DisableRetries()
+				result, response, operationErr = pageRuleApiService.UpdatePageRule(updatePageRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.UpdatePageRuleWithContext(ctx, updatePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdatePageRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the TargetsItemConstraint model
 				targetsItemConstraintModel := new(pageruleapiv1.TargetsItemConstraint)
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the UpdatePageRuleOptions model
 				updatePageRuleOptionsModel := new(pageruleapiv1.UpdatePageRuleOptions)
@@ -619,9 +800,9 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				updatePageRuleOptionsModel.Status = core.StringPtr("active")
 				updatePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := pageRuleApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdatePageRule(updatePageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.UpdatePageRule(updatePageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -629,7 +810,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				// Construct a second instance of the UpdatePageRuleOptions model with no property values
 				updatePageRuleOptionsModelNew := new(pageruleapiv1.UpdatePageRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdatePageRule(updatePageRuleOptionsModelNew)
+				result, response, operationErr = pageRuleApiService.UpdatePageRule(updatePageRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -649,7 +830,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePageRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -657,21 +838,28 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				}))
 			})
 			It(`Invoke DeletePageRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the DeletePageRuleOptions model
 				deletePageRuleOptionsModel := new(pageruleapiv1.DeletePageRuleOptions)
 				deletePageRuleOptionsModel.RuleID = core.StringPtr("testString")
 				deletePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeletePageRule(deletePageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.DeletePageRule(deletePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				pageRuleApiService.EnableRetries(0, 0)
+				result, response, operationErr = pageRuleApiService.DeletePageRule(deletePageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -686,31 +874,39 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		deletePageRulePath := "/v1/testString/zones/testString/pagerules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePageRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac"}}`)
 				}))
 			})
 			It(`Invoke DeletePageRule successfully`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				pageRuleApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeletePageRule(nil)
+				result, response, operationErr := pageRuleApiService.DeletePageRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -718,32 +914,57 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				// Construct an instance of the DeletePageRuleOptions model
 				deletePageRuleOptionsModel := new(pageruleapiv1.DeletePageRuleOptions)
 				deletePageRuleOptionsModel.RuleID = core.StringPtr("testString")
- 				deletePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deletePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeletePageRule(deletePageRuleOptionsModel)
+				result, response, operationErr = pageRuleApiService.DeletePageRule(deletePageRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.DeletePageRuleWithContext(ctx, deletePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				pageRuleApiService.DisableRetries()
+				result, response, operationErr = pageRuleApiService.DeletePageRule(deletePageRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.DeletePageRuleWithContext(ctx, deletePageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeletePageRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the DeletePageRuleOptions model
 				deletePageRuleOptionsModel := new(pageruleapiv1.DeletePageRuleOptions)
 				deletePageRuleOptionsModel.RuleID = core.StringPtr("testString")
 				deletePageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := pageRuleApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeletePageRule(deletePageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.DeletePageRule(deletePageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -751,7 +972,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				// Construct a second instance of the DeletePageRuleOptions model with no property values
 				deletePageRuleOptionsModelNew := new(pageruleapiv1.DeletePageRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeletePageRule(deletePageRuleOptionsModelNew)
+				result, response, operationErr = pageRuleApiService.DeletePageRule(deletePageRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -771,7 +992,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPageRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPageRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["status"]).To(Equal([]string{"active"}))
 
@@ -787,14 +1008,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				}))
 			})
 			It(`Invoke ListPageRules with error: Operation response processing error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListPageRulesOptions model
 				listPageRulesOptionsModel := new(pageruleapiv1.ListPageRulesOptions)
@@ -804,7 +1025,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				listPageRulesOptionsModel.Match = core.StringPtr("all")
 				listPageRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListPageRules(listPageRulesOptionsModel)
+				result, response, operationErr := pageRuleApiService.ListPageRules(listPageRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				pageRuleApiService.EnableRetries(0, 0)
+				result, response, operationErr = pageRuleApiService.ListPageRules(listPageRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -819,14 +1047,17 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		listPageRulesPath := "/v1/testString/zones/testString/pagerules"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPageRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPageRulesPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["status"]).To(Equal([]string{"active"}))
 
 					Expect(req.URL.Query()["order"]).To(Equal([]string{"status"}))
@@ -835,23 +1066,28 @@ var _ = Describe(`PageRuleApiV1`, func() {
 
 					Expect(req.URL.Query()["match"]).To(Equal([]string{"all"}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}]}`)
 				}))
 			})
 			It(`Invoke ListPageRules successfully`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				pageRuleApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListPageRules(nil)
+				result, response, operationErr := pageRuleApiService.ListPageRules(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -862,23 +1098,48 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				listPageRulesOptionsModel.Order = core.StringPtr("status")
 				listPageRulesOptionsModel.Direction = core.StringPtr("desc")
 				listPageRulesOptionsModel.Match = core.StringPtr("all")
- 				listPageRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listPageRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListPageRules(listPageRulesOptionsModel)
+				result, response, operationErr = pageRuleApiService.ListPageRules(listPageRulesOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.ListPageRulesWithContext(ctx, listPageRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				pageRuleApiService.DisableRetries()
+				result, response, operationErr = pageRuleApiService.ListPageRules(listPageRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.ListPageRulesWithContext(ctx, listPageRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListPageRules with error: Operation request error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListPageRulesOptions model
 				listPageRulesOptionsModel := new(pageruleapiv1.ListPageRulesOptions)
@@ -888,9 +1149,9 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				listPageRulesOptionsModel.Match = core.StringPtr("all")
 				listPageRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := pageRuleApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListPageRules(listPageRulesOptionsModel)
+				result, response, operationErr := pageRuleApiService.ListPageRules(listPageRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -911,7 +1172,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPageRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -919,29 +1180,29 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				}))
 			})
 			It(`Invoke CreatePageRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the TargetsItemConstraint model
 				targetsItemConstraintModel := new(pageruleapiv1.TargetsItemConstraint)
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the CreatePageRuleOptions model
 				createPageRuleOptionsModel := new(pageruleapiv1.CreatePageRuleOptions)
@@ -951,7 +1212,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				createPageRuleOptionsModel.Status = core.StringPtr("active")
 				createPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreatePageRule(createPageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.CreatePageRule(createPageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				pageRuleApiService.EnableRetries(0, 0)
+				result, response, operationErr = pageRuleApiService.CreatePageRule(createPageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -966,31 +1234,55 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		createPageRulePath := "/v1/testString/zones/testString/pagerules"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPageRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPageRulePath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "9a7806061c88ada191ed06f989cc3dac", "targets": [{"target": "url", "constraint": {"operator": "matches", "value": "*example.com/images/*"}}], "actions": [{"value": {"anyKey": "anyValue"}, "id": "disable_security"}], "priority": 1, "status": "active", "modified_on": "2014-01-01T05:20:00.12345Z", "created_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke CreatePageRule successfully`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
+				pageRuleApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreatePageRule(nil)
+				result, response, operationErr := pageRuleApiService.CreatePageRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1000,15 +1292,15 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the CreatePageRuleOptions model
 				createPageRuleOptionsModel := new(pageruleapiv1.CreatePageRuleOptions)
@@ -1016,38 +1308,63 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				createPageRuleOptionsModel.Actions = []pageruleapiv1.PageRulesBodyActionsItemIntf{pageRulesBodyActionsItemModel}
 				createPageRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				createPageRuleOptionsModel.Status = core.StringPtr("active")
- 				createPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreatePageRule(createPageRuleOptionsModel)
+				result, response, operationErr = pageRuleApiService.CreatePageRule(createPageRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.CreatePageRuleWithContext(ctx, createPageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				pageRuleApiService.DisableRetries()
+				result, response, operationErr = pageRuleApiService.CreatePageRule(createPageRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = pageRuleApiService.CreatePageRuleWithContext(ctx, createPageRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreatePageRule with error: Operation request error`, func() {
-				testService, testServiceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(pageRuleApiService).ToNot(BeNil())
 
 				// Construct an instance of the TargetsItemConstraint model
 				targetsItemConstraintModel := new(pageruleapiv1.TargetsItemConstraint)
 				targetsItemConstraintModel.Operator = core.StringPtr("matches")
 				targetsItemConstraintModel.Value = core.StringPtr("*example.com/images/*")
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				targetsItemModel.Target = core.StringPtr("url")
 				targetsItemModel.Constraint = targetsItemConstraintModel
+
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
 
 				// Construct an instance of the CreatePageRuleOptions model
 				createPageRuleOptionsModel := new(pageruleapiv1.CreatePageRuleOptions)
@@ -1057,9 +1374,9 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				createPageRuleOptionsModel.Status = core.StringPtr("active")
 				createPageRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := pageRuleApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreatePageRule(createPageRuleOptionsModel)
+				result, response, operationErr := pageRuleApiService.CreatePageRule(createPageRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1074,7 +1391,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneID := "testString"
-			testService, _ := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
+			pageRuleApiService, _ := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 				URL:           "http://pageruleapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -1089,14 +1406,6 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				Expect(targetsItemConstraintModel.Operator).To(Equal(core.StringPtr("matches")))
 				Expect(targetsItemConstraintModel.Value).To(Equal(core.StringPtr("*example.com/images/*")))
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				Expect(pageRulesBodyActionsItemModel).ToNot(BeNil())
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-				Expect(pageRulesBodyActionsItemModel.Value).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(pageRulesBodyActionsItemModel.ID).To(Equal(core.StringPtr("disable_security")))
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				Expect(targetsItemModel).ToNot(BeNil())
@@ -1105,9 +1414,17 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				Expect(targetsItemModel.Target).To(Equal(core.StringPtr("url")))
 				Expect(targetsItemModel.Constraint).To(Equal(targetsItemConstraintModel))
 
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				Expect(pageRulesBodyActionsItemModel).ToNot(BeNil())
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
+				Expect(pageRulesBodyActionsItemModel.Value).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(pageRulesBodyActionsItemModel.ID).To(Equal(core.StringPtr("disable_security")))
+
 				// Construct an instance of the ChangePageRuleOptions model
 				ruleID := "testString"
-				changePageRuleOptionsModel := testService.NewChangePageRuleOptions(ruleID)
+				changePageRuleOptionsModel := pageRuleApiService.NewChangePageRuleOptions(ruleID)
 				changePageRuleOptionsModel.SetRuleID("testString")
 				changePageRuleOptionsModel.SetTargets([]pageruleapiv1.TargetsItem{*targetsItemModel})
 				changePageRuleOptionsModel.SetActions([]pageruleapiv1.PageRulesBodyActionsItemIntf{pageRulesBodyActionsItemModel})
@@ -1131,14 +1448,6 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				Expect(targetsItemConstraintModel.Operator).To(Equal(core.StringPtr("matches")))
 				Expect(targetsItemConstraintModel.Value).To(Equal(core.StringPtr("*example.com/images/*")))
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				Expect(pageRulesBodyActionsItemModel).ToNot(BeNil())
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-				Expect(pageRulesBodyActionsItemModel.Value).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(pageRulesBodyActionsItemModel.ID).To(Equal(core.StringPtr("disable_security")))
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				Expect(targetsItemModel).ToNot(BeNil())
@@ -1147,8 +1456,16 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				Expect(targetsItemModel.Target).To(Equal(core.StringPtr("url")))
 				Expect(targetsItemModel.Constraint).To(Equal(targetsItemConstraintModel))
 
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				Expect(pageRulesBodyActionsItemModel).ToNot(BeNil())
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
+				Expect(pageRulesBodyActionsItemModel.Value).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(pageRulesBodyActionsItemModel.ID).To(Equal(core.StringPtr("disable_security")))
+
 				// Construct an instance of the CreatePageRuleOptions model
-				createPageRuleOptionsModel := testService.NewCreatePageRuleOptions()
+				createPageRuleOptionsModel := pageRuleApiService.NewCreatePageRuleOptions()
 				createPageRuleOptionsModel.SetTargets([]pageruleapiv1.TargetsItem{*targetsItemModel})
 				createPageRuleOptionsModel.SetActions([]pageruleapiv1.PageRulesBodyActionsItemIntf{pageRulesBodyActionsItemModel})
 				createPageRuleOptionsModel.SetPriority(int64(1))
@@ -1164,7 +1481,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			It(`Invoke NewDeletePageRuleOptions successfully`, func() {
 				// Construct an instance of the DeletePageRuleOptions model
 				ruleID := "testString"
-				deletePageRuleOptionsModel := testService.NewDeletePageRuleOptions(ruleID)
+				deletePageRuleOptionsModel := pageRuleApiService.NewDeletePageRuleOptions(ruleID)
 				deletePageRuleOptionsModel.SetRuleID("testString")
 				deletePageRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deletePageRuleOptionsModel).ToNot(BeNil())
@@ -1174,7 +1491,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			It(`Invoke NewGetPageRuleOptions successfully`, func() {
 				// Construct an instance of the GetPageRuleOptions model
 				ruleID := "testString"
-				getPageRuleOptionsModel := testService.NewGetPageRuleOptions(ruleID)
+				getPageRuleOptionsModel := pageRuleApiService.NewGetPageRuleOptions(ruleID)
 				getPageRuleOptionsModel.SetRuleID("testString")
 				getPageRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getPageRuleOptionsModel).ToNot(BeNil())
@@ -1183,7 +1500,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			})
 			It(`Invoke NewListPageRulesOptions successfully`, func() {
 				// Construct an instance of the ListPageRulesOptions model
-				listPageRulesOptionsModel := testService.NewListPageRulesOptions()
+				listPageRulesOptionsModel := pageRuleApiService.NewListPageRulesOptions()
 				listPageRulesOptionsModel.SetStatus("active")
 				listPageRulesOptionsModel.SetOrder("status")
 				listPageRulesOptionsModel.SetDirection("desc")
@@ -1199,13 +1516,13 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			It(`Invoke NewTargetsItem successfully`, func() {
 				target := "url"
 				var constraint *pageruleapiv1.TargetsItemConstraint = nil
-				_, err := testService.NewTargetsItem(target, constraint)
+				_, err := pageRuleApiService.NewTargetsItem(target, constraint)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewTargetsItemConstraint successfully`, func() {
 				operator := "matches"
 				value := "*example.com/images/*"
-				model, err := testService.NewTargetsItemConstraint(operator, value)
+				model, err := pageRuleApiService.NewTargetsItemConstraint(operator, value)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -1218,14 +1535,6 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				Expect(targetsItemConstraintModel.Operator).To(Equal(core.StringPtr("matches")))
 				Expect(targetsItemConstraintModel.Value).To(Equal(core.StringPtr("*example.com/images/*")))
 
-				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
-				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
-				Expect(pageRulesBodyActionsItemModel).ToNot(BeNil())
-				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
-				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
-				Expect(pageRulesBodyActionsItemModel.Value).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(pageRulesBodyActionsItemModel.ID).To(Equal(core.StringPtr("disable_security")))
-
 				// Construct an instance of the TargetsItem model
 				targetsItemModel := new(pageruleapiv1.TargetsItem)
 				Expect(targetsItemModel).ToNot(BeNil())
@@ -1234,9 +1543,17 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				Expect(targetsItemModel.Target).To(Equal(core.StringPtr("url")))
 				Expect(targetsItemModel.Constraint).To(Equal(targetsItemConstraintModel))
 
+				// Construct an instance of the PageRulesBodyActionsItemActionsSecurity model
+				pageRulesBodyActionsItemModel := new(pageruleapiv1.PageRulesBodyActionsItemActionsSecurity)
+				Expect(pageRulesBodyActionsItemModel).ToNot(BeNil())
+				pageRulesBodyActionsItemModel.Value = map[string]interface{}{"anyKey": "anyValue"}
+				pageRulesBodyActionsItemModel.ID = core.StringPtr("disable_security")
+				Expect(pageRulesBodyActionsItemModel.Value).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(pageRulesBodyActionsItemModel.ID).To(Equal(core.StringPtr("disable_security")))
+
 				// Construct an instance of the UpdatePageRuleOptions model
 				ruleID := "testString"
-				updatePageRuleOptionsModel := testService.NewUpdatePageRuleOptions(ruleID)
+				updatePageRuleOptionsModel := pageRuleApiService.NewUpdatePageRuleOptions(ruleID)
 				updatePageRuleOptionsModel.SetRuleID("testString")
 				updatePageRuleOptionsModel.SetTargets([]pageruleapiv1.TargetsItem{*targetsItemModel})
 				updatePageRuleOptionsModel.SetActions([]pageruleapiv1.PageRulesBodyActionsItemIntf{pageRulesBodyActionsItemModel})
@@ -1253,55 +1570,55 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsBypassCacheOnCookie successfully`, func() {
 				id := "bypass_cache_on_cookie"
-				model, err := testService.NewPageRulesBodyActionsItemActionsBypassCacheOnCookie(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsBypassCacheOnCookie(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsCacheLevel successfully`, func() {
 				id := "cache_level"
-				model, err := testService.NewPageRulesBodyActionsItemActionsCacheLevel(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsCacheLevel(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsEdgeCacheTTL successfully`, func() {
 				id := "edge_cache_ttl"
-				model, err := testService.NewPageRulesBodyActionsItemActionsEdgeCacheTTL(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsEdgeCacheTTL(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsForwardingURL successfully`, func() {
 				id := "forwarding_url"
-				model, err := testService.NewPageRulesBodyActionsItemActionsForwardingURL(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsForwardingURL(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsSecurity successfully`, func() {
 				id := "disable_security"
-				model, err := testService.NewPageRulesBodyActionsItemActionsSecurity(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsSecurity(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsSecurityLevel successfully`, func() {
 				id := "security_level"
-				model, err := testService.NewPageRulesBodyActionsItemActionsSecurityLevel(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsSecurityLevel(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsSecurityOptions successfully`, func() {
 				id := "browser_check"
-				model, err := testService.NewPageRulesBodyActionsItemActionsSecurityOptions(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsSecurityOptions(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsSsl successfully`, func() {
 				id := "ssl"
-				model, err := testService.NewPageRulesBodyActionsItemActionsSsl(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsSsl(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPageRulesBodyActionsItemActionsTTL successfully`, func() {
 				id := "browser_cache_ttl"
-				model, err := testService.NewPageRulesBodyActionsItemActionsTTL(id)
+				model, err := pageRuleApiService.NewPageRulesBodyActionsItemActionsTTL(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

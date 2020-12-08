@@ -18,12 +18,13 @@ package wafrulegroupsapiv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/wafrulegroupsapiv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/wafrulegroupsapiv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`WafRuleGroupsApiV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(wafRuleGroupsApiService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(wafRuleGroupsApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				URL: "https://wafrulegroupsapiv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
@@ -65,13 +66,13 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(wafRuleGroupsApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{})
+			Expect(wafRuleGroupsApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := wafRuleGroupsApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != wafRuleGroupsApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(wafRuleGroupsApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(wafRuleGroupsApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := wafRuleGroupsApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != wafRuleGroupsApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(wafRuleGroupsApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(wafRuleGroupsApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := wafRuleGroupsApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := wafRuleGroupsApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != wafRuleGroupsApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(wafRuleGroupsApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(wafRuleGroupsApiService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(wafRuleGroupsApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(wafRuleGroupsApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = wafrulegroupsapiv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListWafRuleGroups(listWafRuleGroupsOptions *ListWafRuleGroupsOptions) - Operation response error`, func() {
@@ -169,9 +198,9 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listWafRuleGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listWafRuleGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["name"]).To(Equal([]string{"Wordpress rules"}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"Wordpress-rules"}))
 
 					Expect(req.URL.Query()["mode"]).To(Equal([]string{"true"}))
 
@@ -193,19 +222,19 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				}))
 			})
 			It(`Invoke ListWafRuleGroups with error: Operation response processing error`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListWafRuleGroupsOptions model
 				listWafRuleGroupsOptionsModel := new(wafrulegroupsapiv1.ListWafRuleGroupsOptions)
 				listWafRuleGroupsOptionsModel.PkgID = core.StringPtr("testString")
-				listWafRuleGroupsOptionsModel.Name = core.StringPtr("Wordpress rules")
+				listWafRuleGroupsOptionsModel.Name = core.StringPtr("Wordpress-rules")
 				listWafRuleGroupsOptionsModel.Mode = core.StringPtr("true")
 				listWafRuleGroupsOptionsModel.RulesCount = core.StringPtr("10")
 				listWafRuleGroupsOptionsModel.Page = core.Int64Ptr(int64(1))
@@ -215,7 +244,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				listWafRuleGroupsOptionsModel.Match = core.StringPtr("all")
 				listWafRuleGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
+				result, response, operationErr := wafRuleGroupsApiService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				wafRuleGroupsApiService.EnableRetries(0, 0)
+				result, response, operationErr = wafRuleGroupsApiService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -230,15 +266,18 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		listWafRuleGroupsPath := "/v1/testString/zones/testString/firewall/waf/packages/testString/groups"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listWafRuleGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listWafRuleGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["name"]).To(Equal([]string{"Wordpress rules"}))
+
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"Wordpress-rules"}))
 
 					Expect(req.URL.Query()["mode"]).To(Equal([]string{"true"}))
 
@@ -254,23 +293,28 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 
 					Expect(req.URL.Query()["match"]).To(Equal([]string{"all"}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "a25a9a7e9c00afc1fb2e0245519d725b", "name": "Project Honey Pot", "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks", "rules_count": 10, "modified_rules_count": 10, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "mode": "on", "allowed_modes": ["AllowedModes"]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "a25a9a7e9c00afc1fb2e0245519d725b", "name": "Project Honey Pot", "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks", "rules_count": 10, "modified_rules_count": 10, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "mode": "on", "allowed_modes": ["AllowedModes"]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke ListWafRuleGroups successfully`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
+				wafRuleGroupsApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListWafRuleGroups(nil)
+				result, response, operationErr := wafRuleGroupsApiService.ListWafRuleGroups(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -278,7 +322,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				// Construct an instance of the ListWafRuleGroupsOptions model
 				listWafRuleGroupsOptionsModel := new(wafrulegroupsapiv1.ListWafRuleGroupsOptions)
 				listWafRuleGroupsOptionsModel.PkgID = core.StringPtr("testString")
-				listWafRuleGroupsOptionsModel.Name = core.StringPtr("Wordpress rules")
+				listWafRuleGroupsOptionsModel.Name = core.StringPtr("Wordpress-rules")
 				listWafRuleGroupsOptionsModel.Mode = core.StringPtr("true")
 				listWafRuleGroupsOptionsModel.RulesCount = core.StringPtr("10")
 				listWafRuleGroupsOptionsModel.Page = core.Int64Ptr(int64(1))
@@ -286,28 +330,53 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				listWafRuleGroupsOptionsModel.Order = core.StringPtr("status")
 				listWafRuleGroupsOptionsModel.Direction = core.StringPtr("desc")
 				listWafRuleGroupsOptionsModel.Match = core.StringPtr("all")
- 				listWafRuleGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listWafRuleGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
+				result, response, operationErr = wafRuleGroupsApiService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRuleGroupsApiService.ListWafRuleGroupsWithContext(ctx, listWafRuleGroupsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				wafRuleGroupsApiService.DisableRetries()
+				result, response, operationErr = wafRuleGroupsApiService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRuleGroupsApiService.ListWafRuleGroupsWithContext(ctx, listWafRuleGroupsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListWafRuleGroups with error: Operation validation and request error`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListWafRuleGroupsOptions model
 				listWafRuleGroupsOptionsModel := new(wafrulegroupsapiv1.ListWafRuleGroupsOptions)
 				listWafRuleGroupsOptionsModel.PkgID = core.StringPtr("testString")
-				listWafRuleGroupsOptionsModel.Name = core.StringPtr("Wordpress rules")
+				listWafRuleGroupsOptionsModel.Name = core.StringPtr("Wordpress-rules")
 				listWafRuleGroupsOptionsModel.Mode = core.StringPtr("true")
 				listWafRuleGroupsOptionsModel.RulesCount = core.StringPtr("10")
 				listWafRuleGroupsOptionsModel.Page = core.Int64Ptr(int64(1))
@@ -317,9 +386,9 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				listWafRuleGroupsOptionsModel.Match = core.StringPtr("all")
 				listWafRuleGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := wafRuleGroupsApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
+				result, response, operationErr := wafRuleGroupsApiService.ListWafRuleGroups(listWafRuleGroupsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -327,7 +396,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				// Construct a second instance of the ListWafRuleGroupsOptions model with no property values
 				listWafRuleGroupsOptionsModelNew := new(wafrulegroupsapiv1.ListWafRuleGroupsOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListWafRuleGroups(listWafRuleGroupsOptionsModelNew)
+				result, response, operationErr = wafRuleGroupsApiService.ListWafRuleGroups(listWafRuleGroupsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -347,7 +416,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getWafRuleGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getWafRuleGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -355,14 +424,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetWafRuleGroup with error: Operation response processing error`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetWafRuleGroupOptions model
 				getWafRuleGroupOptionsModel := new(wafrulegroupsapiv1.GetWafRuleGroupOptions)
@@ -370,7 +439,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				getWafRuleGroupOptionsModel.GroupID = core.StringPtr("testString")
 				getWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
+				result, response, operationErr := wafRuleGroupsApiService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				wafRuleGroupsApiService.EnableRetries(0, 0)
+				result, response, operationErr = wafRuleGroupsApiService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -385,31 +461,39 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getWafRuleGroupPath := "/v1/testString/zones/testString/firewall/waf/packages/testString/groups/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getWafRuleGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getWafRuleGroupPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "a25a9a7e9c00afc1fb2e0245519d725b", "name": "Project Honey Pot", "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks", "rules_count": 10, "modified_rules_count": 10, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "mode": "on", "allowed_modes": ["AllowedModes"]}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "a25a9a7e9c00afc1fb2e0245519d725b", "name": "Project Honey Pot", "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks", "rules_count": 10, "modified_rules_count": 10, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "mode": "on", "allowed_modes": ["AllowedModes"]}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke GetWafRuleGroup successfully`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
+				wafRuleGroupsApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetWafRuleGroup(nil)
+				result, response, operationErr := wafRuleGroupsApiService.GetWafRuleGroup(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -418,23 +502,48 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				getWafRuleGroupOptionsModel := new(wafrulegroupsapiv1.GetWafRuleGroupOptions)
 				getWafRuleGroupOptionsModel.PkgID = core.StringPtr("testString")
 				getWafRuleGroupOptionsModel.GroupID = core.StringPtr("testString")
- 				getWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
+				result, response, operationErr = wafRuleGroupsApiService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRuleGroupsApiService.GetWafRuleGroupWithContext(ctx, getWafRuleGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				wafRuleGroupsApiService.DisableRetries()
+				result, response, operationErr = wafRuleGroupsApiService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRuleGroupsApiService.GetWafRuleGroupWithContext(ctx, getWafRuleGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetWafRuleGroup with error: Operation validation and request error`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetWafRuleGroupOptions model
 				getWafRuleGroupOptionsModel := new(wafrulegroupsapiv1.GetWafRuleGroupOptions)
@@ -442,9 +551,9 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				getWafRuleGroupOptionsModel.GroupID = core.StringPtr("testString")
 				getWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := wafRuleGroupsApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
+				result, response, operationErr := wafRuleGroupsApiService.GetWafRuleGroup(getWafRuleGroupOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -452,7 +561,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				// Construct a second instance of the GetWafRuleGroupOptions model with no property values
 				getWafRuleGroupOptionsModelNew := new(wafrulegroupsapiv1.GetWafRuleGroupOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetWafRuleGroup(getWafRuleGroupOptionsModelNew)
+				result, response, operationErr = wafRuleGroupsApiService.GetWafRuleGroup(getWafRuleGroupOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -472,7 +581,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateWafRuleGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateWafRuleGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -480,14 +589,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateWafRuleGroup with error: Operation response processing error`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateWafRuleGroupOptions model
 				updateWafRuleGroupOptionsModel := new(wafrulegroupsapiv1.UpdateWafRuleGroupOptions)
@@ -496,7 +605,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				updateWafRuleGroupOptionsModel.Mode = core.StringPtr("on")
 				updateWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
+				result, response, operationErr := wafRuleGroupsApiService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				wafRuleGroupsApiService.EnableRetries(0, 0)
+				result, response, operationErr = wafRuleGroupsApiService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -511,31 +627,55 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updateWafRuleGroupPath := "/v1/testString/zones/testString/firewall/waf/packages/testString/groups/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateWafRuleGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateWafRuleGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "a25a9a7e9c00afc1fb2e0245519d725b", "name": "Project Honey Pot", "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks", "rules_count": 10, "modified_rules_count": 10, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "mode": "on", "allowed_modes": ["AllowedModes"]}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "a25a9a7e9c00afc1fb2e0245519d725b", "name": "Project Honey Pot", "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks", "rules_count": 10, "modified_rules_count": 10, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "mode": "on", "allowed_modes": ["AllowedModes"]}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke UpdateWafRuleGroup successfully`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
+				wafRuleGroupsApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateWafRuleGroup(nil)
+				result, response, operationErr := wafRuleGroupsApiService.UpdateWafRuleGroup(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -545,23 +685,48 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				updateWafRuleGroupOptionsModel.PkgID = core.StringPtr("testString")
 				updateWafRuleGroupOptionsModel.GroupID = core.StringPtr("testString")
 				updateWafRuleGroupOptionsModel.Mode = core.StringPtr("on")
- 				updateWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
+				result, response, operationErr = wafRuleGroupsApiService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRuleGroupsApiService.UpdateWafRuleGroupWithContext(ctx, updateWafRuleGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				wafRuleGroupsApiService.DisableRetries()
+				result, response, operationErr = wafRuleGroupsApiService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRuleGroupsApiService.UpdateWafRuleGroupWithContext(ctx, updateWafRuleGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateWafRuleGroup with error: Operation validation and request error`, func() {
-				testService, testServiceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRuleGroupsApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateWafRuleGroupOptions model
 				updateWafRuleGroupOptionsModel := new(wafrulegroupsapiv1.UpdateWafRuleGroupOptions)
@@ -570,9 +735,9 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				updateWafRuleGroupOptionsModel.Mode = core.StringPtr("on")
 				updateWafRuleGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := wafRuleGroupsApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
+				result, response, operationErr := wafRuleGroupsApiService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -580,7 +745,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				// Construct a second instance of the UpdateWafRuleGroupOptions model with no property values
 				updateWafRuleGroupOptionsModelNew := new(wafrulegroupsapiv1.UpdateWafRuleGroupOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModelNew)
+				result, response, operationErr = wafRuleGroupsApiService.UpdateWafRuleGroup(updateWafRuleGroupOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -594,7 +759,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneID := "testString"
-			testService, _ := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
+			wafRuleGroupsApiService, _ := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				URL:           "http://wafrulegroupsapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -604,7 +769,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				// Construct an instance of the GetWafRuleGroupOptions model
 				pkgID := "testString"
 				groupID := "testString"
-				getWafRuleGroupOptionsModel := testService.NewGetWafRuleGroupOptions(pkgID, groupID)
+				getWafRuleGroupOptionsModel := wafRuleGroupsApiService.NewGetWafRuleGroupOptions(pkgID, groupID)
 				getWafRuleGroupOptionsModel.SetPkgID("testString")
 				getWafRuleGroupOptionsModel.SetGroupID("testString")
 				getWafRuleGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -616,9 +781,9 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 			It(`Invoke NewListWafRuleGroupsOptions successfully`, func() {
 				// Construct an instance of the ListWafRuleGroupsOptions model
 				pkgID := "testString"
-				listWafRuleGroupsOptionsModel := testService.NewListWafRuleGroupsOptions(pkgID)
+				listWafRuleGroupsOptionsModel := wafRuleGroupsApiService.NewListWafRuleGroupsOptions(pkgID)
 				listWafRuleGroupsOptionsModel.SetPkgID("testString")
-				listWafRuleGroupsOptionsModel.SetName("Wordpress rules")
+				listWafRuleGroupsOptionsModel.SetName("Wordpress-rules")
 				listWafRuleGroupsOptionsModel.SetMode("true")
 				listWafRuleGroupsOptionsModel.SetRulesCount("10")
 				listWafRuleGroupsOptionsModel.SetPage(int64(1))
@@ -629,7 +794,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				listWafRuleGroupsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listWafRuleGroupsOptionsModel).ToNot(BeNil())
 				Expect(listWafRuleGroupsOptionsModel.PkgID).To(Equal(core.StringPtr("testString")))
-				Expect(listWafRuleGroupsOptionsModel.Name).To(Equal(core.StringPtr("Wordpress rules")))
+				Expect(listWafRuleGroupsOptionsModel.Name).To(Equal(core.StringPtr("Wordpress-rules")))
 				Expect(listWafRuleGroupsOptionsModel.Mode).To(Equal(core.StringPtr("true")))
 				Expect(listWafRuleGroupsOptionsModel.RulesCount).To(Equal(core.StringPtr("10")))
 				Expect(listWafRuleGroupsOptionsModel.Page).To(Equal(core.Int64Ptr(int64(1))))
@@ -643,7 +808,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				// Construct an instance of the UpdateWafRuleGroupOptions model
 				pkgID := "testString"
 				groupID := "testString"
-				updateWafRuleGroupOptionsModel := testService.NewUpdateWafRuleGroupOptions(pkgID, groupID)
+				updateWafRuleGroupOptionsModel := wafRuleGroupsApiService.NewUpdateWafRuleGroupOptions(pkgID, groupID)
 				updateWafRuleGroupOptionsModel.SetPkgID("testString")
 				updateWafRuleGroupOptionsModel.SetGroupID("testString")
 				updateWafRuleGroupOptionsModel.SetMode("on")

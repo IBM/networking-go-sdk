@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package firewallapiv1 : Operations and models for the FirewallApiV1 service
 package firewallapiv1
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // FirewallApiV1 : Firewall API
@@ -118,24 +127,79 @@ func NewFirewallApiV1(options *FirewallApiV1Options) (service *FirewallApiV1, er
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "firewallApi" suitable for processing requests.
+func (firewallApi *FirewallApiV1) Clone() *FirewallApiV1 {
+	if core.IsNil(firewallApi) {
+		return nil
+	}
+	clone := *firewallApi
+	clone.Service = firewallApi.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (firewallApi *FirewallApiV1) SetServiceURL(url string) error {
 	return firewallApi.Service.SetServiceURL(url)
 }
 
-// GetSecurityLevelSetting : For a given zone identifier, get security level setting
+// GetServiceURL returns the service URL
+func (firewallApi *FirewallApiV1) GetServiceURL() string {
+	return firewallApi.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (firewallApi *FirewallApiV1) SetDefaultHeaders(headers http.Header) {
+	firewallApi.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (firewallApi *FirewallApiV1) SetEnableGzipCompression(enableGzip bool) {
+	firewallApi.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (firewallApi *FirewallApiV1) GetEnableGzipCompression() bool {
+	return firewallApi.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (firewallApi *FirewallApiV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	firewallApi.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (firewallApi *FirewallApiV1) DisableRetries() {
+	firewallApi.Service.DisableRetries()
+}
+
+// GetSecurityLevelSetting : Get security level setting
 // For a given zone identifier, get security level setting.
 func (firewallApi *FirewallApiV1) GetSecurityLevelSetting(getSecurityLevelSettingOptions *GetSecurityLevelSettingOptions) (result *SecurityLevelSettingResp, response *core.DetailedResponse, err error) {
+	return firewallApi.GetSecurityLevelSettingWithContext(context.Background(), getSecurityLevelSettingOptions)
+}
+
+// GetSecurityLevelSettingWithContext is an alternate form of the GetSecurityLevelSetting method which supports a Context parameter
+func (firewallApi *FirewallApiV1) GetSecurityLevelSettingWithContext(ctx context.Context, getSecurityLevelSettingOptions *GetSecurityLevelSettingOptions) (result *SecurityLevelSettingResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSecurityLevelSettingOptions, "getSecurityLevelSettingOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "settings/security_level"}
-	pathParameters := []string{*firewallApi.Crn, *firewallApi.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *firewallApi.Crn,
+		"zone_identifier": *firewallApi.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(firewallApi.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallApi.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/security_level`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -169,19 +233,28 @@ func (firewallApi *FirewallApiV1) GetSecurityLevelSetting(getSecurityLevelSettin
 	return
 }
 
-// SetSecurityLevelSetting : For a given zone identifier, set security level setting
+// SetSecurityLevelSetting : Set security level setting
 // For a given zone identifier, set security level setting.
 func (firewallApi *FirewallApiV1) SetSecurityLevelSetting(setSecurityLevelSettingOptions *SetSecurityLevelSettingOptions) (result *SecurityLevelSettingResp, response *core.DetailedResponse, err error) {
+	return firewallApi.SetSecurityLevelSettingWithContext(context.Background(), setSecurityLevelSettingOptions)
+}
+
+// SetSecurityLevelSettingWithContext is an alternate form of the SetSecurityLevelSetting method which supports a Context parameter
+func (firewallApi *FirewallApiV1) SetSecurityLevelSettingWithContext(ctx context.Context, setSecurityLevelSettingOptions *SetSecurityLevelSettingOptions) (result *SecurityLevelSettingResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(setSecurityLevelSettingOptions, "setSecurityLevelSettingOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "settings/security_level"}
-	pathParameters := []string{*firewallApi.Crn, *firewallApi.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *firewallApi.Crn,
+		"zone_identifier": *firewallApi.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
-	_, err = builder.ConstructHTTPURL(firewallApi.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallApi.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/security_level`, pathParamsMap)
 	if err != nil {
 		return
 	}
