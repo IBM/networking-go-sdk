@@ -18,6 +18,7 @@ package dnssvcsv1_test
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -65,6 +66,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 	instanceID := os.Getenv("DNS_SVCS_INSTANCE_ID")
 	vpcCrn := os.Getenv("DNS_SVCS_VPC_CRN")
+	subnetCrn := os.Getenv("DNS_SVCS_SUBNET_CRN")
 
 	Describe(`dnssvcsv1`, func() {
 		Context(`dnssvcsv1`, func() {
@@ -773,16 +775,37 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				//Create and List Monitor
 				for i := 1; i < 4; i++ {
-					CreateMonitorOptions := service.NewCreateMonitorOptions(instanceID)
-					CreateMonitorOptions.SetName("testaMonitor-" + strconv.Itoa(i))
-					CreateMonitorOptions.SetType(dnssvcsv1.CreateMonitorOptions_Type_Http)
-					CreateMonitorOptions.SetExpectedCodes("200")
-					result, response, reqErr := service.CreateMonitor(CreateMonitorOptions)
+					createMonitorOptions := service.NewCreateMonitorOptions(instanceID)
+					createMonitorOptions.SetName("testaMonitor-" + strconv.Itoa(i))
+					createMonitorOptions.SetType(dnssvcsv1.CreateMonitorOptions_Type_Http)
+					createMonitorOptions.SetExpectedCodes("200")
+					result, response, reqErr := service.CreateMonitor(createMonitorOptions)
 					Expect(reqErr).To(BeNil())
 					Expect(response).ToNot(BeNil())
 					Expect(result).ToNot(BeNil())
 					Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
 					Expect(*result.Type).To(BeEquivalentTo(dnssvcsv1.CreateMonitorOptions_Type_Http))
+
+					createPoolOptions := service.NewCreatePoolOptions(instanceID)
+					name := fmt.Sprintf("testpool-%d", i)
+					createPoolOptions.SetName(name)
+					createPoolOptions.SetDescription("creating pool")
+					createPoolOptions.SetEnabled(true)
+					createPoolOptions.SetHealthyOriginsThreshold(1)
+					createPoolOptions.SetMonitor(*result.ID)
+					createPoolOptions.SetHealthcheckRegion("us-south")
+					createPoolOptions.SetHealthcheckSubnets([]string{subnetCrn})
+					originInputModel := new(dnssvcsv1.OriginInput)
+					originInputModel.Name = core.StringPtr("app-server-1")
+					originInputModel.Description = core.StringPtr("description of the origin server")
+					originInputModel.Address = core.StringPtr("10.10.10.8")
+					originInputModel.Enabled = core.BoolPtr(true)
+					createPoolOptions.Origins = []dnssvcsv1.OriginInput{*originInputModel}
+					resultPool, responsePool, reqErrPool := service.CreatePool(createPoolOptions)
+					Expect(reqErrPool).To(BeNil())
+					Expect(responsePool).ToNot(BeNil())
+					Expect(resultPool).ToNot(BeNil())
+					Expect(responsePool.GetStatusCode()).To(BeEquivalentTo(200))
 				}
 				listMonitorOpt := service.NewListMonitorsOptions(instanceID)
 				listMonitorResult, listMonitorResponse, listMonitorErr := service.ListMonitors(listMonitorOpt)
@@ -802,20 +825,20 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 
 				// create Load Balancer Monitor
-				CreateMonitorOptions := service.NewCreateMonitorOptions(instanceID)
-				CreateMonitorOptions.SetName("testa")
-				CreateMonitorOptions.SetExpectedCodes("200")
-				CreateMonitorOptions.SetType(dnssvcsv1.CreateMonitorOptions_Type_Http)
-				CreateMonitorOptions.SetDescription("PDNS Load balancer monitor.")
-				CreateMonitorOptions.SetPort(8080)
-				CreateMonitorOptions.SetInterval(60)
-				CreateMonitorOptions.SetRetries(2)
-				CreateMonitorOptions.SetTimeout(5)
-				CreateMonitorOptions.SetMethod(dnssvcsv1.CreateMonitorOptions_Method_Get)
-				CreateMonitorOptions.SetPath("health")
-				CreateMonitorOptions.SetAllowInsecure(false)
-				CreateMonitorOptions.SetExpectedBody("alive")
-				result, response, reqErr := service.CreateMonitor(CreateMonitorOptions)
+				createMonitorOptions := service.NewCreateMonitorOptions(instanceID)
+				createMonitorOptions.SetName("testa")
+				createMonitorOptions.SetExpectedCodes("200")
+				createMonitorOptions.SetType(dnssvcsv1.CreateMonitorOptions_Type_Http)
+				createMonitorOptions.SetDescription("PDNS Load balancer monitor.")
+				createMonitorOptions.SetPort(8080)
+				createMonitorOptions.SetInterval(60)
+				createMonitorOptions.SetRetries(2)
+				createMonitorOptions.SetTimeout(5)
+				createMonitorOptions.SetMethod(dnssvcsv1.CreateMonitorOptions_Method_Get)
+				createMonitorOptions.SetPath("health")
+				createMonitorOptions.SetAllowInsecure(false)
+				createMonitorOptions.SetExpectedBody("alive")
+				result, response, reqErr := service.CreateMonitor(createMonitorOptions)
 				Expect(reqErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -865,18 +888,21 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*updateResult.Type).To(BeEquivalentTo(dnssvcsv1.UpdateMonitorOptions_Type_Https))
 
 				//Test CreatePool
-				CreatePoolOptions := service.NewCreatePoolOptions(instanceID)
-				CreatePoolOptions.SetName("testPool")
-				CreatePoolOptions.SetDescription("creating pool")
-				CreatePoolOptions.SetEnabled(true)
-				CreatePoolOptions.SetHealthyOriginsThreshold(1)
+				createPoolOptions := service.NewCreatePoolOptions(instanceID)
+				createPoolOptions.SetName("testPool")
+				createPoolOptions.SetDescription("creating pool")
+				createPoolOptions.SetEnabled(true)
+				createPoolOptions.SetHealthyOriginsThreshold(1)
+				createPoolOptions.SetMonitor(*updateResult.ID)
+				createPoolOptions.SetHealthcheckRegion("us-south")
+				createPoolOptions.SetHealthcheckSubnets([]string{subnetCrn})
 				originInputModel := new(dnssvcsv1.OriginInput)
 				originInputModel.Name = core.StringPtr("app-server-1")
 				originInputModel.Description = core.StringPtr("description of the origin server")
 				originInputModel.Address = core.StringPtr("10.10.10.8")
 				originInputModel.Enabled = core.BoolPtr(true)
-				CreatePoolOptions.Origins = []dnssvcsv1.OriginInput{*originInputModel}
-				resultPool, responsePool, reqErrPool := service.CreatePool(CreatePoolOptions)
+				createPoolOptions.Origins = []dnssvcsv1.OriginInput{*originInputModel}
+				resultPool, responsePool, reqErrPool := service.CreatePool(createPoolOptions)
 				Expect(reqErrPool).To(BeNil())
 				Expect(responsePool).ToNot(BeNil())
 				Expect(resultPool).ToNot(BeNil())
@@ -885,6 +911,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*resultPool.Description).To(BeEquivalentTo("creating pool"))
 				Expect(*resultPool.Enabled).To(BeEquivalentTo(true))
 				Expect(*resultPool.HealthyOriginsThreshold).To(BeEquivalentTo(1))
+				Expect(resultPool.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
+				Expect(len(resultPool.HealthcheckVsis)).To(BeIdenticalTo(1))
+				Expect(*resultPool.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				Expect(*resultPool.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Get Pool
 				getPoolOpt := service.NewGetPoolOptions(instanceID, *resultPool.ID)
@@ -897,11 +927,18 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*getPoolResult.Description).To(BeEquivalentTo("creating pool"))
 				Expect(*getPoolResult.Enabled).To(BeEquivalentTo(true))
 				Expect(*getPoolResult.HealthyOriginsThreshold).To(BeEquivalentTo(1))
+				Expect(getPoolResult.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
+				Expect(len(getPoolResult.HealthcheckVsis)).To(BeIdenticalTo(1))
+				Expect(*getPoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				Expect(*getPoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Update Pool
 				updatePoolOpt := service.NewUpdatePoolOptions(instanceID, *resultPool.ID)
 				updatePoolOpt.SetName("updatedtestpool")
 				updatePoolOpt.SetDescription("updating testPool")
+				createPoolOptions.SetMonitor(*updateResult.ID)
+				createPoolOptions.SetHealthcheckRegion("us-south")
+				createPoolOptions.SetHealthcheckSubnets([]string{subnetCrn})
 				updatePoolResult, updatePoolResponse, updatePoolErr := service.UpdatePool(updatePoolOpt)
 				Expect(updatePoolErr).To(BeNil())
 				Expect(updatePoolResponse).ToNot(BeNil())
@@ -909,16 +946,20 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(updatePoolResponse.GetStatusCode()).To(BeEquivalentTo(200))
 				Expect(*updatePoolResult.Name).To(BeEquivalentTo("updatedtestpool"))
 				Expect(*updatePoolResult.Description).To(BeEquivalentTo("updating testPool"))
+				Expect(updatePoolResult.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
+				Expect(len(updatePoolResult.HealthcheckVsis)).To(BeIdenticalTo(1))
+				Expect(*updatePoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				Expect(*updatePoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Create Load Balancer
-				CreateLoadBalancerOptions := service.NewCreateLoadBalancerOptions(instanceID, *zoneInfo.ID)
-				CreateLoadBalancerOptions.SetName("testloadbalancer")
-				CreateLoadBalancerOptions.SetDescription("PDNS Load balancer")
-				CreateLoadBalancerOptions.SetEnabled(true)
-				CreateLoadBalancerOptions.SetTTL(120)
-				CreateLoadBalancerOptions.SetFallbackPool(*resultPool.ID)
-				CreateLoadBalancerOptions.SetDefaultPools([]string{*resultPool.ID})
-				resultLoadbalancer, responseLoadbalancer, reqErrLoadbalancer := service.CreateLoadBalancer(CreateLoadBalancerOptions)
+				createLoadBalancerOptions := service.NewCreateLoadBalancerOptions(instanceID, *zoneInfo.ID)
+				createLoadBalancerOptions.SetName("testloadbalancer")
+				createLoadBalancerOptions.SetDescription("PDNS Load balancer")
+				createLoadBalancerOptions.SetEnabled(true)
+				createLoadBalancerOptions.SetTTL(120)
+				createLoadBalancerOptions.SetFallbackPool(*resultPool.ID)
+				createLoadBalancerOptions.SetDefaultPools([]string{*resultPool.ID})
+				resultLoadbalancer, responseLoadbalancer, reqErrLoadbalancer := service.CreateLoadBalancer(createLoadBalancerOptions)
 				Expect(reqErrLoadbalancer).To(BeNil())
 				Expect(responseLoadbalancer).ToNot(BeNil())
 				Expect(resultLoadbalancer).ToNot(BeNil())
@@ -1013,14 +1054,25 @@ var _ = Describe(`dnssvcsv1`, func() {
 						for _, nw := range results.PermittedNetworks {
 
 							deletePermittedNetworkOptions := service.NewDeletePermittedNetworkOptions(instanceID, *zone.ID, *nw.ID)
-							results, response, reqErr := service.DeletePermittedNetwork(deletePermittedNetworkOptions)
-							if reqErr != nil {
-								fmt.Printf("sleeping for 5 min, since permitted network deletion will take 5 mins, time is %s", time.Now().String())
-								time.Sleep(time.Minute * 5)
-							} else {
-								Expect(reqErr).To(BeNil())
-								Expect(response).ToNot(BeNil())
-								Expect(results).ToNot(BeNil())
+							delResult, response, reqErr := service.DeletePermittedNetwork(deletePermittedNetworkOptions)
+							Expect(reqErr).To(BeNil())
+							Expect(response).ToNot(BeNil())
+							Expect(delResult).ToNot(BeNil())
+						}
+
+						for _, nw := range results.PermittedNetworks {
+
+							for i := 30; i > 0; i-- {
+								getPermittedNetworkOptions := service.NewGetPermittedNetworkOptions(instanceID, *zone.ID, *nw.ID)
+								_, response, reqErr := service.GetPermittedNetwork(getPermittedNetworkOptions)
+								if reqErr != nil {
+									if response != nil && response.StatusCode == 404 {
+										break
+									}
+									Expect(reqErr).ToNot(BeNil())
+								}
+								log.Printf("(BeforeEach) Permitted network (%s) delete is pending. will try after 10 sec", *nw.ID)
+								time.Sleep(time.Second * 10)
 							}
 						}
 
@@ -1066,14 +1118,22 @@ var _ = Describe(`dnssvcsv1`, func() {
 						for _, nw := range results.PermittedNetworks {
 							deletePermittedNetworkOptions := service.NewDeletePermittedNetworkOptions(instanceID, *zone.ID, *nw.ID)
 							results, response, reqErr := service.DeletePermittedNetwork(deletePermittedNetworkOptions)
-							if reqErr != nil {
-								fmt.Printf("sleeping for 5 min, since permitted network deletion will take 5 mins, time now %s.", time.Now().String())
-								time.Sleep(time.Minute * 5)
-								fmt.Printf("exited sleep at %s.", time.Now().String())
-							} else {
-								Expect(reqErr).To(BeNil())
-								Expect(response).ToNot(BeNil())
-								Expect(results).ToNot(BeNil())
+							Expect(reqErr).To(BeNil())
+							Expect(response).ToNot(BeNil())
+							Expect(results).ToNot(BeNil())
+						}
+						for _, nw := range results.PermittedNetworks {
+							for i := 30; i > 0; i-- {
+								getPermittedNetworkOptions := service.NewGetPermittedNetworkOptions(instanceID, *zone.ID, *nw.ID)
+								_, response, reqErr := service.GetPermittedNetwork(getPermittedNetworkOptions)
+								if reqErr != nil {
+									if response != nil && response.StatusCode == 404 {
+										break
+									}
+									Expect(reqErr).ToNot(BeNil())
+								}
+								log.Printf("(AfterEach) Permitted network (%s) delete is pending. will try after 10 sec", *nw.ID)
+								time.Sleep(time.Second * 10)
 							}
 						}
 
@@ -1142,6 +1202,19 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(result).ToNot(BeNil())
 				Expect(response.GetStatusCode()).To(BeEquivalentTo(202))
 				Expect(*result.State).To(BeEquivalentTo(dnssvcsv1.PermittedNetwork_State_RemovalInProgress))
+
+				for i := 30; i > 0; i-- {
+					getPermittedNetworkOptions := service.NewGetPermittedNetworkOptions(instanceID, *zoneInfo.ID, *permittednetworkID)
+					_, response, reqErr := service.GetPermittedNetwork(getPermittedNetworkOptions)
+					if reqErr != nil {
+						if response != nil && response.StatusCode == 404 {
+							break
+						}
+						Expect(reqErr).ToNot(BeNil())
+					}
+					log.Printf("Permitted network (%s) delete is pending. will try after 10 sec", *permittednetworkID)
+					time.Sleep(time.Second * 10)
+				}
 
 				// Test Rmove Permitted Network Fail
 				fdeletePermittedNetworkOptions := service.NewDeletePermittedNetworkOptions(instanceID, *zoneInfo.ID, "invalid_id")

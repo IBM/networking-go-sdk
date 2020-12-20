@@ -18,6 +18,7 @@ package dnssvcsv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/networking-go-sdk/dnssvcsv1"
@@ -34,31 +35,31 @@ import (
 
 var _ = Describe(`DnsSvcsV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "https://dnssvcsv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -71,32 +72,50 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -107,12 +126,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -123,15 +142,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListDnszones(listDnszonesOptions *ListDnszonesOptions) - Operation response error`, func() {
@@ -142,7 +171,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listDnszonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszonesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -156,12 +185,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke ListDnszones with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListDnszonesOptions model
 				listDnszonesOptionsModel := new(dnssvcsv1.ListDnszonesOptions)
@@ -171,7 +200,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListDnszones(listDnszonesOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListDnszones(listDnszonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListDnszones(listDnszonesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -184,35 +220,43 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`ListDnszones(listDnszonesOptions *ListDnszonesOptions)`, func() {
 		listDnszonesPath := "/instances/testString/dnszones"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listDnszonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszonesPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListDnszones successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListDnszones(nil)
+				result, response, operationErr := dnsSvcsService.ListDnszones(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -223,21 +267,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
- 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListDnszones(listDnszonesOptionsModel)
+				result, response, operationErr = dnsSvcsService.ListDnszones(listDnszonesOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListDnszonesWithContext(ctx, listDnszonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListDnszones(listDnszonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListDnszonesWithContext(ctx, listDnszonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListDnszones with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListDnszonesOptions model
 				listDnszonesOptionsModel := new(dnssvcsv1.ListDnszonesOptions)
@@ -247,9 +316,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListDnszones(listDnszonesOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListDnszones(listDnszonesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -257,7 +326,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the ListDnszonesOptions model with no property values
 				listDnszonesOptionsModelNew := new(dnssvcsv1.ListDnszonesOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListDnszones(listDnszonesOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.ListDnszones(listDnszonesOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -275,7 +344,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createDnszonePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -285,12 +354,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke CreateDnszone with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the CreateDnszoneOptions model
 				createDnszoneOptionsModel := new(dnssvcsv1.CreateDnszoneOptions)
@@ -301,7 +370,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateDnszone(createDnszoneOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateDnszone(createDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateDnszone(createDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -314,31 +390,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`CreateDnszone(createDnszoneOptions *CreateDnszoneOptions)`, func() {
 		createDnszonePath := "/instances/testString/dnszones"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createDnszonePath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke CreateDnszone successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateDnszone(nil)
+				result, response, operationErr := dnsSvcsService.CreateDnszone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -350,21 +450,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createDnszoneOptionsModel.Description = core.StringPtr("The DNS zone is used for VPCs in us-east region")
 				createDnszoneOptionsModel.Label = core.StringPtr("us-east")
 				createDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateDnszone(createDnszoneOptionsModel)
+				result, response, operationErr = dnsSvcsService.CreateDnszone(createDnszoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateDnszoneWithContext(ctx, createDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreateDnszone(createDnszoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateDnszoneWithContext(ctx, createDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateDnszone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the CreateDnszoneOptions model
 				createDnszoneOptionsModel := new(dnssvcsv1.CreateDnszoneOptions)
@@ -375,9 +500,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateDnszone(createDnszoneOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateDnszone(createDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -385,7 +510,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the CreateDnszoneOptions model with no property values
 				createDnszoneOptionsModelNew := new(dnssvcsv1.CreateDnszoneOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreateDnszone(createDnszoneOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.CreateDnszone(createDnszoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -404,23 +529,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteDnszonePath))
 					Expect(req.Method).To(Equal("DELETE"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeleteDnszone successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				response, operationErr := testService.DeleteDnszone(nil)
+				response, operationErr := dnsSvcsService.DeleteDnszone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 
@@ -429,20 +556,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteDnszoneOptionsModel.InstanceID = core.StringPtr("testString")
 				deleteDnszoneOptionsModel.DnszoneID = core.StringPtr("testString")
 				deleteDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deleteDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = testService.DeleteDnszone(deleteDnszoneOptionsModel)
+				response, operationErr = dnsSvcsService.DeleteDnszone(deleteDnszoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteDnszone(deleteDnszoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeleteDnszone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteDnszoneOptions model
 				deleteDnszoneOptionsModel := new(dnssvcsv1.DeleteDnszoneOptions)
@@ -451,16 +584,16 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deleteDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				response, operationErr := testService.DeleteDnszone(deleteDnszoneOptionsModel)
+				response, operationErr := dnsSvcsService.DeleteDnszone(deleteDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeleteDnszoneOptions model with no property values
 				deleteDnszoneOptionsModelNew := new(dnssvcsv1.DeleteDnszoneOptions)
 				// Invoke operation with invalid model (negative test)
-				response, operationErr = testService.DeleteDnszone(deleteDnszoneOptionsModelNew)
+				response, operationErr = dnsSvcsService.DeleteDnszone(deleteDnszoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 			})
@@ -477,7 +610,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getDnszonePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -487,12 +620,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke GetDnszone with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetDnszoneOptions model
 				getDnszoneOptionsModel := new(dnssvcsv1.GetDnszoneOptions)
@@ -501,7 +634,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetDnszone(getDnszoneOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetDnszone(getDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetDnszone(getDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -514,31 +654,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`GetDnszone(getDnszoneOptions *GetDnszoneOptions)`, func() {
 		getDnszonePath := "/instances/testString/dnszones/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getDnszonePath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke GetDnszone successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetDnszone(nil)
+				result, response, operationErr := dnsSvcsService.GetDnszone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -548,21 +696,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getDnszoneOptionsModel.InstanceID = core.StringPtr("testString")
 				getDnszoneOptionsModel.DnszoneID = core.StringPtr("testString")
 				getDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetDnszone(getDnszoneOptionsModel)
+				result, response, operationErr = dnsSvcsService.GetDnszone(getDnszoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetDnszoneWithContext(ctx, getDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetDnszone(getDnszoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetDnszoneWithContext(ctx, getDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetDnszone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetDnszoneOptions model
 				getDnszoneOptionsModel := new(dnssvcsv1.GetDnszoneOptions)
@@ -571,9 +744,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetDnszone(getDnszoneOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetDnszone(getDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -581,7 +754,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the GetDnszoneOptions model with no property values
 				getDnszoneOptionsModelNew := new(dnssvcsv1.GetDnszoneOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetDnszone(getDnszoneOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.GetDnszone(getDnszoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -599,7 +772,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnszonePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -609,12 +782,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateDnszone with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateDnszoneOptions model
 				updateDnszoneOptionsModel := new(dnssvcsv1.UpdateDnszoneOptions)
@@ -625,7 +798,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateDnszone(updateDnszoneOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateDnszone(updateDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateDnszone(updateDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -638,31 +818,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`UpdateDnszone(updateDnszoneOptions *UpdateDnszoneOptions)`, func() {
 		updateDnszonePath := "/instances/testString/dnszones/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateDnszonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnszonePath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszone successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateDnszone(nil)
+				result, response, operationErr := dnsSvcsService.UpdateDnszone(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -674,21 +878,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateDnszoneOptionsModel.Description = core.StringPtr("The DNS zone is used for VPCs in us-east region")
 				updateDnszoneOptionsModel.Label = core.StringPtr("us-east")
 				updateDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updateDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateDnszone(updateDnszoneOptionsModel)
+				result, response, operationErr = dnsSvcsService.UpdateDnszone(updateDnszoneOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateDnszoneWithContext(ctx, updateDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateDnszone(updateDnszoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateDnszoneWithContext(ctx, updateDnszoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateDnszone with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateDnszoneOptions model
 				updateDnszoneOptionsModel := new(dnssvcsv1.UpdateDnszoneOptions)
@@ -699,9 +928,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateDnszone(updateDnszoneOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateDnszone(updateDnszoneOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -709,7 +938,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the UpdateDnszoneOptions model with no property values
 				updateDnszoneOptionsModelNew := new(dnssvcsv1.UpdateDnszoneOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateDnszone(updateDnszoneOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.UpdateDnszone(updateDnszoneOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -719,31 +948,31 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "https://dnssvcsv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -756,32 +985,50 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -792,12 +1039,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -808,15 +1055,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListResourceRecords(listResourceRecordsOptions *ListResourceRecordsOptions) - Operation response error`, func() {
@@ -827,7 +1084,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listResourceRecordsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listResourceRecordsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -841,12 +1098,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke ListResourceRecords with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListResourceRecordsOptions model
 				listResourceRecordsOptionsModel := new(dnssvcsv1.ListResourceRecordsOptions)
@@ -857,7 +1114,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListResourceRecords(listResourceRecordsOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -870,35 +1134,43 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`ListResourceRecords(listResourceRecordsOptions *ListResourceRecordsOptions)`, func() {
 		listResourceRecordsPath := "/instances/testString/dnszones/testString/resource_records"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listResourceRecordsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listResourceRecordsPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListResourceRecords successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListResourceRecords(nil)
+				result, response, operationErr := dnsSvcsService.ListResourceRecords(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -910,21 +1182,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
- 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListResourceRecords(listResourceRecordsOptionsModel)
+				result, response, operationErr = dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListResourceRecordsWithContext(ctx, listResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListResourceRecordsWithContext(ctx, listResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListResourceRecords with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListResourceRecordsOptions model
 				listResourceRecordsOptionsModel := new(dnssvcsv1.ListResourceRecordsOptions)
@@ -935,9 +1232,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListResourceRecords(listResourceRecordsOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -945,7 +1242,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the ListResourceRecordsOptions model with no property values
 				listResourceRecordsOptionsModelNew := new(dnssvcsv1.ListResourceRecordsOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListResourceRecords(listResourceRecordsOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -963,7 +1260,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createResourceRecordPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -973,12 +1270,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke CreateResourceRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ResourceRecordInputRdataRdataARecord model
 				resourceRecordInputRdataModel := new(dnssvcsv1.ResourceRecordInputRdataRdataARecord)
@@ -997,7 +1294,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateResourceRecord(createResourceRecordOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateResourceRecord(createResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateResourceRecord(createResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1010,31 +1314,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`CreateResourceRecord(createResourceRecordOptions *CreateResourceRecordOptions)`, func() {
 		createResourceRecordPath := "/instances/testString/dnszones/testString/resource_records"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createResourceRecordPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke CreateResourceRecord successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateResourceRecord(nil)
+				result, response, operationErr := dnsSvcsService.CreateResourceRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1054,21 +1382,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
 				createResourceRecordOptionsModel.Protocol = core.StringPtr("udp")
 				createResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateResourceRecord(createResourceRecordOptionsModel)
+				result, response, operationErr = dnsSvcsService.CreateResourceRecord(createResourceRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateResourceRecordWithContext(ctx, createResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreateResourceRecord(createResourceRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateResourceRecordWithContext(ctx, createResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateResourceRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ResourceRecordInputRdataRdataARecord model
 				resourceRecordInputRdataModel := new(dnssvcsv1.ResourceRecordInputRdataRdataARecord)
@@ -1087,9 +1440,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateResourceRecord(createResourceRecordOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateResourceRecord(createResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1097,7 +1450,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the CreateResourceRecordOptions model with no property values
 				createResourceRecordOptionsModelNew := new(dnssvcsv1.CreateResourceRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreateResourceRecord(createResourceRecordOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.CreateResourceRecord(createResourceRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1116,23 +1469,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteResourceRecordPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeleteResourceRecord successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				response, operationErr := testService.DeleteResourceRecord(nil)
+				response, operationErr := dnsSvcsService.DeleteResourceRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 
@@ -1142,20 +1497,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
 				deleteResourceRecordOptionsModel.RecordID = core.StringPtr("testString")
 				deleteResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deleteResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = testService.DeleteResourceRecord(deleteResourceRecordOptionsModel)
+				response, operationErr = dnsSvcsService.DeleteResourceRecord(deleteResourceRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteResourceRecord(deleteResourceRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeleteResourceRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteResourceRecordOptions model
 				deleteResourceRecordOptionsModel := new(dnssvcsv1.DeleteResourceRecordOptions)
@@ -1165,16 +1526,16 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deleteResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				response, operationErr := testService.DeleteResourceRecord(deleteResourceRecordOptionsModel)
+				response, operationErr := dnsSvcsService.DeleteResourceRecord(deleteResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeleteResourceRecordOptions model with no property values
 				deleteResourceRecordOptionsModelNew := new(dnssvcsv1.DeleteResourceRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				response, operationErr = testService.DeleteResourceRecord(deleteResourceRecordOptionsModelNew)
+				response, operationErr = dnsSvcsService.DeleteResourceRecord(deleteResourceRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 			})
@@ -1191,7 +1552,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getResourceRecordPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -1201,12 +1562,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke GetResourceRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetResourceRecordOptions model
 				getResourceRecordOptionsModel := new(dnssvcsv1.GetResourceRecordOptions)
@@ -1216,7 +1577,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetResourceRecord(getResourceRecordOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetResourceRecord(getResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetResourceRecord(getResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1229,31 +1597,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`GetResourceRecord(getResourceRecordOptions *GetResourceRecordOptions)`, func() {
 		getResourceRecordPath := "/instances/testString/dnszones/testString/resource_records/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getResourceRecordPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke GetResourceRecord successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetResourceRecord(nil)
+				result, response, operationErr := dnsSvcsService.GetResourceRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1264,21 +1640,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
 				getResourceRecordOptionsModel.RecordID = core.StringPtr("testString")
 				getResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetResourceRecord(getResourceRecordOptionsModel)
+				result, response, operationErr = dnsSvcsService.GetResourceRecord(getResourceRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetResourceRecordWithContext(ctx, getResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetResourceRecord(getResourceRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetResourceRecordWithContext(ctx, getResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetResourceRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetResourceRecordOptions model
 				getResourceRecordOptionsModel := new(dnssvcsv1.GetResourceRecordOptions)
@@ -1288,9 +1689,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetResourceRecord(getResourceRecordOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetResourceRecord(getResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1298,7 +1699,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the GetResourceRecordOptions model with no property values
 				getResourceRecordOptionsModelNew := new(dnssvcsv1.GetResourceRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetResourceRecord(getResourceRecordOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.GetResourceRecord(getResourceRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1316,7 +1717,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateResourceRecordPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -1326,12 +1727,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateResourceRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ResourceRecordUpdateInputRdataRdataARecord model
 				resourceRecordUpdateInputRdataModel := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataARecord)
@@ -1350,7 +1751,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateResourceRecord(updateResourceRecordOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1363,31 +1771,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`UpdateResourceRecord(updateResourceRecordOptions *UpdateResourceRecordOptions)`, func() {
 		updateResourceRecordPath := "/instances/testString/dnszones/testString/resource_records/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateResourceRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateResourceRecordPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke UpdateResourceRecord successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateResourceRecord(nil)
+				result, response, operationErr := dnsSvcsService.UpdateResourceRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1407,21 +1839,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateResourceRecordOptionsModel.Service = core.StringPtr("_sip")
 				updateResourceRecordOptionsModel.Protocol = core.StringPtr("udp")
 				updateResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updateResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateResourceRecord(updateResourceRecordOptionsModel)
+				result, response, operationErr = dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateResourceRecordWithContext(ctx, updateResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateResourceRecordWithContext(ctx, updateResourceRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateResourceRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ResourceRecordUpdateInputRdataRdataARecord model
 				resourceRecordUpdateInputRdataModel := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataARecord)
@@ -1440,9 +1897,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateResourceRecord(updateResourceRecordOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1450,7 +1907,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the UpdateResourceRecordOptions model with no property values
 				updateResourceRecordOptionsModelNew := new(dnssvcsv1.UpdateResourceRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateResourceRecord(updateResourceRecordOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1460,31 +1917,31 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "https://dnssvcsv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -1497,32 +1954,50 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -1533,12 +2008,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -1549,15 +2024,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListPermittedNetworks(listPermittedNetworksOptions *ListPermittedNetworksOptions) - Operation response error`, func() {
@@ -1568,7 +2053,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPermittedNetworksPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPermittedNetworksPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -1582,12 +2067,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke ListPermittedNetworks with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListPermittedNetworksOptions model
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
@@ -1598,7 +2083,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1611,35 +2103,43 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`ListPermittedNetworks(listPermittedNetworksOptions *ListPermittedNetworksOptions)`, func() {
 		listPermittedNetworksPath := "/instances/testString/dnszones/testString/permitted_networks"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPermittedNetworksPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPermittedNetworksPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListPermittedNetworks successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListPermittedNetworks(nil)
+				result, response, operationErr := dnsSvcsService.ListPermittedNetworks(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1651,21 +2151,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
- 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
+				result, response, operationErr = dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListPermittedNetworksWithContext(ctx, listPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListPermittedNetworksWithContext(ctx, listPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListPermittedNetworks with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListPermittedNetworksOptions model
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
@@ -1676,9 +2201,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1686,7 +2211,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the ListPermittedNetworksOptions model with no property values
 				listPermittedNetworksOptionsModelNew := new(dnssvcsv1.ListPermittedNetworksOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListPermittedNetworks(listPermittedNetworksOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1704,7 +2229,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPermittedNetworkPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPermittedNetworkPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -1714,12 +2239,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke CreatePermittedNetwork with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the PermittedNetworkVpc model
 				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
@@ -1734,7 +2259,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1747,31 +2279,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`CreatePermittedNetwork(createPermittedNetworkOptions *CreatePermittedNetworkOptions)`, func() {
 		createPermittedNetworkPath := "/instances/testString/dnszones/testString/permitted_networks"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPermittedNetworkPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPermittedNetworkPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
 				}))
 			})
 			It(`Invoke CreatePermittedNetwork successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreatePermittedNetwork(nil)
+				result, response, operationErr := dnsSvcsService.CreatePermittedNetwork(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1787,21 +2343,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
+				result, response, operationErr = dnsSvcsService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreatePermittedNetworkWithContext(ctx, createPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreatePermittedNetworkWithContext(ctx, createPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreatePermittedNetwork with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the PermittedNetworkVpc model
 				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
@@ -1816,9 +2397,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1826,7 +2407,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the CreatePermittedNetworkOptions model with no property values
 				createPermittedNetworkOptionsModelNew := new(dnssvcsv1.CreatePermittedNetworkOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreatePermittedNetwork(createPermittedNetworkOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.CreatePermittedNetwork(createPermittedNetworkOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1844,7 +2425,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePermittedNetworkPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePermittedNetworkPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -1854,12 +2435,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke DeletePermittedNetwork with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeletePermittedNetworkOptions model
 				deletePermittedNetworkOptionsModel := new(dnssvcsv1.DeletePermittedNetworkOptions)
@@ -1869,7 +2450,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deletePermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deletePermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
+				result, response, operationErr := dnsSvcsService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1882,31 +2470,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`DeletePermittedNetwork(deletePermittedNetworkOptions *DeletePermittedNetworkOptions)`, func() {
 		deletePermittedNetworkPath := "/instances/testString/dnszones/testString/permitted_networks/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePermittedNetworkPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePermittedNetworkPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
 				}))
 			})
 			It(`Invoke DeletePermittedNetwork successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeletePermittedNetwork(nil)
+				result, response, operationErr := dnsSvcsService.DeletePermittedNetwork(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1917,21 +2513,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deletePermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				deletePermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
 				deletePermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deletePermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deletePermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
+				result, response, operationErr = dnsSvcsService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.DeletePermittedNetworkWithContext(ctx, deletePermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.DeletePermittedNetworkWithContext(ctx, deletePermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeletePermittedNetwork with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeletePermittedNetworkOptions model
 				deletePermittedNetworkOptionsModel := new(dnssvcsv1.DeletePermittedNetworkOptions)
@@ -1941,9 +2562,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deletePermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deletePermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
+				result, response, operationErr := dnsSvcsService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1951,7 +2572,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the DeletePermittedNetworkOptions model with no property values
 				deletePermittedNetworkOptionsModelNew := new(dnssvcsv1.DeletePermittedNetworkOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeletePermittedNetwork(deletePermittedNetworkOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.DeletePermittedNetwork(deletePermittedNetworkOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1969,7 +2590,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPermittedNetworkPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPermittedNetworkPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -1979,12 +2600,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke GetPermittedNetwork with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetPermittedNetworkOptions model
 				getPermittedNetworkOptionsModel := new(dnssvcsv1.GetPermittedNetworkOptions)
@@ -1994,7 +2615,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -2007,31 +2635,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`GetPermittedNetwork(getPermittedNetworkOptions *GetPermittedNetworkOptions)`, func() {
 		getPermittedNetworkPath := "/instances/testString/dnszones/testString/permitted_networks/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPermittedNetworkPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPermittedNetworkPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
 				}))
 			})
 			It(`Invoke GetPermittedNetwork successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetPermittedNetwork(nil)
+				result, response, operationErr := dnsSvcsService.GetPermittedNetwork(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2042,21 +2678,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				getPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
 				getPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
+				result, response, operationErr = dnsSvcsService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetPermittedNetworkWithContext(ctx, getPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetPermittedNetworkWithContext(ctx, getPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetPermittedNetwork with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetPermittedNetworkOptions model
 				getPermittedNetworkOptionsModel := new(dnssvcsv1.GetPermittedNetworkOptions)
@@ -2066,9 +2727,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetPermittedNetwork(getPermittedNetworkOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -2076,7 +2737,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the GetPermittedNetworkOptions model with no property values
 				getPermittedNetworkOptionsModelNew := new(dnssvcsv1.GetPermittedNetworkOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetPermittedNetwork(getPermittedNetworkOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.GetPermittedNetwork(getPermittedNetworkOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2086,31 +2747,31 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "https://dnssvcsv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -2123,32 +2784,50 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -2159,12 +2838,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -2175,15 +2854,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) - Operation response error`, func() {
@@ -2194,7 +2883,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -2204,12 +2893,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke ListLoadBalancers with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListLoadBalancersOptions model
 				listLoadBalancersOptionsModel := new(dnssvcsv1.ListLoadBalancersOptions)
@@ -2218,7 +2907,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListLoadBalancers(listLoadBalancersOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -2231,31 +2927,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions)`, func() {
 		listLoadBalancersPath := "/instances/testString/dnszones/testString/load_balancers"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListLoadBalancers(nil)
+				result, response, operationErr := dnsSvcsService.ListLoadBalancers(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2265,21 +2969,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.InstanceID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.DnszoneID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListLoadBalancers(listLoadBalancersOptionsModel)
+				result, response, operationErr = dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListLoadBalancersWithContext(ctx, listLoadBalancersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListLoadBalancersWithContext(ctx, listLoadBalancersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListLoadBalancers with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListLoadBalancersOptions model
 				listLoadBalancersOptionsModel := new(dnssvcsv1.ListLoadBalancersOptions)
@@ -2288,9 +3017,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListLoadBalancers(listLoadBalancersOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -2298,7 +3027,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the ListLoadBalancersOptions model with no property values
 				listLoadBalancersOptionsModelNew := new(dnssvcsv1.ListLoadBalancersOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListLoadBalancers(listLoadBalancersOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2316,7 +3045,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -2326,12 +3055,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke CreateLoadBalancer with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerAzPoolsItem model
 				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
@@ -2352,7 +3081,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateLoadBalancer(createLoadBalancerOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateLoadBalancer(createLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateLoadBalancer(createLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -2365,31 +3101,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions)`, func() {
 		createLoadBalancerPath := "/instances/testString/dnszones/testString/load_balancers"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateLoadBalancer(nil)
+				result, response, operationErr := dnsSvcsService.CreateLoadBalancer(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2411,21 +3171,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createLoadBalancerOptionsModel.DefaultPools = []string{"testString"}
 				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateLoadBalancer(createLoadBalancerOptionsModel)
+				result, response, operationErr = dnsSvcsService.CreateLoadBalancer(createLoadBalancerOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateLoadBalancerWithContext(ctx, createLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreateLoadBalancer(createLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateLoadBalancerWithContext(ctx, createLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateLoadBalancer with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerAzPoolsItem model
 				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
@@ -2446,9 +3231,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateLoadBalancer(createLoadBalancerOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateLoadBalancer(createLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -2456,7 +3241,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the CreateLoadBalancerOptions model with no property values
 				createLoadBalancerOptionsModelNew := new(dnssvcsv1.CreateLoadBalancerOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreateLoadBalancer(createLoadBalancerOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.CreateLoadBalancer(createLoadBalancerOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2475,23 +3260,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeleteLoadBalancer successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				response, operationErr := testService.DeleteLoadBalancer(nil)
+				response, operationErr := dnsSvcsService.DeleteLoadBalancer(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 
@@ -2501,20 +3288,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				deleteLoadBalancerOptionsModel.LbID = core.StringPtr("testString")
 				deleteLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deleteLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = testService.DeleteLoadBalancer(deleteLoadBalancerOptionsModel)
+				response, operationErr = dnsSvcsService.DeleteLoadBalancer(deleteLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteLoadBalancer(deleteLoadBalancerOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeleteLoadBalancer with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteLoadBalancerOptions model
 				deleteLoadBalancerOptionsModel := new(dnssvcsv1.DeleteLoadBalancerOptions)
@@ -2524,16 +3317,16 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deleteLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				response, operationErr := testService.DeleteLoadBalancer(deleteLoadBalancerOptionsModel)
+				response, operationErr := dnsSvcsService.DeleteLoadBalancer(deleteLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeleteLoadBalancerOptions model with no property values
 				deleteLoadBalancerOptionsModelNew := new(dnssvcsv1.DeleteLoadBalancerOptions)
 				// Invoke operation with invalid model (negative test)
-				response, operationErr = testService.DeleteLoadBalancer(deleteLoadBalancerOptionsModelNew)
+				response, operationErr = dnsSvcsService.DeleteLoadBalancer(deleteLoadBalancerOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 			})
@@ -2550,7 +3343,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -2560,12 +3353,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke GetLoadBalancer with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerOptions model
 				getLoadBalancerOptionsModel := new(dnssvcsv1.GetLoadBalancerOptions)
@@ -2575,7 +3368,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetLoadBalancer(getLoadBalancerOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetLoadBalancer(getLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetLoadBalancer(getLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -2588,31 +3388,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions)`, func() {
 		getLoadBalancerPath := "/instances/testString/dnszones/testString/load_balancers/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetLoadBalancer(nil)
+				result, response, operationErr := dnsSvcsService.GetLoadBalancer(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2623,21 +3431,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				getLoadBalancerOptionsModel.LbID = core.StringPtr("testString")
 				getLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetLoadBalancer(getLoadBalancerOptionsModel)
+				result, response, operationErr = dnsSvcsService.GetLoadBalancer(getLoadBalancerOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetLoadBalancerWithContext(ctx, getLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetLoadBalancer(getLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetLoadBalancerWithContext(ctx, getLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetLoadBalancer with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerOptions model
 				getLoadBalancerOptionsModel := new(dnssvcsv1.GetLoadBalancerOptions)
@@ -2647,9 +3480,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetLoadBalancer(getLoadBalancerOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetLoadBalancer(getLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -2657,7 +3490,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the GetLoadBalancerOptions model with no property values
 				getLoadBalancerOptionsModelNew := new(dnssvcsv1.GetLoadBalancerOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetLoadBalancer(getLoadBalancerOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.GetLoadBalancer(getLoadBalancerOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2675,7 +3508,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -2685,12 +3518,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerAzPoolsItem model
 				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
@@ -2712,7 +3545,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -2725,31 +3565,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions)`, func() {
 		updateLoadBalancerPath := "/instances/testString/dnszones/testString/load_balancers/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateLoadBalancer(nil)
+				result, response, operationErr := dnsSvcsService.UpdateLoadBalancer(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2772,21 +3636,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.DefaultPools = []string{"testString"}
 				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
+				result, response, operationErr = dnsSvcsService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateLoadBalancerWithContext(ctx, updateLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateLoadBalancerWithContext(ctx, updateLoadBalancerOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateLoadBalancer with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerAzPoolsItem model
 				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
@@ -2808,9 +3697,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -2818,7 +3707,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the UpdateLoadBalancerOptions model with no property values
 				updateLoadBalancerOptionsModelNew := new(dnssvcsv1.UpdateLoadBalancerOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateLoadBalancer(updateLoadBalancerOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.UpdateLoadBalancer(updateLoadBalancerOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -2828,31 +3717,31 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "https://dnssvcsv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -2865,32 +3754,50 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -2901,12 +3808,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -2917,15 +3824,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListPools(listPoolsOptions *ListPoolsOptions) - Operation response error`, func() {
@@ -2936,7 +3853,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -2946,12 +3863,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke ListPools with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListPoolsOptions model
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
@@ -2959,7 +3876,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListPools(listPoolsOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListPools(listPoolsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListPools(listPoolsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -2972,31 +3896,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`ListPools(listPoolsOptions *ListPoolsOptions)`, func() {
 		listPoolsPath := "/instances/testString/pools"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListPools successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListPools(nil)
+				result, response, operationErr := dnsSvcsService.ListPools(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3005,21 +3937,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
 				listPoolsOptionsModel.InstanceID = core.StringPtr("testString")
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListPools(listPoolsOptionsModel)
+				result, response, operationErr = dnsSvcsService.ListPools(listPoolsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListPoolsWithContext(ctx, listPoolsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListPools(listPoolsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListPoolsWithContext(ctx, listPoolsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListPools with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListPoolsOptions model
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
@@ -3027,9 +3984,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListPools(listPoolsOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListPools(listPoolsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -3037,7 +3994,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the ListPoolsOptions model with no property values
 				listPoolsOptionsModelNew := new(dnssvcsv1.ListPoolsOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListPools(listPoolsOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.ListPools(listPoolsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3055,7 +4012,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPoolPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -3065,12 +4022,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke CreatePool with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the OriginInput model
 				originInputModel := new(dnssvcsv1.OriginInput)
@@ -3090,11 +4047,18 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
-				createPoolOptionsModel.HealthcheckSubnets = []string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}
+				createPoolOptionsModel.HealthcheckSubnets = []string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}
 				createPoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreatePool(createPoolOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreatePool(createPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreatePool(createPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -3107,31 +4071,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`CreatePool(createPoolOptions *CreatePoolOptions)`, func() {
 		createPoolPath := "/instances/testString/pools"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPoolPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke CreatePool successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreatePool(nil)
+				result, response, operationErr := dnsSvcsService.CreatePool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3154,23 +4142,48 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
-				createPoolOptionsModel.HealthcheckSubnets = []string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}
+				createPoolOptionsModel.HealthcheckSubnets = []string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}
 				createPoolOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreatePool(createPoolOptionsModel)
+				result, response, operationErr = dnsSvcsService.CreatePool(createPoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreatePoolWithContext(ctx, createPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreatePool(createPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreatePoolWithContext(ctx, createPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreatePool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the OriginInput model
 				originInputModel := new(dnssvcsv1.OriginInput)
@@ -3190,13 +4203,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
-				createPoolOptionsModel.HealthcheckSubnets = []string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}
+				createPoolOptionsModel.HealthcheckSubnets = []string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}
 				createPoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreatePool(createPoolOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreatePool(createPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -3204,7 +4217,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the CreatePoolOptions model with no property values
 				createPoolOptionsModelNew := new(dnssvcsv1.CreatePoolOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreatePool(createPoolOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.CreatePool(createPoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3223,23 +4236,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePoolPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeletePool successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				response, operationErr := testService.DeletePool(nil)
+				response, operationErr := dnsSvcsService.DeletePool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 
@@ -3248,20 +4263,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deletePoolOptionsModel.InstanceID = core.StringPtr("testString")
 				deletePoolOptionsModel.PoolID = core.StringPtr("testString")
 				deletePoolOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deletePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deletePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = testService.DeletePool(deletePoolOptionsModel)
+				response, operationErr = dnsSvcsService.DeletePool(deletePoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeletePool(deletePoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeletePool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeletePoolOptions model
 				deletePoolOptionsModel := new(dnssvcsv1.DeletePoolOptions)
@@ -3270,16 +4291,16 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deletePoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deletePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				response, operationErr := testService.DeletePool(deletePoolOptionsModel)
+				response, operationErr := dnsSvcsService.DeletePool(deletePoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeletePoolOptions model with no property values
 				deletePoolOptionsModelNew := new(dnssvcsv1.DeletePoolOptions)
 				// Invoke operation with invalid model (negative test)
-				response, operationErr = testService.DeletePool(deletePoolOptionsModelNew)
+				response, operationErr = dnsSvcsService.DeletePool(deletePoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 			})
@@ -3296,7 +4317,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPoolPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -3306,12 +4327,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke GetPool with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetPoolOptions model
 				getPoolOptionsModel := new(dnssvcsv1.GetPoolOptions)
@@ -3320,7 +4341,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getPoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetPool(getPoolOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetPool(getPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetPool(getPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -3333,31 +4361,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`GetPool(getPoolOptions *GetPoolOptions)`, func() {
 		getPoolPath := "/instances/testString/pools/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPoolPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke GetPool successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetPool(nil)
+				result, response, operationErr := dnsSvcsService.GetPool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3367,21 +4403,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getPoolOptionsModel.InstanceID = core.StringPtr("testString")
 				getPoolOptionsModel.PoolID = core.StringPtr("testString")
 				getPoolOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetPool(getPoolOptionsModel)
+				result, response, operationErr = dnsSvcsService.GetPool(getPoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetPoolWithContext(ctx, getPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetPool(getPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetPoolWithContext(ctx, getPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetPool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetPoolOptions model
 				getPoolOptionsModel := new(dnssvcsv1.GetPoolOptions)
@@ -3390,9 +4451,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getPoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetPool(getPoolOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetPool(getPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -3400,7 +4461,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the GetPoolOptions model with no property values
 				getPoolOptionsModelNew := new(dnssvcsv1.GetPoolOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetPool(getPoolOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.GetPool(getPoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3418,7 +4479,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePoolPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -3428,12 +4489,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdatePool with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the OriginInput model
 				originInputModel := new(dnssvcsv1.OriginInput)
@@ -3454,11 +4515,18 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updatePoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				updatePoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				updatePoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
-				updatePoolOptionsModel.HealthcheckSubnets = []string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}
+				updatePoolOptionsModel.HealthcheckSubnets = []string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}
 				updatePoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updatePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdatePool(updatePoolOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdatePool(updatePoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdatePool(updatePoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -3471,31 +4539,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`UpdatePool(updatePoolOptions *UpdatePoolOptions)`, func() {
 		updatePoolPath := "/instances/testString/pools/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePoolPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke UpdatePool successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdatePool(nil)
+				result, response, operationErr := dnsSvcsService.UpdatePool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3519,23 +4611,48 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updatePoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				updatePoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				updatePoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
-				updatePoolOptionsModel.HealthcheckSubnets = []string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}
+				updatePoolOptionsModel.HealthcheckSubnets = []string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}
 				updatePoolOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updatePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updatePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdatePool(updatePoolOptionsModel)
+				result, response, operationErr = dnsSvcsService.UpdatePool(updatePoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdatePoolWithContext(ctx, updatePoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdatePool(updatePoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdatePoolWithContext(ctx, updatePoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdatePool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the OriginInput model
 				originInputModel := new(dnssvcsv1.OriginInput)
@@ -3556,13 +4673,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updatePoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				updatePoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				updatePoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
-				updatePoolOptionsModel.HealthcheckSubnets = []string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}
+				updatePoolOptionsModel.HealthcheckSubnets = []string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}
 				updatePoolOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updatePoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdatePool(updatePoolOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdatePool(updatePoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -3570,7 +4687,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the UpdatePoolOptions model with no property values
 				updatePoolOptionsModelNew := new(dnssvcsv1.UpdatePoolOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdatePool(updatePoolOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.UpdatePool(updatePoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3580,31 +4697,31 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "https://dnssvcsv1/api",
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -3617,32 +4734,50 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 					URL: "https://testService/api",
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -3653,12 +4788,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -3669,15 +4804,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
 				URL: "{BAD_URL_STRING",
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListMonitors(listMonitorsOptions *ListMonitorsOptions) - Operation response error`, func() {
@@ -3688,7 +4833,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listMonitorsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listMonitorsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -3698,12 +4843,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke ListMonitors with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListMonitorsOptions model
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
@@ -3711,7 +4856,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListMonitors(listMonitorsOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListMonitors(listMonitorsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListMonitors(listMonitorsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -3724,31 +4876,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`ListMonitors(listMonitorsOptions *ListMonitorsOptions)`, func() {
 		listMonitorsPath := "/instances/testString/monitors"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listMonitorsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listMonitorsPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListMonitors successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListMonitors(nil)
+				result, response, operationErr := dnsSvcsService.ListMonitors(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3757,21 +4917,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
 				listMonitorsOptionsModel.InstanceID = core.StringPtr("testString")
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListMonitors(listMonitorsOptionsModel)
+				result, response, operationErr = dnsSvcsService.ListMonitors(listMonitorsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListMonitorsWithContext(ctx, listMonitorsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListMonitors(listMonitorsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListMonitorsWithContext(ctx, listMonitorsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListMonitors with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the ListMonitorsOptions model
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
@@ -3779,9 +4964,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListMonitors(listMonitorsOptionsModel)
+				result, response, operationErr := dnsSvcsService.ListMonitors(listMonitorsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -3789,7 +4974,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the ListMonitorsOptions model with no property values
 				listMonitorsOptionsModelNew := new(dnssvcsv1.ListMonitorsOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListMonitors(listMonitorsOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.ListMonitors(listMonitorsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3807,7 +4992,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createMonitorPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -3817,12 +5002,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke CreateMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the HealthcheckHeader model
 				healthcheckHeaderModel := new(dnssvcsv1.HealthcheckHeader)
@@ -3848,7 +5033,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateMonitor(createMonitorOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateMonitor(createMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateMonitor(createMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -3861,31 +5053,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`CreateMonitor(createMonitorOptions *CreateMonitorOptions)`, func() {
 		createMonitorPath := "/instances/testString/monitors"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createMonitorPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke CreateMonitor successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateMonitor(nil)
+				result, response, operationErr := dnsSvcsService.CreateMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3912,21 +5128,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel.ExpectedCodes = core.StringPtr("200")
 				createMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				createMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateMonitor(createMonitorOptionsModel)
+				result, response, operationErr = dnsSvcsService.CreateMonitor(createMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateMonitorWithContext(ctx, createMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreateMonitor(createMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateMonitorWithContext(ctx, createMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the HealthcheckHeader model
 				healthcheckHeaderModel := new(dnssvcsv1.HealthcheckHeader)
@@ -3952,9 +5193,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateMonitor(createMonitorOptionsModel)
+				result, response, operationErr := dnsSvcsService.CreateMonitor(createMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -3962,7 +5203,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the CreateMonitorOptions model with no property values
 				createMonitorOptionsModelNew := new(dnssvcsv1.CreateMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.CreateMonitor(createMonitorOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.CreateMonitor(createMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3981,23 +5222,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteMonitorPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
 				}))
 			})
 			It(`Invoke DeleteMonitor successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				response, operationErr := testService.DeleteMonitor(nil)
+				response, operationErr := dnsSvcsService.DeleteMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 
@@ -4006,20 +5249,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				deleteMonitorOptionsModel.MonitorID = core.StringPtr("testString")
 				deleteMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deleteMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = testService.DeleteMonitor(deleteMonitorOptionsModel)
+				response, operationErr = dnsSvcsService.DeleteMonitor(deleteMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteMonitor(deleteMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 			})
 			It(`Invoke DeleteMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteMonitorOptions model
 				deleteMonitorOptionsModel := new(dnssvcsv1.DeleteMonitorOptions)
@@ -4028,16 +5277,16 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				deleteMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				deleteMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				response, operationErr := testService.DeleteMonitor(deleteMonitorOptionsModel)
+				response, operationErr := dnsSvcsService.DeleteMonitor(deleteMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				// Construct a second instance of the DeleteMonitorOptions model with no property values
 				deleteMonitorOptionsModelNew := new(dnssvcsv1.DeleteMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				response, operationErr = testService.DeleteMonitor(deleteMonitorOptionsModelNew)
+				response, operationErr = dnsSvcsService.DeleteMonitor(deleteMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 			})
@@ -4054,7 +5303,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getMonitorPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -4064,12 +5313,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke GetMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetMonitorOptions model
 				getMonitorOptionsModel := new(dnssvcsv1.GetMonitorOptions)
@@ -4078,7 +5327,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetMonitor(getMonitorOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetMonitor(getMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetMonitor(getMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -4091,31 +5347,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`GetMonitor(getMonitorOptions *GetMonitorOptions)`, func() {
 		getMonitorPath := "/instances/testString/monitors/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getMonitorPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke GetMonitor successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetMonitor(nil)
+				result, response, operationErr := dnsSvcsService.GetMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4125,21 +5389,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				getMonitorOptionsModel.MonitorID = core.StringPtr("testString")
 				getMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetMonitor(getMonitorOptionsModel)
+				result, response, operationErr = dnsSvcsService.GetMonitor(getMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetMonitorWithContext(ctx, getMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetMonitor(getMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetMonitorWithContext(ctx, getMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the GetMonitorOptions model
 				getMonitorOptionsModel := new(dnssvcsv1.GetMonitorOptions)
@@ -4148,9 +5437,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				getMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				getMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetMonitor(getMonitorOptionsModel)
+				result, response, operationErr := dnsSvcsService.GetMonitor(getMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -4158,7 +5447,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the GetMonitorOptions model with no property values
 				getMonitorOptionsModelNew := new(dnssvcsv1.GetMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetMonitor(getMonitorOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.GetMonitor(getMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4176,7 +5465,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateMonitorPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
@@ -4186,12 +5475,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateMonitor with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the HealthcheckHeader model
 				healthcheckHeaderModel := new(dnssvcsv1.HealthcheckHeader)
@@ -4218,7 +5507,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateMonitor(updateMonitorOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateMonitor(updateMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateMonitor(updateMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -4231,31 +5527,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 	Describe(`UpdateMonitor(updateMonitorOptions *UpdateMonitorOptions)`, func() {
 		updateMonitorPath := "/instances/testString/monitors/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateMonitorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateMonitorPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
 				}))
 			})
 			It(`Invoke UpdateMonitor successfully`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateMonitor(nil)
+				result, response, operationErr := dnsSvcsService.UpdateMonitor(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4283,21 +5603,46 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateMonitorOptionsModel.ExpectedCodes = core.StringPtr("200")
 				updateMonitorOptionsModel.ExpectedBody = core.StringPtr("alive")
 				updateMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updateMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateMonitor(updateMonitorOptionsModel)
+				result, response, operationErr = dnsSvcsService.UpdateMonitor(updateMonitorOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateMonitorWithContext(ctx, updateMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateMonitor(updateMonitorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateMonitorWithContext(ctx, updateMonitorOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateMonitor with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
 
 				// Construct an instance of the HealthcheckHeader model
 				healthcheckHeaderModel := new(dnssvcsv1.HealthcheckHeader)
@@ -4324,9 +5669,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateMonitorOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateMonitorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsSvcsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateMonitor(updateMonitorOptionsModel)
+				result, response, operationErr := dnsSvcsService.UpdateMonitor(updateMonitorOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -4334,7 +5679,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct a second instance of the UpdateMonitorOptions model with no property values
 				updateMonitorOptionsModelNew := new(dnssvcsv1.UpdateMonitorOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateMonitor(updateMonitorOptionsModelNew)
+				result, response, operationErr = dnsSvcsService.UpdateMonitor(updateMonitorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4346,14 +5691,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
-			testService, _ := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+			dnsSvcsService, _ := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL:           "http://dnssvcsv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
 			It(`Invoke NewCreateDnszoneOptions successfully`, func() {
 				// Construct an instance of the CreateDnszoneOptions model
 				instanceID := "testString"
-				createDnszoneOptionsModel := testService.NewCreateDnszoneOptions(instanceID)
+				createDnszoneOptionsModel := dnsSvcsService.NewCreateDnszoneOptions(instanceID)
 				createDnszoneOptionsModel.SetInstanceID("testString")
 				createDnszoneOptionsModel.SetName("example.com")
 				createDnszoneOptionsModel.SetDescription("The DNS zone is used for VPCs in us-east region")
@@ -4380,7 +5725,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreateLoadBalancerOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				createLoadBalancerOptionsModel := testService.NewCreateLoadBalancerOptions(instanceID, dnszoneID)
+				createLoadBalancerOptionsModel := dnsSvcsService.NewCreateLoadBalancerOptions(instanceID, dnszoneID)
 				createLoadBalancerOptionsModel.SetInstanceID("testString")
 				createLoadBalancerOptionsModel.SetDnszoneID("testString")
 				createLoadBalancerOptionsModel.SetName("glb.example.com")
@@ -4416,7 +5761,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 				// Construct an instance of the CreateMonitorOptions model
 				instanceID := "testString"
-				createMonitorOptionsModel := testService.NewCreateMonitorOptions(instanceID)
+				createMonitorOptionsModel := dnsSvcsService.NewCreateMonitorOptions(instanceID)
 				createMonitorOptionsModel.SetInstanceID("testString")
 				createMonitorOptionsModel.SetName("healthcheck-monitor")
 				createMonitorOptionsModel.SetDescription("Load balancer monitor for glb.example.com.")
@@ -4461,7 +5806,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreatePermittedNetworkOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				createPermittedNetworkOptionsModel := testService.NewCreatePermittedNetworkOptions(instanceID, dnszoneID)
+				createPermittedNetworkOptionsModel := dnsSvcsService.NewCreatePermittedNetworkOptions(instanceID, dnszoneID)
 				createPermittedNetworkOptionsModel.SetInstanceID("testString")
 				createPermittedNetworkOptionsModel.SetDnszoneID("testString")
 				createPermittedNetworkOptionsModel.SetType("vpc")
@@ -4491,7 +5836,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 				// Construct an instance of the CreatePoolOptions model
 				instanceID := "testString"
-				createPoolOptionsModel := testService.NewCreatePoolOptions(instanceID)
+				createPoolOptionsModel := dnsSvcsService.NewCreatePoolOptions(instanceID)
 				createPoolOptionsModel.SetInstanceID("testString")
 				createPoolOptionsModel.SetName("dal10-az-pool")
 				createPoolOptionsModel.SetDescription("Load balancer pool for dal10 availability zone.")
@@ -4501,7 +5846,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel.SetMonitor("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.SetNotificationChannel("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.SetHealthcheckRegion("us-south")
-				createPoolOptionsModel.SetHealthcheckSubnets([]string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"})
+				createPoolOptionsModel.SetHealthcheckSubnets([]string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"})
 				createPoolOptionsModel.SetXCorrelationID("testString")
 				createPoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createPoolOptionsModel).ToNot(BeNil())
@@ -4514,7 +5859,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createPoolOptionsModel.Monitor).To(Equal(core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")))
 				Expect(createPoolOptionsModel.NotificationChannel).To(Equal(core.StringPtr("https://mywebsite.com/dns/webhook")))
 				Expect(createPoolOptionsModel.HealthcheckRegion).To(Equal(core.StringPtr("us-south")))
-				Expect(createPoolOptionsModel.HealthcheckSubnets).To(Equal([]string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}))
+				Expect(createPoolOptionsModel.HealthcheckSubnets).To(Equal([]string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}))
 				Expect(createPoolOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createPoolOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -4528,7 +5873,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreateResourceRecordOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				createResourceRecordOptionsModel := testService.NewCreateResourceRecordOptions(instanceID, dnszoneID)
+				createResourceRecordOptionsModel := dnsSvcsService.NewCreateResourceRecordOptions(instanceID, dnszoneID)
 				createResourceRecordOptionsModel.SetInstanceID("testString")
 				createResourceRecordOptionsModel.SetDnszoneID("testString")
 				createResourceRecordOptionsModel.SetName("test.example.com")
@@ -4555,7 +5900,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the DeleteDnszoneOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				deleteDnszoneOptionsModel := testService.NewDeleteDnszoneOptions(instanceID, dnszoneID)
+				deleteDnszoneOptionsModel := dnsSvcsService.NewDeleteDnszoneOptions(instanceID, dnszoneID)
 				deleteDnszoneOptionsModel.SetInstanceID("testString")
 				deleteDnszoneOptionsModel.SetDnszoneID("testString")
 				deleteDnszoneOptionsModel.SetXCorrelationID("testString")
@@ -4571,7 +5916,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				lbID := "testString"
-				deleteLoadBalancerOptionsModel := testService.NewDeleteLoadBalancerOptions(instanceID, dnszoneID, lbID)
+				deleteLoadBalancerOptionsModel := dnsSvcsService.NewDeleteLoadBalancerOptions(instanceID, dnszoneID, lbID)
 				deleteLoadBalancerOptionsModel.SetInstanceID("testString")
 				deleteLoadBalancerOptionsModel.SetDnszoneID("testString")
 				deleteLoadBalancerOptionsModel.SetLbID("testString")
@@ -4588,7 +5933,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the DeleteMonitorOptions model
 				instanceID := "testString"
 				monitorID := "testString"
-				deleteMonitorOptionsModel := testService.NewDeleteMonitorOptions(instanceID, monitorID)
+				deleteMonitorOptionsModel := dnsSvcsService.NewDeleteMonitorOptions(instanceID, monitorID)
 				deleteMonitorOptionsModel.SetInstanceID("testString")
 				deleteMonitorOptionsModel.SetMonitorID("testString")
 				deleteMonitorOptionsModel.SetXCorrelationID("testString")
@@ -4604,7 +5949,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				permittedNetworkID := "testString"
-				deletePermittedNetworkOptionsModel := testService.NewDeletePermittedNetworkOptions(instanceID, dnszoneID, permittedNetworkID)
+				deletePermittedNetworkOptionsModel := dnsSvcsService.NewDeletePermittedNetworkOptions(instanceID, dnszoneID, permittedNetworkID)
 				deletePermittedNetworkOptionsModel.SetInstanceID("testString")
 				deletePermittedNetworkOptionsModel.SetDnszoneID("testString")
 				deletePermittedNetworkOptionsModel.SetPermittedNetworkID("testString")
@@ -4621,7 +5966,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the DeletePoolOptions model
 				instanceID := "testString"
 				poolID := "testString"
-				deletePoolOptionsModel := testService.NewDeletePoolOptions(instanceID, poolID)
+				deletePoolOptionsModel := dnsSvcsService.NewDeletePoolOptions(instanceID, poolID)
 				deletePoolOptionsModel.SetInstanceID("testString")
 				deletePoolOptionsModel.SetPoolID("testString")
 				deletePoolOptionsModel.SetXCorrelationID("testString")
@@ -4637,7 +5982,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				recordID := "testString"
-				deleteResourceRecordOptionsModel := testService.NewDeleteResourceRecordOptions(instanceID, dnszoneID, recordID)
+				deleteResourceRecordOptionsModel := dnsSvcsService.NewDeleteResourceRecordOptions(instanceID, dnszoneID, recordID)
 				deleteResourceRecordOptionsModel.SetInstanceID("testString")
 				deleteResourceRecordOptionsModel.SetDnszoneID("testString")
 				deleteResourceRecordOptionsModel.SetRecordID("testString")
@@ -4654,7 +5999,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the GetDnszoneOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				getDnszoneOptionsModel := testService.NewGetDnszoneOptions(instanceID, dnszoneID)
+				getDnszoneOptionsModel := dnsSvcsService.NewGetDnszoneOptions(instanceID, dnszoneID)
 				getDnszoneOptionsModel.SetInstanceID("testString")
 				getDnszoneOptionsModel.SetDnszoneID("testString")
 				getDnszoneOptionsModel.SetXCorrelationID("testString")
@@ -4670,7 +6015,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				lbID := "testString"
-				getLoadBalancerOptionsModel := testService.NewGetLoadBalancerOptions(instanceID, dnszoneID, lbID)
+				getLoadBalancerOptionsModel := dnsSvcsService.NewGetLoadBalancerOptions(instanceID, dnszoneID, lbID)
 				getLoadBalancerOptionsModel.SetInstanceID("testString")
 				getLoadBalancerOptionsModel.SetDnszoneID("testString")
 				getLoadBalancerOptionsModel.SetLbID("testString")
@@ -4687,7 +6032,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the GetMonitorOptions model
 				instanceID := "testString"
 				monitorID := "testString"
-				getMonitorOptionsModel := testService.NewGetMonitorOptions(instanceID, monitorID)
+				getMonitorOptionsModel := dnsSvcsService.NewGetMonitorOptions(instanceID, monitorID)
 				getMonitorOptionsModel.SetInstanceID("testString")
 				getMonitorOptionsModel.SetMonitorID("testString")
 				getMonitorOptionsModel.SetXCorrelationID("testString")
@@ -4703,7 +6048,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				permittedNetworkID := "testString"
-				getPermittedNetworkOptionsModel := testService.NewGetPermittedNetworkOptions(instanceID, dnszoneID, permittedNetworkID)
+				getPermittedNetworkOptionsModel := dnsSvcsService.NewGetPermittedNetworkOptions(instanceID, dnszoneID, permittedNetworkID)
 				getPermittedNetworkOptionsModel.SetInstanceID("testString")
 				getPermittedNetworkOptionsModel.SetDnszoneID("testString")
 				getPermittedNetworkOptionsModel.SetPermittedNetworkID("testString")
@@ -4720,7 +6065,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the GetPoolOptions model
 				instanceID := "testString"
 				poolID := "testString"
-				getPoolOptionsModel := testService.NewGetPoolOptions(instanceID, poolID)
+				getPoolOptionsModel := dnsSvcsService.NewGetPoolOptions(instanceID, poolID)
 				getPoolOptionsModel.SetInstanceID("testString")
 				getPoolOptionsModel.SetPoolID("testString")
 				getPoolOptionsModel.SetXCorrelationID("testString")
@@ -4736,7 +6081,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				recordID := "testString"
-				getResourceRecordOptionsModel := testService.NewGetResourceRecordOptions(instanceID, dnszoneID, recordID)
+				getResourceRecordOptionsModel := dnsSvcsService.NewGetResourceRecordOptions(instanceID, dnszoneID, recordID)
 				getResourceRecordOptionsModel.SetInstanceID("testString")
 				getResourceRecordOptionsModel.SetDnszoneID("testString")
 				getResourceRecordOptionsModel.SetRecordID("testString")
@@ -4752,7 +6097,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			It(`Invoke NewListDnszonesOptions successfully`, func() {
 				// Construct an instance of the ListDnszonesOptions model
 				instanceID := "testString"
-				listDnszonesOptionsModel := testService.NewListDnszonesOptions(instanceID)
+				listDnszonesOptionsModel := dnsSvcsService.NewListDnszonesOptions(instanceID)
 				listDnszonesOptionsModel.SetInstanceID("testString")
 				listDnszonesOptionsModel.SetXCorrelationID("testString")
 				listDnszonesOptionsModel.SetOffset(int64(38))
@@ -4769,7 +6114,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the ListLoadBalancersOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				listLoadBalancersOptionsModel := testService.NewListLoadBalancersOptions(instanceID, dnszoneID)
+				listLoadBalancersOptionsModel := dnsSvcsService.NewListLoadBalancersOptions(instanceID, dnszoneID)
 				listLoadBalancersOptionsModel.SetInstanceID("testString")
 				listLoadBalancersOptionsModel.SetDnszoneID("testString")
 				listLoadBalancersOptionsModel.SetXCorrelationID("testString")
@@ -4783,7 +6128,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			It(`Invoke NewListMonitorsOptions successfully`, func() {
 				// Construct an instance of the ListMonitorsOptions model
 				instanceID := "testString"
-				listMonitorsOptionsModel := testService.NewListMonitorsOptions(instanceID)
+				listMonitorsOptionsModel := dnsSvcsService.NewListMonitorsOptions(instanceID)
 				listMonitorsOptionsModel.SetInstanceID("testString")
 				listMonitorsOptionsModel.SetXCorrelationID("testString")
 				listMonitorsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -4796,7 +6141,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the ListPermittedNetworksOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				listPermittedNetworksOptionsModel := testService.NewListPermittedNetworksOptions(instanceID, dnszoneID)
+				listPermittedNetworksOptionsModel := dnsSvcsService.NewListPermittedNetworksOptions(instanceID, dnszoneID)
 				listPermittedNetworksOptionsModel.SetInstanceID("testString")
 				listPermittedNetworksOptionsModel.SetDnszoneID("testString")
 				listPermittedNetworksOptionsModel.SetXCorrelationID("testString")
@@ -4814,7 +6159,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			It(`Invoke NewListPoolsOptions successfully`, func() {
 				// Construct an instance of the ListPoolsOptions model
 				instanceID := "testString"
-				listPoolsOptionsModel := testService.NewListPoolsOptions(instanceID)
+				listPoolsOptionsModel := dnsSvcsService.NewListPoolsOptions(instanceID)
 				listPoolsOptionsModel.SetInstanceID("testString")
 				listPoolsOptionsModel.SetXCorrelationID("testString")
 				listPoolsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -4827,7 +6172,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the ListResourceRecordsOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				listResourceRecordsOptionsModel := testService.NewListResourceRecordsOptions(instanceID, dnszoneID)
+				listResourceRecordsOptionsModel := dnsSvcsService.NewListResourceRecordsOptions(instanceID, dnszoneID)
 				listResourceRecordsOptionsModel.SetInstanceID("testString")
 				listResourceRecordsOptionsModel.SetDnszoneID("testString")
 				listResourceRecordsOptionsModel.SetXCorrelationID("testString")
@@ -4846,7 +6191,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the UpdateDnszoneOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				updateDnszoneOptionsModel := testService.NewUpdateDnszoneOptions(instanceID, dnszoneID)
+				updateDnszoneOptionsModel := dnsSvcsService.NewUpdateDnszoneOptions(instanceID, dnszoneID)
 				updateDnszoneOptionsModel.SetInstanceID("testString")
 				updateDnszoneOptionsModel.SetDnszoneID("testString")
 				updateDnszoneOptionsModel.SetDescription("The DNS zone is used for VPCs in us-east region")
@@ -4874,7 +6219,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				lbID := "testString"
-				updateLoadBalancerOptionsModel := testService.NewUpdateLoadBalancerOptions(instanceID, dnszoneID, lbID)
+				updateLoadBalancerOptionsModel := dnsSvcsService.NewUpdateLoadBalancerOptions(instanceID, dnszoneID, lbID)
 				updateLoadBalancerOptionsModel.SetInstanceID("testString")
 				updateLoadBalancerOptionsModel.SetDnszoneID("testString")
 				updateLoadBalancerOptionsModel.SetLbID("testString")
@@ -4913,7 +6258,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the UpdateMonitorOptions model
 				instanceID := "testString"
 				monitorID := "testString"
-				updateMonitorOptionsModel := testService.NewUpdateMonitorOptions(instanceID, monitorID)
+				updateMonitorOptionsModel := dnsSvcsService.NewUpdateMonitorOptions(instanceID, monitorID)
 				updateMonitorOptionsModel.SetInstanceID("testString")
 				updateMonitorOptionsModel.SetMonitorID("testString")
 				updateMonitorOptionsModel.SetName("healthcheck-monitor")
@@ -4966,7 +6311,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the UpdatePoolOptions model
 				instanceID := "testString"
 				poolID := "testString"
-				updatePoolOptionsModel := testService.NewUpdatePoolOptions(instanceID, poolID)
+				updatePoolOptionsModel := dnsSvcsService.NewUpdatePoolOptions(instanceID, poolID)
 				updatePoolOptionsModel.SetInstanceID("testString")
 				updatePoolOptionsModel.SetPoolID("testString")
 				updatePoolOptionsModel.SetName("dal10-az-pool")
@@ -4977,7 +6322,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updatePoolOptionsModel.SetMonitor("7dd6841c-264e-11ea-88df-062967242a6a")
 				updatePoolOptionsModel.SetNotificationChannel("https://mywebsite.com/dns/webhook")
 				updatePoolOptionsModel.SetHealthcheckRegion("us-south")
-				updatePoolOptionsModel.SetHealthcheckSubnets([]string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"})
+				updatePoolOptionsModel.SetHealthcheckSubnets([]string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"})
 				updatePoolOptionsModel.SetXCorrelationID("testString")
 				updatePoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updatePoolOptionsModel).ToNot(BeNil())
@@ -4991,7 +6336,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updatePoolOptionsModel.Monitor).To(Equal(core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")))
 				Expect(updatePoolOptionsModel.NotificationChannel).To(Equal(core.StringPtr("https://mywebsite.com/dns/webhook")))
 				Expect(updatePoolOptionsModel.HealthcheckRegion).To(Equal(core.StringPtr("us-south")))
-				Expect(updatePoolOptionsModel.HealthcheckSubnets).To(Equal([]string{"0716-a4c0c123-594c-4ef4-ace3-a08858540b5e"}))
+				Expect(updatePoolOptionsModel.HealthcheckSubnets).To(Equal([]string{"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"}))
 				Expect(updatePoolOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updatePoolOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -5006,7 +6351,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				recordID := "testString"
-				updateResourceRecordOptionsModel := testService.NewUpdateResourceRecordOptions(instanceID, dnszoneID, recordID)
+				updateResourceRecordOptionsModel := dnsSvcsService.NewUpdateResourceRecordOptions(instanceID, dnszoneID, recordID)
 				updateResourceRecordOptionsModel.SetInstanceID("testString")
 				updateResourceRecordOptionsModel.SetDnszoneID("testString")
 				updateResourceRecordOptionsModel.SetRecordID("testString")
@@ -5032,44 +6377,44 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			It(`Invoke NewHealthcheckHeader successfully`, func() {
 				name := "Host"
 				value := []string{"origin.example.com"}
-				model, err := testService.NewHealthcheckHeader(name, value)
+				model, err := dnsSvcsService.NewHealthcheckHeader(name, value)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPermittedNetworkVpc successfully`, func() {
 				vpcCrn := "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"
-				model, err := testService.NewPermittedNetworkVpc(vpcCrn)
+				model, err := dnsSvcsService.NewPermittedNetworkVpc(vpcCrn)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordInputRdataRdataARecord successfully`, func() {
 				ip := "10.110.201.214"
-				model, err := testService.NewResourceRecordInputRdataRdataARecord(ip)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataARecord(ip)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordInputRdataRdataAaaaRecord successfully`, func() {
 				ip := "2019::2019"
-				model, err := testService.NewResourceRecordInputRdataRdataAaaaRecord(ip)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataAaaaRecord(ip)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordInputRdataRdataCnameRecord successfully`, func() {
 				cname := "www.example.com"
-				model, err := testService.NewResourceRecordInputRdataRdataCnameRecord(cname)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataCnameRecord(cname)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordInputRdataRdataMxRecord successfully`, func() {
 				exchange := "mail.example.com"
 				preference := int64(10)
-				model, err := testService.NewResourceRecordInputRdataRdataMxRecord(exchange, preference)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataMxRecord(exchange, preference)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordInputRdataRdataPtrRecord successfully`, func() {
 				ptrdname := "www.example.com"
-				model, err := testService.NewResourceRecordInputRdataRdataPtrRecord(ptrdname)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataPtrRecord(ptrdname)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -5078,44 +6423,44 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				priority := int64(10)
 				target := "www.example.com"
 				weight := int64(10)
-				model, err := testService.NewResourceRecordInputRdataRdataSrvRecord(port, priority, target, weight)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataSrvRecord(port, priority, target, weight)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordInputRdataRdataTxtRecord successfully`, func() {
 				text := "This is a text record"
-				model, err := testService.NewResourceRecordInputRdataRdataTxtRecord(text)
+				model, err := dnsSvcsService.NewResourceRecordInputRdataRdataTxtRecord(text)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordUpdateInputRdataRdataARecord successfully`, func() {
 				ip := "10.110.201.214"
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataARecord(ip)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataARecord(ip)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordUpdateInputRdataRdataAaaaRecord successfully`, func() {
 				ip := "2019::2019"
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordUpdateInputRdataRdataCnameRecord successfully`, func() {
 				cname := "www.example.com"
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataCnameRecord(cname)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataCnameRecord(cname)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordUpdateInputRdataRdataMxRecord successfully`, func() {
 				exchange := "mail.example.com"
 				preference := int64(10)
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataMxRecord(exchange, preference)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataMxRecord(exchange, preference)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordUpdateInputRdataRdataPtrRecord successfully`, func() {
 				ptrdname := "www.example.com"
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -5124,13 +6469,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				priority := int64(10)
 				target := "www.example.com"
 				weight := int64(10)
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataSrvRecord(port, priority, target, weight)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataSrvRecord(port, priority, target, weight)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewResourceRecordUpdateInputRdataRdataTxtRecord successfully`, func() {
 				text := "This is a text record"
-				model, err := testService.NewResourceRecordUpdateInputRdataRdataTxtRecord(text)
+				model, err := dnsSvcsService.NewResourceRecordUpdateInputRdataRdataTxtRecord(text)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

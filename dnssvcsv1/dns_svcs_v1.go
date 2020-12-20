@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package dnssvcsv1 : Operations and models for the DnsSvcsV1 service
 package dnssvcsv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
 	"reflect"
+	"time"
 )
 
-// DnsSvcsV1 : DNS Svcs
+// DnsSvcsV1 : DNS Services API
 //
 // Version: 1.0.0
 type DnsSvcsV1 struct {
@@ -100,14 +108,65 @@ func NewDnsSvcsV1(options *DnsSvcsV1Options) (service *DnsSvcsV1, err error) {
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "dnsSvcs" suitable for processing requests.
+func (dnsSvcs *DnsSvcsV1) Clone() *DnsSvcsV1 {
+	if core.IsNil(dnsSvcs) {
+		return nil
+	}
+	clone := *dnsSvcs
+	clone.Service = dnsSvcs.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (dnsSvcs *DnsSvcsV1) SetServiceURL(url string) error {
 	return dnsSvcs.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (dnsSvcs *DnsSvcsV1) GetServiceURL() string {
+	return dnsSvcs.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (dnsSvcs *DnsSvcsV1) SetDefaultHeaders(headers http.Header) {
+	dnsSvcs.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (dnsSvcs *DnsSvcsV1) SetEnableGzipCompression(enableGzip bool) {
+	dnsSvcs.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (dnsSvcs *DnsSvcsV1) GetEnableGzipCompression() bool {
+	return dnsSvcs.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (dnsSvcs *DnsSvcsV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	dnsSvcs.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (dnsSvcs *DnsSvcsV1) DisableRetries() {
+	dnsSvcs.Service.DisableRetries()
+}
+
 // ListDnszones : List DNS zones
 // List the DNS zones for a given service instance.
 func (dnsSvcs *DnsSvcsV1) ListDnszones(listDnszonesOptions *ListDnszonesOptions) (result *ListDnszones, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListDnszonesWithContext(context.Background(), listDnszonesOptions)
+}
+
+// ListDnszonesWithContext is an alternate form of the ListDnszones method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListDnszonesWithContext(ctx context.Context, listDnszonesOptions *ListDnszonesOptions) (result *ListDnszones, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listDnszonesOptions, "listDnszonesOptions cannot be nil")
 	if err != nil {
 		return
@@ -117,11 +176,14 @@ func (dnsSvcs *DnsSvcsV1) ListDnszones(listDnszonesOptions *ListDnszonesOptions)
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones"}
-	pathParameters := []string{*listDnszonesOptions.InstanceID}
+	pathParamsMap := map[string]string{
+		"instance_id": *listDnszonesOptions.InstanceID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -168,6 +230,11 @@ func (dnsSvcs *DnsSvcsV1) ListDnszones(listDnszonesOptions *ListDnszonesOptions)
 // CreateDnszone : Create a DNS zone
 // Create a DNS zone for a given service instance.
 func (dnsSvcs *DnsSvcsV1) CreateDnszone(createDnszoneOptions *CreateDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateDnszoneWithContext(context.Background(), createDnszoneOptions)
+}
+
+// CreateDnszoneWithContext is an alternate form of the CreateDnszone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateDnszoneWithContext(ctx context.Context, createDnszoneOptions *CreateDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createDnszoneOptions, "createDnszoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -177,11 +244,14 @@ func (dnsSvcs *DnsSvcsV1) CreateDnszone(createDnszoneOptions *CreateDnszoneOptio
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones"}
-	pathParameters := []string{*createDnszoneOptions.InstanceID}
+	pathParamsMap := map[string]string{
+		"instance_id": *createDnszoneOptions.InstanceID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -237,6 +307,11 @@ func (dnsSvcs *DnsSvcsV1) CreateDnszone(createDnszoneOptions *CreateDnszoneOptio
 // DeleteDnszone : Delete a DNS zone
 // Delete a DNS zone.
 func (dnsSvcs *DnsSvcsV1) DeleteDnszone(deleteDnszoneOptions *DeleteDnszoneOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteDnszoneWithContext(context.Background(), deleteDnszoneOptions)
+}
+
+// DeleteDnszoneWithContext is an alternate form of the DeleteDnszone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteDnszoneWithContext(ctx context.Context, deleteDnszoneOptions *DeleteDnszoneOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDnszoneOptions, "deleteDnszoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -246,11 +321,15 @@ func (dnsSvcs *DnsSvcsV1) DeleteDnszone(deleteDnszoneOptions *DeleteDnszoneOptio
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones"}
-	pathParameters := []string{*deleteDnszoneOptions.InstanceID, *deleteDnszoneOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteDnszoneOptions.InstanceID,
+		"dnszone_id": *deleteDnszoneOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -280,6 +359,11 @@ func (dnsSvcs *DnsSvcsV1) DeleteDnszone(deleteDnszoneOptions *DeleteDnszoneOptio
 // GetDnszone : Get a DNS zone
 // Get details of a DNS zone.
 func (dnsSvcs *DnsSvcsV1) GetDnszone(getDnszoneOptions *GetDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetDnszoneWithContext(context.Background(), getDnszoneOptions)
+}
+
+// GetDnszoneWithContext is an alternate form of the GetDnszone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetDnszoneWithContext(ctx context.Context, getDnszoneOptions *GetDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDnszoneOptions, "getDnszoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -289,11 +373,15 @@ func (dnsSvcs *DnsSvcsV1) GetDnszone(getDnszoneOptions *GetDnszoneOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones"}
-	pathParameters := []string{*getDnszoneOptions.InstanceID, *getDnszoneOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *getDnszoneOptions.InstanceID,
+		"dnszone_id": *getDnszoneOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -333,6 +421,11 @@ func (dnsSvcs *DnsSvcsV1) GetDnszone(getDnszoneOptions *GetDnszoneOptions) (resu
 // UpdateDnszone : Update the properties of a DNS zone
 // Update the properties of a DNS zone.
 func (dnsSvcs *DnsSvcsV1) UpdateDnszone(updateDnszoneOptions *UpdateDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateDnszoneWithContext(context.Background(), updateDnszoneOptions)
+}
+
+// UpdateDnszoneWithContext is an alternate form of the UpdateDnszone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateDnszoneWithContext(ctx context.Context, updateDnszoneOptions *UpdateDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateDnszoneOptions, "updateDnszoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -342,11 +435,15 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszone(updateDnszoneOptions *UpdateDnszoneOptio
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones"}
-	pathParameters := []string{*updateDnszoneOptions.InstanceID, *updateDnszoneOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *updateDnszoneOptions.InstanceID,
+		"dnszone_id": *updateDnszoneOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -399,6 +496,11 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszone(updateDnszoneOptions *UpdateDnszoneOptio
 // ListResourceRecords : List Resource Records
 // List the Resource Records for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) ListResourceRecords(listResourceRecordsOptions *ListResourceRecordsOptions) (result *ListResourceRecords, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListResourceRecordsWithContext(context.Background(), listResourceRecordsOptions)
+}
+
+// ListResourceRecordsWithContext is an alternate form of the ListResourceRecords method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListResourceRecordsWithContext(ctx context.Context, listResourceRecordsOptions *ListResourceRecordsOptions) (result *ListResourceRecords, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listResourceRecordsOptions, "listResourceRecordsOptions cannot be nil")
 	if err != nil {
 		return
@@ -408,11 +510,15 @@ func (dnsSvcs *DnsSvcsV1) ListResourceRecords(listResourceRecordsOptions *ListRe
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "resource_records"}
-	pathParameters := []string{*listResourceRecordsOptions.InstanceID, *listResourceRecordsOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *listResourceRecordsOptions.InstanceID,
+		"dnszone_id": *listResourceRecordsOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/resource_records`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -459,6 +565,11 @@ func (dnsSvcs *DnsSvcsV1) ListResourceRecords(listResourceRecordsOptions *ListRe
 // CreateResourceRecord : Create a resource record
 // Create a resource record for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) CreateResourceRecord(createResourceRecordOptions *CreateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateResourceRecordWithContext(context.Background(), createResourceRecordOptions)
+}
+
+// CreateResourceRecordWithContext is an alternate form of the CreateResourceRecord method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateResourceRecordWithContext(ctx context.Context, createResourceRecordOptions *CreateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createResourceRecordOptions, "createResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -468,11 +579,15 @@ func (dnsSvcs *DnsSvcsV1) CreateResourceRecord(createResourceRecordOptions *Crea
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "resource_records"}
-	pathParameters := []string{*createResourceRecordOptions.InstanceID, *createResourceRecordOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *createResourceRecordOptions.InstanceID,
+		"dnszone_id": *createResourceRecordOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/resource_records`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -537,6 +652,11 @@ func (dnsSvcs *DnsSvcsV1) CreateResourceRecord(createResourceRecordOptions *Crea
 // DeleteResourceRecord : Delete a resource record
 // Delete a resource record.
 func (dnsSvcs *DnsSvcsV1) DeleteResourceRecord(deleteResourceRecordOptions *DeleteResourceRecordOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteResourceRecordWithContext(context.Background(), deleteResourceRecordOptions)
+}
+
+// DeleteResourceRecordWithContext is an alternate form of the DeleteResourceRecord method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteResourceRecordWithContext(ctx context.Context, deleteResourceRecordOptions *DeleteResourceRecordOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteResourceRecordOptions, "deleteResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -546,11 +666,16 @@ func (dnsSvcs *DnsSvcsV1) DeleteResourceRecord(deleteResourceRecordOptions *Dele
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "resource_records"}
-	pathParameters := []string{*deleteResourceRecordOptions.InstanceID, *deleteResourceRecordOptions.DnszoneID, *deleteResourceRecordOptions.RecordID}
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteResourceRecordOptions.InstanceID,
+		"dnszone_id": *deleteResourceRecordOptions.DnszoneID,
+		"record_id": *deleteResourceRecordOptions.RecordID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -580,6 +705,11 @@ func (dnsSvcs *DnsSvcsV1) DeleteResourceRecord(deleteResourceRecordOptions *Dele
 // GetResourceRecord : Get a resource record
 // Get details of a resource record.
 func (dnsSvcs *DnsSvcsV1) GetResourceRecord(getResourceRecordOptions *GetResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetResourceRecordWithContext(context.Background(), getResourceRecordOptions)
+}
+
+// GetResourceRecordWithContext is an alternate form of the GetResourceRecord method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetResourceRecordWithContext(ctx context.Context, getResourceRecordOptions *GetResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getResourceRecordOptions, "getResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -589,11 +719,16 @@ func (dnsSvcs *DnsSvcsV1) GetResourceRecord(getResourceRecordOptions *GetResourc
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "resource_records"}
-	pathParameters := []string{*getResourceRecordOptions.InstanceID, *getResourceRecordOptions.DnszoneID, *getResourceRecordOptions.RecordID}
+	pathParamsMap := map[string]string{
+		"instance_id": *getResourceRecordOptions.InstanceID,
+		"dnszone_id": *getResourceRecordOptions.DnszoneID,
+		"record_id": *getResourceRecordOptions.RecordID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -633,6 +768,11 @@ func (dnsSvcs *DnsSvcsV1) GetResourceRecord(getResourceRecordOptions *GetResourc
 // UpdateResourceRecord : Update the properties of a resource record
 // Update the properties of a resource record.
 func (dnsSvcs *DnsSvcsV1) UpdateResourceRecord(updateResourceRecordOptions *UpdateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateResourceRecordWithContext(context.Background(), updateResourceRecordOptions)
+}
+
+// UpdateResourceRecordWithContext is an alternate form of the UpdateResourceRecord method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateResourceRecordWithContext(ctx context.Context, updateResourceRecordOptions *UpdateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateResourceRecordOptions, "updateResourceRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -642,11 +782,16 @@ func (dnsSvcs *DnsSvcsV1) UpdateResourceRecord(updateResourceRecordOptions *Upda
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "resource_records"}
-	pathParameters := []string{*updateResourceRecordOptions.InstanceID, *updateResourceRecordOptions.DnszoneID, *updateResourceRecordOptions.RecordID}
+	pathParamsMap := map[string]string{
+		"instance_id": *updateResourceRecordOptions.InstanceID,
+		"dnszone_id": *updateResourceRecordOptions.DnszoneID,
+		"record_id": *updateResourceRecordOptions.RecordID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -708,6 +853,11 @@ func (dnsSvcs *DnsSvcsV1) UpdateResourceRecord(updateResourceRecordOptions *Upda
 // ListPermittedNetworks : List permitted networks
 // List the permitted networks for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) ListPermittedNetworks(listPermittedNetworksOptions *ListPermittedNetworksOptions) (result *ListPermittedNetworks, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListPermittedNetworksWithContext(context.Background(), listPermittedNetworksOptions)
+}
+
+// ListPermittedNetworksWithContext is an alternate form of the ListPermittedNetworks method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListPermittedNetworksWithContext(ctx context.Context, listPermittedNetworksOptions *ListPermittedNetworksOptions) (result *ListPermittedNetworks, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listPermittedNetworksOptions, "listPermittedNetworksOptions cannot be nil")
 	if err != nil {
 		return
@@ -717,11 +867,15 @@ func (dnsSvcs *DnsSvcsV1) ListPermittedNetworks(listPermittedNetworksOptions *Li
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "permitted_networks"}
-	pathParameters := []string{*listPermittedNetworksOptions.InstanceID, *listPermittedNetworksOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *listPermittedNetworksOptions.InstanceID,
+		"dnszone_id": *listPermittedNetworksOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -768,6 +922,11 @@ func (dnsSvcs *DnsSvcsV1) ListPermittedNetworks(listPermittedNetworksOptions *Li
 // CreatePermittedNetwork : Create a permitted network
 // Create a permitted network for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) CreatePermittedNetwork(createPermittedNetworkOptions *CreatePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreatePermittedNetworkWithContext(context.Background(), createPermittedNetworkOptions)
+}
+
+// CreatePermittedNetworkWithContext is an alternate form of the CreatePermittedNetwork method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreatePermittedNetworkWithContext(ctx context.Context, createPermittedNetworkOptions *CreatePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPermittedNetworkOptions, "createPermittedNetworkOptions cannot be nil")
 	if err != nil {
 		return
@@ -777,11 +936,15 @@ func (dnsSvcs *DnsSvcsV1) CreatePermittedNetwork(createPermittedNetworkOptions *
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "permitted_networks"}
-	pathParameters := []string{*createPermittedNetworkOptions.InstanceID, *createPermittedNetworkOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *createPermittedNetworkOptions.InstanceID,
+		"dnszone_id": *createPermittedNetworkOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -834,6 +997,11 @@ func (dnsSvcs *DnsSvcsV1) CreatePermittedNetwork(createPermittedNetworkOptions *
 // DeletePermittedNetwork : Remove a permitted network
 // Remove a permitted network.
 func (dnsSvcs *DnsSvcsV1) DeletePermittedNetwork(deletePermittedNetworkOptions *DeletePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeletePermittedNetworkWithContext(context.Background(), deletePermittedNetworkOptions)
+}
+
+// DeletePermittedNetworkWithContext is an alternate form of the DeletePermittedNetwork method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeletePermittedNetworkWithContext(ctx context.Context, deletePermittedNetworkOptions *DeletePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deletePermittedNetworkOptions, "deletePermittedNetworkOptions cannot be nil")
 	if err != nil {
 		return
@@ -843,11 +1011,16 @@ func (dnsSvcs *DnsSvcsV1) DeletePermittedNetwork(deletePermittedNetworkOptions *
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "permitted_networks"}
-	pathParameters := []string{*deletePermittedNetworkOptions.InstanceID, *deletePermittedNetworkOptions.DnszoneID, *deletePermittedNetworkOptions.PermittedNetworkID}
+	pathParamsMap := map[string]string{
+		"instance_id": *deletePermittedNetworkOptions.InstanceID,
+		"dnszone_id": *deletePermittedNetworkOptions.DnszoneID,
+		"permitted_network_id": *deletePermittedNetworkOptions.PermittedNetworkID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -887,6 +1060,11 @@ func (dnsSvcs *DnsSvcsV1) DeletePermittedNetwork(deletePermittedNetworkOptions *
 // GetPermittedNetwork : Get a permitted network
 // Get details of a permitted network.
 func (dnsSvcs *DnsSvcsV1) GetPermittedNetwork(getPermittedNetworkOptions *GetPermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetPermittedNetworkWithContext(context.Background(), getPermittedNetworkOptions)
+}
+
+// GetPermittedNetworkWithContext is an alternate form of the GetPermittedNetwork method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetPermittedNetworkWithContext(ctx context.Context, getPermittedNetworkOptions *GetPermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPermittedNetworkOptions, "getPermittedNetworkOptions cannot be nil")
 	if err != nil {
 		return
@@ -896,11 +1074,16 @@ func (dnsSvcs *DnsSvcsV1) GetPermittedNetwork(getPermittedNetworkOptions *GetPer
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "permitted_networks"}
-	pathParameters := []string{*getPermittedNetworkOptions.InstanceID, *getPermittedNetworkOptions.DnszoneID, *getPermittedNetworkOptions.PermittedNetworkID}
+	pathParamsMap := map[string]string{
+		"instance_id": *getPermittedNetworkOptions.InstanceID,
+		"dnszone_id": *getPermittedNetworkOptions.DnszoneID,
+		"permitted_network_id": *getPermittedNetworkOptions.PermittedNetworkID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -940,6 +1123,11 @@ func (dnsSvcs *DnsSvcsV1) GetPermittedNetwork(getPermittedNetworkOptions *GetPer
 // ListLoadBalancers : List load balancers
 // List the Global Load Balancers for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) (result *ListLoadBalancers, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListLoadBalancersWithContext(context.Background(), listLoadBalancersOptions)
+}
+
+// ListLoadBalancersWithContext is an alternate form of the ListLoadBalancers method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListLoadBalancersWithContext(ctx context.Context, listLoadBalancersOptions *ListLoadBalancersOptions) (result *ListLoadBalancers, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancersOptions, "listLoadBalancersOptions cannot be nil")
 	if err != nil {
 		return
@@ -949,11 +1137,15 @@ func (dnsSvcs *DnsSvcsV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBa
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "load_balancers"}
-	pathParameters := []string{*listLoadBalancersOptions.InstanceID, *listLoadBalancersOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *listLoadBalancersOptions.InstanceID,
+		"dnszone_id": *listLoadBalancersOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -993,6 +1185,11 @@ func (dnsSvcs *DnsSvcsV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBa
 // CreateLoadBalancer : Create a load balancer
 // Create a load balancer for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateLoadBalancerWithContext(context.Background(), createLoadBalancerOptions)
+}
+
+// CreateLoadBalancerWithContext is an alternate form of the CreateLoadBalancer method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateLoadBalancerWithContext(ctx context.Context, createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerOptions, "createLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -1002,11 +1199,15 @@ func (dnsSvcs *DnsSvcsV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLo
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "load_balancers"}
-	pathParameters := []string{*createLoadBalancerOptions.InstanceID, *createLoadBalancerOptions.DnszoneID}
+	pathParamsMap := map[string]string{
+		"instance_id": *createLoadBalancerOptions.InstanceID,
+		"dnszone_id": *createLoadBalancerOptions.DnszoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1074,6 +1275,11 @@ func (dnsSvcs *DnsSvcsV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLo
 // DeleteLoadBalancer : Delete a load balancer
 // Delete a load balancer.
 func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteLoadBalancerWithContext(context.Background(), deleteLoadBalancerOptions)
+}
+
+// DeleteLoadBalancerWithContext is an alternate form of the DeleteLoadBalancer method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancerWithContext(ctx context.Context, deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerOptions, "deleteLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -1083,11 +1289,16 @@ func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLo
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "load_balancers"}
-	pathParameters := []string{*deleteLoadBalancerOptions.InstanceID, *deleteLoadBalancerOptions.DnszoneID, *deleteLoadBalancerOptions.LbID}
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteLoadBalancerOptions.InstanceID,
+		"dnszone_id": *deleteLoadBalancerOptions.DnszoneID,
+		"lb_id": *deleteLoadBalancerOptions.LbID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1117,6 +1328,11 @@ func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLo
 // GetLoadBalancer : Get a load balancer
 // Get details of a load balancer.
 func (dnsSvcs *DnsSvcsV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetLoadBalancerWithContext(context.Background(), getLoadBalancerOptions)
+}
+
+// GetLoadBalancerWithContext is an alternate form of the GetLoadBalancer method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetLoadBalancerWithContext(ctx context.Context, getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerOptions, "getLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -1126,11 +1342,16 @@ func (dnsSvcs *DnsSvcsV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalance
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "load_balancers"}
-	pathParameters := []string{*getLoadBalancerOptions.InstanceID, *getLoadBalancerOptions.DnszoneID, *getLoadBalancerOptions.LbID}
+	pathParamsMap := map[string]string{
+		"instance_id": *getLoadBalancerOptions.InstanceID,
+		"dnszone_id": *getLoadBalancerOptions.DnszoneID,
+		"lb_id": *getLoadBalancerOptions.LbID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1170,6 +1391,11 @@ func (dnsSvcs *DnsSvcsV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalance
 // UpdateLoadBalancer : Update the properties of a load balancer
 // Update the properties of a load balancer.
 func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateLoadBalancerWithContext(context.Background(), updateLoadBalancerOptions)
+}
+
+// UpdateLoadBalancerWithContext is an alternate form of the UpdateLoadBalancer method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancerWithContext(ctx context.Context, updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerOptions, "updateLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -1179,11 +1405,16 @@ func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLo
 		return
 	}
 
-	pathSegments := []string{"instances", "dnszones", "load_balancers"}
-	pathParameters := []string{*updateLoadBalancerOptions.InstanceID, *updateLoadBalancerOptions.DnszoneID, *updateLoadBalancerOptions.LbID}
+	pathParamsMap := map[string]string{
+		"instance_id": *updateLoadBalancerOptions.InstanceID,
+		"dnszone_id": *updateLoadBalancerOptions.DnszoneID,
+		"lb_id": *updateLoadBalancerOptions.LbID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1251,6 +1482,11 @@ func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLo
 // ListPools : List load balancer pools
 // List the load balancer pools.
 func (dnsSvcs *DnsSvcsV1) ListPools(listPoolsOptions *ListPoolsOptions) (result *ListPools, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListPoolsWithContext(context.Background(), listPoolsOptions)
+}
+
+// ListPoolsWithContext is an alternate form of the ListPools method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListPoolsWithContext(ctx context.Context, listPoolsOptions *ListPoolsOptions) (result *ListPools, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listPoolsOptions, "listPoolsOptions cannot be nil")
 	if err != nil {
 		return
@@ -1260,11 +1496,14 @@ func (dnsSvcs *DnsSvcsV1) ListPools(listPoolsOptions *ListPoolsOptions) (result 
 		return
 	}
 
-	pathSegments := []string{"instances", "pools"}
-	pathParameters := []string{*listPoolsOptions.InstanceID}
+	pathParamsMap := map[string]string{
+		"instance_id": *listPoolsOptions.InstanceID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/pools`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1304,6 +1543,11 @@ func (dnsSvcs *DnsSvcsV1) ListPools(listPoolsOptions *ListPoolsOptions) (result 
 // CreatePool : Create a load balancer pool
 // Create a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) CreatePool(createPoolOptions *CreatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreatePoolWithContext(context.Background(), createPoolOptions)
+}
+
+// CreatePoolWithContext is an alternate form of the CreatePool method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreatePoolWithContext(ctx context.Context, createPoolOptions *CreatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPoolOptions, "createPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -1313,11 +1557,14 @@ func (dnsSvcs *DnsSvcsV1) CreatePool(createPoolOptions *CreatePoolOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"instances", "pools"}
-	pathParameters := []string{*createPoolOptions.InstanceID}
+	pathParamsMap := map[string]string{
+		"instance_id": *createPoolOptions.InstanceID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/pools`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1391,6 +1638,11 @@ func (dnsSvcs *DnsSvcsV1) CreatePool(createPoolOptions *CreatePoolOptions) (resu
 // DeletePool : Delete a load balancer pool
 // Delete a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) DeletePool(deletePoolOptions *DeletePoolOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeletePoolWithContext(context.Background(), deletePoolOptions)
+}
+
+// DeletePoolWithContext is an alternate form of the DeletePool method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeletePoolWithContext(ctx context.Context, deletePoolOptions *DeletePoolOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deletePoolOptions, "deletePoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -1400,11 +1652,15 @@ func (dnsSvcs *DnsSvcsV1) DeletePool(deletePoolOptions *DeletePoolOptions) (resp
 		return
 	}
 
-	pathSegments := []string{"instances", "pools"}
-	pathParameters := []string{*deletePoolOptions.InstanceID, *deletePoolOptions.PoolID}
+	pathParamsMap := map[string]string{
+		"instance_id": *deletePoolOptions.InstanceID,
+		"pool_id": *deletePoolOptions.PoolID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/pools/{pool_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1434,6 +1690,11 @@ func (dnsSvcs *DnsSvcsV1) DeletePool(deletePoolOptions *DeletePoolOptions) (resp
 // GetPool : Get a load balancer pool
 // Get details of a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) GetPool(getPoolOptions *GetPoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetPoolWithContext(context.Background(), getPoolOptions)
+}
+
+// GetPoolWithContext is an alternate form of the GetPool method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetPoolWithContext(ctx context.Context, getPoolOptions *GetPoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPoolOptions, "getPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -1443,11 +1704,15 @@ func (dnsSvcs *DnsSvcsV1) GetPool(getPoolOptions *GetPoolOptions) (result *Pool,
 		return
 	}
 
-	pathSegments := []string{"instances", "pools"}
-	pathParameters := []string{*getPoolOptions.InstanceID, *getPoolOptions.PoolID}
+	pathParamsMap := map[string]string{
+		"instance_id": *getPoolOptions.InstanceID,
+		"pool_id": *getPoolOptions.PoolID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/pools/{pool_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1487,6 +1752,11 @@ func (dnsSvcs *DnsSvcsV1) GetPool(getPoolOptions *GetPoolOptions) (result *Pool,
 // UpdatePool : Update the properties of a load balancer pool
 // Update the properties of a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) UpdatePool(updatePoolOptions *UpdatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdatePoolWithContext(context.Background(), updatePoolOptions)
+}
+
+// UpdatePoolWithContext is an alternate form of the UpdatePool method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdatePoolWithContext(ctx context.Context, updatePoolOptions *UpdatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePoolOptions, "updatePoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -1496,11 +1766,15 @@ func (dnsSvcs *DnsSvcsV1) UpdatePool(updatePoolOptions *UpdatePoolOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"instances", "pools"}
-	pathParameters := []string{*updatePoolOptions.InstanceID, *updatePoolOptions.PoolID}
+	pathParamsMap := map[string]string{
+		"instance_id": *updatePoolOptions.InstanceID,
+		"pool_id": *updatePoolOptions.PoolID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/pools/{pool_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1574,6 +1848,11 @@ func (dnsSvcs *DnsSvcsV1) UpdatePool(updatePoolOptions *UpdatePoolOptions) (resu
 // ListMonitors : List load balancer monitors
 // List the load balancer monitors.
 func (dnsSvcs *DnsSvcsV1) ListMonitors(listMonitorsOptions *ListMonitorsOptions) (result *ListMonitors, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListMonitorsWithContext(context.Background(), listMonitorsOptions)
+}
+
+// ListMonitorsWithContext is an alternate form of the ListMonitors method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListMonitorsWithContext(ctx context.Context, listMonitorsOptions *ListMonitorsOptions) (result *ListMonitors, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listMonitorsOptions, "listMonitorsOptions cannot be nil")
 	if err != nil {
 		return
@@ -1583,11 +1862,14 @@ func (dnsSvcs *DnsSvcsV1) ListMonitors(listMonitorsOptions *ListMonitorsOptions)
 		return
 	}
 
-	pathSegments := []string{"instances", "monitors"}
-	pathParameters := []string{*listMonitorsOptions.InstanceID}
+	pathParamsMap := map[string]string{
+		"instance_id": *listMonitorsOptions.InstanceID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/monitors`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1627,6 +1909,11 @@ func (dnsSvcs *DnsSvcsV1) ListMonitors(listMonitorsOptions *ListMonitorsOptions)
 // CreateMonitor : Create a load balancer monitor
 // Create a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) CreateMonitor(createMonitorOptions *CreateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateMonitorWithContext(context.Background(), createMonitorOptions)
+}
+
+// CreateMonitorWithContext is an alternate form of the CreateMonitor method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateMonitorWithContext(ctx context.Context, createMonitorOptions *CreateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createMonitorOptions, "createMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -1636,11 +1923,14 @@ func (dnsSvcs *DnsSvcsV1) CreateMonitor(createMonitorOptions *CreateMonitorOptio
 		return
 	}
 
-	pathSegments := []string{"instances", "monitors"}
-	pathParameters := []string{*createMonitorOptions.InstanceID}
+	pathParamsMap := map[string]string{
+		"instance_id": *createMonitorOptions.InstanceID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/monitors`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1726,6 +2016,11 @@ func (dnsSvcs *DnsSvcsV1) CreateMonitor(createMonitorOptions *CreateMonitorOptio
 // DeleteMonitor : Delete a load balancer monitor
 // Delete a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) DeleteMonitor(deleteMonitorOptions *DeleteMonitorOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteMonitorWithContext(context.Background(), deleteMonitorOptions)
+}
+
+// DeleteMonitorWithContext is an alternate form of the DeleteMonitor method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteMonitorWithContext(ctx context.Context, deleteMonitorOptions *DeleteMonitorOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteMonitorOptions, "deleteMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -1735,11 +2030,15 @@ func (dnsSvcs *DnsSvcsV1) DeleteMonitor(deleteMonitorOptions *DeleteMonitorOptio
 		return
 	}
 
-	pathSegments := []string{"instances", "monitors"}
-	pathParameters := []string{*deleteMonitorOptions.InstanceID, *deleteMonitorOptions.MonitorID}
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteMonitorOptions.InstanceID,
+		"monitor_id": *deleteMonitorOptions.MonitorID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/monitors/{monitor_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1769,6 +2068,11 @@ func (dnsSvcs *DnsSvcsV1) DeleteMonitor(deleteMonitorOptions *DeleteMonitorOptio
 // GetMonitor : Get a load balancer monitor
 // Get details of a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) GetMonitor(getMonitorOptions *GetMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetMonitorWithContext(context.Background(), getMonitorOptions)
+}
+
+// GetMonitorWithContext is an alternate form of the GetMonitor method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetMonitorWithContext(ctx context.Context, getMonitorOptions *GetMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getMonitorOptions, "getMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -1778,11 +2082,15 @@ func (dnsSvcs *DnsSvcsV1) GetMonitor(getMonitorOptions *GetMonitorOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"instances", "monitors"}
-	pathParameters := []string{*getMonitorOptions.InstanceID, *getMonitorOptions.MonitorID}
+	pathParamsMap := map[string]string{
+		"instance_id": *getMonitorOptions.InstanceID,
+		"monitor_id": *getMonitorOptions.MonitorID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/monitors/{monitor_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1822,6 +2130,11 @@ func (dnsSvcs *DnsSvcsV1) GetMonitor(getMonitorOptions *GetMonitorOptions) (resu
 // UpdateMonitor : Update the properties of a load balancer monitor
 // Update the properties of a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) UpdateMonitor(updateMonitorOptions *UpdateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateMonitorWithContext(context.Background(), updateMonitorOptions)
+}
+
+// UpdateMonitorWithContext is an alternate form of the UpdateMonitor method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateMonitorWithContext(ctx context.Context, updateMonitorOptions *UpdateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateMonitorOptions, "updateMonitorOptions cannot be nil")
 	if err != nil {
 		return
@@ -1831,11 +2144,15 @@ func (dnsSvcs *DnsSvcsV1) UpdateMonitor(updateMonitorOptions *UpdateMonitorOptio
 		return
 	}
 
-	pathSegments := []string{"instances", "monitors"}
-	pathParameters := []string{*updateMonitorOptions.InstanceID, *updateMonitorOptions.MonitorID}
+	pathParamsMap := map[string]string{
+		"instance_id": *updateMonitorOptions.InstanceID,
+		"monitor_id": *updateMonitorOptions.MonitorID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(dnsSvcs.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/monitors/{monitor_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1921,7 +2238,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateMonitor(updateMonitorOptions *UpdateMonitorOptio
 // CreateDnszoneOptions : The CreateDnszone options.
 type CreateDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// Name of DNS zone.
 	Name *string `json:"name,omitempty"`
@@ -1985,10 +2302,10 @@ func (options *CreateDnszoneOptions) SetHeaders(param map[string]string) *Create
 // CreateLoadBalancerOptions : The CreateLoadBalancer options.
 type CreateLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Name of the load balancer.
 	Name *string `json:"name,omitempty"`
@@ -2009,7 +2326,7 @@ type CreateLoadBalancerOptions struct {
 	// are not configured for a given region.
 	DefaultPools []string `json:"default_pools,omitempty"`
 
-	// Map availability zones to pool ID's.
+	// Map availability zones to pool IDs.
 	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
 
 	// Uniquely identifying a request.
@@ -2096,7 +2413,7 @@ func (options *CreateLoadBalancerOptions) SetHeaders(param map[string]string) *C
 // CreateMonitorOptions : The CreateMonitor options.
 type CreateMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The name of the load balancer monitor.
 	Name *string `json:"name,omitempty"`
@@ -2271,10 +2588,10 @@ func (options *CreateMonitorOptions) SetHeaders(param map[string]string) *Create
 // CreatePermittedNetworkOptions : The CreatePermittedNetwork options.
 type CreatePermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The type of a permitted network.
 	Type *string `json:"type,omitempty"`
@@ -2342,7 +2659,7 @@ func (options *CreatePermittedNetworkOptions) SetHeaders(param map[string]string
 // CreatePoolOptions : The CreatePool options.
 type CreatePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// Name of the load balancer pool.
 	Name *string `json:"name,omitempty"`
@@ -2370,7 +2687,7 @@ type CreatePoolOptions struct {
 	// Health check region of VSIs.
 	HealthcheckRegion *string `json:"healthcheck_region,omitempty"`
 
-	// Health check subnet IDs of VSIs.
+	// Health check subnet CRN.
 	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
 
 	// Uniquely identifying a request.
@@ -2473,10 +2790,10 @@ func (options *CreatePoolOptions) SetHeaders(param map[string]string) *CreatePoo
 // CreateResourceRecordOptions : The CreateResourceRecord options.
 type CreateResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Name of the resource record.
 	Name *string `json:"name,omitempty"`
@@ -2586,10 +2903,10 @@ func (options *CreateResourceRecordOptions) SetHeaders(param map[string]string) 
 // DeleteDnszoneOptions : The DeleteDnszone options.
 type DeleteDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2633,13 +2950,13 @@ func (options *DeleteDnszoneOptions) SetHeaders(param map[string]string) *Delete
 // DeleteLoadBalancerOptions : The DeleteLoadBalancer options.
 type DeleteLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required"`
+	LbID *string `json:"lb_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2690,10 +3007,10 @@ func (options *DeleteLoadBalancerOptions) SetHeaders(param map[string]string) *D
 // DeleteMonitorOptions : The DeleteMonitor options.
 type DeleteMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required"`
+	MonitorID *string `json:"monitor_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2737,13 +3054,13 @@ func (options *DeleteMonitorOptions) SetHeaders(param map[string]string) *Delete
 // DeletePermittedNetworkOptions : The DeletePermittedNetwork options.
 type DeletePermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a permitted network.
-	PermittedNetworkID *string `json:"permitted_network_id" validate:"required"`
+	PermittedNetworkID *string `json:"permitted_network_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2794,10 +3111,10 @@ func (options *DeletePermittedNetworkOptions) SetHeaders(param map[string]string
 // DeletePoolOptions : The DeletePool options.
 type DeletePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required"`
+	PoolID *string `json:"pool_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2841,13 +3158,13 @@ func (options *DeletePoolOptions) SetHeaders(param map[string]string) *DeletePoo
 // DeleteResourceRecordOptions : The DeleteResourceRecord options.
 type DeleteResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required"`
+	RecordID *string `json:"record_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2898,10 +3215,10 @@ func (options *DeleteResourceRecordOptions) SetHeaders(param map[string]string) 
 // GetDnszoneOptions : The GetDnszone options.
 type GetDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -2945,13 +3262,13 @@ func (options *GetDnszoneOptions) SetHeaders(param map[string]string) *GetDnszon
 // GetLoadBalancerOptions : The GetLoadBalancer options.
 type GetLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required"`
+	LbID *string `json:"lb_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3002,10 +3319,10 @@ func (options *GetLoadBalancerOptions) SetHeaders(param map[string]string) *GetL
 // GetMonitorOptions : The GetMonitor options.
 type GetMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required"`
+	MonitorID *string `json:"monitor_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3049,13 +3366,13 @@ func (options *GetMonitorOptions) SetHeaders(param map[string]string) *GetMonito
 // GetPermittedNetworkOptions : The GetPermittedNetwork options.
 type GetPermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a permitted network.
-	PermittedNetworkID *string `json:"permitted_network_id" validate:"required"`
+	PermittedNetworkID *string `json:"permitted_network_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3106,10 +3423,10 @@ func (options *GetPermittedNetworkOptions) SetHeaders(param map[string]string) *
 // GetPoolOptions : The GetPool options.
 type GetPoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required"`
+	PoolID *string `json:"pool_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3153,13 +3470,13 @@ func (options *GetPoolOptions) SetHeaders(param map[string]string) *GetPoolOptio
 // GetResourceRecordOptions : The GetResourceRecord options.
 type GetResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required"`
+	RecordID *string `json:"record_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3210,7 +3527,7 @@ func (options *GetResourceRecordOptions) SetHeaders(param map[string]string) *Ge
 // ListDnszonesOptions : The ListDnszones options.
 type ListDnszonesOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3265,10 +3582,10 @@ func (options *ListDnszonesOptions) SetHeaders(param map[string]string) *ListDns
 // ListLoadBalancersOptions : The ListLoadBalancers options.
 type ListLoadBalancersOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3312,7 +3629,7 @@ func (options *ListLoadBalancersOptions) SetHeaders(param map[string]string) *Li
 // ListMonitorsOptions : The ListMonitors options.
 type ListMonitorsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3349,10 +3666,10 @@ func (options *ListMonitorsOptions) SetHeaders(param map[string]string) *ListMon
 // ListPermittedNetworksOptions : The ListPermittedNetworks options.
 type ListPermittedNetworksOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3414,7 +3731,7 @@ func (options *ListPermittedNetworksOptions) SetHeaders(param map[string]string)
 // ListPoolsOptions : The ListPools options.
 type ListPoolsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3451,10 +3768,10 @@ func (options *ListPoolsOptions) SetHeaders(param map[string]string) *ListPoolsO
 // ListResourceRecordsOptions : The ListResourceRecords options.
 type ListResourceRecordsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// Uniquely identifying a request.
 	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
@@ -3531,6 +3848,45 @@ func UnmarshalLoadBalancerAzPoolsItem(m map[string]json.RawMessage, result inter
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "pools", &obj.Pools)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// PoolHealthcheckVsisItem : PoolHealthcheckVsisItem struct
+type PoolHealthcheckVsisItem struct {
+	// Health check VSI subnet CRN.
+	Subnet *string `json:"subnet,omitempty"`
+
+	// healthcheck VSI ip address.
+	Ipv4Address *string `json:"ipv4_address,omitempty"`
+
+	// ipv4 cidr block.
+	Ipv4CidrBlock *string `json:"ipv4_cidr_block,omitempty"`
+
+	// vpc crn.
+	Vpc *string `json:"vpc,omitempty"`
+}
+
+
+// UnmarshalPoolHealthcheckVsisItem unmarshals an instance of PoolHealthcheckVsisItem from the specified map of raw messages.
+func UnmarshalPoolHealthcheckVsisItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PoolHealthcheckVsisItem)
+	err = core.UnmarshalPrimitive(m, "subnet", &obj.Subnet)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ipv4_address", &obj.Ipv4Address)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ipv4_cidr_block", &obj.Ipv4CidrBlock)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "vpc", &obj.Vpc)
 	if err != nil {
 		return
 	}
@@ -3733,10 +4089,10 @@ func UnmarshalResourceRecordUpdateInputRdata(m map[string]json.RawMessage, resul
 // UpdateDnszoneOptions : The UpdateDnszone options.
 type UpdateDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The text describing the purpose of a DNS zone.
 	Description *string `json:"description,omitempty"`
@@ -3798,13 +4154,13 @@ func (options *UpdateDnszoneOptions) SetHeaders(param map[string]string) *Update
 // UpdateLoadBalancerOptions : The UpdateLoadBalancer options.
 type UpdateLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required"`
+	LbID *string `json:"lb_id" validate:"required,ne="`
 
 	// Name of the load balancer.
 	Name *string `json:"name,omitempty"`
@@ -3825,7 +4181,7 @@ type UpdateLoadBalancerOptions struct {
 	// are not configured for a given region.
 	DefaultPools []string `json:"default_pools,omitempty"`
 
-	// Map availability zones to pool ID's.
+	// Map availability zones to pool IDs.
 	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
 
 	// Uniquely identifying a request.
@@ -3919,10 +4275,10 @@ func (options *UpdateLoadBalancerOptions) SetHeaders(param map[string]string) *U
 // UpdateMonitorOptions : The UpdateMonitor options.
 type UpdateMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required"`
+	MonitorID *string `json:"monitor_id" validate:"required,ne="`
 
 	// The name of the load balancer monitor.
 	Name *string `json:"name,omitempty"`
@@ -4105,10 +4461,10 @@ func (options *UpdateMonitorOptions) SetHeaders(param map[string]string) *Update
 // UpdatePoolOptions : The UpdatePool options.
 type UpdatePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required"`
+	PoolID *string `json:"pool_id" validate:"required,ne="`
 
 	// Name of the load balancer pool.
 	Name *string `json:"name,omitempty"`
@@ -4136,7 +4492,7 @@ type UpdatePoolOptions struct {
 	// Health check region of VSIs.
 	HealthcheckRegion *string `json:"healthcheck_region,omitempty"`
 
-	// Health check subnet IDs of VSIs.
+	// Health check subnet CRNs.
 	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
 
 	// Uniquely identifying a request.
@@ -4246,13 +4602,13 @@ func (options *UpdatePoolOptions) SetHeaders(param map[string]string) *UpdatePoo
 // UpdateResourceRecordOptions : The UpdateResourceRecord options.
 type UpdateResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required"`
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required"`
+	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required"`
+	RecordID *string `json:"record_id" validate:"required,ne="`
 
 	// Name of the resource record.
 	Name *string `json:"name,omitempty"`
@@ -4841,13 +5197,13 @@ type LoadBalancer struct {
 	// are not configured for a given region.
 	DefaultPools []string `json:"default_pools,omitempty"`
 
-	// Map availability zones to pool ID's.
+	// Map availability zones to pool IDs.
 	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
 
-	// the time when a load balancer is created.
+	// The time when a load balancer is created.
 	CreatedOn *string `json:"created_on,omitempty"`
 
-	// the recent time when a load balancer is modified.
+	// The recent time when a load balancer is modified.
 	ModifiedOn *string `json:"modified_on,omitempty"`
 }
 
@@ -5284,8 +5640,11 @@ type Pool struct {
 	// Health check region of VSIs.
 	HealthcheckRegion *string `json:"healthcheck_region,omitempty"`
 
-	// Health check subnet IDs of VSIs.
+	// Health check subnet CRNs.
 	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
+
+	// Health check VSI information.
+	HealthcheckVsis []PoolHealthcheckVsisItem `json:"healthcheck_vsis,omitempty"`
 
 	// the time when a load balancer pool is created.
 	CreatedOn *string `json:"created_on,omitempty"`
@@ -5358,6 +5717,10 @@ func UnmarshalPool(m map[string]json.RawMessage, result interface{}) (err error)
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "healthcheck_subnets", &obj.HealthcheckSubnets)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "healthcheck_vsis", &obj.HealthcheckVsis, UnmarshalPoolHealthcheckVsisItem)
 	if err != nil {
 		return
 	}
