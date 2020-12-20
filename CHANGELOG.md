@@ -1,3 +1,10 @@
+## [0.12.2](https://github.com/IBM/networking-go-sdk/compare/v0.12.1...v0.12.2) (2020-12-20)
+
+
+### Bug Fixes
+
+* Merge pull request [#36](https://github.com/IBM/networking-go-sdk/issues/36) from IBM/pdns-pools-vsi ([e2800ff](https://github.com/IBM/networking-go-sdk/commit/e2800ff6f68e78eb3f62f1af3af29264356394bf))
+
 ## [0.12.1](https://github.com/IBM/networking-go-sdk/compare/v0.12.0...v0.12.1) (2020-12-08)
 
 
