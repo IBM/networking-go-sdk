@@ -1,3 +1,10 @@
+## [0.12.3](https://github.com/IBM/networking-go-sdk/compare/v0.12.2...v0.12.3) (2020-12-20)
+
+
+### Bug Fixes
+
+* Private DNS Global Load Balancer Pools Health Check VSIs feature ([379ebb6](https://github.com/IBM/networking-go-sdk/commit/379ebb6f90a0dbb99103ff5ab970d6443448edf7))
+
 ## [0.12.2](https://github.com/IBM/networking-go-sdk/compare/v0.12.1...v0.12.2) (2020-12-20)
 
 
