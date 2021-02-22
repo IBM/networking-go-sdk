@@ -142,6 +142,38 @@ var _ = Describe(`cachingapiv1_test`, func() {
 					Expect(*getResult.Result.Value).Should(BeEquivalentTo(value))
 				}
 			})
+			It(`update/get Always Online setting`, func() {
+				shouldSkipTest()
+				cacheOpt := service.NewUpdateServeStaleContentOptions() 
+				cacheOpt.SetValue(UpdateServeStaleContentOptions_Value_On) 
+				cacheResult, cacheResp, cacheErr := service.UpdateServeStaleContent(cacheOpt) 
+				Expect(cacheErr).To(BeNil())
+				Expect(cacheResp).ToNot(BeNil())
+				Expect(cacheResult).ToNot(BeNil())
+				Expect(*cacheResult.Success).Should(BeTrue())
+
+				getOpt := service.NewGetServeStaleContentOptions() 
+				getResult, getResp, getErr := service.GetServeStaleContent(getOpt) 
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+				Expect(*getResult.Result.Value).Should(BeEquivalentTo(UpdateServeStaleContentOptions_Value_On)) 
+
+				cacheOpt.SetValue(UpdateServeStaleContentOptions_Value_Off) 
+				cacheResult, cacheResp, cacheErr = service.UpdateServeStaleContent(cacheOpt) 
+				Expect(cacheErr).To(BeNil())
+				Expect(cacheResp).ToNot(BeNil())
+				Expect(cacheResult).ToNot(BeNil())
+				Expect(*cacheResult.Success).Should(BeTrue())
+
+				getResult, getResp, getErr = service.GetServeStaleContent(getOpt) 
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+				Expect(*getResult.Result.Value).Should(BeEquivalentTo(UpdateServeStaleContentOptions_Value_Off)) 
+			})
 			It(`update/get development mode setting`, func() {
 				shouldSkipTest()
 				cacheOpt := service.NewUpdateDevelopmentModeOptions()
