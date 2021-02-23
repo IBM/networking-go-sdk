@@ -551,8 +551,8 @@ func (cachingApi *CachingApiV1) UpdateBrowserCacheTTLWithContext(ctx context.Con
 	return
 }
 
-// GetServeStaleContent : Get Always Online setting
-// When enabled, Always Online will serve pages from CDN edge servers' cache if your server is offline.
+// GetServeStaleContent : Get Serve Stale Content setting
+// When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
 func (cachingApi *CachingApiV1) GetServeStaleContent(getServeStaleContentOptions *GetServeStaleContentOptions) (result *AlwaysOnlineResponse, response *core.DetailedResponse, err error) {
 	return cachingApi.GetServeStaleContentWithContext(context.Background(), getServeStaleContentOptions)
 }
@@ -606,8 +606,8 @@ func (cachingApi *CachingApiV1) GetServeStaleContentWithContext(ctx context.Cont
 	return
 }
 
-// UpdateServeStaleContent : Change Always Online setting
-// When enabled, Always Online will serve pages from CDN edge servers' cache if your server is offline.
+// UpdateServeStaleContent : Change Serve Stale Content setting
+// When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
 func (cachingApi *CachingApiV1) UpdateServeStaleContent(updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *AlwaysOnlineResponse, response *core.DetailedResponse, err error) {
 	return cachingApi.UpdateServeStaleContentWithContext(context.Background(), updateServeStaleContentOptions)
 }
