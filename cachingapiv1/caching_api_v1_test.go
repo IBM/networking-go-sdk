@@ -1480,7 +1480,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "always_online", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetServeStaleContent successfully with retries`, func() {
@@ -1535,7 +1535,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "always_online", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetServeStaleContent successfully`, func() {
@@ -1677,7 +1677,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "always_online", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateServeStaleContent successfully with retries`, func() {
@@ -1749,7 +1749,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "always_online", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateServeStaleContent successfully`, func() {

@@ -553,12 +553,12 @@ func (cachingApi *CachingApiV1) UpdateBrowserCacheTTLWithContext(ctx context.Con
 
 // GetServeStaleContent : Get Serve Stale Content setting
 // When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
-func (cachingApi *CachingApiV1) GetServeStaleContent(getServeStaleContentOptions *GetServeStaleContentOptions) (result *AlwaysOnlineResponse, response *core.DetailedResponse, err error) {
+func (cachingApi *CachingApiV1) GetServeStaleContent(getServeStaleContentOptions *GetServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
 	return cachingApi.GetServeStaleContentWithContext(context.Background(), getServeStaleContentOptions)
 }
 
 // GetServeStaleContentWithContext is an alternate form of the GetServeStaleContent method which supports a Context parameter
-func (cachingApi *CachingApiV1) GetServeStaleContentWithContext(ctx context.Context, getServeStaleContentOptions *GetServeStaleContentOptions) (result *AlwaysOnlineResponse, response *core.DetailedResponse, err error) {
+func (cachingApi *CachingApiV1) GetServeStaleContentWithContext(ctx context.Context, getServeStaleContentOptions *GetServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getServeStaleContentOptions, "getServeStaleContentOptions")
 	if err != nil {
 		return
@@ -597,7 +597,7 @@ func (cachingApi *CachingApiV1) GetServeStaleContentWithContext(ctx context.Cont
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAlwaysOnlineResponse)
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalServeStaleContentResponse)
 	if err != nil {
 		return
 	}
@@ -608,12 +608,12 @@ func (cachingApi *CachingApiV1) GetServeStaleContentWithContext(ctx context.Cont
 
 // UpdateServeStaleContent : Change Serve Stale Content setting
 // When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
-func (cachingApi *CachingApiV1) UpdateServeStaleContent(updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *AlwaysOnlineResponse, response *core.DetailedResponse, err error) {
+func (cachingApi *CachingApiV1) UpdateServeStaleContent(updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
 	return cachingApi.UpdateServeStaleContentWithContext(context.Background(), updateServeStaleContentOptions)
 }
 
 // UpdateServeStaleContentWithContext is an alternate form of the UpdateServeStaleContent method which supports a Context parameter
-func (cachingApi *CachingApiV1) UpdateServeStaleContentWithContext(ctx context.Context, updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *AlwaysOnlineResponse, response *core.DetailedResponse, err error) {
+func (cachingApi *CachingApiV1) UpdateServeStaleContentWithContext(ctx context.Context, updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(updateServeStaleContentOptions, "updateServeStaleContentOptions")
 	if err != nil {
 		return
@@ -662,7 +662,7 @@ func (cachingApi *CachingApiV1) UpdateServeStaleContentWithContext(ctx context.C
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAlwaysOnlineResponse)
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalServeStaleContentResponse)
 	if err != nil {
 		return
 	}
@@ -1033,45 +1033,6 @@ func (cachingApi *CachingApiV1) UpdateCacheLevelWithContext(ctx context.Context,
 	return
 }
 
-// AlwaysOnlineResponseResult : result object.
-type AlwaysOnlineResponseResult struct {
-	// always online cache id.
-	ID *string `json:"id,omitempty"`
-
-	// on/off value.
-	Value *string `json:"value,omitempty"`
-
-	// editable value.
-	Editable *bool `json:"editable,omitempty"`
-
-	// modified date.
-	ModifiedOn *string `json:"modified_on,omitempty"`
-}
-
-
-// UnmarshalAlwaysOnlineResponseResult unmarshals an instance of AlwaysOnlineResponseResult from the specified map of raw messages.
-func UnmarshalAlwaysOnlineResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AlwaysOnlineResponseResult)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // BrowserTTLResponseResult : result object.
 type BrowserTTLResponseResult struct {
 	// ttl type.
@@ -1432,6 +1393,45 @@ func (options *PurgeByUrlsOptions) SetHeaders(param map[string]string) *PurgeByU
 	return options
 }
 
+// ServeStaleContentResponseResult : result object.
+type ServeStaleContentResponseResult struct {
+	// serve stale content cache id.
+	ID *string `json:"id,omitempty"`
+
+	// on/off value.
+	Value *string `json:"value,omitempty"`
+
+	// editable value.
+	Editable *bool `json:"editable,omitempty"`
+
+	// modified date.
+	ModifiedOn *string `json:"modified_on,omitempty"`
+}
+
+
+// UnmarshalServeStaleContentResponseResult unmarshals an instance of ServeStaleContentResponseResult from the specified map of raw messages.
+func UnmarshalServeStaleContentResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ServeStaleContentResponseResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // UpdateBrowserCacheTtlOptions : The UpdateBrowserCacheTTL options.
 type UpdateBrowserCacheTtlOptions struct {
 	// ttl value.
@@ -1589,45 +1589,6 @@ func (options *UpdateServeStaleContentOptions) SetValue(value string) *UpdateSer
 func (options *UpdateServeStaleContentOptions) SetHeaders(param map[string]string) *UpdateServeStaleContentOptions {
 	options.Headers = param
 	return options
-}
-
-// AlwaysOnlineResponse : always online response.
-type AlwaysOnlineResponse struct {
-	// success response.
-	Success *bool `json:"success" validate:"required"`
-
-	// errors.
-	Errors [][]string `json:"errors" validate:"required"`
-
-	// messages.
-	Messages [][]string `json:"messages" validate:"required"`
-
-	// result object.
-	Result *AlwaysOnlineResponseResult `json:"result" validate:"required"`
-}
-
-
-// UnmarshalAlwaysOnlineResponse unmarshals an instance of AlwaysOnlineResponse from the specified map of raw messages.
-func UnmarshalAlwaysOnlineResponse(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AlwaysOnlineResponse)
-	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalAlwaysOnlineResponseResult)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
 }
 
 // BrowserTTLResponse : browser ttl response.
@@ -1818,6 +1779,45 @@ func UnmarshalPurgeAllResponse(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalPurgeAllResponseResult)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ServeStaleContentResponse : serve stale conent response.
+type ServeStaleContentResponse struct {
+	// success response.
+	Success *bool `json:"success" validate:"required"`
+
+	// errors.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// messages.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// result object.
+	Result *ServeStaleContentResponseResult `json:"result" validate:"required"`
+}
+
+
+// UnmarshalServeStaleContentResponse unmarshals an instance of ServeStaleContentResponse from the specified map of raw messages.
+func UnmarshalServeStaleContentResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ServeStaleContentResponse)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalServeStaleContentResponseResult)
 	if err != nil {
 		return
 	}

@@ -142,7 +142,7 @@ var _ = Describe(`cachingapiv1_test`, func() {
 					Expect(*getResult.Result.Value).Should(BeEquivalentTo(value))
 				}
 			})
-			It(`update/get Always Online setting`, func() {
+			It(`update/get Serve Stale Content setting`, func() {
 				shouldSkipTest()
 				cacheOpt := service.NewUpdateServeStaleContentOptions() 
 				cacheOpt.SetValue(UpdateServeStaleContentOptions_Value_On) 
