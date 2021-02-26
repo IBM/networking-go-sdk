@@ -184,6 +184,7 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(delResp).ToNot(BeNil())
 			})
 			It(`upload/view/delete ssl custom certificates`, func() {
+				Skip("No need to run this test case...")
 				shouldSkipTest()
 				// upload certificate packs
 				geoOpt, geoErr := service.NewCustomCertReqGeoRestrictions("us")
@@ -270,6 +271,7 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				}
 			})
 			It(`change/get/delete ssl universal certificate setting`, func() {
+				Skip("No need to run this test case...")
 				shouldSkipTest()
 				// upload custom certificate
 				geoOpt, geoErr := service.NewCustomCertReqGeoRestrictions("us")

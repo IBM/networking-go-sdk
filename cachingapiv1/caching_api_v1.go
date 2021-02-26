@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ * IBM OpenAPI SDK Code Generator Version: 3.26.0-4b317b0c-20210127-171701
  */
  
 
@@ -26,7 +26,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
@@ -543,6 +543,126 @@ func (cachingApi *CachingApiV1) UpdateBrowserCacheTTLWithContext(ctx context.Con
 		return
 	}
 	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBrowserTTLResponse)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// GetServeStaleContent : Get Serve Stale Content setting
+// When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
+func (cachingApi *CachingApiV1) GetServeStaleContent(getServeStaleContentOptions *GetServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
+	return cachingApi.GetServeStaleContentWithContext(context.Background(), getServeStaleContentOptions)
+}
+
+// GetServeStaleContentWithContext is an alternate form of the GetServeStaleContent method which supports a Context parameter
+func (cachingApi *CachingApiV1) GetServeStaleContentWithContext(ctx context.Context, getServeStaleContentOptions *GetServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getServeStaleContentOptions, "getServeStaleContentOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *cachingApi.Crn,
+		"zone_id": *cachingApi.ZoneID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = cachingApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(cachingApi.Service.Options.URL, `/v1/{crn}/zones/{zone_id}/settings/always_online`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getServeStaleContentOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("caching_api", "V1", "GetServeStaleContent")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = cachingApi.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalServeStaleContentResponse)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// UpdateServeStaleContent : Change Serve Stale Content setting
+// When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
+func (cachingApi *CachingApiV1) UpdateServeStaleContent(updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
+	return cachingApi.UpdateServeStaleContentWithContext(context.Background(), updateServeStaleContentOptions)
+}
+
+// UpdateServeStaleContentWithContext is an alternate form of the UpdateServeStaleContent method which supports a Context parameter
+func (cachingApi *CachingApiV1) UpdateServeStaleContentWithContext(ctx context.Context, updateServeStaleContentOptions *UpdateServeStaleContentOptions) (result *ServeStaleContentResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(updateServeStaleContentOptions, "updateServeStaleContentOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *cachingApi.Crn,
+		"zone_id": *cachingApi.ZoneID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = cachingApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(cachingApi.Service.Options.URL, `/v1/{crn}/zones/{zone_id}/settings/always_online`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateServeStaleContentOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("caching_api", "V1", "UpdateServeStaleContent")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateServeStaleContentOptions.Value != nil {
+		body["value"] = updateServeStaleContentOptions.Value
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = cachingApi.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalServeStaleContentResponse)
 	if err != nil {
 		return
 	}
@@ -1141,6 +1261,24 @@ func (options *GetQueryStringSortOptions) SetHeaders(param map[string]string) *G
 	return options
 }
 
+// GetServeStaleContentOptions : The GetServeStaleContent options.
+type GetServeStaleContentOptions struct {
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetServeStaleContentOptions : Instantiate GetServeStaleContentOptions
+func (*CachingApiV1) NewGetServeStaleContentOptions() *GetServeStaleContentOptions {
+	return &GetServeStaleContentOptions{}
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetServeStaleContentOptions) SetHeaders(param map[string]string) *GetServeStaleContentOptions {
+	options.Headers = param
+	return options
+}
+
 // PurgeAllOptions : The PurgeAll options.
 type PurgeAllOptions struct {
 
@@ -1180,7 +1318,7 @@ func UnmarshalPurgeAllResponseResult(m map[string]json.RawMessage, result interf
 // PurgeByCacheTagsOptions : The PurgeByCacheTags options.
 type PurgeByCacheTagsOptions struct {
 	// array of tags.
-	Tags []string `json:"tags,omitempty"`
+	Tags []string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1206,7 +1344,7 @@ func (options *PurgeByCacheTagsOptions) SetHeaders(param map[string]string) *Pur
 // PurgeByHostsOptions : The PurgeByHosts options.
 type PurgeByHostsOptions struct {
 	// hosts name.
-	Hosts []string `json:"hosts,omitempty"`
+	Hosts []string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1232,7 +1370,7 @@ func (options *PurgeByHostsOptions) SetHeaders(param map[string]string) *PurgeBy
 // PurgeByUrlsOptions : The PurgeByUrls options.
 type PurgeByUrlsOptions struct {
 	// purge url array.
-	Files []string `json:"files,omitempty"`
+	Files []string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1255,10 +1393,49 @@ func (options *PurgeByUrlsOptions) SetHeaders(param map[string]string) *PurgeByU
 	return options
 }
 
+// ServeStaleContentResponseResult : result object.
+type ServeStaleContentResponseResult struct {
+	// serve stale content cache id.
+	ID *string `json:"id,omitempty"`
+
+	// on/off value.
+	Value *string `json:"value,omitempty"`
+
+	// editable value.
+	Editable *bool `json:"editable,omitempty"`
+
+	// modified date.
+	ModifiedOn *string `json:"modified_on,omitempty"`
+}
+
+
+// UnmarshalServeStaleContentResponseResult unmarshals an instance of ServeStaleContentResponseResult from the specified map of raw messages.
+func UnmarshalServeStaleContentResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ServeStaleContentResponseResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // UpdateBrowserCacheTtlOptions : The UpdateBrowserCacheTTL options.
 type UpdateBrowserCacheTtlOptions struct {
 	// ttl value.
-	Value *int64 `json:"value,omitempty"`
+	Value *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1284,7 +1461,7 @@ func (options *UpdateBrowserCacheTtlOptions) SetHeaders(param map[string]string)
 // UpdateCacheLevelOptions : The UpdateCacheLevel options.
 type UpdateCacheLevelOptions struct {
 	// cache level.
-	Value *string `json:"value,omitempty"`
+	Value *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1318,7 +1495,7 @@ func (options *UpdateCacheLevelOptions) SetHeaders(param map[string]string) *Upd
 // UpdateDevelopmentModeOptions : The UpdateDevelopmentMode options.
 type UpdateDevelopmentModeOptions struct {
 	// on/off value.
-	Value *string `json:"value,omitempty"`
+	Value *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1351,7 +1528,7 @@ func (options *UpdateDevelopmentModeOptions) SetHeaders(param map[string]string)
 // UpdateQueryStringSortOptions : The UpdateQueryStringSort options.
 type UpdateQueryStringSortOptions struct {
 	// on/off property value.
-	Value *string `json:"value,omitempty"`
+	Value *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1377,6 +1554,39 @@ func (options *UpdateQueryStringSortOptions) SetValue(value string) *UpdateQuery
 
 // SetHeaders : Allow user to set Headers
 func (options *UpdateQueryStringSortOptions) SetHeaders(param map[string]string) *UpdateQueryStringSortOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateServeStaleContentOptions : The UpdateServeStaleContent options.
+type UpdateServeStaleContentOptions struct {
+	// on/off value.
+	Value *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateServeStaleContentOptions.Value property.
+// on/off value.
+const (
+	UpdateServeStaleContentOptions_Value_Off = "off"
+	UpdateServeStaleContentOptions_Value_On = "on"
+)
+
+// NewUpdateServeStaleContentOptions : Instantiate UpdateServeStaleContentOptions
+func (*CachingApiV1) NewUpdateServeStaleContentOptions() *UpdateServeStaleContentOptions {
+	return &UpdateServeStaleContentOptions{}
+}
+
+// SetValue : Allow user to set Value
+func (options *UpdateServeStaleContentOptions) SetValue(value string) *UpdateServeStaleContentOptions {
+	options.Value = core.StringPtr(value)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateServeStaleContentOptions) SetHeaders(param map[string]string) *UpdateServeStaleContentOptions {
 	options.Headers = param
 	return options
 }
@@ -1569,6 +1779,45 @@ func UnmarshalPurgeAllResponse(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalPurgeAllResponseResult)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ServeStaleContentResponse : serve stale conent response.
+type ServeStaleContentResponse struct {
+	// success response.
+	Success *bool `json:"success" validate:"required"`
+
+	// errors.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// messages.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// result object.
+	Result *ServeStaleContentResponseResult `json:"result" validate:"required"`
+}
+
+
+// UnmarshalServeStaleContentResponse unmarshals an instance of ServeStaleContentResponse from the specified map of raw messages.
+func UnmarshalServeStaleContentResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ServeStaleContentResponse)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalServeStaleContentResponseResult)
 	if err != nil {
 		return
 	}
