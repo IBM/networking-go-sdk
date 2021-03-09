@@ -6,10 +6,10 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/dnsrecordsv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/dnsrecordsv1"
 )
 
 const configFile = "../cis.env"
@@ -98,6 +98,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
 				options.SetContent("1.2.3.4")
+				options.SetTTL(900)
 				result, response, err := testService.CreateDnsRecord(options)
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -116,6 +117,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_Txt
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(100)
 				updateOpt.SetContent("Test Text")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
@@ -137,6 +139,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options := testService.NewCreateDnsRecordOptions()
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
+				options.SetTTL(900)
 				Data := map[string]interface{}{"tag": "http",
 					"value": "domain.com"}
 				options.SetData(Data)
@@ -158,6 +161,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_Txt
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(100)
 				updateOpt.SetContent("Test Text")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
@@ -179,6 +183,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options := testService.NewCreateDnsRecordOptions()
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
+				options.SetTTL(900)
 				options.SetContent("domain.com")
 				result, response, err := testService.CreateDnsRecord(options)
 				Expect(err).To(BeNil())
@@ -198,6 +203,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_Txt
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(100)
 				updateOpt.SetContent("Test Text")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
@@ -220,6 +226,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
 				options.SetContent("2001:0db8:85a3:0000:0000:8a2e:0370:7334")
+				options.SetTTL(900)
 				result, response, err := testService.CreateDnsRecord(options)
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -239,6 +246,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
 				updateOpt.SetContent("Test Text")
+				options.SetTTL(100)
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -260,6 +268,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
 				//options.SetContent("2001:0db8:85a3:0000:0000:8a2e:0370:7334")
+				options.SetTTL(900)
 				options.SetContent("domain.com")
 				options.SetPriority(int64(1))
 				result, response, err := testService.CreateDnsRecord(options)
@@ -279,6 +288,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_Txt
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(100)
 				updateOpt.SetContent("Test Text")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
@@ -299,6 +309,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				mode := CreateDnsRecordOptions_Type_Ns
 				options := testService.NewCreateDnsRecordOptions()
 				options.SetName("host-1.recordtest.com")
+				options.SetTTL(900)
 				options.SetType(mode)
 				options.SetContent("domain.com")
 				result, response, err := testService.CreateDnsRecord(options)
@@ -318,6 +329,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_Txt
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(100)
 				updateOpt.SetContent("Test Text")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
@@ -339,6 +351,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options := testService.NewCreateDnsRecordOptions()
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
+				options.SetTTL(900)
 				options.SetContent("domain.com")
 				result, response, err := testService.CreateDnsRecord(options)
 				Expect(err).To(BeNil())
@@ -357,6 +370,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_Txt
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(100)
 				updateOpt.SetContent("Test Text")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())
@@ -377,12 +391,14 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				mode := CreateDnsRecordOptions_Type_Srv
 				options := testService.NewCreateDnsRecordOptions()
 				options.SetType(mode)
-				Data := map[string]interface{}{"name": "host-1.recordtest.com",
+				options.SetTTL(100)
+				Data := map[string]interface{}{
+					"name":     "recordtest",
 					"priority": int64(1),
-					"service":  "_sip.example.com",
-					"proto":    "UDP",
-					"weight":   10,
-					"port":     1024,
+					"service":  "_sip.recordtest",
+					"proto":    "_udp",
+					"weight":   1,
+					"port":     1,
 					"target":   "domain.com"}
 				options.SetData(Data)
 				result, response, err := testService.CreateDnsRecord(options)
@@ -423,6 +439,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				options := testService.NewCreateDnsRecordOptions()
 				options.SetName("host-1.recordtest.com")
 				options.SetType(mode)
+				options.SetTTL(900)
 				options.SetContent("Test Text")
 
 				result, response, err := testService.CreateDnsRecord(options)
@@ -442,6 +459,7 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				newModes := CreateDnsRecordOptions_Type_A
 				updateOpt.SetType(newModes)
 				updateOpt.SetName("host-1.recordtest.com")
+				options.SetTTL(120)
 				updateOpt.SetContent("1.2.3.4")
 				result, response, err = testService.UpdateDnsRecord(updateOpt)
 				Expect(err).To(BeNil())

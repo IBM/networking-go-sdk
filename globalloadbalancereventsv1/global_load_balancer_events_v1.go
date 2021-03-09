@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package globalloadbalancereventsv1 : Operations and models for the GlobalLoadBalancerEventsV1 service
 package globalloadbalancereventsv1
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
 	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // GlobalLoadBalancerEventsV1 : Global Load Balancer Healthcheck Events
@@ -112,24 +121,78 @@ func NewGlobalLoadBalancerEventsV1(options *GlobalLoadBalancerEventsV1Options) (
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "globalLoadBalancerEvents" suitable for processing requests.
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) Clone() *GlobalLoadBalancerEventsV1 {
+	if core.IsNil(globalLoadBalancerEvents) {
+		return nil
+	}
+	clone := *globalLoadBalancerEvents
+	clone.Service = globalLoadBalancerEvents.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) SetServiceURL(url string) error {
 	return globalLoadBalancerEvents.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) GetServiceURL() string {
+	return globalLoadBalancerEvents.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) SetDefaultHeaders(headers http.Header) {
+	globalLoadBalancerEvents.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) SetEnableGzipCompression(enableGzip bool) {
+	globalLoadBalancerEvents.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) GetEnableGzipCompression() bool {
+	return globalLoadBalancerEvents.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	globalLoadBalancerEvents.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) DisableRetries() {
+	globalLoadBalancerEvents.Service.DisableRetries()
+}
+
 // GetLoadBalancerEvents : List all load balancer events
 // Get load balancer events for all origins.
 func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) GetLoadBalancerEvents(getLoadBalancerEventsOptions *GetLoadBalancerEventsOptions) (result *ListEventsResp, response *core.DetailedResponse, err error) {
+	return globalLoadBalancerEvents.GetLoadBalancerEventsWithContext(context.Background(), getLoadBalancerEventsOptions)
+}
+
+// GetLoadBalancerEventsWithContext is an alternate form of the GetLoadBalancerEvents method which supports a Context parameter
+func (globalLoadBalancerEvents *GlobalLoadBalancerEventsV1) GetLoadBalancerEventsWithContext(ctx context.Context, getLoadBalancerEventsOptions *GetLoadBalancerEventsOptions) (result *ListEventsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getLoadBalancerEventsOptions, "getLoadBalancerEventsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "load_balancers/events"}
-	pathParameters := []string{*globalLoadBalancerEvents.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *globalLoadBalancerEvents.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancerEvents.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = globalLoadBalancerEvents.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(globalLoadBalancerEvents.Service.Options.URL, `/v1/{crn}/load_balancers/events`, pathParamsMap)
 	if err != nil {
 		return
 	}

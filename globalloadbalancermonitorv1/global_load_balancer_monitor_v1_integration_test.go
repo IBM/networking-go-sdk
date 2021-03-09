@@ -23,10 +23,10 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/v4/core"
+	. "github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
 )
 
 const configFile = "../cis.env"
@@ -65,7 +65,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 	if testServiceErr != nil {
 		fmt.Println(testServiceErr)
 	}
-	Describe(`CIS_Frontend_API_Spec-GLB_Monitor.yaml`, func() {
+	Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Global Load Balancer Monitor`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
@@ -120,6 +120,14 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				options.SetInterval(90)
 				options.SetFollowRedirects(true)
 				options.SetAllowInsecure(true)
+				example := []string{"example.net"}
+				example1 := []string{"example1.net"}
+
+				test := map[string][]string{
+					"test":  example,
+					"test1": example1,
+				}
+				options.SetHeader(test)
 
 				// create global load balancer monitor with type HTTP
 				result, response, err := testService.CreateLoadBalancerMonitor(options)
@@ -138,6 +146,10 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				options.SetTimeout(3)
 				options.SetRetries(0)
 				options.SetInterval(90)
+				example = []string{"example.net"}
+				example1 = []string{"example1.net"}
+
+				options.SetHeader(test)
 				// create global load balancer monitor with type TCP
 				result, response, err = testService.CreateLoadBalancerMonitor(options)
 				Expect(err).To(BeNil())
@@ -173,6 +185,11 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				editOptions.SetFollowRedirects(true)
 				editOptions.SetAllowInsecure(true)
 
+				test = map[string][]string{
+					"example":  example,
+					"example1": example1,
+				}
+				options.SetHeader(test)
 				// create global load balancer monitor with type HTTP
 				result, response, err = testService.EditLoadBalancerMonitor(editOptions)
 				Expect(err).To(BeNil())

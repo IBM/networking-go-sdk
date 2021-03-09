@@ -9,10 +9,10 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/cachingapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/cachingapiv1"
 )
 
 const configFile = "../cis.env"
@@ -54,8 +54,8 @@ var _ = Describe(`cachingapiv1_test`, func() {
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
-	Describe(`zoneratelimitsv1_test`, func() {
-		Context(`zoneratelimitsv1_test`, func() {
+	Describe(`cachingapiv1_test`, func() {
+		Context(`cachingapiv1_test`, func() {
 			It(`cache purge by urls`, func() {
 				shouldSkipTest()
 				cacheOpt := service.NewPurgeByUrlsOptions()
@@ -141,6 +141,38 @@ var _ = Describe(`cachingapiv1_test`, func() {
 					Expect(*getResult.Success).Should(BeTrue())
 					Expect(*getResult.Result.Value).Should(BeEquivalentTo(value))
 				}
+			})
+			It(`update/get Serve Stale Content setting`, func() {
+				shouldSkipTest()
+				cacheOpt := service.NewUpdateServeStaleContentOptions() 
+				cacheOpt.SetValue(UpdateServeStaleContentOptions_Value_On) 
+				cacheResult, cacheResp, cacheErr := service.UpdateServeStaleContent(cacheOpt) 
+				Expect(cacheErr).To(BeNil())
+				Expect(cacheResp).ToNot(BeNil())
+				Expect(cacheResult).ToNot(BeNil())
+				Expect(*cacheResult.Success).Should(BeTrue())
+
+				getOpt := service.NewGetServeStaleContentOptions() 
+				getResult, getResp, getErr := service.GetServeStaleContent(getOpt) 
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+				Expect(*getResult.Result.Value).Should(BeEquivalentTo(UpdateServeStaleContentOptions_Value_On)) 
+
+				cacheOpt.SetValue(UpdateServeStaleContentOptions_Value_Off) 
+				cacheResult, cacheResp, cacheErr = service.UpdateServeStaleContent(cacheOpt) 
+				Expect(cacheErr).To(BeNil())
+				Expect(cacheResp).ToNot(BeNil())
+				Expect(cacheResult).ToNot(BeNil())
+				Expect(*cacheResult.Success).Should(BeTrue())
+
+				getResult, getResp, getErr = service.GetServeStaleContent(getOpt) 
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+				Expect(*getResult.Result.Value).Should(BeEquivalentTo(UpdateServeStaleContentOptions_Value_Off)) 
 			})
 			It(`update/get development mode setting`, func() {
 				shouldSkipTest()

@@ -18,19 +18,19 @@ package globalloadbalancerpoolsv0_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
-
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
 )
 
 var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
@@ -38,23 +38,23 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+			globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn:           core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+			globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(globalLoadBalancerPoolsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+			globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				URL: "https://globalloadbalancerpoolsv0/api",
 				Crn: core.StringPtr(crn),
 				Authenticator: &core.BasicAuthenticator{
@@ -62,13 +62,13 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(globalLoadBalancerPoolsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{})
+			Expect(globalLoadBalancerPoolsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -76,78 +76,106 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_POOLS_URL":       "https://globalloadbalancerpoolsv0/api",
+				"GLOBAL_LOAD_BALANCER_POOLS_URL": "https://globalloadbalancerpoolsv0/api",
 				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerPoolsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerPoolsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerPoolsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerPoolsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerPoolsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerPoolsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerPoolsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerPoolsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					Crn: core.StringPtr(crn),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := globalLoadBalancerPoolsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := globalLoadBalancerPoolsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != globalLoadBalancerPoolsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(globalLoadBalancerPoolsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(globalLoadBalancerPoolsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_POOLS_URL":       "https://globalloadbalancerpoolsv0/api",
+				"GLOBAL_LOAD_BALANCER_POOLS_URL": "https://globalloadbalancerpoolsv0/api",
 				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+			globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(globalLoadBalancerPoolsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE": "NOAuth",
+				"GLOBAL_LOAD_BALANCER_POOLS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+			globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0UsingExternalConfig(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(globalLoadBalancerPoolsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = globalloadbalancerpoolsv0.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptions *ListAllLoadBalancerPoolsOptions) - Operation response error`, func() {
@@ -159,7 +187,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllLoadBalancerPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllLoadBalancerPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -167,19 +195,26 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				}))
 			})
 			It(`Invoke ListAllLoadBalancerPools with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllLoadBalancerPoolsOptions model
 				listAllLoadBalancerPoolsOptionsModel := new(globalloadbalancerpoolsv0.ListAllLoadBalancerPoolsOptions)
 				listAllLoadBalancerPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerPoolsService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -193,30 +228,38 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptions *ListAllLoadBalancerPoolsOptions)`, func() {
 		crn := "testString"
 		listAllLoadBalancerPoolsPath := "/v1/testString/load_balancers/pools"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllLoadBalancerPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllLoadBalancerPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke ListAllLoadBalancerPools successfully`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListAllLoadBalancerPools(nil)
+				result, response, operationErr := globalLoadBalancerPoolsService.ListAllLoadBalancerPools(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -226,27 +269,52 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				listAllLoadBalancerPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
+				result, response, operationErr = globalLoadBalancerPoolsService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.ListAllLoadBalancerPoolsWithContext(ctx, listAllLoadBalancerPoolsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerPoolsService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerPoolsService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.ListAllLoadBalancerPoolsWithContext(ctx, listAllLoadBalancerPoolsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListAllLoadBalancerPools with error: Operation request error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllLoadBalancerPoolsOptions model
 				listAllLoadBalancerPoolsOptionsModel := new(globalloadbalancerpoolsv0.ListAllLoadBalancerPoolsOptions)
 				listAllLoadBalancerPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerPoolsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -266,7 +334,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -274,19 +342,20 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				}))
 			})
 			It(`Invoke CreateLoadBalancerPool with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerPoolReqOriginsItem model
 				loadBalancerPoolReqOriginsItemModel := new(globalloadbalancerpoolsv0.LoadBalancerPoolReqOriginsItem)
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.CreateLoadBalancerPoolOptions)
@@ -300,7 +369,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				createLoadBalancerPoolOptionsModel.NotificationEmail = core.StringPtr("someone@example.com")
 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerPoolsService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -314,30 +390,54 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions)`, func() {
 		crn := "testString"
 		createLoadBalancerPoolPath := "/v1/testString/load_balancers/pools"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerPool successfully`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateLoadBalancerPool(nil)
+				result, response, operationErr := globalLoadBalancerPoolsService.CreateLoadBalancerPool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -347,6 +447,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.CreateLoadBalancerPoolOptions)
@@ -361,25 +462,51 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
+				result, response, operationErr = globalLoadBalancerPoolsService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.CreateLoadBalancerPoolWithContext(ctx, createLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerPoolsService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerPoolsService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.CreateLoadBalancerPoolWithContext(ctx, createLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateLoadBalancerPool with error: Operation request error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerPoolReqOriginsItem model
 				loadBalancerPoolReqOriginsItemModel := new(globalloadbalancerpoolsv0.LoadBalancerPoolReqOriginsItem)
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				createLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.CreateLoadBalancerPoolOptions)
@@ -393,9 +520,9 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				createLoadBalancerPoolOptionsModel.NotificationEmail = core.StringPtr("someone@example.com")
 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerPoolsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -415,7 +542,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -423,20 +550,27 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				}))
 			})
 			It(`Invoke GetLoadBalancerPool with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerPoolOptions model
 				getLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.GetLoadBalancerPoolOptions)
 				getLoadBalancerPoolOptionsModel.PoolIdentifier = core.StringPtr("testString")
 				getLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerPoolsService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -450,30 +584,38 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions)`, func() {
 		crn := "testString"
 		getLoadBalancerPoolPath := "/v1/testString/load_balancers/pools/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerPool successfully`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetLoadBalancerPool(nil)
+				result, response, operationErr := globalLoadBalancerPoolsService.GetLoadBalancerPool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -484,28 +626,53 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				getLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
+				result, response, operationErr = globalLoadBalancerPoolsService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.GetLoadBalancerPoolWithContext(ctx, getLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerPoolsService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerPoolsService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.GetLoadBalancerPoolWithContext(ctx, getLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetLoadBalancerPool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the GetLoadBalancerPoolOptions model
 				getLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.GetLoadBalancerPoolOptions)
 				getLoadBalancerPoolOptionsModel.PoolIdentifier = core.StringPtr("testString")
 				getLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerPoolsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -513,7 +680,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				// Construct a second instance of the GetLoadBalancerPoolOptions model with no property values
 				getLoadBalancerPoolOptionsModelNew := new(globalloadbalancerpoolsv0.GetLoadBalancerPoolOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModelNew)
+				result, response, operationErr = globalLoadBalancerPoolsService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -532,7 +699,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -540,20 +707,27 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				}))
 			})
 			It(`Invoke DeleteLoadBalancerPool with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteLoadBalancerPoolOptions model
 				deleteLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.DeleteLoadBalancerPoolOptions)
 				deleteLoadBalancerPoolOptionsModel.PoolIdentifier = core.StringPtr("testString")
 				deleteLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerPoolsService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -567,30 +741,38 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions)`, func() {
 		crn := "testString"
 		deleteLoadBalancerPoolPath := "/v1/testString/load_balancers/pools/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4"}}`)
 				}))
 			})
 			It(`Invoke DeleteLoadBalancerPool successfully`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteLoadBalancerPool(nil)
+				result, response, operationErr := globalLoadBalancerPoolsService.DeleteLoadBalancerPool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -601,28 +783,53 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				deleteLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
+				result, response, operationErr = globalLoadBalancerPoolsService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.DeleteLoadBalancerPoolWithContext(ctx, deleteLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerPoolsService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerPoolsService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.DeleteLoadBalancerPoolWithContext(ctx, deleteLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteLoadBalancerPool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteLoadBalancerPoolOptions model
 				deleteLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.DeleteLoadBalancerPoolOptions)
 				deleteLoadBalancerPoolOptionsModel.PoolIdentifier = core.StringPtr("testString")
 				deleteLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerPoolsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -630,7 +837,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				// Construct a second instance of the DeleteLoadBalancerPoolOptions model with no property values
 				deleteLoadBalancerPoolOptionsModelNew := new(globalloadbalancerpoolsv0.DeleteLoadBalancerPoolOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModelNew)
+				result, response, operationErr = globalLoadBalancerPoolsService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -649,7 +856,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(editLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(editLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -657,19 +864,20 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				}))
 			})
 			It(`Invoke EditLoadBalancerPool with error: Operation response processing error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerPoolReqOriginsItem model
 				loadBalancerPoolReqOriginsItemModel := new(globalloadbalancerpoolsv0.LoadBalancerPoolReqOriginsItem)
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				editLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
@@ -684,7 +892,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				editLoadBalancerPoolOptionsModel.NotificationEmail = core.StringPtr("someone@example.com")
 				editLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
+				result, response, operationErr = globalLoadBalancerPoolsService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -698,30 +913,54 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`EditLoadBalancerPool(editLoadBalancerPoolOptions *EditLoadBalancerPoolOptions)`, func() {
 		crn := "testString"
 		editLoadBalancerPoolPath := "/v1/testString/load_balancers/pools/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(editLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(editLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke EditLoadBalancerPool successfully`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
+				globalLoadBalancerPoolsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.EditLoadBalancerPool(nil)
+				result, response, operationErr := globalLoadBalancerPoolsService.EditLoadBalancerPool(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -731,6 +970,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				editLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
@@ -746,25 +986,51 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				editLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
+				result, response, operationErr = globalLoadBalancerPoolsService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.EditLoadBalancerPoolWithContext(ctx, editLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				globalLoadBalancerPoolsService.DisableRetries()
+				result, response, operationErr = globalLoadBalancerPoolsService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = globalLoadBalancerPoolsService.EditLoadBalancerPoolWithContext(ctx, editLoadBalancerPoolOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke EditLoadBalancerPool with error: Operation validation and request error`, func() {
-				testService, testServiceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+				globalLoadBalancerPoolsService, serviceErr := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn:           core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(globalLoadBalancerPoolsService).ToNot(BeNil())
 
 				// Construct an instance of the LoadBalancerPoolReqOriginsItem model
 				loadBalancerPoolReqOriginsItemModel := new(globalloadbalancerpoolsv0.LoadBalancerPoolReqOriginsItem)
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				editLoadBalancerPoolOptionsModel := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
@@ -779,9 +1045,9 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				editLoadBalancerPoolOptionsModel.NotificationEmail = core.StringPtr("someone@example.com")
 				editLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := globalLoadBalancerPoolsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
+				result, response, operationErr := globalLoadBalancerPoolsService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -789,7 +1055,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				// Construct a second instance of the EditLoadBalancerPoolOptions model with no property values
 				editLoadBalancerPoolOptionsModelNew := new(globalloadbalancerpoolsv0.EditLoadBalancerPoolOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModelNew)
+				result, response, operationErr = globalLoadBalancerPoolsService.EditLoadBalancerPool(editLoadBalancerPoolOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -802,10 +1068,10 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
-			testService, _ := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
+			globalLoadBalancerPoolsService, _ := globalloadbalancerpoolsv0.NewGlobalLoadBalancerPoolsV0(&globalloadbalancerpoolsv0.GlobalLoadBalancerPoolsV0Options{
 				URL:           "http://globalloadbalancerpoolsv0modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn:           core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateLoadBalancerPoolOptions successfully`, func() {
 				// Construct an instance of the LoadBalancerPoolReqOriginsItem model
@@ -814,12 +1080,14 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 				Expect(loadBalancerPoolReqOriginsItemModel.Name).To(Equal(core.StringPtr("app-server-1")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Address).To(Equal(core.StringPtr("0.0.0.0")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Enabled).To(Equal(core.BoolPtr(true)))
+				Expect(loadBalancerPoolReqOriginsItemModel.Weight).To(Equal(core.Float64Ptr(float64(1))))
 
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
-				createLoadBalancerPoolOptionsModel := testService.NewCreateLoadBalancerPoolOptions()
+				createLoadBalancerPoolOptionsModel := globalLoadBalancerPoolsService.NewCreateLoadBalancerPoolOptions()
 				createLoadBalancerPoolOptionsModel.SetName("primary-dc-1")
 				createLoadBalancerPoolOptionsModel.SetCheckRegions([]string{"WNAM"})
 				createLoadBalancerPoolOptionsModel.SetOrigins([]globalloadbalancerpoolsv0.LoadBalancerPoolReqOriginsItem{*loadBalancerPoolReqOriginsItemModel})
@@ -843,7 +1111,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 			It(`Invoke NewDeleteLoadBalancerPoolOptions successfully`, func() {
 				// Construct an instance of the DeleteLoadBalancerPoolOptions model
 				poolIdentifier := "testString"
-				deleteLoadBalancerPoolOptionsModel := testService.NewDeleteLoadBalancerPoolOptions(poolIdentifier)
+				deleteLoadBalancerPoolOptionsModel := globalLoadBalancerPoolsService.NewDeleteLoadBalancerPoolOptions(poolIdentifier)
 				deleteLoadBalancerPoolOptionsModel.SetPoolIdentifier("testString")
 				deleteLoadBalancerPoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteLoadBalancerPoolOptionsModel).ToNot(BeNil())
@@ -857,13 +1125,15 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 				loadBalancerPoolReqOriginsItemModel.Name = core.StringPtr("app-server-1")
 				loadBalancerPoolReqOriginsItemModel.Address = core.StringPtr("0.0.0.0")
 				loadBalancerPoolReqOriginsItemModel.Enabled = core.BoolPtr(true)
+				loadBalancerPoolReqOriginsItemModel.Weight = core.Float64Ptr(float64(1))
 				Expect(loadBalancerPoolReqOriginsItemModel.Name).To(Equal(core.StringPtr("app-server-1")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Address).To(Equal(core.StringPtr("0.0.0.0")))
 				Expect(loadBalancerPoolReqOriginsItemModel.Enabled).To(Equal(core.BoolPtr(true)))
+				Expect(loadBalancerPoolReqOriginsItemModel.Weight).To(Equal(core.Float64Ptr(float64(1))))
 
 				// Construct an instance of the EditLoadBalancerPoolOptions model
 				poolIdentifier := "testString"
-				editLoadBalancerPoolOptionsModel := testService.NewEditLoadBalancerPoolOptions(poolIdentifier)
+				editLoadBalancerPoolOptionsModel := globalLoadBalancerPoolsService.NewEditLoadBalancerPoolOptions(poolIdentifier)
 				editLoadBalancerPoolOptionsModel.SetPoolIdentifier("testString")
 				editLoadBalancerPoolOptionsModel.SetName("primary-dc-1")
 				editLoadBalancerPoolOptionsModel.SetCheckRegions([]string{"WNAM"})
@@ -889,7 +1159,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 			It(`Invoke NewGetLoadBalancerPoolOptions successfully`, func() {
 				// Construct an instance of the GetLoadBalancerPoolOptions model
 				poolIdentifier := "testString"
-				getLoadBalancerPoolOptionsModel := testService.NewGetLoadBalancerPoolOptions(poolIdentifier)
+				getLoadBalancerPoolOptionsModel := globalLoadBalancerPoolsService.NewGetLoadBalancerPoolOptions(poolIdentifier)
 				getLoadBalancerPoolOptionsModel.SetPoolIdentifier("testString")
 				getLoadBalancerPoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getLoadBalancerPoolOptionsModel).ToNot(BeNil())
@@ -898,7 +1168,7 @@ var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
 			})
 			It(`Invoke NewListAllLoadBalancerPoolsOptions successfully`, func() {
 				// Construct an instance of the ListAllLoadBalancerPoolsOptions model
-				listAllLoadBalancerPoolsOptionsModel := testService.NewListAllLoadBalancerPoolsOptions()
+				listAllLoadBalancerPoolsOptionsModel := globalLoadBalancerPoolsService.NewListAllLoadBalancerPoolsOptions()
 				listAllLoadBalancerPoolsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listAllLoadBalancerPoolsOptionsModel).ToNot(BeNil())
 				Expect(listAllLoadBalancerPoolsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))

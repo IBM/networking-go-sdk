@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud Networking Go SDK Version 0.2.0
+# IBM Cloud Networking Go SDK Version 0.13.0
 
 Go client library to interact with the various [IBM Cloud Networking Service APIs](https://cloud.ibm.com/apidocs?category=<networking>).
 
@@ -44,7 +44,8 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | Service Name                                                                                                         | Package name                   |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | [Transit Gateway Service](https://cloud.ibm.com/docs/transit-gateway)                                                | transitgatewayapisv1           |
-| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link)                                                     | directlinkv1                   |
+| [Direct Link Service](https://cloud.ibm.com/apidocs/direct_link?code=go)                                             | directlinkv1                   |
+| [Direct Link Provider Service](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=go)                       | directlinkproviderv2           |
 | [CIS: Cache](https://cloud.ibm.com/apidocs/cis?code=go#purge-all)                                                    | cachingapiv1                   |
 | [CIS: IP](https://cloud.ibm.com/apidocs/cis?code=go#list-of-all-ip-addresses-used-by-the-cis-proxy)                  | cisipapiv1                     |
 | [CIS: Custom Pages](https://cloud.ibm.com/apidocs/cis?code=go#list-all-custom-pages-for-a-given-instance)            | custompagesv1                  |
@@ -71,9 +72,11 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | [CIS: Zone Rate Limits](https://cloud.ibm.com/apidocs/cis?code=go#list-all-rate-limits)                              | zoneratelimitsv1               |
 | [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis?code=go#get-zone-dnssec)                                      | zonessettingsv1                |
 | [CIS: Zones](https://cloud.ibm.com/apidocs/cis?code=go#list-all-zones)                                               | zonesv1                        |
-| [PDNS: DNS Zones](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-dns-zones)                                     | dnszonesv1                     |
-| [PDNS: Resource Records](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-resource-records)                       | resourcerecordsv1              |
-| [PDNS: Permitted Networks](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-permitted-networks)                   | permittednetworksfordnszonesv1 |
+| [PDNS: DNS Zones](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-dns-zones)                                 | ~dnszonesv1~ dnssvcsv1 |
+| [PDNS: Resource Records](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-resource-records) | ~resourcerecordsv1~ dnssvcsv1 |
+| [PDNS: Permitted Networks](https://cloud.ibm.com/apidocs/dns-svcs?code=go#list-permitted-networks) | ~permittednetworksfordnszonesv1~ dnssvcsv1|
+| [PDNS: Global Load Balancers](https://cloud.ibm.com/apidocs/dns-svcs?code=go) | ~globalloadbalancersv1~ dnssvcsv1 |
+| [PDNS: DNS Services](https://cloud.ibm.com/apidocs/dns-svcs?code=go) | dnssvcsv1 |
 
 ## Prerequisites
 
@@ -85,7 +88,7 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 
 ## Installation
 
-The current version of this SDK: 0.2.0
+The current version of this SDK: 0.13.0
 
 There are a few different ways to download and install the Networking Go SDK project for use by your
 Go application:
@@ -108,6 +111,7 @@ Go application, like this:
 import (
   "github.com/IBM/networking-go-sdk/transitgatewayapisv1"
   "github.com/IBM/networking-go-sdk/directlinkv1"
+  "github.com/IBM/networking-go-sdk/directlinkproviderv2"
   "github.com/IBM/networking-go-sdk/cachingapiv1"
   "github.com/IBM/networking-go-sdk/cisipapiv1"
   "github.com/IBM/networking-go-sdk/custompagesv1"
@@ -136,7 +140,9 @@ import (
   "github.com/IBM/networking-go-sdk/zonesv1"
   "github.com/IBM/networking-go-sdk/dnszonesv1"
   "github.com/IBM/networking-go-sdk/resourcerecordsv1"
-  "github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
+  "github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"`
+  "github.com/IBM/networking-go-sdk/globalloadbalancersv1"
+  "github.com/IBM/networking-go-sdk/dnssvcsv1"
 )
 ```
 
@@ -151,7 +157,7 @@ to your `Gopkg.toml` file. Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/networking-go-sdk"
-  version = "0.2.0"
+  version = "0.13.0"
 
 ```
 
@@ -172,6 +178,10 @@ please ask a question at
 If you encounter an issue with the project, you are welcome to submit a
 [bug report](https://github.com/IBM/networking-go-sdk/issues).
 Before that, please search for similar issues. It's possible that someone has already reported the problem.
+
+## Deprecation Notice
+
+For deprecation notice, please see [this link](https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md)
 
 ## Open source @ IBM
 

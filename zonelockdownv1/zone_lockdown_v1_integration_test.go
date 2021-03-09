@@ -9,10 +9,10 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/zonelockdownv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/zonelockdownv1"
 )
 
 const configFile = "../cis.env"
@@ -54,8 +54,8 @@ var _ = Describe(`zonelockdownv1`, func() {
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
-	Describe(`zoneratelimitsv1_test`, func() {
-		Context(`zoneratelimitsv1_test`, func() {
+	Describe(`zonelockdownv1`, func() {
+		Context(`zonelockdownv1`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
 				listOpt := service.NewListAllZoneLockownRulesOptions()
@@ -104,12 +104,14 @@ var _ = Describe(`zonelockdownv1`, func() {
 				createOpt.SetDescription("Lockdown rule")
 				createOpt.SetPaused(false)
 				createOpt.SetUrls([]string{"api.mysite.com/some/endpoint*"})
+				createOpt.SetPriority(5)
 
 				createResult, createResp, createErr := service.CreateZoneLockdownRule(createOpt)
 				Expect(createErr).To(BeNil())
 				Expect(createResp).ToNot(BeNil())
 				Expect(createResult).ToNot(BeNil())
 				Expect(*createResult.Success).Should(BeTrue())
+				Expect(*createResult.Result.Priority).Should(BeEquivalentTo(5))
 
 				config = LockdownInputConfigurationsItem{
 					Target: core.StringPtr(LockdownInputConfigurationsItem_Target_IpRange),
@@ -121,12 +123,14 @@ var _ = Describe(`zonelockdownv1`, func() {
 				updateOpt.SetDescription("Lockdown rule with ip range")
 				updateOpt.SetPaused(true)
 				updateOpt.SetUrls([]string{"api.mysite.com/some/endpoint*", "api.oursite.com/some/endpoint*"})
+				updateOpt.SetPriority(10)
 
 				updateResult, updateResp, updateErr := service.UpdateLockdownRule(updateOpt)
 				Expect(updateErr).To(BeNil())
 				Expect(updateResp).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())
 				Expect(*updateResult.Success).Should(BeTrue())
+				Expect(*updateResult.Result.Priority).Should(BeEquivalentTo(10))
 
 				getOpt := service.NewGetLockdownOptions(*createResult.Result.ID)
 				getResult, getResp, getErr := service.GetLockdown(getOpt)
@@ -134,6 +138,7 @@ var _ = Describe(`zonelockdownv1`, func() {
 				Expect(getResp).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
 				Expect(*getResult.Success).Should(BeTrue())
+				Expect(*getResult.Result.Priority).Should(BeEquivalentTo(10))
 
 				deleteOpt := service.NewDeleteZoneLockdownRuleOptions(*createResult.Result.ID)
 				deleteResult, deleteResp, deleteErr := service.DeleteZoneLockdownRule(deleteOpt)
@@ -158,6 +163,12 @@ var _ = Describe(`zonelockdownv1`, func() {
 					createOpt.SetDescription(desc)
 					createOpt.SetPaused(false)
 					createOpt.SetUrls([]string{url})
+					createOpt.SetPriority(5)
+					createResult, createResp, createErr := service.CreateZoneLockdownRule(createOpt)
+					Expect(createErr).To(BeNil())
+					Expect(createResp).ToNot(BeNil())
+					Expect(createResult).ToNot(BeNil())
+					Expect(*createResult.Success).Should(BeTrue())
 				}
 				listOpt := service.NewListAllZoneLockownRulesOptions()
 				listResult, listResp, listErr := service.ListAllZoneLockownRules(listOpt)
@@ -165,6 +176,7 @@ var _ = Describe(`zonelockdownv1`, func() {
 				Expect(listResp).ToNot(BeNil())
 				Expect(listResult).ToNot(BeNil())
 				Expect(*listResult.Success).Should(BeTrue())
+				Expect(*listResult.Result[0].Priority).Should(BeEquivalentTo(5))
 			})
 		})
 	})

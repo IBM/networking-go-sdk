@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package zonelockdownv1 : Operations and models for the ZoneLockdownV1 service
 package zonelockdownv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // ZoneLockdownV1 : Zone Lockdown
@@ -119,24 +127,79 @@ func NewZoneLockdownV1(options *ZoneLockdownV1Options) (service *ZoneLockdownV1,
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "zoneLockdown" suitable for processing requests.
+func (zoneLockdown *ZoneLockdownV1) Clone() *ZoneLockdownV1 {
+	if core.IsNil(zoneLockdown) {
+		return nil
+	}
+	clone := *zoneLockdown
+	clone.Service = zoneLockdown.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (zoneLockdown *ZoneLockdownV1) SetServiceURL(url string) error {
 	return zoneLockdown.Service.SetServiceURL(url)
 }
 
-// ListAllZoneLockownRules : List all lockdown rules for a zone
+// GetServiceURL returns the service URL
+func (zoneLockdown *ZoneLockdownV1) GetServiceURL() string {
+	return zoneLockdown.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (zoneLockdown *ZoneLockdownV1) SetDefaultHeaders(headers http.Header) {
+	zoneLockdown.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (zoneLockdown *ZoneLockdownV1) SetEnableGzipCompression(enableGzip bool) {
+	zoneLockdown.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (zoneLockdown *ZoneLockdownV1) GetEnableGzipCompression() bool {
+	return zoneLockdown.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (zoneLockdown *ZoneLockdownV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	zoneLockdown.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (zoneLockdown *ZoneLockdownV1) DisableRetries() {
+	zoneLockdown.Service.DisableRetries()
+}
+
+// ListAllZoneLockownRules : List all lockdown rules
 // List all lockdown rules for a zone.
 func (zoneLockdown *ZoneLockdownV1) ListAllZoneLockownRules(listAllZoneLockownRulesOptions *ListAllZoneLockownRulesOptions) (result *ListLockdownResp, response *core.DetailedResponse, err error) {
+	return zoneLockdown.ListAllZoneLockownRulesWithContext(context.Background(), listAllZoneLockownRulesOptions)
+}
+
+// ListAllZoneLockownRulesWithContext is an alternate form of the ListAllZoneLockownRules method which supports a Context parameter
+func (zoneLockdown *ZoneLockdownV1) ListAllZoneLockownRulesWithContext(ctx context.Context, listAllZoneLockownRulesOptions *ListAllZoneLockownRulesOptions) (result *ListLockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAllZoneLockownRulesOptions, "listAllZoneLockownRulesOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "firewall/lockdowns"}
-	pathParameters := []string{*zoneLockdown.Crn, *zoneLockdown.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zoneLockdown.Crn,
+		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(zoneLockdown.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zoneLockdown.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zoneLockdown.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/lockdowns`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -177,19 +240,28 @@ func (zoneLockdown *ZoneLockdownV1) ListAllZoneLockownRules(listAllZoneLockownRu
 	return
 }
 
-// CreateZoneLockdownRule : Create a new lockdown rule
+// CreateZoneLockdownRule : Create lockdown rule
 // Create a new lockdown rule for a given zone under a service instance.
 func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRule(createZoneLockdownRuleOptions *CreateZoneLockdownRuleOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
+	return zoneLockdown.CreateZoneLockdownRuleWithContext(context.Background(), createZoneLockdownRuleOptions)
+}
+
+// CreateZoneLockdownRuleWithContext is an alternate form of the CreateZoneLockdownRule method which supports a Context parameter
+func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRuleWithContext(ctx context.Context, createZoneLockdownRuleOptions *CreateZoneLockdownRuleOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createZoneLockdownRuleOptions, "createZoneLockdownRuleOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "firewall/lockdowns"}
-	pathParameters := []string{*zoneLockdown.Crn, *zoneLockdown.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zoneLockdown.Crn,
+		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(zoneLockdown.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zoneLockdown.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zoneLockdown.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/lockdowns`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -221,6 +293,9 @@ func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRule(createZoneLockdownRul
 	if createZoneLockdownRuleOptions.Configurations != nil {
 		body["configurations"] = createZoneLockdownRuleOptions.Configurations
 	}
+	if createZoneLockdownRuleOptions.Priority != nil {
+		body["priority"] = createZoneLockdownRuleOptions.Priority
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -245,9 +320,14 @@ func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRule(createZoneLockdownRul
 	return
 }
 
-// DeleteZoneLockdownRule : Delete a lockdown rule
+// DeleteZoneLockdownRule : Delete lockdown rule
 // Delete a lockdown rule for a particular zone, given its id.
 func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRule(deleteZoneLockdownRuleOptions *DeleteZoneLockdownRuleOptions) (result *DeleteLockdownResp, response *core.DetailedResponse, err error) {
+	return zoneLockdown.DeleteZoneLockdownRuleWithContext(context.Background(), deleteZoneLockdownRuleOptions)
+}
+
+// DeleteZoneLockdownRuleWithContext is an alternate form of the DeleteZoneLockdownRule method which supports a Context parameter
+func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRuleWithContext(ctx context.Context, deleteZoneLockdownRuleOptions *DeleteZoneLockdownRuleOptions) (result *DeleteLockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteZoneLockdownRuleOptions, "deleteZoneLockdownRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -257,11 +337,16 @@ func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRule(deleteZoneLockdownRul
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "firewall/lockdowns"}
-	pathParameters := []string{*zoneLockdown.Crn, *zoneLockdown.ZoneIdentifier, *deleteZoneLockdownRuleOptions.LockdownRuleIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zoneLockdown.Crn,
+		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+		"lockdown_rule_identifier": *deleteZoneLockdownRuleOptions.LockdownRuleIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(zoneLockdown.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zoneLockdown.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zoneLockdown.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/lockdowns/{lockdown_rule_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -295,9 +380,14 @@ func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRule(deleteZoneLockdownRul
 	return
 }
 
-// GetLockdown : Get a lockdown rule's details by id
+// GetLockdown : Get lockdown rule
 // For a given service instance, zone id and lockdown rule id, get the lockdown rule details.
 func (zoneLockdown *ZoneLockdownV1) GetLockdown(getLockdownOptions *GetLockdownOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
+	return zoneLockdown.GetLockdownWithContext(context.Background(), getLockdownOptions)
+}
+
+// GetLockdownWithContext is an alternate form of the GetLockdown method which supports a Context parameter
+func (zoneLockdown *ZoneLockdownV1) GetLockdownWithContext(ctx context.Context, getLockdownOptions *GetLockdownOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLockdownOptions, "getLockdownOptions cannot be nil")
 	if err != nil {
 		return
@@ -307,11 +397,16 @@ func (zoneLockdown *ZoneLockdownV1) GetLockdown(getLockdownOptions *GetLockdownO
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "firewall/lockdowns"}
-	pathParameters := []string{*zoneLockdown.Crn, *zoneLockdown.ZoneIdentifier, *getLockdownOptions.LockdownRuleIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zoneLockdown.Crn,
+		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+		"lockdown_rule_identifier": *getLockdownOptions.LockdownRuleIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(zoneLockdown.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zoneLockdown.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zoneLockdown.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/lockdowns/{lockdown_rule_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -345,9 +440,14 @@ func (zoneLockdown *ZoneLockdownV1) GetLockdown(getLockdownOptions *GetLockdownO
 	return
 }
 
-// UpdateLockdownRule : Update a lockdown rule
+// UpdateLockdownRule : Update lockdown rule
 // Update an existing lockdown rule for a given zone under a given service instance.
 func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRule(updateLockdownRuleOptions *UpdateLockdownRuleOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
+	return zoneLockdown.UpdateLockdownRuleWithContext(context.Background(), updateLockdownRuleOptions)
+}
+
+// UpdateLockdownRuleWithContext is an alternate form of the UpdateLockdownRule method which supports a Context parameter
+func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRuleWithContext(ctx context.Context, updateLockdownRuleOptions *UpdateLockdownRuleOptions) (result *LockdownResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLockdownRuleOptions, "updateLockdownRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -357,11 +457,16 @@ func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRule(updateLockdownRuleOptions
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "firewall/lockdowns"}
-	pathParameters := []string{*zoneLockdown.Crn, *zoneLockdown.ZoneIdentifier, *updateLockdownRuleOptions.LockdownRuleIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zoneLockdown.Crn,
+		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+		"lockdown_rule_identifier": *updateLockdownRuleOptions.LockdownRuleIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(zoneLockdown.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zoneLockdown.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zoneLockdown.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/lockdowns/{lockdown_rule_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -392,6 +497,9 @@ func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRule(updateLockdownRuleOptions
 	}
 	if updateLockdownRuleOptions.Configurations != nil {
 		body["configurations"] = updateLockdownRuleOptions.Configurations
+	}
+	if updateLockdownRuleOptions.Priority != nil {
+		body["priority"] = updateLockdownRuleOptions.Priority
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -436,6 +544,9 @@ type CreateZoneLockdownRuleOptions struct {
 	// configurations that can access the provided URLs.
 	Configurations []LockdownInputConfigurationsItem `json:"configurations,omitempty"`
 
+	// firewall priority.
+	Priority *int64 `json:"priority,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -475,6 +586,12 @@ func (options *CreateZoneLockdownRuleOptions) SetConfigurations(configurations [
 	return options
 }
 
+// SetPriority : Allow user to set Priority
+func (options *CreateZoneLockdownRuleOptions) SetPriority(priority int64) *CreateZoneLockdownRuleOptions {
+	options.Priority = core.Int64Ptr(priority)
+	return options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *CreateZoneLockdownRuleOptions) SetHeaders(param map[string]string) *CreateZoneLockdownRuleOptions {
 	options.Headers = param
@@ -502,7 +619,7 @@ func UnmarshalDeleteLockdownRespResult(m map[string]json.RawMessage, result inte
 // DeleteZoneLockdownRuleOptions : The DeleteZoneLockdownRule options.
 type DeleteZoneLockdownRuleOptions struct {
 	// Identifier of the lockdown rule to be deleted.
-	LockdownRuleIdentifier *string `json:"lockdown_rule_identifier" validate:"required"`
+	LockdownRuleIdentifier *string `json:"lockdown_rule_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -530,7 +647,7 @@ func (options *DeleteZoneLockdownRuleOptions) SetHeaders(param map[string]string
 // GetLockdownOptions : The GetLockdown options.
 type GetLockdownOptions struct {
 	// Identifier of lockdown rule for the given zone.
-	LockdownRuleIdentifier *string `json:"lockdown_rule_identifier" validate:"required"`
+	LockdownRuleIdentifier *string `json:"lockdown_rule_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -706,7 +823,7 @@ func UnmarshalLockdownObjectConfigurationsItem(m map[string]json.RawMessage, res
 // UpdateLockdownRuleOptions : The UpdateLockdownRule options.
 type UpdateLockdownRuleOptions struct {
 	// Identifier of lockdown rule.
-	LockdownRuleIdentifier *string `json:"lockdown_rule_identifier" validate:"required"`
+	LockdownRuleIdentifier *string `json:"lockdown_rule_identifier" validate:"required,ne="`
 
 	// Lockdown rule identifier.
 	ID *string `json:"id,omitempty"`
@@ -724,6 +841,9 @@ type UpdateLockdownRuleOptions struct {
 	// List of IP addresses or CIDR ranges to use for this rule. This can include any number of ip or ip_range
 	// configurations that can access the provided URLs.
 	Configurations []LockdownInputConfigurationsItem `json:"configurations,omitempty"`
+
+	// firewall priority.
+	Priority *int64 `json:"priority,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -769,6 +889,12 @@ func (options *UpdateLockdownRuleOptions) SetUrls(urls []string) *UpdateLockdown
 // SetConfigurations : Allow user to set Configurations
 func (options *UpdateLockdownRuleOptions) SetConfigurations(configurations []LockdownInputConfigurationsItem) *UpdateLockdownRuleOptions {
 	options.Configurations = configurations
+	return options
+}
+
+// SetPriority : Allow user to set Priority
+func (options *UpdateLockdownRuleOptions) SetPriority(priority int64) *UpdateLockdownRuleOptions {
+	options.Priority = core.Int64Ptr(priority)
 	return options
 }
 
@@ -868,6 +994,9 @@ type LockdownObject struct {
 	// Lockdown rule identifier.
 	ID *string `json:"id" validate:"required"`
 
+	// firewall priority.
+	Priority *int64 `json:"priority,omitempty"`
+
 	// Whether this zone lockdown is currently paused.
 	Paused *bool `json:"paused" validate:"required"`
 
@@ -888,6 +1017,10 @@ type LockdownObject struct {
 func UnmarshalLockdownObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LockdownObject)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "priority", &obj.Priority)
 	if err != nil {
 		return
 	}

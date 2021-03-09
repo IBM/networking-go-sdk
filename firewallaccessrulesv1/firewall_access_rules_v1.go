@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package firewallaccessrulesv1 : Operations and models for the FirewallAccessRulesV1 service
 package firewallaccessrulesv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	common "github.com/IBM/networking-go-sdk/common"
 	"github.com/IBM/go-sdk-core/v4/core"
+	common "github.com/IBM/networking-go-sdk/common"
 	"github.com/go-openapi/strfmt"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // FirewallAccessRulesV1 : Instance Level Firewall Access Rules
@@ -113,24 +121,78 @@ func NewFirewallAccessRulesV1(options *FirewallAccessRulesV1Options) (service *F
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "firewallAccessRules" suitable for processing requests.
+func (firewallAccessRules *FirewallAccessRulesV1) Clone() *FirewallAccessRulesV1 {
+	if core.IsNil(firewallAccessRules) {
+		return nil
+	}
+	clone := *firewallAccessRules
+	clone.Service = firewallAccessRules.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (firewallAccessRules *FirewallAccessRulesV1) SetServiceURL(url string) error {
 	return firewallAccessRules.Service.SetServiceURL(url)
 }
 
-// ListAllAccountAccessRules : List all instance level firewall access rules
+// GetServiceURL returns the service URL
+func (firewallAccessRules *FirewallAccessRulesV1) GetServiceURL() string {
+	return firewallAccessRules.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (firewallAccessRules *FirewallAccessRulesV1) SetDefaultHeaders(headers http.Header) {
+	firewallAccessRules.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (firewallAccessRules *FirewallAccessRulesV1) SetEnableGzipCompression(enableGzip bool) {
+	firewallAccessRules.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (firewallAccessRules *FirewallAccessRulesV1) GetEnableGzipCompression() bool {
+	return firewallAccessRules.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (firewallAccessRules *FirewallAccessRulesV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	firewallAccessRules.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (firewallAccessRules *FirewallAccessRulesV1) DisableRetries() {
+	firewallAccessRules.Service.DisableRetries()
+}
+
+// ListAllAccountAccessRules : List instance level firewall access rules
 // List all instance level firewall access rules.
 func (firewallAccessRules *FirewallAccessRulesV1) ListAllAccountAccessRules(listAllAccountAccessRulesOptions *ListAllAccountAccessRulesOptions) (result *ListAccountAccessRulesResp, response *core.DetailedResponse, err error) {
+	return firewallAccessRules.ListAllAccountAccessRulesWithContext(context.Background(), listAllAccountAccessRulesOptions)
+}
+
+// ListAllAccountAccessRulesWithContext is an alternate form of the ListAllAccountAccessRules method which supports a Context parameter
+func (firewallAccessRules *FirewallAccessRulesV1) ListAllAccountAccessRulesWithContext(ctx context.Context, listAllAccountAccessRulesOptions *ListAllAccountAccessRulesOptions) (result *ListAccountAccessRulesResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAllAccountAccessRulesOptions, "listAllAccountAccessRulesOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "firewall/access_rules/rules"}
-	pathParameters := []string{*firewallAccessRules.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *firewallAccessRules.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(firewallAccessRules.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallAccessRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallAccessRules.Service.Options.URL, `/v1/{crn}/firewall/access_rules/rules`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -192,19 +254,27 @@ func (firewallAccessRules *FirewallAccessRulesV1) ListAllAccountAccessRules(list
 	return
 }
 
-// CreateAccountAccessRule : Create an instance level firewall access rule
+// CreateAccountAccessRule : Create instance level firewall access rule
 // Create a new instance level firewall access rule for a given service instance.
 func (firewallAccessRules *FirewallAccessRulesV1) CreateAccountAccessRule(createAccountAccessRuleOptions *CreateAccountAccessRuleOptions) (result *AccountAccessRuleResp, response *core.DetailedResponse, err error) {
+	return firewallAccessRules.CreateAccountAccessRuleWithContext(context.Background(), createAccountAccessRuleOptions)
+}
+
+// CreateAccountAccessRuleWithContext is an alternate form of the CreateAccountAccessRule method which supports a Context parameter
+func (firewallAccessRules *FirewallAccessRulesV1) CreateAccountAccessRuleWithContext(ctx context.Context, createAccountAccessRuleOptions *CreateAccountAccessRuleOptions) (result *AccountAccessRuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createAccountAccessRuleOptions, "createAccountAccessRuleOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "firewall/access_rules/rules"}
-	pathParameters := []string{*firewallAccessRules.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *firewallAccessRules.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(firewallAccessRules.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallAccessRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallAccessRules.Service.Options.URL, `/v1/{crn}/firewall/access_rules/rules`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -254,9 +324,14 @@ func (firewallAccessRules *FirewallAccessRulesV1) CreateAccountAccessRule(create
 	return
 }
 
-// DeleteAccountAccessRule : Delete an instance level access rule
+// DeleteAccountAccessRule : Delete instance level access rule
 // Delete an instance level access rule given its id.
 func (firewallAccessRules *FirewallAccessRulesV1) DeleteAccountAccessRule(deleteAccountAccessRuleOptions *DeleteAccountAccessRuleOptions) (result *DeleteAccountAccessRuleResp, response *core.DetailedResponse, err error) {
+	return firewallAccessRules.DeleteAccountAccessRuleWithContext(context.Background(), deleteAccountAccessRuleOptions)
+}
+
+// DeleteAccountAccessRuleWithContext is an alternate form of the DeleteAccountAccessRule method which supports a Context parameter
+func (firewallAccessRules *FirewallAccessRulesV1) DeleteAccountAccessRuleWithContext(ctx context.Context, deleteAccountAccessRuleOptions *DeleteAccountAccessRuleOptions) (result *DeleteAccountAccessRuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteAccountAccessRuleOptions, "deleteAccountAccessRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -266,11 +341,15 @@ func (firewallAccessRules *FirewallAccessRulesV1) DeleteAccountAccessRule(delete
 		return
 	}
 
-	pathSegments := []string{"v1", "firewall/access_rules/rules"}
-	pathParameters := []string{*firewallAccessRules.Crn, *deleteAccountAccessRuleOptions.AccessruleIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *firewallAccessRules.Crn,
+		"accessrule_identifier": *deleteAccountAccessRuleOptions.AccessruleIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(firewallAccessRules.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallAccessRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallAccessRules.Service.Options.URL, `/v1/{crn}/firewall/access_rules/rules/{accessrule_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -304,9 +383,14 @@ func (firewallAccessRules *FirewallAccessRulesV1) DeleteAccountAccessRule(delete
 	return
 }
 
-// GetAccountAccessRule : Get the details of an instance level
+// GetAccountAccessRule : Get instance level firewall access rule
 // Get the details of an instance level firewall access rule for a given  service instance.
 func (firewallAccessRules *FirewallAccessRulesV1) GetAccountAccessRule(getAccountAccessRuleOptions *GetAccountAccessRuleOptions) (result *AccountAccessRuleResp, response *core.DetailedResponse, err error) {
+	return firewallAccessRules.GetAccountAccessRuleWithContext(context.Background(), getAccountAccessRuleOptions)
+}
+
+// GetAccountAccessRuleWithContext is an alternate form of the GetAccountAccessRule method which supports a Context parameter
+func (firewallAccessRules *FirewallAccessRulesV1) GetAccountAccessRuleWithContext(ctx context.Context, getAccountAccessRuleOptions *GetAccountAccessRuleOptions) (result *AccountAccessRuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getAccountAccessRuleOptions, "getAccountAccessRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -316,11 +400,15 @@ func (firewallAccessRules *FirewallAccessRulesV1) GetAccountAccessRule(getAccoun
 		return
 	}
 
-	pathSegments := []string{"v1", "firewall/access_rules/rules"}
-	pathParameters := []string{*firewallAccessRules.Crn, *getAccountAccessRuleOptions.AccessruleIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *firewallAccessRules.Crn,
+		"accessrule_identifier": *getAccountAccessRuleOptions.AccessruleIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(firewallAccessRules.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallAccessRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallAccessRules.Service.Options.URL, `/v1/{crn}/firewall/access_rules/rules/{accessrule_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -354,9 +442,14 @@ func (firewallAccessRules *FirewallAccessRulesV1) GetAccountAccessRule(getAccoun
 	return
 }
 
-// UpdateAccountAccessRule : Update an instance level firewall access rule
+// UpdateAccountAccessRule : Update instance level firewall access rule
 // Update an existing instance level firewall access rule for a given service instance.
 func (firewallAccessRules *FirewallAccessRulesV1) UpdateAccountAccessRule(updateAccountAccessRuleOptions *UpdateAccountAccessRuleOptions) (result *AccountAccessRuleResp, response *core.DetailedResponse, err error) {
+	return firewallAccessRules.UpdateAccountAccessRuleWithContext(context.Background(), updateAccountAccessRuleOptions)
+}
+
+// UpdateAccountAccessRuleWithContext is an alternate form of the UpdateAccountAccessRule method which supports a Context parameter
+func (firewallAccessRules *FirewallAccessRulesV1) UpdateAccountAccessRuleWithContext(ctx context.Context, updateAccountAccessRuleOptions *UpdateAccountAccessRuleOptions) (result *AccountAccessRuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateAccountAccessRuleOptions, "updateAccountAccessRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -366,11 +459,15 @@ func (firewallAccessRules *FirewallAccessRulesV1) UpdateAccountAccessRule(update
 		return
 	}
 
-	pathSegments := []string{"v1", "firewall/access_rules/rules"}
-	pathParameters := []string{*firewallAccessRules.Crn, *updateAccountAccessRuleOptions.AccessruleIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *firewallAccessRules.Crn,
+		"accessrule_identifier": *updateAccountAccessRuleOptions.AccessruleIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
-	_, err = builder.ConstructHTTPURL(firewallAccessRules.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallAccessRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallAccessRules.Service.Options.URL, `/v1/{crn}/firewall/access_rules/rules/{accessrule_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -578,7 +675,7 @@ func (options *CreateAccountAccessRuleOptions) SetHeaders(param map[string]strin
 // DeleteAccountAccessRuleOptions : The DeleteAccountAccessRule options.
 type DeleteAccountAccessRuleOptions struct {
 	// Identifier of the access rule to be deleted.
-	AccessruleIdentifier *string `json:"accessrule_identifier" validate:"required"`
+	AccessruleIdentifier *string `json:"accessrule_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -624,7 +721,7 @@ func UnmarshalDeleteAccountAccessRuleRespResult(m map[string]json.RawMessage, re
 // GetAccountAccessRuleOptions : The GetAccountAccessRule options.
 type GetAccountAccessRuleOptions struct {
 	// Identifier of firewall access rule for the given zone.
-	AccessruleIdentifier *string `json:"accessrule_identifier" validate:"required"`
+	AccessruleIdentifier *string `json:"accessrule_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -829,7 +926,7 @@ func (options *ListAllAccountAccessRulesOptions) SetHeaders(param map[string]str
 // UpdateAccountAccessRuleOptions : The UpdateAccountAccessRule options.
 type UpdateAccountAccessRuleOptions struct {
 	// Identifier of firewall access rule.
-	AccessruleIdentifier *string `json:"accessrule_identifier" validate:"required"`
+	AccessruleIdentifier *string `json:"accessrule_identifier" validate:"required,ne="`
 
 	// The action to apply to a matched request.
 	Mode *string `json:"mode,omitempty"`

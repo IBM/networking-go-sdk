@@ -18,19 +18,19 @@ package dnsrecordsv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
-
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 )
 
 var _ = Describe(`DnsRecordsV1`, func() {
@@ -39,40 +39,40 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				Authenticator:  &core.NoAuthAuthenticator{},
-				Crn:            core.StringPtr(crn),
+			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+				Authenticator: &core.NoAuthAuthenticator{},
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(dnsRecordsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "{BAD_URL_STRING",
-				Crn:            core.StringPtr(crn),
+			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+				URL: "{BAD_URL_STRING",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsRecordsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "https://dnsrecordsv1/api",
-				Crn:            core.StringPtr(crn),
+			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+				URL: "https://dnsrecordsv1/api",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(dnsRecordsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{})
+			Expect(dnsRecordsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -81,83 +81,111 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_URL":       "https://dnsrecordsv1/api",
+				"DNS_RECORDS_URL": "https://dnsrecordsv1/api",
 				"DNS_RECORDS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsRecordsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsRecordsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsRecordsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsRecordsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            "https://testService/api",
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
+					URL: "https://testService/api",
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsRecordsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsRecordsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsRecordsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsRecordsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsRecordsService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := dnsRecordsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(dnsRecordsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsRecordsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsRecordsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsRecordsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsRecordsService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_URL":       "https://dnsrecordsv1/api",
+				"DNS_RECORDS_URL": "https://dnsrecordsv1/api",
 				"DNS_RECORDS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-				Crn:            core.StringPtr(crn),
+			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsRecordsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_AUTH_TYPE": "NOAuth",
+				"DNS_RECORDS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "{BAD_URL_STRING",
-				Crn:            core.StringPtr(crn),
+			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
+				URL: "{BAD_URL_STRING",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(dnsRecordsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnsrecordsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListAllDnsRecords(listAllDnsRecordsOptions *ListAllDnsRecordsOptions) - Operation response error`, func() {
@@ -170,7 +198,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllDnsRecordsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllDnsRecordsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["type"]).To(Equal([]string{"testString"}))
 
@@ -194,14 +222,14 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				}))
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllDnsRecordsOptions model
 				listAllDnsRecordsOptionsModel := new(dnsrecordsv1.ListAllDnsRecordsOptions)
@@ -215,7 +243,14 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
 				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				result, response, operationErr := dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsRecordsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -230,14 +265,17 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listAllDnsRecordsPath := "/v1/testString/zones/testString/dns_records"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllDnsRecordsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllDnsRecordsPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["type"]).To(Equal([]string{"testString"}))
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"host1.test-example.com"}))
@@ -254,23 +292,28 @@ var _ = Describe(`DnsRecordsV1`, func() {
 
 					Expect(req.URL.Query()["match"]).To(Equal([]string{"any"}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke ListAllDnsRecords successfully`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListAllDnsRecords(nil)
+				result, response, operationErr := dnsRecordsService.ListAllDnsRecords(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -288,20 +331,45 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				result, response, operationErr = dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.ListAllDnsRecordsWithContext(ctx, listAllDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr = dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.ListAllDnsRecordsWithContext(ctx, listAllDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation request error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllDnsRecordsOptions model
 				listAllDnsRecordsOptionsModel := new(dnsrecordsv1.ListAllDnsRecordsOptions)
@@ -315,9 +383,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
 				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsRecordsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				result, response, operationErr := dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -338,7 +406,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createDnsRecordPath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -346,25 +414,33 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				}))
 			})
 			It(`Invoke CreateDnsRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the CreateDnsRecordOptions model
 				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
 				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateDnsRecord(createDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsRecordsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -379,31 +455,55 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		createDnsRecordPath := "/v1/testString/zones/testString/dns_records"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createDnsRecordPath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
 				}))
 			})
 			It(`Invoke CreateDnsRecord successfully`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateDnsRecord(nil)
+				result, response, operationErr := dnsRecordsService.CreateDnsRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -412,39 +512,66 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
 				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateDnsRecord(createDnsRecordOptionsModel)
+				result, response, operationErr = dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.CreateDnsRecordWithContext(ctx, createDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr = dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.CreateDnsRecordWithContext(ctx, createDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateDnsRecord with error: Operation request error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the CreateDnsRecordOptions model
 				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
 				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsRecordsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateDnsRecord(createDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -465,7 +592,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteDnsRecordPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -473,21 +600,28 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				}))
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteDnsRecordOptions model
 				deleteDnsRecordOptionsModel := new(dnsrecordsv1.DeleteDnsRecordOptions)
 				deleteDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsRecordsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -502,31 +636,39 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		deleteDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteDnsRecordPath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
 				}))
 			})
 			It(`Invoke DeleteDnsRecord successfully`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteDnsRecord(nil)
+				result, response, operationErr := dnsRecordsService.DeleteDnsRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -537,29 +679,54 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				result, response, operationErr = dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.DeleteDnsRecordWithContext(ctx, deleteDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr = dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.DeleteDnsRecordWithContext(ctx, deleteDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteDnsRecordOptions model
 				deleteDnsRecordOptionsModel := new(dnsrecordsv1.DeleteDnsRecordOptions)
 				deleteDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsRecordsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -567,7 +734,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				// Construct a second instance of the DeleteDnsRecordOptions model with no property values
 				deleteDnsRecordOptionsModelNew := new(dnsrecordsv1.DeleteDnsRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteDnsRecord(deleteDnsRecordOptionsModelNew)
+				result, response, operationErr = dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -587,7 +754,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getDnsRecordPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -595,21 +762,28 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				}))
 			})
 			It(`Invoke GetDnsRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the GetDnsRecordOptions model
 				getDnsRecordOptionsModel := new(dnsrecordsv1.GetDnsRecordOptions)
 				getDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetDnsRecord(getDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsRecordsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -624,31 +798,39 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getDnsRecordPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
 				}))
 			})
 			It(`Invoke GetDnsRecord successfully`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetDnsRecord(nil)
+				result, response, operationErr := dnsRecordsService.GetDnsRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -659,29 +841,54 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetDnsRecord(getDnsRecordOptionsModel)
+				result, response, operationErr = dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.GetDnsRecordWithContext(ctx, getDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr = dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.GetDnsRecordWithContext(ctx, getDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetDnsRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the GetDnsRecordOptions model
 				getDnsRecordOptionsModel := new(dnsrecordsv1.GetDnsRecordOptions)
 				getDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsRecordsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetDnsRecord(getDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -689,7 +896,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				// Construct a second instance of the GetDnsRecordOptions model with no property values
 				getDnsRecordOptionsModelNew := new(dnsrecordsv1.GetDnsRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetDnsRecord(getDnsRecordOptionsModelNew)
+				result, response, operationErr = dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -709,7 +916,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnsRecordPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -717,27 +924,35 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation response processing error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateDnsRecordOptions model
 				updateDnsRecordOptionsModel := new(dnsrecordsv1.UpdateDnsRecordOptions)
 				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
 				updateDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsRecordsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -752,31 +967,55 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateDnsRecordPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnsRecordPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
 				}))
 			})
 			It(`Invoke UpdateDnsRecord successfully`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateDnsRecord(nil)
+				result, response, operationErr := dnsRecordsService.UpdateDnsRecord(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -786,6 +1025,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
@@ -793,35 +1033,61 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				result, response, operationErr = dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.UpdateDnsRecordWithContext(ctx, updateDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr = dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsRecordsService.UpdateDnsRecordWithContext(ctx, updateDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation validation and request error`, func() {
-				testService, testServiceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateDnsRecordOptions model
 				updateDnsRecordOptionsModel := new(dnsrecordsv1.UpdateDnsRecordOptions)
 				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
 				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
 				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
 				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
 				updateDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := dnsRecordsService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				result, response, operationErr := dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -829,7 +1095,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				// Construct a second instance of the UpdateDnsRecordOptions model with no property values
 				updateDnsRecordOptionsModelNew := new(dnsrecordsv1.UpdateDnsRecordOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateDnsRecord(updateDnsRecordOptionsModelNew)
+				result, response, operationErr = dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -843,17 +1109,18 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
-			testService, _ := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:            "http://dnsrecordsv1modelgenerator.com",
-				Authenticator:  &core.NoAuthAuthenticator{},
-				Crn:            core.StringPtr(crn),
+			dnsRecordsService, _ := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+				URL:           "http://dnsrecordsv1modelgenerator.com",
+				Authenticator: &core.NoAuthAuthenticator{},
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateDnsRecordOptions successfully`, func() {
 				// Construct an instance of the CreateDnsRecordOptions model
-				createDnsRecordOptionsModel := testService.NewCreateDnsRecordOptions()
+				createDnsRecordOptionsModel := dnsRecordsService.NewCreateDnsRecordOptions()
 				createDnsRecordOptionsModel.SetName("host-1.test-example.com")
 				createDnsRecordOptionsModel.SetType("A")
+				createDnsRecordOptionsModel.SetTTL(int64(120))
 				createDnsRecordOptionsModel.SetContent("1.2.3.4")
 				createDnsRecordOptionsModel.SetPriority(int64(5))
 				createDnsRecordOptionsModel.SetData(map[string]interface{}{"anyKey": "anyValue"})
@@ -861,6 +1128,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(createDnsRecordOptionsModel).ToNot(BeNil())
 				Expect(createDnsRecordOptionsModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
 				Expect(createDnsRecordOptionsModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(createDnsRecordOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(createDnsRecordOptionsModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
 				Expect(createDnsRecordOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(createDnsRecordOptionsModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
@@ -869,7 +1137,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Invoke NewDeleteDnsRecordOptions successfully`, func() {
 				// Construct an instance of the DeleteDnsRecordOptions model
 				dnsrecordIdentifier := "testString"
-				deleteDnsRecordOptionsModel := testService.NewDeleteDnsRecordOptions(dnsrecordIdentifier)
+				deleteDnsRecordOptionsModel := dnsRecordsService.NewDeleteDnsRecordOptions(dnsrecordIdentifier)
 				deleteDnsRecordOptionsModel.SetDnsrecordIdentifier("testString")
 				deleteDnsRecordOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteDnsRecordOptionsModel).ToNot(BeNil())
@@ -879,7 +1147,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Invoke NewGetDnsRecordOptions successfully`, func() {
 				// Construct an instance of the GetDnsRecordOptions model
 				dnsrecordIdentifier := "testString"
-				getDnsRecordOptionsModel := testService.NewGetDnsRecordOptions(dnsrecordIdentifier)
+				getDnsRecordOptionsModel := dnsRecordsService.NewGetDnsRecordOptions(dnsrecordIdentifier)
 				getDnsRecordOptionsModel.SetDnsrecordIdentifier("testString")
 				getDnsRecordOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getDnsRecordOptionsModel).ToNot(BeNil())
@@ -888,7 +1156,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke NewListAllDnsRecordsOptions successfully`, func() {
 				// Construct an instance of the ListAllDnsRecordsOptions model
-				listAllDnsRecordsOptionsModel := testService.NewListAllDnsRecordsOptions()
+				listAllDnsRecordsOptionsModel := dnsRecordsService.NewListAllDnsRecordsOptions()
 				listAllDnsRecordsOptionsModel.SetType("testString")
 				listAllDnsRecordsOptionsModel.SetName("host1.test-example.com")
 				listAllDnsRecordsOptionsModel.SetContent("1.2.3.4")
@@ -912,10 +1180,11 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Invoke NewUpdateDnsRecordOptions successfully`, func() {
 				// Construct an instance of the UpdateDnsRecordOptions model
 				dnsrecordIdentifier := "testString"
-				updateDnsRecordOptionsModel := testService.NewUpdateDnsRecordOptions(dnsrecordIdentifier)
+				updateDnsRecordOptionsModel := dnsRecordsService.NewUpdateDnsRecordOptions(dnsrecordIdentifier)
 				updateDnsRecordOptionsModel.SetDnsrecordIdentifier("testString")
 				updateDnsRecordOptionsModel.SetName("host-1.test-example.com")
 				updateDnsRecordOptionsModel.SetType("A")
+				updateDnsRecordOptionsModel.SetTTL(int64(120))
 				updateDnsRecordOptionsModel.SetContent("1.2.3.4")
 				updateDnsRecordOptionsModel.SetPriority(int64(5))
 				updateDnsRecordOptionsModel.SetProxied(false)
@@ -925,6 +1194,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(updateDnsRecordOptionsModel.DnsrecordIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(updateDnsRecordOptionsModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
 				Expect(updateDnsRecordOptionsModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(updateDnsRecordOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(updateDnsRecordOptionsModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
 				Expect(updateDnsRecordOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(updateDnsRecordOptionsModel.Proxied).To(Equal(core.BoolPtr(false)))

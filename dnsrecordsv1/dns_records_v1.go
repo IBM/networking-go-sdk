@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package dnsrecordsv1 : Operations and models for the DnsRecordsV1 service
 package dnsrecordsv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-
-	common "github.com/IBM/networking-go-sdk/common"
-
-	"reflect"
-
 	"github.com/IBM/go-sdk-core/v4/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
+	"reflect"
+	"time"
 )
 
 // DnsRecordsV1 : DNS records
@@ -114,12 +119,27 @@ func NewDnsRecordsV1(options *DnsRecordsV1Options) (service *DnsRecordsV1, err e
 	}
 
 	service = &DnsRecordsV1{
-		Service:        baseService,
-		Crn:            options.Crn,
+		Service: baseService,
+		Crn: options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
 	return
+}
+
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "dnsRecords" suitable for processing requests.
+func (dnsRecords *DnsRecordsV1) Clone() *DnsRecordsV1 {
+	if core.IsNil(dnsRecords) {
+		return nil
+	}
+	clone := *dnsRecords
+	clone.Service = dnsRecords.Service.Clone()
+	return &clone
 }
 
 // SetServiceURL sets the service URL
@@ -127,19 +147,59 @@ func (dnsRecords *DnsRecordsV1) SetServiceURL(url string) error {
 	return dnsRecords.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (dnsRecords *DnsRecordsV1) GetServiceURL() string {
+	return dnsRecords.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (dnsRecords *DnsRecordsV1) SetDefaultHeaders(headers http.Header) {
+	dnsRecords.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (dnsRecords *DnsRecordsV1) SetEnableGzipCompression(enableGzip bool) {
+	dnsRecords.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (dnsRecords *DnsRecordsV1) GetEnableGzipCompression() bool {
+	return dnsRecords.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (dnsRecords *DnsRecordsV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	dnsRecords.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (dnsRecords *DnsRecordsV1) DisableRetries() {
+	dnsRecords.Service.DisableRetries()
+}
+
 // ListAllDnsRecords : List all DNS records
 // List all DNS records for a given zone of a service instance.
 func (dnsRecords *DnsRecordsV1) ListAllDnsRecords(listAllDnsRecordsOptions *ListAllDnsRecordsOptions) (result *ListDnsrecordsResp, response *core.DetailedResponse, err error) {
+	return dnsRecords.ListAllDnsRecordsWithContext(context.Background(), listAllDnsRecordsOptions)
+}
+
+// ListAllDnsRecordsWithContext is an alternate form of the ListAllDnsRecords method which supports a Context parameter
+func (dnsRecords *DnsRecordsV1) ListAllDnsRecordsWithContext(ctx context.Context, listAllDnsRecordsOptions *ListAllDnsRecordsOptions) (result *ListDnsrecordsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAllDnsRecordsOptions, "listAllDnsRecordsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records"}
-	pathParameters := []string{*dnsRecords.Crn, *dnsRecords.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecords.Crn,
+		"zone_identifier": *dnsRecords.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsRecords.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecords.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecords.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -198,19 +258,28 @@ func (dnsRecords *DnsRecordsV1) ListAllDnsRecords(listAllDnsRecordsOptions *List
 	return
 }
 
-// CreateDnsRecord : Create a DNS record
+// CreateDnsRecord : Create DNS record
 // Add a new DNS record for a given zone for a given service instance.
 func (dnsRecords *DnsRecordsV1) CreateDnsRecord(createDnsRecordOptions *CreateDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
+	return dnsRecords.CreateDnsRecordWithContext(context.Background(), createDnsRecordOptions)
+}
+
+// CreateDnsRecordWithContext is an alternate form of the CreateDnsRecord method which supports a Context parameter
+func (dnsRecords *DnsRecordsV1) CreateDnsRecordWithContext(ctx context.Context, createDnsRecordOptions *CreateDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createDnsRecordOptions, "createDnsRecordOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records"}
-	pathParameters := []string{*dnsRecords.Crn, *dnsRecords.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecords.Crn,
+		"zone_identifier": *dnsRecords.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(dnsRecords.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecords.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecords.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -232,6 +301,9 @@ func (dnsRecords *DnsRecordsV1) CreateDnsRecord(createDnsRecordOptions *CreateDn
 	}
 	if createDnsRecordOptions.Type != nil {
 		body["type"] = createDnsRecordOptions.Type
+	}
+	if createDnsRecordOptions.TTL != nil {
+		body["ttl"] = createDnsRecordOptions.TTL
 	}
 	if createDnsRecordOptions.Content != nil {
 		body["content"] = createDnsRecordOptions.Content
@@ -266,9 +338,14 @@ func (dnsRecords *DnsRecordsV1) CreateDnsRecord(createDnsRecordOptions *CreateDn
 	return
 }
 
-// DeleteDnsRecord : Delete a DNS record
+// DeleteDnsRecord : Delete DNS record
 // Delete a DNS record given its id.
 func (dnsRecords *DnsRecordsV1) DeleteDnsRecord(deleteDnsRecordOptions *DeleteDnsRecordOptions) (result *DeleteDnsrecordResp, response *core.DetailedResponse, err error) {
+	return dnsRecords.DeleteDnsRecordWithContext(context.Background(), deleteDnsRecordOptions)
+}
+
+// DeleteDnsRecordWithContext is an alternate form of the DeleteDnsRecord method which supports a Context parameter
+func (dnsRecords *DnsRecordsV1) DeleteDnsRecordWithContext(ctx context.Context, deleteDnsRecordOptions *DeleteDnsRecordOptions) (result *DeleteDnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDnsRecordOptions, "deleteDnsRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -278,11 +355,16 @@ func (dnsRecords *DnsRecordsV1) DeleteDnsRecord(deleteDnsRecordOptions *DeleteDn
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records"}
-	pathParameters := []string{*dnsRecords.Crn, *dnsRecords.ZoneIdentifier, *deleteDnsRecordOptions.DnsrecordIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecords.Crn,
+		"zone_identifier": *dnsRecords.ZoneIdentifier,
+		"dnsrecord_identifier": *deleteDnsRecordOptions.DnsrecordIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(dnsRecords.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecords.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecords.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records/{dnsrecord_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -316,9 +398,14 @@ func (dnsRecords *DnsRecordsV1) DeleteDnsRecord(deleteDnsRecordOptions *DeleteDn
 	return
 }
 
-// GetDnsRecord : Get a DNS record
+// GetDnsRecord : Get DNS record
 // Get the details of a DNS record for a given zone under a given service instance.
 func (dnsRecords *DnsRecordsV1) GetDnsRecord(getDnsRecordOptions *GetDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
+	return dnsRecords.GetDnsRecordWithContext(context.Background(), getDnsRecordOptions)
+}
+
+// GetDnsRecordWithContext is an alternate form of the GetDnsRecord method which supports a Context parameter
+func (dnsRecords *DnsRecordsV1) GetDnsRecordWithContext(ctx context.Context, getDnsRecordOptions *GetDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDnsRecordOptions, "getDnsRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -328,11 +415,16 @@ func (dnsRecords *DnsRecordsV1) GetDnsRecord(getDnsRecordOptions *GetDnsRecordOp
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records"}
-	pathParameters := []string{*dnsRecords.Crn, *dnsRecords.ZoneIdentifier, *getDnsRecordOptions.DnsrecordIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecords.Crn,
+		"zone_identifier": *dnsRecords.ZoneIdentifier,
+		"dnsrecord_identifier": *getDnsRecordOptions.DnsrecordIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(dnsRecords.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecords.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecords.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records/{dnsrecord_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -366,9 +458,14 @@ func (dnsRecords *DnsRecordsV1) GetDnsRecord(getDnsRecordOptions *GetDnsRecordOp
 	return
 }
 
-// UpdateDnsRecord : Update a DNS record
+// UpdateDnsRecord : Update DNS record
 // Update an existing DNS record for a given zone under a given service instance.
 func (dnsRecords *DnsRecordsV1) UpdateDnsRecord(updateDnsRecordOptions *UpdateDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
+	return dnsRecords.UpdateDnsRecordWithContext(context.Background(), updateDnsRecordOptions)
+}
+
+// UpdateDnsRecordWithContext is an alternate form of the UpdateDnsRecord method which supports a Context parameter
+func (dnsRecords *DnsRecordsV1) UpdateDnsRecordWithContext(ctx context.Context, updateDnsRecordOptions *UpdateDnsRecordOptions) (result *DnsrecordResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateDnsRecordOptions, "updateDnsRecordOptions cannot be nil")
 	if err != nil {
 		return
@@ -378,11 +475,16 @@ func (dnsRecords *DnsRecordsV1) UpdateDnsRecord(updateDnsRecordOptions *UpdateDn
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "dns_records"}
-	pathParameters := []string{*dnsRecords.Crn, *dnsRecords.ZoneIdentifier, *updateDnsRecordOptions.DnsrecordIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *dnsRecords.Crn,
+		"zone_identifier": *dnsRecords.ZoneIdentifier,
+		"dnsrecord_identifier": *updateDnsRecordOptions.DnsrecordIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(dnsRecords.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsRecords.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsRecords.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/dns_records/{dnsrecord_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -404,6 +506,9 @@ func (dnsRecords *DnsRecordsV1) UpdateDnsRecord(updateDnsRecordOptions *UpdateDn
 	}
 	if updateDnsRecordOptions.Type != nil {
 		body["type"] = updateDnsRecordOptions.Type
+	}
+	if updateDnsRecordOptions.TTL != nil {
+		body["ttl"] = updateDnsRecordOptions.TTL
 	}
 	if updateDnsRecordOptions.Content != nil {
 		body["content"] = updateDnsRecordOptions.Content
@@ -449,6 +554,9 @@ type CreateDnsRecordOptions struct {
 	// dns record type.
 	Type *string `json:"type,omitempty"`
 
+	// dns record ttl value.
+	TTL *int64 `json:"ttl,omitempty"`
+
 	// dns record content.
 	Content *string `json:"content,omitempty"`
 
@@ -465,16 +573,16 @@ type CreateDnsRecordOptions struct {
 // Constants associated with the CreateDnsRecordOptions.Type property.
 // dns record type.
 const (
-	CreateDnsRecordOptions_Type_A     = "A"
-	CreateDnsRecordOptions_Type_Aaaa  = "AAAA"
-	CreateDnsRecordOptions_Type_Caa   = "CAA"
+	CreateDnsRecordOptions_Type_A = "A"
+	CreateDnsRecordOptions_Type_Aaaa = "AAAA"
+	CreateDnsRecordOptions_Type_Caa = "CAA"
 	CreateDnsRecordOptions_Type_Cname = "CNAME"
-	CreateDnsRecordOptions_Type_Loc   = "LOC"
-	CreateDnsRecordOptions_Type_Mx    = "MX"
-	CreateDnsRecordOptions_Type_Ns    = "NS"
-	CreateDnsRecordOptions_Type_Spf   = "SPF"
-	CreateDnsRecordOptions_Type_Srv   = "SRV"
-	CreateDnsRecordOptions_Type_Txt   = "TXT"
+	CreateDnsRecordOptions_Type_Loc = "LOC"
+	CreateDnsRecordOptions_Type_Mx = "MX"
+	CreateDnsRecordOptions_Type_Ns = "NS"
+	CreateDnsRecordOptions_Type_Spf = "SPF"
+	CreateDnsRecordOptions_Type_Srv = "SRV"
+	CreateDnsRecordOptions_Type_Txt = "TXT"
 )
 
 // NewCreateDnsRecordOptions : Instantiate CreateDnsRecordOptions
@@ -491,6 +599,12 @@ func (options *CreateDnsRecordOptions) SetName(name string) *CreateDnsRecordOpti
 // SetType : Allow user to set Type
 func (options *CreateDnsRecordOptions) SetType(typeVar string) *CreateDnsRecordOptions {
 	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetTTL : Allow user to set TTL
+func (options *CreateDnsRecordOptions) SetTTL(ttl int64) *CreateDnsRecordOptions {
+	options.TTL = core.Int64Ptr(ttl)
 	return options
 }
 
@@ -521,7 +635,7 @@ func (options *CreateDnsRecordOptions) SetHeaders(param map[string]string) *Crea
 // DeleteDnsRecordOptions : The DeleteDnsRecord options.
 type DeleteDnsRecordOptions struct {
 	// Identifier of DNS record.
-	DnsrecordIdentifier *string `json:"dnsrecord_identifier" validate:"required"`
+	DnsrecordIdentifier *string `json:"dnsrecord_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -552,6 +666,7 @@ type DeleteDnsrecordRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
+
 // UnmarshalDeleteDnsrecordRespResult unmarshals an instance of DeleteDnsrecordRespResult from the specified map of raw messages.
 func UnmarshalDeleteDnsrecordRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteDnsrecordRespResult)
@@ -566,7 +681,7 @@ func UnmarshalDeleteDnsrecordRespResult(m map[string]json.RawMessage, result int
 // GetDnsRecordOptions : The GetDnsRecord options.
 type GetDnsRecordOptions struct {
 	// Identifier of DNS record.
-	DnsrecordIdentifier *string `json:"dnsrecord_identifier" validate:"required"`
+	DnsrecordIdentifier *string `json:"dnsrecord_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -625,16 +740,16 @@ type ListAllDnsRecordsOptions struct {
 // Field by which to order list of DNS records.
 const (
 	ListAllDnsRecordsOptions_Order_Content = "content"
-	ListAllDnsRecordsOptions_Order_Name    = "name"
+	ListAllDnsRecordsOptions_Order_Name = "name"
 	ListAllDnsRecordsOptions_Order_Proxied = "proxied"
-	ListAllDnsRecordsOptions_Order_TTL     = "ttl"
-	ListAllDnsRecordsOptions_Order_Type    = "type"
+	ListAllDnsRecordsOptions_Order_TTL = "ttl"
+	ListAllDnsRecordsOptions_Order_Type = "type"
 )
 
 // Constants associated with the ListAllDnsRecordsOptions.Direction property.
 // Direction in which to order results [ascending/descending order].
 const (
-	ListAllDnsRecordsOptions_Direction_Asc  = "asc"
+	ListAllDnsRecordsOptions_Direction_Asc = "asc"
 	ListAllDnsRecordsOptions_Direction_Desc = "desc"
 )
 
@@ -707,13 +822,16 @@ func (options *ListAllDnsRecordsOptions) SetHeaders(param map[string]string) *Li
 // UpdateDnsRecordOptions : The UpdateDnsRecord options.
 type UpdateDnsRecordOptions struct {
 	// Identifier of DNS record.
-	DnsrecordIdentifier *string `json:"dnsrecord_identifier" validate:"required"`
+	DnsrecordIdentifier *string `json:"dnsrecord_identifier" validate:"required,ne="`
 
 	// Required for all record types except SRV.
 	Name *string `json:"name,omitempty"`
 
 	// dns record type.
 	Type *string `json:"type,omitempty"`
+
+	// dns record ttl value.
+	TTL *int64 `json:"ttl,omitempty"`
 
 	// content of dns record.
 	Content *string `json:"content,omitempty"`
@@ -734,16 +852,16 @@ type UpdateDnsRecordOptions struct {
 // Constants associated with the UpdateDnsRecordOptions.Type property.
 // dns record type.
 const (
-	UpdateDnsRecordOptions_Type_A     = "A"
-	UpdateDnsRecordOptions_Type_Aaaa  = "AAAA"
-	UpdateDnsRecordOptions_Type_Caa   = "CAA"
+	UpdateDnsRecordOptions_Type_A = "A"
+	UpdateDnsRecordOptions_Type_Aaaa = "AAAA"
+	UpdateDnsRecordOptions_Type_Caa = "CAA"
 	UpdateDnsRecordOptions_Type_Cname = "CNAME"
-	UpdateDnsRecordOptions_Type_Loc   = "LOC"
-	UpdateDnsRecordOptions_Type_Mx    = "MX"
-	UpdateDnsRecordOptions_Type_Ns    = "NS"
-	UpdateDnsRecordOptions_Type_Spf   = "SPF"
-	UpdateDnsRecordOptions_Type_Srv   = "SRV"
-	UpdateDnsRecordOptions_Type_Txt   = "TXT"
+	UpdateDnsRecordOptions_Type_Loc = "LOC"
+	UpdateDnsRecordOptions_Type_Mx = "MX"
+	UpdateDnsRecordOptions_Type_Ns = "NS"
+	UpdateDnsRecordOptions_Type_Spf = "SPF"
+	UpdateDnsRecordOptions_Type_Srv = "SRV"
+	UpdateDnsRecordOptions_Type_Txt = "TXT"
 )
 
 // NewUpdateDnsRecordOptions : Instantiate UpdateDnsRecordOptions
@@ -768,6 +886,12 @@ func (options *UpdateDnsRecordOptions) SetName(name string) *UpdateDnsRecordOpti
 // SetType : Allow user to set Type
 func (options *UpdateDnsRecordOptions) SetType(typeVar string) *UpdateDnsRecordOptions {
 	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetTTL : Allow user to set TTL
+func (options *UpdateDnsRecordOptions) SetTTL(ttl int64) *UpdateDnsRecordOptions {
+	options.TTL = core.Int64Ptr(ttl)
 	return options
 }
 
@@ -815,6 +939,7 @@ type DeleteDnsrecordResp struct {
 	// result.
 	Result *DeleteDnsrecordRespResult `json:"result" validate:"required"`
 }
+
 
 // UnmarshalDeleteDnsrecordResp unmarshals an instance of DeleteDnsrecordResp from the specified map of raw messages.
 func UnmarshalDeleteDnsrecordResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -884,17 +1009,18 @@ type DnsrecordDetails struct {
 // Constants associated with the DnsrecordDetails.Type property.
 // dns record type.
 const (
-	DnsrecordDetails_Type_A     = "A"
-	DnsrecordDetails_Type_Aaaa  = "AAAA"
-	DnsrecordDetails_Type_Caa   = "CAA"
+	DnsrecordDetails_Type_A = "A"
+	DnsrecordDetails_Type_Aaaa = "AAAA"
+	DnsrecordDetails_Type_Caa = "CAA"
 	DnsrecordDetails_Type_Cname = "CNAME"
-	DnsrecordDetails_Type_Loc   = "LOC"
-	DnsrecordDetails_Type_Mx    = "MX"
-	DnsrecordDetails_Type_Ns    = "NS"
-	DnsrecordDetails_Type_Spf   = "SPF"
-	DnsrecordDetails_Type_Srv   = "SRV"
-	DnsrecordDetails_Type_Txt   = "TXT"
+	DnsrecordDetails_Type_Loc = "LOC"
+	DnsrecordDetails_Type_Mx = "MX"
+	DnsrecordDetails_Type_Ns = "NS"
+	DnsrecordDetails_Type_Spf = "SPF"
+	DnsrecordDetails_Type_Srv = "SRV"
+	DnsrecordDetails_Type_Txt = "TXT"
 )
+
 
 // UnmarshalDnsrecordDetails unmarshals an instance of DnsrecordDetails from the specified map of raw messages.
 func UnmarshalDnsrecordDetails(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -970,6 +1096,7 @@ type DnsrecordResp struct {
 	Result *DnsrecordDetails `json:"result" validate:"required"`
 }
 
+
 // UnmarshalDnsrecordResp unmarshals an instance of DnsrecordResp from the specified map of raw messages.
 func UnmarshalDnsrecordResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DnsrecordResp)
@@ -1010,6 +1137,7 @@ type ListDnsrecordsResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
+
 
 // UnmarshalListDnsrecordsResp unmarshals an instance of ListDnsrecordsResp from the specified map of raw messages.
 func UnmarshalListDnsrecordsResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1052,6 +1180,7 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
+
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {

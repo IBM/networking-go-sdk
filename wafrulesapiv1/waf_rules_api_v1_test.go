@@ -18,12 +18,13 @@ package wafrulesapiv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/wafrulesapiv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/wafrulesapiv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`WafRulesApiV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+			wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(wafRulesApiService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+			wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(wafRulesApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+			wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 				URL: "https://wafrulesapiv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
@@ -65,13 +66,13 @@ var _ = Describe(`WafRulesApiV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(wafRulesApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{})
+			Expect(wafRulesApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`WafRulesApiV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := wafRulesApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != wafRulesApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(wafRulesApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(wafRulesApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(wafRulesApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := wafRulesApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != wafRulesApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(wafRulesApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(wafRulesApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := wafRulesApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(wafRulesApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := wafRulesApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != wafRulesApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(wafRulesApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(wafRulesApiService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
+			wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(wafRulesApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`WafRulesApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
+			wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1UsingExternalConfig(&wafrulesapiv1.WafRulesApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(wafRulesApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = wafrulesapiv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListWafRules(listWafRulesOptions *ListWafRulesOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listWafRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listWafRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["mode"]).To(Equal([]string{"on"}))
 
@@ -181,7 +210,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 
 					Expect(req.URL.Query()["group_id"]).To(Equal([]string{"de677e5818985db1285d0e80225f06e5"}))
 
-					Expect(req.URL.Query()["description"]).To(Equal([]string{"SQL injection prevention for SELECT statements"}))
+					Expect(req.URL.Query()["description"]).To(Equal([]string{"SQL-injection-prevention-for-SELECT-statements"}))
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"desc"}))
 
@@ -195,14 +224,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				}))
 			})
 			It(`Invoke ListWafRules with error: Operation response processing error`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListWafRulesOptions model
 				listWafRulesOptionsModel := new(wafrulesapiv1.ListWafRulesOptions)
@@ -212,13 +241,20 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				listWafRulesOptionsModel.Match = core.StringPtr("all")
 				listWafRulesOptionsModel.Order = core.StringPtr("status")
 				listWafRulesOptionsModel.GroupID = core.StringPtr("de677e5818985db1285d0e80225f06e5")
-				listWafRulesOptionsModel.Description = core.StringPtr("SQL injection prevention for SELECT statements")
+				listWafRulesOptionsModel.Description = core.StringPtr("SQL-injection-prevention-for-SELECT-statements")
 				listWafRulesOptionsModel.Direction = core.StringPtr("desc")
 				listWafRulesOptionsModel.Page = core.Int64Ptr(int64(1))
 				listWafRulesOptionsModel.PerPage = core.Int64Ptr(int64(50))
 				listWafRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListWafRules(listWafRulesOptionsModel)
+				result, response, operationErr := wafRulesApiService.ListWafRules(listWafRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				wafRulesApiService.EnableRetries(0, 0)
+				result, response, operationErr = wafRulesApiService.ListWafRules(listWafRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -233,14 +269,17 @@ var _ = Describe(`WafRulesApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		listWafRulesPath := "/v1/testString/zones/testString/firewall/waf/packages/testString/rules"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listWafRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listWafRulesPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["mode"]).To(Equal([]string{"on"}))
 
 					Expect(req.URL.Query()["priority"]).To(Equal([]string{"5"}))
@@ -251,7 +290,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 
 					Expect(req.URL.Query()["group_id"]).To(Equal([]string{"de677e5818985db1285d0e80225f06e5"}))
 
-					Expect(req.URL.Query()["description"]).To(Equal([]string{"SQL injection prevention for SELECT statements"}))
+					Expect(req.URL.Query()["description"]).To(Equal([]string{"SQL-injection-prevention-for-SELECT-statements"}))
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"desc"}))
 
@@ -259,23 +298,28 @@ var _ = Describe(`WafRulesApiV1`, func() {
 
 					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(50))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f939de3be84e66e757adcdcb87908023", "description": "SQL injection prevention for SELECT statements", "priority": "5", "group": {"id": "de677e5818985db1285d0e80225f06e5", "name": "Project abc"}, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "allowed_modes": ["AllowedModes"], "mode": "on"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f939de3be84e66e757adcdcb87908023", "description": "SQL-injection-prevention-for-SELECT-statements", "priority": "5", "group": {"id": "de677e5818985db1285d0e80225f06e5", "name": "Project abc"}, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "allowed_modes": ["AllowedModes"], "mode": "on"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
 				}))
 			})
 			It(`Invoke ListWafRules successfully`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
+				wafRulesApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListWafRules(nil)
+				result, response, operationErr := wafRulesApiService.ListWafRules(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -288,27 +332,52 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				listWafRulesOptionsModel.Match = core.StringPtr("all")
 				listWafRulesOptionsModel.Order = core.StringPtr("status")
 				listWafRulesOptionsModel.GroupID = core.StringPtr("de677e5818985db1285d0e80225f06e5")
-				listWafRulesOptionsModel.Description = core.StringPtr("SQL injection prevention for SELECT statements")
+				listWafRulesOptionsModel.Description = core.StringPtr("SQL-injection-prevention-for-SELECT-statements")
 				listWafRulesOptionsModel.Direction = core.StringPtr("desc")
 				listWafRulesOptionsModel.Page = core.Int64Ptr(int64(1))
 				listWafRulesOptionsModel.PerPage = core.Int64Ptr(int64(50))
- 				listWafRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listWafRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListWafRules(listWafRulesOptionsModel)
+				result, response, operationErr = wafRulesApiService.ListWafRules(listWafRulesOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRulesApiService.ListWafRulesWithContext(ctx, listWafRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				wafRulesApiService.DisableRetries()
+				result, response, operationErr = wafRulesApiService.ListWafRules(listWafRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRulesApiService.ListWafRulesWithContext(ctx, listWafRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListWafRules with error: Operation validation and request error`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
 
 				// Construct an instance of the ListWafRulesOptions model
 				listWafRulesOptionsModel := new(wafrulesapiv1.ListWafRulesOptions)
@@ -318,15 +387,15 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				listWafRulesOptionsModel.Match = core.StringPtr("all")
 				listWafRulesOptionsModel.Order = core.StringPtr("status")
 				listWafRulesOptionsModel.GroupID = core.StringPtr("de677e5818985db1285d0e80225f06e5")
-				listWafRulesOptionsModel.Description = core.StringPtr("SQL injection prevention for SELECT statements")
+				listWafRulesOptionsModel.Description = core.StringPtr("SQL-injection-prevention-for-SELECT-statements")
 				listWafRulesOptionsModel.Direction = core.StringPtr("desc")
 				listWafRulesOptionsModel.Page = core.Int64Ptr(int64(1))
 				listWafRulesOptionsModel.PerPage = core.Int64Ptr(int64(50))
 				listWafRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := wafRulesApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListWafRules(listWafRulesOptionsModel)
+				result, response, operationErr := wafRulesApiService.ListWafRules(listWafRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -334,7 +403,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				// Construct a second instance of the ListWafRulesOptions model with no property values
 				listWafRulesOptionsModelNew := new(wafrulesapiv1.ListWafRulesOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListWafRules(listWafRulesOptionsModelNew)
+				result, response, operationErr = wafRulesApiService.ListWafRules(listWafRulesOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -354,7 +423,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getWafRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getWafRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -362,14 +431,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetWafRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetWafRuleOptions model
 				getWafRuleOptionsModel := new(wafrulesapiv1.GetWafRuleOptions)
@@ -377,7 +446,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				getWafRuleOptionsModel.Identifier = core.StringPtr("testString")
 				getWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetWafRule(getWafRuleOptionsModel)
+				result, response, operationErr := wafRulesApiService.GetWafRule(getWafRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				wafRulesApiService.EnableRetries(0, 0)
+				result, response, operationErr = wafRulesApiService.GetWafRule(getWafRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -392,31 +468,39 @@ var _ = Describe(`WafRulesApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getWafRulePath := "/v1/testString/zones/testString/firewall/waf/packages/testString/rules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getWafRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getWafRulePath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f939de3be84e66e757adcdcb87908023", "description": "SQL injection prevention for SELECT statements", "priority": "5", "group": {"id": "de677e5818985db1285d0e80225f06e5", "name": "Project abc"}, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "allowed_modes": ["AllowedModes"], "mode": "on"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f939de3be84e66e757adcdcb87908023", "description": "SQL-injection-prevention-for-SELECT-statements", "priority": "5", "group": {"id": "de677e5818985db1285d0e80225f06e5", "name": "Project abc"}, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "allowed_modes": ["AllowedModes"], "mode": "on"}}`)
 				}))
 			})
 			It(`Invoke GetWafRule successfully`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
+				wafRulesApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetWafRule(nil)
+				result, response, operationErr := wafRulesApiService.GetWafRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -425,23 +509,48 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				getWafRuleOptionsModel := new(wafrulesapiv1.GetWafRuleOptions)
 				getWafRuleOptionsModel.PackageID = core.StringPtr("testString")
 				getWafRuleOptionsModel.Identifier = core.StringPtr("testString")
- 				getWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetWafRule(getWafRuleOptionsModel)
+				result, response, operationErr = wafRulesApiService.GetWafRule(getWafRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRulesApiService.GetWafRuleWithContext(ctx, getWafRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				wafRulesApiService.DisableRetries()
+				result, response, operationErr = wafRulesApiService.GetWafRule(getWafRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRulesApiService.GetWafRuleWithContext(ctx, getWafRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetWafRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetWafRuleOptions model
 				getWafRuleOptionsModel := new(wafrulesapiv1.GetWafRuleOptions)
@@ -449,9 +558,9 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				getWafRuleOptionsModel.Identifier = core.StringPtr("testString")
 				getWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := wafRulesApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetWafRule(getWafRuleOptionsModel)
+				result, response, operationErr := wafRulesApiService.GetWafRule(getWafRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -459,7 +568,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				// Construct a second instance of the GetWafRuleOptions model with no property values
 				getWafRuleOptionsModelNew := new(wafrulesapiv1.GetWafRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetWafRule(getWafRuleOptionsModelNew)
+				result, response, operationErr = wafRulesApiService.GetWafRule(getWafRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -479,7 +588,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateWafRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateWafRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -487,14 +596,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateWafRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
 
 				// Construct an instance of the WafRuleBodyCis model
 				wafRuleBodyCisModel := new(wafrulesapiv1.WafRuleBodyCis)
@@ -512,7 +621,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				updateWafRuleOptionsModel.Owasp = wafRuleBodyOwaspModel
 				updateWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateWafRule(updateWafRuleOptionsModel)
+				result, response, operationErr := wafRulesApiService.UpdateWafRule(updateWafRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				wafRulesApiService.EnableRetries(0, 0)
+				result, response, operationErr = wafRulesApiService.UpdateWafRule(updateWafRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -527,31 +643,55 @@ var _ = Describe(`WafRulesApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updateWafRulePath := "/v1/testString/zones/testString/firewall/waf/packages/testString/rules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateWafRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateWafRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f939de3be84e66e757adcdcb87908023", "description": "SQL injection prevention for SELECT statements", "priority": "5", "group": {"id": "de677e5818985db1285d0e80225f06e5", "name": "Project abc"}, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "allowed_modes": ["AllowedModes"], "mode": "on"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f939de3be84e66e757adcdcb87908023", "description": "SQL-injection-prevention-for-SELECT-statements", "priority": "5", "group": {"id": "de677e5818985db1285d0e80225f06e5", "name": "Project abc"}, "package_id": "a25a9a7e9c00afc1fb2e0245519d725b", "allowed_modes": ["AllowedModes"], "mode": "on"}}`)
 				}))
 			})
 			It(`Invoke UpdateWafRule successfully`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
+				wafRulesApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateWafRule(nil)
+				result, response, operationErr := wafRulesApiService.UpdateWafRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -570,23 +710,48 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				updateWafRuleOptionsModel.Identifier = core.StringPtr("testString")
 				updateWafRuleOptionsModel.Cis = wafRuleBodyCisModel
 				updateWafRuleOptionsModel.Owasp = wafRuleBodyOwaspModel
- 				updateWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateWafRule(updateWafRuleOptionsModel)
+				result, response, operationErr = wafRulesApiService.UpdateWafRule(updateWafRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRulesApiService.UpdateWafRuleWithContext(ctx, updateWafRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				wafRulesApiService.DisableRetries()
+				result, response, operationErr = wafRulesApiService.UpdateWafRule(updateWafRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = wafRulesApiService.UpdateWafRuleWithContext(ctx, updateWafRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateWafRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+				wafRulesApiService, serviceErr := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(wafRulesApiService).ToNot(BeNil())
 
 				// Construct an instance of the WafRuleBodyCis model
 				wafRuleBodyCisModel := new(wafrulesapiv1.WafRuleBodyCis)
@@ -604,9 +769,9 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				updateWafRuleOptionsModel.Owasp = wafRuleBodyOwaspModel
 				updateWafRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := wafRulesApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateWafRule(updateWafRuleOptionsModel)
+				result, response, operationErr := wafRulesApiService.UpdateWafRule(updateWafRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -614,7 +779,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				// Construct a second instance of the UpdateWafRuleOptions model with no property values
 				updateWafRuleOptionsModelNew := new(wafrulesapiv1.UpdateWafRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateWafRule(updateWafRuleOptionsModelNew)
+				result, response, operationErr = wafRulesApiService.UpdateWafRule(updateWafRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -628,7 +793,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneID := "testString"
-			testService, _ := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
+			wafRulesApiService, _ := wafrulesapiv1.NewWafRulesApiV1(&wafrulesapiv1.WafRulesApiV1Options{
 				URL:           "http://wafrulesapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -638,7 +803,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				// Construct an instance of the GetWafRuleOptions model
 				packageID := "testString"
 				identifier := "testString"
-				getWafRuleOptionsModel := testService.NewGetWafRuleOptions(packageID, identifier)
+				getWafRuleOptionsModel := wafRulesApiService.NewGetWafRuleOptions(packageID, identifier)
 				getWafRuleOptionsModel.SetPackageID("testString")
 				getWafRuleOptionsModel.SetIdentifier("testString")
 				getWafRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -650,14 +815,14 @@ var _ = Describe(`WafRulesApiV1`, func() {
 			It(`Invoke NewListWafRulesOptions successfully`, func() {
 				// Construct an instance of the ListWafRulesOptions model
 				packageID := "testString"
-				listWafRulesOptionsModel := testService.NewListWafRulesOptions(packageID)
+				listWafRulesOptionsModel := wafRulesApiService.NewListWafRulesOptions(packageID)
 				listWafRulesOptionsModel.SetPackageID("testString")
 				listWafRulesOptionsModel.SetMode("on")
 				listWafRulesOptionsModel.SetPriority("5")
 				listWafRulesOptionsModel.SetMatch("all")
 				listWafRulesOptionsModel.SetOrder("status")
 				listWafRulesOptionsModel.SetGroupID("de677e5818985db1285d0e80225f06e5")
-				listWafRulesOptionsModel.SetDescription("SQL injection prevention for SELECT statements")
+				listWafRulesOptionsModel.SetDescription("SQL-injection-prevention-for-SELECT-statements")
 				listWafRulesOptionsModel.SetDirection("desc")
 				listWafRulesOptionsModel.SetPage(int64(1))
 				listWafRulesOptionsModel.SetPerPage(int64(50))
@@ -669,7 +834,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				Expect(listWafRulesOptionsModel.Match).To(Equal(core.StringPtr("all")))
 				Expect(listWafRulesOptionsModel.Order).To(Equal(core.StringPtr("status")))
 				Expect(listWafRulesOptionsModel.GroupID).To(Equal(core.StringPtr("de677e5818985db1285d0e80225f06e5")))
-				Expect(listWafRulesOptionsModel.Description).To(Equal(core.StringPtr("SQL injection prevention for SELECT statements")))
+				Expect(listWafRulesOptionsModel.Description).To(Equal(core.StringPtr("SQL-injection-prevention-for-SELECT-statements")))
 				Expect(listWafRulesOptionsModel.Direction).To(Equal(core.StringPtr("desc")))
 				Expect(listWafRulesOptionsModel.Page).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listWafRulesOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(50))))
@@ -691,7 +856,7 @@ var _ = Describe(`WafRulesApiV1`, func() {
 				// Construct an instance of the UpdateWafRuleOptions model
 				packageID := "testString"
 				identifier := "testString"
-				updateWafRuleOptionsModel := testService.NewUpdateWafRuleOptions(packageID, identifier)
+				updateWafRuleOptionsModel := wafRulesApiService.NewUpdateWafRuleOptions(packageID, identifier)
 				updateWafRuleOptionsModel.SetPackageID("testString")
 				updateWafRuleOptionsModel.SetIdentifier("testString")
 				updateWafRuleOptionsModel.SetCis(wafRuleBodyCisModel)
@@ -706,13 +871,13 @@ var _ = Describe(`WafRulesApiV1`, func() {
 			})
 			It(`Invoke NewWafRuleBodyCis successfully`, func() {
 				mode := "default"
-				model, err := testService.NewWafRuleBodyCis(mode)
+				model, err := wafRulesApiService.NewWafRuleBodyCis(mode)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewWafRuleBodyOwasp successfully`, func() {
 				mode := "on"
-				model, err := testService.NewWafRuleBodyOwasp(mode)
+				model, err := wafRulesApiService.NewWafRuleBodyOwasp(mode)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

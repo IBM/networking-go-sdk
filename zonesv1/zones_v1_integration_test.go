@@ -27,7 +27,7 @@ func shouldSkipTest() {
 	}
 }
 
-var _ = Describe(`zoneratelimitsv1`, func() {
+var _ = Describe(`zonesv1_test`, func() {
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -59,6 +59,8 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
 				listOpt := service.NewListZonesOptions()
+				listOpt.SetPage(1)
+				listOpt.SetPerPage(1000)
 				listResult, listResp, listErr := service.ListZones(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
@@ -79,6 +81,8 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 			AfterEach(func() {
 				shouldSkipTest()
 				listOpt := service.NewListZonesOptions()
+				listOpt.SetPage(1)
+				listOpt.SetPerPage(1000)
 				listResult, listResp, listErr := service.ListZones(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
@@ -157,6 +161,8 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 
 				// list all zones
 				listOpt := service.NewListZonesOptions()
+				listOpt.SetPage(1)
+				listOpt.SetPerPage(1000)
 				listResult, listResp, listErr := service.ListZones(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())

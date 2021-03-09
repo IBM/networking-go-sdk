@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package globalloadbalancerpoolsv0 : Operations and models for the GlobalLoadBalancerPoolsV0 service
 package globalloadbalancerpoolsv0
 
 import (
+	"context"
 	"encoding/json"
-	"reflect"
-
+	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
+	"reflect"
+	"time"
 )
 
 // GlobalLoadBalancerPoolsV0 : GLB Pools
@@ -106,10 +114,25 @@ func NewGlobalLoadBalancerPoolsV0(options *GlobalLoadBalancerPoolsV0Options) (se
 
 	service = &GlobalLoadBalancerPoolsV0{
 		Service: baseService,
-		Crn:     options.Crn,
+		Crn: options.Crn,
 	}
 
 	return
+}
+
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "globalLoadBalancerPools" suitable for processing requests.
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) Clone() *GlobalLoadBalancerPoolsV0 {
+	if core.IsNil(globalLoadBalancerPools) {
+		return nil
+	}
+	clone := *globalLoadBalancerPools
+	clone.Service = globalLoadBalancerPools.Service.Clone()
+	return &clone
 }
 
 // SetServiceURL sets the service URL
@@ -117,19 +140,58 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) SetServiceURL(url stri
 	return globalLoadBalancerPools.Service.SetServiceURL(url)
 }
 
-// ListAllLoadBalancerPools : List configured pools
+// GetServiceURL returns the service URL
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetServiceURL() string {
+	return globalLoadBalancerPools.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) SetDefaultHeaders(headers http.Header) {
+	globalLoadBalancerPools.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) SetEnableGzipCompression(enableGzip bool) {
+	globalLoadBalancerPools.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetEnableGzipCompression() bool {
+	return globalLoadBalancerPools.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	globalLoadBalancerPools.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DisableRetries() {
+	globalLoadBalancerPools.Service.DisableRetries()
+}
+
+// ListAllLoadBalancerPools : List all pools
 // List all configured load balancer pools.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) ListAllLoadBalancerPools(listAllLoadBalancerPoolsOptions *ListAllLoadBalancerPoolsOptions) (result *ListLoadBalancerPoolsResp, response *core.DetailedResponse, err error) {
+	return globalLoadBalancerPools.ListAllLoadBalancerPoolsWithContext(context.Background(), listAllLoadBalancerPoolsOptions)
+}
+
+// ListAllLoadBalancerPoolsWithContext is an alternate form of the ListAllLoadBalancerPools method which supports a Context parameter
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) ListAllLoadBalancerPoolsWithContext(ctx context.Context, listAllLoadBalancerPoolsOptions *ListAllLoadBalancerPoolsOptions) (result *ListLoadBalancerPoolsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAllLoadBalancerPoolsOptions, "listAllLoadBalancerPoolsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "load_balancers/pools"}
-	pathParameters := []string{*globalLoadBalancerPools.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *globalLoadBalancerPools.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancerPools.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = globalLoadBalancerPools.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(globalLoadBalancerPools.Service.Options.URL, `/v1/{crn}/load_balancers/pools`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -163,19 +225,27 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) ListAllLoadBalancerPoo
 	return
 }
 
-// CreateLoadBalancerPool : Create a new pool
+// CreateLoadBalancerPool : Create pool
 // Create a new load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
+	return globalLoadBalancerPools.CreateLoadBalancerPoolWithContext(context.Background(), createLoadBalancerPoolOptions)
+}
+
+// CreateLoadBalancerPoolWithContext is an alternate form of the CreateLoadBalancerPool method which supports a Context parameter
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) CreateLoadBalancerPoolWithContext(ctx context.Context, createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createLoadBalancerPoolOptions, "createLoadBalancerPoolOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "load_balancers/pools"}
-	pathParameters := []string{*globalLoadBalancerPools.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *globalLoadBalancerPools.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancerPools.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = globalLoadBalancerPools.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(globalLoadBalancerPools.Service.Options.URL, `/v1/{crn}/load_balancers/pools`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -240,9 +310,14 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) CreateLoadBalancerPool
 	return
 }
 
-// GetLoadBalancerPool : Get details of a pool
+// GetLoadBalancerPool : Get pool
 // Get a single configured load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
+	return globalLoadBalancerPools.GetLoadBalancerPoolWithContext(context.Background(), getLoadBalancerPoolOptions)
+}
+
+// GetLoadBalancerPoolWithContext is an alternate form of the GetLoadBalancerPool method which supports a Context parameter
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetLoadBalancerPoolWithContext(ctx context.Context, getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerPoolOptions, "getLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -252,11 +327,15 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetLoadBalancerPool(ge
 		return
 	}
 
-	pathSegments := []string{"v1", "load_balancers/pools"}
-	pathParameters := []string{*globalLoadBalancerPools.Crn, *getLoadBalancerPoolOptions.PoolIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *globalLoadBalancerPools.Crn,
+		"pool_identifier": *getLoadBalancerPoolOptions.PoolIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancerPools.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = globalLoadBalancerPools.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(globalLoadBalancerPools.Service.Options.URL, `/v1/{crn}/load_balancers/pools/{pool_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -290,9 +369,14 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) GetLoadBalancerPool(ge
 	return
 }
 
-// DeleteLoadBalancerPool : Delete a configured pool
+// DeleteLoadBalancerPool : Delete pool
 // Delete a specific configured load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions) (result *DeleteLoadBalancerPoolResp, response *core.DetailedResponse, err error) {
+	return globalLoadBalancerPools.DeleteLoadBalancerPoolWithContext(context.Background(), deleteLoadBalancerPoolOptions)
+}
+
+// DeleteLoadBalancerPoolWithContext is an alternate form of the DeleteLoadBalancerPool method which supports a Context parameter
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DeleteLoadBalancerPoolWithContext(ctx context.Context, deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions) (result *DeleteLoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerPoolOptions, "deleteLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -302,11 +386,15 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DeleteLoadBalancerPool
 		return
 	}
 
-	pathSegments := []string{"v1", "load_balancers/pools"}
-	pathParameters := []string{*globalLoadBalancerPools.Crn, *deleteLoadBalancerPoolOptions.PoolIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *globalLoadBalancerPools.Crn,
+		"pool_identifier": *deleteLoadBalancerPoolOptions.PoolIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancerPools.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = globalLoadBalancerPools.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(globalLoadBalancerPools.Service.Options.URL, `/v1/{crn}/load_balancers/pools/{pool_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -340,9 +428,14 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) DeleteLoadBalancerPool
 	return
 }
 
-// EditLoadBalancerPool : Edit a configured pool
+// EditLoadBalancerPool : Edit pool
 // Edit a specific configured load balancer pool.
 func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) EditLoadBalancerPool(editLoadBalancerPoolOptions *EditLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
+	return globalLoadBalancerPools.EditLoadBalancerPoolWithContext(context.Background(), editLoadBalancerPoolOptions)
+}
+
+// EditLoadBalancerPoolWithContext is an alternate form of the EditLoadBalancerPool method which supports a Context parameter
+func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) EditLoadBalancerPoolWithContext(ctx context.Context, editLoadBalancerPoolOptions *EditLoadBalancerPoolOptions) (result *LoadBalancerPoolResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editLoadBalancerPoolOptions, "editLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -352,11 +445,15 @@ func (globalLoadBalancerPools *GlobalLoadBalancerPoolsV0) EditLoadBalancerPool(e
 		return
 	}
 
-	pathSegments := []string{"v1", "load_balancers/pools"}
-	pathParameters := []string{*globalLoadBalancerPools.Crn, *editLoadBalancerPoolOptions.PoolIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *globalLoadBalancerPools.Crn,
+		"pool_identifier": *editLoadBalancerPoolOptions.PoolIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(globalLoadBalancerPools.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = globalLoadBalancerPools.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(globalLoadBalancerPools.Service.Options.URL, `/v1/{crn}/load_balancers/pools/{pool_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -513,7 +610,7 @@ func (options *CreateLoadBalancerPoolOptions) SetHeaders(param map[string]string
 // DeleteLoadBalancerPoolOptions : The DeleteLoadBalancerPool options.
 type DeleteLoadBalancerPoolOptions struct {
 	// pool identifier.
-	PoolIdentifier *string `json:"pool_identifier" validate:"required"`
+	PoolIdentifier *string `json:"pool_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -544,6 +641,7 @@ type DeleteLoadBalancerPoolRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
+
 // UnmarshalDeleteLoadBalancerPoolRespResult unmarshals an instance of DeleteLoadBalancerPoolRespResult from the specified map of raw messages.
 func UnmarshalDeleteLoadBalancerPoolRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteLoadBalancerPoolRespResult)
@@ -558,7 +656,7 @@ func UnmarshalDeleteLoadBalancerPoolRespResult(m map[string]json.RawMessage, res
 // EditLoadBalancerPoolOptions : The EditLoadBalancerPool options.
 type EditLoadBalancerPoolOptions struct {
 	// pool identifier.
-	PoolIdentifier *string `json:"pool_identifier" validate:"required"`
+	PoolIdentifier *string `json:"pool_identifier" validate:"required,ne="`
 
 	// name.
 	Name *string `json:"name,omitempty"`
@@ -658,7 +756,7 @@ func (options *EditLoadBalancerPoolOptions) SetHeaders(param map[string]string) 
 // GetLoadBalancerPoolOptions : The GetLoadBalancerPool options.
 type GetLoadBalancerPoolOptions struct {
 	// pool identifier.
-	PoolIdentifier *string `json:"pool_identifier" validate:"required"`
+	PoolIdentifier *string `json:"pool_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -714,7 +812,17 @@ type LoadBalancerPoolPackOriginsItem struct {
 
 	// healthy.
 	Healthy *bool `json:"healthy,omitempty"`
+
+	// weight.
+	Weight *float64 `json:"weight,omitempty"`
+
+	// Pool origin disabled date.
+	DisabledAt *string `json:"disabled_at,omitempty"`
+
+	// Reason for failure.
+	FailureReason *string `json:"failure_reason,omitempty"`
 }
+
 
 // UnmarshalLoadBalancerPoolPackOriginsItem unmarshals an instance of LoadBalancerPoolPackOriginsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolPackOriginsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -735,6 +843,18 @@ func UnmarshalLoadBalancerPoolPackOriginsItem(m map[string]json.RawMessage, resu
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "weight", &obj.Weight)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "disabled_at", &obj.DisabledAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "failure_reason", &obj.FailureReason)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -749,7 +869,11 @@ type LoadBalancerPoolReqOriginsItem struct {
 
 	// enabled/disabled.
 	Enabled *bool `json:"enabled,omitempty"`
+
+	// weight.
+	Weight *float64 `json:"weight,omitempty"`
 }
+
 
 // UnmarshalLoadBalancerPoolReqOriginsItem unmarshals an instance of LoadBalancerPoolReqOriginsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolReqOriginsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -763,6 +887,10 @@ func UnmarshalLoadBalancerPoolReqOriginsItem(m map[string]json.RawMessage, resul
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "weight", &obj.Weight)
 	if err != nil {
 		return
 	}
@@ -784,6 +912,7 @@ type DeleteLoadBalancerPoolResp struct {
 	// result.
 	Result *DeleteLoadBalancerPoolRespResult `json:"result" validate:"required"`
 }
+
 
 // UnmarshalDeleteLoadBalancerPoolResp unmarshals an instance of DeleteLoadBalancerPoolResp from the specified map of raw messages.
 func UnmarshalDeleteLoadBalancerPoolResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -825,6 +954,7 @@ type ListLoadBalancerPoolsResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
+
 
 // UnmarshalListLoadBalancerPoolsResp unmarshals an instance of ListLoadBalancerPoolsResp from the specified map of raw messages.
 func UnmarshalListLoadBalancerPoolsResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -879,12 +1009,19 @@ type LoadBalancerPoolPack struct {
 	// monitor.
 	Monitor *string `json:"monitor,omitempty"`
 
+	// Minimum origin count.
+	MinimumOrigins *int64 `json:"minimum_origins,omitempty"`
+
+	// regions check.
+	CheckRegions []string `json:"check_regions,omitempty"`
+
 	// original.
 	Origins []LoadBalancerPoolPackOriginsItem `json:"origins" validate:"required"`
 
 	// notification email.
 	NotificationEmail *string `json:"notification_email,omitempty"`
 }
+
 
 // UnmarshalLoadBalancerPoolPack unmarshals an instance of LoadBalancerPoolPack from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolPack(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -921,6 +1058,14 @@ func UnmarshalLoadBalancerPoolPack(m map[string]json.RawMessage, result interfac
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "minimum_origins", &obj.MinimumOrigins)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "check_regions", &obj.CheckRegions)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "origins", &obj.Origins, UnmarshalLoadBalancerPoolPackOriginsItem)
 	if err != nil {
 		return
@@ -950,6 +1095,7 @@ type LoadBalancerPoolResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
+
 
 // UnmarshalLoadBalancerPoolResp unmarshals an instance of LoadBalancerPoolResp from the specified map of raw messages.
 func UnmarshalLoadBalancerPoolResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -992,6 +1138,7 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
+
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {

@@ -207,7 +207,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, `{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "should_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
@@ -288,6 +288,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -295,9 +310,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
-				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
-				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
+				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
@@ -308,6 +323,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 
 				// Construct an instance of the CreateGatewayOptions model
 				createGatewayOptionsModel := new(directlinkv1.CreateGatewayOptions)
@@ -340,7 +356,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "should_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
@@ -358,6 +374,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -365,9 +396,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
-				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
-				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
+				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
@@ -378,6 +409,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 
 				// Construct an instance of the CreateGatewayOptions model
 				createGatewayOptionsModel := new(directlinkv1.CreateGatewayOptions)
@@ -399,6 +431,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -406,9 +453,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
-				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
-				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
+				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
@@ -419,6 +466,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 
 				// Construct an instance of the CreateGatewayOptions model
 				createGatewayOptionsModel := new(directlinkv1.CreateGatewayOptions)
@@ -576,7 +624,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "should_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
@@ -666,11 +714,27 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -703,7 +767,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "should_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
@@ -721,11 +785,27 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -747,11 +827,27 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -849,7 +945,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, `{"bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "should_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
@@ -1189,6 +1285,134 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
+	Describe(`GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions) - Operation response error`, func() {
+		version := "testString"
+		getGatewayStatisticsPath := "/gateways/testString/statistics"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.Path).To(Equal(getGatewayStatisticsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka"}))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetGatewayStatistics with error: Operation response processing error`, func() {
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(testServiceErr).To(BeNil())
+				Expect(testService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayStatisticsOptions model
+				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := testService.GetGatewayStatistics(getGatewayStatisticsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions)`, func() {
+		version := "testString"
+		getGatewayStatisticsPath := "/gateways/testString/statistics"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.Path).To(Equal(getGatewayStatisticsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka"}))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `{"statistics": [{"created_at": "2019-01-01T12:00:00", "data": "MKA statistics text...", "type": "macsec_policy"}]}`)
+				}))
+			})
+			It(`Invoke GetGatewayStatistics successfully`, func() {
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(testServiceErr).To(BeNil())
+				Expect(testService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := testService.GetGatewayStatistics(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetGatewayStatisticsOptions model
+				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = testService.GetGatewayStatistics(getGatewayStatisticsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke GetGatewayStatistics with error: Operation validation and request error`, func() {
+				testService, testServiceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(testServiceErr).To(BeNil())
+				Expect(testService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayStatisticsOptions model
+				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := testService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := testService.GetGatewayStatistics(getGatewayStatisticsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetGatewayStatisticsOptions model with no property values
+				getGatewayStatisticsOptionsModelNew := new(directlinkv1.GetGatewayStatisticsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = testService.GetGatewayStatistics(getGatewayStatisticsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Service constructor tests`, func() {
 		version := "testString"
 		It(`Instantiate service client`, func() {
@@ -1362,7 +1586,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}`)
+					fmt.Fprintf(res, `{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}`)
 				}))
 			})
 			It(`Invoke ListOfferingTypeLocations successfully`, func() {
@@ -1607,7 +1831,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"speeds": [{"link_speed": 2000}]}`)
+					fmt.Fprintf(res, `{"speeds": [{"link_speed": 2000, "macsec_enabled": false}]}`)
 				}))
 			})
 			It(`Invoke ListOfferingTypeSpeeds successfully`, func() {
@@ -2789,6 +3013,30 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(createGatewayCompletionNoticeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateGatewayOptions successfully`, func() {
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				Expect(gatewayMacsecConfigTemplateFallbackCakModel).ToNot(BeNil())
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecConfigTemplateFallbackCakModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				Expect(gatewayMacsecConfigTemplatePrimaryCakModel).ToNot(BeNil())
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecConfigTemplatePrimaryCakModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				Expect(gatewayMacsecConfigTemplateModel).ToNot(BeNil())
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
+				Expect(gatewayMacsecConfigTemplateModel.Active).To(Equal(core.BoolPtr(true)))
+				Expect(gatewayMacsecConfigTemplateModel.FallbackCak).To(Equal(gatewayMacsecConfigTemplateFallbackCakModel))
+				Expect(gatewayMacsecConfigTemplateModel.PrimaryCak).To(Equal(gatewayMacsecConfigTemplatePrimaryCakModel))
+				Expect(gatewayMacsecConfigTemplateModel.WindowSize).To(Equal(core.Int64Ptr(int64(148809600))))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
@@ -2799,9 +3047,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				Expect(gatewayTemplateModel).ToNot(BeNil())
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("10.254.30.76/30")
-				gatewayTemplateModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
-				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
+				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
@@ -2812,10 +3060,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				Expect(gatewayTemplateModel.BgpAsn).To(Equal(core.Int64Ptr(int64(64999))))
-				Expect(gatewayTemplateModel.BgpBaseCidr).To(Equal(core.StringPtr("10.254.30.76/30")))
-				Expect(gatewayTemplateModel.BgpCerCidr).To(Equal(core.StringPtr("10.254.30.78/30")))
-				Expect(gatewayTemplateModel.BgpIbmCidr).To(Equal(core.StringPtr("10.254.30.77/30")))
+				Expect(gatewayTemplateModel.BgpBaseCidr).To(Equal(core.StringPtr("testString")))
+				Expect(gatewayTemplateModel.BgpCerCidr).To(Equal(core.StringPtr("169.254.0.10/30")))
+				Expect(gatewayTemplateModel.BgpIbmCidr).To(Equal(core.StringPtr("169.254.0.9/30")))
 				Expect(gatewayTemplateModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(gatewayTemplateModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(gatewayTemplateModel.Name).To(Equal(core.StringPtr("myGateway")))
@@ -2826,6 +3075,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayTemplateModel.CrossConnectRouter).To(Equal(core.StringPtr("xcr01.dal03")))
 				Expect(gatewayTemplateModel.CustomerName).To(Equal(core.StringPtr("newCustomerName")))
 				Expect(gatewayTemplateModel.LocationName).To(Equal(core.StringPtr("dal03")))
+				Expect(gatewayTemplateModel.MacsecConfig).To(Equal(gatewayMacsecConfigTemplateModel))
 
 				// Construct an instance of the CreateGatewayOptions model
 				var gatewayTemplate directlinkv1.GatewayTemplateIntf = nil
@@ -2877,6 +3127,36 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(deleteGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGatewayMacsecConfigPatchTemplateFallbackCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				model, err := testService.NewGatewayMacsecConfigPatchTemplateFallbackCak(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigPatchTemplatePrimaryCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				model, err := testService.NewGatewayMacsecConfigPatchTemplatePrimaryCak(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigTemplate successfully`, func() {
+				active := true
+				var primaryCak *directlinkv1.GatewayMacsecConfigTemplatePrimaryCak = nil
+				_, err := testService.NewGatewayMacsecConfigTemplate(active, primaryCak)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigTemplateFallbackCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				model, err := testService.NewGatewayMacsecConfigTemplateFallbackCak(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigTemplatePrimaryCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				model, err := testService.NewGatewayMacsecConfigTemplatePrimaryCak(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewGatewayPortIdentity successfully`, func() {
 				id := "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"
 				model, err := testService.NewGatewayPortIdentity(id)
@@ -2892,6 +3172,19 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(getGatewayOptionsModel).ToNot(BeNil())
 				Expect(getGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetGatewayStatisticsOptions successfully`, func() {
+				// Construct an instance of the GetGatewayStatisticsOptions model
+				id := "testString"
+				typeVar := "macsec_mka"
+				getGatewayStatisticsOptionsModel := testService.NewGetGatewayStatisticsOptions(id, typeVar)
+				getGatewayStatisticsOptionsModel.SetID("testString")
+				getGatewayStatisticsOptionsModel.SetType("macsec_mka")
+				getGatewayStatisticsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getGatewayStatisticsOptionsModel).ToNot(BeNil())
+				Expect(getGatewayStatisticsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayStatisticsOptionsModel.Type).To(Equal(core.StringPtr("macsec_mka")))
+				Expect(getGatewayStatisticsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayVirtualConnectionOptions successfully`, func() {
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
@@ -3006,12 +3299,37 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewUpdateGatewayOptions successfully`, func() {
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				Expect(gatewayMacsecConfigPatchTemplateFallbackCakModel).ToNot(BeNil())
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				Expect(gatewayMacsecConfigPatchTemplatePrimaryCakModel).ToNot(BeNil())
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				Expect(gatewayMacsecConfigPatchTemplateModel).ToNot(BeNil())
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+				Expect(gatewayMacsecConfigPatchTemplateModel.Active).To(Equal(core.BoolPtr(true)))
+				Expect(gatewayMacsecConfigPatchTemplateModel.FallbackCak).To(Equal(gatewayMacsecConfigPatchTemplateFallbackCakModel))
+				Expect(gatewayMacsecConfigPatchTemplateModel.PrimaryCak).To(Equal(gatewayMacsecConfigPatchTemplatePrimaryCakModel))
+				Expect(gatewayMacsecConfigPatchTemplateModel.WindowSize).To(Equal(core.Int64Ptr(int64(512))))
+
 				// Construct an instance of the UpdateGatewayOptions model
 				id := "testString"
 				updateGatewayOptionsModel := testService.NewUpdateGatewayOptions(id)
 				updateGatewayOptionsModel.SetID("testString")
 				updateGatewayOptionsModel.SetGlobal(true)
 				updateGatewayOptionsModel.SetLoaRejectReason("The port mentioned was incorrect")
+				updateGatewayOptionsModel.SetMacsecConfig(gatewayMacsecConfigPatchTemplateModel)
 				updateGatewayOptionsModel.SetMetered(false)
 				updateGatewayOptionsModel.SetName("testGateway")
 				updateGatewayOptionsModel.SetOperationalStatus("loa_accepted")
@@ -3021,6 +3339,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(updateGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(updateGatewayOptionsModel.LoaRejectReason).To(Equal(core.StringPtr("The port mentioned was incorrect")))
+				Expect(updateGatewayOptionsModel.MacsecConfig).To(Equal(gatewayMacsecConfigPatchTemplateModel))
 				Expect(updateGatewayOptionsModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(updateGatewayOptionsModel.Name).To(Equal(core.StringPtr("testGateway")))
 				Expect(updateGatewayOptionsModel.OperationalStatus).To(Equal(core.StringPtr("loa_accepted")))
@@ -3046,19 +3365,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewGatewayTemplateGatewayTypeConnectTemplate successfully`, func() {
 				bgpAsn := int64(64999)
-				bgpBaseCidr := "10.254.30.76/30"
 				global := true
 				metered := false
 				name := "myGateway"
 				speedMbps := int64(1000)
 				typeVar := "dedicated"
 				var port *directlinkv1.GatewayPortIdentity = nil
-				_, err := testService.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, bgpBaseCidr, global, metered, name, speedMbps, typeVar, port)
+				_, err := testService.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, name, speedMbps, typeVar, port)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewGatewayTemplateGatewayTypeDedicatedTemplate successfully`, func() {
 				bgpAsn := int64(64999)
-				bgpBaseCidr := "10.254.30.76/30"
 				global := true
 				metered := false
 				name := "myGateway"
@@ -3068,7 +3385,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				crossConnectRouter := "xcr01.dal03"
 				customerName := "newCustomerName"
 				locationName := "dal03"
-				model, err := testService.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, bgpBaseCidr, global, metered, name, speedMbps, typeVar, carrierName, crossConnectRouter, customerName, locationName)
+				model, err := testService.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, name, speedMbps, typeVar, carrierName, crossConnectRouter, customerName, locationName)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

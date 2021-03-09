@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package zonesv1 : Operations and models for the ZonesV1 service
 package zonesv1
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // ZonesV1 : CIS Zones
@@ -111,24 +120,78 @@ func NewZonesV1(options *ZonesV1Options) (service *ZonesV1, err error) {
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "zones" suitable for processing requests.
+func (zones *ZonesV1) Clone() *ZonesV1 {
+	if core.IsNil(zones) {
+		return nil
+	}
+	clone := *zones
+	clone.Service = zones.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (zones *ZonesV1) SetServiceURL(url string) error {
 	return zones.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (zones *ZonesV1) GetServiceURL() string {
+	return zones.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (zones *ZonesV1) SetDefaultHeaders(headers http.Header) {
+	zones.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (zones *ZonesV1) SetEnableGzipCompression(enableGzip bool) {
+	zones.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (zones *ZonesV1) GetEnableGzipCompression() bool {
+	return zones.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (zones *ZonesV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	zones.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (zones *ZonesV1) DisableRetries() {
+	zones.Service.DisableRetries()
+}
+
 // ListZones : List all zones
 // List all zones for a service instance.
 func (zones *ZonesV1) ListZones(listZonesOptions *ListZonesOptions) (result *ListZonesResp, response *core.DetailedResponse, err error) {
+	return zones.ListZonesWithContext(context.Background(), listZonesOptions)
+}
+
+// ListZonesWithContext is an alternate form of the ListZones method which supports a Context parameter
+func (zones *ZonesV1) ListZonesWithContext(ctx context.Context, listZonesOptions *ListZonesOptions) (result *ListZonesResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listZonesOptions, "listZonesOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones"}
-	pathParameters := []string{*zones.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *zones.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(zones.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zones.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zones.Service.Options.URL, `/v1/{crn}/zones`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -142,6 +205,13 @@ func (zones *ZonesV1) ListZones(listZonesOptions *ListZonesOptions) (result *Lis
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+
+	if listZonesOptions.Page != nil {
+		builder.AddQuery("page", fmt.Sprint(*listZonesOptions.Page))
+	}
+	if listZonesOptions.PerPage != nil {
+		builder.AddQuery("per_page", fmt.Sprint(*listZonesOptions.PerPage))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -162,19 +232,27 @@ func (zones *ZonesV1) ListZones(listZonesOptions *ListZonesOptions) (result *Lis
 	return
 }
 
-// CreateZone : Create a zone
+// CreateZone : Create zone
 // Add a new zone for a given service instance.
 func (zones *ZonesV1) CreateZone(createZoneOptions *CreateZoneOptions) (result *ZoneResp, response *core.DetailedResponse, err error) {
+	return zones.CreateZoneWithContext(context.Background(), createZoneOptions)
+}
+
+// CreateZoneWithContext is an alternate form of the CreateZone method which supports a Context parameter
+func (zones *ZonesV1) CreateZoneWithContext(ctx context.Context, createZoneOptions *CreateZoneOptions) (result *ZoneResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createZoneOptions, "createZoneOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones"}
-	pathParameters := []string{*zones.Crn}
+	pathParamsMap := map[string]string{
+		"crn": *zones.Crn,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(zones.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zones.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zones.Service.Options.URL, `/v1/{crn}/zones`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -218,9 +296,14 @@ func (zones *ZonesV1) CreateZone(createZoneOptions *CreateZoneOptions) (result *
 	return
 }
 
-// DeleteZone : Delete a zone
+// DeleteZone : Delete zone
 // Delete a zone given its id.
 func (zones *ZonesV1) DeleteZone(deleteZoneOptions *DeleteZoneOptions) (result *DeleteZoneResp, response *core.DetailedResponse, err error) {
+	return zones.DeleteZoneWithContext(context.Background(), deleteZoneOptions)
+}
+
+// DeleteZoneWithContext is an alternate form of the DeleteZone method which supports a Context parameter
+func (zones *ZonesV1) DeleteZoneWithContext(ctx context.Context, deleteZoneOptions *DeleteZoneOptions) (result *DeleteZoneResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteZoneOptions, "deleteZoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -230,11 +313,15 @@ func (zones *ZonesV1) DeleteZone(deleteZoneOptions *DeleteZoneOptions) (result *
 		return
 	}
 
-	pathSegments := []string{"v1", "zones"}
-	pathParameters := []string{*zones.Crn, *deleteZoneOptions.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zones.Crn,
+		"zone_identifier": *deleteZoneOptions.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(zones.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zones.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zones.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -268,9 +355,14 @@ func (zones *ZonesV1) DeleteZone(deleteZoneOptions *DeleteZoneOptions) (result *
 	return
 }
 
-// GetZone : Get a zone
+// GetZone : Get zone
 // Get the details of a zone for a given service instance and given zone id.
 func (zones *ZonesV1) GetZone(getZoneOptions *GetZoneOptions) (result *ZoneResp, response *core.DetailedResponse, err error) {
+	return zones.GetZoneWithContext(context.Background(), getZoneOptions)
+}
+
+// GetZoneWithContext is an alternate form of the GetZone method which supports a Context parameter
+func (zones *ZonesV1) GetZoneWithContext(ctx context.Context, getZoneOptions *GetZoneOptions) (result *ZoneResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneOptions, "getZoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -280,11 +372,15 @@ func (zones *ZonesV1) GetZone(getZoneOptions *GetZoneOptions) (result *ZoneResp,
 		return
 	}
 
-	pathSegments := []string{"v1", "zones"}
-	pathParameters := []string{*zones.Crn, *getZoneOptions.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zones.Crn,
+		"zone_identifier": *getZoneOptions.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(zones.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zones.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zones.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -318,9 +414,14 @@ func (zones *ZonesV1) GetZone(getZoneOptions *GetZoneOptions) (result *ZoneResp,
 	return
 }
 
-// UpdateZone : Update a zone's paused field
+// UpdateZone : Update zone
 // Update the paused field of the zone.
 func (zones *ZonesV1) UpdateZone(updateZoneOptions *UpdateZoneOptions) (result *ZoneResp, response *core.DetailedResponse, err error) {
+	return zones.UpdateZoneWithContext(context.Background(), updateZoneOptions)
+}
+
+// UpdateZoneWithContext is an alternate form of the UpdateZone method which supports a Context parameter
+func (zones *ZonesV1) UpdateZoneWithContext(ctx context.Context, updateZoneOptions *UpdateZoneOptions) (result *ZoneResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateZoneOptions, "updateZoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -330,11 +431,15 @@ func (zones *ZonesV1) UpdateZone(updateZoneOptions *UpdateZoneOptions) (result *
 		return
 	}
 
-	pathSegments := []string{"v1", "zones"}
-	pathParameters := []string{*zones.Crn, *updateZoneOptions.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zones.Crn,
+		"zone_identifier": *updateZoneOptions.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
-	_, err = builder.ConstructHTTPURL(zones.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zones.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zones.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -378,9 +483,14 @@ func (zones *ZonesV1) UpdateZone(updateZoneOptions *UpdateZoneOptions) (result *
 	return
 }
 
-// ZoneActivationCheck : Check activation status of zone
+// ZoneActivationCheck : Check zone
 // Perform activation check on zone for status.
 func (zones *ZonesV1) ZoneActivationCheck(zoneActivationCheckOptions *ZoneActivationCheckOptions) (result *ZoneActivationcheckResp, response *core.DetailedResponse, err error) {
+	return zones.ZoneActivationCheckWithContext(context.Background(), zoneActivationCheckOptions)
+}
+
+// ZoneActivationCheckWithContext is an alternate form of the ZoneActivationCheck method which supports a Context parameter
+func (zones *ZonesV1) ZoneActivationCheckWithContext(ctx context.Context, zoneActivationCheckOptions *ZoneActivationCheckOptions) (result *ZoneActivationcheckResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(zoneActivationCheckOptions, "zoneActivationCheckOptions cannot be nil")
 	if err != nil {
 		return
@@ -390,11 +500,15 @@ func (zones *ZonesV1) ZoneActivationCheck(zoneActivationCheckOptions *ZoneActiva
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "activation_check"}
-	pathParameters := []string{*zones.Crn, *zoneActivationCheckOptions.ZoneIdentifier}
+	pathParamsMap := map[string]string{
+		"crn": *zones.Crn,
+		"zone_identifier": *zoneActivationCheckOptions.ZoneIdentifier,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(zones.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zones.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zones.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/activation_check`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -457,7 +571,7 @@ func (options *CreateZoneOptions) SetHeaders(param map[string]string) *CreateZon
 // DeleteZoneOptions : The DeleteZone options.
 type DeleteZoneOptions struct {
 	// Identifier of zone.
-	ZoneIdentifier *string `json:"zone_identifier" validate:"required"`
+	ZoneIdentifier *string `json:"zone_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -503,7 +617,7 @@ func UnmarshalDeleteZoneRespResult(m map[string]json.RawMessage, result interfac
 // GetZoneOptions : The GetZone options.
 type GetZoneOptions struct {
 	// Zone identifier.
-	ZoneIdentifier *string `json:"zone_identifier" validate:"required"`
+	ZoneIdentifier *string `json:"zone_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -530,6 +644,11 @@ func (options *GetZoneOptions) SetHeaders(param map[string]string) *GetZoneOptio
 
 // ListZonesOptions : The ListZones options.
 type ListZonesOptions struct {
+	// Page number of paginated results.
+	Page *int64 `json:"page,omitempty"`
+
+	// Maximum number of zones per page.
+	PerPage *int64 `json:"per_page,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -538,6 +657,18 @@ type ListZonesOptions struct {
 // NewListZonesOptions : Instantiate ListZonesOptions
 func (*ZonesV1) NewListZonesOptions() *ListZonesOptions {
 	return &ListZonesOptions{}
+}
+
+// SetPage : Allow user to set Page
+func (options *ListZonesOptions) SetPage(page int64) *ListZonesOptions {
+	options.Page = core.Int64Ptr(page)
+	return options
+}
+
+// SetPerPage : Allow user to set PerPage
+func (options *ListZonesOptions) SetPerPage(perPage int64) *ListZonesOptions {
+	options.PerPage = core.Int64Ptr(perPage)
+	return options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -549,7 +680,7 @@ func (options *ListZonesOptions) SetHeaders(param map[string]string) *ListZonesO
 // UpdateZoneOptions : The UpdateZone options.
 type UpdateZoneOptions struct {
 	// Zone identifier.
-	ZoneIdentifier *string `json:"zone_identifier" validate:"required"`
+	ZoneIdentifier *string `json:"zone_identifier" validate:"required,ne="`
 
 	// paused.
 	Paused *bool `json:"paused,omitempty"`
@@ -586,7 +717,7 @@ func (options *UpdateZoneOptions) SetHeaders(param map[string]string) *UpdateZon
 // ZoneActivationCheckOptions : The ZoneActivationCheck options.
 type ZoneActivationCheckOptions struct {
 	// Identifier of zone.
-	ZoneIdentifier *string `json:"zone_identifier" validate:"required"`
+	ZoneIdentifier *string `json:"zone_identifier" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string

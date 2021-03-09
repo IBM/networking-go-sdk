@@ -15,6 +15,7 @@
  */
 
 // Package permittednetworksfordnszonesv1 : Operations and models for the PermittedNetworksForDnsZonesV1 service
+// Deprecated: This module is deprecated. For more detail https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md
 package permittednetworksfordnszonesv1
 
 import (

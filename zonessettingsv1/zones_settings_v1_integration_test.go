@@ -10,10 +10,10 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/v4/core"
+	. "github.com/IBM/networking-go-sdk/zonessettingsv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/zonessettingsv1"
 )
 
 const configFile = "../cis.env"
@@ -26,7 +26,7 @@ func shouldSkipTest() {
 	}
 }
 
-var _ = Describe(`zoneratelimitsv1`, func() {
+var _ = Describe(`zone_settings_v1_test`, func() {
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -56,8 +56,8 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
-	Describe(`zoneratelimitsv1_test`, func() {
-		Context(`zoneratelimitsv1_test`, func() {
+	Describe(`zone_settings_v1_test`, func() {
+		Context(`zone_settings_v1_test`, func() {
 			It(`DNSSEC setting test`, func() {
 				shouldSkipTest()
 				getOpt := service.NewGetZoneDnssecOptions()

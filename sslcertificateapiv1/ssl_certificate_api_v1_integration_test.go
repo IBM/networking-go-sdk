@@ -6,6 +6,7 @@ package sslcertificateapiv1_test
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -64,69 +65,89 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 		Context(`order/view/delete ssl certificate packs`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
-				var result []DedicatedCertificatePack
-				// sometime certificate deletion takes time, so keeping this code
-				for i := 0; i < 5; i++ {
-					deleteStatus := true
-					// list all certificates
-					getOpt := service.NewListCertificatesOptions()
-					getOpt.SetXCorrelationID("12345")
-					listResult, listResp, listErr := service.ListCertificates(getOpt)
-					Expect(listErr).To(BeNil())
-					Expect(listResp).ToNot(BeNil())
-					Expect(listResult).ToNot(BeNil())
-					result = listResult.Result
-					for _, cert := range listResult.Result {
-						if *cert.Status != "active" {
-							fmt.Println("sleeping for 10 sec")
-							time.Sleep(time.Second * 10)
-							deleteStatus = false
-						}
-					}
-					if deleteStatus == true {
-						break
-					}
-				}
+				// list all certificates
+				listOpt := service.NewListCertificatesOptions()
+				listOpt.SetXCorrelationID("12345")
+				listResult, listResp, listErr := service.ListCertificates(listOpt)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				result := listResult.Result
 
 				for _, cert := range result {
-					delOpt := service.NewDeleteCertificateOptions(*cert.ID)
-					delResp, delErr := service.DeleteCertificate(delOpt)
-					Expect(delErr).To(BeNil())
-					Expect(delResp).ToNot(BeNil())
+					if *cert.Type == OrderCertificateOptions_Type_Dedicated {
+						delOpt := service.NewDeleteCertificateOptions(*cert.ID)
+						_, _ = service.DeleteCertificate(delOpt)
+
+					} else {
+						delOpt := service.NewDeleteCustomCertificateOptions(*cert.ID)
+						_, _ = service.DeleteCustomCertificate(delOpt)
+					}
+
+					log.Println("[BeforeEach] Sleeping for 10 second to check the certificate is deleted.")
+					time.Sleep(10 * time.Second)
+
+					for i := 0; i < 5; i++ {
+						slept := false
+
+						listOpt := service.NewListCertificatesOptions()
+						listResult, _, listErr := service.ListCertificates(listOpt)
+						if listErr == nil {
+							for _, certCheck := range listResult.Result {
+								if *certCheck.ID == *cert.ID {
+									log.Println("sleeping for 1 minutes.")
+									time.Sleep(1 * time.Minute)
+									slept = true
+									break
+								}
+							}
+						}
+						if slept == false {
+							break
+						}
+					}
 				}
 			})
 			AfterEach(func() {
 				shouldSkipTest()
-				var result []DedicatedCertificatePack
-				// sometime certificate deletion takes time, so keeping this code
-				for i := 0; i < 5; i++ {
-					deleteStatus := true
-					// list all certificates
-					getOpt := service.NewListCertificatesOptions()
-					getOpt.SetXCorrelationID("12345")
-					listResult, listResp, listErr := service.ListCertificates(getOpt)
-					Expect(listErr).To(BeNil())
-					Expect(listResp).ToNot(BeNil())
-					Expect(listResult).ToNot(BeNil())
-					result = listResult.Result
-					for _, cert := range listResult.Result {
-						if *cert.Status != "active" {
-							fmt.Println("sleeping for 10 sec")
-							time.Sleep(time.Second * 10)
-							deleteStatus = false
+				// list all certificates
+				getOpt := service.NewListCertificatesOptions()
+				getOpt.SetXCorrelationID("12345")
+				listResult, listResp, listErr := service.ListCertificates(getOpt)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				result := listResult.Result
+
+				for _, cert := range result {
+					if *cert.Type == OrderCertificateOptions_Type_Dedicated {
+						delOpt := service.NewDeleteCertificateOptions(*cert.ID)
+						_, _ = service.DeleteCertificate(delOpt)
+					} else {
+						delOpt := service.NewDeleteCustomCertificateOptions(*cert.ID)
+						_, _ = service.DeleteCustomCertificate(delOpt)
+					}
+					log.Println("[AfterEach] Sleeping for 10 second to check the certificate is deleted.")
+					time.Sleep(10 * time.Second)
+					for i := 0; i < 5; i++ {
+						slept := false
+
+						listOpt := service.NewListCertificatesOptions()
+						listResult, _, listErr := service.ListCertificates(listOpt)
+						if listErr == nil {
+							for _, certCheck := range listResult.Result {
+								if *certCheck.ID == *cert.ID {
+									log.Println("sleeping for 1 minutes.")
+									time.Sleep(1 * time.Minute)
+									slept = true
+									break
+								}
+							}
+						}
+						if slept == false {
+							break
 						}
 					}
-					if deleteStatus == true {
-						break
-					}
-				}
-
-				// delete all certificates
-				for _, cert := range result {
-					delOpt := service.NewDeleteCertificateOptions(*cert.ID)
-					delResp, delErr := service.DeleteCertificate(delOpt)
-					Expect(delErr).To(BeNil())
-					Expect(delResp).ToNot(BeNil())
 				}
 			})
 			It(`order/view/delete ssl certificate packs`, func() {
@@ -141,24 +162,29 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(orderErr).To(BeNil())
 				Expect(orderResp).ToNot(BeNil())
 				Expect(orderResult).ToNot(BeNil())
+				Expect(orderResult.Result.ID).ToNot(BeNil())
+				Expect(orderResult.Result.PrimaryCertificate).ToNot(BeNil())
+				Expect(orderResult.Result.Hosts[0]).Should(BeEquivalentTo(url))
+				Expect(orderResult.Result.Status).ToNot(BeNil())
+				Expect(*orderResult.Result.Type).Should(BeEquivalentTo(OrderCertificateOptions_Type_Dedicated))
+				Expect(orderResult.Result.Certificates[0].Hosts[0]).Should(BeEquivalentTo(url))
+				Expect(orderResult.Result.Certificates[0].ID).ToNot(BeNil())
 
 				// list all certificates
-				getOpt := service.NewListCertificatesOptions()
-				getOpt.SetXCorrelationID("12345")
-				listResult, listResp, listErr := service.ListCertificates(getOpt)
+				listOpt := service.NewListCertificatesOptions()
+				listOpt.SetXCorrelationID("12345")
+				listResult, listResp, listErr := service.ListCertificates(listOpt)
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
 				Expect(listResult).ToNot(BeNil())
 
-				// delete all certificates
-				for _, cert := range listResult.Result {
-					delOpt := service.NewDeleteCertificateOptions(*cert.ID)
-					delResp, delErr := service.DeleteCertificate(delOpt)
-					Expect(delErr).To(BeNil())
-					Expect(delResp).ToNot(BeNil())
-				}
+				delOpt := service.NewDeleteCertificateOptions(*orderResult.Result.ID)
+				delResp, delErr := service.DeleteCertificate(delOpt)
+				Expect(delErr).To(BeNil())
+				Expect(delResp).ToNot(BeNil())
 			})
 			It(`upload/view/delete ssl custom certificates`, func() {
+				Skip("No need to run this test case...")
 				shouldSkipTest()
 				// upload certificate packs
 				geoOpt, geoErr := service.NewCustomCertReqGeoRestrictions("us")
@@ -174,6 +200,14 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(uploadResp).ToNot(BeNil())
 				Expect(uploadResult).ToNot(BeNil())
 				Expect(*uploadResult.Success).Should(BeTrue())
+				Expect(uploadResult.Result.ID).ToNot(BeNil())
+				Expect(uploadResult.Result.Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("beta.%s", url)))
+				Expect(uploadResult.Result.Issuer).ToNot(BeNil())
+				Expect(uploadResult.Result.Priority).ToNot(BeNil())
+				Expect(uploadResult.Result.Signature).ToNot(BeNil())
+				Expect(uploadResult.Result.Status).ToNot(BeNil())
+				Expect(*uploadResult.Result.BundleMethod).Should(BeEquivalentTo(UpdateCustomCertificateOptions_BundleMethod_Optimal))
+				Expect(*uploadResult.Result.ZoneID).Should(BeEquivalentTo(zone_id))
 
 				// get custom certificate
 				getOpt := service.NewGetCustomCertificateOptions(*uploadResult.Result.ID)
@@ -182,12 +216,21 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(getResp).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
 				Expect(*getResult.Success).Should(BeTrue())
+				Expect(getResult.Result.Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("beta.%s", url)))
+				Expect(getResult.Result.Issuer).ToNot(BeNil())
+				Expect(getResult.Result.Priority).ToNot(BeNil())
+				Expect(getResult.Result.Signature).ToNot(BeNil())
+				Expect(getResult.Result.Status).ToNot(BeNil())
+				Expect(*getResult.Result.BundleMethod).Should(BeEquivalentTo(UpdateCustomCertificateOptions_BundleMethod_Optimal))
+				Expect(*getResult.Result.ZoneID).Should(BeEquivalentTo(zone_id))
 
 				// update custom certificate
+				updateGeoOpt, updateErr := service.NewCustomCertReqGeoRestrictions("eu")
+				Expect(updateErr).To(BeNil())
 				updateOpt := service.NewUpdateCustomCertificateOptions(*uploadResult.Result.ID)
 				updateOpt.SetBundleMethod(UpdateCustomCertificateOptions_BundleMethod_Ubiquitous)
 				updateOpt.SetCertificate(updateCertificate)
-				updateOpt.SetGeoRestrictions(geoOpt)
+				updateOpt.SetGeoRestrictions(updateGeoOpt)
 				updateOpt.SetPrivateKey(updatePrivateKey)
 
 				updateResult, updateResp, updateErr := service.UpdateCustomCertificate(updateOpt)
@@ -195,6 +238,13 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(updateResp).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())
 				Expect(*updateResult.Success).Should(BeTrue())
+				Expect(updateResult.Result.Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("ibm.%s", url)))
+				Expect(updateResult.Result.Issuer).ToNot(BeNil())
+				Expect(updateResult.Result.Priority).ToNot(BeNil())
+				Expect(updateResult.Result.Signature).ToNot(BeNil())
+				Expect(updateResult.Result.Status).ToNot(BeNil())
+				Expect(*updateResult.Result.BundleMethod).Should(BeEquivalentTo(UpdateCustomCertificateOptions_BundleMethod_Ubiquitous))
+				Expect(*updateResult.Result.ZoneID).Should(BeEquivalentTo(zone_id))
 
 				// list all custom certificates
 				listOpt := service.NewListCustomCertificatesOptions()
@@ -203,6 +253,14 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(listResp).ToNot(BeNil())
 				Expect(listResult).ToNot(BeNil())
 				Expect(*listResult.Success).Should(BeTrue())
+
+				Expect(listResult.Result[0].Hosts[0]).Should(BeEquivalentTo(fmt.Sprintf("ibm.%s", url)))
+				Expect(listResult.Result[0].Issuer).ToNot(BeNil())
+				Expect(listResult.Result[0].Priority).ToNot(BeNil())
+				Expect(listResult.Result[0].Signature).ToNot(BeNil())
+				Expect(listResult.Result[0].Status).ToNot(BeNil())
+				Expect(*listResult.Result[0].BundleMethod).Should(BeEquivalentTo(UpdateCustomCertificateOptions_BundleMethod_Ubiquitous))
+				Expect(*listResult.Result[0].ZoneID).Should(BeEquivalentTo(zone_id))
 
 				// delete all custom certificates
 				for _, cert := range listResult.Result {
@@ -213,6 +271,7 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				}
 			})
 			It(`change/get/delete ssl universal certificate setting`, func() {
+				Skip("No need to run this test case...")
 				shouldSkipTest()
 				// upload custom certificate
 				geoOpt, geoErr := service.NewCustomCertReqGeoRestrictions("us")
@@ -228,6 +287,14 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(uploadResp).ToNot(BeNil())
 				Expect(uploadResult).ToNot(BeNil())
 				Expect(*uploadResult.Success).Should(BeTrue())
+
+				priorityItem, _ := service.NewCertPriorityReqCertificatesItem(*uploadResult.Result.ID, 40)
+				priorityOpt := service.NewChangeCertificatePriorityOptions()
+				priorityOpt.SetCertificates([]CertPriorityReqCertificatesItem{*priorityItem})
+
+				changePriorityResp, changePriorityErr := service.ChangeCertificatePriority(priorityOpt)
+				Expect(changePriorityErr).To(BeNil())
+				Expect(changePriorityResp).ToNot(BeNil())
 
 				// get universal certificate setting
 				getOpt := service.NewGetUniversalCertificateSettingOptions()
@@ -327,6 +394,13 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				changeOpt.SetValue(ChangeTls13SettingOptions_Value_On)
 			}
 			changeResult, changeResp, changeErr := service.ChangeTls13Setting(changeOpt)
+			Expect(changeErr).To(BeNil())
+			Expect(changeResp).ToNot(BeNil())
+			Expect(changeResult).ToNot(BeNil())
+			Expect(*changeResult.Success).Should(BeTrue())
+
+			changeOpt.SetValue(ChangeTls13SettingOptions_Value_Off)
+			changeResult, changeResp, changeErr = service.ChangeTls13Setting(changeOpt)
 			Expect(changeErr).To(BeNil())
 			Expect(changeResp).ToNot(BeNil())
 			Expect(changeResult).ToNot(BeNil())

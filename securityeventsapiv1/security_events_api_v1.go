@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package securityeventsapiv1 : Operations and models for the SecurityEventsApiV1 service
 package securityeventsapiv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
 	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // SecurityEventsApiV1 : Security Events API
@@ -120,26 +128,81 @@ func NewSecurityEventsApiV1(options *SecurityEventsApiV1Options) (service *Secur
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "securityEventsApi" suitable for processing requests.
+func (securityEventsApi *SecurityEventsApiV1) Clone() *SecurityEventsApiV1 {
+	if core.IsNil(securityEventsApi) {
+		return nil
+	}
+	clone := *securityEventsApi
+	clone.Service = securityEventsApi.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (securityEventsApi *SecurityEventsApiV1) SetServiceURL(url string) error {
 	return securityEventsApi.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (securityEventsApi *SecurityEventsApiV1) GetServiceURL() string {
+	return securityEventsApi.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (securityEventsApi *SecurityEventsApiV1) SetDefaultHeaders(headers http.Header) {
+	securityEventsApi.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (securityEventsApi *SecurityEventsApiV1) SetEnableGzipCompression(enableGzip bool) {
+	securityEventsApi.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (securityEventsApi *SecurityEventsApiV1) GetEnableGzipCompression() bool {
+	return securityEventsApi.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (securityEventsApi *SecurityEventsApiV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	securityEventsApi.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (securityEventsApi *SecurityEventsApiV1) DisableRetries() {
+	securityEventsApi.Service.DisableRetries()
+}
+
 // SecurityEvents : Logs of the mitigations performed by Firewall features
 // Provides a full log of the mitigations performed by the CIS Firewall features including; Firewall Rules, Rate
 // Limiting, Security Level, Access Rules (IP, IP Range, ASN, and Country), WAF (Web Application Firewall), User Agent
-// Blocking, Zone Lockdown, and Advanced DDoS Protection.
+// Blocking, Zone Lockdown, and Advanced DDoS Protection. (DEPRECATED: use Firewall Event Analytics API instead).
 func (securityEventsApi *SecurityEventsApiV1) SecurityEvents(securityEventsOptions *SecurityEventsOptions) (result *SecurityEvents, response *core.DetailedResponse, err error) {
+	return securityEventsApi.SecurityEventsWithContext(context.Background(), securityEventsOptions)
+}
+
+// SecurityEventsWithContext is an alternate form of the SecurityEvents method which supports a Context parameter
+func (securityEventsApi *SecurityEventsApiV1) SecurityEventsWithContext(ctx context.Context, securityEventsOptions *SecurityEventsOptions) (result *SecurityEvents, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(securityEventsOptions, "securityEventsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "security/events"}
-	pathParameters := []string{*securityEventsApi.Crn, *securityEventsApi.ZoneID}
+	pathParamsMap := map[string]string{
+		"crn": *securityEventsApi.Crn,
+		"zone_id": *securityEventsApi.ZoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(securityEventsApi.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = securityEventsApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(securityEventsApi.Service.Options.URL, `/v1/{crn}/zones/{zone_id}/security/events`, pathParamsMap)
 	if err != nil {
 		return
 	}

@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ */
+ 
+
 // Package wafapiv1 : Operations and models for the WafApiV1 service
 package wafapiv1
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"net/http"
 	"reflect"
+	"time"
 )
 
 // WafApiV1 : This document describes CIS WAF API.
@@ -118,24 +127,79 @@ func NewWafApiV1(options *WafApiV1Options) (service *WafApiV1, err error) {
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "wafApi" suitable for processing requests.
+func (wafApi *WafApiV1) Clone() *WafApiV1 {
+	if core.IsNil(wafApi) {
+		return nil
+	}
+	clone := *wafApi
+	clone.Service = wafApi.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (wafApi *WafApiV1) SetServiceURL(url string) error {
 	return wafApi.Service.SetServiceURL(url)
 }
 
-// GetWafSettings : Get WAF setting of a specific zone
+// GetServiceURL returns the service URL
+func (wafApi *WafApiV1) GetServiceURL() string {
+	return wafApi.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (wafApi *WafApiV1) SetDefaultHeaders(headers http.Header) {
+	wafApi.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (wafApi *WafApiV1) SetEnableGzipCompression(enableGzip bool) {
+	wafApi.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (wafApi *WafApiV1) GetEnableGzipCompression() bool {
+	return wafApi.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (wafApi *WafApiV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	wafApi.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (wafApi *WafApiV1) DisableRetries() {
+	wafApi.Service.DisableRetries()
+}
+
+// GetWafSettings : Get WAF setting
 // Get WAF of a specific zone.
 func (wafApi *WafApiV1) GetWafSettings(getWafSettingsOptions *GetWafSettingsOptions) (result *WafResponse, response *core.DetailedResponse, err error) {
+	return wafApi.GetWafSettingsWithContext(context.Background(), getWafSettingsOptions)
+}
+
+// GetWafSettingsWithContext is an alternate form of the GetWafSettings method which supports a Context parameter
+func (wafApi *WafApiV1) GetWafSettingsWithContext(ctx context.Context, getWafSettingsOptions *GetWafSettingsOptions) (result *WafResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getWafSettingsOptions, "getWafSettingsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "settings/waf"}
-	pathParameters := []string{*wafApi.Crn, *wafApi.ZoneID}
+	pathParamsMap := map[string]string{
+		"crn": *wafApi.Crn,
+		"zone_id": *wafApi.ZoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(wafApi.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = wafApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(wafApi.Service.Options.URL, `/v1/{crn}/zones/{zone_id}/settings/waf`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -169,19 +233,28 @@ func (wafApi *WafApiV1) GetWafSettings(getWafSettingsOptions *GetWafSettingsOpti
 	return
 }
 
-// UpdateWafSettings : Set WAF setting for a specific zone
+// UpdateWafSettings : Set WAF setting
 // Set WAF (on | off) for a specific zone.
 func (wafApi *WafApiV1) UpdateWafSettings(updateWafSettingsOptions *UpdateWafSettingsOptions) (result *WafResponse, response *core.DetailedResponse, err error) {
+	return wafApi.UpdateWafSettingsWithContext(context.Background(), updateWafSettingsOptions)
+}
+
+// UpdateWafSettingsWithContext is an alternate form of the UpdateWafSettings method which supports a Context parameter
+func (wafApi *WafApiV1) UpdateWafSettingsWithContext(ctx context.Context, updateWafSettingsOptions *UpdateWafSettingsOptions) (result *WafResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(updateWafSettingsOptions, "updateWafSettingsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"v1", "zones", "settings/waf"}
-	pathParameters := []string{*wafApi.Crn, *wafApi.ZoneID}
+	pathParamsMap := map[string]string{
+		"crn": *wafApi.Crn,
+		"zone_id": *wafApi.ZoneID,
+	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
-	_, err = builder.ConstructHTTPURL(wafApi.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = wafApi.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(wafApi.Service.Options.URL, `/v1/{crn}/zones/{zone_id}/settings/waf`, pathParamsMap)
 	if err != nil {
 		return
 	}

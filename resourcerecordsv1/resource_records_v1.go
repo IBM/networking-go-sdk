@@ -15,6 +15,7 @@
  */
 
 // Package resourcerecordsv1 : Operations and models for the ResourceRecordsV1 service
+// Deprecated: This module is deprecated. For more detail https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md
 package resourcerecordsv1
 
 import (

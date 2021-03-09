@@ -18,12 +18,13 @@ package useragentblockingrulesv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/useragentblockingrulesv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/useragentblockingrulesv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(userAgentBlockingRulesService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(userAgentBlockingRulesService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 				URL: "https://useragentblockingrulesv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
@@ -65,13 +66,13 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(userAgentBlockingRulesService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{})
+			Expect(userAgentBlockingRulesService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := userAgentBlockingRulesService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != userAgentBlockingRulesService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(userAgentBlockingRulesService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(userAgentBlockingRulesService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := userAgentBlockingRulesService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != userAgentBlockingRulesService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(userAgentBlockingRulesService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(userAgentBlockingRulesService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := userAgentBlockingRulesService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := userAgentBlockingRulesService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != userAgentBlockingRulesService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(userAgentBlockingRulesService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(userAgentBlockingRulesService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(userAgentBlockingRulesService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(userAgentBlockingRulesService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = useragentblockingrulesv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptions *ListAllZoneUserAgentRulesOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllZoneUserAgentRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllZoneUserAgentRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
@@ -181,14 +210,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				}))
 			})
 			It(`Invoke ListAllZoneUserAgentRules with error: Operation response processing error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllZoneUserAgentRulesOptions model
 				listAllZoneUserAgentRulesOptionsModel := new(useragentblockingrulesv1.ListAllZoneUserAgentRulesOptions)
@@ -196,7 +225,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				listAllZoneUserAgentRulesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listAllZoneUserAgentRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				userAgentBlockingRulesService.EnableRetries(0, 0)
+				result, response, operationErr = userAgentBlockingRulesService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -211,35 +247,43 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listAllZoneUserAgentRulesPath := "/v1/testString/zones/testString/firewall/ua_rules"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listAllZoneUserAgentRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listAllZoneUserAgentRulesPath))
 					Expect(req.Method).To(Equal("GET"))
+
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 
 					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
 
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke ListAllZoneUserAgentRules successfully`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				userAgentBlockingRulesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListAllZoneUserAgentRules(nil)
+				result, response, operationErr := userAgentBlockingRulesService.ListAllZoneUserAgentRules(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -248,23 +292,48 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				listAllZoneUserAgentRulesOptionsModel := new(useragentblockingrulesv1.ListAllZoneUserAgentRulesOptions)
 				listAllZoneUserAgentRulesOptionsModel.Page = core.Int64Ptr(int64(38))
 				listAllZoneUserAgentRulesOptionsModel.PerPage = core.Int64Ptr(int64(5))
- 				listAllZoneUserAgentRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listAllZoneUserAgentRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
+				result, response, operationErr = userAgentBlockingRulesService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.ListAllZoneUserAgentRulesWithContext(ctx, listAllZoneUserAgentRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				userAgentBlockingRulesService.DisableRetries()
+				result, response, operationErr = userAgentBlockingRulesService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.ListAllZoneUserAgentRulesWithContext(ctx, listAllZoneUserAgentRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListAllZoneUserAgentRules with error: Operation request error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the ListAllZoneUserAgentRulesOptions model
 				listAllZoneUserAgentRulesOptionsModel := new(useragentblockingrulesv1.ListAllZoneUserAgentRulesOptions)
@@ -272,9 +341,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				listAllZoneUserAgentRulesOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listAllZoneUserAgentRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := userAgentBlockingRulesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.ListAllZoneUserAgentRules(listAllZoneUserAgentRulesOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -295,7 +364,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createZoneUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createZoneUserAgentRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -303,14 +372,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				}))
 			})
 			It(`Invoke CreateZoneUserAgentRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the UseragentRuleInputConfiguration model
 				useragentRuleInputConfigurationModel := new(useragentblockingrulesv1.UseragentRuleInputConfiguration)
@@ -325,7 +394,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				createZoneUserAgentRuleOptionsModel.Configuration = useragentRuleInputConfigurationModel
 				createZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				userAgentBlockingRulesService.EnableRetries(0, 0)
+				result, response, operationErr = userAgentBlockingRulesService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -340,31 +416,55 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		createZoneUserAgentRulePath := "/v1/testString/zones/testString/firewall/ua_rules"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createZoneUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createZoneUserAgentRulePath))
 					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}`)
 				}))
 			})
 			It(`Invoke CreateZoneUserAgentRule successfully`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				userAgentBlockingRulesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.CreateZoneUserAgentRule(nil)
+				result, response, operationErr := userAgentBlockingRulesService.CreateZoneUserAgentRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -380,23 +480,48 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				createZoneUserAgentRuleOptionsModel.Description = core.StringPtr("Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack")
 				createZoneUserAgentRuleOptionsModel.Mode = core.StringPtr("block")
 				createZoneUserAgentRuleOptionsModel.Configuration = useragentRuleInputConfigurationModel
- 				createZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
+				result, response, operationErr = userAgentBlockingRulesService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.CreateZoneUserAgentRuleWithContext(ctx, createZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				userAgentBlockingRulesService.DisableRetries()
+				result, response, operationErr = userAgentBlockingRulesService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.CreateZoneUserAgentRuleWithContext(ctx, createZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateZoneUserAgentRule with error: Operation request error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the UseragentRuleInputConfiguration model
 				useragentRuleInputConfigurationModel := new(useragentblockingrulesv1.UseragentRuleInputConfiguration)
@@ -411,9 +536,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				createZoneUserAgentRuleOptionsModel.Configuration = useragentRuleInputConfigurationModel
 				createZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := userAgentBlockingRulesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.CreateZoneUserAgentRule(createZoneUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -434,7 +559,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteZoneUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteZoneUserAgentRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -442,21 +567,28 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				}))
 			})
 			It(`Invoke DeleteZoneUserAgentRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteZoneUserAgentRuleOptions model
 				deleteZoneUserAgentRuleOptionsModel := new(useragentblockingrulesv1.DeleteZoneUserAgentRuleOptions)
 				deleteZoneUserAgentRuleOptionsModel.UseragentRuleIdentifier = core.StringPtr("testString")
 				deleteZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				userAgentBlockingRulesService.EnableRetries(0, 0)
+				result, response, operationErr = userAgentBlockingRulesService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -471,31 +603,39 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		deleteZoneUserAgentRulePath := "/v1/testString/zones/testString/firewall/ua_rules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteZoneUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteZoneUserAgentRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneUserAgentRule successfully`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				userAgentBlockingRulesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.DeleteZoneUserAgentRule(nil)
+				result, response, operationErr := userAgentBlockingRulesService.DeleteZoneUserAgentRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -503,32 +643,57 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				// Construct an instance of the DeleteZoneUserAgentRuleOptions model
 				deleteZoneUserAgentRuleOptionsModel := new(useragentblockingrulesv1.DeleteZoneUserAgentRuleOptions)
 				deleteZoneUserAgentRuleOptionsModel.UseragentRuleIdentifier = core.StringPtr("testString")
- 				deleteZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
+				result, response, operationErr = userAgentBlockingRulesService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.DeleteZoneUserAgentRuleWithContext(ctx, deleteZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				userAgentBlockingRulesService.DisableRetries()
+				result, response, operationErr = userAgentBlockingRulesService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.DeleteZoneUserAgentRuleWithContext(ctx, deleteZoneUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteZoneUserAgentRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteZoneUserAgentRuleOptions model
 				deleteZoneUserAgentRuleOptionsModel := new(useragentblockingrulesv1.DeleteZoneUserAgentRuleOptions)
 				deleteZoneUserAgentRuleOptionsModel.UseragentRuleIdentifier = core.StringPtr("testString")
 				deleteZoneUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := userAgentBlockingRulesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -536,7 +701,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				// Construct a second instance of the DeleteZoneUserAgentRuleOptions model with no property values
 				deleteZoneUserAgentRuleOptionsModelNew := new(useragentblockingrulesv1.DeleteZoneUserAgentRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModelNew)
+				result, response, operationErr = userAgentBlockingRulesService.DeleteZoneUserAgentRule(deleteZoneUserAgentRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -556,7 +721,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getUserAgentRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -564,21 +729,28 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				}))
 			})
 			It(`Invoke GetUserAgentRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the GetUserAgentRuleOptions model
 				getUserAgentRuleOptionsModel := new(useragentblockingrulesv1.GetUserAgentRuleOptions)
 				getUserAgentRuleOptionsModel.UseragentRuleIdentifier = core.StringPtr("testString")
 				getUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetUserAgentRule(getUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.GetUserAgentRule(getUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				userAgentBlockingRulesService.EnableRetries(0, 0)
+				result, response, operationErr = userAgentBlockingRulesService.GetUserAgentRule(getUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -593,31 +765,39 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getUserAgentRulePath := "/v1/testString/zones/testString/firewall/ua_rules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getUserAgentRulePath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}`)
 				}))
 			})
 			It(`Invoke GetUserAgentRule successfully`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				userAgentBlockingRulesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetUserAgentRule(nil)
+				result, response, operationErr := userAgentBlockingRulesService.GetUserAgentRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -625,32 +805,57 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				// Construct an instance of the GetUserAgentRuleOptions model
 				getUserAgentRuleOptionsModel := new(useragentblockingrulesv1.GetUserAgentRuleOptions)
 				getUserAgentRuleOptionsModel.UseragentRuleIdentifier = core.StringPtr("testString")
- 				getUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetUserAgentRule(getUserAgentRuleOptionsModel)
+				result, response, operationErr = userAgentBlockingRulesService.GetUserAgentRule(getUserAgentRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.GetUserAgentRuleWithContext(ctx, getUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				userAgentBlockingRulesService.DisableRetries()
+				result, response, operationErr = userAgentBlockingRulesService.GetUserAgentRule(getUserAgentRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.GetUserAgentRuleWithContext(ctx, getUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetUserAgentRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the GetUserAgentRuleOptions model
 				getUserAgentRuleOptionsModel := new(useragentblockingrulesv1.GetUserAgentRuleOptions)
 				getUserAgentRuleOptionsModel.UseragentRuleIdentifier = core.StringPtr("testString")
 				getUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := userAgentBlockingRulesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetUserAgentRule(getUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.GetUserAgentRule(getUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -658,7 +863,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				// Construct a second instance of the GetUserAgentRuleOptions model with no property values
 				getUserAgentRuleOptionsModelNew := new(useragentblockingrulesv1.GetUserAgentRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetUserAgentRule(getUserAgentRuleOptionsModelNew)
+				result, response, operationErr = userAgentBlockingRulesService.GetUserAgentRule(getUserAgentRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -678,7 +883,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateUserAgentRulePath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -686,14 +891,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateUserAgentRule with error: Operation response processing error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the UseragentRuleInputConfiguration model
 				useragentRuleInputConfigurationModel := new(useragentblockingrulesv1.UseragentRuleInputConfiguration)
@@ -709,7 +914,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				updateUserAgentRuleOptionsModel.Configuration = useragentRuleInputConfigurationModel
 				updateUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				userAgentBlockingRulesService.EnableRetries(0, 0)
+				result, response, operationErr = userAgentBlockingRulesService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -724,31 +936,55 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateUserAgentRulePath := "/v1/testString/zones/testString/firewall/ua_rules/testString"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateUserAgentRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateUserAgentRulePath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}`)
 				}))
 			})
 			It(`Invoke UpdateUserAgentRule successfully`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
+				userAgentBlockingRulesService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateUserAgentRule(nil)
+				result, response, operationErr := userAgentBlockingRulesService.UpdateUserAgentRule(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -765,23 +1001,48 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				updateUserAgentRuleOptionsModel.Description = core.StringPtr("Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack")
 				updateUserAgentRuleOptionsModel.Mode = core.StringPtr("block")
 				updateUserAgentRuleOptionsModel.Configuration = useragentRuleInputConfigurationModel
- 				updateUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
+				result, response, operationErr = userAgentBlockingRulesService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.UpdateUserAgentRuleWithContext(ctx, updateUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				userAgentBlockingRulesService.DisableRetries()
+				result, response, operationErr = userAgentBlockingRulesService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = userAgentBlockingRulesService.UpdateUserAgentRuleWithContext(ctx, updateUserAgentRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateUserAgentRule with error: Operation validation and request error`, func() {
-				testService, testServiceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(userAgentBlockingRulesService).ToNot(BeNil())
 
 				// Construct an instance of the UseragentRuleInputConfiguration model
 				useragentRuleInputConfigurationModel := new(useragentblockingrulesv1.UseragentRuleInputConfiguration)
@@ -797,9 +1058,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				updateUserAgentRuleOptionsModel.Configuration = useragentRuleInputConfigurationModel
 				updateUserAgentRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := userAgentBlockingRulesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
+				result, response, operationErr := userAgentBlockingRulesService.UpdateUserAgentRule(updateUserAgentRuleOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -807,7 +1068,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				// Construct a second instance of the UpdateUserAgentRuleOptions model with no property values
 				updateUserAgentRuleOptionsModelNew := new(useragentblockingrulesv1.UpdateUserAgentRuleOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.UpdateUserAgentRule(updateUserAgentRuleOptionsModelNew)
+				result, response, operationErr = userAgentBlockingRulesService.UpdateUserAgentRule(updateUserAgentRuleOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -821,7 +1082,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
-			testService, _ := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
+			userAgentBlockingRulesService, _ := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
 				URL:           "http://useragentblockingrulesv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -837,7 +1098,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 				Expect(useragentRuleInputConfigurationModel.Value).To(Equal(core.StringPtr("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4")))
 
 				// Construct an instance of the CreateZoneUserAgentRuleOptions model
-				createZoneUserAgentRuleOptionsModel := testService.NewCreateZoneUserAgentRuleOptions()
+				createZoneUserAgentRuleOptionsModel := userAgentBlockingRulesService.NewCreateZoneUserAgentRuleOptions()
 				createZoneUserAgentRuleOptionsModel.SetPaused(true)
 				createZoneUserAgentRuleOptionsModel.SetDescription("Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack")
 				createZoneUserAgentRuleOptionsModel.SetMode("block")
@@ -853,7 +1114,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			It(`Invoke NewDeleteZoneUserAgentRuleOptions successfully`, func() {
 				// Construct an instance of the DeleteZoneUserAgentRuleOptions model
 				useragentRuleIdentifier := "testString"
-				deleteZoneUserAgentRuleOptionsModel := testService.NewDeleteZoneUserAgentRuleOptions(useragentRuleIdentifier)
+				deleteZoneUserAgentRuleOptionsModel := userAgentBlockingRulesService.NewDeleteZoneUserAgentRuleOptions(useragentRuleIdentifier)
 				deleteZoneUserAgentRuleOptionsModel.SetUseragentRuleIdentifier("testString")
 				deleteZoneUserAgentRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteZoneUserAgentRuleOptionsModel).ToNot(BeNil())
@@ -863,7 +1124,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			It(`Invoke NewGetUserAgentRuleOptions successfully`, func() {
 				// Construct an instance of the GetUserAgentRuleOptions model
 				useragentRuleIdentifier := "testString"
-				getUserAgentRuleOptionsModel := testService.NewGetUserAgentRuleOptions(useragentRuleIdentifier)
+				getUserAgentRuleOptionsModel := userAgentBlockingRulesService.NewGetUserAgentRuleOptions(useragentRuleIdentifier)
 				getUserAgentRuleOptionsModel.SetUseragentRuleIdentifier("testString")
 				getUserAgentRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getUserAgentRuleOptionsModel).ToNot(BeNil())
@@ -872,7 +1133,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke NewListAllZoneUserAgentRulesOptions successfully`, func() {
 				// Construct an instance of the ListAllZoneUserAgentRulesOptions model
-				listAllZoneUserAgentRulesOptionsModel := testService.NewListAllZoneUserAgentRulesOptions()
+				listAllZoneUserAgentRulesOptionsModel := userAgentBlockingRulesService.NewListAllZoneUserAgentRulesOptions()
 				listAllZoneUserAgentRulesOptionsModel.SetPage(int64(38))
 				listAllZoneUserAgentRulesOptionsModel.SetPerPage(int64(5))
 				listAllZoneUserAgentRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -892,7 +1153,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 
 				// Construct an instance of the UpdateUserAgentRuleOptions model
 				useragentRuleIdentifier := "testString"
-				updateUserAgentRuleOptionsModel := testService.NewUpdateUserAgentRuleOptions(useragentRuleIdentifier)
+				updateUserAgentRuleOptionsModel := userAgentBlockingRulesService.NewUpdateUserAgentRuleOptions(useragentRuleIdentifier)
 				updateUserAgentRuleOptionsModel.SetUseragentRuleIdentifier("testString")
 				updateUserAgentRuleOptionsModel.SetPaused(true)
 				updateUserAgentRuleOptionsModel.SetDescription("Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack")
@@ -910,7 +1171,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			It(`Invoke NewUseragentRuleInputConfiguration successfully`, func() {
 				target := "ua"
 				value := "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-				model, err := testService.NewUseragentRuleInputConfiguration(target, value)
+				model, err := userAgentBlockingRulesService.NewUseragentRuleInputConfiguration(target, value)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

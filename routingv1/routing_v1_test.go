@@ -18,12 +18,13 @@ package routingv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/networking-go-sdk/routingv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/routingv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`RoutingV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+			routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(routingService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+			routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(routingService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+			routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 				URL: "https://routingv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
@@ -65,13 +66,13 @@ var _ = Describe(`RoutingV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(routingService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{})
+			Expect(routingService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`RoutingV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := routingService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != routingService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(routingService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(routingService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(routingService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := routingService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != routingService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(routingService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(routingService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := routingService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(routingService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := routingService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != routingService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(routingService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(routingService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`RoutingV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
+			routingService, serviceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(routingService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`RoutingV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
+			routingService, serviceErr := routingv1.NewRoutingV1UsingExternalConfig(&routingv1.RoutingV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(routingService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = routingv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`GetSmartRouting(getSmartRoutingOptions *GetSmartRoutingOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`RoutingV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSmartRoutingPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSmartRoutingPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -177,20 +206,27 @@ var _ = Describe(`RoutingV1`, func() {
 				}))
 			})
 			It(`Invoke GetSmartRouting with error: Operation response processing error`, func() {
-				testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
 
 				// Construct an instance of the GetSmartRoutingOptions model
 				getSmartRoutingOptionsModel := new(routingv1.GetSmartRoutingOptions)
 				getSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetSmartRouting(getSmartRoutingOptionsModel)
+				result, response, operationErr := routingService.GetSmartRouting(getSmartRoutingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				routingService.EnableRetries(0, 0)
+				result, response, operationErr = routingService.GetSmartRouting(getSmartRoutingOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -205,62 +241,95 @@ var _ = Describe(`RoutingV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getSmartRoutingPath := "/v1/testString/zones/testString/routing/smart_routing"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSmartRoutingPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSmartRoutingPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"result": {"id": "smart_routing", "value": "off", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "smart_routing", "value": "off", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetSmartRouting successfully`, func() {
-				testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
+				routingService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetSmartRouting(nil)
+				result, response, operationErr := routingService.GetSmartRouting(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetSmartRoutingOptions model
 				getSmartRoutingOptionsModel := new(routingv1.GetSmartRoutingOptions)
- 				getSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetSmartRouting(getSmartRoutingOptionsModel)
+				result, response, operationErr = routingService.GetSmartRouting(getSmartRoutingOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = routingService.GetSmartRoutingWithContext(ctx, getSmartRoutingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				routingService.DisableRetries()
+				result, response, operationErr = routingService.GetSmartRouting(getSmartRoutingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = routingService.GetSmartRoutingWithContext(ctx, getSmartRoutingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetSmartRouting with error: Operation request error`, func() {
-				testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
 
 				// Construct an instance of the GetSmartRoutingOptions model
 				getSmartRoutingOptionsModel := new(routingv1.GetSmartRoutingOptions)
 				getSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := routingService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetSmartRouting(getSmartRoutingOptionsModel)
+				result, response, operationErr := routingService.GetSmartRouting(getSmartRoutingOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -281,7 +350,7 @@ var _ = Describe(`RoutingV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSmartRoutingPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSmartRoutingPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -289,21 +358,28 @@ var _ = Describe(`RoutingV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateSmartRouting with error: Operation response processing error`, func() {
-				testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateSmartRoutingOptions model
 				updateSmartRoutingOptionsModel := new(routingv1.UpdateSmartRoutingOptions)
 				updateSmartRoutingOptionsModel.Value = core.StringPtr("off")
 				updateSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
+				result, response, operationErr := routingService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				routingService.EnableRetries(0, 0)
+				result, response, operationErr = routingService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -318,31 +394,55 @@ var _ = Describe(`RoutingV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateSmartRoutingPath := "/v1/testString/zones/testString/routing/smart_routing"
+		var serverSleepTime time.Duration
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
+				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSmartRoutingPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSmartRoutingPath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"result": {"id": "smart_routing", "value": "off", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "smart_routing", "value": "off", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateSmartRouting successfully`, func() {
-				testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
+				routingService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateSmartRouting(nil)
+				result, response, operationErr := routingService.UpdateSmartRouting(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -350,32 +450,57 @@ var _ = Describe(`RoutingV1`, func() {
 				// Construct an instance of the UpdateSmartRoutingOptions model
 				updateSmartRoutingOptionsModel := new(routingv1.UpdateSmartRoutingOptions)
 				updateSmartRoutingOptionsModel.Value = core.StringPtr("off")
- 				updateSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
+				result, response, operationErr = routingService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = routingService.UpdateSmartRoutingWithContext(ctx, updateSmartRoutingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				routingService.DisableRetries()
+				result, response, operationErr = routingService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = routingService.UpdateSmartRoutingWithContext(ctx, updateSmartRoutingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateSmartRouting with error: Operation request error`, func() {
-				testService, testServiceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+				routingService, serviceErr := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(routingService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateSmartRoutingOptions model
 				updateSmartRoutingOptionsModel := new(routingv1.UpdateSmartRoutingOptions)
 				updateSmartRoutingOptionsModel.Value = core.StringPtr("off")
 				updateSmartRoutingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := routingService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
+				result, response, operationErr := routingService.UpdateSmartRouting(updateSmartRoutingOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -390,7 +515,7 @@ var _ = Describe(`RoutingV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
-			testService, _ := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
+			routingService, _ := routingv1.NewRoutingV1(&routingv1.RoutingV1Options{
 				URL:           "http://routingv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -398,14 +523,14 @@ var _ = Describe(`RoutingV1`, func() {
 			})
 			It(`Invoke NewGetSmartRoutingOptions successfully`, func() {
 				// Construct an instance of the GetSmartRoutingOptions model
-				getSmartRoutingOptionsModel := testService.NewGetSmartRoutingOptions()
+				getSmartRoutingOptionsModel := routingService.NewGetSmartRoutingOptions()
 				getSmartRoutingOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getSmartRoutingOptionsModel).ToNot(BeNil())
 				Expect(getSmartRoutingOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSmartRoutingOptions successfully`, func() {
 				// Construct an instance of the UpdateSmartRoutingOptions model
-				updateSmartRoutingOptionsModel := testService.NewUpdateSmartRoutingOptions()
+				updateSmartRoutingOptionsModel := routingService.NewUpdateSmartRoutingOptions()
 				updateSmartRoutingOptionsModel.SetValue("off")
 				updateSmartRoutingOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSmartRoutingOptionsModel).ToNot(BeNil())

@@ -11,12 +11,12 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
-	"github.com/joho/godotenv"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
 	"github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
 	. "github.com/IBM/networking-go-sdk/globalloadbalancerv1"
+	"github.com/joho/godotenv"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 const configFile = "../cis.env"

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,13 @@ package cachingapiv1_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/cachingapiv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/cachingapiv1"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,29 +35,29 @@ import (
 
 var _ = Describe(`CachingApiV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(cachingApiService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(cachingApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				URL: "https://cachingapiv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
@@ -65,13 +66,13 @@ var _ = Describe(`CachingApiV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(cachingApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{})
+			Expect(cachingApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -86,38 +87,56 @@ var _ = Describe(`CachingApiV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cachingApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cachingApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cachingApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cachingApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(cachingApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cachingApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cachingApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cachingApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cachingApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := cachingApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(cachingApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cachingApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cachingApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cachingApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cachingApiService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -128,14 +147,14 @@ var _ = Describe(`CachingApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(cachingApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -146,17 +165,27 @@ var _ = Describe(`CachingApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(cachingApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = cachingapiv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`PurgeAll(purgeAllOptions *PurgeAllOptions) - Operation response error`, func() {
@@ -169,7 +198,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeAllPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeAllPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -177,20 +206,27 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke PurgeAll with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeAllOptions model
 				purgeAllOptionsModel := new(cachingapiv1.PurgeAllOptions)
 				purgeAllOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.PurgeAll(purgeAllOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeAll(purgeAllOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.PurgeAll(purgeAllOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -205,62 +241,123 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		purgeAllPath := "/v1/testString/zones/testString/purge_cache/purge_all"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(purgeAllPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+				}))
+			})
+			It(`Invoke PurgeAll successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the PurgeAllOptions model
+				purgeAllOptionsModel := new(cachingapiv1.PurgeAllOptions)
+				purgeAllOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.PurgeAllWithContext(ctx, purgeAllOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.PurgeAll(purgeAllOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.PurgeAllWithContext(ctx, purgeAllOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeAllPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeAllPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
 				}))
 			})
 			It(`Invoke PurgeAll successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.PurgeAll(nil)
+				result, response, operationErr := cachingApiService.PurgeAll(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the PurgeAllOptions model
 				purgeAllOptionsModel := new(cachingapiv1.PurgeAllOptions)
- 				purgeAllOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				purgeAllOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.PurgeAll(purgeAllOptionsModel)
+				result, response, operationErr = cachingApiService.PurgeAll(purgeAllOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke PurgeAll with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeAllOptions model
 				purgeAllOptionsModel := new(cachingapiv1.PurgeAllOptions)
 				purgeAllOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.PurgeAll(purgeAllOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeAll(purgeAllOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -281,7 +378,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeByUrlsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByUrlsPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -289,21 +386,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke PurgeByUrls with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeByUrlsOptions model
 				purgeByUrlsOptionsModel := new(cachingapiv1.PurgeByUrlsOptions)
 				purgeByUrlsOptionsModel.Files = []string{"http://www.example.com/cat_picture.jpg"}
 				purgeByUrlsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.PurgeByUrls(purgeByUrlsOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeByUrls(purgeByUrlsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.PurgeByUrls(purgeByUrlsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -318,31 +422,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		purgeByUrlsPath := "/v1/testString/zones/testString/purge_cache/purge_by_urls"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByUrlsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+				}))
+			})
+			It(`Invoke PurgeByUrls successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the PurgeByUrlsOptions model
+				purgeByUrlsOptionsModel := new(cachingapiv1.PurgeByUrlsOptions)
+				purgeByUrlsOptionsModel.Files = []string{"http://www.example.com/cat_picture.jpg"}
+				purgeByUrlsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.PurgeByUrlsWithContext(ctx, purgeByUrlsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.PurgeByUrls(purgeByUrlsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.PurgeByUrlsWithContext(ctx, purgeByUrlsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeByUrlsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByUrlsPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
 				}))
 			})
 			It(`Invoke PurgeByUrls successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.PurgeByUrls(nil)
+				result, response, operationErr := cachingApiService.PurgeByUrls(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -350,32 +547,33 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the PurgeByUrlsOptions model
 				purgeByUrlsOptionsModel := new(cachingapiv1.PurgeByUrlsOptions)
 				purgeByUrlsOptionsModel.Files = []string{"http://www.example.com/cat_picture.jpg"}
- 				purgeByUrlsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				purgeByUrlsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.PurgeByUrls(purgeByUrlsOptionsModel)
+				result, response, operationErr = cachingApiService.PurgeByUrls(purgeByUrlsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke PurgeByUrls with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeByUrlsOptions model
 				purgeByUrlsOptionsModel := new(cachingapiv1.PurgeByUrlsOptions)
 				purgeByUrlsOptionsModel.Files = []string{"http://www.example.com/cat_picture.jpg"}
 				purgeByUrlsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.PurgeByUrls(purgeByUrlsOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeByUrls(purgeByUrlsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -396,7 +594,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeByCacheTagsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByCacheTagsPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -404,21 +602,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke PurgeByCacheTags with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeByCacheTagsOptions model
 				purgeByCacheTagsOptionsModel := new(cachingapiv1.PurgeByCacheTagsOptions)
 				purgeByCacheTagsOptionsModel.Tags = []string{"some-tag"}
 				purgeByCacheTagsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -433,31 +638,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		purgeByCacheTagsPath := "/v1/testString/zones/testString/purge_cache/purge_by_cache_tags"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByCacheTagsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+				}))
+			})
+			It(`Invoke PurgeByCacheTags successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the PurgeByCacheTagsOptions model
+				purgeByCacheTagsOptionsModel := new(cachingapiv1.PurgeByCacheTagsOptions)
+				purgeByCacheTagsOptionsModel.Tags = []string{"some-tag"}
+				purgeByCacheTagsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.PurgeByCacheTagsWithContext(ctx, purgeByCacheTagsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.PurgeByCacheTagsWithContext(ctx, purgeByCacheTagsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeByCacheTagsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByCacheTagsPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
 				}))
 			})
 			It(`Invoke PurgeByCacheTags successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.PurgeByCacheTags(nil)
+				result, response, operationErr := cachingApiService.PurgeByCacheTags(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -465,32 +763,33 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the PurgeByCacheTagsOptions model
 				purgeByCacheTagsOptionsModel := new(cachingapiv1.PurgeByCacheTagsOptions)
 				purgeByCacheTagsOptionsModel.Tags = []string{"some-tag"}
- 				purgeByCacheTagsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				purgeByCacheTagsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
+				result, response, operationErr = cachingApiService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke PurgeByCacheTags with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeByCacheTagsOptions model
 				purgeByCacheTagsOptionsModel := new(cachingapiv1.PurgeByCacheTagsOptions)
 				purgeByCacheTagsOptionsModel.Tags = []string{"some-tag"}
 				purgeByCacheTagsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeByCacheTags(purgeByCacheTagsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -511,7 +810,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeByHostsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByHostsPath))
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -519,21 +818,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke PurgeByHosts with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeByHostsOptions model
 				purgeByHostsOptionsModel := new(cachingapiv1.PurgeByHostsOptions)
 				purgeByHostsOptionsModel.Hosts = []string{"www.example.com"}
 				purgeByHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.PurgeByHosts(purgeByHostsOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeByHosts(purgeByHostsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.PurgeByHosts(purgeByHostsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -548,31 +854,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		purgeByHostsPath := "/v1/testString/zones/testString/purge_cache/purge_by_hosts"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByHostsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+				}))
+			})
+			It(`Invoke PurgeByHosts successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the PurgeByHostsOptions model
+				purgeByHostsOptionsModel := new(cachingapiv1.PurgeByHostsOptions)
+				purgeByHostsOptionsModel.Hosts = []string{"www.example.com"}
+				purgeByHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.PurgeByHostsWithContext(ctx, purgeByHostsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.PurgeByHosts(purgeByHostsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.PurgeByHostsWithContext(ctx, purgeByHostsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(purgeByHostsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(purgeByHostsPath))
 					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "62d26b178b67c0eda0613891f3f51b0a"}}`)
 				}))
 			})
 			It(`Invoke PurgeByHosts successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.PurgeByHosts(nil)
+				result, response, operationErr := cachingApiService.PurgeByHosts(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -580,32 +979,33 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the PurgeByHostsOptions model
 				purgeByHostsOptionsModel := new(cachingapiv1.PurgeByHostsOptions)
 				purgeByHostsOptionsModel.Hosts = []string{"www.example.com"}
- 				purgeByHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				purgeByHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.PurgeByHosts(purgeByHostsOptionsModel)
+				result, response, operationErr = cachingApiService.PurgeByHosts(purgeByHostsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke PurgeByHosts with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the PurgeByHostsOptions model
 				purgeByHostsOptionsModel := new(cachingapiv1.PurgeByHostsOptions)
 				purgeByHostsOptionsModel.Hosts = []string{"www.example.com"}
 				purgeByHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.PurgeByHosts(purgeByHostsOptionsModel)
+				result, response, operationErr := cachingApiService.PurgeByHosts(purgeByHostsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -626,7 +1026,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getBrowserCacheTTLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getBrowserCacheTTLPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -634,20 +1034,27 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetBrowserCacheTTL with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetBrowserCacheTtlOptions model
 				getBrowserCacheTtlOptionsModel := new(cachingapiv1.GetBrowserCacheTtlOptions)
 				getBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
+				result, response, operationErr := cachingApiService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -662,62 +1069,123 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getBrowserCacheTTLPath := "/v1/testString/zones/testString/settings/browser_cache_ttl"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBrowserCacheTTLPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke GetBrowserCacheTTL successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetBrowserCacheTtlOptions model
+				getBrowserCacheTtlOptionsModel := new(cachingapiv1.GetBrowserCacheTtlOptions)
+				getBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.GetBrowserCacheTTLWithContext(ctx, getBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.GetBrowserCacheTTLWithContext(ctx, getBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getBrowserCacheTTLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getBrowserCacheTTLPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetBrowserCacheTTL successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetBrowserCacheTTL(nil)
+				result, response, operationErr := cachingApiService.GetBrowserCacheTTL(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetBrowserCacheTtlOptions model
 				getBrowserCacheTtlOptionsModel := new(cachingapiv1.GetBrowserCacheTtlOptions)
- 				getBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
+				result, response, operationErr = cachingApiService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke GetBrowserCacheTTL with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetBrowserCacheTtlOptions model
 				getBrowserCacheTtlOptionsModel := new(cachingapiv1.GetBrowserCacheTtlOptions)
 				getBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
+				result, response, operationErr := cachingApiService.GetBrowserCacheTTL(getBrowserCacheTtlOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -738,7 +1206,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateBrowserCacheTTLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateBrowserCacheTTLPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -746,21 +1214,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateBrowserCacheTTL with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateBrowserCacheTtlOptions model
 				updateBrowserCacheTtlOptionsModel := new(cachingapiv1.UpdateBrowserCacheTtlOptions)
 				updateBrowserCacheTtlOptionsModel.Value = core.Int64Ptr(int64(14400))
 				updateBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -775,31 +1250,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updateBrowserCacheTTLPath := "/v1/testString/zones/testString/settings/browser_cache_ttl"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBrowserCacheTTLPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke UpdateBrowserCacheTTL successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateBrowserCacheTtlOptions model
+				updateBrowserCacheTtlOptionsModel := new(cachingapiv1.UpdateBrowserCacheTtlOptions)
+				updateBrowserCacheTtlOptionsModel.Value = core.Int64Ptr(int64(14400))
+				updateBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.UpdateBrowserCacheTTLWithContext(ctx, updateBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.UpdateBrowserCacheTTLWithContext(ctx, updateBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateBrowserCacheTTLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateBrowserCacheTTLPath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateBrowserCacheTTL successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateBrowserCacheTTL(nil)
+				result, response, operationErr := cachingApiService.UpdateBrowserCacheTTL(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -807,32 +1375,429 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the UpdateBrowserCacheTtlOptions model
 				updateBrowserCacheTtlOptionsModel := new(cachingapiv1.UpdateBrowserCacheTtlOptions)
 				updateBrowserCacheTtlOptionsModel.Value = core.Int64Ptr(int64(14400))
- 				updateBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
+				result, response, operationErr = cachingApiService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke UpdateBrowserCacheTTL with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateBrowserCacheTtlOptions model
 				updateBrowserCacheTtlOptionsModel := new(cachingapiv1.UpdateBrowserCacheTtlOptions)
 				updateBrowserCacheTtlOptionsModel.Value = core.Int64Ptr(int64(14400))
 				updateBrowserCacheTtlOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateBrowserCacheTTL(updateBrowserCacheTtlOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetServeStaleContent(getServeStaleContentOptions *GetServeStaleContentOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneID := "testString"
+		getServeStaleContentPath := "/v1/testString/zones/testString/settings/always_online"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getServeStaleContentPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetServeStaleContent with error: Operation response processing error`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetServeStaleContentOptions model
+				getServeStaleContentOptionsModel := new(cachingapiv1.GetServeStaleContentOptions)
+				getServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := cachingApiService.GetServeStaleContent(getServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.GetServeStaleContent(getServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetServeStaleContent(getServeStaleContentOptions *GetServeStaleContentOptions)`, func() {
+		crn := "testString"
+		zoneID := "testString"
+		getServeStaleContentPath := "/v1/testString/zones/testString/settings/always_online"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getServeStaleContentPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke GetServeStaleContent successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetServeStaleContentOptions model
+				getServeStaleContentOptionsModel := new(cachingapiv1.GetServeStaleContentOptions)
+				getServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.GetServeStaleContentWithContext(ctx, getServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.GetServeStaleContent(getServeStaleContentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.GetServeStaleContentWithContext(ctx, getServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getServeStaleContentPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke GetServeStaleContent successfully`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := cachingApiService.GetServeStaleContent(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetServeStaleContentOptions model
+				getServeStaleContentOptionsModel := new(cachingapiv1.GetServeStaleContentOptions)
+				getServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = cachingApiService.GetServeStaleContent(getServeStaleContentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetServeStaleContent with error: Operation request error`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetServeStaleContentOptions model
+				getServeStaleContentOptionsModel := new(cachingapiv1.GetServeStaleContentOptions)
+				getServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := cachingApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := cachingApiService.GetServeStaleContent(getServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateServeStaleContent(updateServeStaleContentOptions *UpdateServeStaleContentOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneID := "testString"
+		updateServeStaleContentPath := "/v1/testString/zones/testString/settings/always_online"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateServeStaleContentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateServeStaleContent with error: Operation response processing error`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateServeStaleContentOptions model
+				updateServeStaleContentOptionsModel := new(cachingapiv1.UpdateServeStaleContentOptions)
+				updateServeStaleContentOptionsModel.Value = core.StringPtr("on")
+				updateServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := cachingApiService.UpdateServeStaleContent(updateServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.UpdateServeStaleContent(updateServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateServeStaleContent(updateServeStaleContentOptions *UpdateServeStaleContentOptions)`, func() {
+		crn := "testString"
+		zoneID := "testString"
+		updateServeStaleContentPath := "/v1/testString/zones/testString/settings/always_online"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateServeStaleContentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke UpdateServeStaleContent successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateServeStaleContentOptions model
+				updateServeStaleContentOptionsModel := new(cachingapiv1.UpdateServeStaleContentOptions)
+				updateServeStaleContentOptionsModel.Value = core.StringPtr("on")
+				updateServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.UpdateServeStaleContentWithContext(ctx, updateServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.UpdateServeStaleContent(updateServeStaleContentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.UpdateServeStaleContentWithContext(ctx, updateServeStaleContentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateServeStaleContentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "serve_stale_content", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke UpdateServeStaleContent successfully`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := cachingApiService.UpdateServeStaleContent(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateServeStaleContentOptions model
+				updateServeStaleContentOptionsModel := new(cachingapiv1.UpdateServeStaleContentOptions)
+				updateServeStaleContentOptionsModel.Value = core.StringPtr("on")
+				updateServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = cachingApiService.UpdateServeStaleContent(updateServeStaleContentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateServeStaleContent with error: Operation request error`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateServeStaleContentOptions model
+				updateServeStaleContentOptionsModel := new(cachingapiv1.UpdateServeStaleContentOptions)
+				updateServeStaleContentOptionsModel.Value = core.StringPtr("on")
+				updateServeStaleContentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := cachingApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := cachingApiService.UpdateServeStaleContent(updateServeStaleContentOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -853,7 +1818,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getDevelopmentModePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getDevelopmentModePath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -861,20 +1826,27 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetDevelopmentMode with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetDevelopmentModeOptions model
 				getDevelopmentModeOptionsModel := new(cachingapiv1.GetDevelopmentModeOptions)
 				getDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
+				result, response, operationErr := cachingApiService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -889,62 +1861,123 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getDevelopmentModePath := "/v1/testString/zones/testString/settings/development_mode"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDevelopmentModePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "development_mode", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke GetDevelopmentMode successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetDevelopmentModeOptions model
+				getDevelopmentModeOptionsModel := new(cachingapiv1.GetDevelopmentModeOptions)
+				getDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.GetDevelopmentModeWithContext(ctx, getDevelopmentModeOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.GetDevelopmentModeWithContext(ctx, getDevelopmentModeOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getDevelopmentModePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getDevelopmentModePath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "development_mode", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "development_mode", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetDevelopmentMode successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetDevelopmentMode(nil)
+				result, response, operationErr := cachingApiService.GetDevelopmentMode(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetDevelopmentModeOptions model
 				getDevelopmentModeOptionsModel := new(cachingapiv1.GetDevelopmentModeOptions)
- 				getDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
+				result, response, operationErr = cachingApiService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke GetDevelopmentMode with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetDevelopmentModeOptions model
 				getDevelopmentModeOptionsModel := new(cachingapiv1.GetDevelopmentModeOptions)
 				getDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
+				result, response, operationErr := cachingApiService.GetDevelopmentMode(getDevelopmentModeOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -965,7 +1998,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateDevelopmentModePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateDevelopmentModePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -973,21 +2006,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateDevelopmentMode with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateDevelopmentModeOptions model
 				updateDevelopmentModeOptionsModel := new(cachingapiv1.UpdateDevelopmentModeOptions)
 				updateDevelopmentModeOptionsModel.Value = core.StringPtr("off")
 				updateDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1002,31 +2042,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updateDevelopmentModePath := "/v1/testString/zones/testString/settings/development_mode"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDevelopmentModePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "development_mode", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke UpdateDevelopmentMode successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateDevelopmentModeOptions model
+				updateDevelopmentModeOptionsModel := new(cachingapiv1.UpdateDevelopmentModeOptions)
+				updateDevelopmentModeOptionsModel.Value = core.StringPtr("off")
+				updateDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.UpdateDevelopmentModeWithContext(ctx, updateDevelopmentModeOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.UpdateDevelopmentModeWithContext(ctx, updateDevelopmentModeOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateDevelopmentModePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateDevelopmentModePath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "development_mode", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "development_mode", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateDevelopmentMode successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateDevelopmentMode(nil)
+				result, response, operationErr := cachingApiService.UpdateDevelopmentMode(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1034,32 +2167,33 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the UpdateDevelopmentModeOptions model
 				updateDevelopmentModeOptionsModel := new(cachingapiv1.UpdateDevelopmentModeOptions)
 				updateDevelopmentModeOptionsModel.Value = core.StringPtr("off")
- 				updateDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
+				result, response, operationErr = cachingApiService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke UpdateDevelopmentMode with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateDevelopmentModeOptions model
 				updateDevelopmentModeOptionsModel := new(cachingapiv1.UpdateDevelopmentModeOptions)
 				updateDevelopmentModeOptionsModel.Value = core.StringPtr("off")
 				updateDevelopmentModeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateDevelopmentMode(updateDevelopmentModeOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1080,7 +2214,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getQueryStringSortPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getQueryStringSortPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1088,20 +2222,27 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetQueryStringSort with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetQueryStringSortOptions model
 				getQueryStringSortOptionsModel := new(cachingapiv1.GetQueryStringSortOptions)
 				getQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetQueryStringSort(getQueryStringSortOptionsModel)
+				result, response, operationErr := cachingApiService.GetQueryStringSort(getQueryStringSortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.GetQueryStringSort(getQueryStringSortOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1116,62 +2257,123 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getQueryStringSortPath := "/v1/testString/zones/testString/settings/sort_query_string_for_cache"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getQueryStringSortPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "sort_query_string_for_cache", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke GetQueryStringSort successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetQueryStringSortOptions model
+				getQueryStringSortOptionsModel := new(cachingapiv1.GetQueryStringSortOptions)
+				getQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.GetQueryStringSortWithContext(ctx, getQueryStringSortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.GetQueryStringSort(getQueryStringSortOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.GetQueryStringSortWithContext(ctx, getQueryStringSortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getQueryStringSortPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getQueryStringSortPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "sort_query_string_for_cache", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "sort_query_string_for_cache", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetQueryStringSort successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetQueryStringSort(nil)
+				result, response, operationErr := cachingApiService.GetQueryStringSort(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetQueryStringSortOptions model
 				getQueryStringSortOptionsModel := new(cachingapiv1.GetQueryStringSortOptions)
- 				getQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetQueryStringSort(getQueryStringSortOptionsModel)
+				result, response, operationErr = cachingApiService.GetQueryStringSort(getQueryStringSortOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke GetQueryStringSort with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetQueryStringSortOptions model
 				getQueryStringSortOptionsModel := new(cachingapiv1.GetQueryStringSortOptions)
 				getQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetQueryStringSort(getQueryStringSortOptionsModel)
+				result, response, operationErr := cachingApiService.GetQueryStringSort(getQueryStringSortOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1192,7 +2394,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateQueryStringSortPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateQueryStringSortPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1200,21 +2402,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateQueryStringSort with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateQueryStringSortOptions model
 				updateQueryStringSortOptionsModel := new(cachingapiv1.UpdateQueryStringSortOptions)
 				updateQueryStringSortOptionsModel.Value = core.StringPtr("off")
 				updateQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1229,31 +2438,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updateQueryStringSortPath := "/v1/testString/zones/testString/settings/sort_query_string_for_cache"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateQueryStringSortPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "sort_query_string_for_cache", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke UpdateQueryStringSort successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateQueryStringSortOptions model
+				updateQueryStringSortOptionsModel := new(cachingapiv1.UpdateQueryStringSortOptions)
+				updateQueryStringSortOptionsModel.Value = core.StringPtr("off")
+				updateQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.UpdateQueryStringSortWithContext(ctx, updateQueryStringSortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.UpdateQueryStringSortWithContext(ctx, updateQueryStringSortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateQueryStringSortPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateQueryStringSortPath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "sort_query_string_for_cache", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "sort_query_string_for_cache", "value": "off", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateQueryStringSort successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateQueryStringSort(nil)
+				result, response, operationErr := cachingApiService.UpdateQueryStringSort(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1261,32 +2563,33 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the UpdateQueryStringSortOptions model
 				updateQueryStringSortOptionsModel := new(cachingapiv1.UpdateQueryStringSortOptions)
 				updateQueryStringSortOptionsModel.Value = core.StringPtr("off")
- 				updateQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
+				result, response, operationErr = cachingApiService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke UpdateQueryStringSort with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateQueryStringSortOptions model
 				updateQueryStringSortOptionsModel := new(cachingapiv1.UpdateQueryStringSortOptions)
 				updateQueryStringSortOptionsModel.Value = core.StringPtr("off")
 				updateQueryStringSortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateQueryStringSort(updateQueryStringSortOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1297,29 +2600,29 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 		})
 	})
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		It(`Instantiate service client`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).ToNot(BeNil())
-			Expect(testServiceErr).To(BeNil())
+			Expect(cachingApiService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(cachingApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				URL: "https://cachingapiv1/api",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
@@ -1328,13 +2631,13 @@ var _ = Describe(`CachingApiV1`, func() {
 					Password: "",
 				},
 			})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			Expect(cachingApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Validation Error`, func() {
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{})
-			Expect(testService).To(BeNil())
-			Expect(testServiceErr).ToNot(BeNil())
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{})
+			Expect(cachingApiService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
 		})
 	})
 	Describe(`Service constructor tests using external config`, func() {
@@ -1349,38 +2652,56 @@ var _ = Describe(`CachingApiV1`, func() {
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cachingApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cachingApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cachingApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cachingApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 					URL: "https://testService/api",
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(cachingApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cachingApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cachingApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cachingApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cachingApiService.Service.Options.Authenticator))
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				err := testService.SetServiceURL("https://testService/api")
+				err := cachingApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
-				Expect(testService).ToNot(BeNil())
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				Expect(cachingApiService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService.Service.GetServiceURL()).To(Equal("https://testService/api"))
 				ClearTestEnvironment(testEnvironment)
+
+				clone := cachingApiService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != cachingApiService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(cachingApiService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(cachingApiService.Service.Options.Authenticator))
 			})
 		})
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
@@ -1391,14 +2712,14 @@ var _ = Describe(`CachingApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(cachingApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
 		})
@@ -1409,17 +2730,27 @@ var _ = Describe(`CachingApiV1`, func() {
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
 				URL: "{BAD_URL_STRING",
 				Crn: core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
-				Expect(testService).To(BeNil())
-				Expect(testServiceErr).ToNot(BeNil())
+				Expect(cachingApiService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
 				ClearTestEnvironment(testEnvironment)
 			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = cachingapiv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`GetCacheLevel(getCacheLevelOptions *GetCacheLevelOptions) - Operation response error`, func() {
@@ -1432,7 +2763,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getCacheLevelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getCacheLevelPath))
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1440,20 +2771,27 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke GetCacheLevel with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetCacheLevelOptions model
 				getCacheLevelOptionsModel := new(cachingapiv1.GetCacheLevelOptions)
 				getCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetCacheLevel(getCacheLevelOptionsModel)
+				result, response, operationErr := cachingApiService.GetCacheLevel(getCacheLevelOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.GetCacheLevel(getCacheLevelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1468,62 +2806,123 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		getCacheLevelPath := "/v1/testString/zones/testString/settings/cache_level"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getCacheLevelPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "cache_level", "value": "aggressive", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke GetCacheLevel successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetCacheLevelOptions model
+				getCacheLevelOptionsModel := new(cachingapiv1.GetCacheLevelOptions)
+				getCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.GetCacheLevelWithContext(ctx, getCacheLevelOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.GetCacheLevel(getCacheLevelOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.GetCacheLevelWithContext(ctx, getCacheLevelOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getCacheLevelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getCacheLevelPath))
 					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "cache_level", "value": "aggressive", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "cache_level", "value": "aggressive", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke GetCacheLevel successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetCacheLevel(nil)
+				result, response, operationErr := cachingApiService.GetCacheLevel(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
 				// Construct an instance of the GetCacheLevelOptions model
 				getCacheLevelOptionsModel := new(cachingapiv1.GetCacheLevelOptions)
- 				getCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetCacheLevel(getCacheLevelOptionsModel)
+				result, response, operationErr = cachingApiService.GetCacheLevel(getCacheLevelOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke GetCacheLevel with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the GetCacheLevelOptions model
 				getCacheLevelOptionsModel := new(cachingapiv1.GetCacheLevelOptions)
 				getCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetCacheLevel(getCacheLevelOptionsModel)
+				result, response, operationErr := cachingApiService.GetCacheLevel(getCacheLevelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1544,7 +2943,7 @@ var _ = Describe(`CachingApiV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateCacheLevelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateCacheLevelPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1552,21 +2951,28 @@ var _ = Describe(`CachingApiV1`, func() {
 				}))
 			})
 			It(`Invoke UpdateCacheLevel with error: Operation response processing error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateCacheLevelOptions model
 				updateCacheLevelOptionsModel := new(cachingapiv1.UpdateCacheLevelOptions)
 				updateCacheLevelOptionsModel.Value = core.StringPtr("aggressive")
 				updateCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.UpdateCacheLevel(updateCacheLevelOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateCacheLevel(updateCacheLevelOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				cachingApiService.EnableRetries(0, 0)
+				result, response, operationErr = cachingApiService.UpdateCacheLevel(updateCacheLevelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -1581,31 +2987,124 @@ var _ = Describe(`CachingApiV1`, func() {
 		crn := "testString"
 		zoneID := "testString"
 		updateCacheLevelPath := "/v1/testString/zones/testString/settings/cache_level"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCacheLevelPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "cache_level", "value": "aggressive", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+				}))
+			})
+			It(`Invoke UpdateCacheLevel successfully with retries`, func() {
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneID: core.StringPtr(zoneID),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
+				cachingApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateCacheLevelOptions model
+				updateCacheLevelOptionsModel := new(cachingapiv1.UpdateCacheLevelOptions)
+				updateCacheLevelOptionsModel.Value = core.StringPtr("aggressive")
+				updateCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := cachingApiService.UpdateCacheLevelWithContext(ctx, updateCacheLevelOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				cachingApiService.DisableRetries()
+				result, response, operationErr := cachingApiService.UpdateCacheLevel(updateCacheLevelOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = cachingApiService.UpdateCacheLevelWithContext(ctx, updateCacheLevelOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateCacheLevelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateCacheLevelPath))
 					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "cache_level", "value": "aggressive", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "cache_level", "value": "aggressive", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateCacheLevel successfully`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.UpdateCacheLevel(nil)
+				result, response, operationErr := cachingApiService.UpdateCacheLevel(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -1613,32 +3112,33 @@ var _ = Describe(`CachingApiV1`, func() {
 				// Construct an instance of the UpdateCacheLevelOptions model
 				updateCacheLevelOptionsModel := new(cachingapiv1.UpdateCacheLevelOptions)
 				updateCacheLevelOptionsModel.Value = core.StringPtr("aggressive")
- 				updateCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.UpdateCacheLevel(updateCacheLevelOptionsModel)
+				result, response, operationErr = cachingApiService.UpdateCacheLevel(updateCacheLevelOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke UpdateCacheLevel with error: Operation request error`, func() {
-				testService, testServiceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 					Crn: core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
-				Expect(testServiceErr).To(BeNil())
-				Expect(testService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(cachingApiService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateCacheLevelOptions model
 				updateCacheLevelOptionsModel := new(cachingapiv1.UpdateCacheLevelOptions)
 				updateCacheLevelOptionsModel.Value = core.StringPtr("aggressive")
 				updateCacheLevelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
-				err := testService.SetServiceURL("")
+				err := cachingApiService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.UpdateCacheLevel(updateCacheLevelOptionsModel)
+				result, response, operationErr := cachingApiService.UpdateCacheLevel(updateCacheLevelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -1653,7 +3153,7 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
 			zoneID := "testString"
-			testService, _ := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
+			cachingApiService, _ := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				URL:           "http://cachingapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
 				Crn: core.StringPtr(crn),
@@ -1661,42 +3161,49 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewGetBrowserCacheTtlOptions successfully`, func() {
 				// Construct an instance of the GetBrowserCacheTtlOptions model
-				getBrowserCacheTtlOptionsModel := testService.NewGetBrowserCacheTtlOptions()
+				getBrowserCacheTtlOptionsModel := cachingApiService.NewGetBrowserCacheTtlOptions()
 				getBrowserCacheTtlOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getBrowserCacheTtlOptionsModel).ToNot(BeNil())
 				Expect(getBrowserCacheTtlOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetCacheLevelOptions successfully`, func() {
 				// Construct an instance of the GetCacheLevelOptions model
-				getCacheLevelOptionsModel := testService.NewGetCacheLevelOptions()
+				getCacheLevelOptionsModel := cachingApiService.NewGetCacheLevelOptions()
 				getCacheLevelOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getCacheLevelOptionsModel).ToNot(BeNil())
 				Expect(getCacheLevelOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetDevelopmentModeOptions successfully`, func() {
 				// Construct an instance of the GetDevelopmentModeOptions model
-				getDevelopmentModeOptionsModel := testService.NewGetDevelopmentModeOptions()
+				getDevelopmentModeOptionsModel := cachingApiService.NewGetDevelopmentModeOptions()
 				getDevelopmentModeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getDevelopmentModeOptionsModel).ToNot(BeNil())
 				Expect(getDevelopmentModeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetQueryStringSortOptions successfully`, func() {
 				// Construct an instance of the GetQueryStringSortOptions model
-				getQueryStringSortOptionsModel := testService.NewGetQueryStringSortOptions()
+				getQueryStringSortOptionsModel := cachingApiService.NewGetQueryStringSortOptions()
 				getQueryStringSortOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getQueryStringSortOptionsModel).ToNot(BeNil())
 				Expect(getQueryStringSortOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetServeStaleContentOptions successfully`, func() {
+				// Construct an instance of the GetServeStaleContentOptions model
+				getServeStaleContentOptionsModel := cachingApiService.NewGetServeStaleContentOptions()
+				getServeStaleContentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getServeStaleContentOptionsModel).ToNot(BeNil())
+				Expect(getServeStaleContentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewPurgeAllOptions successfully`, func() {
 				// Construct an instance of the PurgeAllOptions model
-				purgeAllOptionsModel := testService.NewPurgeAllOptions()
+				purgeAllOptionsModel := cachingApiService.NewPurgeAllOptions()
 				purgeAllOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(purgeAllOptionsModel).ToNot(BeNil())
 				Expect(purgeAllOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewPurgeByCacheTagsOptions successfully`, func() {
 				// Construct an instance of the PurgeByCacheTagsOptions model
-				purgeByCacheTagsOptionsModel := testService.NewPurgeByCacheTagsOptions()
+				purgeByCacheTagsOptionsModel := cachingApiService.NewPurgeByCacheTagsOptions()
 				purgeByCacheTagsOptionsModel.SetTags([]string{"some-tag"})
 				purgeByCacheTagsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(purgeByCacheTagsOptionsModel).ToNot(BeNil())
@@ -1705,7 +3212,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewPurgeByHostsOptions successfully`, func() {
 				// Construct an instance of the PurgeByHostsOptions model
-				purgeByHostsOptionsModel := testService.NewPurgeByHostsOptions()
+				purgeByHostsOptionsModel := cachingApiService.NewPurgeByHostsOptions()
 				purgeByHostsOptionsModel.SetHosts([]string{"www.example.com"})
 				purgeByHostsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(purgeByHostsOptionsModel).ToNot(BeNil())
@@ -1714,7 +3221,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewPurgeByUrlsOptions successfully`, func() {
 				// Construct an instance of the PurgeByUrlsOptions model
-				purgeByUrlsOptionsModel := testService.NewPurgeByUrlsOptions()
+				purgeByUrlsOptionsModel := cachingApiService.NewPurgeByUrlsOptions()
 				purgeByUrlsOptionsModel.SetFiles([]string{"http://www.example.com/cat_picture.jpg"})
 				purgeByUrlsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(purgeByUrlsOptionsModel).ToNot(BeNil())
@@ -1723,7 +3230,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewUpdateBrowserCacheTtlOptions successfully`, func() {
 				// Construct an instance of the UpdateBrowserCacheTtlOptions model
-				updateBrowserCacheTtlOptionsModel := testService.NewUpdateBrowserCacheTtlOptions()
+				updateBrowserCacheTtlOptionsModel := cachingApiService.NewUpdateBrowserCacheTtlOptions()
 				updateBrowserCacheTtlOptionsModel.SetValue(int64(14400))
 				updateBrowserCacheTtlOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateBrowserCacheTtlOptionsModel).ToNot(BeNil())
@@ -1732,7 +3239,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewUpdateCacheLevelOptions successfully`, func() {
 				// Construct an instance of the UpdateCacheLevelOptions model
-				updateCacheLevelOptionsModel := testService.NewUpdateCacheLevelOptions()
+				updateCacheLevelOptionsModel := cachingApiService.NewUpdateCacheLevelOptions()
 				updateCacheLevelOptionsModel.SetValue("aggressive")
 				updateCacheLevelOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateCacheLevelOptionsModel).ToNot(BeNil())
@@ -1741,7 +3248,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewUpdateDevelopmentModeOptions successfully`, func() {
 				// Construct an instance of the UpdateDevelopmentModeOptions model
-				updateDevelopmentModeOptionsModel := testService.NewUpdateDevelopmentModeOptions()
+				updateDevelopmentModeOptionsModel := cachingApiService.NewUpdateDevelopmentModeOptions()
 				updateDevelopmentModeOptionsModel.SetValue("off")
 				updateDevelopmentModeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateDevelopmentModeOptionsModel).ToNot(BeNil())
@@ -1750,12 +3257,21 @@ var _ = Describe(`CachingApiV1`, func() {
 			})
 			It(`Invoke NewUpdateQueryStringSortOptions successfully`, func() {
 				// Construct an instance of the UpdateQueryStringSortOptions model
-				updateQueryStringSortOptionsModel := testService.NewUpdateQueryStringSortOptions()
+				updateQueryStringSortOptionsModel := cachingApiService.NewUpdateQueryStringSortOptions()
 				updateQueryStringSortOptionsModel.SetValue("off")
 				updateQueryStringSortOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateQueryStringSortOptionsModel).ToNot(BeNil())
 				Expect(updateQueryStringSortOptionsModel.Value).To(Equal(core.StringPtr("off")))
 				Expect(updateQueryStringSortOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateServeStaleContentOptions successfully`, func() {
+				// Construct an instance of the UpdateServeStaleContentOptions model
+				updateServeStaleContentOptionsModel := cachingApiService.NewUpdateServeStaleContentOptions()
+				updateServeStaleContentOptionsModel.SetValue("on")
+				updateServeStaleContentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateServeStaleContentOptionsModel).ToNot(BeNil())
+				Expect(updateServeStaleContentOptionsModel.Value).To(Equal(core.StringPtr("on")))
+				Expect(updateServeStaleContentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 		})
 	})
