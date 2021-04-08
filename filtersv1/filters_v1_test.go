@@ -31,7 +31,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.ibm.com/ibmcloud/networking-go-sdk/filtersv1"
+	"github.com/IBM/networking-go-sdk/filtersv1"
 )
 
 var _ = Describe(`FiltersV1`, func() {

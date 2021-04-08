@@ -26,7 +26,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v5/core"
-	common "github.ibm.com/ibmcloud/networking-go-sdk/common"
+	common "github.com/IBM/networking-go-sdk/common"
 	"io"
 	"net/http"
 	"reflect"

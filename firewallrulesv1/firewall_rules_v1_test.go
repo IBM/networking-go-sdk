@@ -24,7 +24,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.ibm.com/ibmcloud/networking-go-sdk/firewallrulesv1"
+	"github.com/IBM/networking-go-sdk/firewallrulesv1"
 	"io"
 	"io/ioutil"
 	"net/http"
