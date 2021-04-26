@@ -6071,6 +6071,222 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 		})
 	})
+	Describe(`UpdateHttp3(updateHttp3Options *UpdateHttp3Options) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateHttp3Path := "/v1/testString/zones/testString/settings/http3"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateHttp3Path))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateHttp3 with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateHttp3Options model
+				updateHttp3OptionsModel := new(zonessettingsv1.UpdateHttp3Options)
+				updateHttp3OptionsModel.Value = core.StringPtr("on")
+				updateHttp3OptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateHttp3(updateHttp3OptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateHttp3(updateHttp3OptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateHttp3(updateHttp3Options *UpdateHttp3Options)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateHttp3Path := "/v1/testString/zones/testString/settings/http3"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateHttp3Path))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateHttp3 successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateHttp3Options model
+				updateHttp3OptionsModel := new(zonessettingsv1.UpdateHttp3Options)
+				updateHttp3OptionsModel.Value = core.StringPtr("on")
+				updateHttp3OptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateHttp3WithContext(ctx, updateHttp3OptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateHttp3(updateHttp3OptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateHttp3WithContext(ctx, updateHttp3OptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateHttp3Path))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateHttp3 successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateHttp3(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateHttp3Options model
+				updateHttp3OptionsModel := new(zonessettingsv1.UpdateHttp3Options)
+				updateHttp3OptionsModel.Value = core.StringPtr("on")
+				updateHttp3OptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateHttp3(updateHttp3OptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateHttp3 with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateHttp3Options model
+				updateHttp3OptionsModel := new(zonessettingsv1.UpdateHttp3Options)
+				updateHttp3OptionsModel.Value = core.StringPtr("on")
+				updateHttp3OptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateHttp3(updateHttp3OptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`GetIpv6(getIpv6Options *GetIpv6Options) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
@@ -9690,6 +9906,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(getHttp2OptionsModel).ToNot(BeNil())
 				Expect(getHttp2OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetHttp3Options successfully`, func() {
+				// Construct an instance of the GetHttp3Options model
+				getHttp3OptionsModel := zonesSettingsService.NewGetHttp3Options()
+				getHttp3OptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getHttp3OptionsModel).ToNot(BeNil())
+				Expect(getHttp3OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetImageLoadOptimizationOptions successfully`, func() {
 				// Construct an instance of the GetImageLoadOptimizationOptions model
 				getImageLoadOptimizationOptionsModel := zonesSettingsService.NewGetImageLoadOptimizationOptions()
@@ -9938,6 +10161,15 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updateHttp2OptionsModel).ToNot(BeNil())
 				Expect(updateHttp2OptionsModel.Value).To(Equal(core.StringPtr("true")))
 				Expect(updateHttp2OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateHttp3Options successfully`, func() {
+				// Construct an instance of the UpdateHttp3Options model
+				updateHttp3OptionsModel := zonesSettingsService.NewUpdateHttp3Options()
+				updateHttp3OptionsModel.SetValue("on")
+				updateHttp3OptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateHttp3OptionsModel).ToNot(BeNil())
+				Expect(updateHttp3OptionsModel.Value).To(Equal(core.StringPtr("on")))
+				Expect(updateHttp3OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateImageLoadOptimizationOptions successfully`, func() {
 				// Construct an instance of the UpdateImageLoadOptimizationOptions model
