@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1451,6 +1451,9 @@ func (options *CreateGatewayVirtualConnectionOptions) SetHeaders(param map[strin
 
 // CrossConnectRouter : Cross Connect Router details.
 type CrossConnectRouter struct {
+	// Array of capabilities for this router.
+	Capabilities []string `json:"capabilities,omitempty"`
+
 	// The name of the Router.
 	RouterName *string `json:"router_name,omitempty"`
 
@@ -1461,6 +1464,10 @@ type CrossConnectRouter struct {
 // UnmarshalCrossConnectRouter unmarshals an instance of CrossConnectRouter from the specified map of raw messages.
 func UnmarshalCrossConnectRouter(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CrossConnectRouter)
+	err = core.UnmarshalPrimitive(m, "capabilities", &obj.Capabilities)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "router_name", &obj.RouterName)
 	if err != nil {
 		return
@@ -1544,7 +1551,7 @@ type Gateway struct {
 	// Customer BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
 
-	// (DEPRECATED) BGP base CIDR is deprecated and no longer recognized the Direct Link APIs.
+	// (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
 	//
 	// See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
 	//
@@ -1974,12 +1981,12 @@ type GatewayMacsecConfig struct {
 	// Secure Association Key (SAK) expiry time in seconds.
 	SakExpiryTime *int64 `json:"sak_expiry_time,omitempty"`
 
-	// Packets without MACsec headers are not dropped when security_policy is `should_secure`.
+	// Packets without MACsec headers are dropped when security_policy is `must_secure`.
 	SecurityPolicy *string `json:"security_policy,omitempty"`
 
 	// Current status of MACsec on this gateway.
 	//
-	// Status 'unknown' is returned during gateway creation and deletion.
+	// Status 'offline' is returned during gateway creation and deletion.
 	Status *string `json:"status" validate:"required"`
 
 	// replay protection window size.
@@ -1999,20 +2006,20 @@ const (
 )
 
 // Constants associated with the GatewayMacsecConfig.SecurityPolicy property.
-// Packets without MACsec headers are not dropped when security_policy is `should_secure`.
+// Packets without MACsec headers are dropped when security_policy is `must_secure`.
 const (
-	GatewayMacsecConfig_SecurityPolicy_ShouldSecure = "should_secure"
+	GatewayMacsecConfig_SecurityPolicy_MustSecure = "must_secure"
 )
 
 // Constants associated with the GatewayMacsecConfig.Status property.
 // Current status of MACsec on this gateway.
 //
-// Status 'unknown' is returned during gateway creation and deletion.
+// Status 'offline' is returned during gateway creation and deletion.
 const (
 	GatewayMacsecConfig_Status_Init    = "init"
+	GatewayMacsecConfig_Status_Offline = "offline"
 	GatewayMacsecConfig_Status_Pending = "pending"
 	GatewayMacsecConfig_Status_Secured = "secured"
-	GatewayMacsecConfig_Status_Unknown = "unknown"
 )
 
 // UnmarshalGatewayMacsecConfig unmarshals an instance of GatewayMacsecConfig from the specified map of raw messages.
@@ -3281,6 +3288,9 @@ func UnmarshalLocationOutput(m map[string]json.RawMessage, result interface{}) (
 
 // OfferingSpeed : Speed.
 type OfferingSpeed struct {
+	// Array of capabilities for billing option.
+	Capabilities []string `json:"capabilities" validate:"required"`
+
 	// Link speed in megabits per second.
 	LinkSpeed *int64 `json:"link_speed" validate:"required"`
 
@@ -3292,6 +3302,10 @@ type OfferingSpeed struct {
 // UnmarshalOfferingSpeed unmarshals an instance of OfferingSpeed from the specified map of raw messages.
 func UnmarshalOfferingSpeed(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OfferingSpeed)
+	err = core.UnmarshalPrimitive(m, "capabilities", &obj.Capabilities)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "link_speed", &obj.LinkSpeed)
 	if err != nil {
 		return
