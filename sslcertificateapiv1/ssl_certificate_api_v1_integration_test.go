@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  */
 
 package sslcertificateapiv1_test
@@ -163,12 +163,8 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(orderResp).ToNot(BeNil())
 				Expect(orderResult).ToNot(BeNil())
 				Expect(orderResult.Result.ID).ToNot(BeNil())
-				Expect(orderResult.Result.PrimaryCertificate).ToNot(BeNil())
-				Expect(orderResult.Result.Hosts[0]).Should(BeEquivalentTo(url))
 				Expect(orderResult.Result.Status).ToNot(BeNil())
-				Expect(*orderResult.Result.Type).Should(BeEquivalentTo(OrderCertificateOptions_Type_Dedicated))
-				Expect(orderResult.Result.Certificates[0].Hosts[0]).Should(BeEquivalentTo(url))
-				Expect(orderResult.Result.Certificates[0].ID).ToNot(BeNil())
+				Expect(*orderResult.Result.Type).Should(BeEquivalentTo("advanced"))
 
 				// list all certificates
 				listOpt := service.NewListCertificatesOptions()
@@ -177,6 +173,12 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				Expect(listErr).To(BeNil())
 				Expect(listResp).ToNot(BeNil())
 				Expect(listResult).ToNot(BeNil())
+				for _, cert := range listResult.Result {
+					Expect(cert.PrimaryCertificate).ToNot(BeNil())
+					Expect(cert.Hosts[0]).Should(BeEquivalentTo(url))
+					Expect(cert.Certificates[0].Hosts[0]).Should(BeEquivalentTo(url))
+					Expect(cert.Certificates[0].ID).ToNot(BeNil())
+				}
 
 				delOpt := service.NewDeleteCertificateOptions(*orderResult.Result.ID)
 				delResp, delErr := service.DeleteCertificate(delOpt)
