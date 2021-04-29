@@ -26,7 +26,6 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`zoneratelimitsv1`, func() {
-	Skip("Test cases are failing, skipping...")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
