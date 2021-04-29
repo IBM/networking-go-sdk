@@ -9,10 +9,10 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/core"
+	. "github.com/IBM/networking-go-sdk/pageruleapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/pageruleapiv1"
 )
 
 const configFile = "../cis.env"
