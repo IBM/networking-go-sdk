@@ -1,3 +1,10 @@
+# [0.14.0](https://github.com/IBM/networking-go-sdk/compare/v0.13.0...v0.14.0) (2021-04-29)
+
+
+### Features
+
+* Adds the following changes to the DL SDK ([b8571f7](https://github.com/IBM/networking-go-sdk/commit/b8571f73d408da6d6d266b1657a5589e76fc9ded))
+
 # [0.13.0](https://github.com/IBM/networking-go-sdk/compare/v0.12.3...v0.13.0) (2021-02-26)
 
 
