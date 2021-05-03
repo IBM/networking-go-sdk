@@ -425,6 +425,26 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				Expect(updateResult).ToNot(BeNil())
 				Expect(*updateResult.Success).Should(BeTrue())
 			})
+			It(`http/3 setting test`, func() {
+				shouldSkipTest()
+				getOpt := service.NewGetHttp3Options()
+				getResult, getResp, getErr := service.GetHttp3(getOpt)
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+
+				updateOpt := service.NewUpdateHttp3Options()
+				updateOpt.SetValue(UpdateHttp3Options_Value_Off)
+				if *getResult.Result.Value != UpdateHttp3Options_Value_Off {
+					updateOpt.SetValue(UpdateHttp3Options_Value_On)
+				}
+				updateResult, updateResp, updateErr := service.UpdateHttp3(updateOpt)
+				Expect(updateErr).To(BeNil())
+				Expect(updateResp).ToNot(BeNil())
+				Expect(updateResult).ToNot(BeNil())
+				Expect(*updateResult.Success).Should(BeTrue())
+			})
 			It(`ipv6 compatibility setting test`, func() {
 				shouldSkipTest()
 				getOpt := service.NewGetIpv6Options()
