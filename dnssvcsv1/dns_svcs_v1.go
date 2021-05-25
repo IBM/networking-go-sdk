@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ * IBM OpenAPI SDK Code Generator Version: 3.31.0-902c9336-20210504-161156
  */
- 
 
 // Package dnssvcsv1 : Operations and models for the DnsSvcsV1 service
 package dnssvcsv1
@@ -26,11 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/go-openapi/strfmt"
+        common "github.com/IBM/networking-go-sdk/common"
 )
 
 // DnsSvcsV1 : DNS Services API
@@ -218,16 +219,18 @@ func (dnsSvcs *DnsSvcsV1) ListDnszonesWithContext(ctx context.Context, listDnszo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListDnszones)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListDnszones)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// CreateDnszone : Create a DNS zone
+// CreateDnszone : Create DNS zone
 // Create a DNS zone for a given service instance.
 func (dnsSvcs *DnsSvcsV1) CreateDnszone(createDnszoneOptions *CreateDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
 	return dnsSvcs.CreateDnszoneWithContext(context.Background(), createDnszoneOptions)
@@ -295,16 +298,18 @@ func (dnsSvcs *DnsSvcsV1) CreateDnszoneWithContext(ctx context.Context, createDn
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// DeleteDnszone : Delete a DNS zone
+// DeleteDnszone : Delete DNS zone
 // Delete a DNS zone.
 func (dnsSvcs *DnsSvcsV1) DeleteDnszone(deleteDnszoneOptions *DeleteDnszoneOptions) (response *core.DetailedResponse, err error) {
 	return dnsSvcs.DeleteDnszoneWithContext(context.Background(), deleteDnszoneOptions)
@@ -356,7 +361,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteDnszoneWithContext(ctx context.Context, deleteDn
 	return
 }
 
-// GetDnszone : Get a DNS zone
+// GetDnszone : Get DNS zone
 // Get details of a DNS zone.
 func (dnsSvcs *DnsSvcsV1) GetDnszone(getDnszoneOptions *GetDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
 	return dnsSvcs.GetDnszoneWithContext(context.Background(), getDnszoneOptions)
@@ -409,16 +414,18 @@ func (dnsSvcs *DnsSvcsV1) GetDnszoneWithContext(ctx context.Context, getDnszoneO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// UpdateDnszone : Update the properties of a DNS zone
+// UpdateDnszone : Update DNS zone
 // Update the properties of a DNS zone.
 func (dnsSvcs *DnsSvcsV1) UpdateDnszone(updateDnszoneOptions *UpdateDnszoneOptions) (result *Dnszone, response *core.DetailedResponse, err error) {
 	return dnsSvcs.UpdateDnszoneWithContext(context.Background(), updateDnszoneOptions)
@@ -484,16 +491,18 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszoneWithContext(ctx context.Context, updateDn
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// ListResourceRecords : List Resource Records
+// ListResourceRecords : List resource records
 // List the Resource Records for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) ListResourceRecords(listResourceRecordsOptions *ListResourceRecordsOptions) (result *ListResourceRecords, response *core.DetailedResponse, err error) {
 	return dnsSvcs.ListResourceRecordsWithContext(context.Background(), listResourceRecordsOptions)
@@ -553,16 +562,18 @@ func (dnsSvcs *DnsSvcsV1) ListResourceRecordsWithContext(ctx context.Context, li
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListResourceRecords)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListResourceRecords)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// CreateResourceRecord : Create a resource record
+// CreateResourceRecord : Create resource record
 // Create a resource record for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) CreateResourceRecord(createResourceRecordOptions *CreateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	return dnsSvcs.CreateResourceRecordWithContext(context.Background(), createResourceRecordOptions)
@@ -640,16 +651,18 @@ func (dnsSvcs *DnsSvcsV1) CreateResourceRecordWithContext(ctx context.Context, c
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// DeleteResourceRecord : Delete a resource record
+// DeleteResourceRecord : Delete resource record
 // Delete a resource record.
 func (dnsSvcs *DnsSvcsV1) DeleteResourceRecord(deleteResourceRecordOptions *DeleteResourceRecordOptions) (response *core.DetailedResponse, err error) {
 	return dnsSvcs.DeleteResourceRecordWithContext(context.Background(), deleteResourceRecordOptions)
@@ -702,7 +715,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteResourceRecordWithContext(ctx context.Context, d
 	return
 }
 
-// GetResourceRecord : Get a resource record
+// GetResourceRecord : Get resource record
 // Get details of a resource record.
 func (dnsSvcs *DnsSvcsV1) GetResourceRecord(getResourceRecordOptions *GetResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	return dnsSvcs.GetResourceRecordWithContext(context.Background(), getResourceRecordOptions)
@@ -756,16 +769,18 @@ func (dnsSvcs *DnsSvcsV1) GetResourceRecordWithContext(ctx context.Context, getR
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// UpdateResourceRecord : Update the properties of a resource record
+// UpdateResourceRecord : Update resource record
 // Update the properties of a resource record.
 func (dnsSvcs *DnsSvcsV1) UpdateResourceRecord(updateResourceRecordOptions *UpdateResourceRecordOptions) (result *ResourceRecord, response *core.DetailedResponse, err error) {
 	return dnsSvcs.UpdateResourceRecordWithContext(context.Background(), updateResourceRecordOptions)
@@ -841,11 +856,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateResourceRecordWithContext(ctx context.Context, u
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -910,16 +927,18 @@ func (dnsSvcs *DnsSvcsV1) ListPermittedNetworksWithContext(ctx context.Context, 
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPermittedNetworks)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPermittedNetworks)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// CreatePermittedNetwork : Create a permitted network
+// CreatePermittedNetwork : Create permitted network
 // Create a permitted network for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) CreatePermittedNetwork(createPermittedNetworkOptions *CreatePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	return dnsSvcs.CreatePermittedNetworkWithContext(context.Background(), createPermittedNetworkOptions)
@@ -985,16 +1004,18 @@ func (dnsSvcs *DnsSvcsV1) CreatePermittedNetworkWithContext(ctx context.Context,
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// DeletePermittedNetwork : Remove a permitted network
+// DeletePermittedNetwork : Remove permitted network
 // Remove a permitted network.
 func (dnsSvcs *DnsSvcsV1) DeletePermittedNetwork(deletePermittedNetworkOptions *DeletePermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	return dnsSvcs.DeletePermittedNetworkWithContext(context.Background(), deletePermittedNetworkOptions)
@@ -1048,16 +1069,18 @@ func (dnsSvcs *DnsSvcsV1) DeletePermittedNetworkWithContext(ctx context.Context,
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// GetPermittedNetwork : Get a permitted network
+// GetPermittedNetwork : Get permitted network
 // Get details of a permitted network.
 func (dnsSvcs *DnsSvcsV1) GetPermittedNetwork(getPermittedNetworkOptions *GetPermittedNetworkOptions) (result *PermittedNetwork, response *core.DetailedResponse, err error) {
 	return dnsSvcs.GetPermittedNetworkWithContext(context.Background(), getPermittedNetworkOptions)
@@ -1111,11 +1134,13 @@ func (dnsSvcs *DnsSvcsV1) GetPermittedNetworkWithContext(ctx context.Context, ge
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1173,16 +1198,18 @@ func (dnsSvcs *DnsSvcsV1) ListLoadBalancersWithContext(ctx context.Context, list
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListLoadBalancers)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListLoadBalancers)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// CreateLoadBalancer : Create a load balancer
+// CreateLoadBalancer : Create load balancer
 // Create a load balancer for a given DNS zone.
 func (dnsSvcs *DnsSvcsV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	return dnsSvcs.CreateLoadBalancerWithContext(context.Background(), createLoadBalancerOptions)
@@ -1263,16 +1290,18 @@ func (dnsSvcs *DnsSvcsV1) CreateLoadBalancerWithContext(ctx context.Context, cre
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// DeleteLoadBalancer : Delete a load balancer
+// DeleteLoadBalancer : Delete load balancer
 // Delete a load balancer.
 func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	return dnsSvcs.DeleteLoadBalancerWithContext(context.Background(), deleteLoadBalancerOptions)
@@ -1325,7 +1354,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancerWithContext(ctx context.Context, del
 	return
 }
 
-// GetLoadBalancer : Get a load balancer
+// GetLoadBalancer : Get load balancer
 // Get details of a load balancer.
 func (dnsSvcs *DnsSvcsV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	return dnsSvcs.GetLoadBalancerWithContext(context.Background(), getLoadBalancerOptions)
@@ -1379,16 +1408,18 @@ func (dnsSvcs *DnsSvcsV1) GetLoadBalancerWithContext(ctx context.Context, getLoa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// UpdateLoadBalancer : Update the properties of a load balancer
+// UpdateLoadBalancer : Update load balancer
 // Update the properties of a load balancer.
 func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	return dnsSvcs.UpdateLoadBalancerWithContext(context.Background(), updateLoadBalancerOptions)
@@ -1470,11 +1501,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancerWithContext(ctx context.Context, upd
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1531,16 +1564,18 @@ func (dnsSvcs *DnsSvcsV1) ListPoolsWithContext(ctx context.Context, listPoolsOpt
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPools)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPools)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// CreatePool : Create a load balancer pool
+// CreatePool : Create load balancer pool
 // Create a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) CreatePool(createPoolOptions *CreatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	return dnsSvcs.CreatePoolWithContext(context.Background(), createPoolOptions)
@@ -1626,16 +1661,18 @@ func (dnsSvcs *DnsSvcsV1) CreatePoolWithContext(ctx context.Context, createPoolO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// DeletePool : Delete a load balancer pool
+// DeletePool : Delete load balancer pool
 // Delete a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) DeletePool(deletePoolOptions *DeletePoolOptions) (response *core.DetailedResponse, err error) {
 	return dnsSvcs.DeletePoolWithContext(context.Background(), deletePoolOptions)
@@ -1687,7 +1724,7 @@ func (dnsSvcs *DnsSvcsV1) DeletePoolWithContext(ctx context.Context, deletePoolO
 	return
 }
 
-// GetPool : Get a load balancer pool
+// GetPool : Get load balancer pool
 // Get details of a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) GetPool(getPoolOptions *GetPoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	return dnsSvcs.GetPoolWithContext(context.Background(), getPoolOptions)
@@ -1740,16 +1777,18 @@ func (dnsSvcs *DnsSvcsV1) GetPoolWithContext(ctx context.Context, getPoolOptions
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// UpdatePool : Update the properties of a load balancer pool
+// UpdatePool : Update load balancer pool
 // Update the properties of a load balancer pool.
 func (dnsSvcs *DnsSvcsV1) UpdatePool(updatePoolOptions *UpdatePoolOptions) (result *Pool, response *core.DetailedResponse, err error) {
 	return dnsSvcs.UpdatePoolWithContext(context.Background(), updatePoolOptions)
@@ -1836,11 +1875,13 @@ func (dnsSvcs *DnsSvcsV1) UpdatePoolWithContext(ctx context.Context, updatePoolO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1897,16 +1938,18 @@ func (dnsSvcs *DnsSvcsV1) ListMonitorsWithContext(ctx context.Context, listMonit
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListMonitors)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListMonitors)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// CreateMonitor : Create a load balancer monitor
+// CreateMonitor : Create load balancer monitor
 // Create a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) CreateMonitor(createMonitorOptions *CreateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	return dnsSvcs.CreateMonitorWithContext(context.Background(), createMonitorOptions)
@@ -2004,16 +2047,18 @@ func (dnsSvcs *DnsSvcsV1) CreateMonitorWithContext(ctx context.Context, createMo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// DeleteMonitor : Delete a load balancer monitor
+// DeleteMonitor : Delete load balancer monitor
 // Delete a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) DeleteMonitor(deleteMonitorOptions *DeleteMonitorOptions) (response *core.DetailedResponse, err error) {
 	return dnsSvcs.DeleteMonitorWithContext(context.Background(), deleteMonitorOptions)
@@ -2065,7 +2110,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteMonitorWithContext(ctx context.Context, deleteMo
 	return
 }
 
-// GetMonitor : Get a load balancer monitor
+// GetMonitor : Get load balancer monitor
 // Get details of a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) GetMonitor(getMonitorOptions *GetMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	return dnsSvcs.GetMonitorWithContext(context.Background(), getMonitorOptions)
@@ -2118,16 +2163,18 @@ func (dnsSvcs *DnsSvcsV1) GetMonitorWithContext(ctx context.Context, getMonitorO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
 
-// UpdateMonitor : Update the properties of a load balancer monitor
+// UpdateMonitor : Update load balancer monitor
 // Update the properties of a load balancer monitor.
 func (dnsSvcs *DnsSvcsV1) UpdateMonitor(updateMonitorOptions *UpdateMonitorOptions) (result *Monitor, response *core.DetailedResponse, err error) {
 	return dnsSvcs.UpdateMonitorWithContext(context.Background(), updateMonitorOptions)
@@ -2226,31 +2273,1057 @@ func (dnsSvcs *DnsSvcsV1) UpdateMonitorWithContext(ctx context.Context, updateMo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListCustomResolvers : List custom resolvers
+// List the custom resolvers.
+func (dnsSvcs *DnsSvcsV1) ListCustomResolvers(listCustomResolversOptions *ListCustomResolversOptions) (result *CustomResolverList, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListCustomResolversWithContext(context.Background(), listCustomResolversOptions)
+}
+
+// ListCustomResolversWithContext is an alternate form of the ListCustomResolvers method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListCustomResolversWithContext(ctx context.Context, listCustomResolversOptions *ListCustomResolversOptions) (result *CustomResolverList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listCustomResolversOptions, "listCustomResolversOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	response.Result = result
+	err = core.ValidateStruct(listCustomResolversOptions, "listCustomResolversOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *listCustomResolversOptions.InstanceID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listCustomResolversOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "ListCustomResolvers")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if listCustomResolversOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*listCustomResolversOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolverList)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
+}
+
+// CreateCustomResolver : Create a custom resolver
+// Create a custom resolver.
+func (dnsSvcs *DnsSvcsV1) CreateCustomResolver(createCustomResolverOptions *CreateCustomResolverOptions) (result *CustomResolver, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateCustomResolverWithContext(context.Background(), createCustomResolverOptions)
+}
+
+// CreateCustomResolverWithContext is an alternate form of the CreateCustomResolver method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateCustomResolverWithContext(ctx context.Context, createCustomResolverOptions *CreateCustomResolverOptions) (result *CustomResolver, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createCustomResolverOptions, "createCustomResolverOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createCustomResolverOptions, "createCustomResolverOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *createCustomResolverOptions.InstanceID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createCustomResolverOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "CreateCustomResolver")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if createCustomResolverOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*createCustomResolverOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if createCustomResolverOptions.Name != nil {
+		body["name"] = createCustomResolverOptions.Name
+	}
+	if createCustomResolverOptions.Description != nil {
+		body["description"] = createCustomResolverOptions.Description
+	}
+	if createCustomResolverOptions.Locations != nil {
+		body["locations"] = createCustomResolverOptions.Locations
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteCustomResolver : Delete a custom resolver
+// Delete a custom resolver.
+func (dnsSvcs *DnsSvcsV1) DeleteCustomResolver(deleteCustomResolverOptions *DeleteCustomResolverOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteCustomResolverWithContext(context.Background(), deleteCustomResolverOptions)
+}
+
+// DeleteCustomResolverWithContext is an alternate form of the DeleteCustomResolver method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteCustomResolverWithContext(ctx context.Context, deleteCustomResolverOptions *DeleteCustomResolverOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteCustomResolverOptions, "deleteCustomResolverOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteCustomResolverOptions, "deleteCustomResolverOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteCustomResolverOptions.InstanceID,
+		"resolver_id": *deleteCustomResolverOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteCustomResolverOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "DeleteCustomResolver")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteCustomResolverOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*deleteCustomResolverOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = dnsSvcs.Service.Request(request, nil)
+
+	return
+}
+
+// GetCustomResolver : Get a custom resolver
+// Get details of a custom resolver.
+func (dnsSvcs *DnsSvcsV1) GetCustomResolver(getCustomResolverOptions *GetCustomResolverOptions) (result *CustomResolver, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetCustomResolverWithContext(context.Background(), getCustomResolverOptions)
+}
+
+// GetCustomResolverWithContext is an alternate form of the GetCustomResolver method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetCustomResolverWithContext(ctx context.Context, getCustomResolverOptions *GetCustomResolverOptions) (result *CustomResolver, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getCustomResolverOptions, "getCustomResolverOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getCustomResolverOptions, "getCustomResolverOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *getCustomResolverOptions.InstanceID,
+		"resolver_id": *getCustomResolverOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getCustomResolverOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "GetCustomResolver")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if getCustomResolverOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*getCustomResolverOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateCustomResolver : Update the properties of a custom resolver
+// Update the properties of a custom resolver.
+func (dnsSvcs *DnsSvcsV1) UpdateCustomResolver(updateCustomResolverOptions *UpdateCustomResolverOptions) (result *CustomResolver, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateCustomResolverWithContext(context.Background(), updateCustomResolverOptions)
+}
+
+// UpdateCustomResolverWithContext is an alternate form of the UpdateCustomResolver method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateCustomResolverWithContext(ctx context.Context, updateCustomResolverOptions *UpdateCustomResolverOptions) (result *CustomResolver, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateCustomResolverOptions, "updateCustomResolverOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateCustomResolverOptions, "updateCustomResolverOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *updateCustomResolverOptions.InstanceID,
+		"resolver_id": *updateCustomResolverOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateCustomResolverOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "UpdateCustomResolver")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if updateCustomResolverOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*updateCustomResolverOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if updateCustomResolverOptions.Name != nil {
+		body["name"] = updateCustomResolverOptions.Name
+	}
+	if updateCustomResolverOptions.Description != nil {
+		body["description"] = updateCustomResolverOptions.Description
+	}
+	if updateCustomResolverOptions.Enabled != nil {
+		body["enabled"] = updateCustomResolverOptions.Enabled
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// AddCustomResolverLocation : Add custom resolver location
+// Add custom resolver location.
+func (dnsSvcs *DnsSvcsV1) AddCustomResolverLocation(addCustomResolverLocationOptions *AddCustomResolverLocationOptions) (result *Location, response *core.DetailedResponse, err error) {
+	return dnsSvcs.AddCustomResolverLocationWithContext(context.Background(), addCustomResolverLocationOptions)
+}
+
+// AddCustomResolverLocationWithContext is an alternate form of the AddCustomResolverLocation method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) AddCustomResolverLocationWithContext(ctx context.Context, addCustomResolverLocationOptions *AddCustomResolverLocationOptions) (result *Location, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(addCustomResolverLocationOptions, "addCustomResolverLocationOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(addCustomResolverLocationOptions, "addCustomResolverLocationOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *addCustomResolverLocationOptions.InstanceID,
+		"resolver_id": *addCustomResolverLocationOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/locations`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range addCustomResolverLocationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "AddCustomResolverLocation")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if addCustomResolverLocationOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*addCustomResolverLocationOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if addCustomResolverLocationOptions.SubnetCrn != nil {
+		body["subnet_crn"] = addCustomResolverLocationOptions.SubnetCrn
+	}
+	if addCustomResolverLocationOptions.Enabled != nil {
+		body["enabled"] = addCustomResolverLocationOptions.Enabled
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocation)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateCustomResolverLocation : Update custom resolver location
+// Update custom resolver location.
+func (dnsSvcs *DnsSvcsV1) UpdateCustomResolverLocation(updateCustomResolverLocationOptions *UpdateCustomResolverLocationOptions) (result *Location, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateCustomResolverLocationWithContext(context.Background(), updateCustomResolverLocationOptions)
+}
+
+// UpdateCustomResolverLocationWithContext is an alternate form of the UpdateCustomResolverLocation method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateCustomResolverLocationWithContext(ctx context.Context, updateCustomResolverLocationOptions *UpdateCustomResolverLocationOptions) (result *Location, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateCustomResolverLocationOptions, "updateCustomResolverLocationOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateCustomResolverLocationOptions, "updateCustomResolverLocationOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *updateCustomResolverLocationOptions.InstanceID,
+		"resolver_id": *updateCustomResolverLocationOptions.ResolverID,
+		"location_id": *updateCustomResolverLocationOptions.LocationID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateCustomResolverLocationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "UpdateCustomResolverLocation")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if updateCustomResolverLocationOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*updateCustomResolverLocationOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if updateCustomResolverLocationOptions.Enabled != nil {
+		body["enabled"] = updateCustomResolverLocationOptions.Enabled
+	}
+	if updateCustomResolverLocationOptions.SubnetCrn != nil {
+		body["subnet_crn"] = updateCustomResolverLocationOptions.SubnetCrn
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocation)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteCustomResolverLocation : Delete custom resolver location
+// Delete custom resolver location.
+func (dnsSvcs *DnsSvcsV1) DeleteCustomResolverLocation(deleteCustomResolverLocationOptions *DeleteCustomResolverLocationOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteCustomResolverLocationWithContext(context.Background(), deleteCustomResolverLocationOptions)
+}
+
+// DeleteCustomResolverLocationWithContext is an alternate form of the DeleteCustomResolverLocation method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteCustomResolverLocationWithContext(ctx context.Context, deleteCustomResolverLocationOptions *DeleteCustomResolverLocationOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteCustomResolverLocationOptions, "deleteCustomResolverLocationOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteCustomResolverLocationOptions, "deleteCustomResolverLocationOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteCustomResolverLocationOptions.InstanceID,
+		"resolver_id": *deleteCustomResolverLocationOptions.ResolverID,
+		"location_id": *deleteCustomResolverLocationOptions.LocationID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteCustomResolverLocationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "DeleteCustomResolverLocation")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteCustomResolverLocationOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*deleteCustomResolverLocationOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = dnsSvcs.Service.Request(request, nil)
+
+	return
+}
+
+// ListForwardingRules : List forwarding rules
+// List the forwarding rules of the given custom resolver.
+func (dnsSvcs *DnsSvcsV1) ListForwardingRules(listForwardingRulesOptions *ListForwardingRulesOptions) (result *ForwardingRuleList, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListForwardingRulesWithContext(context.Background(), listForwardingRulesOptions)
+}
+
+// ListForwardingRulesWithContext is an alternate form of the ListForwardingRules method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListForwardingRulesWithContext(ctx context.Context, listForwardingRulesOptions *ListForwardingRulesOptions) (result *ForwardingRuleList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listForwardingRulesOptions, "listForwardingRulesOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listForwardingRulesOptions, "listForwardingRulesOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *listForwardingRulesOptions.InstanceID,
+		"resolver_id": *listForwardingRulesOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listForwardingRulesOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "ListForwardingRules")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if listForwardingRulesOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*listForwardingRulesOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRuleList)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateForwardingRule : Create a forwarding rule
+// Create a forwarding rule for the given custom resolver.
+func (dnsSvcs *DnsSvcsV1) CreateForwardingRule(createForwardingRuleOptions *CreateForwardingRuleOptions) (result *ForwardingRule, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateForwardingRuleWithContext(context.Background(), createForwardingRuleOptions)
+}
+
+// CreateForwardingRuleWithContext is an alternate form of the CreateForwardingRule method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateForwardingRuleWithContext(ctx context.Context, createForwardingRuleOptions *CreateForwardingRuleOptions) (result *ForwardingRule, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createForwardingRuleOptions, "createForwardingRuleOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createForwardingRuleOptions, "createForwardingRuleOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *createForwardingRuleOptions.InstanceID,
+		"resolver_id": *createForwardingRuleOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createForwardingRuleOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "CreateForwardingRule")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if createForwardingRuleOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*createForwardingRuleOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if createForwardingRuleOptions.Description != nil {
+		body["description"] = createForwardingRuleOptions.Description
+	}
+	if createForwardingRuleOptions.Type != nil {
+		body["type"] = createForwardingRuleOptions.Type
+	}
+	if createForwardingRuleOptions.Match != nil {
+		body["match"] = createForwardingRuleOptions.Match
+	}
+	if createForwardingRuleOptions.ForwardTo != nil {
+		body["forward_to"] = createForwardingRuleOptions.ForwardTo
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteForwardingRule : Delete a forwarding rule
+// Delete a forwarding rule on the given custom resolver.
+func (dnsSvcs *DnsSvcsV1) DeleteForwardingRule(deleteForwardingRuleOptions *DeleteForwardingRuleOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteForwardingRuleWithContext(context.Background(), deleteForwardingRuleOptions)
+}
+
+// DeleteForwardingRuleWithContext is an alternate form of the DeleteForwardingRule method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteForwardingRuleWithContext(ctx context.Context, deleteForwardingRuleOptions *DeleteForwardingRuleOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteForwardingRuleOptions, "deleteForwardingRuleOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteForwardingRuleOptions, "deleteForwardingRuleOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *deleteForwardingRuleOptions.InstanceID,
+		"resolver_id": *deleteForwardingRuleOptions.ResolverID,
+		"rule_id": *deleteForwardingRuleOptions.RuleID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteForwardingRuleOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "DeleteForwardingRule")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteForwardingRuleOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*deleteForwardingRuleOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = dnsSvcs.Service.Request(request, nil)
+
+	return
+}
+
+// GetForwardingRule : Get a forwarding rule
+// Get details of a forwarding rule on the given custom resolver.
+func (dnsSvcs *DnsSvcsV1) GetForwardingRule(getForwardingRuleOptions *GetForwardingRuleOptions) (result *ForwardingRule, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetForwardingRuleWithContext(context.Background(), getForwardingRuleOptions)
+}
+
+// GetForwardingRuleWithContext is an alternate form of the GetForwardingRule method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetForwardingRuleWithContext(ctx context.Context, getForwardingRuleOptions *GetForwardingRuleOptions) (result *ForwardingRule, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getForwardingRuleOptions, "getForwardingRuleOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getForwardingRuleOptions, "getForwardingRuleOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *getForwardingRuleOptions.InstanceID,
+		"resolver_id": *getForwardingRuleOptions.ResolverID,
+		"rule_id": *getForwardingRuleOptions.RuleID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getForwardingRuleOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "GetForwardingRule")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if getForwardingRuleOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*getForwardingRuleOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateForwardingRule : Update the properties of a forwarding rule
+// Update the properties of a forwarding rule on the given custom resolver.
+func (dnsSvcs *DnsSvcsV1) UpdateForwardingRule(updateForwardingRuleOptions *UpdateForwardingRuleOptions) (result *ForwardingRule, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateForwardingRuleWithContext(context.Background(), updateForwardingRuleOptions)
+}
+
+// UpdateForwardingRuleWithContext is an alternate form of the UpdateForwardingRule method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateForwardingRuleWithContext(ctx context.Context, updateForwardingRuleOptions *UpdateForwardingRuleOptions) (result *ForwardingRule, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateForwardingRuleOptions, "updateForwardingRuleOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateForwardingRuleOptions, "updateForwardingRuleOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *updateForwardingRuleOptions.InstanceID,
+		"resolver_id": *updateForwardingRuleOptions.ResolverID,
+		"rule_id": *updateForwardingRuleOptions.RuleID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateForwardingRuleOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "UpdateForwardingRule")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if updateForwardingRuleOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*updateForwardingRuleOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if updateForwardingRuleOptions.Description != nil {
+		body["description"] = updateForwardingRuleOptions.Description
+	}
+	if updateForwardingRuleOptions.Type != nil {
+		body["type"] = updateForwardingRuleOptions.Type
+	}
+	if updateForwardingRuleOptions.Match != nil {
+		body["match"] = updateForwardingRuleOptions.Match
+	}
+	if updateForwardingRuleOptions.ForwardTo != nil {
+		body["forward_to"] = updateForwardingRuleOptions.ForwardTo
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// AddCustomResolverLocationOptions : The AddCustomResolverLocation options.
+type AddCustomResolverLocationOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Custom resolver location, subnet CRN.
+	SubnetCrn *string
+
+	// Enable/Disable custom resolver location.
+	Enabled *bool
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewAddCustomResolverLocationOptions : Instantiate AddCustomResolverLocationOptions
+func (*DnsSvcsV1) NewAddCustomResolverLocationOptions(instanceID string, resolverID string) *AddCustomResolverLocationOptions {
+	return &AddCustomResolverLocationOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *AddCustomResolverLocationOptions) SetInstanceID(instanceID string) *AddCustomResolverLocationOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *AddCustomResolverLocationOptions) SetResolverID(resolverID string) *AddCustomResolverLocationOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetSubnetCrn : Allow user to set SubnetCrn
+func (options *AddCustomResolverLocationOptions) SetSubnetCrn(subnetCrn string) *AddCustomResolverLocationOptions {
+	options.SubnetCrn = core.StringPtr(subnetCrn)
+	return options
+}
+
+// SetEnabled : Allow user to set Enabled
+func (options *AddCustomResolverLocationOptions) SetEnabled(enabled bool) *AddCustomResolverLocationOptions {
+	options.Enabled = core.BoolPtr(enabled)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *AddCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *AddCustomResolverLocationOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *AddCustomResolverLocationOptions) SetHeaders(param map[string]string) *AddCustomResolverLocationOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateCustomResolverOptions : The CreateCustomResolver options.
+type CreateCustomResolverOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// Name of the custom resolver.
+	Name *string
+
+	// Descriptive text of the custom resolver.
+	Description *string
+
+	// Locations on which the custom resolver will be running.
+	Locations []LocationInput
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewCreateCustomResolverOptions : Instantiate CreateCustomResolverOptions
+func (*DnsSvcsV1) NewCreateCustomResolverOptions(instanceID string) *CreateCustomResolverOptions {
+	return &CreateCustomResolverOptions{
+		InstanceID: core.StringPtr(instanceID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *CreateCustomResolverOptions) SetInstanceID(instanceID string) *CreateCustomResolverOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetName : Allow user to set Name
+func (options *CreateCustomResolverOptions) SetName(name string) *CreateCustomResolverOptions {
+	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetDescription : Allow user to set Description
+func (options *CreateCustomResolverOptions) SetDescription(description string) *CreateCustomResolverOptions {
+	options.Description = core.StringPtr(description)
+	return options
+}
+
+// SetLocations : Allow user to set Locations
+func (options *CreateCustomResolverOptions) SetLocations(locations []LocationInput) *CreateCustomResolverOptions {
+	options.Locations = locations
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *CreateCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *CreateCustomResolverOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateCustomResolverOptions) SetHeaders(param map[string]string) *CreateCustomResolverOptions {
+	options.Headers = param
+	return options
 }
 
 // CreateDnszoneOptions : The CreateDnszone options.
 type CreateDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Name of DNS zone.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The text describing the purpose of a DNS zone.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// The label of a DNS zone.
-	Label *string `json:"label,omitempty"`
+	Label *string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2299,38 +3372,128 @@ func (options *CreateDnszoneOptions) SetHeaders(param map[string]string) *Create
 	return options
 }
 
+// CreateForwardingRuleOptions : The CreateForwardingRule options.
+type CreateForwardingRuleOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Descriptive text of the forwarding rule.
+	Description *string
+
+	// Type of the forwarding rule.
+	Type *string
+
+	// The matching zone or hostname.
+	Match *string
+
+	// The upstream DNS servers will be forwarded to.
+	ForwardTo []string
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateForwardingRuleOptions.Type property.
+// Type of the forwarding rule.
+const (
+	CreateForwardingRuleOptions_Type_Hostname = "hostname"
+	CreateForwardingRuleOptions_Type_Zone = "zone"
+)
+
+// NewCreateForwardingRuleOptions : Instantiate CreateForwardingRuleOptions
+func (*DnsSvcsV1) NewCreateForwardingRuleOptions(instanceID string, resolverID string) *CreateForwardingRuleOptions {
+	return &CreateForwardingRuleOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *CreateForwardingRuleOptions) SetInstanceID(instanceID string) *CreateForwardingRuleOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *CreateForwardingRuleOptions) SetResolverID(resolverID string) *CreateForwardingRuleOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetDescription : Allow user to set Description
+func (options *CreateForwardingRuleOptions) SetDescription(description string) *CreateForwardingRuleOptions {
+	options.Description = core.StringPtr(description)
+	return options
+}
+
+// SetType : Allow user to set Type
+func (options *CreateForwardingRuleOptions) SetType(typeVar string) *CreateForwardingRuleOptions {
+	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetMatch : Allow user to set Match
+func (options *CreateForwardingRuleOptions) SetMatch(match string) *CreateForwardingRuleOptions {
+	options.Match = core.StringPtr(match)
+	return options
+}
+
+// SetForwardTo : Allow user to set ForwardTo
+func (options *CreateForwardingRuleOptions) SetForwardTo(forwardTo []string) *CreateForwardingRuleOptions {
+	options.ForwardTo = forwardTo
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *CreateForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *CreateForwardingRuleOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateForwardingRuleOptions) SetHeaders(param map[string]string) *CreateForwardingRuleOptions {
+	options.Headers = param
+	return options
+}
+
 // CreateLoadBalancerOptions : The CreateLoadBalancer options.
 type CreateLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Name of the load balancer.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Descriptive text of the load balancer.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// Whether the load balancer is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool
 
 	// Time to live in second.
-	TTL *int64 `json:"ttl,omitempty"`
+	TTL *int64
 
 	// The pool ID to use when all other pools are detected as unhealthy.
-	FallbackPool *string `json:"fallback_pool,omitempty"`
+	FallbackPool *string
 
 	// A list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools
 	// are not configured for a given region.
-	DefaultPools []string `json:"default_pools,omitempty"`
+	DefaultPools []string
 
 	// Map availability zones to pool IDs.
-	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
+	AzPools []LoadBalancerAzPoolsItem
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2413,55 +3576,55 @@ func (options *CreateLoadBalancerOptions) SetHeaders(param map[string]string) *C
 // CreateMonitorOptions : The CreateMonitor options.
 type CreateMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The name of the load balancer monitor.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Descriptive text of the load balancer monitor.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
-	Type *string `json:"type,omitempty"`
+	Type *string
 
 	// Port number to connect to for the health check. Required for TCP checks. HTTP and HTTPS checks should only define
 	// the port when using a non-standard port (HTTP: default 80, HTTPS: default 443).
-	Port *int64 `json:"port,omitempty"`
+	Port *int64
 
 	// The interval between each health check. Shorter intervals may improve failover time, but will increase load on the
 	// origins as we check from multiple locations.
-	Interval *int64 `json:"interval,omitempty"`
+	Interval *int64
 
 	// The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted
 	// immediately.
-	Retries *int64 `json:"retries,omitempty"`
+	Retries *int64
 
 	// The timeout (in seconds) before marking the health check as failed.
-	Timeout *int64 `json:"timeout,omitempty"`
+	Timeout *int64
 
 	// The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
-	Method *string `json:"method,omitempty"`
+	Method *string
 
 	// The endpoint path to health check against. This parameter is only valid for HTTP and HTTPS monitors.
-	Path *string `json:"path,omitempty"`
+	Path *string
 
 	// The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The
 	// User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors.
-	HeadersVar []HealthcheckHeader `json:"headers,omitempty"`
+	HeadersVar []HealthcheckHeader
 
 	// Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTPS monitors.
-	AllowInsecure *bool `json:"allow_insecure,omitempty"`
+	AllowInsecure *bool
 
 	// The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS
 	// monitors.
-	ExpectedCodes *string `json:"expected_codes,omitempty"`
+	ExpectedCodes *string
 
 	// A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be
 	// marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.
-	ExpectedBody *string `json:"expected_body,omitempty"`
+	ExpectedBody *string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2588,19 +3751,19 @@ func (options *CreateMonitorOptions) SetHeaders(param map[string]string) *Create
 // CreatePermittedNetworkOptions : The CreatePermittedNetwork options.
 type CreatePermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The type of a permitted network.
-	Type *string `json:"type,omitempty"`
+	Type *string
 
 	// Permitted network data for VPC.
-	PermittedNetwork *PermittedNetworkVpc `json:"permitted_network,omitempty"`
+	PermittedNetwork *PermittedNetworkVpc
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2659,39 +3822,39 @@ func (options *CreatePermittedNetworkOptions) SetHeaders(param map[string]string
 // CreatePoolOptions : The CreatePool options.
 type CreatePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Name of the load balancer pool.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Descriptive text of the load balancer pool.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// Whether the load balancer pool is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool
 
 	// The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins
 	// falls below this number, the pool will be marked unhealthy and we will failover to the next available pool.
-	HealthyOriginsThreshold *int64 `json:"healthy_origins_threshold,omitempty"`
+	HealthyOriginsThreshold *int64
 
 	// The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy
 	// origins, provided the pool itself is healthy.
-	Origins []OriginInput `json:"origins,omitempty"`
+	Origins []OriginInput
 
 	// The ID of the load balancer monitor to be associated to this pool.
-	Monitor *string `json:"monitor,omitempty"`
+	Monitor *string
 
 	// The notification channel.
-	NotificationChannel *string `json:"notification_channel,omitempty"`
+	NotificationChannel *string
 
 	// Health check region of VSIs.
-	HealthcheckRegion *string `json:"healthcheck_region,omitempty"`
+	HealthcheckRegion *string
 
 	// Health check subnet CRN.
-	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
+	HealthcheckSubnets []string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2790,31 +3953,31 @@ func (options *CreatePoolOptions) SetHeaders(param map[string]string) *CreatePoo
 // CreateResourceRecordOptions : The CreateResourceRecord options.
 type CreateResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Name of the resource record.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Type of the resource record.
-	Type *string `json:"type,omitempty"`
+	Type *string
 
 	// Content of the resource record.
-	Rdata ResourceRecordInputRdataIntf `json:"rdata,omitempty"`
+	Rdata ResourceRecordInputRdataIntf
 
 	// Time to live in second.
-	TTL *int64 `json:"ttl,omitempty"`
+	TTL *int64
 
 	// Only used for SRV record.
-	Service *string `json:"service,omitempty"`
+	Service *string
 
 	// Only used for SRV record.
-	Protocol *string `json:"protocol,omitempty"`
+	Protocol *string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2900,16 +4063,120 @@ func (options *CreateResourceRecordOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// DeleteCustomResolverLocationOptions : The DeleteCustomResolverLocation options.
+type DeleteCustomResolverLocationOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Custom resolver location ID.
+	LocationID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteCustomResolverLocationOptions : Instantiate DeleteCustomResolverLocationOptions
+func (*DnsSvcsV1) NewDeleteCustomResolverLocationOptions(instanceID string, resolverID string, locationID string) *DeleteCustomResolverLocationOptions {
+	return &DeleteCustomResolverLocationOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+		LocationID: core.StringPtr(locationID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *DeleteCustomResolverLocationOptions) SetInstanceID(instanceID string) *DeleteCustomResolverLocationOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *DeleteCustomResolverLocationOptions) SetResolverID(resolverID string) *DeleteCustomResolverLocationOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetLocationID : Allow user to set LocationID
+func (options *DeleteCustomResolverLocationOptions) SetLocationID(locationID string) *DeleteCustomResolverLocationOptions {
+	options.LocationID = core.StringPtr(locationID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *DeleteCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *DeleteCustomResolverLocationOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteCustomResolverLocationOptions) SetHeaders(param map[string]string) *DeleteCustomResolverLocationOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteCustomResolverOptions : The DeleteCustomResolver options.
+type DeleteCustomResolverOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteCustomResolverOptions : Instantiate DeleteCustomResolverOptions
+func (*DnsSvcsV1) NewDeleteCustomResolverOptions(instanceID string, resolverID string) *DeleteCustomResolverOptions {
+	return &DeleteCustomResolverOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *DeleteCustomResolverOptions) SetInstanceID(instanceID string) *DeleteCustomResolverOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *DeleteCustomResolverOptions) SetResolverID(resolverID string) *DeleteCustomResolverOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *DeleteCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *DeleteCustomResolverOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteCustomResolverOptions) SetHeaders(param map[string]string) *DeleteCustomResolverOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteDnszoneOptions : The DeleteDnszone options.
 type DeleteDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -2947,19 +4214,76 @@ func (options *DeleteDnszoneOptions) SetHeaders(param map[string]string) *Delete
 	return options
 }
 
+// DeleteForwardingRuleOptions : The DeleteForwardingRule options.
+type DeleteForwardingRuleOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// The unique identifier of a forwarding rule.
+	RuleID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteForwardingRuleOptions : Instantiate DeleteForwardingRuleOptions
+func (*DnsSvcsV1) NewDeleteForwardingRuleOptions(instanceID string, resolverID string, ruleID string) *DeleteForwardingRuleOptions {
+	return &DeleteForwardingRuleOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+		RuleID: core.StringPtr(ruleID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *DeleteForwardingRuleOptions) SetInstanceID(instanceID string) *DeleteForwardingRuleOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *DeleteForwardingRuleOptions) SetResolverID(resolverID string) *DeleteForwardingRuleOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetRuleID : Allow user to set RuleID
+func (options *DeleteForwardingRuleOptions) SetRuleID(ruleID string) *DeleteForwardingRuleOptions {
+	options.RuleID = core.StringPtr(ruleID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *DeleteForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *DeleteForwardingRuleOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteForwardingRuleOptions) SetHeaders(param map[string]string) *DeleteForwardingRuleOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteLoadBalancerOptions : The DeleteLoadBalancer options.
 type DeleteLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required,ne="`
+	LbID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3007,13 +4331,13 @@ func (options *DeleteLoadBalancerOptions) SetHeaders(param map[string]string) *D
 // DeleteMonitorOptions : The DeleteMonitor options.
 type DeleteMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required,ne="`
+	MonitorID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3054,16 +4378,16 @@ func (options *DeleteMonitorOptions) SetHeaders(param map[string]string) *Delete
 // DeletePermittedNetworkOptions : The DeletePermittedNetwork options.
 type DeletePermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a permitted network.
-	PermittedNetworkID *string `json:"permitted_network_id" validate:"required,ne="`
+	PermittedNetworkID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3111,13 +4435,13 @@ func (options *DeletePermittedNetworkOptions) SetHeaders(param map[string]string
 // DeletePoolOptions : The DeletePool options.
 type DeletePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3158,16 +4482,16 @@ func (options *DeletePoolOptions) SetHeaders(param map[string]string) *DeletePoo
 // DeleteResourceRecordOptions : The DeleteResourceRecord options.
 type DeleteResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required,ne="`
+	RecordID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3212,16 +4536,63 @@ func (options *DeleteResourceRecordOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// GetCustomResolverOptions : The GetCustomResolver options.
+type GetCustomResolverOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetCustomResolverOptions : Instantiate GetCustomResolverOptions
+func (*DnsSvcsV1) NewGetCustomResolverOptions(instanceID string, resolverID string) *GetCustomResolverOptions {
+	return &GetCustomResolverOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *GetCustomResolverOptions) SetInstanceID(instanceID string) *GetCustomResolverOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *GetCustomResolverOptions) SetResolverID(resolverID string) *GetCustomResolverOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *GetCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *GetCustomResolverOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetCustomResolverOptions) SetHeaders(param map[string]string) *GetCustomResolverOptions {
+	options.Headers = param
+	return options
+}
+
 // GetDnszoneOptions : The GetDnszone options.
 type GetDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3259,19 +4630,76 @@ func (options *GetDnszoneOptions) SetHeaders(param map[string]string) *GetDnszon
 	return options
 }
 
+// GetForwardingRuleOptions : The GetForwardingRule options.
+type GetForwardingRuleOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// The unique identifier of a forwarding rule.
+	RuleID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetForwardingRuleOptions : Instantiate GetForwardingRuleOptions
+func (*DnsSvcsV1) NewGetForwardingRuleOptions(instanceID string, resolverID string, ruleID string) *GetForwardingRuleOptions {
+	return &GetForwardingRuleOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+		RuleID: core.StringPtr(ruleID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *GetForwardingRuleOptions) SetInstanceID(instanceID string) *GetForwardingRuleOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *GetForwardingRuleOptions) SetResolverID(resolverID string) *GetForwardingRuleOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetRuleID : Allow user to set RuleID
+func (options *GetForwardingRuleOptions) SetRuleID(ruleID string) *GetForwardingRuleOptions {
+	options.RuleID = core.StringPtr(ruleID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *GetForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *GetForwardingRuleOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetForwardingRuleOptions) SetHeaders(param map[string]string) *GetForwardingRuleOptions {
+	options.Headers = param
+	return options
+}
+
 // GetLoadBalancerOptions : The GetLoadBalancer options.
 type GetLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required,ne="`
+	LbID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3319,13 +4747,13 @@ func (options *GetLoadBalancerOptions) SetHeaders(param map[string]string) *GetL
 // GetMonitorOptions : The GetMonitor options.
 type GetMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required,ne="`
+	MonitorID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3366,16 +4794,16 @@ func (options *GetMonitorOptions) SetHeaders(param map[string]string) *GetMonito
 // GetPermittedNetworkOptions : The GetPermittedNetwork options.
 type GetPermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a permitted network.
-	PermittedNetworkID *string `json:"permitted_network_id" validate:"required,ne="`
+	PermittedNetworkID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3423,13 +4851,13 @@ func (options *GetPermittedNetworkOptions) SetHeaders(param map[string]string) *
 // GetPoolOptions : The GetPool options.
 type GetPoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3470,16 +4898,16 @@ func (options *GetPoolOptions) SetHeaders(param map[string]string) *GetPoolOptio
 // GetResourceRecordOptions : The GetResourceRecord options.
 type GetResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required,ne="`
+	RecordID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3524,19 +4952,56 @@ func (options *GetResourceRecordOptions) SetHeaders(param map[string]string) *Ge
 	return options
 }
 
+// ListCustomResolversOptions : The ListCustomResolvers options.
+type ListCustomResolversOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListCustomResolversOptions : Instantiate ListCustomResolversOptions
+func (*DnsSvcsV1) NewListCustomResolversOptions(instanceID string) *ListCustomResolversOptions {
+	return &ListCustomResolversOptions{
+		InstanceID: core.StringPtr(instanceID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *ListCustomResolversOptions) SetInstanceID(instanceID string) *ListCustomResolversOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *ListCustomResolversOptions) SetXCorrelationID(xCorrelationID string) *ListCustomResolversOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListCustomResolversOptions) SetHeaders(param map[string]string) *ListCustomResolversOptions {
+	options.Headers = param
+	return options
+}
+
 // ListDnszonesOptions : The ListDnszones options.
 type ListDnszonesOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Specify how many resource records to skip over, the default value is 0.
-	Offset *int64 `json:"offset,omitempty"`
+	Offset *int64
 
 	// Specify how many resource records are returned, the default value is 200.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3579,16 +5044,63 @@ func (options *ListDnszonesOptions) SetHeaders(param map[string]string) *ListDns
 	return options
 }
 
+// ListForwardingRulesOptions : The ListForwardingRules options.
+type ListForwardingRulesOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListForwardingRulesOptions : Instantiate ListForwardingRulesOptions
+func (*DnsSvcsV1) NewListForwardingRulesOptions(instanceID string, resolverID string) *ListForwardingRulesOptions {
+	return &ListForwardingRulesOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *ListForwardingRulesOptions) SetInstanceID(instanceID string) *ListForwardingRulesOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *ListForwardingRulesOptions) SetResolverID(resolverID string) *ListForwardingRulesOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *ListForwardingRulesOptions) SetXCorrelationID(xCorrelationID string) *ListForwardingRulesOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListForwardingRulesOptions) SetHeaders(param map[string]string) *ListForwardingRulesOptions {
+	options.Headers = param
+	return options
+}
+
 // ListLoadBalancersOptions : The ListLoadBalancers options.
 type ListLoadBalancersOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3629,10 +5141,10 @@ func (options *ListLoadBalancersOptions) SetHeaders(param map[string]string) *Li
 // ListMonitorsOptions : The ListMonitors options.
 type ListMonitorsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3666,19 +5178,19 @@ func (options *ListMonitorsOptions) SetHeaders(param map[string]string) *ListMon
 // ListPermittedNetworksOptions : The ListPermittedNetworks options.
 type ListPermittedNetworksOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Specify how many resource records to skip over, the default value is 0.
-	Offset *int64 `json:"offset,omitempty"`
+	Offset *int64
 
 	// Specify how many resource records are returned, the default value is 200.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3731,10 +5243,10 @@ func (options *ListPermittedNetworksOptions) SetHeaders(param map[string]string)
 // ListPoolsOptions : The ListPools options.
 type ListPoolsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3768,19 +5280,19 @@ func (options *ListPoolsOptions) SetHeaders(param map[string]string) *ListPoolsO
 // ListResourceRecordsOptions : The ListResourceRecords options.
 type ListResourceRecordsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Specify how many resource records to skip over, the default value is 0.
-	Offset *int64 `json:"offset,omitempty"`
+	Offset *int64
 
 	// Specify how many resource records are returned, the default value is 200.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3839,7 +5351,6 @@ type LoadBalancerAzPoolsItem struct {
 	Pools []string `json:"pools,omitempty"`
 }
 
-
 // UnmarshalLoadBalancerAzPoolsItem unmarshals an instance of LoadBalancerAzPoolsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerAzPoolsItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerAzPoolsItem)
@@ -3869,7 +5380,6 @@ type PoolHealthcheckVsisItem struct {
 	// vpc crn.
 	Vpc *string `json:"vpc,omitempty"`
 }
-
 
 // UnmarshalPoolHealthcheckVsisItem unmarshals an instance of PoolHealthcheckVsisItem from the specified map of raw messages.
 func UnmarshalPoolHealthcheckVsisItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3934,7 +5444,6 @@ type ResourceRecordInputRdata struct {
 	// Hostname of the relevant A or AAAA record.
 	Ptrdname *string `json:"ptrdname,omitempty"`
 }
-
 func (*ResourceRecordInputRdata) isaResourceRecordInputRdata() bool {
 	return true
 }
@@ -4030,7 +5539,6 @@ type ResourceRecordUpdateInputRdata struct {
 	// Hostname of the relevant A or AAAA record.
 	Ptrdname *string `json:"ptrdname,omitempty"`
 }
-
 func (*ResourceRecordUpdateInputRdata) isaResourceRecordUpdateInputRdata() bool {
 	return true
 }
@@ -4086,22 +5594,171 @@ func UnmarshalResourceRecordUpdateInputRdata(m map[string]json.RawMessage, resul
 	return
 }
 
+// UpdateCustomResolverLocationOptions : The UpdateCustomResolverLocation options.
+type UpdateCustomResolverLocationOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Custom resolver location ID.
+	LocationID *string `validate:"required,ne="`
+
+	// Enable/Disable custom resolver location.
+	Enabled *bool
+
+	// Subnet CRN.
+	SubnetCrn *string
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateCustomResolverLocationOptions : Instantiate UpdateCustomResolverLocationOptions
+func (*DnsSvcsV1) NewUpdateCustomResolverLocationOptions(instanceID string, resolverID string, locationID string) *UpdateCustomResolverLocationOptions {
+	return &UpdateCustomResolverLocationOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+		LocationID: core.StringPtr(locationID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *UpdateCustomResolverLocationOptions) SetInstanceID(instanceID string) *UpdateCustomResolverLocationOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *UpdateCustomResolverLocationOptions) SetResolverID(resolverID string) *UpdateCustomResolverLocationOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetLocationID : Allow user to set LocationID
+func (options *UpdateCustomResolverLocationOptions) SetLocationID(locationID string) *UpdateCustomResolverLocationOptions {
+	options.LocationID = core.StringPtr(locationID)
+	return options
+}
+
+// SetEnabled : Allow user to set Enabled
+func (options *UpdateCustomResolverLocationOptions) SetEnabled(enabled bool) *UpdateCustomResolverLocationOptions {
+	options.Enabled = core.BoolPtr(enabled)
+	return options
+}
+
+// SetSubnetCrn : Allow user to set SubnetCrn
+func (options *UpdateCustomResolverLocationOptions) SetSubnetCrn(subnetCrn string) *UpdateCustomResolverLocationOptions {
+	options.SubnetCrn = core.StringPtr(subnetCrn)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *UpdateCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *UpdateCustomResolverLocationOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateCustomResolverLocationOptions) SetHeaders(param map[string]string) *UpdateCustomResolverLocationOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateCustomResolverOptions : The UpdateCustomResolver options.
+type UpdateCustomResolverOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// Name of the custom resolver.
+	Name *string
+
+	// Descriptive text of the custom resolver.
+	Description *string
+
+	// Whether the custom resolver is enabled.
+	Enabled *bool
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateCustomResolverOptions : Instantiate UpdateCustomResolverOptions
+func (*DnsSvcsV1) NewUpdateCustomResolverOptions(instanceID string, resolverID string) *UpdateCustomResolverOptions {
+	return &UpdateCustomResolverOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *UpdateCustomResolverOptions) SetInstanceID(instanceID string) *UpdateCustomResolverOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *UpdateCustomResolverOptions) SetResolverID(resolverID string) *UpdateCustomResolverOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetName : Allow user to set Name
+func (options *UpdateCustomResolverOptions) SetName(name string) *UpdateCustomResolverOptions {
+	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetDescription : Allow user to set Description
+func (options *UpdateCustomResolverOptions) SetDescription(description string) *UpdateCustomResolverOptions {
+	options.Description = core.StringPtr(description)
+	return options
+}
+
+// SetEnabled : Allow user to set Enabled
+func (options *UpdateCustomResolverOptions) SetEnabled(enabled bool) *UpdateCustomResolverOptions {
+	options.Enabled = core.BoolPtr(enabled)
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *UpdateCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *UpdateCustomResolverOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateCustomResolverOptions) SetHeaders(param map[string]string) *UpdateCustomResolverOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateDnszoneOptions : The UpdateDnszone options.
 type UpdateDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The text describing the purpose of a DNS zone.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// The label of a DNS zone.
-	Label *string `json:"label,omitempty"`
+	Label *string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4151,41 +5808,142 @@ func (options *UpdateDnszoneOptions) SetHeaders(param map[string]string) *Update
 	return options
 }
 
+// UpdateForwardingRuleOptions : The UpdateForwardingRule options.
+type UpdateForwardingRuleOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `validate:"required,ne="`
+
+	// The unique identifier of a forwarding rule.
+	RuleID *string `validate:"required,ne="`
+
+	// Descriptive text of the forwarding rule.
+	Description *string
+
+	// Type of the forwarding rule.
+	Type *string
+
+	// The matching zone or hostname.
+	Match *string
+
+	// The upstream DNS servers will be forwarded to.
+	ForwardTo []string
+
+	// Uniquely identifying a request.
+	XCorrelationID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateForwardingRuleOptions.Type property.
+// Type of the forwarding rule.
+const (
+	UpdateForwardingRuleOptions_Type_Default = "default"
+	UpdateForwardingRuleOptions_Type_Hostname = "hostname"
+	UpdateForwardingRuleOptions_Type_Zone = "zone"
+)
+
+// NewUpdateForwardingRuleOptions : Instantiate UpdateForwardingRuleOptions
+func (*DnsSvcsV1) NewUpdateForwardingRuleOptions(instanceID string, resolverID string, ruleID string) *UpdateForwardingRuleOptions {
+	return &UpdateForwardingRuleOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+		RuleID: core.StringPtr(ruleID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *UpdateForwardingRuleOptions) SetInstanceID(instanceID string) *UpdateForwardingRuleOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (options *UpdateForwardingRuleOptions) SetResolverID(resolverID string) *UpdateForwardingRuleOptions {
+	options.ResolverID = core.StringPtr(resolverID)
+	return options
+}
+
+// SetRuleID : Allow user to set RuleID
+func (options *UpdateForwardingRuleOptions) SetRuleID(ruleID string) *UpdateForwardingRuleOptions {
+	options.RuleID = core.StringPtr(ruleID)
+	return options
+}
+
+// SetDescription : Allow user to set Description
+func (options *UpdateForwardingRuleOptions) SetDescription(description string) *UpdateForwardingRuleOptions {
+	options.Description = core.StringPtr(description)
+	return options
+}
+
+// SetType : Allow user to set Type
+func (options *UpdateForwardingRuleOptions) SetType(typeVar string) *UpdateForwardingRuleOptions {
+	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetMatch : Allow user to set Match
+func (options *UpdateForwardingRuleOptions) SetMatch(match string) *UpdateForwardingRuleOptions {
+	options.Match = core.StringPtr(match)
+	return options
+}
+
+// SetForwardTo : Allow user to set ForwardTo
+func (options *UpdateForwardingRuleOptions) SetForwardTo(forwardTo []string) *UpdateForwardingRuleOptions {
+	options.ForwardTo = forwardTo
+	return options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (options *UpdateForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *UpdateForwardingRuleOptions {
+	options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateForwardingRuleOptions) SetHeaders(param map[string]string) *UpdateForwardingRuleOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateLoadBalancerOptions : The UpdateLoadBalancer options.
 type UpdateLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required,ne="`
+	LbID *string `validate:"required,ne="`
 
 	// Name of the load balancer.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Descriptive text of the load balancer.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// Whether the load balancer is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool
 
 	// Time to live in second.
-	TTL *int64 `json:"ttl,omitempty"`
+	TTL *int64
 
 	// The pool ID to use when all other pools are detected as unhealthy.
-	FallbackPool *string `json:"fallback_pool,omitempty"`
+	FallbackPool *string
 
 	// A list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools
 	// are not configured for a given region.
-	DefaultPools []string `json:"default_pools,omitempty"`
+	DefaultPools []string
 
 	// Map availability zones to pool IDs.
-	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
+	AzPools []LoadBalancerAzPoolsItem
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4275,59 +6033,59 @@ func (options *UpdateLoadBalancerOptions) SetHeaders(param map[string]string) *U
 // UpdateMonitorOptions : The UpdateMonitor options.
 type UpdateMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required,ne="`
+	MonitorID *string `validate:"required,ne="`
 
 	// The name of the load balancer monitor.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Descriptive text of the load balancer monitor.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
-	Type *string `json:"type,omitempty"`
+	Type *string
 
 	// Port number to connect to for the health check. Required for TCP checks. HTTP and HTTPS checks should only define
 	// the port when using a non-standard port (HTTP: default 80, HTTPS: default 443).
-	Port *int64 `json:"port,omitempty"`
+	Port *int64
 
 	// The interval between each health check. Shorter intervals may improve failover time, but will increase load on the
 	// origins as we check from multiple locations.
-	Interval *int64 `json:"interval,omitempty"`
+	Interval *int64
 
 	// The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted
 	// immediately.
-	Retries *int64 `json:"retries,omitempty"`
+	Retries *int64
 
 	// The timeout (in seconds) before marking the health check as failed.
-	Timeout *int64 `json:"timeout,omitempty"`
+	Timeout *int64
 
 	// The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
-	Method *string `json:"method,omitempty"`
+	Method *string
 
 	// The endpoint path to health check against. This parameter is only valid for HTTP and HTTPS monitors.
-	Path *string `json:"path,omitempty"`
+	Path *string
 
 	// The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The
 	// User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors.
-	HeadersVar []HealthcheckHeader `json:"headers,omitempty"`
+	HeadersVar []HealthcheckHeader
 
 	// Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS
 	// monitors.
-	AllowInsecure *bool `json:"allow_insecure,omitempty"`
+	AllowInsecure *bool
 
 	// The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS
 	// monitors.
-	ExpectedCodes *string `json:"expected_codes,omitempty"`
+	ExpectedCodes *string
 
 	// A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be
 	// marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.
-	ExpectedBody *string `json:"expected_body,omitempty"`
+	ExpectedBody *string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4461,42 +6219,42 @@ func (options *UpdateMonitorOptions) SetHeaders(param map[string]string) *Update
 // UpdatePoolOptions : The UpdatePool options.
 type UpdatePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// Name of the load balancer pool.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Descriptive text of the load balancer pool.
-	Description *string `json:"description,omitempty"`
+	Description *string
 
 	// Whether the load balancer pool is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool
 
 	// The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins
 	// falls below this number, the pool will be marked unhealthy and we will failover to the next available pool.
-	HealthyOriginsThreshold *int64 `json:"healthy_origins_threshold,omitempty"`
+	HealthyOriginsThreshold *int64
 
 	// The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy
 	// origins, provided the pool itself is healthy.
-	Origins []OriginInput `json:"origins,omitempty"`
+	Origins []OriginInput
 
 	// The ID of the load balancer monitor to be associated to this pool.
-	Monitor *string `json:"monitor,omitempty"`
+	Monitor *string
 
 	// The notification channel.
-	NotificationChannel *string `json:"notification_channel,omitempty"`
+	NotificationChannel *string
 
 	// Health check region of VSIs.
-	HealthcheckRegion *string `json:"healthcheck_region,omitempty"`
+	HealthcheckRegion *string
 
 	// Health check subnet CRNs.
-	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
+	HealthcheckSubnets []string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4602,31 +6360,31 @@ func (options *UpdatePoolOptions) SetHeaders(param map[string]string) *UpdatePoo
 // UpdateResourceRecordOptions : The UpdateResourceRecord options.
 type UpdateResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required,ne="`
+	RecordID *string `validate:"required,ne="`
 
 	// Name of the resource record.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Content of the resource record.
-	Rdata ResourceRecordUpdateInputRdataIntf `json:"rdata,omitempty"`
+	Rdata ResourceRecordUpdateInputRdataIntf
 
 	// Time to live in second.
-	TTL *int64 `json:"ttl,omitempty"`
+	TTL *int64
 
 	// Only used for SRV record.
-	Service *string `json:"service,omitempty"`
+	Service *string
 
 	// Only used for SRV record.
-	Protocol *string `json:"protocol,omitempty"`
+	Protocol *string
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4701,6 +6459,97 @@ func (options *UpdateResourceRecordOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// CustomResolver : custom resolver details.
+type CustomResolver struct {
+	// Identifier of the custom resolver.
+	ID *string `json:"id,omitempty"`
+
+	// Name of the custom resolver.
+	Name *string `json:"name,omitempty"`
+
+	// Descriptive text of the custom resolver.
+	Description *string `json:"description,omitempty"`
+
+	// Whether the custom resolver is enabled.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Healthy state of the custom resolver.
+	Health *string `json:"health,omitempty"`
+
+	// Locations on which the custom resolver will be running.
+	Locations []Location `json:"locations,omitempty"`
+
+	// the time when a custom resolver is created, RFC3339 format.
+	CreatedOn *strfmt.DateTime `json:"created_on,omitempty"`
+
+	// the recent time when a custom resolver is modified, RFC3339 format.
+	ModifiedOn *strfmt.DateTime `json:"modified_on,omitempty"`
+}
+
+// Constants associated with the CustomResolver.Health property.
+// Healthy state of the custom resolver.
+const (
+	CustomResolver_Health_Critical = "CRITICAL"
+	CustomResolver_Health_Degraded = "DEGRADED"
+	CustomResolver_Health_Healthy = "HEALTHY"
+)
+
+// UnmarshalCustomResolver unmarshals an instance of CustomResolver from the specified map of raw messages.
+func UnmarshalCustomResolver(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CustomResolver)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "health", &obj.Health)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "locations", &obj.Locations, UnmarshalLocation)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_on", &obj.CreatedOn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CustomResolverList : List custom resolvers response.
+type CustomResolverList struct {
+	// An array of custom resolvers.
+	CustomResolvers []CustomResolver `json:"custom_resolvers,omitempty"`
+}
+
+// UnmarshalCustomResolverList unmarshals an instance of CustomResolverList from the specified map of raw messages.
+func UnmarshalCustomResolverList(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CustomResolverList)
+	err = core.UnmarshalModel(m, "custom_resolvers", &obj.CustomResolvers, UnmarshalCustomResolver)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // Dnszone : DNS zone details.
 type Dnszone struct {
 	// Unique identifier of a DNS zone.
@@ -4737,7 +6586,6 @@ const (
 	Dnszone_State_PendingDelete = "pending_delete"
 	Dnszone_State_PendingNetworkAdd = "pending_network_add"
 )
-
 
 // UnmarshalDnszone unmarshals an instance of Dnszone from the specified map of raw messages.
 func UnmarshalDnszone(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4784,11 +6632,92 @@ type FirstHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalFirstHref unmarshals an instance of FirstHref from the specified map of raw messages.
 func UnmarshalFirstHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FirstHref)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ForwardingRule : forwarding rule details.
+type ForwardingRule struct {
+	// Identifier of the forwarding rule.
+	ID *string `json:"id,omitempty"`
+
+	// Descriptive text of the forwarding rule.
+	Description *string `json:"description,omitempty"`
+
+	// Type of the forwarding rule.
+	Type *string `json:"type,omitempty"`
+
+	// The matching zone or hostname.
+	Match *string `json:"match,omitempty"`
+
+	// The upstream DNS servers will be forwarded to.
+	ForwardTo []string `json:"forward_to,omitempty"`
+
+	// the time when a forwarding rule is created, RFC3339 format.
+	CreatedOn *strfmt.DateTime `json:"created_on,omitempty"`
+
+	// the recent time when a forwarding rule is modified, RFC3339 format.
+	ModifiedOn *strfmt.DateTime `json:"modified_on,omitempty"`
+}
+
+// Constants associated with the ForwardingRule.Type property.
+// Type of the forwarding rule.
+const (
+	ForwardingRule_Type_Hostname = "hostname"
+	ForwardingRule_Type_Zone = "zone"
+)
+
+// UnmarshalForwardingRule unmarshals an instance of ForwardingRule from the specified map of raw messages.
+func UnmarshalForwardingRule(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ForwardingRule)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "match", &obj.Match)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "forward_to", &obj.ForwardTo)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_on", &obj.CreatedOn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ForwardingRuleList : An array of forwarding rules.
+type ForwardingRuleList struct {
+	ForwardingRules []ForwardingRule `json:"forwarding_rules,omitempty"`
+}
+
+// UnmarshalForwardingRuleList unmarshals an instance of ForwardingRuleList from the specified map of raw messages.
+func UnmarshalForwardingRuleList(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ForwardingRuleList)
+	err = core.UnmarshalModel(m, "forwarding_rules", &obj.ForwardingRules, UnmarshalForwardingRule)
 	if err != nil {
 		return
 	}
@@ -4804,7 +6733,6 @@ type HealthcheckHeader struct {
 	// The value of HTTP request header.
 	Value []string `json:"value" validate:"required"`
 }
-
 
 // NewHealthcheckHeader : Instantiate HealthcheckHeader (Generic Model Constructor)
 func (*DnsSvcsV1) NewHealthcheckHeader(name string, value []string) (model *HealthcheckHeader, err error) {
@@ -4851,7 +6779,6 @@ type ListDnszones struct {
 	// href.
 	Next *NextHref `json:"next,omitempty"`
 }
-
 
 // UnmarshalListDnszones unmarshals an instance of ListDnszones from the specified map of raw messages.
 func UnmarshalListDnszones(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4907,7 +6834,6 @@ type ListLoadBalancers struct {
 	// href.
 	Next *NextHref `json:"next" validate:"required"`
 }
-
 
 // UnmarshalListLoadBalancers unmarshals an instance of ListLoadBalancers from the specified map of raw messages.
 func UnmarshalListLoadBalancers(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4968,7 +6894,6 @@ type ListMonitors struct {
 	Next *NextHref `json:"next" validate:"required"`
 }
 
-
 // UnmarshalListMonitors unmarshals an instance of ListMonitors from the specified map of raw messages.
 func UnmarshalListMonitors(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListMonitors)
@@ -5025,7 +6950,6 @@ type ListPermittedNetworks struct {
 	Next *NextHref `json:"next,omitempty"`
 }
 
-
 // UnmarshalListPermittedNetworks unmarshals an instance of ListPermittedNetworks from the specified map of raw messages.
 func UnmarshalListPermittedNetworks(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListPermittedNetworks)
@@ -5080,7 +7004,6 @@ type ListPools struct {
 	// href.
 	Next *NextHref `json:"next" validate:"required"`
 }
-
 
 // UnmarshalListPools unmarshals an instance of ListPools from the specified map of raw messages.
 func UnmarshalListPools(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5137,7 +7060,6 @@ type ListResourceRecords struct {
 	// href.
 	Next *NextHref `json:"next,omitempty"`
 }
-
 
 // UnmarshalListResourceRecords unmarshals an instance of ListResourceRecords from the specified map of raw messages.
 func UnmarshalListResourceRecords(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5215,7 +7137,6 @@ const (
 	LoadBalancer_Health_Healthy = "HEALTHY"
 )
 
-
 // UnmarshalLoadBalancer unmarshals an instance of LoadBalancer from the specified map of raw messages.
 func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancer)
@@ -5260,6 +7181,84 @@ func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Location : Custom resolver location.
+type Location struct {
+	// Location ID.
+	ID *string `json:"id,omitempty"`
+
+	// Subnet CRN.
+	SubnetCrn *string `json:"subnet_crn,omitempty"`
+
+	// Whether the location is enabled for the custom resolver.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Whether the DNS server in this location is healthy or not.
+	Healthy *bool `json:"healthy,omitempty"`
+
+	// The ip address of this dns server.
+	DnsServerIp *string `json:"dns_server_ip,omitempty"`
+}
+
+// UnmarshalLocation unmarshals an instance of Location from the specified map of raw messages.
+func UnmarshalLocation(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(Location)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "subnet_crn", &obj.SubnetCrn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "healthy", &obj.Healthy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "dns_server_ip", &obj.DnsServerIp)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LocationInput : Request to add custom resolver location.
+type LocationInput struct {
+	// Custom resolver location, subnet CRN.
+	SubnetCrn *string `json:"subnet_crn" validate:"required"`
+
+	// Enable/Disable custom resolver location.
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// NewLocationInput : Instantiate LocationInput (Generic Model Constructor)
+func (*DnsSvcsV1) NewLocationInput(subnetCrn string) (model *LocationInput, err error) {
+	model = &LocationInput{
+		SubnetCrn: core.StringPtr(subnetCrn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalLocationInput unmarshals an instance of LocationInput from the specified map of raw messages.
+func UnmarshalLocationInput(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LocationInput)
+	err = core.UnmarshalPrimitive(m, "subnet_crn", &obj.SubnetCrn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
 		return
 	}
@@ -5330,7 +7329,6 @@ const (
 	Monitor_Method_Get = "GET"
 	Monitor_Method_Head = "HEAD"
 )
-
 
 // UnmarshalMonitor unmarshals an instance of Monitor from the specified map of raw messages.
 func UnmarshalMonitor(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5409,7 +7407,6 @@ type NextHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalNextHref unmarshals an instance of NextHref from the specified map of raw messages.
 func UnmarshalNextHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(NextHref)
@@ -5441,7 +7438,6 @@ type Origin struct {
 	// The failure reason of the origin server if it is unhealthy.
 	HealthFailureReason *string `json:"health_failure_reason,omitempty"`
 }
-
 
 // UnmarshalOrigin unmarshals an instance of Origin from the specified map of raw messages.
 func UnmarshalOrigin(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5488,7 +7484,6 @@ type OriginInput struct {
 	// Whether the origin server is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 }
-
 
 // UnmarshalOriginInput unmarshals an instance of OriginInput from the specified map of raw messages.
 func UnmarshalOriginInput(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5547,7 +7542,6 @@ const (
 	PermittedNetwork_State_RemovalInProgress = "REMOVAL_IN_PROGRESS"
 )
 
-
 // UnmarshalPermittedNetwork unmarshals an instance of PermittedNetwork from the specified map of raw messages.
 func UnmarshalPermittedNetwork(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PermittedNetwork)
@@ -5584,7 +7578,6 @@ type PermittedNetworkVpc struct {
 	// CRN string uniquely identifies a VPC.
 	VpcCrn *string `json:"vpc_crn" validate:"required"`
 }
-
 
 // NewPermittedNetworkVpc : Instantiate PermittedNetworkVpc (Generic Model Constructor)
 func (*DnsSvcsV1) NewPermittedNetworkVpc(vpcCrn string) (model *PermittedNetworkVpc, err error) {
@@ -5671,7 +7664,6 @@ const (
 	Pool_HealthcheckRegion_UsEast = "us-east"
 	Pool_HealthcheckRegion_UsSouth = "us-south"
 )
-
 
 // UnmarshalPool unmarshals an instance of Pool from the specified map of raw messages.
 func UnmarshalPool(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5778,7 +7770,6 @@ const (
 	ResourceRecord_Type_Txt = "TXT"
 )
 
-
 // UnmarshalResourceRecord unmarshals an instance of ResourceRecord from the specified map of raw messages.
 func UnmarshalResourceRecord(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResourceRecord)
@@ -5829,7 +7820,6 @@ type ResourceRecordInputRdataRdataARecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataARecord : Instantiate ResourceRecordInputRdataRdataARecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataARecord(ip string) (model *ResourceRecordInputRdataRdataARecord, err error) {
 	model = &ResourceRecordInputRdataRdataARecord{
@@ -5861,7 +7851,6 @@ type ResourceRecordInputRdataRdataAaaaRecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataAaaaRecord : Instantiate ResourceRecordInputRdataRdataAaaaRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordInputRdataRdataAaaaRecord, err error) {
 	model = &ResourceRecordInputRdataRdataAaaaRecord{
@@ -5892,7 +7881,6 @@ type ResourceRecordInputRdataRdataCnameRecord struct {
 	// Canonical name.
 	Cname *string `json:"cname" validate:"required"`
 }
-
 
 // NewResourceRecordInputRdataRdataCnameRecord : Instantiate ResourceRecordInputRdataRdataCnameRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataCnameRecord(cname string) (model *ResourceRecordInputRdataRdataCnameRecord, err error) {
@@ -5927,7 +7915,6 @@ type ResourceRecordInputRdataRdataMxRecord struct {
 	// Preference of the MX record.
 	Preference *int64 `json:"preference" validate:"required"`
 }
-
 
 // NewResourceRecordInputRdataRdataMxRecord : Instantiate ResourceRecordInputRdataRdataMxRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordInputRdataRdataMxRecord, err error) {
@@ -5964,7 +7951,6 @@ type ResourceRecordInputRdataRdataPtrRecord struct {
 	// Hostname of the relevant A or AAAA record.
 	Ptrdname *string `json:"ptrdname" validate:"required"`
 }
-
 
 // NewResourceRecordInputRdataRdataPtrRecord : Instantiate ResourceRecordInputRdataRdataPtrRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordInputRdataRdataPtrRecord, err error) {
@@ -6005,7 +7991,6 @@ type ResourceRecordInputRdataRdataSrvRecord struct {
 	// Weight of distributing queries among multiple target servers.
 	Weight *int64 `json:"weight" validate:"required"`
 }
-
 
 // NewResourceRecordInputRdataRdataSrvRecord : Instantiate ResourceRecordInputRdataRdataSrvRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordInputRdataRdataSrvRecord, err error) {
@@ -6053,7 +8038,6 @@ type ResourceRecordInputRdataRdataTxtRecord struct {
 	Text *string `json:"text" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataTxtRecord : Instantiate ResourceRecordInputRdataRdataTxtRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataTxtRecord(text string) (model *ResourceRecordInputRdataRdataTxtRecord, err error) {
 	model = &ResourceRecordInputRdataRdataTxtRecord{
@@ -6084,7 +8068,6 @@ type ResourceRecordUpdateInputRdataRdataARecord struct {
 	// IPv4 address.
 	Ip *string `json:"ip" validate:"required"`
 }
-
 
 // NewResourceRecordUpdateInputRdataRdataARecord : Instantiate ResourceRecordUpdateInputRdataRdataARecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataARecord(ip string) (model *ResourceRecordUpdateInputRdataRdataARecord, err error) {
@@ -6117,7 +8100,6 @@ type ResourceRecordUpdateInputRdataRdataAaaaRecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataAaaaRecord : Instantiate ResourceRecordUpdateInputRdataRdataAaaaRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordUpdateInputRdataRdataAaaaRecord, err error) {
 	model = &ResourceRecordUpdateInputRdataRdataAaaaRecord{
@@ -6148,7 +8130,6 @@ type ResourceRecordUpdateInputRdataRdataCnameRecord struct {
 	// Canonical name.
 	Cname *string `json:"cname" validate:"required"`
 }
-
 
 // NewResourceRecordUpdateInputRdataRdataCnameRecord : Instantiate ResourceRecordUpdateInputRdataRdataCnameRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataCnameRecord(cname string) (model *ResourceRecordUpdateInputRdataRdataCnameRecord, err error) {
@@ -6183,7 +8164,6 @@ type ResourceRecordUpdateInputRdataRdataMxRecord struct {
 	// Preference of the MX record.
 	Preference *int64 `json:"preference" validate:"required"`
 }
-
 
 // NewResourceRecordUpdateInputRdataRdataMxRecord : Instantiate ResourceRecordUpdateInputRdataRdataMxRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordUpdateInputRdataRdataMxRecord, err error) {
@@ -6220,7 +8200,6 @@ type ResourceRecordUpdateInputRdataRdataPtrRecord struct {
 	// Hostname of the relevant A or AAAA record.
 	Ptrdname *string `json:"ptrdname" validate:"required"`
 }
-
 
 // NewResourceRecordUpdateInputRdataRdataPtrRecord : Instantiate ResourceRecordUpdateInputRdataRdataPtrRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordUpdateInputRdataRdataPtrRecord, err error) {
@@ -6261,7 +8240,6 @@ type ResourceRecordUpdateInputRdataRdataSrvRecord struct {
 	// Weight of distributing queries among multiple target servers.
 	Weight *int64 `json:"weight" validate:"required"`
 }
-
 
 // NewResourceRecordUpdateInputRdataRdataSrvRecord : Instantiate ResourceRecordUpdateInputRdataRdataSrvRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordUpdateInputRdataRdataSrvRecord, err error) {
@@ -6308,7 +8286,6 @@ type ResourceRecordUpdateInputRdataRdataTxtRecord struct {
 	// Human readable text.
 	Text *string `json:"text" validate:"required"`
 }
-
 
 // NewResourceRecordUpdateInputRdataRdataTxtRecord : Instantiate ResourceRecordUpdateInputRdataRdataTxtRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataTxtRecord(text string) (model *ResourceRecordUpdateInputRdataRdataTxtRecord, err error) {
