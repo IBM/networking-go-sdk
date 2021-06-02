@@ -17,8 +17,8 @@
 package directlinkproviderv2_test
 
 /*
-How to run this test:
-go test -v ./directlinkproviderv2
+ How to run this test:
+ go test -v ./directlinkproviderv2
 */
 
 import (
@@ -367,6 +367,10 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					"create_gateway_approve")
 				createGatewayActionOptions.SetMetered(false)
 				createGatewayActionOptions.SetGlobal(false)
+				// Commenting out below check until integration CRN is available for authentication_key
+				// gatewayAuthenticationKeyTemplate := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				// gatewayAuthenticationKeyTemplate.Crn = core.StringPtr(os.Getenv("AUTHENTICATION_KEY"))
+				// createGatewayActionOptions.SetAuthenticationKey(gatewayAuthenticationKeyTemplate)
 
 				// Get the current status for the gateway
 				result, detailedResponse, err := serviceV1.CreateGatewayAction(createGatewayActionOptions)
@@ -523,6 +527,8 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 				Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
 				Expect(*result.Name).To(Equal(updatedGatewayName))
+				// Commenting out below check until integration CRN is available for authentication_key
+				// Expect(*result.AuthenticationKey.Crn).To(Equal(os.Getenv("AUTHENTICATION_KEY")))
 				Expect(*result.BgpAsn).To(Equal(bgpAsn))
 				Expect(*result.SpeedMbps).To(Equal(updatedSpeedMbps))
 				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
@@ -551,11 +557,11 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				timer := 0
 				for {
 					// Get the current status for the gateway
-
 					result, detailedResponse, err := serviceV2.GetProviderGateway(getProviderGatewayOptions)
 
 					Expect(err).To(BeNil())
 					Expect(detailedResponse.StatusCode).To(Equal(200))
+
 					// if operational status is "provisioned" then we are done
 					if *result.OperationalStatus == "provisioned" {
 						Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
