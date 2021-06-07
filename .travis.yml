@@ -19,10 +19,10 @@ before_install:
 - npm install -g npm@6.x
 - >-
   [ -z "${TRAVIS_TAG}" ] &&  [ "${TRAVIS_PULL_REQUEST}" == "false" ]
-  && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d
-  && openssl aes-256-cbc -K $encrypted_d4a185972ecc_key -iv $encrypted_d4a185972ecc_iv -in pdns.env.enc -out pdns.env -d
-  && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d
-  && openssl aes-256-cbc -K $encrypted_3d8a3eb98382_key -iv $encrypted_3d8a3eb98382_iv -in transit.env.enc -out transit.env -d
+  && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true
+  && openssl aes-256-cbc -K $encrypted_d4a185972ecc_key -iv $encrypted_d4a185972ecc_iv -in pdns.env.enc -out pdns.env -d || true
+  && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d || true
+  && openssl aes-256-cbc -K $encrypted_3d8a3eb98382_key -iv $encrypted_3d8a3eb98382_iv -in transit.env.enc -out transit.env -d || true
   && openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true
 
 install:

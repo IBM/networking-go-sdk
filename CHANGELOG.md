@@ -1,3 +1,17 @@
+# [0.15.0](https://github.com/IBM/networking-go-sdk/compare/v0.14.1...v0.15.0) (2021-06-03)
+
+
+### Features
+
+* add the authentication_key for BGP MD5 authentication in directlink service ([c8349d1](https://github.com/IBM/networking-go-sdk/commit/c8349d1a4aa0642e65be844b371f8aec89ee49cf))
+
+## [0.14.1](https://github.com/IBM/networking-go-sdk/compare/v0.14.0...v0.14.1) (2021-06-02)
+
+
+### Bug Fixes
+
+* **CIS ENV, GO SDK:** refresh env encrypted files) ([7c435df](https://github.com/IBM/networking-go-sdk/commit/7c435dfc686d5f9668a7f41964ceba77e746f6f2))
+
 # [0.14.0](https://github.com/IBM/networking-go-sdk/compare/v0.13.0...v0.14.0) (2021-04-29)
 
 
