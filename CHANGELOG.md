@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/IBM/networking-go-sdk/compare/v0.15.0...v0.16.0) (2021-06-09)
+
+
+### Features
+
+* **Filters & Firewall_Rules:** Response changed from io.Read to Struct ([a04bdd8](https://github.com/IBM/networking-go-sdk/commit/a04bdd85c57ac5544432f9581a59b9c4b4c55d7b))
+
 # [0.15.0](https://github.com/IBM/networking-go-sdk/compare/v0.14.1...v0.15.0) (2021-06-03)
 
 
