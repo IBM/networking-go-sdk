@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.28.0-55613c9e-20210220-164656
+ * IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
  */
 
 // Package firewallrulesv1 : Operations and models for the FirewallRulesV1 service
@@ -25,12 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v5/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"io"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // FirewallRulesV1 : Firewall rules
@@ -161,12 +161,12 @@ func (firewallRules *FirewallRulesV1) DisableRetries() {
 
 // ListAllFirewallRules : List all firewall rules for a zone
 // List all firewall rules for a zone.
-func (firewallRules *FirewallRulesV1) ListAllFirewallRules(listAllFirewallRulesOptions *ListAllFirewallRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) ListAllFirewallRules(listAllFirewallRulesOptions *ListAllFirewallRulesOptions) (result *ListFirewallRulesResp, response *core.DetailedResponse, err error) {
 	return firewallRules.ListAllFirewallRulesWithContext(context.Background(), listAllFirewallRulesOptions)
 }
 
 // ListAllFirewallRulesWithContext is an alternate form of the ListAllFirewallRules method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) ListAllFirewallRulesWithContext(ctx context.Context, listAllFirewallRulesOptions *ListAllFirewallRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) ListAllFirewallRulesWithContext(ctx context.Context, listAllFirewallRulesOptions *ListAllFirewallRulesOptions) (result *ListFirewallRulesResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listAllFirewallRulesOptions, "listAllFirewallRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -197,12 +197,9 @@ func (firewallRules *FirewallRulesV1) ListAllFirewallRulesWithContext(ctx contex
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	if listAllFirewallRulesOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*listAllFirewallRulesOptions.XAuthUserToken))
-	}
-	if listAllFirewallRulesOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*listAllFirewallRulesOptions.Accept))
 	}
 
 	request, err := builder.Build()
@@ -210,19 +207,30 @@ func (firewallRules *FirewallRulesV1) ListAllFirewallRulesWithContext(ctx contex
 		return
 	}
 
-	response, err = firewallRules.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListFirewallRulesResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
 
 // CreateFirewallRules : Create firewall rules for a zone
 // Create new firewall rules for a given zone under a service instance.
-func (firewallRules *FirewallRulesV1) CreateFirewallRules(createFirewallRulesOptions *CreateFirewallRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) CreateFirewallRules(createFirewallRulesOptions *CreateFirewallRulesOptions) (result *FirewallRulesResp, response *core.DetailedResponse, err error) {
 	return firewallRules.CreateFirewallRulesWithContext(context.Background(), createFirewallRulesOptions)
 }
 
 // CreateFirewallRulesWithContext is an alternate form of the CreateFirewallRules method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) CreateFirewallRulesWithContext(ctx context.Context, createFirewallRulesOptions *CreateFirewallRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) CreateFirewallRulesWithContext(ctx context.Context, createFirewallRulesOptions *CreateFirewallRulesOptions) (result *FirewallRulesResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createFirewallRulesOptions, "createFirewallRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -253,13 +261,10 @@ func (firewallRules *FirewallRulesV1) CreateFirewallRulesWithContext(ctx context
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 	if createFirewallRulesOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*createFirewallRulesOptions.XAuthUserToken))
-	}
-	if createFirewallRulesOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*createFirewallRulesOptions.Accept))
 	}
 
 	if createFirewallRulesOptions.FirewallRuleInputWithFilterID != nil {
@@ -274,19 +279,30 @@ func (firewallRules *FirewallRulesV1) CreateFirewallRulesWithContext(ctx context
 		return
 	}
 
-	response, err = firewallRules.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFirewallRulesResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
 
 // UpdateFirewllRules : Update firewall rules
 // Update existing firewall rules for a given zone under a given service instance.
-func (firewallRules *FirewallRulesV1) UpdateFirewllRules(updateFirewllRulesOptions *UpdateFirewllRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) UpdateFirewllRules(updateFirewllRulesOptions *UpdateFirewllRulesOptions) (result *FirewallRulesResp, response *core.DetailedResponse, err error) {
 	return firewallRules.UpdateFirewllRulesWithContext(context.Background(), updateFirewllRulesOptions)
 }
 
 // UpdateFirewllRulesWithContext is an alternate form of the UpdateFirewllRules method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) UpdateFirewllRulesWithContext(ctx context.Context, updateFirewllRulesOptions *UpdateFirewllRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) UpdateFirewllRulesWithContext(ctx context.Context, updateFirewllRulesOptions *UpdateFirewllRulesOptions) (result *FirewallRulesResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateFirewllRulesOptions, "updateFirewllRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -317,13 +333,10 @@ func (firewallRules *FirewallRulesV1) UpdateFirewllRulesWithContext(ctx context.
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 	if updateFirewllRulesOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*updateFirewllRulesOptions.XAuthUserToken))
-	}
-	if updateFirewllRulesOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*updateFirewllRulesOptions.Accept))
 	}
 
 	if updateFirewllRulesOptions.FirewallRulesUpdateInputItem != nil {
@@ -338,19 +351,30 @@ func (firewallRules *FirewallRulesV1) UpdateFirewllRulesWithContext(ctx context.
 		return
 	}
 
-	response, err = firewallRules.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFirewallRulesResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
 
 // DeleteFirewallRules : Delete firewall rules
 // Delete firewall rules by filter ids.
-func (firewallRules *FirewallRulesV1) DeleteFirewallRules(deleteFirewallRulesOptions *DeleteFirewallRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) DeleteFirewallRules(deleteFirewallRulesOptions *DeleteFirewallRulesOptions) (result *DeleteFirewallRulesResp, response *core.DetailedResponse, err error) {
 	return firewallRules.DeleteFirewallRulesWithContext(context.Background(), deleteFirewallRulesOptions)
 }
 
 // DeleteFirewallRulesWithContext is an alternate form of the DeleteFirewallRules method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) DeleteFirewallRulesWithContext(ctx context.Context, deleteFirewallRulesOptions *DeleteFirewallRulesOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) DeleteFirewallRulesWithContext(ctx context.Context, deleteFirewallRulesOptions *DeleteFirewallRulesOptions) (result *DeleteFirewallRulesResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteFirewallRulesOptions, "deleteFirewallRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -381,12 +405,9 @@ func (firewallRules *FirewallRulesV1) DeleteFirewallRulesWithContext(ctx context
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	if deleteFirewallRulesOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*deleteFirewallRulesOptions.XAuthUserToken))
-	}
-	if deleteFirewallRulesOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*deleteFirewallRulesOptions.Accept))
 	}
 
 	builder.AddQuery("id", fmt.Sprint(*deleteFirewallRulesOptions.ID))
@@ -396,152 +417,30 @@ func (firewallRules *FirewallRulesV1) DeleteFirewallRulesWithContext(ctx context
 		return
 	}
 
-	response, err = firewallRules.Service.Request(request, &result)
-
-	return
-}
-
-// GetFirewallRule : Get firewall rule details by id
-// Get the details of a firewall rule for a given zone under a given service instance.
-func (firewallRules *FirewallRulesV1) GetFirewallRule(getFirewallRuleOptions *GetFirewallRuleOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	return firewallRules.GetFirewallRuleWithContext(context.Background(), getFirewallRuleOptions)
-}
-
-// GetFirewallRuleWithContext is an alternate form of the GetFirewallRule method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) GetFirewallRuleWithContext(ctx context.Context, getFirewallRuleOptions *GetFirewallRuleOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getFirewallRuleOptions, "getFirewallRuleOptions cannot be nil")
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getFirewallRuleOptions, "getFirewallRuleOptions")
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDeleteFirewallRulesResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-
-	pathParamsMap := map[string]string{
-		"crn": *getFirewallRuleOptions.Crn,
-		"zone_identifier": *getFirewallRuleOptions.ZoneIdentifier,
-		"firewall_rule_identifier": *getFirewallRuleOptions.FirewallRuleIdentifier,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = firewallRules.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(firewallRules.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/rules/{firewall_rule_identifier}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range getFirewallRuleOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("firewall_rules", "V1", "GetFirewallRule")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "*/*")
-	if getFirewallRuleOptions.XAuthUserToken != nil {
-		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*getFirewallRuleOptions.XAuthUserToken))
-	}
-	if getFirewallRuleOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*getFirewallRuleOptions.Accept))
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	response, err = firewallRules.Service.Request(request, &result)
-
-	return
-}
-
-// UpdateFirewallRule : Update a firewall rule
-// Update an existing firewall rule for a given zone under a given service instance.
-func (firewallRules *FirewallRulesV1) UpdateFirewallRule(updateFirewallRuleOptions *UpdateFirewallRuleOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	return firewallRules.UpdateFirewallRuleWithContext(context.Background(), updateFirewallRuleOptions)
-}
-
-// UpdateFirewallRuleWithContext is an alternate form of the UpdateFirewallRule method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) UpdateFirewallRuleWithContext(ctx context.Context, updateFirewallRuleOptions *UpdateFirewallRuleOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateFirewallRuleOptions, "updateFirewallRuleOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(updateFirewallRuleOptions, "updateFirewallRuleOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"crn": *updateFirewallRuleOptions.Crn,
-		"zone_identifier": *updateFirewallRuleOptions.ZoneIdentifier,
-		"firewall_rule_identifier": *updateFirewallRuleOptions.FirewallRuleIdentifier,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = firewallRules.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(firewallRules.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/rules/{firewall_rule_identifier}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range updateFirewallRuleOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("firewall_rules", "V1", "UpdateFirewallRule")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "*/*")
-	builder.AddHeader("Content-Type", "application/json")
-	if updateFirewallRuleOptions.XAuthUserToken != nil {
-		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*updateFirewallRuleOptions.XAuthUserToken))
-	}
-	if updateFirewallRuleOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*updateFirewallRuleOptions.Accept))
-	}
-
-	body := make(map[string]interface{})
-	if updateFirewallRuleOptions.Action != nil {
-		body["action"] = updateFirewallRuleOptions.Action
-	}
-	if updateFirewallRuleOptions.Paused != nil {
-		body["paused"] = updateFirewallRuleOptions.Paused
-	}
-	if updateFirewallRuleOptions.Description != nil {
-		body["description"] = updateFirewallRuleOptions.Description
-	}
-	if updateFirewallRuleOptions.Filter != nil {
-		body["filter"] = updateFirewallRuleOptions.Filter
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	response, err = firewallRules.Service.Request(request, &result)
 
 	return
 }
 
 // DeleteFirewallRule : Delete a firewall rule
 // Delete a firewall rule given its id.
-func (firewallRules *FirewallRulesV1) DeleteFirewallRule(deleteFirewallRuleOptions *DeleteFirewallRuleOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) DeleteFirewallRule(deleteFirewallRuleOptions *DeleteFirewallRuleOptions) (result *DeleteFirewallRuleResp, response *core.DetailedResponse, err error) {
 	return firewallRules.DeleteFirewallRuleWithContext(context.Background(), deleteFirewallRuleOptions)
 }
 
 // DeleteFirewallRuleWithContext is an alternate form of the DeleteFirewallRule method which supports a Context parameter
-func (firewallRules *FirewallRulesV1) DeleteFirewallRuleWithContext(ctx context.Context, deleteFirewallRuleOptions *DeleteFirewallRuleOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (firewallRules *FirewallRulesV1) DeleteFirewallRuleWithContext(ctx context.Context, deleteFirewallRuleOptions *DeleteFirewallRuleOptions) (result *DeleteFirewallRuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteFirewallRuleOptions, "deleteFirewallRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -573,12 +472,9 @@ func (firewallRules *FirewallRulesV1) DeleteFirewallRuleWithContext(ctx context.
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	if deleteFirewallRuleOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*deleteFirewallRuleOptions.XAuthUserToken))
-	}
-	if deleteFirewallRuleOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*deleteFirewallRuleOptions.Accept))
 	}
 
 	request, err := builder.Build()
@@ -586,7 +482,167 @@ func (firewallRules *FirewallRulesV1) DeleteFirewallRuleWithContext(ctx context.
 		return
 	}
 
-	response, err = firewallRules.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDeleteFirewallRuleResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetFirewallRule : Get firewall rule details by id
+// Get the details of a firewall rule for a given zone under a given service instance.
+func (firewallRules *FirewallRulesV1) GetFirewallRule(getFirewallRuleOptions *GetFirewallRuleOptions) (result *FirewallRuleResp, response *core.DetailedResponse, err error) {
+	return firewallRules.GetFirewallRuleWithContext(context.Background(), getFirewallRuleOptions)
+}
+
+// GetFirewallRuleWithContext is an alternate form of the GetFirewallRule method which supports a Context parameter
+func (firewallRules *FirewallRulesV1) GetFirewallRuleWithContext(ctx context.Context, getFirewallRuleOptions *GetFirewallRuleOptions) (result *FirewallRuleResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getFirewallRuleOptions, "getFirewallRuleOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getFirewallRuleOptions, "getFirewallRuleOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *getFirewallRuleOptions.Crn,
+		"zone_identifier": *getFirewallRuleOptions.ZoneIdentifier,
+		"firewall_rule_identifier": *getFirewallRuleOptions.FirewallRuleIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallRules.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/rules/{firewall_rule_identifier}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getFirewallRuleOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("firewall_rules", "V1", "GetFirewallRule")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if getFirewallRuleOptions.XAuthUserToken != nil {
+		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*getFirewallRuleOptions.XAuthUserToken))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFirewallRuleResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateFirewallRule : Update a firewall rule
+// Update an existing firewall rule for a given zone under a given service instance.
+func (firewallRules *FirewallRulesV1) UpdateFirewallRule(updateFirewallRuleOptions *UpdateFirewallRuleOptions) (result *FirewallRuleResp, response *core.DetailedResponse, err error) {
+	return firewallRules.UpdateFirewallRuleWithContext(context.Background(), updateFirewallRuleOptions)
+}
+
+// UpdateFirewallRuleWithContext is an alternate form of the UpdateFirewallRule method which supports a Context parameter
+func (firewallRules *FirewallRulesV1) UpdateFirewallRuleWithContext(ctx context.Context, updateFirewallRuleOptions *UpdateFirewallRuleOptions) (result *FirewallRuleResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateFirewallRuleOptions, "updateFirewallRuleOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateFirewallRuleOptions, "updateFirewallRuleOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *updateFirewallRuleOptions.Crn,
+		"zone_identifier": *updateFirewallRuleOptions.ZoneIdentifier,
+		"firewall_rule_identifier": *updateFirewallRuleOptions.FirewallRuleIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = firewallRules.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(firewallRules.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/firewall/rules/{firewall_rule_identifier}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateFirewallRuleOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("firewall_rules", "V1", "UpdateFirewallRule")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if updateFirewallRuleOptions.XAuthUserToken != nil {
+		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*updateFirewallRuleOptions.XAuthUserToken))
+	}
+
+	body := make(map[string]interface{})
+	if updateFirewallRuleOptions.Action != nil {
+		body["action"] = updateFirewallRuleOptions.Action
+	}
+	if updateFirewallRuleOptions.Paused != nil {
+		body["paused"] = updateFirewallRuleOptions.Paused
+	}
+	if updateFirewallRuleOptions.Description != nil {
+		body["description"] = updateFirewallRuleOptions.Description
+	}
+	if updateFirewallRuleOptions.Filter != nil {
+		body["filter"] = updateFirewallRuleOptions.Filter
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = firewallRules.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFirewallRuleResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
@@ -601,9 +657,6 @@ type CreateFirewallRulesOptions struct {
 
 	// Zone identifier of the zone for which firewall rules are created.
 	ZoneIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Json objects which are used to create firewall rules.
 	FirewallRuleInputWithFilterID []FirewallRuleInputWithFilterID
@@ -639,12 +692,6 @@ func (options *CreateFirewallRulesOptions) SetZoneIdentifier(zoneIdentifier stri
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *CreateFirewallRulesOptions) SetAccept(accept string) *CreateFirewallRulesOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetFirewallRuleInputWithFilterID : Allow user to set FirewallRuleInputWithFilterID
 func (options *CreateFirewallRulesOptions) SetFirewallRuleInputWithFilterID(firewallRuleInputWithFilterID []FirewallRuleInputWithFilterID) *CreateFirewallRulesOptions {
 	options.FirewallRuleInputWithFilterID = firewallRuleInputWithFilterID
@@ -670,9 +717,6 @@ type DeleteFirewallRuleOptions struct {
 
 	// Identifier of the firewall rule to be deleted.
 	FirewallRuleIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -712,16 +756,27 @@ func (options *DeleteFirewallRuleOptions) SetFirewallRuleIdentifier(firewallRule
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *DeleteFirewallRuleOptions) SetAccept(accept string) *DeleteFirewallRuleOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *DeleteFirewallRuleOptions) SetHeaders(param map[string]string) *DeleteFirewallRuleOptions {
 	options.Headers = param
 	return options
+}
+
+// DeleteFirewallRuleRespResult : Container for response information.
+type DeleteFirewallRuleRespResult struct {
+	// Identifier of the firewall rule.
+	ID *string `json:"id" validate:"required"`
+}
+
+// UnmarshalDeleteFirewallRuleRespResult unmarshals an instance of DeleteFirewallRuleRespResult from the specified map of raw messages.
+func UnmarshalDeleteFirewallRuleRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFirewallRuleRespResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // DeleteFirewallRulesOptions : The DeleteFirewallRules options.
@@ -737,9 +792,6 @@ type DeleteFirewallRulesOptions struct {
 
 	// ids of firewall rules which will be deleted.
 	ID *string `validate:"required"`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -779,16 +831,27 @@ func (options *DeleteFirewallRulesOptions) SetID(id string) *DeleteFirewallRules
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *DeleteFirewallRulesOptions) SetAccept(accept string) *DeleteFirewallRulesOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *DeleteFirewallRulesOptions) SetHeaders(param map[string]string) *DeleteFirewallRulesOptions {
 	options.Headers = param
 	return options
+}
+
+// DeleteFirewallRulesRespResultItem : DeleteFirewallRulesRespResultItem struct
+type DeleteFirewallRulesRespResultItem struct {
+	// Identifier of firewall rules.
+	ID *string `json:"id" validate:"required"`
+}
+
+// UnmarshalDeleteFirewallRulesRespResultItem unmarshals an instance of DeleteFirewallRulesRespResultItem from the specified map of raw messages.
+func UnmarshalDeleteFirewallRulesRespResultItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFirewallRulesRespResultItem)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // FirewallRuleInputWithFilterIdFilter : An existing filter.
@@ -810,6 +873,44 @@ func (*FirewallRulesV1) NewFirewallRuleInputWithFilterIdFilter(id string) (model
 func UnmarshalFirewallRuleInputWithFilterIdFilter(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FirewallRuleInputWithFilterIdFilter)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FirewallRuleObjectFilter : An existing filter.
+type FirewallRuleObjectFilter struct {
+	// Identifier of the filter.
+	ID *string `json:"id" validate:"required"`
+
+	// Indicates if the filter is active.
+	Paused *bool `json:"paused" validate:"required"`
+
+	// To briefly describe the filter, omitted from object if empty.
+	Description *string `json:"description" validate:"required"`
+
+	// A filter expression.
+	Expression *string `json:"expression" validate:"required"`
+}
+
+// UnmarshalFirewallRuleObjectFilter unmarshals an instance of FirewallRuleObjectFilter from the specified map of raw messages.
+func UnmarshalFirewallRuleObjectFilter(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FirewallRuleObjectFilter)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "paused", &obj.Paused)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "expression", &obj.Expression)
 	if err != nil {
 		return
 	}
@@ -948,9 +1049,6 @@ type GetFirewallRuleOptions struct {
 	// Identifier of firewall rule for the given zone.
 	FirewallRuleIdentifier *string `validate:"required,ne="`
 
-	// The type of the response: *_/_* or application/json.
-	Accept *string
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -989,12 +1087,6 @@ func (options *GetFirewallRuleOptions) SetFirewallRuleIdentifier(firewallRuleIde
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *GetFirewallRuleOptions) SetAccept(accept string) *GetFirewallRuleOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *GetFirewallRuleOptions) SetHeaders(param map[string]string) *GetFirewallRuleOptions {
 	options.Headers = param
@@ -1011,9 +1103,6 @@ type ListAllFirewallRulesOptions struct {
 
 	// Zone identifier of the zone for which firewall rules are listed.
 	ZoneIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1046,16 +1135,48 @@ func (options *ListAllFirewallRulesOptions) SetZoneIdentifier(zoneIdentifier str
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *ListAllFirewallRulesOptions) SetAccept(accept string) *ListAllFirewallRulesOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *ListAllFirewallRulesOptions) SetHeaders(param map[string]string) *ListAllFirewallRulesOptions {
 	options.Headers = param
 	return options
+}
+
+// ListFirewallRulesRespResultInfo : Statistics of results.
+type ListFirewallRulesRespResultInfo struct {
+	// Page number.
+	Page *int64 `json:"page" validate:"required"`
+
+	// Number of results per page.
+	PerPage *int64 `json:"per_page" validate:"required"`
+
+	// Number of results.
+	Count *int64 `json:"count" validate:"required"`
+
+	// Total number of results.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalListFirewallRulesRespResultInfo unmarshals an instance of ListFirewallRulesRespResultInfo from the specified map of raw messages.
+func UnmarshalListFirewallRulesRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ListFirewallRulesRespResultInfo)
+	err = core.UnmarshalPrimitive(m, "page", &obj.Page)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "per_page", &obj.PerPage)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "count", &obj.Count)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // UpdateFirewallRuleOptions : The UpdateFirewallRule options.
@@ -1071,9 +1192,6 @@ type UpdateFirewallRuleOptions struct {
 
 	// Identifier of firewall rule.
 	FirewallRuleIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// The firewall action to perform, "log" action is only available for enterprise plan instances.
 	Action *string
@@ -1135,12 +1253,6 @@ func (options *UpdateFirewallRuleOptions) SetFirewallRuleIdentifier(firewallRule
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *UpdateFirewallRuleOptions) SetAccept(accept string) *UpdateFirewallRuleOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetAction : Allow user to set Action
 func (options *UpdateFirewallRuleOptions) SetAction(action string) *UpdateFirewallRuleOptions {
 	options.Action = core.StringPtr(action)
@@ -1182,9 +1294,6 @@ type UpdateFirewllRulesOptions struct {
 	// Zone identifier (zone id).
 	ZoneIdentifier *string `validate:"required,ne="`
 
-	// The type of the response: *_/_* or application/json.
-	Accept *string
-
 	FirewallRulesUpdateInputItem []FirewallRulesUpdateInputItem
 
 	// Allows users to set headers on API requests
@@ -1218,12 +1327,6 @@ func (options *UpdateFirewllRulesOptions) SetZoneIdentifier(zoneIdentifier strin
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *UpdateFirewllRulesOptions) SetAccept(accept string) *UpdateFirewllRulesOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetFirewallRulesUpdateInputItem : Allow user to set FirewallRulesUpdateInputItem
 func (options *UpdateFirewllRulesOptions) SetFirewallRulesUpdateInputItem(firewallRulesUpdateInputItem []FirewallRulesUpdateInputItem) *UpdateFirewllRulesOptions {
 	options.FirewallRulesUpdateInputItem = firewallRulesUpdateInputItem
@@ -1234,6 +1337,82 @@ func (options *UpdateFirewllRulesOptions) SetFirewallRulesUpdateInputItem(firewa
 func (options *UpdateFirewllRulesOptions) SetHeaders(param map[string]string) *UpdateFirewllRulesOptions {
 	options.Headers = param
 	return options
+}
+
+// DeleteFirewallRuleResp : DeleteFirewallRuleResp struct
+type DeleteFirewallRuleResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result *DeleteFirewallRuleRespResult `json:"result" validate:"required"`
+}
+
+// UnmarshalDeleteFirewallRuleResp unmarshals an instance of DeleteFirewallRuleResp from the specified map of raw messages.
+func UnmarshalDeleteFirewallRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFirewallRuleResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalDeleteFirewallRuleRespResult)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DeleteFirewallRulesResp : DeleteFirewallRulesResp struct
+type DeleteFirewallRulesResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result []DeleteFirewallRulesRespResultItem `json:"result" validate:"required"`
+}
+
+// UnmarshalDeleteFirewallRulesResp unmarshals an instance of DeleteFirewallRulesResp from the specified map of raw messages.
+func UnmarshalDeleteFirewallRulesResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFirewallRulesResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalDeleteFirewallRulesRespResultItem)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // FirewallRuleInputWithFilterID : Json objects which are used to create firewall rule.
@@ -1280,6 +1459,195 @@ func UnmarshalFirewallRuleInputWithFilterID(m map[string]json.RawMessage, result
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FirewallRuleObject : FirewallRuleObject struct
+type FirewallRuleObject struct {
+	// Identifier of the firewall rule.
+	ID *string `json:"id" validate:"required"`
+
+	// Indicates if the firewall rule is active.
+	Paused *bool `json:"paused" validate:"required"`
+
+	// To briefly describe the firewall rule, omitted from object if empty.
+	Description *string `json:"description" validate:"required"`
+
+	// The firewall action to perform, "log" action is only available for enterprise plan instances.
+	Action *string `json:"action" validate:"required"`
+
+	// An existing filter.
+	Filter *FirewallRuleObjectFilter `json:"filter" validate:"required"`
+
+	// The creation date-time of the filter.
+	CreatedOn *string `json:"created_on" validate:"required"`
+
+	// The modification date-time of the filter.
+	ModifiedOn *string `json:"modified_on" validate:"required"`
+}
+
+// Constants associated with the FirewallRuleObject.Action property.
+// The firewall action to perform, "log" action is only available for enterprise plan instances.
+const (
+	FirewallRuleObject_Action_Allow = "allow"
+	FirewallRuleObject_Action_Block = "block"
+	FirewallRuleObject_Action_Challenge = "challenge"
+	FirewallRuleObject_Action_JsChallenge = "js_challenge"
+	FirewallRuleObject_Action_Log = "log"
+)
+
+// UnmarshalFirewallRuleObject unmarshals an instance of FirewallRuleObject from the specified map of raw messages.
+func UnmarshalFirewallRuleObject(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FirewallRuleObject)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "paused", &obj.Paused)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "filter", &obj.Filter, UnmarshalFirewallRuleObjectFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_on", &obj.CreatedOn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FirewallRuleResp : FirewallRuleResp struct
+type FirewallRuleResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	Result *FirewallRuleObject `json:"result" validate:"required"`
+}
+
+// UnmarshalFirewallRuleResp unmarshals an instance of FirewallRuleResp from the specified map of raw messages.
+func UnmarshalFirewallRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FirewallRuleResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalFirewallRuleObject)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FirewallRulesResp : FirewallRulesResp struct
+type FirewallRulesResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result []FirewallRuleObject `json:"result" validate:"required"`
+}
+
+// UnmarshalFirewallRulesResp unmarshals an instance of FirewallRulesResp from the specified map of raw messages.
+func UnmarshalFirewallRulesResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FirewallRulesResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalFirewallRuleObject)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ListFirewallRulesResp : ListFirewallRulesResp struct
+type ListFirewallRulesResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result []FirewallRuleObject `json:"result" validate:"required"`
+
+	// Statistics of results.
+	ResultInfo *ListFirewallRulesRespResultInfo `json:"result_info" validate:"required"`
+}
+
+// UnmarshalListFirewallRulesResp unmarshals an instance of ListFirewallRulesResp from the specified map of raw messages.
+func UnmarshalListFirewallRulesResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ListFirewallRulesResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalFirewallRuleObject)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result_info", &obj.ResultInfo, UnmarshalListFirewallRulesRespResultInfo)
 	if err != nil {
 		return
 	}

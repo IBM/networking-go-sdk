@@ -345,47 +345,6 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				Expect(delResult).ToNot(BeNil())
 				Expect(*result.Success).Should(BeTrue())
 			})
-			It(`create/delete/get dns Spf type records`, func() {
-				shouldSkipTest()
-				mode := CreateDnsRecordOptions_Type_Spf
-				options := testService.NewCreateDnsRecordOptions()
-				options.SetName("host-1.recordtest.com")
-				options.SetType(mode)
-				options.SetTTL(900)
-				options.SetContent("domain.com")
-				result, response, err := testService.CreateDnsRecord(options)
-				Expect(err).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// get DNS Reord Options
-				getOption := testService.NewGetDnsRecordOptions(*result.Result.ID)
-				result, response, err = testService.GetDnsRecord(getOption)
-				Expect(err).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(*result.Success).Should(BeTrue())
-
-				updateOpt := testService.NewUpdateDnsRecordOptions(*result.Result.ID)
-				newModes := CreateDnsRecordOptions_Type_Txt
-				updateOpt.SetType(newModes)
-				updateOpt.SetName("host-1.recordtest.com")
-				options.SetTTL(100)
-				updateOpt.SetContent("Test Text")
-				result, response, err = testService.UpdateDnsRecord(updateOpt)
-				Expect(err).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(*result.Success).Should(BeTrue())
-
-				// delete Dns Record Options
-				deleteOpt := testService.NewDeleteDnsRecordOptions(*result.Result.ID)
-				delResult, response, err := testService.DeleteDnsRecord(deleteOpt)
-				Expect(err).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(delResult).ToNot(BeNil())
-				Expect(*result.Success).Should(BeTrue())
-			})
 			It(`create/delete/get dns Srv type records`, func() {
 				shouldSkipTest()
 				mode := CreateDnsRecordOptions_Type_Srv
