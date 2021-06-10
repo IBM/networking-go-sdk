@@ -5,8 +5,6 @@
 package filtersv1_test
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"os"
 	"strconv"
 
@@ -54,37 +52,19 @@ var _ = Describe(`FiltersV1`, func() {
 	Expect(testServiceErr).To(BeNil())
 
 	expressions := [4]string{
-		"(ip.src eq 93.60.125.234)",
+		"(ip.src eq 13.60.125.234)",
 		"(http.request.uri eq \"/test?number=1\")",
-		"not http.request.uri.path matches \"^/api/.*$\"",
-		"(http.host eq \"testexample.com\")",
+		"not http.request.uri.path matches \"^/api/[\\W].*$\"",
+		"(http.request.uri.path ~ \"^.*/wpt[\\d]-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")",
 	}
 
 	expressions_update := [4]string{
-		"(ip.src eq 93.60.125.235)",
+		"(ip.src eq 13.60.125.235)",
 		"(http.request.uri eq \"/test-update?number=1\")",
 		"not http.request.uri.path matches \"^/api-update/.*$\"",
 		"(http.host eq \"testexample-update.com\")",
 	}
 
-	type FilterResult struct {
-		Result []struct {
-			ID          string `json:"id"`
-			Paused      bool   `json:"paused"`
-			Description string `json:"description"`
-			Expression  string `json:"expression"`
-		} `json:"result"`
-		Success    bool          `json:"success"`
-		Errors     []interface{} `json:"errors"`
-		Messages   []interface{} `json:"messages"`
-		ResultInfo struct {
-			Page       int `json:"page"`
-			PerPage    int `json:"per_page"`
-			Count      int `json:"count"`
-			TotalCount int `json:"total_count"`
-			TotalPages int `json:"total_pages"`
-		} `json:"result_info"`
-	}
 	var Filter_IDs []string
 
 	Describe(`FiltersApiv1_test`, func() {
@@ -97,41 +77,14 @@ var _ = Describe(`FiltersV1`, func() {
 				Expect(result).ToNot(BeNil())
 
 				//Delete all Flters
-				Expect(result.Read).ToNot(BeNil())
-				p := make([]byte, 1024)
-				f, err := os.Create("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				n, err := result.Read(p)
-				Expect(err).To(BeNil())
-				for len(p) > 0 {
-					_, err := f.Write(p[:n])
-					if err != nil {
-						break
-					}
-					n, err = result.Read(p[:n])
-					if err != nil {
-						break
-					}
-				}
-				err = f.Close()
-				Expect(err).To(BeNil())
-				err = result.Close()
-				Expect(err).To(BeNil())
-				byteValue, err := ioutil.ReadFile("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				filter_res := FilterResult{}
-				json_err := json.Unmarshal(byteValue, &filter_res)
-				Expect(json_err).To(BeNil())
-
-				for i := 0; i < len(filter_res.Result); i++ {
-					delOptions := testService.NewDeleteFiltersOptions(xAuthUserToken, crn, zoneId, filter_res.Result[i].ID)
+				for i := 0; i < len(result.Result); i++ {
+					delOptions := testService.NewDeleteFiltersOptions(xAuthUserToken, crn, zoneId, *result.Result[i].ID)
 					result, response, deleteErr := testService.DeleteFilters(delOptions)
 					Expect(deleteErr).To(BeNil())
 					Expect(response).ToNot(BeNil())
 					Expect(result).ToNot(BeNil())
 				}
-				err = os.Remove("/tmp/filters.txt")
-				Expect(err).To(BeNil())
+
 			})
 			AfterEach(func() {
 				shouldSkipTest()
@@ -139,44 +92,15 @@ var _ = Describe(`FiltersV1`, func() {
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
-				Expect(result.Read).ToNot(BeNil())
 
 				//Delete all Flters
-				Expect(result.Read).ToNot(BeNil())
-				p := make([]byte, 1024)
-				f, err := os.Create("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				n, err := result.Read(p)
-				Expect(err).To(BeNil())
-				for len(p) > 0 {
-					_, err := f.Write(p[:n])
-					if err != nil {
-						break
-					}
-					n, err = result.Read(p[:n])
-					if err != nil {
-						break
-					}
-				}
-				err = f.Close()
-				Expect(err).To(BeNil())
-				err = result.Close()
-				Expect(err).To(BeNil())
-				byteValue, err := ioutil.ReadFile("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				filter_res := FilterResult{}
-				json_err := json.Unmarshal(byteValue, &filter_res)
-				Expect(json_err).To(BeNil())
-
-				for i := 0; i < len(filter_res.Result); i++ {
-					delOptions := testService.NewDeleteFiltersOptions(xAuthUserToken, crn, zoneId, filter_res.Result[i].ID)
+				for i := 0; i < len(result.Result); i++ {
+					delOptions := testService.NewDeleteFiltersOptions(xAuthUserToken, crn, zoneId, *result.Result[i].ID)
 					result, response, deleteErr := testService.DeleteFilters(delOptions)
 					Expect(deleteErr).To(BeNil())
 					Expect(response).ToNot(BeNil())
 					Expect(result).ToNot(BeNil())
 				}
-				err = os.Remove("/tmp/filters.txt")
-				Expect(err).To(BeNil())
 			})
 			It(`Create Filters\ListAll Filters\Update Filters\Delete Filters`, func() {
 				shouldSkipTest()
@@ -200,37 +124,12 @@ var _ = Describe(`FiltersV1`, func() {
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
-				Expect(result.Read).ToNot(BeNil())
-				p := make([]byte, 1024)
-				f, err := os.Create("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				n, err := result.Read(p)
-				Expect(err).To(BeNil())
-				for len(p) > 0 {
-					_, err := f.Write(p[:n])
-					if err != nil {
-						break
-					}
-					n, err = result.Read(p[:n])
-					if err != nil {
-						break
-					}
-				}
-				err = f.Close()
-				Expect(err).To(BeNil())
-				err = result.Close()
-				Expect(err).To(BeNil())
-				// Get Filter IDs
-				byteValue, err := ioutil.ReadFile("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				filter_res := FilterResult{}
-				json_err := json.Unmarshal(byteValue, &filter_res)
-				Expect(json_err).To(BeNil())
+
 				//Update Filters
-				for i := 0; i < len(filter_res.Result); i++ {
+				for i := 0; i < len(result.Result); i++ {
 					options := testService.NewUpdateFiltersOptions(xAuthUserToken, crn, zoneId)
 					filterUpdateInput := &FilterUpdateInput{
-						ID:          core.StringPtr(filter_res.Result[i].ID),
+						ID:          core.StringPtr(*result.Result[i].ID),
 						Expression:  core.StringPtr(expressions_update[i]),
 						Paused:      core.BoolPtr(false),
 						Description: core.StringPtr("Login-SDK-Update" + strconv.Itoa(i)),
@@ -251,8 +150,6 @@ var _ = Describe(`FiltersV1`, func() {
 					Expect(result).ToNot(BeNil())
 				}
 
-				err = os.Remove("/tmp/filters.txt")
-				Expect(err).To(BeNil())
 			})
 		})
 	})
@@ -273,62 +170,31 @@ var _ = Describe(`FiltersV1`, func() {
 				Expect(result).ToNot(BeNil())
 
 				//Get Filter ID
-				result, response, listErr := testService.ListAllFilters(testService.NewListAllFiltersOptions(xAuthUserToken, crn, zoneId))
-				Expect(listErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(result.Read).ToNot(BeNil())
-				p := make([]byte, 1024)
-				f, err := os.Create("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				n, err := result.Read(p)
-				Expect(err).To(BeNil())
-				for len(p) > 0 {
-					_, err := f.Write(p[:n])
-					if err != nil {
-						break
-					}
-					n, err = result.Read(p[:n])
-					if err != nil {
-						break
-					}
-				}
-				err = f.Close()
-				Expect(err).To(BeNil())
-				err = result.Close()
-				Expect(err).To(BeNil())
-				// Get Filter ID
-				byteValue, err := ioutil.ReadFile("/tmp/filters.txt")
-				Expect(err).To(BeNil())
-				filter_res := FilterResult{}
-				json_err := json.Unmarshal(byteValue, &filter_res)
-				Expect(json_err).To(BeNil())
-
-				filter_id := filter_res.Result[0].ID
+				filter_id := result.Result[0].ID
 
 				//Get a Filter Info
-				optionsGet := testService.NewGetFilterOptions(xAuthUserToken, crn, zoneId, filter_id)
-				result, response, operationErr = testService.GetFilter(optionsGet)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
+				optionsGet := testService.NewGetFilterOptions(xAuthUserToken, crn, zoneId, *filter_id)
+				resultGet, responseGet, operationGetErr := testService.GetFilter(optionsGet)
+				Expect(operationGetErr).To(BeNil())
+				Expect(responseGet).ToNot(BeNil())
+				Expect(resultGet).ToNot(BeNil())
 
 				//Update a Filter
-				optionsUpdate := testService.NewUpdateFilterOptions(xAuthUserToken, crn, zoneId, filter_id)
+				optionsUpdate := testService.NewUpdateFilterOptions(xAuthUserToken, crn, zoneId, *filter_id)
 				optionsUpdate.SetExpression(`not http.request.uri.path matches "^/api/.*$"`)
 				optionsUpdate.SetDescription("not /api")
 				optionsUpdate.SetPaused(false)
-				result, response, operationErr = testService.UpdateFilter(optionsUpdate)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
+				resultUpdate, responseUpdate, operationUpdateErr := testService.UpdateFilter(optionsUpdate)
+				Expect(operationUpdateErr).To(BeNil())
+				Expect(responseUpdate).ToNot(BeNil())
+				Expect(resultUpdate).ToNot(BeNil())
 
 				//Delete a Filter
-				optionsDelete := testService.NewDeleteFilterOptions(xAuthUserToken, crn, zoneId, filter_id)
-				result, response, operationErr = testService.DeleteFilter(optionsDelete)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
+				optionsDelete := testService.NewDeleteFilterOptions(xAuthUserToken, crn, zoneId, *filter_id)
+				resultDel, responseDel, operationDelErr := testService.DeleteFilter(optionsDelete)
+				Expect(operationDelErr).To(BeNil())
+				Expect(responseDel).ToNot(BeNil())
+				Expect(resultDel).ToNot(BeNil())
 			})
 		})
 	})

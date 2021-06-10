@@ -353,7 +353,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// Still exists, wait 5 sec
+						// wait 5 sec
 						time.Sleep(time.Duration(5) * time.Second)
 						timer = timer + 1
 					}
@@ -414,7 +414,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// Still exists, wait 5 sec
+						// wait 5 sec
 						time.Sleep(time.Duration(5) * time.Second)
 						timer = timer + 1
 					}
@@ -483,7 +483,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// Still exists, wait 5 sec
+						// wait 5 sec
 						time.Sleep(time.Duration(5) * time.Second)
 						timer = timer + 1
 					}
@@ -673,7 +673,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 5 sec
+						// Still exists, wait 10 sec
 						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
@@ -715,7 +715,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 5 sec
+						// Still exists, wait 10 sec
 						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
@@ -757,7 +757,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 5 sec
+						// Still exists, wait 10 sec
 						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}

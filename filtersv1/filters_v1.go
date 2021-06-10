@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.28.0-55613c9e-20210220-164656
+ * IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
  */
 
 // Package filtersv1 : Operations and models for the FiltersV1 service
@@ -25,12 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v5/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"io"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // FiltersV1 : Filters
@@ -161,12 +161,12 @@ func (filters *FiltersV1) DisableRetries() {
 
 // ListAllFilters : List all filters for a zone
 // List all filters for a zone.
-func (filters *FiltersV1) ListAllFilters(listAllFiltersOptions *ListAllFiltersOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) ListAllFilters(listAllFiltersOptions *ListAllFiltersOptions) (result *ListFiltersResp, response *core.DetailedResponse, err error) {
 	return filters.ListAllFiltersWithContext(context.Background(), listAllFiltersOptions)
 }
 
 // ListAllFiltersWithContext is an alternate form of the ListAllFilters method which supports a Context parameter
-func (filters *FiltersV1) ListAllFiltersWithContext(ctx context.Context, listAllFiltersOptions *ListAllFiltersOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) ListAllFiltersWithContext(ctx context.Context, listAllFiltersOptions *ListAllFiltersOptions) (result *ListFiltersResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listAllFiltersOptions, "listAllFiltersOptions cannot be nil")
 	if err != nil {
 		return
@@ -197,12 +197,9 @@ func (filters *FiltersV1) ListAllFiltersWithContext(ctx context.Context, listAll
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	if listAllFiltersOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*listAllFiltersOptions.XAuthUserToken))
-	}
-	if listAllFiltersOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*listAllFiltersOptions.Accept))
 	}
 
 	request, err := builder.Build()
@@ -210,19 +207,30 @@ func (filters *FiltersV1) ListAllFiltersWithContext(ctx context.Context, listAll
 		return
 	}
 
-	response, err = filters.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListFiltersResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
 
 // CreateFilter : Create filters for a zone
 // Create new filters for a given zone under a service instance.
-func (filters *FiltersV1) CreateFilter(createFilterOptions *CreateFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) CreateFilter(createFilterOptions *CreateFilterOptions) (result *FiltersResp, response *core.DetailedResponse, err error) {
 	return filters.CreateFilterWithContext(context.Background(), createFilterOptions)
 }
 
 // CreateFilterWithContext is an alternate form of the CreateFilter method which supports a Context parameter
-func (filters *FiltersV1) CreateFilterWithContext(ctx context.Context, createFilterOptions *CreateFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) CreateFilterWithContext(ctx context.Context, createFilterOptions *CreateFilterOptions) (result *FiltersResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createFilterOptions, "createFilterOptions cannot be nil")
 	if err != nil {
 		return
@@ -253,13 +261,10 @@ func (filters *FiltersV1) CreateFilterWithContext(ctx context.Context, createFil
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 	if createFilterOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*createFilterOptions.XAuthUserToken))
-	}
-	if createFilterOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*createFilterOptions.Accept))
 	}
 
 	if createFilterOptions.FilterInput != nil {
@@ -274,19 +279,30 @@ func (filters *FiltersV1) CreateFilterWithContext(ctx context.Context, createFil
 		return
 	}
 
-	response, err = filters.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFiltersResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
 
 // UpdateFilters : Update filters
 // Update existing filters for a given zone under a given service instance.
-func (filters *FiltersV1) UpdateFilters(updateFiltersOptions *UpdateFiltersOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) UpdateFilters(updateFiltersOptions *UpdateFiltersOptions) (result *FiltersResp, response *core.DetailedResponse, err error) {
 	return filters.UpdateFiltersWithContext(context.Background(), updateFiltersOptions)
 }
 
 // UpdateFiltersWithContext is an alternate form of the UpdateFilters method which supports a Context parameter
-func (filters *FiltersV1) UpdateFiltersWithContext(ctx context.Context, updateFiltersOptions *UpdateFiltersOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) UpdateFiltersWithContext(ctx context.Context, updateFiltersOptions *UpdateFiltersOptions) (result *FiltersResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateFiltersOptions, "updateFiltersOptions cannot be nil")
 	if err != nil {
 		return
@@ -317,13 +333,10 @@ func (filters *FiltersV1) UpdateFiltersWithContext(ctx context.Context, updateFi
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 	if updateFiltersOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*updateFiltersOptions.XAuthUserToken))
-	}
-	if updateFiltersOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*updateFiltersOptions.Accept))
 	}
 
 	if updateFiltersOptions.FilterUpdateInput != nil {
@@ -338,19 +351,30 @@ func (filters *FiltersV1) UpdateFiltersWithContext(ctx context.Context, updateFi
 		return
 	}
 
-	response, err = filters.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFiltersResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
 
 // DeleteFilters : Delete filters
 // Delete filters by filter ids.
-func (filters *FiltersV1) DeleteFilters(deleteFiltersOptions *DeleteFiltersOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) DeleteFilters(deleteFiltersOptions *DeleteFiltersOptions) (result *DeleteFiltersResp, response *core.DetailedResponse, err error) {
 	return filters.DeleteFiltersWithContext(context.Background(), deleteFiltersOptions)
 }
 
 // DeleteFiltersWithContext is an alternate form of the DeleteFilters method which supports a Context parameter
-func (filters *FiltersV1) DeleteFiltersWithContext(ctx context.Context, deleteFiltersOptions *DeleteFiltersOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) DeleteFiltersWithContext(ctx context.Context, deleteFiltersOptions *DeleteFiltersOptions) (result *DeleteFiltersResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteFiltersOptions, "deleteFiltersOptions cannot be nil")
 	if err != nil {
 		return
@@ -381,12 +405,9 @@ func (filters *FiltersV1) DeleteFiltersWithContext(ctx context.Context, deleteFi
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	if deleteFiltersOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*deleteFiltersOptions.XAuthUserToken))
-	}
-	if deleteFiltersOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*deleteFiltersOptions.Accept))
 	}
 
 	builder.AddQuery("id", fmt.Sprint(*deleteFiltersOptions.ID))
@@ -396,152 +417,30 @@ func (filters *FiltersV1) DeleteFiltersWithContext(ctx context.Context, deleteFi
 		return
 	}
 
-	response, err = filters.Service.Request(request, &result)
-
-	return
-}
-
-// GetFilter : Get filter details by id
-// Get the details of a filter for a given zone under a given service instance.
-func (filters *FiltersV1) GetFilter(getFilterOptions *GetFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	return filters.GetFilterWithContext(context.Background(), getFilterOptions)
-}
-
-// GetFilterWithContext is an alternate form of the GetFilter method which supports a Context parameter
-func (filters *FiltersV1) GetFilterWithContext(ctx context.Context, getFilterOptions *GetFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getFilterOptions, "getFilterOptions cannot be nil")
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getFilterOptions, "getFilterOptions")
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDeleteFiltersResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-
-	pathParamsMap := map[string]string{
-		"crn": *getFilterOptions.Crn,
-		"zone_identifier": *getFilterOptions.ZoneIdentifier,
-		"filter_identifier": *getFilterOptions.FilterIdentifier,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = filters.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(filters.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/filters/{filter_identifier}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range getFilterOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("filters", "V1", "GetFilter")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "*/*")
-	if getFilterOptions.XAuthUserToken != nil {
-		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*getFilterOptions.XAuthUserToken))
-	}
-	if getFilterOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*getFilterOptions.Accept))
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	response, err = filters.Service.Request(request, &result)
-
-	return
-}
-
-// UpdateFilter : Update a filter
-// Update an existing filter for a given zone under a given service instance.
-func (filters *FiltersV1) UpdateFilter(updateFilterOptions *UpdateFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	return filters.UpdateFilterWithContext(context.Background(), updateFilterOptions)
-}
-
-// UpdateFilterWithContext is an alternate form of the UpdateFilter method which supports a Context parameter
-func (filters *FiltersV1) UpdateFilterWithContext(ctx context.Context, updateFilterOptions *UpdateFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateFilterOptions, "updateFilterOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(updateFilterOptions, "updateFilterOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"crn": *updateFilterOptions.Crn,
-		"zone_identifier": *updateFilterOptions.ZoneIdentifier,
-		"filter_identifier": *updateFilterOptions.FilterIdentifier,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = filters.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(filters.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/filters/{filter_identifier}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range updateFilterOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("filters", "V1", "UpdateFilter")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "*/*")
-	builder.AddHeader("Content-Type", "application/json")
-	if updateFilterOptions.XAuthUserToken != nil {
-		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*updateFilterOptions.XAuthUserToken))
-	}
-	if updateFilterOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*updateFilterOptions.Accept))
-	}
-
-	body := make(map[string]interface{})
-	if updateFilterOptions.ID != nil {
-		body["id"] = updateFilterOptions.ID
-	}
-	if updateFilterOptions.Expression != nil {
-		body["expression"] = updateFilterOptions.Expression
-	}
-	if updateFilterOptions.Description != nil {
-		body["description"] = updateFilterOptions.Description
-	}
-	if updateFilterOptions.Paused != nil {
-		body["paused"] = updateFilterOptions.Paused
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	response, err = filters.Service.Request(request, &result)
 
 	return
 }
 
 // DeleteFilter : Delete a filter
 // Delete a filter given its id.
-func (filters *FiltersV1) DeleteFilter(deleteFilterOptions *DeleteFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) DeleteFilter(deleteFilterOptions *DeleteFilterOptions) (result *DeleteFilterResp, response *core.DetailedResponse, err error) {
 	return filters.DeleteFilterWithContext(context.Background(), deleteFilterOptions)
 }
 
 // DeleteFilterWithContext is an alternate form of the DeleteFilter method which supports a Context parameter
-func (filters *FiltersV1) DeleteFilterWithContext(ctx context.Context, deleteFilterOptions *DeleteFilterOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
+func (filters *FiltersV1) DeleteFilterWithContext(ctx context.Context, deleteFilterOptions *DeleteFilterOptions) (result *DeleteFilterResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteFilterOptions, "deleteFilterOptions cannot be nil")
 	if err != nil {
 		return
@@ -573,12 +472,9 @@ func (filters *FiltersV1) DeleteFilterWithContext(ctx context.Context, deleteFil
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "*/*")
+	builder.AddHeader("Accept", "application/json")
 	if deleteFilterOptions.XAuthUserToken != nil {
 		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*deleteFilterOptions.XAuthUserToken))
-	}
-	if deleteFilterOptions.Accept != nil {
-		builder.AddHeader("Accept", fmt.Sprint(*deleteFilterOptions.Accept))
 	}
 
 	request, err := builder.Build()
@@ -586,7 +482,167 @@ func (filters *FiltersV1) DeleteFilterWithContext(ctx context.Context, deleteFil
 		return
 	}
 
-	response, err = filters.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDeleteFilterResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetFilter : Get filter details by id
+// Get the details of a filter for a given zone under a given service instance.
+func (filters *FiltersV1) GetFilter(getFilterOptions *GetFilterOptions) (result *FilterResp, response *core.DetailedResponse, err error) {
+	return filters.GetFilterWithContext(context.Background(), getFilterOptions)
+}
+
+// GetFilterWithContext is an alternate form of the GetFilter method which supports a Context parameter
+func (filters *FiltersV1) GetFilterWithContext(ctx context.Context, getFilterOptions *GetFilterOptions) (result *FilterResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getFilterOptions, "getFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getFilterOptions, "getFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *getFilterOptions.Crn,
+		"zone_identifier": *getFilterOptions.ZoneIdentifier,
+		"filter_identifier": *getFilterOptions.FilterIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = filters.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(filters.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/filters/{filter_identifier}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("filters", "V1", "GetFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if getFilterOptions.XAuthUserToken != nil {
+		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*getFilterOptions.XAuthUserToken))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFilterResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateFilter : Update a filter
+// Update an existing filter for a given zone under a given service instance.
+func (filters *FiltersV1) UpdateFilter(updateFilterOptions *UpdateFilterOptions) (result *FilterResp, response *core.DetailedResponse, err error) {
+	return filters.UpdateFilterWithContext(context.Background(), updateFilterOptions)
+}
+
+// UpdateFilterWithContext is an alternate form of the UpdateFilter method which supports a Context parameter
+func (filters *FiltersV1) UpdateFilterWithContext(ctx context.Context, updateFilterOptions *UpdateFilterOptions) (result *FilterResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateFilterOptions, "updateFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateFilterOptions, "updateFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *updateFilterOptions.Crn,
+		"zone_identifier": *updateFilterOptions.ZoneIdentifier,
+		"filter_identifier": *updateFilterOptions.FilterIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = filters.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(filters.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/filters/{filter_identifier}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("filters", "V1", "UpdateFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if updateFilterOptions.XAuthUserToken != nil {
+		builder.AddHeader("X-Auth-User-Token", fmt.Sprint(*updateFilterOptions.XAuthUserToken))
+	}
+
+	body := make(map[string]interface{})
+	if updateFilterOptions.ID != nil {
+		body["id"] = updateFilterOptions.ID
+	}
+	if updateFilterOptions.Expression != nil {
+		body["expression"] = updateFilterOptions.Expression
+	}
+	if updateFilterOptions.Description != nil {
+		body["description"] = updateFilterOptions.Description
+	}
+	if updateFilterOptions.Paused != nil {
+		body["paused"] = updateFilterOptions.Paused
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = filters.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalFilterResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
@@ -601,9 +657,6 @@ type CreateFilterOptions struct {
 
 	// Zone identifier of the zone for which filters are created.
 	ZoneIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Json objects which are used to create filters.
 	FilterInput []FilterInput
@@ -639,12 +692,6 @@ func (options *CreateFilterOptions) SetZoneIdentifier(zoneIdentifier string) *Cr
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *CreateFilterOptions) SetAccept(accept string) *CreateFilterOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetFilterInput : Allow user to set FilterInput
 func (options *CreateFilterOptions) SetFilterInput(filterInput []FilterInput) *CreateFilterOptions {
 	options.FilterInput = filterInput
@@ -670,9 +717,6 @@ type DeleteFilterOptions struct {
 
 	// Identifier of the filter to be deleted.
 	FilterIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -712,16 +756,27 @@ func (options *DeleteFilterOptions) SetFilterIdentifier(filterIdentifier string)
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *DeleteFilterOptions) SetAccept(accept string) *DeleteFilterOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *DeleteFilterOptions) SetHeaders(param map[string]string) *DeleteFilterOptions {
 	options.Headers = param
 	return options
+}
+
+// DeleteFilterRespResult : Container for response information.
+type DeleteFilterRespResult struct {
+	// Identifier of the filter.
+	ID *string `json:"id" validate:"required"`
+}
+
+// UnmarshalDeleteFilterRespResult unmarshals an instance of DeleteFilterRespResult from the specified map of raw messages.
+func UnmarshalDeleteFilterRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFilterRespResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // DeleteFiltersOptions : The DeleteFilters options.
@@ -737,9 +792,6 @@ type DeleteFiltersOptions struct {
 
 	// ids of filters which will be deleted.
 	ID *string `validate:"required"`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -779,16 +831,27 @@ func (options *DeleteFiltersOptions) SetID(id string) *DeleteFiltersOptions {
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *DeleteFiltersOptions) SetAccept(accept string) *DeleteFiltersOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *DeleteFiltersOptions) SetHeaders(param map[string]string) *DeleteFiltersOptions {
 	options.Headers = param
 	return options
+}
+
+// DeleteFiltersRespResultItem : DeleteFiltersRespResultItem struct
+type DeleteFiltersRespResultItem struct {
+	// Identifier of the filter.
+	ID *string `json:"id" validate:"required"`
+}
+
+// UnmarshalDeleteFiltersRespResultItem unmarshals an instance of DeleteFiltersRespResultItem from the specified map of raw messages.
+func UnmarshalDeleteFiltersRespResultItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFiltersRespResultItem)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // GetFilterOptions : The GetFilter options.
@@ -804,9 +867,6 @@ type GetFilterOptions struct {
 
 	// Identifier of filter for the given zone.
 	FilterIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -846,12 +906,6 @@ func (options *GetFilterOptions) SetFilterIdentifier(filterIdentifier string) *G
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *GetFilterOptions) SetAccept(accept string) *GetFilterOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *GetFilterOptions) SetHeaders(param map[string]string) *GetFilterOptions {
 	options.Headers = param
@@ -868,9 +922,6 @@ type ListAllFiltersOptions struct {
 
 	// Zone identifier of the zone for which filters are listed.
 	ZoneIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -903,16 +954,48 @@ func (options *ListAllFiltersOptions) SetZoneIdentifier(zoneIdentifier string) *
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *ListAllFiltersOptions) SetAccept(accept string) *ListAllFiltersOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *ListAllFiltersOptions) SetHeaders(param map[string]string) *ListAllFiltersOptions {
 	options.Headers = param
 	return options
+}
+
+// ListFiltersRespResultInfo : Statistics of results.
+type ListFiltersRespResultInfo struct {
+	// Page number.
+	Page *int64 `json:"page" validate:"required"`
+
+	// Number of results per page.
+	PerPage *int64 `json:"per_page" validate:"required"`
+
+	// Number of results.
+	Count *int64 `json:"count" validate:"required"`
+
+	// Total number of results.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalListFiltersRespResultInfo unmarshals an instance of ListFiltersRespResultInfo from the specified map of raw messages.
+func UnmarshalListFiltersRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ListFiltersRespResultInfo)
+	err = core.UnmarshalPrimitive(m, "page", &obj.Page)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "per_page", &obj.PerPage)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "count", &obj.Count)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // UpdateFilterOptions : The UpdateFilter options.
@@ -928,9 +1011,6 @@ type UpdateFilterOptions struct {
 
 	// Identifier of filter.
 	FilterIdentifier *string `validate:"required,ne="`
-
-	// The type of the response: *_/_* or application/json.
-	Accept *string
 
 	// Identifier of the filter.
 	ID *string
@@ -982,12 +1062,6 @@ func (options *UpdateFilterOptions) SetFilterIdentifier(filterIdentifier string)
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *UpdateFilterOptions) SetAccept(accept string) *UpdateFilterOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetID : Allow user to set ID
 func (options *UpdateFilterOptions) SetID(id string) *UpdateFilterOptions {
 	options.ID = core.StringPtr(id)
@@ -1029,9 +1103,6 @@ type UpdateFiltersOptions struct {
 	// Zone identifier (zone id).
 	ZoneIdentifier *string `validate:"required,ne="`
 
-	// The type of the response: *_/_* or application/json.
-	Accept *string
-
 	FilterUpdateInput []FilterUpdateInput
 
 	// Allows users to set headers on API requests
@@ -1065,12 +1136,6 @@ func (options *UpdateFiltersOptions) SetZoneIdentifier(zoneIdentifier string) *U
 	return options
 }
 
-// SetAccept : Allow user to set Accept
-func (options *UpdateFiltersOptions) SetAccept(accept string) *UpdateFiltersOptions {
-	options.Accept = core.StringPtr(accept)
-	return options
-}
-
 // SetFilterUpdateInput : Allow user to set FilterUpdateInput
 func (options *UpdateFiltersOptions) SetFilterUpdateInput(filterUpdateInput []FilterUpdateInput) *UpdateFiltersOptions {
 	options.FilterUpdateInput = filterUpdateInput
@@ -1081,6 +1146,82 @@ func (options *UpdateFiltersOptions) SetFilterUpdateInput(filterUpdateInput []Fi
 func (options *UpdateFiltersOptions) SetHeaders(param map[string]string) *UpdateFiltersOptions {
 	options.Headers = param
 	return options
+}
+
+// DeleteFilterResp : DeleteFilterResp struct
+type DeleteFilterResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result *DeleteFilterRespResult `json:"result" validate:"required"`
+}
+
+// UnmarshalDeleteFilterResp unmarshals an instance of DeleteFilterResp from the specified map of raw messages.
+func UnmarshalDeleteFilterResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFilterResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalDeleteFilterRespResult)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DeleteFiltersResp : DeleteFiltersResp struct
+type DeleteFiltersResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result []DeleteFiltersRespResultItem `json:"result" validate:"required"`
+}
+
+// UnmarshalDeleteFiltersResp unmarshals an instance of DeleteFiltersResp from the specified map of raw messages.
+func UnmarshalDeleteFiltersResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DeleteFiltersResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalDeleteFiltersRespResultItem)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // FilterInput : Json objects which are used to create filters.
@@ -1116,6 +1257,95 @@ func UnmarshalFilterInput(m map[string]json.RawMessage, result interface{}) (err
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FilterObject : FilterObject struct
+type FilterObject struct {
+	// Identifier of the filter.
+	ID *string `json:"id" validate:"required"`
+
+	// Indicates if the filter is active.
+	Paused *bool `json:"paused" validate:"required"`
+
+	// To briefly describe the filter, omitted from object if empty.
+	Description *string `json:"description" validate:"required"`
+
+	// A filter expression.
+	Expression *string `json:"expression" validate:"required"`
+
+	// The creation date-time of the filter.
+	CreatedOn *string `json:"created_on" validate:"required"`
+
+	// The modification date-time of the filter.
+	ModifiedOn *string `json:"modified_on" validate:"required"`
+}
+
+// UnmarshalFilterObject unmarshals an instance of FilterObject from the specified map of raw messages.
+func UnmarshalFilterObject(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FilterObject)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "paused", &obj.Paused)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "expression", &obj.Expression)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_on", &obj.CreatedOn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FilterResp : FilterResp struct
+type FilterResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	Result *FilterObject `json:"result" validate:"required"`
+}
+
+// UnmarshalFilterResp unmarshals an instance of FilterResp from the specified map of raw messages.
+func UnmarshalFilterResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FilterResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalFilterObject)
 	if err != nil {
 		return
 	}
@@ -1164,6 +1394,89 @@ func UnmarshalFilterUpdateInput(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "paused", &obj.Paused)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FiltersResp : FiltersResp struct
+type FiltersResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result []FilterObject `json:"result" validate:"required"`
+}
+
+// UnmarshalFiltersResp unmarshals an instance of FiltersResp from the specified map of raw messages.
+func UnmarshalFiltersResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FiltersResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalFilterObject)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ListFiltersResp : ListFiltersResp struct
+type ListFiltersResp struct {
+	// Operation success flag.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Container for response information.
+	Result []FilterObject `json:"result" validate:"required"`
+
+	// Statistics of results.
+	ResultInfo *ListFiltersRespResultInfo `json:"result_info" validate:"required"`
+}
+
+// UnmarshalListFiltersResp unmarshals an instance of ListFiltersResp from the specified map of raw messages.
+func UnmarshalListFiltersResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ListFiltersResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalFilterObject)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "result_info", &obj.ResultInfo, UnmarshalListFiltersRespResultInfo)
 	if err != nil {
 		return
 	}

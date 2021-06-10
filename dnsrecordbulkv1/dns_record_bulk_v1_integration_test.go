@@ -7,11 +7,11 @@ import (
 	"strings"
 
 	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/networking-go-sdk/dnsrecordbulkv1"
+	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/dnsrecordbulkv1"
-	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
 )
 
 const configFile = "../cis.env"
@@ -132,14 +132,6 @@ var _ = Describe(`DnsRecordBulkV1`, func() {
 				dnsOptions.SetName("host-44.test-example.com")
 				dnsOptions.SetType(dnsrecordsv1.CreateDnsRecordOptions_Type_Ns)
 				dnsOptions.SetContent("domain6.com")
-				result, response, err = dnsTestService.CreateDnsRecord(dnsOptions)
-				Expect(err).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-				dnsOptions = dnsTestService.NewCreateDnsRecordOptions()
-				dnsOptions.SetName("host-55.test-example.com")
-				dnsOptions.SetType(dnsrecordsv1.CreateDnsRecordOptions_Type_Spf)
-				dnsOptions.SetContent("domain7.com")
 				result, response, err = dnsTestService.CreateDnsRecord(dnsOptions)
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
