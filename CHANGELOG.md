@@ -1,3 +1,10 @@
+# [0.17.0](https://github.com/IBM/networking-go-sdk/compare/v0.16.0...v0.17.0) (2021-06-17)
+
+
+### Features
+
+* GRE tunnel support for Transit Gateway ([#47](https://github.com/IBM/networking-go-sdk/issues/47)) ([95e8d11](https://github.com/IBM/networking-go-sdk/commit/95e8d116b8f0802b1b45feb32b6f8d7c22d8b1af))
+
 # [0.16.0](https://github.com/IBM/networking-go-sdk/compare/v0.15.0...v0.16.0) (2021-06-09)
 
 
