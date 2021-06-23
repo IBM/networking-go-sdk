@@ -1220,4 +1220,100 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
+
+	Describe("BGP MD5", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		crossConnectRouter := "LAB-xcr01.dal09"
+		global := true
+		locationName := os.Getenv("LOCATION_NAME")
+		speedMbps := int64(1000)
+		metered := false
+		carrierName := "carrier1"
+		customerName := "customer1"
+		gatewayType := "dedicated"
+		authCrn := os.Getenv("AUTHENTICATION_KEY")
+
+		Context("Create a Gateway with Authentication Key", func() {
+			It("should successfully create a gateway", func() {
+				shouldSkipTest()
+
+				// gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				authenticationKey, _ := service.NewGatewayTemplateAuthenticationKey(authCrn)
+
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.AuthenticationKey = authenticationKey
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
+				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.Metered = core.BoolPtr(false)
+				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+
+				result, resp, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
+
+				os.Setenv("GATEWAY_ID", *result.ID)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.AuthenticationKey.Crn).To(Equal(authCrn))
+				Expect(*result.BgpAsn).To(Equal(bgpAsn))
+				Expect(*result.Global).To(Equal(global))
+				Expect(*result.Metered).To(Equal(metered))
+				Expect(*result.SpeedMbps).To(Equal(speedMbps))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.Crn).To(HavePrefix("crn:v1"))
+				Expect(*result.LinkStatus).To(Equal("down"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+
+			})
+		})
+
+		Context("Update the Authentication key for the gateway", func() {
+			It("should successfully clear the auth key", func() {
+				authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetAuthenticationKey(authKey)
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(res.AuthenticationKey).To(BeNil())
+				Expect(*res.Name).To(Equal(gatewayName))
+			})
+		})
+
+		Context("Delete a gateway", func() {
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
 })
