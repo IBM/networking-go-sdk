@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v5/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/firewallrulesv1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/firewallrulesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`FirewallRulesV1`, func() {
@@ -163,7 +164,55 @@ var _ = Describe(`FirewallRulesV1`, func() {
 			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
+	Describe(`ListAllFirewallRules(listAllFirewallRulesOptions *ListAllFirewallRulesOptions) - Operation response error`, func() {
+		listAllFirewallRulesPath := "/v1/testString/zones/testString/firewall/rules"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listAllFirewallRulesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListAllFirewallRules with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the ListAllFirewallRulesOptions model
+				listAllFirewallRulesOptionsModel := new(firewallrulesv1.ListAllFirewallRulesOptions)
+				listAllFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				listAllFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
+				listAllFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listAllFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.ListAllFirewallRules(listAllFirewallRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.ListAllFirewallRules(listAllFirewallRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ListAllFirewallRules(listAllFirewallRulesOptions *ListAllFirewallRulesOptions)`, func() {
 		listAllFirewallRulesPath := "/v1/testString/zones/testString/firewall/rules"
 		Context(`Using mock server endpoint with timeout`, func() {
@@ -177,15 +226,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke ListAllFirewallRules successfully with retries`, func() {
@@ -202,7 +249,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				listAllFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				listAllFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -241,12 +287,10 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}`)
 				}))
 			})
 			It(`Invoke ListAllFirewallRules successfully`, func() {
@@ -268,7 +312,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				listAllFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				listAllFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -291,7 +334,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				listAllFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				listAllFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				listAllFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := firewallRulesService.SetServiceURL("")
@@ -313,136 +355,103 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		It(`Instantiate service client`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-			})
-			Expect(firewallRulesService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "https://firewallrulesv1/api",
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListAllFirewallRules successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(firewallRulesService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-					URL: "https://testService/api",
-				})
 				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
+				// Construct an instance of the ListAllFirewallRulesOptions model
+				listAllFirewallRulesOptionsModel := new(firewallrulesv1.ListAllFirewallRulesOptions)
+				listAllFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				listAllFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
+				listAllFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listAllFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.ListAllFirewallRules(listAllFirewallRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
-				err := firewallRulesService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = firewallrulesv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+	Describe(`CreateFirewallRules(createFirewallRulesOptions *CreateFirewallRulesOptions) - Operation response error`, func() {
+		createFirewallRulesPath := "/v1/testString/zones/testString/firewall/rules"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createFirewallRulesPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateFirewallRules with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
+				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
+				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+
+				// Construct an instance of the FirewallRuleInputWithFilterID model
+				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
+				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
+				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+
+				// Construct an instance of the CreateFirewallRulesOptions model
+				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
+				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
+				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.CreateFirewallRules(createFirewallRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.CreateFirewallRules(createFirewallRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
 		})
 	})
-
 	Describe(`CreateFirewallRules(createFirewallRulesOptions *CreateFirewallRulesOptions)`, func() {
 		createFirewallRulesPath := "/v1/testString/zones/testString/firewall/rules"
 		Context(`Using mock server endpoint with timeout`, func() {
@@ -472,15 +481,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}]}`)
 				}))
 			})
 			It(`Invoke CreateFirewallRules successfully with retries`, func() {
@@ -507,7 +514,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -563,12 +569,10 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}]}`)
 				}))
 			})
 			It(`Invoke CreateFirewallRules successfully`, func() {
@@ -600,7 +604,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -634,7 +637,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -657,136 +659,116 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		It(`Instantiate service client`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-			})
-			Expect(firewallRulesService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "https://firewallrulesv1/api",
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateFirewallRules successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(firewallRulesService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-					URL: "https://testService/api",
-				})
 				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
+				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
+				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
+				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+
+				// Construct an instance of the FirewallRuleInputWithFilterID model
+				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
+				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
+				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+
+				// Construct an instance of the CreateFirewallRulesOptions model
+				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
+				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
+				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.CreateFirewallRules(createFirewallRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
-				err := firewallRulesService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = firewallrulesv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+	Describe(`UpdateFirewllRules(updateFirewllRulesOptions *UpdateFirewllRulesOptions) - Operation response error`, func() {
+		updateFirewllRulesPath := "/v1/testString/zones/testString/firewall/rules"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateFirewllRulesPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateFirewllRules with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the FirewallRulesUpdateInputItemFilter model
+				firewallRulesUpdateInputItemFilterModel := new(firewallrulesv1.FirewallRulesUpdateInputItemFilter)
+				firewallRulesUpdateInputItemFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+
+				// Construct an instance of the FirewallRulesUpdateInputItem model
+				firewallRulesUpdateInputItemModel := new(firewallrulesv1.FirewallRulesUpdateInputItem)
+				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
+				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
+				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
+				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
+
+				// Construct an instance of the UpdateFirewllRulesOptions model
+				updateFirewllRulesOptionsModel := new(firewallrulesv1.UpdateFirewllRulesOptions)
+				updateFirewllRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				updateFirewllRulesOptionsModel.Crn = core.StringPtr("testString")
+				updateFirewllRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem = []firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}
+				updateFirewllRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.UpdateFirewllRules(updateFirewllRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.UpdateFirewllRules(updateFirewllRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
 		})
 	})
-
 	Describe(`UpdateFirewllRules(updateFirewllRulesOptions *UpdateFirewllRulesOptions)`, func() {
 		updateFirewllRulesPath := "/v1/testString/zones/testString/firewall/rules"
 		Context(`Using mock server endpoint with timeout`, func() {
@@ -816,15 +798,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}]}`)
 				}))
 			})
 			It(`Invoke UpdateFirewllRules successfully with retries`, func() {
@@ -853,7 +833,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewllRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.Crn = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				updateFirewllRulesOptionsModel.Accept = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem = []firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}
 				updateFirewllRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -909,12 +888,10 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}]}`)
 				}))
 			})
 			It(`Invoke UpdateFirewllRules successfully`, func() {
@@ -948,7 +925,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewllRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.Crn = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				updateFirewllRulesOptionsModel.Accept = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem = []firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}
 				updateFirewllRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -984,7 +960,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewllRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.Crn = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				updateFirewllRulesOptionsModel.Accept = core.StringPtr("testString")
 				updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem = []firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}
 				updateFirewllRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1007,136 +982,107 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		It(`Instantiate service client`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-			})
-			Expect(firewallRulesService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "https://firewallrulesv1/api",
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateFirewllRules successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(firewallRulesService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-					URL: "https://testService/api",
-				})
 				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
+				// Construct an instance of the FirewallRulesUpdateInputItemFilter model
+				firewallRulesUpdateInputItemFilterModel := new(firewallrulesv1.FirewallRulesUpdateInputItemFilter)
+				firewallRulesUpdateInputItemFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+
+				// Construct an instance of the FirewallRulesUpdateInputItem model
+				firewallRulesUpdateInputItemModel := new(firewallrulesv1.FirewallRulesUpdateInputItem)
+				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
+				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
+				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
+				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
+
+				// Construct an instance of the UpdateFirewllRulesOptions model
+				updateFirewllRulesOptionsModel := new(firewallrulesv1.UpdateFirewllRulesOptions)
+				updateFirewllRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				updateFirewllRulesOptionsModel.Crn = core.StringPtr("testString")
+				updateFirewllRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem = []firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}
+				updateFirewllRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.UpdateFirewllRules(updateFirewllRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
-				err := firewallRulesService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = firewallrulesv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+	Describe(`DeleteFirewallRules(deleteFirewallRulesOptions *DeleteFirewallRulesOptions) - Operation response error`, func() {
+		deleteFirewallRulesPath := "/v1/testString/zones/testString/firewall/rules"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFirewallRulesPath))
+					Expect(req.Method).To(Equal("DELETE"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["id"]).To(Equal([]string{"f2d427378e7542acb295380d352e2ebd"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke DeleteFirewallRules with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteFirewallRulesOptions model
+				deleteFirewallRulesOptionsModel := new(firewallrulesv1.DeleteFirewallRulesOptions)
+				deleteFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRulesOptionsModel.ID = core.StringPtr("f2d427378e7542acb295380d352e2ebd")
+				deleteFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.DeleteFirewallRules(deleteFirewallRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.DeleteFirewallRules(deleteFirewallRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
 		})
 	})
-
 	Describe(`DeleteFirewallRules(deleteFirewallRulesOptions *DeleteFirewallRulesOptions)`, func() {
 		deleteFirewallRulesPath := "/v1/testString/zones/testString/firewall/rules"
 		Context(`Using mock server endpoint with timeout`, func() {
@@ -1150,16 +1096,14 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["id"]).To(Equal([]string{"f2d427378e7542acb295380d352e2ebd"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f2d427378e7542acb295380d352e2ebd"}]}`)
 				}))
 			})
 			It(`Invoke DeleteFirewallRules successfully with retries`, func() {
@@ -1177,7 +1121,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				deleteFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.ID = core.StringPtr("f2d427378e7542acb295380d352e2ebd")
-				deleteFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1216,13 +1159,11 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["id"]).To(Equal([]string{"f2d427378e7542acb295380d352e2ebd"}))
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f2d427378e7542acb295380d352e2ebd"}]}`)
 				}))
 			})
 			It(`Invoke DeleteFirewallRules successfully`, func() {
@@ -1245,7 +1186,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				deleteFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.ID = core.StringPtr("f2d427378e7542acb295380d352e2ebd")
-				deleteFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1269,7 +1209,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				deleteFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.ID = core.StringPtr("f2d427378e7542acb295380d352e2ebd")
-				deleteFirewallRulesOptionsModel.Accept = core.StringPtr("testString")
 				deleteFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := firewallRulesService.SetServiceURL("")
@@ -1291,136 +1230,327 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		It(`Instantiate service client`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-			})
-			Expect(firewallRulesService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "https://firewallrulesv1/api",
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke DeleteFirewallRules successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(firewallRulesService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-					URL: "https://testService/api",
-				})
 				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
+				// Construct an instance of the DeleteFirewallRulesOptions model
+				deleteFirewallRulesOptionsModel := new(firewallrulesv1.DeleteFirewallRulesOptions)
+				deleteFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRulesOptionsModel.ID = core.StringPtr("f2d427378e7542acb295380d352e2ebd")
+				deleteFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.DeleteFirewallRules(deleteFirewallRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteFirewallRule(deleteFirewallRuleOptions *DeleteFirewallRuleOptions) - Operation response error`, func() {
+		deleteFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFirewallRulePath))
+					Expect(req.Method).To(Equal("DELETE"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke DeleteFirewallRule with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				err := firewallRulesService.SetServiceURL("https://testService/api")
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteFirewallRuleOptions model
+				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
+				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteFirewallRule(deleteFirewallRuleOptions *DeleteFirewallRuleOptions)`, func() {
+		deleteFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFirewallRulePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f2d427378e7542acb295380d352e2ebd"}}`)
+				}))
+			})
+			It(`Invoke DeleteFirewallRule successfully with retries`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+				firewallRulesService.EnableRetries(0, 0)
+
+				// Construct an instance of the DeleteFirewallRuleOptions model
+				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
+				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := firewallRulesService.DeleteFirewallRuleWithContext(ctx, deleteFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				firewallRulesService.DisableRetries()
+				result, response, operationErr := firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = firewallRulesService.DeleteFirewallRuleWithContext(ctx, deleteFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFirewallRulePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f2d427378e7542acb295380d352e2ebd"}}`)
+				}))
+			})
+			It(`Invoke DeleteFirewallRule successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := firewallRulesService.DeleteFirewallRule(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the DeleteFirewallRuleOptions model
+				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
+				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke DeleteFirewallRule with error: Operation validation and request error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteFirewallRuleOptions model
+				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
+				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := firewallRulesService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
+				result, response, operationErr := firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the DeleteFirewallRuleOptions model with no property values
+				deleteFirewallRuleOptionsModelNew := new(firewallrulesv1.DeleteFirewallRuleOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke DeleteFirewallRule successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
 				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				Expect(firewallRulesService).ToNot(BeNil())
 
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
+				// Construct an instance of the DeleteFirewallRuleOptions model
+				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
+				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = firewallrulesv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+	Describe(`GetFirewallRule(getFirewallRuleOptions *GetFirewallRuleOptions) - Operation response error`, func() {
+		getFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getFirewallRulePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetFirewallRule with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the GetFirewallRuleOptions model
+				getFirewallRuleOptionsModel := new(firewallrulesv1.GetFirewallRuleOptions)
+				getFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.GetFirewallRule(getFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.GetFirewallRule(getFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
 		})
 	})
-
 	Describe(`GetFirewallRule(getFirewallRuleOptions *GetFirewallRuleOptions)`, func() {
 		getFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
 		Context(`Using mock server endpoint with timeout`, func() {
@@ -1434,15 +1564,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}}`)
 				}))
 			})
 			It(`Invoke GetFirewallRule successfully with retries`, func() {
@@ -1460,7 +1588,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				getFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				getFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1499,12 +1626,10 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}}`)
 				}))
 			})
 			It(`Invoke GetFirewallRule successfully`, func() {
@@ -1527,7 +1652,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				getFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				getFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1551,7 +1675,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				getFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				getFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
 				getFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := firewallRulesService.SetServiceURL("")
@@ -1573,136 +1696,102 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		It(`Instantiate service client`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-			})
-			Expect(firewallRulesService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "https://firewallrulesv1/api",
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetFirewallRule successfully`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
 				})
-				Expect(firewallRulesService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-					URL: "https://testService/api",
-				})
 				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
+				// Construct an instance of the GetFirewallRuleOptions model
+				getFirewallRuleOptionsModel := new(firewallrulesv1.GetFirewallRuleOptions)
+				getFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				getFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.GetFirewallRule(getFirewallRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
-				err := firewallRulesService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = firewallrulesv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+	Describe(`UpdateFirewallRule(updateFirewallRuleOptions *UpdateFirewallRuleOptions) - Operation response error`, func() {
+		updateFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateFirewallRulePath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
+					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateFirewallRule with error: Operation response processing error`, func() {
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(firewallRulesService).ToNot(BeNil())
+
+				// Construct an instance of the FirewallRuleUpdateInputFilter model
+				firewallRuleUpdateInputFilterModel := new(firewallrulesv1.FirewallRuleUpdateInputFilter)
+				firewallRuleUpdateInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+
+				// Construct an instance of the UpdateFirewallRuleOptions model
+				updateFirewallRuleOptionsModel := new(firewallrulesv1.UpdateFirewallRuleOptions)
+				updateFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
+				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
+				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
+				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := firewallRulesService.UpdateFirewallRule(updateFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				firewallRulesService.EnableRetries(0, 0)
+				result, response, operationErr = firewallRulesService.UpdateFirewallRule(updateFirewallRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
 		})
 	})
-
 	Describe(`UpdateFirewallRule(updateFirewallRuleOptions *UpdateFirewallRuleOptions)`, func() {
 		updateFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
 		Context(`Using mock server endpoint with timeout`, func() {
@@ -1732,15 +1821,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateFirewallRule successfully with retries`, func() {
@@ -1762,7 +1849,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				updateFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
@@ -1821,12 +1907,10 @@ var _ = Describe(`FirewallRulesV1`, func() {
 
 					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "52161eb6af4241bb9d4b32394be72fdf", "paused": false, "description": "JS challenge site", "action": "js_challenge", "filter": {"id": "6f58318e7fa2477a23112e8118c66f61", "paused": true, "description": "Login from office", "expression": "ip.src eq 93.184.216.0 and (http.request.uri.path ~ \"^.*/wp-login.php$\" or http.request.uri.path ~ \"^.*/xmlrpc.php$\")"}, "created_on": "2019-01-01T05:20:00.123Z", "modified_on": "2019-01-01T05:20:00.123Z"}}`)
 				}))
 			})
 			It(`Invoke UpdateFirewallRule successfully`, func() {
@@ -1853,7 +1937,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				updateFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
@@ -1885,7 +1968,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				updateFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
@@ -1911,282 +1993,45 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		It(`Instantiate service client`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-			})
-			Expect(firewallRulesService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "https://firewallrulesv1/api",
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(firewallRulesService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "noauth",
-			}
-
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-					URL: "https://testService/api",
-				})
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
-				err := firewallRulesService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := firewallRulesService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != firewallRulesService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(firewallRulesService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(firewallRulesService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
-				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				URL: "{BAD_URL_STRING",
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(firewallRulesService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = firewallrulesv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
-		})
-	})
-
-	Describe(`DeleteFirewallRule(deleteFirewallRuleOptions *DeleteFirewallRuleOptions)`, func() {
-		deleteFirewallRulePath := "/v1/testString/zones/testString/firewall/rules/testString"
-		Context(`Using mock server endpoint with timeout`, func() {
+		Context(`Using mock server endpoint with missing response body`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(deleteFirewallRulePath))
-					Expect(req.Method).To(Equal("DELETE"))
-
-					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
-					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "*/*")
+					// Set success status code with no respoonse body
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
 				}))
 			})
-			It(`Invoke DeleteFirewallRule successfully with retries`, func() {
+			It(`Invoke UpdateFirewallRule successfully`, func() {
 				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallRulesService).ToNot(BeNil())
-				firewallRulesService.EnableRetries(0, 0)
 
-				// Construct an instance of the DeleteFirewallRuleOptions model
-				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
-				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the FirewallRuleUpdateInputFilter model
+				firewallRuleUpdateInputFilterModel := new(firewallrulesv1.FirewallRuleUpdateInputFilter)
+				firewallRuleUpdateInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := firewallRulesService.DeleteFirewallRuleWithContext(ctx, deleteFirewallRuleOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				// Construct an instance of the UpdateFirewallRuleOptions model
+				updateFirewallRuleOptionsModel := new(firewallrulesv1.UpdateFirewallRuleOptions)
+				updateFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
+				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
+				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
+				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
+				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-				// Disable retries and test again
-				firewallRulesService.DisableRetries()
-				result, response, operationErr := firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
+				// Invoke operation
+				result, response, operationErr := firewallRulesService.UpdateFirewallRule(updateFirewallRuleOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
 
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = firewallRulesService.DeleteFirewallRuleWithContext(ctx, deleteFirewallRuleOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(deleteFirewallRulePath))
-					Expect(req.Method).To(Equal("DELETE"))
-
-					Expect(req.Header["X-Auth-User-Token"]).ToNot(BeNil())
-					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.Header["Accept"]).ToNot(BeNil())
-					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					// Set mock response
-					res.Header().Set("Content-type", "*/*")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
-				}))
-			})
-			It(`Invoke DeleteFirewallRule successfully`, func() {
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := firewallRulesService.DeleteFirewallRule(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the DeleteFirewallRuleOptions model
-				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
-				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke DeleteFirewallRule with error: Operation validation and request error`, func() {
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1(&firewallrulesv1.FirewallRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(firewallRulesService).ToNot(BeNil())
-
-				// Construct an instance of the DeleteFirewallRuleOptions model
-				deleteFirewallRuleOptionsModel := new(firewallrulesv1.DeleteFirewallRuleOptions)
-				deleteFirewallRuleOptionsModel.XAuthUserToken = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Crn = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Accept = core.StringPtr("testString")
-				deleteFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := firewallRulesService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the DeleteFirewallRuleOptions model with no property values
-				deleteFirewallRuleOptionsModelNew := new(firewallrulesv1.DeleteFirewallRuleOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = firewallRulesService.DeleteFirewallRule(deleteFirewallRuleOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
+				// Verify a nil result
 				Expect(result).To(BeNil())
 			})
 			AfterEach(func() {
@@ -2225,14 +2070,12 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				createFirewallRulesOptionsModel.SetXAuthUserToken("testString")
 				createFirewallRulesOptionsModel.SetCrn("testString")
 				createFirewallRulesOptionsModel.SetZoneIdentifier("testString")
-				createFirewallRulesOptionsModel.SetAccept("testString")
 				createFirewallRulesOptionsModel.SetFirewallRuleInputWithFilterID([]firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel})
 				createFirewallRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createFirewallRulesOptionsModel).ToNot(BeNil())
 				Expect(createFirewallRulesOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(createFirewallRulesOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(createFirewallRulesOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(createFirewallRulesOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID).To(Equal([]firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}))
 				Expect(createFirewallRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -2247,14 +2090,12 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				deleteFirewallRuleOptionsModel.SetCrn("testString")
 				deleteFirewallRuleOptionsModel.SetZoneIdentifier("testString")
 				deleteFirewallRuleOptionsModel.SetFirewallRuleIdentifier("testString")
-				deleteFirewallRuleOptionsModel.SetAccept("testString")
 				deleteFirewallRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteFirewallRuleOptionsModel).ToNot(BeNil())
 				Expect(deleteFirewallRuleOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRuleOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRuleOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRuleOptionsModel.FirewallRuleIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(deleteFirewallRuleOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteFirewallRulesOptions successfully`, func() {
@@ -2268,14 +2109,12 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				deleteFirewallRulesOptionsModel.SetCrn("testString")
 				deleteFirewallRulesOptionsModel.SetZoneIdentifier("testString")
 				deleteFirewallRulesOptionsModel.SetID("f2d427378e7542acb295380d352e2ebd")
-				deleteFirewallRulesOptionsModel.SetAccept("testString")
 				deleteFirewallRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteFirewallRulesOptionsModel).ToNot(BeNil())
 				Expect(deleteFirewallRulesOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRulesOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRulesOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRulesOptionsModel.ID).To(Equal(core.StringPtr("f2d427378e7542acb295380d352e2ebd")))
-				Expect(deleteFirewallRulesOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(deleteFirewallRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewFirewallRuleInputWithFilterIdFilter successfully`, func() {
@@ -2314,14 +2153,12 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				getFirewallRuleOptionsModel.SetCrn("testString")
 				getFirewallRuleOptionsModel.SetZoneIdentifier("testString")
 				getFirewallRuleOptionsModel.SetFirewallRuleIdentifier("testString")
-				getFirewallRuleOptionsModel.SetAccept("testString")
 				getFirewallRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getFirewallRuleOptionsModel).ToNot(BeNil())
 				Expect(getFirewallRuleOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(getFirewallRuleOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(getFirewallRuleOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(getFirewallRuleOptionsModel.FirewallRuleIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(getFirewallRuleOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(getFirewallRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListAllFirewallRulesOptions successfully`, func() {
@@ -2333,13 +2170,11 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				listAllFirewallRulesOptionsModel.SetXAuthUserToken("testString")
 				listAllFirewallRulesOptionsModel.SetCrn("testString")
 				listAllFirewallRulesOptionsModel.SetZoneIdentifier("testString")
-				listAllFirewallRulesOptionsModel.SetAccept("testString")
 				listAllFirewallRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listAllFirewallRulesOptionsModel).ToNot(BeNil())
 				Expect(listAllFirewallRulesOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(listAllFirewallRulesOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(listAllFirewallRulesOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(listAllFirewallRulesOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(listAllFirewallRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateFirewallRuleOptions successfully`, func() {
@@ -2359,7 +2194,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.SetCrn("testString")
 				updateFirewallRuleOptionsModel.SetZoneIdentifier("testString")
 				updateFirewallRuleOptionsModel.SetFirewallRuleIdentifier("testString")
-				updateFirewallRuleOptionsModel.SetAccept("testString")
 				updateFirewallRuleOptionsModel.SetAction("js_challenge")
 				updateFirewallRuleOptionsModel.SetPaused(false)
 				updateFirewallRuleOptionsModel.SetDescription("JS challenge site")
@@ -2370,7 +2204,6 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(updateFirewallRuleOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewallRuleOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewallRuleOptionsModel.FirewallRuleIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(updateFirewallRuleOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewallRuleOptionsModel.Action).To(Equal(core.StringPtr("js_challenge")))
 				Expect(updateFirewallRuleOptionsModel.Paused).To(Equal(core.BoolPtr(false)))
 				Expect(updateFirewallRuleOptionsModel.Description).To(Equal(core.StringPtr("JS challenge site")))
@@ -2406,14 +2239,12 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewllRulesOptionsModel.SetXAuthUserToken("testString")
 				updateFirewllRulesOptionsModel.SetCrn("testString")
 				updateFirewllRulesOptionsModel.SetZoneIdentifier("testString")
-				updateFirewllRulesOptionsModel.SetAccept("testString")
 				updateFirewllRulesOptionsModel.SetFirewallRulesUpdateInputItem([]firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel})
 				updateFirewllRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateFirewllRulesOptionsModel).ToNot(BeNil())
 				Expect(updateFirewllRulesOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewllRulesOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewllRulesOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(updateFirewllRulesOptionsModel.Accept).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem).To(Equal([]firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}))
 				Expect(updateFirewllRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -2439,11 +2270,11 @@ var _ = Describe(`FirewallRulesV1`, func() {
 			Expect(mockReader).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDate() successfully`, func() {
-			mockDate := CreateMockDate()
+			mockDate := CreateMockDate("2019-01-01")
 			Expect(mockDate).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDateTime() successfully`, func() {
-			mockDateTime := CreateMockDateTime()
+			mockDateTime := CreateMockDateTime("2019-01-01T12:00:00.000Z")
 			Expect(mockDateTime).ToNot(BeNil())
 		})
 	})
@@ -2468,13 +2299,19 @@ func CreateMockReader(mockData string) io.ReadCloser {
 	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
-func CreateMockDate() *strfmt.Date {
-	d := strfmt.Date(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDate(mockData string) *strfmt.Date {
+	d, err := core.ParseDate(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
-func CreateMockDateTime() *strfmt.DateTime {
-	d := strfmt.DateTime(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDateTime(mockData string) *strfmt.DateTime {
+	d, err := core.ParseDateTime(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
