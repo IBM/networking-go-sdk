@@ -26,6 +26,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`custompagesv1_test`, func() {
+	Skip("Skipping Tests")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
