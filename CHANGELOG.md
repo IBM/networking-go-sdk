@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/IBM/networking-go-sdk/compare/v0.17.0...v0.18.0) (2021-06-25)
+
+
+### Features
+
+* **DirectLink:** implement BGP MD5 changes ([17b40d2](https://github.com/IBM/networking-go-sdk/commit/17b40d292cea90da468d4a3d439f685ee941a09b))
+
 # [0.17.0](https://github.com/IBM/networking-go-sdk/compare/v0.16.0...v0.17.0) (2021-06-17)
 
 
