@@ -27,6 +27,10 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`zone_settings_v1_test`, func() {
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
+
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}

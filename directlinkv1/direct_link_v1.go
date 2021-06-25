@@ -450,6 +450,9 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
 
 	body := make(map[string]interface{})
+	if updateGatewayOptions.AuthenticationKey != nil {
+		body["authentication_key"] = updateGatewayOptions.AuthenticationKey
+	}
 	if updateGatewayOptions.Global != nil {
 		body["global"] = updateGatewayOptions.Global
 	}
@@ -1464,13 +1467,9 @@ type CreateGatewayActionOptions struct {
 	// Action request.
 	Action *string `validate:"required"`
 
-	// BGP MD5 authentication key.
-	//
-	// BGP MD5 keys must be type=standard.
-	//
+	// The identity of the standard key to use for BGP MD5 authentication key.
 	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
 	// length.
-	//
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayActionTemplateAuthenticationKey
 
@@ -1802,13 +1801,9 @@ func (options *DeleteGatewayVirtualConnectionOptions) SetHeaders(param map[strin
 
 // Gateway : gateway.
 type Gateway struct {
-	// BGP MD5 authentication key.
-	//
-	// BGP MD5 keys must be type=standard.
-	//
+	// The identity of the standard key to use for BGP MD5 authentication key.
 	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
 	// length.
-	//
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
@@ -2075,16 +2070,13 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 	return
 }
 
-// GatewayActionTemplateAuthenticationKey : BGP MD5 authentication key.
-//
-// BGP MD5 keys must be type=standard.
-//
-// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
-// length.
-//
-// To clear the optional `authentication_key` field patch its crn to `""`.
+// GatewayActionTemplateAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
 type GatewayActionTemplateAuthenticationKey struct {
-	// connectivity association key crn.
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
 	Crn *string `json:"crn" validate:"required"`
 }
 
@@ -2135,16 +2127,13 @@ func UnmarshalGatewayActionTemplateUpdatesItem(m map[string]json.RawMessage, res
 	return
 }
 
-// GatewayAuthenticationKey : BGP MD5 authentication key.
-//
-// BGP MD5 keys must be type=standard.
-//
-// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
-// length.
-//
-// To clear the optional `authentication_key` field patch its crn to `""`.
+// GatewayAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
 type GatewayAuthenticationKey struct {
-	// connectivity association key crn.
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
 	Crn *string `json:"crn" validate:"required"`
 }
 
@@ -2712,6 +2701,36 @@ func UnmarshalGatewayMacsecConfigTemplatePrimaryCak(m map[string]json.RawMessage
 	return
 }
 
+// GatewayPatchTemplateAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
+type GatewayPatchTemplateAuthenticationKey struct {
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayPatchTemplateAuthenticationKey : Instantiate GatewayPatchTemplateAuthenticationKey (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayPatchTemplateAuthenticationKey(crn string) (model *GatewayPatchTemplateAuthenticationKey, err error) {
+	model = &GatewayPatchTemplateAuthenticationKey{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayPatchTemplateAuthenticationKey unmarshals an instance of GatewayPatchTemplateAuthenticationKey from the specified map of raw messages.
+func UnmarshalGatewayPatchTemplateAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayPatchTemplateAuthenticationKey)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GatewayPort : gateway port for type=connect gateways.
 type GatewayPort struct {
 	// Port Identifier.
@@ -2816,6 +2835,12 @@ func UnmarshalGatewayStatisticCollection(m map[string]json.RawMessage, result in
 // - GatewayTemplateGatewayTypeDedicatedTemplate
 // - GatewayTemplateGatewayTypeConnectTemplate
 type GatewayTemplate struct {
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
+
 	// BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
 
@@ -2904,6 +2929,10 @@ type GatewayTemplateIntf interface {
 // UnmarshalGatewayTemplate unmarshals an instance of GatewayTemplate from the specified map of raw messages.
 func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayTemplate)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayTemplateAuthenticationKey)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
@@ -2965,6 +2994,36 @@ func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayTemplateAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
+type GatewayTemplateAuthenticationKey struct {
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayTemplateAuthenticationKey : Instantiate GatewayTemplateAuthenticationKey (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayTemplateAuthenticationKey(crn string) (model *GatewayTemplateAuthenticationKey, err error) {
+	model = &GatewayTemplateAuthenticationKey{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayTemplateAuthenticationKey unmarshals an instance of GatewayTemplateAuthenticationKey from the specified map of raw messages.
+func UnmarshalGatewayTemplateAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayTemplateAuthenticationKey)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
 		return
 	}
@@ -3854,6 +3913,12 @@ type UpdateGatewayOptions struct {
 	// Direct Link gateway identifier.
 	ID *string `validate:"required,ne="`
 
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayPatchTemplateAuthenticationKey
+
 	// Gateways with global routing (`true`) can connect to networks outside of their associated region.
 	Global *bool
 
@@ -3912,6 +3977,12 @@ func (*DirectLinkV1) NewUpdateGatewayOptions(id string) *UpdateGatewayOptions {
 // SetID : Allow user to set ID
 func (options *UpdateGatewayOptions) SetID(id string) *UpdateGatewayOptions {
 	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetAuthenticationKey : Allow user to set AuthenticationKey
+func (options *UpdateGatewayOptions) SetAuthenticationKey(authenticationKey *GatewayPatchTemplateAuthenticationKey) *UpdateGatewayOptions {
+	options.AuthenticationKey = authenticationKey
 	return options
 }
 
@@ -4191,6 +4262,8 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributes(m map[str
 // GatewayTemplateGatewayTypeConnectTemplate : Gateway fields specific to type=connect gateway create.
 // This model "extends" GatewayTemplate
 type GatewayTemplateGatewayTypeConnectTemplate struct {
+	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
+
 	// BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
 
@@ -4273,6 +4346,10 @@ func (*GatewayTemplateGatewayTypeConnectTemplate) isaGatewayTemplate() bool {
 // UnmarshalGatewayTemplateGatewayTypeConnectTemplate unmarshals an instance of GatewayTemplateGatewayTypeConnectTemplate from the specified map of raw messages.
 func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayTemplateGatewayTypeConnectTemplate)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayTemplateAuthenticationKey)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
@@ -4324,6 +4401,8 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 // GatewayTemplateGatewayTypeDedicatedTemplate : Gateway fields specific to type=dedicated gateway create.
 // This model "extends" GatewayTemplate
 type GatewayTemplateGatewayTypeDedicatedTemplate struct {
+	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
+
 	// BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
 
@@ -4421,6 +4500,10 @@ func (*GatewayTemplateGatewayTypeDedicatedTemplate) isaGatewayTemplate() bool {
 // UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate unmarshals an instance of GatewayTemplateGatewayTypeDedicatedTemplate from the specified map of raw messages.
 func UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayTemplateGatewayTypeDedicatedTemplate)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayTemplateAuthenticationKey)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
