@@ -23,6 +23,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`DNSRecordsV1`, func() {
+	Skip("Skipping Tests")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}

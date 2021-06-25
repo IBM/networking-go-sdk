@@ -5,10 +5,10 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/v4/core"
+	. "github.com/IBM/networking-go-sdk/edgefunctionsapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/edgefunctionsapiv1"
 )
 
 const configFile = "../cis.env"
@@ -22,6 +22,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`edgefunctionsapiv1_test`, func() {
+	Skip("Skipping Tests")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}

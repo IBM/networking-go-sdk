@@ -89,6 +89,7 @@ func createFilters(options *filterv1.FiltersV1Options, xAuthUserToken string, cr
 }
 
 var _ = Describe(`firewallapiv1_test`, func() {
+	Skip("Skipping Tests")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
