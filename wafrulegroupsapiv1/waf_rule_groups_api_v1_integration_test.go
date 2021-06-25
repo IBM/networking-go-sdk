@@ -27,7 +27,10 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`wafrulegroupsapiv1_test`, func() {
-	Skip("Skipping Tests")
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
+
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}

@@ -30,7 +30,10 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`GlobalLoadBalancerV1`, func() {
-	Skip("Skipping Tests")
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
+
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
