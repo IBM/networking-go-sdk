@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1908,6 +1908,303 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateResourceRecordOptionsModelNew := new(dnssvcsv1.UpdateResourceRecordOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = dnsSvcsService.UpdateResourceRecord(updateResourceRecordOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ExportResourceRecords(exportResourceRecordsOptions *ExportResourceRecordsOptions)`, func() {
+		exportResourceRecordsPath := "/instances/testString/dnszones/testString/export_resource_records"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(exportResourceRecordsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "text/plain; charset=utf-8")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `This is a mock binary response.`)
+				}))
+			})
+			It(`Invoke ExportResourceRecords successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ExportResourceRecords(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ExportResourceRecordsOptions model
+				exportResourceRecordsOptionsModel := new(dnssvcsv1.ExportResourceRecordsOptions)
+				exportResourceRecordsOptionsModel.InstanceID = core.StringPtr("testString")
+				exportResourceRecordsOptionsModel.DnszoneID = core.StringPtr("testString")
+				exportResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				exportResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ExportResourceRecords(exportResourceRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ExportResourceRecordsWithContext(ctx, exportResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ExportResourceRecords(exportResourceRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ExportResourceRecordsWithContext(ctx, exportResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke ExportResourceRecords with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ExportResourceRecordsOptions model
+				exportResourceRecordsOptionsModel := new(dnssvcsv1.ExportResourceRecordsOptions)
+				exportResourceRecordsOptionsModel.InstanceID = core.StringPtr("testString")
+				exportResourceRecordsOptionsModel.DnszoneID = core.StringPtr("testString")
+				exportResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				exportResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ExportResourceRecords(exportResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ExportResourceRecordsOptions model with no property values
+				exportResourceRecordsOptionsModelNew := new(dnssvcsv1.ExportResourceRecordsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ExportResourceRecords(exportResourceRecordsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ImportResourceRecords(importResourceRecordsOptions *ImportResourceRecordsOptions) - Operation response error`, func() {
+		importResourceRecordsPath := "/instances/testString/dnszones/testString/import_resource_records"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(importResourceRecordsPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ImportResourceRecords with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ImportResourceRecordsOptions model
+				importResourceRecordsOptionsModel := new(dnssvcsv1.ImportResourceRecordsOptions)
+				importResourceRecordsOptionsModel.InstanceID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.DnszoneID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.File = CreateMockReader("This is a mock file.")
+				importResourceRecordsOptionsModel.FileContentType = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ImportResourceRecords(importResourceRecordsOptions *ImportResourceRecordsOptions)`, func() {
+		importResourceRecordsPath := "/instances/testString/dnszones/testString/import_resource_records"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(importResourceRecordsPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"total_records_parsed": 10, "records_added": 2, "records_failed": 0, "records_added_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "records_failed_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "messages": [{"code": "conflict", "message": "A type record conflict with other records"}], "errors": [{"resource_record": "test.example.com A 1.1.1.1", "error": {"code": "internal_server_error", "message": "An internal error occurred. Try again later."}}]}`)
+				}))
+			})
+			It(`Invoke ImportResourceRecords successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ImportResourceRecords(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ImportResourceRecordsOptions model
+				importResourceRecordsOptionsModel := new(dnssvcsv1.ImportResourceRecordsOptions)
+				importResourceRecordsOptionsModel.InstanceID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.DnszoneID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.File = CreateMockReader("This is a mock file.")
+				importResourceRecordsOptionsModel.FileContentType = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ImportResourceRecordsWithContext(ctx, importResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ImportResourceRecordsWithContext(ctx, importResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke ImportResourceRecords with error: Param validation error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:  testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ImportResourceRecordsOptions model
+				importResourceRecordsOptionsModel := new(dnssvcsv1.ImportResourceRecordsOptions)
+				// Invoke operation with invalid options model (negative test)
+				result, response, operationErr := dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			It(`Invoke ImportResourceRecords with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ImportResourceRecordsOptions model
+				importResourceRecordsOptionsModel := new(dnssvcsv1.ImportResourceRecordsOptions)
+				importResourceRecordsOptionsModel.InstanceID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.DnszoneID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.File = CreateMockReader("This is a mock file.")
+				importResourceRecordsOptionsModel.FileContentType = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				importResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ImportResourceRecordsOptions model with no property values
+				importResourceRecordsOptionsModelNew := new(dnssvcsv1.ImportResourceRecordsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ImportResourceRecords(importResourceRecordsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -5689,11 +5986,2475 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
+	Describe(`Service constructor tests`, func() {
+		It(`Instantiate service client`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				Authenticator: &core.NoAuthAuthenticator{},
+			})
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid URL`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "{BAD_URL_STRING",
+			})
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid Auth`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "https://dnssvcsv1/api",
+				Authenticator: &core.BasicAuthenticator{
+					Username: "",
+					Password: "",
+				},
+			})
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+	})
+	Describe(`Service constructor tests using external config`, func() {
+		Context(`Using external config, construct service client instances`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
+				"DNS_SVCS_AUTH_TYPE": "noauth",
+			}
+
+			It(`Create service client using external config successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+			It(`Create service client using external config and set url from constructor successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+					URL: "https://testService/api",
+				})
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+			It(`Create service client using external config and set url programatically successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
+				Expect(err).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
+				"DNS_SVCS_AUTH_TYPE": "someOtherAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_AUTH_TYPE":   "NOAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "{BAD_URL_STRING",
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+		})
+	})
+	Describe(`ListCustomResolvers(listCustomResolversOptions *ListCustomResolversOptions) - Operation response error`, func() {
+		listCustomResolversPath := "/instances/testString/custom_resolvers"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listCustomResolversPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListCustomResolvers with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListCustomResolversOptions model
+				listCustomResolversOptionsModel := new(dnssvcsv1.ListCustomResolversOptions)
+				listCustomResolversOptionsModel.InstanceID = core.StringPtr("testString")
+				listCustomResolversOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listCustomResolversOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListCustomResolvers(listCustomResolversOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListCustomResolvers(listCustomResolversOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ListCustomResolvers(listCustomResolversOptions *ListCustomResolversOptions)`, func() {
+		listCustomResolversPath := "/instances/testString/custom_resolvers"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listCustomResolversPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}]}`)
+				}))
+			})
+			It(`Invoke ListCustomResolvers successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListCustomResolvers(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListCustomResolversOptions model
+				listCustomResolversOptionsModel := new(dnssvcsv1.ListCustomResolversOptions)
+				listCustomResolversOptionsModel.InstanceID = core.StringPtr("testString")
+				listCustomResolversOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listCustomResolversOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListCustomResolvers(listCustomResolversOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListCustomResolversWithContext(ctx, listCustomResolversOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListCustomResolvers(listCustomResolversOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListCustomResolversWithContext(ctx, listCustomResolversOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke ListCustomResolvers with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListCustomResolversOptions model
+				listCustomResolversOptionsModel := new(dnssvcsv1.ListCustomResolversOptions)
+				listCustomResolversOptionsModel.InstanceID = core.StringPtr("testString")
+				listCustomResolversOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listCustomResolversOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ListCustomResolvers(listCustomResolversOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListCustomResolversOptions model with no property values
+				listCustomResolversOptionsModelNew := new(dnssvcsv1.ListCustomResolversOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListCustomResolvers(listCustomResolversOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateCustomResolver(createCustomResolverOptions *CreateCustomResolverOptions) - Operation response error`, func() {
+		createCustomResolverPath := "/instances/testString/custom_resolvers"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createCustomResolverPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateCustomResolver with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the LocationInput model
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				locationInputModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				locationInputModel.Enabled = core.BoolPtr(false)
+
+				// Construct an instance of the CreateCustomResolverOptions model
+				createCustomResolverOptionsModel := new(dnssvcsv1.CreateCustomResolverOptions)
+				createCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
+				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
+				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.CreateCustomResolver(createCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateCustomResolver(createCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`CreateCustomResolver(createCustomResolverOptions *CreateCustomResolverOptions)`, func() {
+		createCustomResolverPath := "/instances/testString/custom_resolvers"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createCustomResolverPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}`)
+				}))
+			})
+			It(`Invoke CreateCustomResolver successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.CreateCustomResolver(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the LocationInput model
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				locationInputModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				locationInputModel.Enabled = core.BoolPtr(false)
+
+				// Construct an instance of the CreateCustomResolverOptions model
+				createCustomResolverOptionsModel := new(dnssvcsv1.CreateCustomResolverOptions)
+				createCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
+				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
+				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.CreateCustomResolver(createCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateCustomResolverWithContext(ctx, createCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreateCustomResolver(createCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateCustomResolverWithContext(ctx, createCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke CreateCustomResolver with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the LocationInput model
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				locationInputModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				locationInputModel.Enabled = core.BoolPtr(false)
+
+				// Construct an instance of the CreateCustomResolverOptions model
+				createCustomResolverOptionsModel := new(dnssvcsv1.CreateCustomResolverOptions)
+				createCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
+				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
+				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.CreateCustomResolver(createCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateCustomResolverOptions model with no property values
+				createCustomResolverOptionsModelNew := new(dnssvcsv1.CreateCustomResolverOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.CreateCustomResolver(createCustomResolverOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`DeleteCustomResolver(deleteCustomResolverOptions *DeleteCustomResolverOptions)`, func() {
+		deleteCustomResolverPath := "/instances/testString/custom_resolvers/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteCustomResolverPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteCustomResolver successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := dnsSvcsService.DeleteCustomResolver(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteCustomResolverOptions model
+				deleteCustomResolverOptionsModel := new(dnssvcsv1.DeleteCustomResolverOptions)
+				deleteCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = dnsSvcsService.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteCustomResolver with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteCustomResolverOptions model
+				deleteCustomResolverOptionsModel := new(dnssvcsv1.DeleteCustomResolverOptions)
+				deleteCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := dnsSvcsService.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteCustomResolverOptions model with no property values
+				deleteCustomResolverOptionsModelNew := new(dnssvcsv1.DeleteCustomResolverOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = dnsSvcsService.DeleteCustomResolver(deleteCustomResolverOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetCustomResolver(getCustomResolverOptions *GetCustomResolverOptions) - Operation response error`, func() {
+		getCustomResolverPath := "/instances/testString/custom_resolvers/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getCustomResolverPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetCustomResolver with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetCustomResolverOptions model
+				getCustomResolverOptionsModel := new(dnssvcsv1.GetCustomResolverOptions)
+				getCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetCustomResolver(getCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetCustomResolver(getCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetCustomResolver(getCustomResolverOptions *GetCustomResolverOptions)`, func() {
+		getCustomResolverPath := "/instances/testString/custom_resolvers/testString"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getCustomResolverPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}`)
+				}))
+			})
+			It(`Invoke GetCustomResolver successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetCustomResolver(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetCustomResolverOptions model
+				getCustomResolverOptionsModel := new(dnssvcsv1.GetCustomResolverOptions)
+				getCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetCustomResolver(getCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetCustomResolverWithContext(ctx, getCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetCustomResolver(getCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetCustomResolverWithContext(ctx, getCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke GetCustomResolver with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetCustomResolverOptions model
+				getCustomResolverOptionsModel := new(dnssvcsv1.GetCustomResolverOptions)
+				getCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.GetCustomResolver(getCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetCustomResolverOptions model with no property values
+				getCustomResolverOptionsModelNew := new(dnssvcsv1.GetCustomResolverOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetCustomResolver(getCustomResolverOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateCustomResolver(updateCustomResolverOptions *UpdateCustomResolverOptions) - Operation response error`, func() {
+		updateCustomResolverPath := "/instances/testString/custom_resolvers/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCustomResolverPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateCustomResolver with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCustomResolverOptions model
+				updateCustomResolverOptionsModel := new(dnssvcsv1.UpdateCustomResolverOptions)
+				updateCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
+				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
+				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateCustomResolver(updateCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolver(updateCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateCustomResolver(updateCustomResolverOptions *UpdateCustomResolverOptions)`, func() {
+		updateCustomResolverPath := "/instances/testString/custom_resolvers/testString"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCustomResolverPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}`)
+				}))
+			})
+			It(`Invoke UpdateCustomResolver successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateCustomResolver(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateCustomResolverOptions model
+				updateCustomResolverOptionsModel := new(dnssvcsv1.UpdateCustomResolverOptions)
+				updateCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
+				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
+				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolver(updateCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateCustomResolverWithContext(ctx, updateCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolver(updateCustomResolverOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateCustomResolverWithContext(ctx, updateCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke UpdateCustomResolver with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCustomResolverOptions model
+				updateCustomResolverOptionsModel := new(dnssvcsv1.UpdateCustomResolverOptions)
+				updateCustomResolverOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
+				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
+				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateCustomResolver(updateCustomResolverOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateCustomResolverOptions model with no property values
+				updateCustomResolverOptionsModelNew := new(dnssvcsv1.UpdateCustomResolverOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolver(updateCustomResolverOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`Service constructor tests`, func() {
+		It(`Instantiate service client`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				Authenticator: &core.NoAuthAuthenticator{},
+			})
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid URL`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "{BAD_URL_STRING",
+			})
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid Auth`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "https://dnssvcsv1/api",
+				Authenticator: &core.BasicAuthenticator{
+					Username: "",
+					Password: "",
+				},
+			})
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+	})
+	Describe(`Service constructor tests using external config`, func() {
+		Context(`Using external config, construct service client instances`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
+				"DNS_SVCS_AUTH_TYPE": "noauth",
+			}
+
+			It(`Create service client using external config successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+			It(`Create service client using external config and set url from constructor successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+					URL: "https://testService/api",
+				})
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+			It(`Create service client using external config and set url programatically successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
+				Expect(err).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
+				"DNS_SVCS_AUTH_TYPE": "someOtherAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_AUTH_TYPE":   "NOAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "{BAD_URL_STRING",
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+		})
+	})
+	Describe(`AddCustomResolverLocation(addCustomResolverLocationOptions *AddCustomResolverLocationOptions) - Operation response error`, func() {
+		addCustomResolverLocationPath := "/instances/testString/custom_resolvers/testString/locations"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(addCustomResolverLocationPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke AddCustomResolverLocation with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the AddCustomResolverLocationOptions model
+				addCustomResolverLocationOptionsModel := new(dnssvcsv1.AddCustomResolverLocationOptions)
+				addCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				addCustomResolverLocationOptionsModel.Enabled = core.BoolPtr(false)
+				addCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`AddCustomResolverLocation(addCustomResolverLocationOptions *AddCustomResolverLocationOptions)`, func() {
+		addCustomResolverLocationPath := "/instances/testString/custom_resolvers/testString/locations"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(addCustomResolverLocationPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}`)
+				}))
+			})
+			It(`Invoke AddCustomResolverLocation successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.AddCustomResolverLocation(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the AddCustomResolverLocationOptions model
+				addCustomResolverLocationOptionsModel := new(dnssvcsv1.AddCustomResolverLocationOptions)
+				addCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				addCustomResolverLocationOptionsModel.Enabled = core.BoolPtr(false)
+				addCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.AddCustomResolverLocationWithContext(ctx, addCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.AddCustomResolverLocationWithContext(ctx, addCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke AddCustomResolverLocation with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the AddCustomResolverLocationOptions model
+				addCustomResolverLocationOptionsModel := new(dnssvcsv1.AddCustomResolverLocationOptions)
+				addCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				addCustomResolverLocationOptionsModel.Enabled = core.BoolPtr(false)
+				addCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				addCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the AddCustomResolverLocationOptions model with no property values
+				addCustomResolverLocationOptionsModelNew := new(dnssvcsv1.AddCustomResolverLocationOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.AddCustomResolverLocation(addCustomResolverLocationOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateCustomResolverLocation(updateCustomResolverLocationOptions *UpdateCustomResolverLocationOptions) - Operation response error`, func() {
+		updateCustomResolverLocationPath := "/instances/testString/custom_resolvers/testString/locations/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCustomResolverLocationPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateCustomResolverLocation with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCustomResolverLocationOptions model
+				updateCustomResolverLocationOptionsModel := new(dnssvcsv1.UpdateCustomResolverLocationOptions)
+				updateCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.LocationID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverLocationOptionsModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				updateCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateCustomResolverLocation(updateCustomResolverLocationOptions *UpdateCustomResolverLocationOptions)`, func() {
+		updateCustomResolverLocationPath := "/instances/testString/custom_resolvers/testString/locations/testString"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCustomResolverLocationPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}`)
+				}))
+			})
+			It(`Invoke UpdateCustomResolverLocation successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateCustomResolverLocation(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateCustomResolverLocationOptions model
+				updateCustomResolverLocationOptionsModel := new(dnssvcsv1.UpdateCustomResolverLocationOptions)
+				updateCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.LocationID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverLocationOptionsModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				updateCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateCustomResolverLocationWithContext(ctx, updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateCustomResolverLocationWithContext(ctx, updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke UpdateCustomResolverLocation with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCustomResolverLocationOptions model
+				updateCustomResolverLocationOptionsModel := new(dnssvcsv1.UpdateCustomResolverLocationOptions)
+				updateCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.LocationID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverLocationOptionsModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				updateCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateCustomResolverLocationOptions model with no property values
+				updateCustomResolverLocationOptionsModelNew := new(dnssvcsv1.UpdateCustomResolverLocationOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`DeleteCustomResolverLocation(deleteCustomResolverLocationOptions *DeleteCustomResolverLocationOptions)`, func() {
+		deleteCustomResolverLocationPath := "/instances/testString/custom_resolvers/testString/locations/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteCustomResolverLocationPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteCustomResolverLocation successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := dnsSvcsService.DeleteCustomResolverLocation(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteCustomResolverLocationOptions model
+				deleteCustomResolverLocationOptionsModel := new(dnssvcsv1.DeleteCustomResolverLocationOptions)
+				deleteCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.LocationID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = dnsSvcsService.DeleteCustomResolverLocation(deleteCustomResolverLocationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteCustomResolverLocation(deleteCustomResolverLocationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteCustomResolverLocation with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteCustomResolverLocationOptions model
+				deleteCustomResolverLocationOptionsModel := new(dnssvcsv1.DeleteCustomResolverLocationOptions)
+				deleteCustomResolverLocationOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.LocationID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteCustomResolverLocationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := dnsSvcsService.DeleteCustomResolverLocation(deleteCustomResolverLocationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteCustomResolverLocationOptions model with no property values
+				deleteCustomResolverLocationOptionsModelNew := new(dnssvcsv1.DeleteCustomResolverLocationOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = dnsSvcsService.DeleteCustomResolverLocation(deleteCustomResolverLocationOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`Service constructor tests`, func() {
+		It(`Instantiate service client`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				Authenticator: &core.NoAuthAuthenticator{},
+			})
+			Expect(dnsSvcsService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid URL`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "{BAD_URL_STRING",
+			})
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid Auth`, func() {
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "https://dnssvcsv1/api",
+				Authenticator: &core.BasicAuthenticator{
+					Username: "",
+					Password: "",
+				},
+			})
+			Expect(dnsSvcsService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+	})
+	Describe(`Service constructor tests using external config`, func() {
+		Context(`Using external config, construct service client instances`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
+				"DNS_SVCS_AUTH_TYPE": "noauth",
+			}
+
+			It(`Create service client using external config successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+			It(`Create service client using external config and set url from constructor successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+					URL: "https://testService/api",
+				})
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+			It(`Create service client using external config and set url programatically successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
+				err := dnsSvcsService.SetServiceURL("https://testService/api")
+				Expect(err).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+
+				clone := dnsSvcsService.Clone()
+				Expect(clone).ToNot(BeNil())
+				Expect(clone.Service != dnsSvcsService.Service).To(BeTrue())
+				Expect(clone.GetServiceURL()).To(Equal(dnsSvcsService.GetServiceURL()))
+				Expect(clone.Service.Options.Authenticator).To(Equal(dnsSvcsService.Service.Options.Authenticator))
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
+				"DNS_SVCS_AUTH_TYPE": "someOtherAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"DNS_SVCS_AUTH_TYPE":   "NOAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				URL: "{BAD_URL_STRING",
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(dnsSvcsService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+	})
+	Describe(`Regional endpoint tests`, func() {
+		It(`GetServiceURLForRegion(region string)`, func() {
+			var url string
+			var err error
+			url, err = dnssvcsv1.GetServiceURLForRegion("INVALID_REGION")
+			Expect(url).To(BeEmpty())
+			Expect(err).ToNot(BeNil())
+			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+		})
+	})
+	Describe(`ListForwardingRules(listForwardingRulesOptions *ListForwardingRulesOptions) - Operation response error`, func() {
+		listForwardingRulesPath := "/instances/testString/custom_resolvers/testString/forwarding_rules"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listForwardingRulesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListForwardingRules with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListForwardingRulesOptions model
+				listForwardingRulesOptionsModel := new(dnssvcsv1.ListForwardingRulesOptions)
+				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ListForwardingRules(listForwardingRulesOptions *ListForwardingRulesOptions)`, func() {
+		listForwardingRulesPath := "/instances/testString/custom_resolvers/testString/forwarding_rules"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listForwardingRulesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}]}`)
+				}))
+			})
+			It(`Invoke ListForwardingRules successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListForwardingRules(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListForwardingRulesOptions model
+				listForwardingRulesOptionsModel := new(dnssvcsv1.ListForwardingRulesOptions)
+				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListForwardingRulesWithContext(ctx, listForwardingRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.ListForwardingRulesWithContext(ctx, listForwardingRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke ListForwardingRules with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListForwardingRulesOptions model
+				listForwardingRulesOptionsModel := new(dnssvcsv1.ListForwardingRulesOptions)
+				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListForwardingRulesOptions model with no property values
+				listForwardingRulesOptionsModelNew := new(dnssvcsv1.ListForwardingRulesOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateForwardingRule(createForwardingRuleOptions *CreateForwardingRuleOptions) - Operation response error`, func() {
+		createForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createForwardingRulePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateForwardingRule with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateForwardingRuleOptions model
+				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
+				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
+				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
+				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
+				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`CreateForwardingRule(createForwardingRuleOptions *CreateForwardingRuleOptions)`, func() {
+		createForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createForwardingRulePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}`)
+				}))
+			})
+			It(`Invoke CreateForwardingRule successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.CreateForwardingRule(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateForwardingRuleOptions model
+				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
+				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
+				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
+				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
+				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateForwardingRuleWithContext(ctx, createForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.CreateForwardingRuleWithContext(ctx, createForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke CreateForwardingRule with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateForwardingRuleOptions model
+				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
+				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
+				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
+				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
+				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateForwardingRuleOptions model with no property values
+				createForwardingRuleOptionsModelNew := new(dnssvcsv1.CreateForwardingRuleOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.CreateForwardingRule(createForwardingRuleOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`DeleteForwardingRule(deleteForwardingRuleOptions *DeleteForwardingRuleOptions)`, func() {
+		deleteForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteForwardingRulePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteForwardingRule successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := dnsSvcsService.DeleteForwardingRule(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteForwardingRuleOptions model
+				deleteForwardingRuleOptionsModel := new(dnssvcsv1.DeleteForwardingRuleOptions)
+				deleteForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = dnsSvcsService.DeleteForwardingRule(deleteForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				response, operationErr = dnsSvcsService.DeleteForwardingRule(deleteForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteForwardingRule with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteForwardingRuleOptions model
+				deleteForwardingRuleOptionsModel := new(dnssvcsv1.DeleteForwardingRuleOptions)
+				deleteForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := dnsSvcsService.DeleteForwardingRule(deleteForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteForwardingRuleOptions model with no property values
+				deleteForwardingRuleOptionsModelNew := new(dnssvcsv1.DeleteForwardingRuleOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = dnsSvcsService.DeleteForwardingRule(deleteForwardingRuleOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetForwardingRule(getForwardingRuleOptions *GetForwardingRuleOptions) - Operation response error`, func() {
+		getForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getForwardingRulePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetForwardingRule with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetForwardingRuleOptions model
+				getForwardingRuleOptionsModel := new(dnssvcsv1.GetForwardingRuleOptions)
+				getForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetForwardingRule(getForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetForwardingRule(getForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetForwardingRule(getForwardingRuleOptions *GetForwardingRuleOptions)`, func() {
+		getForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules/testString"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getForwardingRulePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}`)
+				}))
+			})
+			It(`Invoke GetForwardingRule successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetForwardingRule(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetForwardingRuleOptions model
+				getForwardingRuleOptionsModel := new(dnssvcsv1.GetForwardingRuleOptions)
+				getForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetForwardingRule(getForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetForwardingRuleWithContext(ctx, getForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.GetForwardingRule(getForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.GetForwardingRuleWithContext(ctx, getForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke GetForwardingRule with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetForwardingRuleOptions model
+				getForwardingRuleOptionsModel := new(dnssvcsv1.GetForwardingRuleOptions)
+				getForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.GetForwardingRule(getForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetForwardingRuleOptions model with no property values
+				getForwardingRuleOptionsModelNew := new(dnssvcsv1.GetForwardingRuleOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetForwardingRule(getForwardingRuleOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateForwardingRule(updateForwardingRuleOptions *UpdateForwardingRuleOptions) - Operation response error`, func() {
+		updateForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateForwardingRulePath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateForwardingRule with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateForwardingRuleOptions model
+				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
+				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
+				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
+				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateForwardingRule(updateForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateForwardingRule(updateForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateForwardingRule(updateForwardingRuleOptions *UpdateForwardingRuleOptions)`, func() {
+		updateForwardingRulePath := "/instances/testString/custom_resolvers/testString/forwarding_rules/testString"
+		var serverSleepTime time.Duration
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				serverSleepTime = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateForwardingRulePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(serverSleepTime)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}`)
+				}))
+			})
+			It(`Invoke UpdateForwardingRule successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateForwardingRule(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateForwardingRuleOptions model
+				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
+				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
+				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
+				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateForwardingRule(updateForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateForwardingRuleWithContext(ctx, updateForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr = dnsSvcsService.UpdateForwardingRule(updateForwardingRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				serverSleepTime = 100 * time.Millisecond
+				_, _, operationErr = dnsSvcsService.UpdateForwardingRuleWithContext(ctx, updateForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+				serverSleepTime = time.Duration(0)
+			})
+			It(`Invoke UpdateForwardingRule with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateForwardingRuleOptions model
+				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
+				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.RuleID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
+				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
+				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateForwardingRule(updateForwardingRuleOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateForwardingRuleOptions model with no property values
+				updateForwardingRuleOptionsModelNew := new(dnssvcsv1.UpdateForwardingRuleOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateForwardingRule(updateForwardingRuleOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			dnsSvcsService, _ := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
 				URL:           "http://dnssvcsv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
+			})
+			It(`Invoke NewAddCustomResolverLocationOptions successfully`, func() {
+				// Construct an instance of the AddCustomResolverLocationOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				addCustomResolverLocationOptionsModel := dnsSvcsService.NewAddCustomResolverLocationOptions(instanceID, resolverID)
+				addCustomResolverLocationOptionsModel.SetInstanceID("testString")
+				addCustomResolverLocationOptionsModel.SetResolverID("testString")
+				addCustomResolverLocationOptionsModel.SetSubnetCrn("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				addCustomResolverLocationOptionsModel.SetEnabled(false)
+				addCustomResolverLocationOptionsModel.SetXCorrelationID("testString")
+				addCustomResolverLocationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
+				Expect(addCustomResolverLocationOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(addCustomResolverLocationOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(addCustomResolverLocationOptionsModel.SubnetCrn).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")))
+				Expect(addCustomResolverLocationOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
+				Expect(addCustomResolverLocationOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(addCustomResolverLocationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateCustomResolverOptions successfully`, func() {
+				// Construct an instance of the LocationInput model
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				Expect(locationInputModel).ToNot(BeNil())
+				locationInputModel.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				locationInputModel.Enabled = core.BoolPtr(false)
+				Expect(locationInputModel.SubnetCrn).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")))
+				Expect(locationInputModel.Enabled).To(Equal(core.BoolPtr(false)))
+
+				// Construct an instance of the CreateCustomResolverOptions model
+				instanceID := "testString"
+				createCustomResolverOptionsModel := dnsSvcsService.NewCreateCustomResolverOptions(instanceID)
+				createCustomResolverOptionsModel.SetInstanceID("testString")
+				createCustomResolverOptionsModel.SetName("my-resolver")
+				createCustomResolverOptionsModel.SetDescription("custom resolver")
+				createCustomResolverOptionsModel.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				createCustomResolverOptionsModel.SetXCorrelationID("testString")
+				createCustomResolverOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createCustomResolverOptionsModel).ToNot(BeNil())
+				Expect(createCustomResolverOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(createCustomResolverOptionsModel.Name).To(Equal(core.StringPtr("my-resolver")))
+				Expect(createCustomResolverOptionsModel.Description).To(Equal(core.StringPtr("custom resolver")))
+				Expect(createCustomResolverOptionsModel.Locations).To(Equal([]dnssvcsv1.LocationInput{*locationInputModel}))
+				Expect(createCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(createCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateDnszoneOptions successfully`, func() {
 				// Construct an instance of the CreateDnszoneOptions model
@@ -5712,6 +8473,29 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createDnszoneOptionsModel.Label).To(Equal(core.StringPtr("us-east")))
 				Expect(createDnszoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createDnszoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateForwardingRuleOptions successfully`, func() {
+				// Construct an instance of the CreateForwardingRuleOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				createForwardingRuleOptionsModel := dnsSvcsService.NewCreateForwardingRuleOptions(instanceID, resolverID)
+				createForwardingRuleOptionsModel.SetInstanceID("testString")
+				createForwardingRuleOptionsModel.SetResolverID("testString")
+				createForwardingRuleOptionsModel.SetDescription("forwarding rule")
+				createForwardingRuleOptionsModel.SetType("zone")
+				createForwardingRuleOptionsModel.SetMatch("example.com")
+				createForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+				createForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				createForwardingRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
+				Expect(createForwardingRuleOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(createForwardingRuleOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(createForwardingRuleOptionsModel.Description).To(Equal(core.StringPtr("forwarding rule")))
+				Expect(createForwardingRuleOptionsModel.Type).To(Equal(core.StringPtr("zone")))
+				Expect(createForwardingRuleOptionsModel.Match).To(Equal(core.StringPtr("example.com")))
+				Expect(createForwardingRuleOptionsModel.ForwardTo).To(Equal([]string{"161.26.0.7"}))
+				Expect(createForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(createForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the LoadBalancerAzPoolsItem model
@@ -5896,6 +8680,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewDeleteCustomResolverLocationOptions successfully`, func() {
+				// Construct an instance of the DeleteCustomResolverLocationOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				locationID := "testString"
+				deleteCustomResolverLocationOptionsModel := dnsSvcsService.NewDeleteCustomResolverLocationOptions(instanceID, resolverID, locationID)
+				deleteCustomResolverLocationOptionsModel.SetInstanceID("testString")
+				deleteCustomResolverLocationOptionsModel.SetResolverID("testString")
+				deleteCustomResolverLocationOptionsModel.SetLocationID("testString")
+				deleteCustomResolverLocationOptionsModel.SetXCorrelationID("testString")
+				deleteCustomResolverLocationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteCustomResolverLocationOptionsModel).ToNot(BeNil())
+				Expect(deleteCustomResolverLocationOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverLocationOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverLocationOptionsModel.LocationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverLocationOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverLocationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteCustomResolverOptions successfully`, func() {
+				// Construct an instance of the DeleteCustomResolverOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				deleteCustomResolverOptionsModel := dnsSvcsService.NewDeleteCustomResolverOptions(instanceID, resolverID)
+				deleteCustomResolverOptionsModel.SetInstanceID("testString")
+				deleteCustomResolverOptionsModel.SetResolverID("testString")
+				deleteCustomResolverOptionsModel.SetXCorrelationID("testString")
+				deleteCustomResolverOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+				Expect(deleteCustomResolverOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteDnszoneOptions successfully`, func() {
 				// Construct an instance of the DeleteDnszoneOptions model
 				instanceID := "testString"
@@ -5910,6 +8727,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(deleteDnszoneOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteDnszoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteDnszoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteForwardingRuleOptions successfully`, func() {
+				// Construct an instance of the DeleteForwardingRuleOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				ruleID := "testString"
+				deleteForwardingRuleOptionsModel := dnsSvcsService.NewDeleteForwardingRuleOptions(instanceID, resolverID, ruleID)
+				deleteForwardingRuleOptionsModel.SetInstanceID("testString")
+				deleteForwardingRuleOptionsModel.SetResolverID("testString")
+				deleteForwardingRuleOptionsModel.SetRuleID("testString")
+				deleteForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				deleteForwardingRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteForwardingRuleOptionsModel).ToNot(BeNil())
+				Expect(deleteForwardingRuleOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteForwardingRuleOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteForwardingRuleOptionsModel.RuleID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the DeleteLoadBalancerOptions model
@@ -5995,6 +8830,36 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(deleteResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewExportResourceRecordsOptions successfully`, func() {
+				// Construct an instance of the ExportResourceRecordsOptions model
+				instanceID := "testString"
+				dnszoneID := "testString"
+				exportResourceRecordsOptionsModel := dnsSvcsService.NewExportResourceRecordsOptions(instanceID, dnszoneID)
+				exportResourceRecordsOptionsModel.SetInstanceID("testString")
+				exportResourceRecordsOptionsModel.SetDnszoneID("testString")
+				exportResourceRecordsOptionsModel.SetXCorrelationID("testString")
+				exportResourceRecordsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(exportResourceRecordsOptionsModel).ToNot(BeNil())
+				Expect(exportResourceRecordsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(exportResourceRecordsOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(exportResourceRecordsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(exportResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetCustomResolverOptions successfully`, func() {
+				// Construct an instance of the GetCustomResolverOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				getCustomResolverOptionsModel := dnsSvcsService.NewGetCustomResolverOptions(instanceID, resolverID)
+				getCustomResolverOptionsModel.SetInstanceID("testString")
+				getCustomResolverOptionsModel.SetResolverID("testString")
+				getCustomResolverOptionsModel.SetXCorrelationID("testString")
+				getCustomResolverOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getCustomResolverOptionsModel).ToNot(BeNil())
+				Expect(getCustomResolverOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getCustomResolverOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(getCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetDnszoneOptions successfully`, func() {
 				// Construct an instance of the GetDnszoneOptions model
 				instanceID := "testString"
@@ -6009,6 +8874,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(getDnszoneOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
 				Expect(getDnszoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(getDnszoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetForwardingRuleOptions successfully`, func() {
+				// Construct an instance of the GetForwardingRuleOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				ruleID := "testString"
+				getForwardingRuleOptionsModel := dnsSvcsService.NewGetForwardingRuleOptions(instanceID, resolverID, ruleID)
+				getForwardingRuleOptionsModel.SetInstanceID("testString")
+				getForwardingRuleOptionsModel.SetResolverID("testString")
+				getForwardingRuleOptionsModel.SetRuleID("testString")
+				getForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				getForwardingRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getForwardingRuleOptionsModel).ToNot(BeNil())
+				Expect(getForwardingRuleOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getForwardingRuleOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(getForwardingRuleOptionsModel.RuleID).To(Equal(core.StringPtr("testString")))
+				Expect(getForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the GetLoadBalancerOptions model
@@ -6094,6 +8977,37 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(getResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(getResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewImportResourceRecordsOptions successfully`, func() {
+				// Construct an instance of the ImportResourceRecordsOptions model
+				instanceID := "testString"
+				dnszoneID := "testString"
+				importResourceRecordsOptionsModel := dnsSvcsService.NewImportResourceRecordsOptions(instanceID, dnszoneID)
+				importResourceRecordsOptionsModel.SetInstanceID("testString")
+				importResourceRecordsOptionsModel.SetDnszoneID("testString")
+				importResourceRecordsOptionsModel.SetFile(CreateMockReader("This is a mock file."))
+				importResourceRecordsOptionsModel.SetFileContentType("testString")
+				importResourceRecordsOptionsModel.SetXCorrelationID("testString")
+				importResourceRecordsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(importResourceRecordsOptionsModel).ToNot(BeNil())
+				Expect(importResourceRecordsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(importResourceRecordsOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(importResourceRecordsOptionsModel.File).To(Equal(CreateMockReader("This is a mock file.")))
+				Expect(importResourceRecordsOptionsModel.FileContentType).To(Equal(core.StringPtr("testString")))
+				Expect(importResourceRecordsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(importResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListCustomResolversOptions successfully`, func() {
+				// Construct an instance of the ListCustomResolversOptions model
+				instanceID := "testString"
+				listCustomResolversOptionsModel := dnsSvcsService.NewListCustomResolversOptions(instanceID)
+				listCustomResolversOptionsModel.SetInstanceID("testString")
+				listCustomResolversOptionsModel.SetXCorrelationID("testString")
+				listCustomResolversOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listCustomResolversOptionsModel).ToNot(BeNil())
+				Expect(listCustomResolversOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listCustomResolversOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listCustomResolversOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListDnszonesOptions successfully`, func() {
 				// Construct an instance of the ListDnszonesOptions model
 				instanceID := "testString"
@@ -6109,6 +9023,21 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listDnszonesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listDnszonesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listDnszonesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListForwardingRulesOptions successfully`, func() {
+				// Construct an instance of the ListForwardingRulesOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				listForwardingRulesOptionsModel := dnsSvcsService.NewListForwardingRulesOptions(instanceID, resolverID)
+				listForwardingRulesOptionsModel.SetInstanceID("testString")
+				listForwardingRulesOptionsModel.SetResolverID("testString")
+				listForwardingRulesOptionsModel.SetXCorrelationID("testString")
+				listForwardingRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listForwardingRulesOptionsModel).ToNot(BeNil())
+				Expect(listForwardingRulesOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listForwardingRulesOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(listForwardingRulesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listForwardingRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListLoadBalancersOptions successfully`, func() {
 				// Construct an instance of the ListLoadBalancersOptions model
@@ -6187,6 +9116,49 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listResourceRecordsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewUpdateCustomResolverLocationOptions successfully`, func() {
+				// Construct an instance of the UpdateCustomResolverLocationOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				locationID := "testString"
+				updateCustomResolverLocationOptionsModel := dnsSvcsService.NewUpdateCustomResolverLocationOptions(instanceID, resolverID, locationID)
+				updateCustomResolverLocationOptionsModel.SetInstanceID("testString")
+				updateCustomResolverLocationOptionsModel.SetResolverID("testString")
+				updateCustomResolverLocationOptionsModel.SetLocationID("testString")
+				updateCustomResolverLocationOptionsModel.SetEnabled(false)
+				updateCustomResolverLocationOptionsModel.SetSubnetCrn("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+				updateCustomResolverLocationOptionsModel.SetXCorrelationID("testString")
+				updateCustomResolverLocationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateCustomResolverLocationOptionsModel).ToNot(BeNil())
+				Expect(updateCustomResolverLocationOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverLocationOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverLocationOptionsModel.LocationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverLocationOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
+				Expect(updateCustomResolverLocationOptionsModel.SubnetCrn).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")))
+				Expect(updateCustomResolverLocationOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverLocationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateCustomResolverOptions successfully`, func() {
+				// Construct an instance of the UpdateCustomResolverOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				updateCustomResolverOptionsModel := dnsSvcsService.NewUpdateCustomResolverOptions(instanceID, resolverID)
+				updateCustomResolverOptionsModel.SetInstanceID("testString")
+				updateCustomResolverOptionsModel.SetResolverID("testString")
+				updateCustomResolverOptionsModel.SetName("my-resolver")
+				updateCustomResolverOptionsModel.SetDescription("custom resolver")
+				updateCustomResolverOptionsModel.SetEnabled(false)
+				updateCustomResolverOptionsModel.SetXCorrelationID("testString")
+				updateCustomResolverOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateCustomResolverOptionsModel).ToNot(BeNil())
+				Expect(updateCustomResolverOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverOptionsModel.Name).To(Equal(core.StringPtr("my-resolver")))
+				Expect(updateCustomResolverOptionsModel.Description).To(Equal(core.StringPtr("custom resolver")))
+				Expect(updateCustomResolverOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
+				Expect(updateCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateDnszoneOptions successfully`, func() {
 				// Construct an instance of the UpdateDnszoneOptions model
 				instanceID := "testString"
@@ -6205,6 +9177,30 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateDnszoneOptionsModel.Label).To(Equal(core.StringPtr("us-east")))
 				Expect(updateDnszoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateDnszoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateForwardingRuleOptions successfully`, func() {
+				// Construct an instance of the UpdateForwardingRuleOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				ruleID := "testString"
+				updateForwardingRuleOptionsModel := dnsSvcsService.NewUpdateForwardingRuleOptions(instanceID, resolverID, ruleID)
+				updateForwardingRuleOptionsModel.SetInstanceID("testString")
+				updateForwardingRuleOptionsModel.SetResolverID("testString")
+				updateForwardingRuleOptionsModel.SetRuleID("testString")
+				updateForwardingRuleOptionsModel.SetDescription("forwarding rule")
+				updateForwardingRuleOptionsModel.SetMatch("example.com")
+				updateForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+				updateForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				updateForwardingRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateForwardingRuleOptionsModel).ToNot(BeNil())
+				Expect(updateForwardingRuleOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateForwardingRuleOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(updateForwardingRuleOptionsModel.RuleID).To(Equal(core.StringPtr("testString")))
+				Expect(updateForwardingRuleOptionsModel.Description).To(Equal(core.StringPtr("forwarding rule")))
+				Expect(updateForwardingRuleOptionsModel.Match).To(Equal(core.StringPtr("example.com")))
+				Expect(updateForwardingRuleOptionsModel.ForwardTo).To(Equal([]string{"161.26.0.7"}))
+				Expect(updateForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the LoadBalancerAzPoolsItem model
@@ -6378,6 +9374,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				name := "Host"
 				value := []string{"origin.example.com"}
 				model, err := dnsSvcsService.NewHealthcheckHeader(name, value)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLocationInput successfully`, func() {
+				subnetCrn := "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"
+				model, err := dnsSvcsService.NewLocationInput(subnetCrn)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

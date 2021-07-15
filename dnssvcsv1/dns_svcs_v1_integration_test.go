@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,6 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`dnssvcsv1`, func() {
-	BeforeEach(func() {
-		Skip("Skipping Tests")
-	})
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
@@ -71,6 +68,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	instanceID := os.Getenv("DNS_SVCS_INSTANCE_ID")
 	vpcCrn := os.Getenv("DNS_SVCS_VPC_CRN")
 	subnetCrn := os.Getenv("DNS_SVCS_SUBNET_CRN")
+	customCrn := os.Getenv("DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN")
 
 	Describe(`dnssvcsv1`, func() {
 		Context(`dnssvcsv1`, func() {
@@ -1224,6 +1222,486 @@ var _ = Describe(`dnssvcsv1`, func() {
 				fdeletePermittedNetworkOptions := service.NewDeletePermittedNetworkOptions(instanceID, *zoneInfo.ID, "invalid_id")
 				_, _, reqErr = service.DeletePermittedNetwork(fdeletePermittedNetworkOptions)
 				Expect(reqErr).ToNot(BeNil())
+			})
+		})
+	})
+	Describe(`customresolverv1`, func() {
+		Context(`customresolverv1`, func() {
+			// var zoneInfo *dnssvcsv1.Dnszone
+			BeforeEach(func() {
+				shouldSkipTest()
+
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				for _, zone := range listResult.Dnszones {
+					if strings.Contains(*zone.Name, "custom-resolver-example") {
+
+						listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+						listCustomResolverOptions.SetXCorrelationID("abc123")
+						Expect(listCustomResolverOptions).ToNot(BeNil())
+						resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+						Expect(errList).To(BeNil())
+						Expect(responseList).ToNot(BeNil())
+						Expect(resultList).ToNot(BeNil())
+
+						for i := range resultList.CustomResolvers {
+
+							deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+							deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+							Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+							responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+							Expect(errDel).To(BeNil())
+							Expect(responseDel).ToNot(BeNil())
+							Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+						}
+						option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+						response, err := service.DeleteDnszone(option)
+						Expect(err).To(BeNil())
+						Expect(response).ToNot(BeNil())
+						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+					}
+				}
+
+				// Create DNS Zone
+				zoneName := fmt.Sprintf("custom-resolver-example-%s.com", uuid.New().String())
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
+				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions.SetDescription("testString")
+				createDnszoneOptions.SetLabel("testString")
+				createDnszoneOptions.SetXCorrelationID("abc123")
+				result, response, reqErr := service.CreateDnszone(createDnszoneOptions)
+				Expect(reqErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+				// zoneInfo = result
+			})
+			AfterEach(func() {
+				shouldSkipTest()
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				for _, zone := range listResult.Dnszones {
+					if strings.Contains(*zone.Name, "custom-resolver-example") {
+						listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+						listCustomResolverOptions.SetXCorrelationID("abc123")
+						Expect(listCustomResolverOptions).ToNot(BeNil())
+						resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+						Expect(errList).To(BeNil())
+						Expect(responseList).ToNot(BeNil())
+						Expect(resultList).ToNot(BeNil())
+
+						for i := range resultList.CustomResolvers {
+							deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+							deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+							Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+							responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+							Expect(errDel).To(BeNil())
+							Expect(responseDel).ToNot(BeNil())
+							Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+						}
+						option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+						response, err := service.DeleteDnszone(option)
+						Expect(err).To(BeNil())
+						Expect(response).ToNot(BeNil())
+						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+					}
+				}
+			})
+			It(`create/list/update/delete/get  custom resolver`, func() {
+				shouldSkipTest()
+				// Test Create Custom Resolver
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				Expect(locationInputModel).ToNot(BeNil())
+				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
+				locationInputModel.Enabled = core.BoolPtr(true)
+
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
+				createCustomResolverOptions.SetName("test-resolver")
+				createCustomResolverOptions.SetDescription("Integration test resolver")
+				createCustomResolverOptions.SetXCorrelationID("abc123")
+				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+
+				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+
+				// Test ListAll Custom Resolver
+				listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+				listCustomResolverOptions.SetXCorrelationID("abc123")
+				Expect(listCustomResolverOptions).ToNot(BeNil())
+				resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(resultList).ToNot(BeNil())
+				var customResolverIDs []string
+				for i := range resultList.CustomResolvers {
+					customResolverIDs = append(customResolverIDs, *resultList.CustomResolvers[i].ID)
+				}
+
+				// Test Get Custom Resolver
+				getCustomResolverOptionsModel := service.NewGetCustomResolverOptions(instanceID, customResolverIDs[0])
+				getCustomResolverOptionsModel.SetXCorrelationID("abc123")
+				Expect(getCustomResolverOptionsModel).ToNot(BeNil())
+				resultGet, responseGet, errGet := service.GetCustomResolver(getCustomResolverOptionsModel)
+				Expect(errGet).To(BeNil())
+				Expect(responseGet).ToNot(BeNil())
+				Expect(resultGet).ToNot(BeNil())
+				Expect(*resultGet.ID).To(Equal(customResolverIDs[0]))
+
+				// Test Update Custom Resolver
+				updateCustomResolverOptionsModel := service.NewUpdateCustomResolverOptions(instanceID, customResolverIDs[0])
+				updateCustomResolverOptionsModel.SetName("my-resolver")
+				updateCustomResolverOptionsModel.SetDescription("custom resolver")
+				updateCustomResolverOptionsModel.SetEnabled(false)
+				updateCustomResolverOptionsModel.SetXCorrelationID("abc123")
+				Expect(updateCustomResolverOptionsModel).ToNot(BeNil())
+
+				resultUpdate, responseUpdate, errUpdate := service.UpdateCustomResolver(updateCustomResolverOptionsModel)
+				Expect(errUpdate).To(BeNil())
+				Expect(responseUpdate).ToNot(BeNil())
+				Expect(resultUpdate).ToNot(BeNil())
+				Expect(responseUpdate.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*resultUpdate.ID).To(Equal(customResolverIDs[0]))
+
+				// Test Delete Custom Resolver
+				deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, customResolverIDs[0])
+				deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+				Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+				responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+				Expect(errDel).To(BeNil())
+				Expect(responseDel).ToNot(BeNil())
+				Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+			})
+		})
+	})
+	Describe(`customresolvervlocationv1`, func() {
+		Context(`customresolvervlocationv1`, func() {
+			// var zoneInfo *dnssvcsv1.Dnszone
+			BeforeEach(func() {
+				shouldSkipTest()
+
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				for _, zone := range listResult.Dnszones {
+					if strings.Contains(*zone.Name, "custom-location-example") {
+
+						listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+						listCustomResolverOptions.SetXCorrelationID("abc123")
+						Expect(listCustomResolverOptions).ToNot(BeNil())
+						resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+						Expect(errList).To(BeNil())
+						Expect(responseList).ToNot(BeNil())
+						Expect(resultList).ToNot(BeNil())
+
+						for i := range resultList.CustomResolvers {
+
+							deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+							deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+							Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+							responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+							Expect(errDel).To(BeNil())
+							Expect(responseDel).ToNot(BeNil())
+							Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+						}
+						option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+						response, err := service.DeleteDnszone(option)
+						Expect(err).To(BeNil())
+						Expect(response).ToNot(BeNil())
+						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+					}
+				}
+
+				// Create DNS Zone
+				zoneName := fmt.Sprintf("custom-location-example-%s.com", uuid.New().String())
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
+				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions.SetDescription("testString")
+				createDnszoneOptions.SetLabel("testString")
+				createDnszoneOptions.SetXCorrelationID("abc123")
+				result, response, reqErr := service.CreateDnszone(createDnszoneOptions)
+				Expect(reqErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+			})
+			AfterEach(func() {
+				shouldSkipTest()
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				for _, zone := range listResult.Dnszones {
+					if strings.Contains(*zone.Name, "custom-location-example") {
+						listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+						listCustomResolverOptions.SetXCorrelationID("abc123")
+						Expect(listCustomResolverOptions).ToNot(BeNil())
+						resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+						Expect(errList).To(BeNil())
+						Expect(responseList).ToNot(BeNil())
+						Expect(resultList).ToNot(BeNil())
+
+						for i := range resultList.CustomResolvers {
+
+							deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+							deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+							Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+							responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+							Expect(errDel).To(BeNil())
+							Expect(responseDel).ToNot(BeNil())
+							Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+						}
+
+						option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+						response, err := service.DeleteDnszone(option)
+						Expect(err).To(BeNil())
+						Expect(response).ToNot(BeNil())
+						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+					}
+				}
+			})
+			It(`add/update/delete  custom resolver location`, func() {
+				shouldSkipTest()
+				// Create a Custom Resolver - used in below test cases
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				Expect(locationInputModel).ToNot(BeNil())
+				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
+				locationInputModel.Enabled = core.BoolPtr(true)
+
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
+				createCustomResolverOptions.SetName("test-resolver-location")
+				createCustomResolverOptions.SetDescription("Integration test resolver location")
+				createCustomResolverOptions.SetXCorrelationID("abc123")
+				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+
+				resultCreate, responseCreate, errCreate := service.CreateCustomResolver(createCustomResolverOptions)
+				Expect(errCreate).To(BeNil())
+				Expect(responseCreate).ToNot(BeNil())
+				Expect(resultCreate).ToNot(BeNil())
+				Expect(responseCreate.GetStatusCode()).To(BeEquivalentTo(200))
+
+				resolverID := resultCreate.ID
+
+				// Test Add Custom Resolver Location
+				addCustomResolverLocationOptionsModel := service.NewAddCustomResolverLocationOptions(instanceID, *resolverID)
+				addCustomResolverLocationOptionsModel.SetSubnetCrn(customCrn)
+				addCustomResolverLocationOptionsModel.SetEnabled(true)
+				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
+				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
+
+				resAdd, responseAdd, errAdd := service.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
+				Expect(errAdd).To(BeNil())
+				Expect(responseAdd).ToNot(BeNil())
+				Expect(resAdd).ToNot(BeNil())
+				Expect(responseAdd.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resAdd.DnsServerIp).ToNot(BeNil())
+
+				locationID := resAdd.ID
+				// Test Update Custom Resolver Location
+				updateCustomResolverLocationOptionsModel := service.NewUpdateCustomResolverLocationOptions(instanceID, *resolverID, *locationID)
+				updateCustomResolverLocationOptionsModel.SetEnabled(false)
+				updateCustomResolverLocationOptionsModel.SetSubnetCrn(customCrn)
+				updateCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
+				Expect(updateCustomResolverLocationOptionsModel).ToNot(BeNil())
+
+				resultUp, responseUp, errUp := service.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
+				Expect(errUp).To(BeNil())
+				Expect(responseUp).ToNot(BeNil())
+				Expect(resultUp).ToNot(BeNil())
+				Expect(responseUp.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultUp.DnsServerIp).ToNot(BeNil())
+
+				// Test Delete Custom Resolver Location
+				deleteCustomResolverLocationOptionsModel := service.NewDeleteCustomResolverLocationOptions(instanceID, *resolverID, *locationID)
+				deleteCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
+
+				Expect(deleteCustomResolverLocationOptionsModel).ToNot(BeNil())
+				responseDelete, errDelete := service.DeleteCustomResolverLocation(deleteCustomResolverLocationOptionsModel)
+				Expect(errDelete).To(BeNil())
+				Expect(responseDelete).ToNot(BeNil())
+				Expect(responseDelete.GetStatusCode()).To(BeEquivalentTo(204))
+			})
+		})
+	})
+	Describe(`forwardingrulesv1`, func() {
+		Context(`forwardingrulesv1`, func() {
+			// var zoneInfo *dnssvcsv1.Dnszone
+			BeforeEach(func() {
+				shouldSkipTest()
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				for _, zone := range listResult.Dnszones {
+					if strings.Contains(*zone.Name, "forwardingrules-example") {
+						listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+						listCustomResolverOptions.SetXCorrelationID("abc123")
+						Expect(listCustomResolverOptions).ToNot(BeNil())
+						resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+						Expect(errList).To(BeNil())
+						Expect(responseList).ToNot(BeNil())
+						Expect(resultList).ToNot(BeNil())
+						for i := range resultList.CustomResolvers {
+							deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+							deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+							Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+							responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+							Expect(errDel).To(BeNil())
+							Expect(responseDel).ToNot(BeNil())
+							Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+						}
+						option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+						response, err := service.DeleteDnszone(option)
+						Expect(err).To(BeNil())
+						Expect(response).ToNot(BeNil())
+						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+					}
+				}
+				// Create DNS Zone
+				zoneName := fmt.Sprintf("forwarding-rules-example-%s.com", uuid.New().String())
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
+				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions.SetDescription("testString")
+				createDnszoneOptions.SetLabel("testString")
+				result, response, reqErr := service.CreateDnszone(createDnszoneOptions)
+				Expect(reqErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+			})
+			AfterEach(func() {
+				shouldSkipTest()
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				for _, zone := range listResult.Dnszones {
+					if strings.Contains(*zone.Name, "forwarding-rules-example") {
+						listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+						listCustomResolverOptions.SetXCorrelationID("abc123")
+						Expect(listCustomResolverOptions).ToNot(BeNil())
+						resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+						Expect(errList).To(BeNil())
+						Expect(responseList).ToNot(BeNil())
+						Expect(resultList).ToNot(BeNil())
+						for i := range resultList.CustomResolvers {
+							deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+							deleteCustomResolverOptionsModel.SetXCorrelationID("abc123")
+							Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+							responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+							Expect(errDel).To(BeNil())
+							Expect(responseDel).ToNot(BeNil())
+							Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+						}
+						option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+						response, err := service.DeleteDnszone(option)
+						Expect(err).To(BeNil())
+						Expect(response).ToNot(BeNil())
+						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+					}
+				}
+			})
+			It(`create/list/get/update/delete forwarding rules`, func() {
+				shouldSkipTest()
+				// Create a Forwarding Rule - used in below test cases
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				Expect(locationInputModel).ToNot(BeNil())
+				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
+				locationInputModel.Enabled = core.BoolPtr(true)
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
+				createCustomResolverOptions.SetName("test-resolver")
+				createCustomResolverOptions.SetDescription("Integration test forwarding rules")
+				createCustomResolverOptions.SetXCorrelationID("abc123")
+				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+				resolverID := result.ID
+				createForwardingRuleOptionsModel := service.NewCreateForwardingRuleOptions(instanceID, *resolverID)
+				createForwardingRuleOptionsModel.SetDescription("test forwarding rule")
+				createForwardingRuleOptionsModel.SetType(dnssvcsv1.CreateForwardingRuleOptions_Type_Zone)
+				createForwardingRuleOptionsModel.SetMatch("example.com")
+				createForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+				createForwardingRuleOptionsModel.SetXCorrelationID("abc123")
+				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
+				resultCreate, responseCreate, errCreate := service.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(errCreate).To(BeNil())
+				Expect(responseCreate).ToNot(BeNil())
+				Expect(resultCreate).ToNot(BeNil())
+				Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
+				Expect(resultCreate.ID).ToNot(BeNil())
+				forwardingRulesID := resultCreate.ID
+				// List Forwarding Rules
+				listForwardingRulesOptionsModel := service.NewListForwardingRulesOptions(instanceID, *resolverID)
+				listForwardingRulesOptionsModel.SetXCorrelationID("abc123")
+				Expect(listForwardingRulesOptionsModel).ToNot(BeNil())
+				resultList, responseList, errList := service.ListForwardingRules(listForwardingRulesOptionsModel)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(resultList).ToNot(BeNil())
+				// Test Get a Forwarding Rule
+				getForwardingRuleOptionsModel := service.NewGetForwardingRuleOptions(instanceID, *resolverID, *forwardingRulesID)
+				getForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				Expect(getForwardingRuleOptionsModel).ToNot(BeNil())
+				resultGet, responseGet, errGet := service.GetForwardingRule(getForwardingRuleOptionsModel)
+				Expect(errGet).To(BeNil())
+				Expect(responseGet).ToNot(BeNil())
+				Expect(resultGet).ToNot(BeNil())
+				Expect(responseGet.StatusCode).To(BeEquivalentTo(200))
+				Expect(resultGet.ID).ToNot(BeNil())
+
+				// Test Update a Forwarding Rule
+				updateForwardingRuleOptionsModel := service.NewUpdateForwardingRuleOptions(instanceID, *resolverID, *forwardingRulesID)
+				updateForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				Expect(updateForwardingRuleOptionsModel).ToNot(BeNil())
+				updateForwardingRuleOptionsModel.SetDescription("cli test forwarding rule")
+				updateForwardingRuleOptionsModel.SetMatch("example.com")
+				updateForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+				updateForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				resultUpdate, responseUpdate, errUpdate := service.UpdateForwardingRule(updateForwardingRuleOptionsModel)
+				Expect(errUpdate).To(BeNil())
+				Expect(responseUpdate).ToNot(BeNil())
+				Expect(resultUpdate).ToNot(BeNil())
+				Expect(responseUpdate.StatusCode).To(BeEquivalentTo(200))
+				Expect(resultUpdate.ID).ToNot(BeNil())
+
+				// Test Delete a Forwarding Rule
+				deleteForwardingRuleOptionsModel := service.NewDeleteForwardingRuleOptions(instanceID, *resolverID, *forwardingRulesID)
+				deleteForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				Expect(deleteForwardingRuleOptionsModel).ToNot(BeNil())
+				responseDelete, errDelete := service.DeleteForwardingRule(deleteForwardingRuleOptionsModel)
+				Expect(errDelete).To(BeNil())
+				Expect(responseDelete).ToNot(BeNil())
+				Expect(responseDelete.StatusCode).To(BeEquivalentTo(204))
+
 			})
 		})
 	})
