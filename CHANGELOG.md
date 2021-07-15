@@ -1,3 +1,11 @@
+# [0.19.0](https://github.com/IBM/networking-go-sdk/compare/v0.18.0...v0.19.0) (2021-07-15)
+
+
+### Features
+
+* **DNS Records:** Added sdk for Import/Export dns records ([0835231](https://github.com/IBM/networking-go-sdk/commit/0835231fea7219a672416912d702891aad077d0e))
+* Custom Resolver SDK ([2258e33](https://github.com/IBM/networking-go-sdk/commit/2258e3341f18f558a4c13f4ac062205ae2f3ef50))
+
 # [0.18.0](https://github.com/IBM/networking-go-sdk/compare/v0.17.0...v0.18.0) (2021-06-25)
 
 
