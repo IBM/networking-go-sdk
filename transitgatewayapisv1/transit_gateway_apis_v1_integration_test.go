@@ -46,6 +46,9 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`TransitGatewayApisV1`, func() {
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
 	err := godotenv.Load("../transit.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {

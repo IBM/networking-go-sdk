@@ -18,6 +18,7 @@ package dnssvcsv1_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -631,6 +632,51 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 				Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+			})
+			It(`create import records`, func() {
+				shouldSkipTest()
+
+				// Import DNS records
+				importResourceRecordsOptions := service.NewImportResourceRecordsOptions(instanceID, *zoneInfo.ID)
+				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
+				f := strings.NewReader(zoneName + ` 1 IN AAAA 2001::888`)
+				importResourceRecordsOptions.SetFile(ioutil.NopCloser(f))
+				importResourceRecordsOptions.SetXCorrelationID("abc123")
+				importResourceRecordsOptions.SetFileContentType("application/json")
+				result, response, reqErr := service.ImportResourceRecords(importResourceRecordsOptions)
+				Expect(reqErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*result.TotalRecordsParsed).To(BeEquivalentTo(int64(1)))
+			})
+			It(`get Export records`, func() {
+				shouldSkipTest()
+
+				//create a resource record
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions.SetName("teststring")
+				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
+				createResourceRecordOptions.SetTTL(120)
+				rdataARecord, err := service.NewResourceRecordInputRdataRdataARecord("1.1.1.1")
+				Expect(err).To(BeNil())
+				createResourceRecordOptions.SetRdata(rdataARecord)
+				createResourceRecordOptions.SetXCorrelationID("abc123")
+				rresult, rresponse, rreqErr := service.CreateResourceRecord(createResourceRecordOptions)
+				Expect(rreqErr).To(BeNil())
+				Expect(rresponse).ToNot(BeNil())
+				Expect(rresult).ToNot(BeNil())
+				Expect(rresponse.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*rresult.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
+
+				// Export DNS Records.
+				exportResourceRecordsOptions := service.NewExportResourceRecordsOptions(instanceID, *zoneInfo.ID)
+				exportResourceRecordsOptions.SetXCorrelationID("abc123")
+				result, response, reqErr := service.ExportResourceRecords(exportResourceRecordsOptions)
+				Expect(reqErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
 			})
 		})
 	})
