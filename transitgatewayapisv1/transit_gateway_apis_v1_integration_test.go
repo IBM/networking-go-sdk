@@ -28,6 +28,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v4/core"
@@ -84,6 +85,54 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 	connectionName := "GO-SDK-INT-CONNECTION-" + strconv.FormatInt(timestamp, 10)
 	updateConnectionName := "GO-SDK-INT-CONNECTION-UPDATE-" + strconv.FormatInt(timestamp, 10)
 
+	Describe(`PreTest cleanup`, func() {
+		Context(`Successfully clean test environment`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			listTransitGatewaysOptions := service.NewListTransitGatewaysOptions().
+				SetHeaders(header)
+
+			It(`Checking gateways`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				for _, gw := range result.TransitGateways {
+					if strings.HasPrefix(*gw.Name, "GO-SDK-INT") {
+						gatewayID := *gw.ID
+						listTransitGatewayConnectionsOptions := service.NewListTransitGatewayConnectionsOptions(gatewayID).
+							SetTransitGatewayID(gatewayID).
+							SetHeaders(header)
+
+						result, detailedResponse, err := service.ListTransitGatewayConnections(listTransitGatewayConnectionsOptions)
+						Expect(err).To(BeNil())
+						Expect(detailedResponse.StatusCode).To(Equal(200))
+
+						if len(result.Connections) > 0 { // remove connections, gateway will be cleaned up next run to avoid waiting for deletes now
+							for _, conn := range result.Connections {
+								connID := *conn.ID
+								deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, connID)
+
+								detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+								Expect(err).To(BeNil())
+								Expect(detailedResponse.StatusCode).To(Equal(204))
+							}
+						} else { // remove empty gateways
+							deleteTransitGatewayOptions := service.NewDeleteTransitGatewayOptions(gatewayID)
+
+							detailedResponse, err := service.DeleteTransitGateway(deleteTransitGatewayOptions)
+							Expect(err).To(BeNil())
+							Expect(detailedResponse.StatusCode).To(Equal(204))
+						}
+					}
+				}
+			})
+		})
+	})
+
 	Describe(`CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions)`, func() {
 		Context(`Success: create Transit Gateway`, func() {
 			header := map[string]string{
@@ -111,7 +160,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
 
 				os.Setenv("GATEWAY_INSTANCE_ID", *result.ID)
-				//time.Sleep(30 * time.Second)
 			})
 			It("Successfully waits for gateway to report as available", func() {
 				shouldSkipTest()
@@ -142,7 +190,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						break
 					} else {
 						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
+						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -354,7 +402,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						break
 					} else {
 						// wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
+						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -415,7 +463,72 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						break
 					} else {
 						// wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
+						time.Sleep(time.Duration(10) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+		})
+
+		Context(`Success: create DirectLink Transit Gateway Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new resource`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				network_type := "directlink"
+				crn := os.Getenv("DL_CRN")
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(gatewayID, network_type)
+				createTransitGatewayConnectionOptions.SetHeaders(header)
+				createTransitGatewayConnectionOptions.SetName(connectionName + "dlaas")
+				createTransitGatewayConnectionOptions.SetNetworkID(crn)
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				os.Setenv("CONN_INSTANCE_ID_DL", *result.ID)
+
+				Expect(*result.Name).To(Equal(connectionName + "dlaas"))
+				Expect(*result.NetworkID).To(Equal(crn))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+			})
+
+			It("Successfully waits for connection to report as attached", func() {
+				shouldSkipTest()
+
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
+
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 2 min
+				timer := 0
+				for {
+					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+
+					// if attached then we are done
+					if *response.Status == "attached" {
+						// response is attached, exit success
+						Expect(*response.Name).To(Equal(connectionName + "dlaas"))
+						Expect(*response.NetworkID).To(Equal(os.Getenv("DL_CRN")))
+						Expect(*response.NetworkType).To(Equal("directlink"))
+						Expect(*response.CreatedAt).NotTo(Equal(""))
+						Expect(*response.UpdatedAt).NotTo(Equal(""))
+						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_DL")))
+						break
+					}
+
+					// other than attached, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 24 { // 2 min timer (24x5sec)
+						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
+						break
+					} else {
+						// wait 5 sec
+						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -484,7 +597,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						break
 					} else {
 						// wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
+						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -516,7 +629,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			header := map[string]string{
 				"Content-type": "application/json",
 			}
-			It(`Successfully list all gateways`, func() {
+			It(`Successfully list all connections`, func() {
 				shouldSkipTest()
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
@@ -649,7 +762,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(204))
-				//time.Sleep(90 * time.Second)
 			})
 			It("Successfully waits for connection to report as deleted", func() {
 				shouldSkipTest()
@@ -691,12 +803,52 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(204))
-				//time.Sleep(90 * time.Second)
 			})
 			It("Successfully waits for connection to report as deleted", func() {
 				shouldSkipTest()
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID"))
+
+				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
+				timer := 0
+				for {
+					// Get the current rc for the VC
+					_, detailedResponse, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+
+					// if 404 then we are done
+					if detailedResponse.StatusCode == 404 {
+						Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
+						break
+					}
+
+					// other than 404, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 24 { // 4 min timer (24x10sec)
+						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
+						break
+					} else {
+						// Still exists, wait 10 sec
+						time.Sleep(time.Duration(10) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+		})
+		Context(`Successfully delete Directlink connection by instanceID`, func() {
+			It(`Successfully delete resource by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CONN_INSTANCE_ID_DL")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+			It("Successfully waits for connection to report as deleted", func() {
+				shouldSkipTest()
+
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
 
 				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
 				timer := 0
