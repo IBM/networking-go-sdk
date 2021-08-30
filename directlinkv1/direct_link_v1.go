@@ -453,6 +453,9 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 	if updateGatewayOptions.AuthenticationKey != nil {
 		body["authentication_key"] = updateGatewayOptions.AuthenticationKey
 	}
+	if updateGatewayOptions.ConnectionMode != nil {
+		body["connection_mode"] = updateGatewayOptions.ConnectionMode
+	}
 	if updateGatewayOptions.Global != nil {
 		body["global"] = updateGatewayOptions.Global
 	}
@@ -551,6 +554,9 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 	}
 	if createGatewayActionOptions.AuthenticationKey != nil {
 		body["authentication_key"] = createGatewayActionOptions.AuthenticationKey
+	}
+	if createGatewayActionOptions.ConnectionMode != nil {
+		body["connection_mode"] = createGatewayActionOptions.ConnectionMode
 	}
 	if createGatewayActionOptions.Global != nil {
 		body["global"] = createGatewayActionOptions.Global
@@ -1473,6 +1479,11 @@ type CreateGatewayActionOptions struct {
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayActionTemplateAuthenticationKey
 
+	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	ConnectionMode *string
+
 	// Required for create_gateway_approve requests to select the gateway's routing option.  Gateways with global routing
 	// (`true`) can connect to networks outside of their associated region.
 	Global *bool
@@ -1506,6 +1517,15 @@ const (
 	CreateGatewayActionOptions_Action_UpdateAttributesReject  = "update_attributes_reject"
 )
 
+// Constants associated with the CreateGatewayActionOptions.ConnectionMode property.
+// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+const (
+	CreateGatewayActionOptions_ConnectionMode_Direct  = "direct"
+	CreateGatewayActionOptions_ConnectionMode_Transit = "transit"
+)
+
 // NewCreateGatewayActionOptions : Instantiate CreateGatewayActionOptions
 func (*DirectLinkV1) NewCreateGatewayActionOptions(id string, action string) *CreateGatewayActionOptions {
 	return &CreateGatewayActionOptions{
@@ -1529,6 +1549,12 @@ func (options *CreateGatewayActionOptions) SetAction(action string) *CreateGatew
 // SetAuthenticationKey : Allow user to set AuthenticationKey
 func (options *CreateGatewayActionOptions) SetAuthenticationKey(authenticationKey *GatewayActionTemplateAuthenticationKey) *CreateGatewayActionOptions {
 	options.AuthenticationKey = authenticationKey
+	return options
+}
+
+// SetConnectionMode : Allow user to set ConnectionMode
+func (options *CreateGatewayActionOptions) SetConnectionMode(connectionMode string) *CreateGatewayActionOptions {
+	options.ConnectionMode = core.StringPtr(connectionMode)
 	return options
 }
 
@@ -1839,6 +1865,11 @@ type Gateway struct {
 	// Reason for completion notice rejection.  Only included on type=dedicated gateways with a rejected completion notice.
 	CompletionNoticeRejectReason *string `json:"completion_notice_reject_reason,omitempty"`
 
+	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	ConnectionMode *string `json:"connection_mode,omitempty"`
+
 	// The date and time resource was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -1910,6 +1941,15 @@ const (
 	Gateway_BgpStatus_Connect     = "connect"
 	Gateway_BgpStatus_Established = "established"
 	Gateway_BgpStatus_Idle        = "idle"
+)
+
+// Constants associated with the Gateway.ConnectionMode property.
+// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+const (
+	Gateway_ConnectionMode_Direct  = "direct"
+	Gateway_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the Gateway.LinkStatus property.
@@ -1987,6 +2027,10 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "completion_notice_reject_reason", &obj.CompletionNoticeRejectReason)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
 		return
 	}
@@ -2872,6 +2916,11 @@ type GatewayTemplate struct {
 	// bgp_ibm_cidr must have matching network and subnet mask values.
 	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
 
+	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	ConnectionMode *string `json:"connection_mode,omitempty"`
+
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
 
@@ -2911,6 +2960,15 @@ type GatewayTemplate struct {
 	Port *GatewayPortIdentity `json:"port,omitempty"`
 }
 
+// Constants associated with the GatewayTemplate.ConnectionMode property.
+// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+const (
+	GatewayTemplate_ConnectionMode_Direct  = "direct"
+	GatewayTemplate_ConnectionMode_Transit = "transit"
+)
+
 // Constants associated with the GatewayTemplate.Type property.
 // Offering type.
 const (
@@ -2946,6 +3004,10 @@ func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
 		return
 	}
@@ -3919,6 +3981,11 @@ type UpdateGatewayOptions struct {
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayPatchTemplateAuthenticationKey
 
+	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	ConnectionMode *string
+
 	// Gateways with global routing (`true`) can connect to networks outside of their associated region.
 	Global *bool
 
@@ -3955,6 +4022,15 @@ type UpdateGatewayOptions struct {
 	Headers map[string]string
 }
 
+// Constants associated with the UpdateGatewayOptions.ConnectionMode property.
+// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+const (
+	UpdateGatewayOptions_ConnectionMode_Direct  = "direct"
+	UpdateGatewayOptions_ConnectionMode_Transit = "transit"
+)
+
 // Constants associated with the UpdateGatewayOptions.OperationalStatus property.
 // Gateway operational status.
 //
@@ -3983,6 +4059,12 @@ func (options *UpdateGatewayOptions) SetID(id string) *UpdateGatewayOptions {
 // SetAuthenticationKey : Allow user to set AuthenticationKey
 func (options *UpdateGatewayOptions) SetAuthenticationKey(authenticationKey *GatewayPatchTemplateAuthenticationKey) *UpdateGatewayOptions {
 	options.AuthenticationKey = authenticationKey
+	return options
+}
+
+// SetConnectionMode : Allow user to set ConnectionMode
+func (options *UpdateGatewayOptions) SetConnectionMode(connectionMode string) *UpdateGatewayOptions {
+	options.ConnectionMode = core.StringPtr(connectionMode)
 	return options
 }
 
@@ -4295,6 +4377,11 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 	// bgp_ibm_cidr must have matching network and subnet mask values.
 	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
 
+	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	ConnectionMode *string `json:"connection_mode,omitempty"`
+
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
 
@@ -4316,6 +4403,15 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 	// Select Port Label for new type=connect gateway.
 	Port *GatewayPortIdentity `json:"port" validate:"required"`
 }
+
+// Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.ConnectionMode property.
+// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+const (
+	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Direct  = "direct"
+	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Transit = "transit"
+)
 
 // Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.Type property.
 // Offering type.
@@ -4363,6 +4459,10 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
 		return
 	}
@@ -4434,6 +4534,11 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// bgp_ibm_cidr must have matching network and subnet mask values.
 	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
 
+	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	ConnectionMode *string `json:"connection_mode,omitempty"`
+
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
 
@@ -4467,6 +4572,15 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// MACsec configuration information.  Contact IBM support for access to MACsec.
 	MacsecConfig *GatewayMacsecConfigTemplate `json:"macsec_config,omitempty"`
 }
+
+// Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.ConnectionMode property.
+// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+const (
+	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Direct  = "direct"
+	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Transit = "transit"
+)
 
 // Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.Type property.
 // Offering type.
@@ -4517,6 +4631,10 @@ func UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(m map[string]json.RawM
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
 		return
 	}
