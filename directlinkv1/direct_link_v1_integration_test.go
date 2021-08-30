@@ -1577,57 +1577,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*res.Name).To(Equal(gatewayName))
 			})
 
-			It("Successfully waits for gateway to be provisioned state", func() {
-				shouldSkipTest()
-
-				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
-
-				// before connection_mode can be updated on a gateway, it needs to have operational_status of provisioned.  We need to wait for
-				// the new gateway to go to provisioned so we can delete it.
-				timer := 0
-				for {
-					// Get the current status for the gateway
-					result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(200))
-
-					Expect(*result.Name).To(Equal(gatewayName))
-					Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					Expect(*result.Global).To(Equal(global))
-					Expect(*result.Metered).To(Equal(metered))
-					Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					Expect(*result.Type).To(Equal(gatewayType))
-					Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-					Expect(*result.LocationName).To(Equal(locationName))
-					Expect(*result.LocationDisplayName).NotTo(Equal(""))
-					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-					Expect(*result.BgpStatus).To(Equal("idle"))
-					Expect(*result.CreatedAt).NotTo(Equal(""))
-					Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					Expect(*result.LinkStatus).To(Equal("down"))
-					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-					Expect(*result.ConnectionMode).To(Equal("transit"))
-
-					// if operational status is "provisioned" then we are done
-					if *result.OperationalStatus == "provisioned" {
-						Expect(*result.OperationalStatus).To(Equal("provisioned"))
-						break
-					}
-
-					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
-						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
-
 			It("Successfully deletes a gateway", func() {
 				shouldSkipTest()
 
