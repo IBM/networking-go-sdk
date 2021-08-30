@@ -1007,9 +1007,9 @@ type CreateTransitGatewayConnectionOptions struct {
 	// different account than the gateway. This field is required to be unspecified for network type 'gre_tunnel'.
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc'. For
-	// network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be unspecified for network
-	// type 'classic' and 'gre_tunnel' connections.
+	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
+	// 'directlink'. For network types 'vpc' and 'directlink' this is the CRN of the VPC / Direct Link gateway
+	// respectively. This field is required to be unspecified for network type 'classic' and 'gre_tunnel' connections.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type connections. The following ASN values
@@ -1040,6 +1040,7 @@ type CreateTransitGatewayConnectionOptions struct {
 // support.
 const (
 	CreateTransitGatewayConnectionOptions_NetworkType_Classic = "classic"
+	CreateTransitGatewayConnectionOptions_NetworkType_Directlink = "directlink"
 	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel = "gre_tunnel"
 	CreateTransitGatewayConnectionOptions_NetworkType_Vpc = "vpc"
 )
@@ -1690,8 +1691,9 @@ type TransitConnection struct {
 	// Cloud account than the gateway.
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc'. For
-	// network type 'vpc' this is the CRN of the VPC to be connected.
+	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
+	// 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc / gateway
+	// respectively.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
@@ -1731,6 +1733,7 @@ type TransitConnection struct {
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
 	TransitConnection_NetworkType_Classic = "classic"
+	TransitConnection_NetworkType_Directlink = "directlink"
 	TransitConnection_NetworkType_GreTunnel = "gre_tunnel"
 	TransitConnection_NetworkType_Vpc = "vpc"
 )
@@ -2116,8 +2119,9 @@ type TransitGatewayConnectionCust struct {
 	// The user-defined name for this transit gateway connection.
 	Name *string `json:"name" validate:"required"`
 
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc'. For
-	// network type 'vpc' this is the CRN of the VPC to be connected.
+	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
+	// 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc / gateway
+	// respectively.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
@@ -2182,6 +2186,7 @@ type TransitGatewayConnectionCust struct {
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
 	TransitGatewayConnectionCust_NetworkType_Classic = "classic"
+	TransitGatewayConnectionCust_NetworkType_Directlink = "directlink"
 	TransitGatewayConnectionCust_NetworkType_GreTunnel = "gre_tunnel"
 	TransitGatewayConnectionCust_NetworkType_Vpc = "vpc"
 )

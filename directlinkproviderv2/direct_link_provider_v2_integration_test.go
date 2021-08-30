@@ -538,7 +538,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				Expect(*result.Crn).To(HavePrefix("crn:v1"))
 				Expect(*result.Global).To(Equal(false))
 				Expect(*result.Metered).To(Equal(false))
-				Expect(*result.OperationalStatus).To(Equal("provisioned"))
+				Expect(*result.OperationalStatus).To(Equal("configuring"))
 				Expect(*result.Port.ID).To(Equal(*firstPort.ID))
 				Expect(*result.ProviderApiManaged).To(Equal(true))
 				Expect(*result.Type).To(Equal("connect"))
