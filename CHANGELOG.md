@@ -1,3 +1,11 @@
+# [0.20.0](https://github.com/IBM/networking-go-sdk/compare/v0.19.0...v0.20.0) (2021-08-30)
+
+
+### Features
+
+* Support for directlink tgw connection type ([#53](https://github.com/IBM/networking-go-sdk/issues/53)) ([76e5681](https://github.com/IBM/networking-go-sdk/commit/76e56816a76d59ec0f8bcd561928a8e6cbd918cc))
+* **DirectLink:** iallow the Directlink gateway to be attached to transit gateway ([d49dd43](https://github.com/IBM/networking-go-sdk/commit/d49dd435ad82333cd99121aa0b5fe1ee50770026))
+
 # [0.19.0](https://github.com/IBM/networking-go-sdk/compare/v0.18.0...v0.19.0) (2021-07-15)
 
 
