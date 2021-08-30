@@ -678,4 +678,156 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			})
 		})
 	})
+
+	Describe("Direct Link Provider Gateways with DLAAS", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-SDK-PROVIDER-Dedicated-DLAAS-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		customerAccount := os.Getenv("CUSTOMER_ACCT_ID")
+		speedMbps := int64(1000)
+
+		// Construct an instance of the ProviderGatewayPortIdentity model
+		providerGatewayPortIdentityModel := new(directlinkproviderv2.ProviderGatewayPortIdentity)
+		var firstPort directlinkproviderv2.ProviderPort
+
+		It(`Successfully get a provider port`, func() {
+			shouldSkipTest()
+
+			listPortsOptions := serviceV2.NewListProviderPortsOptions()
+			result, detailedResponse, err := serviceV2.ListProviderPorts(listPortsOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			ports := result.Ports
+			firstPort = ports[0]
+			providerGatewayPortIdentityModel.ID = firstPort.ID
+		})
+
+		It(`Successfully create gateway`, func() {
+			shouldSkipTest()
+
+			gatewayOptions := new(directlinkproviderv2.CreateProviderGatewayOptions)
+			gatewayOptions.BgpAsn = core.Int64Ptr(bgpAsn)
+			gatewayOptions.CustomerAccountID = core.StringPtr(customerAccount)
+			gatewayOptions.Name = core.StringPtr(gatewayName)
+			gatewayOptions.Port = providerGatewayPortIdentityModel
+			gatewayOptions.SpeedMbps = core.Int64Ptr(speedMbps)
+
+			result, detailedResponse, err := serviceV2.CreateProviderGateway(gatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(201))
+
+			os.Setenv("GATEWAY_ID", *result.ID)
+		})
+
+		It(`Successfully approve the provider created gateway with connection mode set as transit`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				"create_gateway_approve")
+			createGatewayActionOptions.SetMetered(false)
+			createGatewayActionOptions.SetGlobal(false)
+			createGatewayActionOptions.SetConnectionMode("transit")
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+			Expect(*result.SpeedMbps).To(Equal(speedMbps))
+			Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+			Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+			Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+			Expect(*result.BgpStatus).To(Equal("idle"))
+			Expect(*result.CreatedAt).NotTo(Equal(""))
+			Expect(*result.Crn).To(HavePrefix("crn:v1"))
+			Expect(*result.Global).To(Equal(false))
+			Expect(*result.Metered).To(Equal(false))
+			Expect(*result.OperationalStatus).To(Equal("create_pending"))
+			Expect(*result.Port.ID).To(Equal(*firstPort.ID))
+			Expect(*result.ProviderApiManaged).To(Equal(true))
+			Expect(*result.Type).To(Equal("connect"))
+			Expect(*result.ConnectionMode).To(Equal("transit"))
+			Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+		})
+
+		It("Successfully waits for connect gateway to move to provisioned state", func() {
+			shouldSkipTest()
+
+			getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+			// the new gateway to go to provisioned so we can delete it.
+			timer := 0
+			for {
+				// Get the current status for the gateway
+				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				// if operational status is "provisioned" then we are done
+				if *result.OperationalStatus == "provisioned" {
+					Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.BgpAsn).To(Equal(bgpAsn))
+					Expect(*result.SpeedMbps).To(Equal(speedMbps))
+					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+					Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+					Expect(*result.BgpStatus).To(Equal("idle"))
+					Expect(*result.CreatedAt).NotTo(Equal(""))
+					Expect(*result.Crn).To(HavePrefix("crn:v1"))
+					Expect(*result.Global).To(Equal(false))
+					Expect(*result.Metered).To(Equal(false))
+					Expect(*result.OperationalStatus).To(Equal("provisioned"))
+					Expect(*result.Port.ID).To(Equal(*firstPort.ID))
+					Expect(*result.ProviderApiManaged).To(Equal(true))
+					Expect(*result.Type).To(Equal("connect"))
+					Expect(*result.Vlan).Should(BeNumerically(">", 0))
+					Expect(*result.LocationDisplayName).To(Equal(*firstPort.LocationDisplayName))
+					Expect(*result.LocationName).To(Equal(*firstPort.LocationName))
+					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+					break
+				}
+
+				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+				if timer > 24 { // 2 min timer (24x5sec)
+					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+					break
+				} else {
+					// Still exists, wait 5 sec
+					time.Sleep(time.Duration(5) * time.Second)
+					timer = timer + 1
+				}
+			}
+		})
+
+		It("Successfully request gateway delete using provider account", func() {
+			shouldSkipTest()
+
+			gatewayId := os.Getenv("GATEWAY_ID")
+			deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
+
+			_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+
+			Expect(detailedResponse.StatusCode).To(Equal(202))
+		})
+
+		It(`Successfully approve gateway delete using client account`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				"delete_gateway_approve")
+
+			// Get the current status for the gateway
+			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+
+			Expect(detailedResponse.StatusCode).To(Equal(204))
+		})
+	})
 })
