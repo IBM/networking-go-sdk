@@ -38,7 +38,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	Skip(Skipping tests...)
+	Skip("Skipping test...")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -1290,6 +1290,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Update the Authentication key for the gateway", func() {
 			It("should successfully clear the auth key", func() {
+				shouldSkipTest()
 				authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
 				gatewayId := os.Getenv("GATEWAY_ID")
 
@@ -1431,6 +1432,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should successfully switch the connection mode to direct", func() {
+				shouldSkipTest()
 				gatewayId := os.Getenv("GATEWAY_ID")
 
 				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetConnectionMode("direct")
@@ -1566,6 +1568,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("should successfully switch the connection mode to transit", func() {
+				shouldSkipTest()
 				gatewayId := os.Getenv("GATEWAY_ID")
 
 				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetConnectionMode("transit")
