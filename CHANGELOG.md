@@ -1,3 +1,10 @@
+# [0.21.0](https://github.com/IBM/networking-go-sdk/compare/v0.20.0...v0.21.0) (2021-09-07)
+
+
+### Features
+
+* **brotli:** added brotli setting ([3c73241](https://github.com/IBM/networking-go-sdk/commit/3c73241b06d76dc9b886b94b741b1367d9886dd7))
+
 # [0.20.0](https://github.com/IBM/networking-go-sdk/compare/v0.19.0...v0.20.0) (2021-08-30)
 
 
