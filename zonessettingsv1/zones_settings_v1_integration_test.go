@@ -20,6 +20,7 @@ const configFile = "../cis.env"
 var configLoaded bool = true
 
 func shouldSkipTest() {
+	Skip("Skipping Tests")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -62,7 +63,7 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 	Describe(`zone_settings_v1_test`, func() {
 		Context(`zone_settings_v1_test`, func() {
 			It(`DNSSEC setting test`, func() {
-				shouldSkipTest()
+				// shouldSkipTest()
 				getOpt := service.NewGetZoneDnssecOptions()
 				getResult, getResp, getErr := service.GetZoneDnssec(getOpt)
 				Expect(getErr).To(BeNil())
