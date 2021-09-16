@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/IBM/networking-go-sdk/compare/v0.21.0...v0.22.0) (2021-09-16)
+
+
+### Features
+
+* SDK Custom Resolver Location as Optional ([62e56a5](https://github.com/IBM/networking-go-sdk/commit/62e56a56aaba9ecb7570ed0147635c91536d4d82))
+
 # [0.21.0](https://github.com/IBM/networking-go-sdk/compare/v0.20.0...v0.21.0) (2021-09-07)
 
 
