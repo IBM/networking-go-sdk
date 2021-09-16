@@ -1396,7 +1396,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(responseAdd.GetStatusCode()).To(BeEquivalentTo(200))
 				Expect(resAdd.DnsServerIp).ToNot(BeNil())
 
-				locationID = resAdd.ID
 				// Test ListAll Custom Resolver
 				listCustomResolverOptions = service.NewListCustomResolversOptions(instanceID)
 				listCustomResolverOptions.SetXCorrelationID("abc123")
