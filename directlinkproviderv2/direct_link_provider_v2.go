@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.31.0-902c9336-20210504-161156
+ */
+
 // Package directlinkproviderv2 : Operations and models for the DirectLinkProviderV2 service
 package directlinkproviderv2
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"reflect"
+	"time"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	common "github.com/IBM/networking-go-sdk/common"
 	"github.com/go-openapi/strfmt"
 )
@@ -117,24 +124,74 @@ func NewDirectLinkProviderV2(options *DirectLinkProviderV2Options) (service *Dir
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "directLinkProvider" suitable for processing requests.
+func (directLinkProvider *DirectLinkProviderV2) Clone() *DirectLinkProviderV2 {
+	if core.IsNil(directLinkProvider) {
+		return nil
+	}
+	clone := *directLinkProvider
+	clone.Service = directLinkProvider.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (directLinkProvider *DirectLinkProviderV2) SetServiceURL(url string) error {
 	return directLinkProvider.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (directLinkProvider *DirectLinkProviderV2) GetServiceURL() string {
+	return directLinkProvider.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (directLinkProvider *DirectLinkProviderV2) SetDefaultHeaders(headers http.Header) {
+	directLinkProvider.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (directLinkProvider *DirectLinkProviderV2) SetEnableGzipCompression(enableGzip bool) {
+	directLinkProvider.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (directLinkProvider *DirectLinkProviderV2) GetEnableGzipCompression() bool {
+	return directLinkProvider.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (directLinkProvider *DirectLinkProviderV2) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	directLinkProvider.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (directLinkProvider *DirectLinkProviderV2) DisableRetries() {
+	directLinkProvider.Service.DisableRetries()
+}
+
 // ListProviderGateways : List gateways
 // List all Direct Link Connect gateways created by this provider.
 func (directLinkProvider *DirectLinkProviderV2) ListProviderGateways(listProviderGatewaysOptions *ListProviderGatewaysOptions) (result *ProviderGatewayCollection, response *core.DetailedResponse, err error) {
+	return directLinkProvider.ListProviderGatewaysWithContext(context.Background(), listProviderGatewaysOptions)
+}
+
+// ListProviderGatewaysWithContext is an alternate form of the ListProviderGateways method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) ListProviderGatewaysWithContext(ctx context.Context, listProviderGatewaysOptions *ListProviderGatewaysOptions) (result *ProviderGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listProviderGatewaysOptions, "listProviderGatewaysOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"gateways"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/gateways`, nil)
 	if err != nil {
 		return
 	}
@@ -167,11 +224,13 @@ func (directLinkProvider *DirectLinkProviderV2) ListProviderGateways(listProvide
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGatewayCollection)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGatewayCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -181,6 +240,11 @@ func (directLinkProvider *DirectLinkProviderV2) ListProviderGateways(listProvide
 //
 // The gateway will be 'provider_api_managed=true'.
 func (directLinkProvider *DirectLinkProviderV2) CreateProviderGateway(createProviderGatewayOptions *CreateProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
+	return directLinkProvider.CreateProviderGatewayWithContext(context.Background(), createProviderGatewayOptions)
+}
+
+// CreateProviderGatewayWithContext is an alternate form of the CreateProviderGateway method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) CreateProviderGatewayWithContext(ctx context.Context, createProviderGatewayOptions *CreateProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createProviderGatewayOptions, "createProviderGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -190,11 +254,10 @@ func (directLinkProvider *DirectLinkProviderV2) CreateProviderGateway(createProv
 		return
 	}
 
-	pathSegments := []string{"gateways"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/gateways`, nil)
 	if err != nil {
 		return
 	}
@@ -252,11 +315,13 @@ func (directLinkProvider *DirectLinkProviderV2) CreateProviderGateway(createProv
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -264,6 +329,11 @@ func (directLinkProvider *DirectLinkProviderV2) CreateProviderGateway(createProv
 // DeleteProviderGateway : Delete gateway
 // Delete a Direct Link Connect provider managed gateway.
 func (directLinkProvider *DirectLinkProviderV2) DeleteProviderGateway(deleteProviderGatewayOptions *DeleteProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
+	return directLinkProvider.DeleteProviderGatewayWithContext(context.Background(), deleteProviderGatewayOptions)
+}
+
+// DeleteProviderGatewayWithContext is an alternate form of the DeleteProviderGateway method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) DeleteProviderGatewayWithContext(ctx context.Context, deleteProviderGatewayOptions *DeleteProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteProviderGatewayOptions, "deleteProviderGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -273,11 +343,14 @@ func (directLinkProvider *DirectLinkProviderV2) DeleteProviderGateway(deleteProv
 		return
 	}
 
-	pathSegments := []string{"gateways"}
-	pathParameters := []string{*deleteProviderGatewayOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *deleteProviderGatewayOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -304,11 +377,13 @@ func (directLinkProvider *DirectLinkProviderV2) DeleteProviderGateway(deleteProv
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -317,6 +392,11 @@ func (directLinkProvider *DirectLinkProviderV2) DeleteProviderGateway(deleteProv
 // Get a Direct Link Connect gateway.
 //      Gateways with either `provider_api_managed=true` or `provider_api_managed=false` can be retrieved.
 func (directLinkProvider *DirectLinkProviderV2) GetProviderGateway(getProviderGatewayOptions *GetProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
+	return directLinkProvider.GetProviderGatewayWithContext(context.Background(), getProviderGatewayOptions)
+}
+
+// GetProviderGatewayWithContext is an alternate form of the GetProviderGateway method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) GetProviderGatewayWithContext(ctx context.Context, getProviderGatewayOptions *GetProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getProviderGatewayOptions, "getProviderGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -326,11 +406,14 @@ func (directLinkProvider *DirectLinkProviderV2) GetProviderGateway(getProviderGa
 		return
 	}
 
-	pathSegments := []string{"gateways"}
-	pathParameters := []string{*getProviderGatewayOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *getProviderGatewayOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -357,11 +440,13 @@ func (directLinkProvider *DirectLinkProviderV2) GetProviderGateway(getProviderGa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -372,6 +457,11 @@ func (directLinkProvider *DirectLinkProviderV2) GetProviderGateway(getProviderGa
 // Name changes are applied immediately, other changes result in a gateway change_request and require approval from the
 // client.
 func (directLinkProvider *DirectLinkProviderV2) UpdateProviderGateway(updateProviderGatewayOptions *UpdateProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
+	return directLinkProvider.UpdateProviderGatewayWithContext(context.Background(), updateProviderGatewayOptions)
+}
+
+// UpdateProviderGatewayWithContext is an alternate form of the UpdateProviderGateway method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) UpdateProviderGatewayWithContext(ctx context.Context, updateProviderGatewayOptions *UpdateProviderGatewayOptions) (result *ProviderGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateProviderGatewayOptions, "updateProviderGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -381,11 +471,14 @@ func (directLinkProvider *DirectLinkProviderV2) UpdateProviderGateway(updateProv
 		return
 	}
 
-	pathSegments := []string{"gateways"}
-	pathParameters := []string{*updateProviderGatewayOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updateProviderGatewayOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -404,6 +497,15 @@ func (directLinkProvider *DirectLinkProviderV2) UpdateProviderGateway(updateProv
 	builder.AddQuery("version", fmt.Sprint(*directLinkProvider.Version))
 
 	body := make(map[string]interface{})
+	if updateProviderGatewayOptions.BgpAsn != nil {
+		body["bgp_asn"] = updateProviderGatewayOptions.BgpAsn
+	}
+	if updateProviderGatewayOptions.BgpCerCidr != nil {
+		body["bgp_cer_cidr"] = updateProviderGatewayOptions.BgpCerCidr
+	}
+	if updateProviderGatewayOptions.BgpIbmCidr != nil {
+		body["bgp_ibm_cidr"] = updateProviderGatewayOptions.BgpIbmCidr
+	}
 	if updateProviderGatewayOptions.Name != nil {
 		body["name"] = updateProviderGatewayOptions.Name
 	}
@@ -425,11 +527,13 @@ func (directLinkProvider *DirectLinkProviderV2) UpdateProviderGateway(updateProv
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderGateway)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -437,16 +541,20 @@ func (directLinkProvider *DirectLinkProviderV2) UpdateProviderGateway(updateProv
 // ListProviderPorts : List ports
 // List all provider ports (associated with the caller).
 func (directLinkProvider *DirectLinkProviderV2) ListProviderPorts(listProviderPortsOptions *ListProviderPortsOptions) (result *ProviderPortCollection, response *core.DetailedResponse, err error) {
+	return directLinkProvider.ListProviderPortsWithContext(context.Background(), listProviderPortsOptions)
+}
+
+// ListProviderPortsWithContext is an alternate form of the ListProviderPorts method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) ListProviderPortsWithContext(ctx context.Context, listProviderPortsOptions *ListProviderPortsOptions) (result *ProviderPortCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listProviderPortsOptions, "listProviderPortsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ports"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/ports`, nil)
 	if err != nil {
 		return
 	}
@@ -479,11 +587,13 @@ func (directLinkProvider *DirectLinkProviderV2) ListProviderPorts(listProviderPo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderPortCollection)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderPortCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -491,6 +601,11 @@ func (directLinkProvider *DirectLinkProviderV2) ListProviderPorts(listProviderPo
 // GetProviderPort : Get port
 // Get provider port information.
 func (directLinkProvider *DirectLinkProviderV2) GetProviderPort(getProviderPortOptions *GetProviderPortOptions) (result *ProviderPort, response *core.DetailedResponse, err error) {
+	return directLinkProvider.GetProviderPortWithContext(context.Background(), getProviderPortOptions)
+}
+
+// GetProviderPortWithContext is an alternate form of the GetProviderPort method which supports a Context parameter
+func (directLinkProvider *DirectLinkProviderV2) GetProviderPortWithContext(ctx context.Context, getProviderPortOptions *GetProviderPortOptions) (result *ProviderPort, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getProviderPortOptions, "getProviderPortOptions cannot be nil")
 	if err != nil {
 		return
@@ -500,11 +615,14 @@ func (directLinkProvider *DirectLinkProviderV2) GetProviderPort(getProviderPortO
 		return
 	}
 
-	pathSegments := []string{"ports"}
-	pathParameters := []string{*getProviderPortOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *getProviderPortOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(directLinkProvider.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLinkProvider.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLinkProvider.Service.Options.URL, `/ports/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -531,11 +649,13 @@ func (directLinkProvider *DirectLinkProviderV2) GetProviderPort(getProviderPortO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderPort)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalProviderPort)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -546,20 +666,20 @@ type CreateProviderGatewayOptions struct {
 	//
 	// For a 2-byte range, enter a value between 1-64495 or 64999. For a 2-byte or 4-byte range, enter a value between
 	// 131072-4199999999. For a 4-byte range, enter a value between 4201000000-4201064511.
-	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
+	BgpAsn *int64 `validate:"required"`
 
 	// Customer IBM Cloud account ID for the new gateway.  A gateway object containing the pending create request will
 	// become available in the specified account.
-	CustomerAccountID *string `json:"customer_account_id" validate:"required"`
+	CustomerAccountID *string `validate:"required"`
 
 	// The unique user-defined name for this gateway.
-	Name *string `json:"name" validate:"required"`
+	Name *string `validate:"required"`
 
 	// Select Port Label for the gateway.
-	Port *ProviderGatewayPortIdentity `json:"port" validate:"required"`
+	Port *ProviderGatewayPortIdentity `validate:"required"`
 
 	// Gateway speed in megabits per second.
-	SpeedMbps *int64 `json:"speed_mbps" validate:"required"`
+	SpeedMbps *int64 `validate:"required"`
 
 	// BGP customer edge router CIDR.
 	//
@@ -569,7 +689,7 @@ type CreateProviderGatewayOptions struct {
 	// For manual IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
 	// "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
 	// bgp_ibm_cidr must have matching network and subnet mask values.
-	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+	BgpCerCidr *string
 
 	// BGP IBM CIDR.
 	//
@@ -579,10 +699,10 @@ type CreateProviderGatewayOptions struct {
 	// For manual IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
 	// "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
 	// bgp_ibm_cidr must have matching network and subnet mask values.
-	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+	BgpIbmCidr *string
 
 	// When true, perform request validation only and do not create a gateway.
-	CheckOnly *string `json:"check_only,omitempty"`
+	CheckOnly *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -656,7 +776,7 @@ func (options *CreateProviderGatewayOptions) SetHeaders(param map[string]string)
 // DeleteProviderGatewayOptions : The DeleteProviderGateway options.
 type DeleteProviderGatewayOptions struct {
 	// Direct Link Connect gateway identifier.
-	ID *string `json:"id" validate:"required"`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -684,7 +804,7 @@ func (options *DeleteProviderGatewayOptions) SetHeaders(param map[string]string)
 // GetProviderGatewayOptions : The GetProviderGateway options.
 type GetProviderGatewayOptions struct {
 	// Direct Link Connect gateway identifier.
-	ID *string `json:"id" validate:"required"`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -712,7 +832,7 @@ func (options *GetProviderGatewayOptions) SetHeaders(param map[string]string) *G
 // GetProviderPortOptions : The GetProviderPort options.
 type GetProviderPortOptions struct {
 	// port identifier.
-	ID *string `json:"id" validate:"required"`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -740,10 +860,10 @@ func (options *GetProviderPortOptions) SetHeaders(param map[string]string) *GetP
 // ListProviderGatewaysOptions : The ListProviderGateways options.
 type ListProviderGatewaysOptions struct {
 	// A server-supplied token determining which resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -775,10 +895,10 @@ func (options *ListProviderGatewaysOptions) SetHeaders(param map[string]string) 
 // ListProviderPortsOptions : The ListProviderPorts options.
 type ListProviderPortsOptions struct {
 	// A server-supplied token determining which resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -826,7 +946,7 @@ type ProviderGateway struct {
 
 	// Gateway BGP status.
 	//
-	// The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+	// The list of enumerated values for this property may expand in the future. Code and processes using this field must
 	// tolerate unexpected values.
 	BgpStatus *string `json:"bgp_status,omitempty"`
 
@@ -849,7 +969,7 @@ type ProviderGateway struct {
 
 	// Gateway operational status.
 	//
-	// The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+	// The list of enumerated values for this property may expand in the future. Code and processes using this field must
 	// tolerate unexpected values.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
 
@@ -874,7 +994,7 @@ type ProviderGateway struct {
 // Constants associated with the ProviderGateway.BgpStatus property.
 // Gateway BGP status.
 //
-// The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+// The list of enumerated values for this property may expand in the future. Code and processes using this field must
 // tolerate unexpected values.
 const (
 	ProviderGateway_BgpStatus_Active      = "active"
@@ -886,9 +1006,10 @@ const (
 // Constants associated with the ProviderGateway.OperationalStatus property.
 // Gateway operational status.
 //
-// The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+// The list of enumerated values for this property may expand in the future. Code and processes using this field must
 // tolerate unexpected values.
 const (
+	ProviderGateway_OperationalStatus_Configuring    = "configuring"
 	ProviderGateway_OperationalStatus_CreatePending  = "create_pending"
 	ProviderGateway_OperationalStatus_CreateRejected = "create_rejected"
 	ProviderGateway_OperationalStatus_DeletePending  = "delete_pending"
@@ -1144,9 +1265,33 @@ func UnmarshalProviderGatewayPortReference(m map[string]json.RawMessage, result 
 // ProviderGatewayUpdateAttributesUpdatesItem : ProviderGatewayUpdateAttributesUpdatesItem struct
 // Models which "extend" this model:
 // - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate
+// - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate
+// - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate
 type ProviderGatewayUpdateAttributesUpdatesItem struct {
 	// New gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
 }
 
 func (*ProviderGatewayUpdateAttributesUpdatesItem) isaProviderGatewayUpdateAttributesUpdatesItem() bool {
@@ -1161,6 +1306,18 @@ type ProviderGatewayUpdateAttributesUpdatesItemIntf interface {
 func UnmarshalProviderGatewayUpdateAttributesUpdatesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ProviderGatewayUpdateAttributesUpdatesItem)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
 	}
@@ -1309,13 +1466,32 @@ func UnmarshalProviderPortCollectionNext(m map[string]json.RawMessage, result in
 // UpdateProviderGatewayOptions : The UpdateProviderGateway options.
 type UpdateProviderGatewayOptions struct {
 	// Direct Link Connect gateway identifier.
-	ID *string `json:"id" validate:"required"`
+	ID *string `validate:"required,ne="`
+
+	// The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0
+	// gateway.
+	BgpAsn *int64
+
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway. Customer edge IP and IBM IP should be in the same network. Updating customer edge
+	// router CIDR should be accompanied with IBM CIDR in the request. Update customer edge router IP to a valid
+	// bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+	// "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching
+	// network and subnet mask values.
+	BgpCerCidr *string
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway. IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with
+	// customer edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value
+	// must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string
 
 	// The unique user-defined name for this gateway.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Gateway speed in megabits per second.
-	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+	SpeedMbps *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1331,6 +1507,24 @@ func (*DirectLinkProviderV2) NewUpdateProviderGatewayOptions(id string) *UpdateP
 // SetID : Allow user to set ID
 func (options *UpdateProviderGatewayOptions) SetID(id string) *UpdateProviderGatewayOptions {
 	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetBgpAsn : Allow user to set BgpAsn
+func (options *UpdateProviderGatewayOptions) SetBgpAsn(bgpAsn int64) *UpdateProviderGatewayOptions {
+	options.BgpAsn = core.Int64Ptr(bgpAsn)
+	return options
+}
+
+// SetBgpCerCidr : Allow user to set BgpCerCidr
+func (options *UpdateProviderGatewayOptions) SetBgpCerCidr(bgpCerCidr string) *UpdateProviderGatewayOptions {
+	options.BgpCerCidr = core.StringPtr(bgpCerCidr)
+	return options
+}
+
+// SetBgpIbmCidr : Allow user to set BgpIbmCidr
+func (options *UpdateProviderGatewayOptions) SetBgpIbmCidr(bgpIbmCidr string) *UpdateProviderGatewayOptions {
+	options.BgpIbmCidr = core.StringPtr(bgpIbmCidr)
 	return options
 }
 
@@ -1436,6 +1630,71 @@ func UnmarshalProviderGatewayChangeRequestProviderGatewayUpdateAttributes(m map[
 		return
 	}
 	err = core.UnmarshalModel(m, "updates", &obj.Updates, UnmarshalProviderGatewayUpdateAttributesUpdatesItem)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate : The autonomous system number (ASN) of Border Gateway Protocol
+// (BGP) configuration for the IBM side of the DL 2.0 gateway.
+// This model "extends" ProviderGatewayUpdateAttributesUpdatesItem
+type ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate struct {
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
+}
+
+func (*ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate) isaProviderGatewayUpdateAttributesUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate unmarshals an instance of ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate from the specified map of raw messages.
+func UnmarshalProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate : Update BGP customer and IBM CIDR.
+// This model "extends" ProviderGatewayUpdateAttributesUpdatesItem
+type ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate struct {
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+}
+
+func (*ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate) isaProviderGatewayUpdateAttributesUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate unmarshals an instance of ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate from the specified map of raw messages.
+func UnmarshalProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
 		return
 	}

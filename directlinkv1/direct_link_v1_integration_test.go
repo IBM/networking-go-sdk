@@ -38,7 +38,6 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	Skip("Skipping test...")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -1581,6 +1580,218 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*res.Name).To(Equal(gatewayName))
 			})
 
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
+
+	Describe("BGP IP Update", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-BGP-IP-SDK-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		crossConnectRouter := "LAB-xcr01.dal09"
+		global := true
+		locationName := os.Getenv("LOCATION_NAME")
+		speedMbps := int64(1000)
+		metered := false
+		carrierName := "carrier1"
+		customerName := "customer1"
+		gatewayType := "dedicated"
+
+		Context("Create a Gateway", func() {
+			It("should successfully create a gateway", func() {
+				shouldSkipTest()
+
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
+				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.Metered = core.BoolPtr(false)
+				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+
+				result, resp, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
+
+				os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("BGP_IP_CER", *result.BgpCerCidr)
+				os.Setenv("BGP_IP_IBM", *result.BgpIbmCidr)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.BgpAsn).To(Equal(bgpAsn))
+				Expect(*result.Global).To(Equal(global))
+				Expect(*result.Metered).To(Equal(metered))
+				Expect(*result.SpeedMbps).To(Equal(speedMbps))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.Crn).To(HavePrefix("crn:v1"))
+				Expect(*result.LinkStatus).To(Equal("down"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+
+			})
+		})
+
+		Context("Update the BGP ASN for the gateway", func() {
+			It("should successfully update the bgp asn", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				bgpAsn := int64(63999)
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBgpAsn(bgpAsn)
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(*res.BgpAsn).To(Equal(bgpAsn))
+				Expect(*res.Name).To(Equal(gatewayName))
+			})
+		})
+
+		Context("Update the BGP IP for the gateway", func() {
+			It("should either successfully update the BGP IP CER and IBM CIDR", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBgpCerCidr("172.17.252.2/29").SetBgpIbmCidr("172.17.252.1/29")
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				if err != nil {
+					Expect(err.Error()).To(Equal("Please make sure localIP and remoteIP are not in use"))
+				} else {
+					Expect(err).To(BeNil())
+					Expect(resp.StatusCode).To(Equal(200))
+
+					Expect(*res.ID).To(Equal(gatewayId))
+					Expect(*res.Name).To(Equal(gatewayName))
+				}
+
+			})
+		})
+
+		Context("Delete a gateway", func() {
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
+
+	Describe("BFD Config", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-BFD-SDK-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		crossConnectRouter := "LAB-xcr01.dal09"
+		locationName := os.Getenv("LOCATION_NAME")
+		speedMbps := int64(1000)
+		carrierName := "carrier1"
+		customerName := "customer1"
+		gatewayType := "dedicated"
+		bfdInterval := int64(1000)
+		bfdMultiplier := int64(10)
+
+		Context("Create a Gateway", func() {
+			It("should successfully create a gateway", func() {
+				shouldSkipTest()
+
+				// Create a template for BFD Config
+				bfdTemplate := new(directlinkv1.GatewayBfdConfigTemplate)
+				bfdTemplate.Interval = &bfdInterval
+				bfdTemplate.Multiplier = &bfdMultiplier
+
+				// Create a template for Gateway model
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(bgpAsn)
+				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.Metered = core.BoolPtr(false)
+				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(speedMbps)
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+				gatewayTemplateModel.BfdConfig = bfdTemplate
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+
+				result, resp, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
+
+				os.Setenv("GATEWAY_ID", *result.ID)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(result.BfdConfig).NotTo(BeNil())
+				Expect(result.BfdConfig.BfdStatus).NotTo(BeNil())
+				Expect(*result.BfdConfig.Interval).To(Equal(bfdInterval))
+				Expect(*result.BfdConfig.Multiplier).To(Equal(bfdMultiplier))
+			})
+		})
+
+		Context("Update the BFD Config for the gateway", func() {
+			It("should successfully update the bfd config", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				updatedBfdInterval := int64(400)
+				updatedBfdMultiplier := int64(200)
+
+				// Create a template for BFD Config
+				bfdPatchTemplate := new(directlinkv1.GatewayBfdPatchTemplate)
+				bfdPatchTemplate.Interval = &updatedBfdInterval
+				bfdPatchTemplate.Multiplier = &updatedBfdMultiplier
+
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBfdConfig(bfdPatchTemplate)
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(*res.Name).To(Equal(gatewayName))
+				Expect(res.BfdConfig).NotTo(BeNil())
+				Expect(res.BfdConfig.BfdStatus).NotTo(BeNil())
+				Expect(*res.BfdConfig.Interval).To(Equal(updatedBfdInterval))
+				Expect(*res.BfdConfig.Multiplier).To(Equal(updatedBfdMultiplier))
+			})
+		})
+
+		Context("Delete a gateway", func() {
 			It("Successfully deletes a gateway", func() {
 				shouldSkipTest()
 

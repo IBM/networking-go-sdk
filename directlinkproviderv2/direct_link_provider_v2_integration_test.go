@@ -514,7 +514,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				shouldSkipTest()
 
 				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					"update_attributes_approve")
+					directlinkv1.CreateGatewayActionOptions_Action_UpdateAttributesApprove)
 
 				gatewayActionTemplateUpdatesItem := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 				gatewayActionTemplateUpdatesItem.SpeedMbps = core.Int64Ptr(updatedSpeedMbps)
@@ -586,9 +586,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
-
 				_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
-
 				Expect(detailedResponse.StatusCode).To(Equal(202))
 			})
 
@@ -596,11 +594,9 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				shouldSkipTest()
 
 				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					"delete_gateway_reject")
-
+					directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayReject)
 				// Get the current status for the gateway
 				_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
-
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 			})
 
@@ -608,13 +604,10 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				shouldSkipTest()
 
 				getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
-
 				// Get the current status for the gateway
 				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
-
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
-
 				// change request has been reset
 				Expect(result.ChangeRequest).To(BeNil())
 			})
@@ -659,9 +652,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 				gatewayId := os.Getenv("GATEWAY_ID")
 				deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
-
 				_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
-
 				Expect(detailedResponse.StatusCode).To(Equal(202))
 			})
 
@@ -669,11 +660,9 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				shouldSkipTest()
 
 				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					"delete_gateway_approve")
-
+					directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
 				// Get the current status for the gateway
 				_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
-
 				Expect(detailedResponse.StatusCode).To(Equal(204))
 			})
 		})
@@ -812,9 +801,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 			gatewayId := os.Getenv("GATEWAY_ID")
 			deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
-
 			_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
-
 			Expect(detailedResponse.StatusCode).To(Equal(202))
 		})
 
@@ -822,11 +809,353 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			shouldSkipTest()
 
 			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				"delete_gateway_approve")
-
+				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
 			// Get the current status for the gateway
 			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+			Expect(detailedResponse.StatusCode).To(Equal(204))
+		})
+	})
 
+	Describe("Direct Link Provider Gateways with BGP IP", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-SDK-PROVIDER-BGPIP-UPD-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		customerAccount := os.Getenv("CUSTOMER_ACCT_ID")
+		speedMbps := int64(1000)
+
+		// Construct an instance of the ProviderGatewayPortIdentity model
+		providerGatewayPortIdentityModel := new(directlinkproviderv2.ProviderGatewayPortIdentity)
+		var firstPort directlinkproviderv2.ProviderPort
+
+		It(`Successfully get a provider port`, func() {
+			shouldSkipTest()
+
+			listPortsOptions := serviceV2.NewListProviderPortsOptions()
+			result, detailedResponse, err := serviceV2.ListProviderPorts(listPortsOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			ports := result.Ports
+			firstPort = ports[0]
+			providerGatewayPortIdentityModel.ID = firstPort.ID
+		})
+
+		It(`Successfully create gateway`, func() {
+			shouldSkipTest()
+
+			gatewayOptions := new(directlinkproviderv2.CreateProviderGatewayOptions)
+			gatewayOptions.BgpAsn = core.Int64Ptr(bgpAsn)
+			gatewayOptions.CustomerAccountID = core.StringPtr(customerAccount)
+			gatewayOptions.Name = core.StringPtr(gatewayName)
+			gatewayOptions.Port = providerGatewayPortIdentityModel
+			gatewayOptions.SpeedMbps = core.Int64Ptr(speedMbps)
+
+			result, detailedResponse, err := serviceV2.CreateProviderGateway(gatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(201))
+
+			os.Setenv("GATEWAY_ID", *result.ID)
+		})
+
+		It(`Successfully approve the provider created gateway`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				"create_gateway_approve")
+			createGatewayActionOptions.SetMetered(false)
+			createGatewayActionOptions.SetGlobal(false)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+			Expect(*result.SpeedMbps).To(Equal(speedMbps))
+			Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+			Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+			Expect(*result.Global).To(Equal(false))
+			Expect(*result.Metered).To(Equal(false))
+			Expect(*result.OperationalStatus).To(Equal("create_pending"))
+			Expect(*result.Port.ID).To(Equal(*firstPort.ID))
+			Expect(*result.ProviderApiManaged).To(Equal(true))
+			Expect(*result.Type).To(Equal("connect"))
+		})
+
+		It("Successfully waits for connect gateway to move to provisioned state", func() {
+			shouldSkipTest()
+
+			getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+			// the new gateway to go to provisioned so we can delete it.
+			timer := 0
+			for {
+				// Get the current status for the gateway
+				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				// if operational status is "provisioned" then we are done
+				if *result.OperationalStatus == "provisioned" {
+					Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.OperationalStatus).To(Equal("provisioned"))
+					break
+				}
+
+				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+				if timer > 24 { // 2 min timer (24x5sec)
+					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+					break
+				} else {
+					// Still exists, wait 5 sec
+					time.Sleep(time.Duration(5) * time.Second)
+					timer = timer + 1
+				}
+			}
+		})
+
+		It("should successfully send the update request for bgp ASN AND BGP IP", func() {
+			shouldSkipTest()
+
+			bgpAsn := int64(63999)
+			localIP := "172.17.252.1/29"
+			remoteIP := "172.17.252.2/29"
+			updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
+			updateGatewayOptions.SetBgpAsn(bgpAsn).SetBgpCerCidr(remoteIP).SetBgpIbmCidr(localIP)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV2.UpdateProviderGateway(updateGatewayOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.BgpAsn).NotTo(Equal(bgpAsn))
+			Expect(*result.BgpCerCidr).NotTo(Equal(remoteIP))
+			Expect(*result.BgpIbmCidr).NotTo(Equal(localIP))
+		})
+
+		It(`Successfully approve the update request`, func() {
+			shouldSkipTest()
+
+			bgpAsn := int64(63999)
+			localIP := "172.17.252.1/29"
+			remoteIP := "172.17.252.2/29"
+
+			// Create []updates array
+			bgpAsnUpdate := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate)
+			bgpAsnUpdate.BgpAsn = &bgpAsn
+			bgpIPUpdate := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate)
+			bgpIPUpdate.BgpCerCidr = &remoteIP
+			bgpIPUpdate.BgpIbmCidr = &localIP
+			var updateAttributes []directlinkv1.GatewayActionTemplateUpdatesItemIntf
+			updateAttributes = append(updateAttributes, bgpAsnUpdate, bgpIPUpdate)
+
+			updateGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				directlinkv1.CreateGatewayActionOptions_Action_UpdateAttributesApprove)
+			updateGatewayActionOptions.SetUpdates(updateAttributes)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV1.CreateGatewayAction(updateGatewayActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.OperationalStatus).To(Equal("configuring"))
+			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+			Expect(*result.BgpCerCidr).To(Equal(remoteIP))
+			Expect(*result.BgpIbmCidr).To(Equal(localIP))
+		})
+
+		It("Successfully waits for connect gateway to move to provisioned state", func() {
+			shouldSkipTest()
+
+			getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+			// the new gateway to go to provisioned so we can delete it.
+			timer := 0
+			for {
+				// Get the current status for the gateway
+				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				// if operational status is "provisioned" then we are done
+				if *result.OperationalStatus == "provisioned" {
+					Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.OperationalStatus).To(Equal("provisioned"))
+					break
+				}
+
+				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+				if timer > 24 { // 2 min timer (24x5sec)
+					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+					break
+				} else {
+					// Still exists, wait 5 sec
+					time.Sleep(time.Duration(5) * time.Second)
+					timer = timer + 1
+				}
+			}
+		})
+
+		It("Successfully request gateway delete using provider account", func() {
+			shouldSkipTest()
+
+			gatewayId := os.Getenv("GATEWAY_ID")
+			deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
+			_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+			Expect(detailedResponse.StatusCode).To(Equal(202))
+		})
+
+		It(`Successfully approve gateway delete using client account`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			// Get the current status for the gateway
+			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+			Expect(detailedResponse.StatusCode).To(Equal(204))
+		})
+	})
+
+	Describe("Direct Link Provider Gateways with BFD Config IP", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-SDK-PROVIDER-BFD-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		customerAccount := os.Getenv("CUSTOMER_ACCT_ID")
+		speedMbps := int64(1000)
+
+		// Construct an instance of the ProviderGatewayPortIdentity model
+		providerGatewayPortIdentityModel := new(directlinkproviderv2.ProviderGatewayPortIdentity)
+		var firstPort directlinkproviderv2.ProviderPort
+
+		It(`Successfully get a provider port`, func() {
+			shouldSkipTest()
+
+			listPortsOptions := serviceV2.NewListProviderPortsOptions()
+			result, detailedResponse, err := serviceV2.ListProviderPorts(listPortsOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			ports := result.Ports
+			firstPort = ports[0]
+			providerGatewayPortIdentityModel.ID = firstPort.ID
+		})
+
+		It(`Successfully create gateway`, func() {
+			shouldSkipTest()
+
+			gatewayOptions := new(directlinkproviderv2.CreateProviderGatewayOptions)
+			gatewayOptions.BgpAsn = core.Int64Ptr(bgpAsn)
+			gatewayOptions.CustomerAccountID = core.StringPtr(customerAccount)
+			gatewayOptions.Name = core.StringPtr(gatewayName)
+			gatewayOptions.Port = providerGatewayPortIdentityModel
+			gatewayOptions.SpeedMbps = core.Int64Ptr(speedMbps)
+
+			result, detailedResponse, err := serviceV2.CreateProviderGateway(gatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(201))
+
+			os.Setenv("GATEWAY_ID", *result.ID)
+		})
+
+		It(`Successfully approve the provider created gateway`, func() {
+			shouldSkipTest()
+
+			bfdInterval := int64(1000)
+			bfdMultiplier := int64(10)
+			bfdConfigTemplate := new(directlinkv1.GatewayBfdConfigActionTemplate)
+			bfdConfigTemplate.Interval = &bfdInterval
+			bfdConfigTemplate.Multiplier = &bfdMultiplier
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				"create_gateway_approve")
+			createGatewayActionOptions.SetMetered(false)
+			createGatewayActionOptions.SetGlobal(false)
+			createGatewayActionOptions.SetBfdConfig(bfdConfigTemplate)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+			Expect(*result.SpeedMbps).To(Equal(speedMbps))
+			Expect(*result.Global).To(Equal(false))
+			Expect(*result.Metered).To(Equal(false))
+			Expect(*result.OperationalStatus).To(Equal("create_pending"))
+			Expect(*result.Port.ID).To(Equal(*firstPort.ID))
+			Expect(*result.ProviderApiManaged).To(Equal(true))
+			Expect(*result.Type).To(Equal("connect"))
+			Expect(result.BfdConfig).NotTo(BeNil())
+			Expect(*result.BfdConfig.Interval).To(Equal(bfdInterval))
+			Expect(*result.BfdConfig.Multiplier).To(Equal(bfdMultiplier))
+		})
+
+		It("Successfully waits for connect gateway to move to provisioned state", func() {
+			shouldSkipTest()
+
+			getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+			// the new gateway to go to provisioned so we can delete it.
+			timer := 0
+			for {
+				// Get the current status for the gateway
+				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				// if operational status is "provisioned" then we are done
+				if *result.OperationalStatus == "provisioned" {
+					Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.OperationalStatus).To(Equal("provisioned"))
+					break
+				}
+
+				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+				if timer > 24 { // 2 min timer (24x5sec)
+					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+					break
+				} else {
+					// Still exists, wait 5 sec
+					time.Sleep(time.Duration(5) * time.Second)
+					timer = timer + 1
+				}
+			}
+		})
+
+		It("Successfully request gateway delete using provider account", func() {
+			shouldSkipTest()
+
+			deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
+			_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+			Expect(detailedResponse.StatusCode).To(Equal(202))
+		})
+
+		It(`Successfully approve gateway delete using client account`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			// Get the current status for the gateway
+			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 			Expect(detailedResponse.StatusCode).To(Equal(204))
 		})
 	})
