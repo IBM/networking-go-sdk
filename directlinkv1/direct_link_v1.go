@@ -453,6 +453,18 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 	if updateGatewayOptions.AuthenticationKey != nil {
 		body["authentication_key"] = updateGatewayOptions.AuthenticationKey
 	}
+	if updateGatewayOptions.BfdConfig != nil {
+		body["bfd_config"] = updateGatewayOptions.BfdConfig
+	}
+	if updateGatewayOptions.BgpAsn != nil {
+		body["bgp_asn"] = updateGatewayOptions.BgpAsn
+	}
+	if updateGatewayOptions.BgpCerCidr != nil {
+		body["bgp_cer_cidr"] = updateGatewayOptions.BgpCerCidr
+	}
+	if updateGatewayOptions.BgpIbmCidr != nil {
+		body["bgp_ibm_cidr"] = updateGatewayOptions.BgpIbmCidr
+	}
 	if updateGatewayOptions.ConnectionMode != nil {
 		body["connection_mode"] = updateGatewayOptions.ConnectionMode
 	}
@@ -473,6 +485,9 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 	}
 	if updateGatewayOptions.OperationalStatus != nil {
 		body["operational_status"] = updateGatewayOptions.OperationalStatus
+	}
+	if updateGatewayOptions.PatchPanelCompletionNotice != nil {
+		body["patch_panel_completion_notice"] = updateGatewayOptions.PatchPanelCompletionNotice
 	}
 	if updateGatewayOptions.SpeedMbps != nil {
 		body["speed_mbps"] = updateGatewayOptions.SpeedMbps
@@ -554,6 +569,9 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 	}
 	if createGatewayActionOptions.AuthenticationKey != nil {
 		body["authentication_key"] = createGatewayActionOptions.AuthenticationKey
+	}
+	if createGatewayActionOptions.BfdConfig != nil {
+		body["bfd_config"] = createGatewayActionOptions.BfdConfig
 	}
 	if createGatewayActionOptions.ConnectionMode != nil {
 		body["connection_mode"] = createGatewayActionOptions.ConnectionMode
@@ -757,9 +775,9 @@ func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorizationWithContext(ctx 
 	return
 }
 
-// GetGatewayStatistics : Gateway statistics
-// Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.  Currently data
-// retrieval is only supported for MACsec configurations.
+// GetGatewayStatistics : Gateway statistics/debug information
+// Retrieve gateway statistics or debug information.  Specify statistic to retrieve using required `type` query
+// parameter.
 func (directLink *DirectLinkV1) GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions) (result *GatewayStatisticCollection, response *core.DetailedResponse, err error) {
 	return directLink.GetGatewayStatisticsWithContext(context.Background(), getGatewayStatisticsOptions)
 }
@@ -812,6 +830,71 @@ func (directLink *DirectLinkV1) GetGatewayStatisticsWithContext(ctx context.Cont
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayStatisticCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetGatewayStatus : Gateway status information
+// Retrieve gateway status.  Specify status to retrieve using required `type` query parameter.
+func (directLink *DirectLinkV1) GetGatewayStatus(getGatewayStatusOptions *GetGatewayStatusOptions) (result *GatewayStatusCollection, response *core.DetailedResponse, err error) {
+	return directLink.GetGatewayStatusWithContext(context.Background(), getGatewayStatusOptions)
+}
+
+// GetGatewayStatusWithContext is an alternate form of the GetGatewayStatus method which supports a Context parameter
+func (directLink *DirectLinkV1) GetGatewayStatusWithContext(ctx context.Context, getGatewayStatusOptions *GetGatewayStatusOptions) (result *GatewayStatusCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getGatewayStatusOptions, "getGatewayStatusOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getGatewayStatusOptions, "getGatewayStatusOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *getGatewayStatusOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/status`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getGatewayStatusOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayStatus")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+	if getGatewayStatusOptions.Type != nil {
+		builder.AddQuery("type", fmt.Sprint(*getGatewayStatusOptions.Type))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayStatusCollection)
 		if err != nil {
 			return
 		}
@@ -1473,22 +1556,27 @@ type CreateGatewayActionOptions struct {
 	// Action request.
 	Action *string `validate:"required"`
 
-	// The identity of the standard key to use for BGP MD5 authentication key.
+	// Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
 	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
 	// length.
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayActionTemplateAuthenticationKey
 
-	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
-	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
-	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+	// Applicable for create_gateway_approve requests to select the gateway's BFD configuration information.
+	BfdConfig *GatewayBfdConfigActionTemplate
+
+	// Applicable for create_gateway_approve requests to select the type of services this gateway is attached to. Mode
+	// transit indicates this gateway will be attached to Transit Gateway Service and direct means this gateway will be
+	// attached to vpc or classic connection. If unspecified on create_gateway_approve, default value direct is used. The
+	// list of enumerated values for this property may expand in the future. Code and processes using this field must
+	// tolerate unexpected values.
 	ConnectionMode *string
 
-	// Required for create_gateway_approve requests to select the gateway's routing option.  Gateways with global routing
+	// Applicable for create_gateway_approve requests to select the gateway's routing option. Gateways with global routing
 	// (`true`) can connect to networks outside of their associated region.
 	Global *bool
 
-	// Required for create_gateway_approve requests to select the gateway's metered billing option.  When `true` gateway
+	// Applicable for create_gateway_approve requests to select the gateway's metered billing option.  When `true` gateway
 	// usage is billed per gigabyte.  When `false` there is no per gigabyte usage charge, instead a flat rate is charged
 	// for the gateway.
 	Metered *bool
@@ -1518,9 +1606,11 @@ const (
 )
 
 // Constants associated with the CreateGatewayActionOptions.ConnectionMode property.
-// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
-// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
-// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+// Applicable for create_gateway_approve requests to select the type of services this gateway is attached to. Mode
+// transit indicates this gateway will be attached to Transit Gateway Service and direct means this gateway will be
+// attached to vpc or classic connection. If unspecified on create_gateway_approve, default value direct is used. The
+// list of enumerated values for this property may expand in the future. Code and processes using this field must
+// tolerate unexpected values.
 const (
 	CreateGatewayActionOptions_ConnectionMode_Direct  = "direct"
 	CreateGatewayActionOptions_ConnectionMode_Transit = "transit"
@@ -1549,6 +1639,12 @@ func (options *CreateGatewayActionOptions) SetAction(action string) *CreateGatew
 // SetAuthenticationKey : Allow user to set AuthenticationKey
 func (options *CreateGatewayActionOptions) SetAuthenticationKey(authenticationKey *GatewayActionTemplateAuthenticationKey) *CreateGatewayActionOptions {
 	options.AuthenticationKey = authenticationKey
+	return options
+}
+
+// SetBfdConfig : Allow user to set BfdConfig
+func (options *CreateGatewayActionOptions) SetBfdConfig(bfdConfig *GatewayBfdConfigActionTemplate) *CreateGatewayActionOptions {
+	options.BfdConfig = bfdConfig
 	return options
 }
 
@@ -1833,6 +1929,9 @@ type Gateway struct {
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
+	// BFD configuration information.
+	BfdConfig *GatewayBfdConfig `json:"bfd_config,omitempty"`
+
 	// Customer BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
 
@@ -1855,6 +1954,9 @@ type Gateway struct {
 	// Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 	// using this field  must tolerate unexpected values.
 	BgpStatus *string `json:"bgp_status,omitempty"`
+
+	// Date and time bgp status was updated.
+	BgpStatusUpdatedAt *strfmt.DateTime `json:"bgp_status_updated_at,omitempty"`
 
 	// Carrier name.  Only set for type=dedicated gateways.
 	CarrierName *string `json:"carrier_name,omitempty"`
@@ -1892,6 +1994,9 @@ type Gateway struct {
 	// expand in the future. Code and processes using this field  must tolerate unexpected values.
 	LinkStatus *string `json:"link_status,omitempty"`
 
+	// Date and time link status was updated.
+	LinkStatusUpdatedAt *strfmt.DateTime `json:"link_status_updated_at,omitempty"`
+
 	// Gateway location long name.
 	LocationDisplayName *string `json:"location_display_name" validate:"required"`
 
@@ -1912,6 +2017,9 @@ type Gateway struct {
 	// Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 	// processes using this field  must tolerate unexpected values.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// gateway port for type=connect gateways.
 	Port *GatewayPort `json:"port,omitempty"`
@@ -1994,6 +2102,10 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfig)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
@@ -2015,6 +2127,10 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
 		return
 	}
@@ -2062,6 +2178,10 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
 		return
@@ -2083,6 +2203,10 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
 		return
 	}
@@ -2114,9 +2238,9 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 	return
 }
 
-// GatewayActionTemplateAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
-// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
-// `authentication_key` field patch its crn to `""`.
+// GatewayActionTemplateAuthenticationKey : Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key. The key material
+// that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear
+// the optional `authentication_key` field patch its crn to `""`.
 type GatewayActionTemplateAuthenticationKey struct {
 	// The CRN of the [Key Protect Standard
 	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
@@ -2147,9 +2271,33 @@ func UnmarshalGatewayActionTemplateAuthenticationKey(m map[string]json.RawMessag
 // GatewayActionTemplateUpdatesItem : GatewayActionTemplateUpdatesItem struct
 // Models which "extend" this model:
 // - GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate
+// - GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate
+// - GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate
 type GatewayActionTemplateUpdatesItem struct {
 	// New gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
 }
 
 func (*GatewayActionTemplateUpdatesItem) isaGatewayActionTemplateUpdatesItem() bool {
@@ -2164,6 +2312,18 @@ type GatewayActionTemplateUpdatesItemIntf interface {
 func UnmarshalGatewayActionTemplateUpdatesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayActionTemplateUpdatesItem)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
 	}
@@ -2185,6 +2345,150 @@ type GatewayAuthenticationKey struct {
 func UnmarshalGatewayAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayAuthenticationKey)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayBfdConfig : BFD configuration information.
+type GatewayBfdConfig struct {
+	// Gateway BFD status. The list of enumerated values for this property may expand in the future. Code and processes
+	// using this field must tolerate unexpected values.
+	BfdStatus *string `json:"bfd_status,omitempty"`
+
+	// Date and time bfd status was updated.
+	BfdStatusUpdatedAt *strfmt.DateTime `json:"bfd_status_updated_at,omitempty"`
+
+	// Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects to
+	// receive a reply from a neighbor with which it has established a BFD session.
+	Interval *int64 `json:"interval" validate:"required"`
+
+	// The number of hello packets not received by a neighbor that causes the originating interface to be declared down.
+	Multiplier *int64 `json:"multiplier" validate:"required"`
+}
+
+// Constants associated with the GatewayBfdConfig.BfdStatus property.
+// Gateway BFD status. The list of enumerated values for this property may expand in the future. Code and processes
+// using this field must tolerate unexpected values.
+const (
+	GatewayBfdConfig_BfdStatus_Down = "down"
+	GatewayBfdConfig_BfdStatus_Init = "init"
+	GatewayBfdConfig_BfdStatus_Up   = "up"
+)
+
+// UnmarshalGatewayBfdConfig unmarshals an instance of GatewayBfdConfig from the specified map of raw messages.
+func UnmarshalGatewayBfdConfig(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayBfdConfig)
+	err = core.UnmarshalPrimitive(m, "bfd_status", &obj.BfdStatus)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bfd_status_updated_at", &obj.BfdStatusUpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayBfdConfigActionTemplate : Applicable for create_gateway_approve requests to select the gateway's BFD configuration information.
+type GatewayBfdConfigActionTemplate struct {
+	// Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects to
+	// receive a reply from a neighbor with which it has established a BFD session.
+	Interval *int64 `json:"interval" validate:"required"`
+
+	// The number of hello packets not received by a neighbor that causes the originating interface to be declared down.
+	Multiplier *int64 `json:"multiplier,omitempty"`
+}
+
+// NewGatewayBfdConfigActionTemplate : Instantiate GatewayBfdConfigActionTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayBfdConfigActionTemplate(interval int64) (model *GatewayBfdConfigActionTemplate, err error) {
+	model = &GatewayBfdConfigActionTemplate{
+		Interval: core.Int64Ptr(interval),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayBfdConfigActionTemplate unmarshals an instance of GatewayBfdConfigActionTemplate from the specified map of raw messages.
+func UnmarshalGatewayBfdConfigActionTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayBfdConfigActionTemplate)
+	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayBfdConfigTemplate : BFD configuration information.
+type GatewayBfdConfigTemplate struct {
+	// Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects to
+	// receive a reply from a neighbor with which it has established a BFD session.
+	Interval *int64 `json:"interval" validate:"required"`
+
+	// The number of hello packets not received by a neighbor that causes the originating interface to be declared down.
+	Multiplier *int64 `json:"multiplier,omitempty"`
+}
+
+// NewGatewayBfdConfigTemplate : Instantiate GatewayBfdConfigTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayBfdConfigTemplate(interval int64) (model *GatewayBfdConfigTemplate, err error) {
+	model = &GatewayBfdConfigTemplate{
+		Interval: core.Int64Ptr(interval),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayBfdConfigTemplate unmarshals an instance of GatewayBfdConfigTemplate from the specified map of raw messages.
+func UnmarshalGatewayBfdConfigTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayBfdConfigTemplate)
+	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayBfdPatchTemplate : BFD configuration information.
+type GatewayBfdPatchTemplate struct {
+	// Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects to
+	// receive a reply from a neighbor with which it has established a BFD session.
+	//
+	// To clear the BFD configuration patch its interval to 0.
+	Interval *int64 `json:"interval,omitempty"`
+
+	// The number of hello packets not received by a neighbor that causes the originating interface to be declared down.
+	Multiplier *int64 `json:"multiplier,omitempty"`
+}
+
+// UnmarshalGatewayBfdPatchTemplate unmarshals an instance of GatewayBfdPatchTemplate from the specified map of raw messages.
+func UnmarshalGatewayBfdPatchTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayBfdPatchTemplate)
+	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
 	if err != nil {
 		return
 	}
@@ -2237,9 +2541,33 @@ func UnmarshalGatewayChangeRequest(m map[string]json.RawMessage, result interfac
 // GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem : GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem struct
 // Models which "extend" this model:
 // - GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate
+// - GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate
+// - GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate
 type GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem struct {
 	// New gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
 }
 
 func (*GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem) isaGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem() bool {
@@ -2257,6 +2585,18 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -2264,9 +2604,33 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 // GatewayChangeRequestUpdatesItem : GatewayChangeRequestUpdatesItem struct
 // Models which "extend" this model:
 // - GatewayChangeRequestUpdatesItemGatewayClientSpeedUpdate
+// - GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate
+// - GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate
 type GatewayChangeRequestUpdatesItem struct {
 	// New gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
 }
 
 func (*GatewayChangeRequestUpdatesItem) isaGatewayChangeRequestUpdatesItem() bool {
@@ -2281,6 +2645,18 @@ type GatewayChangeRequestUpdatesItemIntf interface {
 func UnmarshalGatewayChangeRequestUpdatesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayChangeRequestUpdatesItem)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
 	}
@@ -2818,7 +3194,7 @@ func UnmarshalGatewayPortIdentity(m map[string]json.RawMessage, result interface
 	return
 }
 
-// GatewayStatistic : Gateway statistics.  Currently data retrieval is only supported for MACsec configurations.
+// GatewayStatistic : Gateway statistics and debug commands.
 type GatewayStatistic struct {
 	// Date and time data was collected.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
@@ -2833,6 +3209,7 @@ type GatewayStatistic struct {
 // Constants associated with the GatewayStatistic.Type property.
 // statistic type.
 const (
+	GatewayStatistic_Type_BfdSession          = "bfd_session"
 	GatewayStatistic_Type_MacsecMkaSession    = "macsec_mka_session"
 	GatewayStatistic_Type_MacsecMkaStatistics = "macsec_mka_statistics"
 	GatewayStatistic_Type_MacsecPolicy        = "macsec_policy"
@@ -2874,6 +3251,80 @@ func UnmarshalGatewayStatisticCollection(m map[string]json.RawMessage, result in
 	return
 }
 
+// GatewayStatus : GatewayStatus struct
+// Models which "extend" this model:
+// - GatewayStatusGatewayBGPStatus
+// - GatewayStatusGatewayBFDStatus
+// - GatewayStatusGatewayLinkStatus
+type GatewayStatus struct {
+	// Status type.
+	Type *string `json:"type,omitempty"`
+
+	// Date and time status was collected.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+
+	// Status.
+	Value *string `json:"value,omitempty"`
+}
+
+// Constants associated with the GatewayStatus.Type property.
+// Status type.
+const (
+	GatewayStatus_Type_Bgp = "bgp"
+)
+
+// Constants associated with the GatewayStatus.Value property.
+// Status.
+const (
+	GatewayStatus_Value_Active      = "active"
+	GatewayStatus_Value_Connect     = "connect"
+	GatewayStatus_Value_Established = "established"
+	GatewayStatus_Value_Idle        = "idle"
+)
+
+func (*GatewayStatus) isaGatewayStatus() bool {
+	return true
+}
+
+type GatewayStatusIntf interface {
+	isaGatewayStatus() bool
+}
+
+// UnmarshalGatewayStatus unmarshals an instance of GatewayStatus from the specified map of raw messages.
+func UnmarshalGatewayStatus(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayStatus)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayStatusCollection : gateway status.
+type GatewayStatusCollection struct {
+	Status []GatewayStatusIntf `json:"status,omitempty"`
+}
+
+// UnmarshalGatewayStatusCollection unmarshals an instance of GatewayStatusCollection from the specified map of raw messages.
+func UnmarshalGatewayStatusCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayStatusCollection)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalGatewayStatus)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GatewayTemplate : Create gateway template.
 // Models which "extend" this model:
 // - GatewayTemplateGatewayTypeDedicatedTemplate
@@ -2884,6 +3335,9 @@ type GatewayTemplate struct {
 	// length.
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
+
+	// BFD configuration information.
+	BfdConfig *GatewayBfdConfigTemplate `json:"bfd_config,omitempty"`
 
 	// BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
@@ -2930,6 +3384,9 @@ type GatewayTemplate struct {
 
 	// The unique user-defined name for this gateway.
 	Name *string `json:"name" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// Resource group for this resource. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
@@ -2991,6 +3448,10 @@ func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) 
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfigTemplate)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
@@ -3020,6 +3481,10 @@ func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
 		return
 	}
@@ -3149,6 +3614,7 @@ const (
 // tolerate unexpected values.
 const (
 	GatewayVirtualConnection_Type_Classic = "classic"
+	GatewayVirtualConnection_Type_Transit = "transit"
 	GatewayVirtualConnection_Type_Vpc     = "vpc"
 )
 
@@ -3234,10 +3700,10 @@ func (options *GetGatewayOptions) SetHeaders(param map[string]string) *GetGatewa
 
 // GetGatewayStatisticsOptions : The GetGatewayStatistics options.
 type GetGatewayStatisticsOptions struct {
-	// Direct Link Dedicated gateway identifier.
+	// Direct Link gateway identifier.
 	ID *string `validate:"required,ne="`
 
-	// specify statistic to retrieve.
+	// Specify statistic to retrieve.
 	Type *string `validate:"required"`
 
 	// Allows users to set headers on API requests
@@ -3245,7 +3711,7 @@ type GetGatewayStatisticsOptions struct {
 }
 
 // Constants associated with the GetGatewayStatisticsOptions.Type property.
-// specify statistic to retrieve.
+// Specify statistic to retrieve.
 const (
 	GetGatewayStatisticsOptions_Type_MacsecMka      = "macsec_mka"
 	GetGatewayStatisticsOptions_Type_MacsecSecurity = "macsec_security"
@@ -3273,6 +3739,51 @@ func (options *GetGatewayStatisticsOptions) SetType(typeVar string) *GetGatewayS
 
 // SetHeaders : Allow user to set Headers
 func (options *GetGatewayStatisticsOptions) SetHeaders(param map[string]string) *GetGatewayStatisticsOptions {
+	options.Headers = param
+	return options
+}
+
+// GetGatewayStatusOptions : The GetGatewayStatus options.
+type GetGatewayStatusOptions struct {
+	// Direct Link gateway identifier.
+	ID *string `validate:"required,ne="`
+
+	// Specify status to retrieve.
+	Type *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the GetGatewayStatusOptions.Type property.
+// Specify status to retrieve.
+const (
+	GetGatewayStatusOptions_Type_Bfd  = "bfd"
+	GetGatewayStatusOptions_Type_Bgp  = "bgp"
+	GetGatewayStatusOptions_Type_Link = "link"
+)
+
+// NewGetGatewayStatusOptions : Instantiate GetGatewayStatusOptions
+func (*DirectLinkV1) NewGetGatewayStatusOptions(id string) *GetGatewayStatusOptions {
+	return &GetGatewayStatusOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (options *GetGatewayStatusOptions) SetID(id string) *GetGatewayStatusOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetType : Allow user to set Type
+func (options *GetGatewayStatusOptions) SetType(typeVar string) *GetGatewayStatusOptions {
+	options.Type = core.StringPtr(typeVar)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetGatewayStatusOptions) SetHeaders(param map[string]string) *GetGatewayStatusOptions {
 	options.Headers = param
 	return options
 }
@@ -3981,6 +4492,31 @@ type UpdateGatewayOptions struct {
 	// To clear the optional `authentication_key` field patch its crn to `""`.
 	AuthenticationKey *GatewayPatchTemplateAuthenticationKey
 
+	// BFD configuration information.
+	BfdConfig *GatewayBfdPatchTemplate
+
+	// The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0
+	// gateway.
+	BgpAsn *int64
+
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public
+	// CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpCerCidr *string
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string
+
 	// Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
 	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
@@ -4014,6 +4550,9 @@ type UpdateGatewayOptions struct {
 	//
 	// Only allowed for type=dedicated gateways.
 	OperationalStatus *string
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64
@@ -4062,6 +4601,30 @@ func (options *UpdateGatewayOptions) SetAuthenticationKey(authenticationKey *Gat
 	return options
 }
 
+// SetBfdConfig : Allow user to set BfdConfig
+func (options *UpdateGatewayOptions) SetBfdConfig(bfdConfig *GatewayBfdPatchTemplate) *UpdateGatewayOptions {
+	options.BfdConfig = bfdConfig
+	return options
+}
+
+// SetBgpAsn : Allow user to set BgpAsn
+func (options *UpdateGatewayOptions) SetBgpAsn(bgpAsn int64) *UpdateGatewayOptions {
+	options.BgpAsn = core.Int64Ptr(bgpAsn)
+	return options
+}
+
+// SetBgpCerCidr : Allow user to set BgpCerCidr
+func (options *UpdateGatewayOptions) SetBgpCerCidr(bgpCerCidr string) *UpdateGatewayOptions {
+	options.BgpCerCidr = core.StringPtr(bgpCerCidr)
+	return options
+}
+
+// SetBgpIbmCidr : Allow user to set BgpIbmCidr
+func (options *UpdateGatewayOptions) SetBgpIbmCidr(bgpIbmCidr string) *UpdateGatewayOptions {
+	options.BgpIbmCidr = core.StringPtr(bgpIbmCidr)
+	return options
+}
+
 // SetConnectionMode : Allow user to set ConnectionMode
 func (options *UpdateGatewayOptions) SetConnectionMode(connectionMode string) *UpdateGatewayOptions {
 	options.ConnectionMode = core.StringPtr(connectionMode)
@@ -4101,6 +4664,12 @@ func (options *UpdateGatewayOptions) SetName(name string) *UpdateGatewayOptions 
 // SetOperationalStatus : Allow user to set OperationalStatus
 func (options *UpdateGatewayOptions) SetOperationalStatus(operationalStatus string) *UpdateGatewayOptions {
 	options.OperationalStatus = core.StringPtr(operationalStatus)
+	return options
+}
+
+// SetPatchPanelCompletionNotice : Allow user to set PatchPanelCompletionNotice
+func (options *UpdateGatewayOptions) SetPatchPanelCompletionNotice(patchPanelCompletionNotice string) *UpdateGatewayOptions {
+	options.PatchPanelCompletionNotice = core.StringPtr(patchPanelCompletionNotice)
 	return options
 }
 
@@ -4184,6 +4753,71 @@ func (options *UpdateGatewayVirtualConnectionOptions) SetHeaders(param map[strin
 	return options
 }
 
+// GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate : The autonomous system number (ASN) of Border Gateway Protocol
+// (BGP) configuration for the IBM side of the DL 2.0 gateway.
+// This model "extends" GatewayActionTemplateUpdatesItem
+type GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate struct {
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
+}
+
+func (*GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate) isaGatewayActionTemplateUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate unmarshals an instance of GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate from the specified map of raw messages.
+func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate : Update BGP customer and IBM CIDR.
+// This model "extends" GatewayActionTemplateUpdatesItem
+type GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate struct {
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+}
+
+func (*GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate) isaGatewayActionTemplateUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate unmarshals an instance of GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate from the specified map of raw messages.
+func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate : gateway speed change.
 // This model "extends" GatewayActionTemplateUpdatesItem
 type GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate struct {
@@ -4206,6 +4840,71 @@ func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate(m map[str
 	return
 }
 
+// GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate : The autonomous system number (ASN) of Border Gateway Protocol
+// (BGP) configuration for the IBM side of the DL 2.0 gateway.
+// This model "extends" GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem
+type GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate struct {
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
+}
+
+func (*GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate) isaGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate unmarshals an instance of GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate from the specified map of raw messages.
+func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate : Update BGP customer and IBM CIDR.
+// This model "extends" GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem
+type GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate struct {
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+}
+
+func (*GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate) isaGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate unmarshals an instance of GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate from the specified map of raw messages.
+func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate : gateway speed change.
 // This model "extends" GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem
 type GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate struct {
@@ -4221,6 +4920,71 @@ func (*GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewa
 func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate : The autonomous system number (ASN) of Border Gateway Protocol
+// (BGP) configuration for the IBM side of the DL 2.0 gateway.
+// This model "extends" GatewayChangeRequestUpdatesItem
+type GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate struct {
+	// New gateway BGP ASN.
+	BgpAsn *int64 `json:"bgp_asn,omitempty"`
+}
+
+func (*GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate) isaGatewayChangeRequestUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalGatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate unmarshals an instance of GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate from the specified map of raw messages.
+func UnmarshalGatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate : Update BGP customer and IBM CIDR.
+// This model "extends" GatewayChangeRequestUpdatesItem
+type GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate struct {
+	// BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+	// router for the DL 2.0 gateway.
+	//
+	// Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+	// with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+	// value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+	// "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask
+	// values.
+	BgpCerCidr *string `json:"bgp_cer_cidr,omitempty"`
+
+	// BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+	// gateway.
+	//
+	// IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+	// edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+	// reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+	// bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+	BgpIbmCidr *string `json:"bgp_ibm_cidr,omitempty"`
+}
+
+func (*GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate) isaGatewayChangeRequestUpdatesItem() bool {
+	return true
+}
+
+// UnmarshalGatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate unmarshals an instance of GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate from the specified map of raw messages.
+func UnmarshalGatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate)
+	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
 		return
 	}
@@ -4341,10 +5105,163 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributes(m map[str
 	return
 }
 
+// GatewayStatusGatewayBFDStatus : Gateway bfd status.
+// This model "extends" GatewayStatus
+type GatewayStatusGatewayBFDStatus struct {
+	// Status type.
+	Type *string `json:"type" validate:"required"`
+
+	// Date and time status was collected.
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
+
+	// Status.
+	Value *string `json:"value" validate:"required"`
+}
+
+// Constants associated with the GatewayStatusGatewayBFDStatus.Type property.
+// Status type.
+const (
+	GatewayStatusGatewayBFDStatus_Type_Bfd = "bfd"
+)
+
+// Constants associated with the GatewayStatusGatewayBFDStatus.Value property.
+// Status.
+const (
+	GatewayStatusGatewayBFDStatus_Value_Down         = "down"
+	GatewayStatusGatewayBFDStatus_Value_Init         = "init"
+	GatewayStatusGatewayBFDStatus_Value_NotAvailable = "not_available"
+	GatewayStatusGatewayBFDStatus_Value_Up           = "up"
+)
+
+func (*GatewayStatusGatewayBFDStatus) isaGatewayStatus() bool {
+	return true
+}
+
+// UnmarshalGatewayStatusGatewayBFDStatus unmarshals an instance of GatewayStatusGatewayBFDStatus from the specified map of raw messages.
+func UnmarshalGatewayStatusGatewayBFDStatus(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayStatusGatewayBFDStatus)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayStatusGatewayBGPStatus : Gateway bgp status.
+// This model "extends" GatewayStatus
+type GatewayStatusGatewayBGPStatus struct {
+	// Status type.
+	Type *string `json:"type" validate:"required"`
+
+	// Date and time status was collected.
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
+
+	// Status.
+	Value *string `json:"value" validate:"required"`
+}
+
+// Constants associated with the GatewayStatusGatewayBGPStatus.Type property.
+// Status type.
+const (
+	GatewayStatusGatewayBGPStatus_Type_Bgp = "bgp"
+)
+
+// Constants associated with the GatewayStatusGatewayBGPStatus.Value property.
+// Status.
+const (
+	GatewayStatusGatewayBGPStatus_Value_Active      = "active"
+	GatewayStatusGatewayBGPStatus_Value_Connect     = "connect"
+	GatewayStatusGatewayBGPStatus_Value_Established = "established"
+	GatewayStatusGatewayBGPStatus_Value_Idle        = "idle"
+)
+
+func (*GatewayStatusGatewayBGPStatus) isaGatewayStatus() bool {
+	return true
+}
+
+// UnmarshalGatewayStatusGatewayBGPStatus unmarshals an instance of GatewayStatusGatewayBGPStatus from the specified map of raw messages.
+func UnmarshalGatewayStatusGatewayBGPStatus(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayStatusGatewayBGPStatus)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayStatusGatewayLinkStatus : Gateway link status. Only available for dedicated gateways.
+// This model "extends" GatewayStatus
+type GatewayStatusGatewayLinkStatus struct {
+	// Status type.
+	Type *string `json:"type" validate:"required"`
+
+	// Date and time status was collected.
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
+
+	// Status.
+	Value *string `json:"value" validate:"required"`
+}
+
+// Constants associated with the GatewayStatusGatewayLinkStatus.Type property.
+// Status type.
+const (
+	GatewayStatusGatewayLinkStatus_Type_Link = "link"
+)
+
+// Constants associated with the GatewayStatusGatewayLinkStatus.Value property.
+// Status.
+const (
+	GatewayStatusGatewayLinkStatus_Value_Down = "down"
+	GatewayStatusGatewayLinkStatus_Value_Up   = "up"
+)
+
+func (*GatewayStatusGatewayLinkStatus) isaGatewayStatus() bool {
+	return true
+}
+
+// UnmarshalGatewayStatusGatewayLinkStatus unmarshals an instance of GatewayStatusGatewayLinkStatus from the specified map of raw messages.
+func UnmarshalGatewayStatusGatewayLinkStatus(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayStatusGatewayLinkStatus)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GatewayTemplateGatewayTypeConnectTemplate : Gateway fields specific to type=connect gateway create.
 // This model "extends" GatewayTemplate
 type GatewayTemplateGatewayTypeConnectTemplate struct {
 	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
+
+	BfdConfig *GatewayBfdConfigTemplate `json:"bfd_config,omitempty"`
 
 	// BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
@@ -4391,6 +5308,9 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 
 	// The unique user-defined name for this gateway.
 	Name *string `json:"name" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	ResourceGroup *ResourceGroupIdentity `json:"resource_group,omitempty"`
 
@@ -4446,6 +5366,10 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfigTemplate)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
@@ -4478,6 +5402,10 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
 	if err != nil {
 		return
@@ -4502,6 +5430,8 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 // This model "extends" GatewayTemplate
 type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
+
+	BfdConfig *GatewayBfdConfigTemplate `json:"bfd_config,omitempty"`
 
 	// BGP ASN.
 	BgpAsn *int64 `json:"bgp_asn" validate:"required"`
@@ -4548,6 +5478,9 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 
 	// The unique user-defined name for this gateway.
 	Name *string `json:"name" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	ResourceGroup *ResourceGroupIdentity `json:"resource_group,omitempty"`
 
@@ -4618,6 +5551,10 @@ func UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(m map[string]json.RawM
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfigTemplate)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
 		return
@@ -4647,6 +5584,10 @@ func UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(m map[string]json.RawM
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
 		return
 	}

@@ -38,6 +38,7 @@ const configFile = "../dns.env"
 var configLoaded bool = true
 
 func shouldSkipTest() {
+	Skip("skipping tests...")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
