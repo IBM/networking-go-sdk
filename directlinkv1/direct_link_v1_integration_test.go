@@ -26,6 +26,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v4/core"
@@ -41,6 +42,15 @@ func shouldSkipTest() {
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
+}
+
+func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
+	for _, port := range ports {
+		if port.ProviderName != nil && !strings.Contains(strings.ToLower(*port.ProviderName), "equinix") {
+			return &port
+		}
+	}
+	return nil
 }
 
 var _ = Describe(`DirectLinkV1`, func() {
@@ -387,9 +397,10 @@ var _ = Describe(`DirectLinkV1`, func() {
 				result, detailedResponse, err := service.ListPorts(listPortsOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
-				portId = *result.Ports[0].ID
-				portLocationDisplayName = *result.Ports[0].LocationDisplayName
-				portLocationName = *result.Ports[0].LocationName
+				port := getPortIdForConnect(result.Ports)
+				portId = *port.ID
+				portLocationDisplayName = *port.LocationDisplayName
+				portLocationName = *port.LocationName
 			})
 
 			It("create connect gateway", func() {
@@ -832,10 +843,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 			Expect(*result.Ports[0].ProviderName).NotTo(Equal(""))
 			Expect(len(result.Ports[0].SupportedLinkSpeeds)).Should(BeNumerically(">=", 0))
 
-			os.Setenv("PORT_ID", *result.Ports[0].ID)
-			os.Setenv("PORT_LOCATION_DISPLAY_NAME", *result.Ports[0].LocationDisplayName)
-			os.Setenv("PORT_LOCATION_NAME", *result.Ports[0].LocationName)
-			os.Setenv("PORT_LABEL", *result.Ports[0].Label)
+			port := getPortIdForConnect(result.Ports)
+			os.Setenv("PORT_ID", *port.ID)
+			os.Setenv("PORT_LOCATION_DISPLAY_NAME", *port.LocationDisplayName)
+			os.Setenv("PORT_LOCATION_NAME", *port.LocationName)
+			os.Setenv("PORT_LABEL", *port.Label)
 
 		})
 
@@ -1339,9 +1351,10 @@ var _ = Describe(`DirectLinkV1`, func() {
 				result, detailedResponse, err := service.ListPorts(listPortsOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
-				portId = *result.Ports[0].ID
-				portLocationDisplayName = *result.Ports[0].LocationDisplayName
-				portLocationName = *result.Ports[0].LocationName
+				port := getPortIdForConnect(result.Ports)
+				portId = *port.ID
+				portLocationDisplayName = *port.LocationDisplayName
+				portLocationName = *port.LocationName
 			})
 
 			It("create connect gateway with connection_mode as transit", func() {
