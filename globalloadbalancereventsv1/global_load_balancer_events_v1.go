@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package globalloadbalancereventsv1 : Operations and models for the GlobalLoadBalancerEventsV1 service
 package globalloadbalancereventsv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // GlobalLoadBalancerEventsV1 : Global Load Balancer Healthcheck Events
@@ -115,7 +115,7 @@ func NewGlobalLoadBalancerEventsV1(options *GlobalLoadBalancerEventsV1Options) (
 
 	service = &GlobalLoadBalancerEventsV1{
 		Service: baseService,
-		Crn: options.Crn,
+		Crn:     options.Crn,
 	}
 
 	return
@@ -259,7 +259,6 @@ type ListEventsRespResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalListEventsRespResultInfo unmarshals an instance of ListEventsRespResultInfo from the specified map of raw messages.
 func UnmarshalListEventsRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListEventsRespResultInfo)
@@ -297,7 +296,6 @@ type ListEventsRespResultItem struct {
 	// Load balancer origins.
 	Origins []ListEventsRespResultItemOriginsItem `json:"origins,omitempty"`
 }
-
 
 // UnmarshalListEventsRespResultItem unmarshals an instance of ListEventsRespResultItem from the specified map of raw messages.
 func UnmarshalListEventsRespResultItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -345,7 +343,6 @@ type ListEventsRespResultItemOriginsItem struct {
 	// Origin changed.
 	Changed *bool `json:"changed,omitempty"`
 }
-
 
 // UnmarshalListEventsRespResultItemOriginsItem unmarshals an instance of ListEventsRespResultItemOriginsItem from the specified map of raw messages.
 func UnmarshalListEventsRespResultItemOriginsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -400,7 +397,6 @@ type ListEventsRespResultItemPoolItem struct {
 	MinimumOrigins *int64 `json:"minimum_origins,omitempty"`
 }
 
-
 // UnmarshalListEventsRespResultItemPoolItem unmarshals an instance of ListEventsRespResultItemPoolItem from the specified map of raw messages.
 func UnmarshalListEventsRespResultItemPoolItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListEventsRespResultItemPoolItem)
@@ -445,7 +441,6 @@ type ListEventsResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalListEventsResp unmarshals an instance of ListEventsResp from the specified map of raw messages.
 func UnmarshalListEventsResp(m map[string]json.RawMessage, result interface{}) (err error) {

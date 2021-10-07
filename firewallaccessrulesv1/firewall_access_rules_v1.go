@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package firewallaccessrulesv1 : Operations and models for the FirewallAccessRulesV1 service
 package firewallaccessrulesv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // FirewallAccessRulesV1 : Instance Level Firewall Access Rules
@@ -115,7 +115,7 @@ func NewFirewallAccessRulesV1(options *FirewallAccessRulesV1Options) (service *F
 
 	service = &FirewallAccessRulesV1{
 		Service: baseService,
-		Crn: options.Crn,
+		Crn:     options.Crn,
 	}
 
 	return
@@ -342,7 +342,7 @@ func (firewallAccessRules *FirewallAccessRulesV1) DeleteAccountAccessRuleWithCon
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *firewallAccessRules.Crn,
+		"crn":                   *firewallAccessRules.Crn,
 		"accessrule_identifier": *deleteAccountAccessRuleOptions.AccessruleIdentifier,
 	}
 
@@ -401,7 +401,7 @@ func (firewallAccessRules *FirewallAccessRulesV1) GetAccountAccessRuleWithContex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *firewallAccessRules.Crn,
+		"crn":                   *firewallAccessRules.Crn,
 		"accessrule_identifier": *getAccountAccessRuleOptions.AccessruleIdentifier,
 	}
 
@@ -460,7 +460,7 @@ func (firewallAccessRules *FirewallAccessRulesV1) UpdateAccountAccessRuleWithCon
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *firewallAccessRules.Crn,
+		"crn":                   *firewallAccessRules.Crn,
 		"accessrule_identifier": *updateAccountAccessRuleOptions.AccessruleIdentifier,
 	}
 
@@ -527,18 +527,17 @@ type AccountAccessRuleInputConfiguration struct {
 // Constants associated with the AccountAccessRuleInputConfiguration.Target property.
 // The request property to target.
 const (
-	AccountAccessRuleInputConfiguration_Target_Asn = "asn"
+	AccountAccessRuleInputConfiguration_Target_Asn     = "asn"
 	AccountAccessRuleInputConfiguration_Target_Country = "country"
-	AccountAccessRuleInputConfiguration_Target_Ip = "ip"
+	AccountAccessRuleInputConfiguration_Target_Ip      = "ip"
 	AccountAccessRuleInputConfiguration_Target_IpRange = "ip_range"
 )
-
 
 // NewAccountAccessRuleInputConfiguration : Instantiate AccountAccessRuleInputConfiguration (Generic Model Constructor)
 func (*FirewallAccessRulesV1) NewAccountAccessRuleInputConfiguration(target string, value string) (model *AccountAccessRuleInputConfiguration, err error) {
 	model = &AccountAccessRuleInputConfiguration{
 		Target: core.StringPtr(target),
-		Value: core.StringPtr(value),
+		Value:  core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -572,12 +571,11 @@ type AccountAccessRuleObjectConfiguration struct {
 // Constants associated with the AccountAccessRuleObjectConfiguration.Target property.
 // target ip address.
 const (
-	AccountAccessRuleObjectConfiguration_Target_Asn = "asn"
+	AccountAccessRuleObjectConfiguration_Target_Asn     = "asn"
 	AccountAccessRuleObjectConfiguration_Target_Country = "country"
-	AccountAccessRuleObjectConfiguration_Target_Ip = "ip"
+	AccountAccessRuleObjectConfiguration_Target_Ip      = "ip"
 	AccountAccessRuleObjectConfiguration_Target_IpRange = "ip_range"
 )
-
 
 // UnmarshalAccountAccessRuleObjectConfiguration unmarshals an instance of AccountAccessRuleObjectConfiguration from the specified map of raw messages.
 func UnmarshalAccountAccessRuleObjectConfiguration(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -603,10 +601,9 @@ type AccountAccessRuleObjectScope struct {
 // Constants associated with the AccountAccessRuleObjectScope.Type property.
 // The scope of the access rule.
 const (
-	AccountAccessRuleObjectScope_Type_Account = "account"
+	AccountAccessRuleObjectScope_Type_Account      = "account"
 	AccountAccessRuleObjectScope_Type_Organization = "organization"
 )
-
 
 // UnmarshalAccountAccessRuleObjectScope unmarshals an instance of AccountAccessRuleObjectScope from the specified map of raw messages.
 func UnmarshalAccountAccessRuleObjectScope(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -637,10 +634,10 @@ type CreateAccountAccessRuleOptions struct {
 // Constants associated with the CreateAccountAccessRuleOptions.Mode property.
 // The action to apply to a matched request.
 const (
-	CreateAccountAccessRuleOptions_Mode_Block = "block"
-	CreateAccountAccessRuleOptions_Mode_Challenge = "challenge"
+	CreateAccountAccessRuleOptions_Mode_Block       = "block"
+	CreateAccountAccessRuleOptions_Mode_Challenge   = "challenge"
 	CreateAccountAccessRuleOptions_Mode_JsChallenge = "js_challenge"
-	CreateAccountAccessRuleOptions_Mode_Whitelist = "whitelist"
+	CreateAccountAccessRuleOptions_Mode_Whitelist   = "whitelist"
 )
 
 // NewCreateAccountAccessRuleOptions : Instantiate CreateAccountAccessRuleOptions
@@ -706,7 +703,6 @@ type DeleteAccountAccessRuleRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
-
 // UnmarshalDeleteAccountAccessRuleRespResult unmarshals an instance of DeleteAccountAccessRuleRespResult from the specified map of raw messages.
 func UnmarshalDeleteAccountAccessRuleRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteAccountAccessRuleRespResult)
@@ -760,7 +756,6 @@ type ListAccountAccessRulesRespResultInfo struct {
 	// Total number of results.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
-
 
 // UnmarshalListAccountAccessRulesRespResultInfo unmarshals an instance of ListAccountAccessRulesRespResultInfo from the specified map of raw messages.
 func UnmarshalListAccountAccessRulesRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -821,33 +816,33 @@ type ListAllAccountAccessRulesOptions struct {
 // Constants associated with the ListAllAccountAccessRulesOptions.Mode property.
 // Search access rules by mode.
 const (
-	ListAllAccountAccessRulesOptions_Mode_Block = "block"
-	ListAllAccountAccessRulesOptions_Mode_Challenge = "challenge"
+	ListAllAccountAccessRulesOptions_Mode_Block       = "block"
+	ListAllAccountAccessRulesOptions_Mode_Challenge   = "challenge"
 	ListAllAccountAccessRulesOptions_Mode_JsChallenge = "js_challenge"
-	ListAllAccountAccessRulesOptions_Mode_Whitelist = "whitelist"
+	ListAllAccountAccessRulesOptions_Mode_Whitelist   = "whitelist"
 )
 
 // Constants associated with the ListAllAccountAccessRulesOptions.ConfigurationTarget property.
 // Search access rules by configuration target.
 const (
-	ListAllAccountAccessRulesOptions_ConfigurationTarget_Asn = "asn"
+	ListAllAccountAccessRulesOptions_ConfigurationTarget_Asn     = "asn"
 	ListAllAccountAccessRulesOptions_ConfigurationTarget_Country = "country"
-	ListAllAccountAccessRulesOptions_ConfigurationTarget_Ip = "ip"
+	ListAllAccountAccessRulesOptions_ConfigurationTarget_Ip      = "ip"
 	ListAllAccountAccessRulesOptions_ConfigurationTarget_IpRange = "ip_range"
 )
 
 // Constants associated with the ListAllAccountAccessRulesOptions.Order property.
 // Field by which to order list of access rules.
 const (
-	ListAllAccountAccessRulesOptions_Order_Mode = "mode"
+	ListAllAccountAccessRulesOptions_Order_Mode   = "mode"
 	ListAllAccountAccessRulesOptions_Order_Target = "target"
-	ListAllAccountAccessRulesOptions_Order_Value = "value"
+	ListAllAccountAccessRulesOptions_Order_Value  = "value"
 )
 
 // Constants associated with the ListAllAccountAccessRulesOptions.Direction property.
 // Direction in which to order results [ascending/descending order].
 const (
-	ListAllAccountAccessRulesOptions_Direction_Asc = "asc"
+	ListAllAccountAccessRulesOptions_Direction_Asc  = "asc"
 	ListAllAccountAccessRulesOptions_Direction_Desc = "desc"
 )
 
@@ -941,10 +936,10 @@ type UpdateAccountAccessRuleOptions struct {
 // Constants associated with the UpdateAccountAccessRuleOptions.Mode property.
 // The action to apply to a matched request.
 const (
-	UpdateAccountAccessRuleOptions_Mode_Block = "block"
-	UpdateAccountAccessRuleOptions_Mode_Challenge = "challenge"
+	UpdateAccountAccessRuleOptions_Mode_Block       = "block"
+	UpdateAccountAccessRuleOptions_Mode_Challenge   = "challenge"
 	UpdateAccountAccessRuleOptions_Mode_JsChallenge = "js_challenge"
-	UpdateAccountAccessRuleOptions_Mode_Whitelist = "whitelist"
+	UpdateAccountAccessRuleOptions_Mode_Whitelist   = "whitelist"
 )
 
 // NewUpdateAccountAccessRuleOptions : Instantiate UpdateAccountAccessRuleOptions
@@ -1007,21 +1002,20 @@ type AccountAccessRuleObject struct {
 
 // Constants associated with the AccountAccessRuleObject.AllowedModes property.
 const (
-	AccountAccessRuleObject_AllowedModes_Block = "block"
-	AccountAccessRuleObject_AllowedModes_Challenge = "challenge"
+	AccountAccessRuleObject_AllowedModes_Block       = "block"
+	AccountAccessRuleObject_AllowedModes_Challenge   = "challenge"
 	AccountAccessRuleObject_AllowedModes_JsChallenge = "js_challenge"
-	AccountAccessRuleObject_AllowedModes_Whitelist = "whitelist"
+	AccountAccessRuleObject_AllowedModes_Whitelist   = "whitelist"
 )
 
 // Constants associated with the AccountAccessRuleObject.Mode property.
 // The action to be applied to a request matching the instance level access rule.
 const (
-	AccountAccessRuleObject_Mode_Block = "block"
-	AccountAccessRuleObject_Mode_Challenge = "challenge"
+	AccountAccessRuleObject_Mode_Block       = "block"
+	AccountAccessRuleObject_Mode_Challenge   = "challenge"
 	AccountAccessRuleObject_Mode_JsChallenge = "js_challenge"
-	AccountAccessRuleObject_Mode_Whitelist = "whitelist"
+	AccountAccessRuleObject_Mode_Whitelist   = "whitelist"
 )
-
 
 // UnmarshalAccountAccessRuleObject unmarshals an instance of AccountAccessRuleObject from the specified map of raw messages.
 func UnmarshalAccountAccessRuleObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1077,7 +1071,6 @@ type AccountAccessRuleResp struct {
 	Result *AccountAccessRuleObject `json:"result" validate:"required"`
 }
 
-
 // UnmarshalAccountAccessRuleResp unmarshals an instance of AccountAccessRuleResp from the specified map of raw messages.
 func UnmarshalAccountAccessRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(AccountAccessRuleResp)
@@ -1115,7 +1108,6 @@ type DeleteAccountAccessRuleResp struct {
 	// Container for response information.
 	Result *DeleteAccountAccessRuleRespResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalDeleteAccountAccessRuleResp unmarshals an instance of DeleteAccountAccessRuleResp from the specified map of raw messages.
 func UnmarshalDeleteAccountAccessRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1157,7 +1149,6 @@ type ListAccountAccessRulesResp struct {
 	// Statistics of results.
 	ResultInfo *ListAccountAccessRulesRespResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListAccountAccessRulesResp unmarshals an instance of ListAccountAccessRulesResp from the specified map of raw messages.
 func UnmarshalListAccountAccessRulesResp(m map[string]json.RawMessage, result interface{}) (err error) {

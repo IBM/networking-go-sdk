@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package zonesv1 : Operations and models for the ZonesV1 service
 package zonesv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // ZonesV1 : CIS Zones
@@ -114,7 +114,7 @@ func NewZonesV1(options *ZonesV1Options) (service *ZonesV1, err error) {
 
 	service = &ZonesV1{
 		Service: baseService,
-		Crn: options.Crn,
+		Crn:     options.Crn,
 	}
 
 	return
@@ -314,7 +314,7 @@ func (zones *ZonesV1) DeleteZoneWithContext(ctx context.Context, deleteZoneOptio
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zones.Crn,
+		"crn":             *zones.Crn,
 		"zone_identifier": *deleteZoneOptions.ZoneIdentifier,
 	}
 
@@ -373,7 +373,7 @@ func (zones *ZonesV1) GetZoneWithContext(ctx context.Context, getZoneOptions *Ge
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zones.Crn,
+		"crn":             *zones.Crn,
 		"zone_identifier": *getZoneOptions.ZoneIdentifier,
 	}
 
@@ -432,7 +432,7 @@ func (zones *ZonesV1) UpdateZoneWithContext(ctx context.Context, updateZoneOptio
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zones.Crn,
+		"crn":             *zones.Crn,
 		"zone_identifier": *updateZoneOptions.ZoneIdentifier,
 	}
 
@@ -501,7 +501,7 @@ func (zones *ZonesV1) ZoneActivationCheckWithContext(ctx context.Context, zoneAc
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zones.Crn,
+		"crn":             *zones.Crn,
 		"zone_identifier": *zoneActivationCheckOptions.ZoneIdentifier,
 	}
 
@@ -601,7 +601,6 @@ type DeleteZoneRespResult struct {
 	// id.
 	ID *string `json:"id" validate:"required"`
 }
-
 
 // UnmarshalDeleteZoneRespResult unmarshals an instance of DeleteZoneRespResult from the specified map of raw messages.
 func UnmarshalDeleteZoneRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -748,7 +747,6 @@ type ZoneActivationcheckRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
-
 // UnmarshalZoneActivationcheckRespResult unmarshals an instance of ZoneActivationcheckRespResult from the specified map of raw messages.
 func UnmarshalZoneActivationcheckRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ZoneActivationcheckRespResult)
@@ -774,7 +772,6 @@ type DeleteZoneResp struct {
 	// result.
 	Result *DeleteZoneRespResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalDeleteZoneResp unmarshals an instance of DeleteZoneResp from the specified map of raw messages.
 func UnmarshalDeleteZoneResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -816,7 +813,6 @@ type ListZonesResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListZonesResp unmarshals an instance of ListZonesResp from the specified map of raw messages.
 func UnmarshalListZonesResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -860,7 +856,6 @@ type ResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResultInfo)
@@ -898,7 +893,6 @@ type ZoneActivationcheckResp struct {
 	// result.
 	Result *ZoneActivationcheckRespResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalZoneActivationcheckResp unmarshals an instance of ZoneActivationcheckResp from the specified map of raw messages.
 func UnmarshalZoneActivationcheckResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -955,7 +949,6 @@ type ZoneDetails struct {
 	// name servers.
 	NameServers []string `json:"name_servers,omitempty"`
 }
-
 
 // UnmarshalZoneDetails unmarshals an instance of ZoneDetails from the specified map of raw messages.
 func UnmarshalZoneDetails(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1018,7 +1011,6 @@ type ZoneResp struct {
 	// zone details.
 	Result *ZoneDetails `json:"result" validate:"required"`
 }
-
 
 // UnmarshalZoneResp unmarshals an instance of ZoneResp from the specified map of raw messages.
 func UnmarshalZoneResp(m map[string]json.RawMessage, result interface{}) (err error) {

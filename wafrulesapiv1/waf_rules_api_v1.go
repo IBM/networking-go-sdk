@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package wafrulesapiv1 : Operations and models for the WafRulesApiV1 service
 package wafrulesapiv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // WafRulesApiV1 : This document describes CIS WAF Rules API.
@@ -120,8 +120,8 @@ func NewWafRulesApiV1(options *WafRulesApiV1Options) (service *WafRulesApiV1, er
 
 	service = &WafRulesApiV1{
 		Service: baseService,
-		Crn: options.Crn,
-		ZoneID: options.ZoneID,
+		Crn:     options.Crn,
+		ZoneID:  options.ZoneID,
 	}
 
 	return
@@ -196,8 +196,8 @@ func (wafRulesApi *WafRulesApiV1) ListWafRulesWithContext(ctx context.Context, l
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRulesApi.Crn,
-		"zone_id": *wafRulesApi.ZoneID,
+		"crn":        *wafRulesApi.Crn,
+		"zone_id":    *wafRulesApi.ZoneID,
 		"package_id": *listWafRulesOptions.PackageID,
 	}
 
@@ -284,8 +284,8 @@ func (wafRulesApi *WafRulesApiV1) GetWafRuleWithContext(ctx context.Context, get
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRulesApi.Crn,
-		"zone_id": *wafRulesApi.ZoneID,
+		"crn":        *wafRulesApi.Crn,
+		"zone_id":    *wafRulesApi.ZoneID,
 		"package_id": *getWafRuleOptions.PackageID,
 		"identifier": *getWafRuleOptions.Identifier,
 	}
@@ -345,8 +345,8 @@ func (wafRulesApi *WafRulesApiV1) UpdateWafRuleWithContext(ctx context.Context, 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRulesApi.Crn,
-		"zone_id": *wafRulesApi.ZoneID,
+		"crn":        *wafRulesApi.Crn,
+		"zone_id":    *wafRulesApi.ZoneID,
 		"package_id": *updateWafRuleOptions.PackageID,
 		"identifier": *updateWafRuleOptions.Identifier,
 	}
@@ -416,7 +416,7 @@ type GetWafRuleOptions struct {
 // NewGetWafRuleOptions : Instantiate GetWafRuleOptions
 func (*WafRulesApiV1) NewGetWafRuleOptions(packageID string, identifier string) *GetWafRuleOptions {
 	return &GetWafRuleOptions{
-		PackageID: core.StringPtr(packageID),
+		PackageID:  core.StringPtr(packageID),
 		Identifier: core.StringPtr(identifier),
 	}
 }
@@ -479,7 +479,7 @@ type ListWafRulesOptions struct {
 // The Rule Mode.
 const (
 	ListWafRulesOptions_Mode_Off = "off"
-	ListWafRulesOptions_Mode_On = "on"
+	ListWafRulesOptions_Mode_On  = "on"
 )
 
 // NewListWafRulesOptions : Instantiate ListWafRulesOptions
@@ -576,7 +576,7 @@ type UpdateWafRuleOptions struct {
 // NewUpdateWafRuleOptions : Instantiate UpdateWafRuleOptions
 func (*WafRulesApiV1) NewUpdateWafRuleOptions(packageID string, identifier string) *UpdateWafRuleOptions {
 	return &UpdateWafRuleOptions{
-		PackageID: core.StringPtr(packageID),
+		PackageID:  core.StringPtr(packageID),
 		Identifier: core.StringPtr(identifier),
 	}
 }
@@ -620,13 +620,12 @@ type WafRuleBodyCis struct {
 // Constants associated with the WafRuleBodyCis.Mode property.
 // mode to choose from.
 const (
-	WafRuleBodyCis_Mode_Block = "block"
+	WafRuleBodyCis_Mode_Block     = "block"
 	WafRuleBodyCis_Mode_Challenge = "challenge"
-	WafRuleBodyCis_Mode_Default = "default"
-	WafRuleBodyCis_Mode_Disable = "disable"
-	WafRuleBodyCis_Mode_Simulate = "simulate"
+	WafRuleBodyCis_Mode_Default   = "default"
+	WafRuleBodyCis_Mode_Disable   = "disable"
+	WafRuleBodyCis_Mode_Simulate  = "simulate"
 )
-
 
 // NewWafRuleBodyCis : Instantiate WafRuleBodyCis (Generic Model Constructor)
 func (*WafRulesApiV1) NewWafRuleBodyCis(mode string) (model *WafRuleBodyCis, err error) {
@@ -658,9 +657,8 @@ type WafRuleBodyOwasp struct {
 // mode to choose from. 'owasp' limited modes - on and off.
 const (
 	WafRuleBodyOwasp_Mode_Off = "off"
-	WafRuleBodyOwasp_Mode_On = "on"
+	WafRuleBodyOwasp_Mode_On  = "on"
 )
-
 
 // NewWafRuleBodyOwasp : Instantiate WafRuleBodyOwasp (Generic Model Constructor)
 func (*WafRulesApiV1) NewWafRuleBodyOwasp(mode string) (model *WafRuleBodyOwasp, err error) {
@@ -710,9 +708,8 @@ type WafRuleResponseResult struct {
 // mode.
 const (
 	WafRuleResponseResult_Mode_Off = "off"
-	WafRuleResponseResult_Mode_On = "on"
+	WafRuleResponseResult_Mode_On  = "on"
 )
-
 
 // UnmarshalWafRuleResponseResult unmarshals an instance of WafRuleResponseResult from the specified map of raw messages.
 func UnmarshalWafRuleResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -758,7 +755,6 @@ type WafRuleResponseResultGroup struct {
 	Name *string `json:"name,omitempty"`
 }
 
-
 // UnmarshalWafRuleResponseResultGroup unmarshals an instance of WafRuleResponseResultGroup from the specified map of raw messages.
 func UnmarshalWafRuleResponseResultGroup(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafRuleResponseResultGroup)
@@ -788,7 +784,6 @@ type WafRulesResponseResultInfo struct {
 	// total count of data.
 	TotalCount *int64 `json:"total_count,omitempty"`
 }
-
 
 // UnmarshalWafRulesResponseResultInfo unmarshals an instance of WafRulesResponseResultInfo from the specified map of raw messages.
 func UnmarshalWafRulesResponseResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -841,9 +836,8 @@ type WafRulesResponseResultItem struct {
 // mode.
 const (
 	WafRulesResponseResultItem_Mode_Off = "off"
-	WafRulesResponseResultItem_Mode_On = "on"
+	WafRulesResponseResultItem_Mode_On  = "on"
 )
-
 
 // UnmarshalWafRulesResponseResultItem unmarshals an instance of WafRulesResponseResultItem from the specified map of raw messages.
 func UnmarshalWafRulesResponseResultItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -889,7 +883,6 @@ type WafRulesResponseResultItemGroup struct {
 	Name *string `json:"name,omitempty"`
 }
 
-
 // UnmarshalWafRulesResponseResultItemGroup unmarshals an instance of WafRulesResponseResultItemGroup from the specified map of raw messages.
 func UnmarshalWafRulesResponseResultItemGroup(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafRulesResponseResultItemGroup)
@@ -919,7 +912,6 @@ type WafRuleResponse struct {
 	// Information about a Rule.
 	Result *WafRuleResponseResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalWafRuleResponse unmarshals an instance of WafRuleResponse from the specified map of raw messages.
 func UnmarshalWafRuleResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -961,7 +953,6 @@ type WafRulesResponse struct {
 	// result information.
 	ResultInfo *WafRulesResponseResultInfo `json:"result_info,omitempty"`
 }
-
 
 // UnmarshalWafRulesResponse unmarshals an instance of WafRulesResponse from the specified map of raw messages.
 func UnmarshalWafRulesResponse(m map[string]json.RawMessage, result interface{}) (err error) {

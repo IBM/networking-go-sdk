@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/rangeapplicationsv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/rangeapplicationsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`RangeApplicationsV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(rangeApplicationsService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(rangeApplicationsService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-				URL: "https://rangeapplicationsv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://rangeapplicationsv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RANGE_APPLICATIONS_URL": "https://rangeapplicationsv1/api",
+				"RANGE_APPLICATIONS_URL":       "https://rangeapplicationsv1/api",
 				"RANGE_APPLICATIONS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(rangeApplicationsService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(rangeApplicationsService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := rangeApplicationsService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RANGE_APPLICATIONS_URL": "https://rangeapplicationsv1/api",
+				"RANGE_APPLICATIONS_URL":       "https://rangeapplicationsv1/api",
 				"RANGE_APPLICATIONS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RANGE_APPLICATIONS_AUTH_TYPE":   "NOAuth",
+				"RANGE_APPLICATIONS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1UsingExternalConfig(&rangeapplicationsv1.RangeApplicationsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -215,9 +216,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke ListRangeApps with error: Operation response processing error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -283,9 +284,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke ListRangeApps successfully`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -339,9 +340,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke ListRangeApps with error: Operation request error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -387,9 +388,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke CreateRangeApp with error: Operation response processing error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -483,9 +484,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke CreateRangeApp successfully`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -559,9 +560,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke CreateRangeApp with error: Operation validation and request error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -634,9 +635,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke GetRangeApp with error: Operation response processing error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -691,9 +692,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke GetRangeApp successfully`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -744,9 +745,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke GetRangeApp with error: Operation validation and request error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -796,9 +797,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke UpdateRangeApp with error: Operation response processing error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -893,9 +894,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke UpdateRangeApp successfully`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -970,9 +971,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke UpdateRangeApp with error: Operation validation and request error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1046,9 +1047,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke DeleteRangeApp with error: Operation response processing error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1103,9 +1104,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke DeleteRangeApp successfully`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1156,9 +1157,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			})
 			It(`Invoke DeleteRangeApp with error: Operation validation and request error`, func() {
 				rangeApplicationsService, serviceErr := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1194,9 +1195,9 @@ var _ = Describe(`RangeApplicationsV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			rangeApplicationsService, _ := rangeapplicationsv1.NewRangeApplicationsV1(&rangeapplicationsv1.RangeApplicationsV1Options{
-				URL:           "http://rangeapplicationsv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://rangeapplicationsv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateRangeAppOptions successfully`, func() {

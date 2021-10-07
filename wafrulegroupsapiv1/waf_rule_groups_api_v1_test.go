@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/wafrulegroupsapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/wafrulegroupsapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`WafRuleGroupsApiV1`, func() {
@@ -41,16 +42,16 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(wafRuleGroupsApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 			Expect(wafRuleGroupsApiService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-				URL: "https://wafrulegroupsapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:    "https://wafrulegroupsapiv1/api",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"WAF_RULE_GROUPS_API_URL": "https://wafrulegroupsapiv1/api",
+				"WAF_RULE_GROUPS_API_URL":       "https://wafrulegroupsapiv1/api",
 				"WAF_RULE_GROUPS_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:    "https://testService/api",
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				err := wafRuleGroupsApiService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"WAF_RULE_GROUPS_API_URL": "https://wafrulegroupsapiv1/api",
+				"WAF_RULE_GROUPS_API_URL":       "https://wafrulegroupsapiv1/api",
 				"WAF_RULE_GROUPS_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"WAF_RULE_GROUPS_API_AUTH_TYPE":   "NOAuth",
+				"WAF_RULE_GROUPS_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1UsingExternalConfig(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -225,8 +226,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -306,8 +307,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -367,8 +368,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -427,8 +428,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -485,8 +486,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -539,8 +540,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -592,8 +593,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -667,8 +668,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -722,8 +723,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 				wafRuleGroupsApiService, serviceErr := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafRuleGroupsApiService).ToNot(BeNil())
@@ -762,8 +763,8 @@ var _ = Describe(`WafRuleGroupsApiV1`, func() {
 			wafRuleGroupsApiService, _ := wafrulegroupsapiv1.NewWafRuleGroupsApiV1(&wafrulegroupsapiv1.WafRuleGroupsApiV1Options{
 				URL:           "http://wafrulegroupsapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			It(`Invoke NewGetWafRuleGroupOptions successfully`, func() {
 				// Construct an instance of the GetWafRuleGroupOptions model

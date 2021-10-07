@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/zonelockdownv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/zonelockdownv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`ZoneLockdownV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(zoneLockdownService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(zoneLockdownService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-				URL: "https://zonelockdownv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://zonelockdownv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONE_LOCKDOWN_URL": "https://zonelockdownv1/api",
+				"ZONE_LOCKDOWN_URL":       "https://zonelockdownv1/api",
 				"ZONE_LOCKDOWN_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(zoneLockdownService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(zoneLockdownService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := zoneLockdownService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONE_LOCKDOWN_URL": "https://zonelockdownv1/api",
+				"ZONE_LOCKDOWN_URL":       "https://zonelockdownv1/api",
 				"ZONE_LOCKDOWN_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONE_LOCKDOWN_AUTH_TYPE":   "NOAuth",
+				"ZONE_LOCKDOWN_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1UsingExternalConfig(&zonelockdownv1.ZoneLockdownV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -211,9 +212,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke ListAllZoneLockownRules with error: Operation response processing error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -273,9 +274,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke ListAllZoneLockownRules successfully`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -327,9 +328,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke ListAllZoneLockownRules with error: Operation request error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -373,9 +374,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke CreateZoneLockdownRule with error: Operation response processing error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -456,9 +457,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke CreateZoneLockdownRule successfully`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -519,9 +520,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke CreateZoneLockdownRule with error: Operation request error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -574,9 +575,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke DeleteZoneLockdownRule with error: Operation response processing error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -631,9 +632,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke DeleteZoneLockdownRule successfully`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -684,9 +685,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke DeleteZoneLockdownRule with error: Operation validation and request error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -736,9 +737,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke GetLockdown with error: Operation response processing error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -793,9 +794,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke GetLockdown successfully`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -846,9 +847,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke GetLockdown with error: Operation validation and request error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -898,9 +899,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke UpdateLockdownRule with error: Operation response processing error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -982,9 +983,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke UpdateLockdownRule successfully`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1046,9 +1047,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			})
 			It(`Invoke UpdateLockdownRule with error: Operation validation and request error`, func() {
 				zoneLockdownService, serviceErr := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1095,9 +1096,9 @@ var _ = Describe(`ZoneLockdownV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			zoneLockdownService, _ := zonelockdownv1.NewZoneLockdownV1(&zonelockdownv1.ZoneLockdownV1Options{
-				URL:           "http://zonelockdownv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://zonelockdownv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateZoneLockdownRuleOptions successfully`, func() {

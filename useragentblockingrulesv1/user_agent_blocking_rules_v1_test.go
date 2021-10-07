@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/useragentblockingrulesv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/useragentblockingrulesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`UserAgentBlockingRulesV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(userAgentBlockingRulesService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(userAgentBlockingRulesService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-				URL: "https://useragentblockingrulesv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://useragentblockingrulesv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"USER_AGENT_BLOCKING_RULES_URL": "https://useragentblockingrulesv1/api",
+				"USER_AGENT_BLOCKING_RULES_URL":       "https://useragentblockingrulesv1/api",
 				"USER_AGENT_BLOCKING_RULES_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(userAgentBlockingRulesService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(userAgentBlockingRulesService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := userAgentBlockingRulesService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"USER_AGENT_BLOCKING_RULES_URL": "https://useragentblockingrulesv1/api",
+				"USER_AGENT_BLOCKING_RULES_URL":       "https://useragentblockingrulesv1/api",
 				"USER_AGENT_BLOCKING_RULES_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"USER_AGENT_BLOCKING_RULES_AUTH_TYPE":   "NOAuth",
+				"USER_AGENT_BLOCKING_RULES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1UsingExternalConfig(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -211,9 +212,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke ListAllZoneUserAgentRules with error: Operation response processing error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -273,9 +274,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke ListAllZoneUserAgentRules successfully`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -327,9 +328,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke ListAllZoneUserAgentRules with error: Operation request error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -373,9 +374,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke CreateZoneUserAgentRule with error: Operation response processing error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -454,9 +455,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke CreateZoneUserAgentRule successfully`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -515,9 +516,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke CreateZoneUserAgentRule with error: Operation request error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -568,9 +569,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke DeleteZoneUserAgentRule with error: Operation response processing error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -625,9 +626,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke DeleteZoneUserAgentRule successfully`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -678,9 +679,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke DeleteZoneUserAgentRule with error: Operation validation and request error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -730,9 +731,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke GetUserAgentRule with error: Operation response processing error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -787,9 +788,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke GetUserAgentRule successfully`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -840,9 +841,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke GetUserAgentRule with error: Operation validation and request error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -892,9 +893,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke UpdateUserAgentRule with error: Operation response processing error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -974,9 +975,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke UpdateUserAgentRule successfully`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1036,9 +1037,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			})
 			It(`Invoke UpdateUserAgentRule with error: Operation validation and request error`, func() {
 				userAgentBlockingRulesService, serviceErr := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1083,9 +1084,9 @@ var _ = Describe(`UserAgentBlockingRulesV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			userAgentBlockingRulesService, _ := useragentblockingrulesv1.NewUserAgentBlockingRulesV1(&useragentblockingrulesv1.UserAgentBlockingRulesV1Options{
-				URL:           "http://useragentblockingrulesv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://useragentblockingrulesv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateZoneUserAgentRuleOptions successfully`, func() {

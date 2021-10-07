@@ -27,7 +27,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/networking-go-sdk/zonessettingsv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"

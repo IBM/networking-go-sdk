@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package securityeventsapiv1 : Operations and models for the SecurityEventsApiV1 service
 package securityeventsapiv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // SecurityEventsApiV1 : Security Events API
@@ -121,8 +121,8 @@ func NewSecurityEventsApiV1(options *SecurityEventsApiV1Options) (service *Secur
 
 	service = &SecurityEventsApiV1{
 		Service: baseService,
-		Crn: options.Crn,
-		ZoneID: options.ZoneID,
+		Crn:     options.Crn,
+		ZoneID:  options.ZoneID,
 	}
 
 	return
@@ -195,7 +195,7 @@ func (securityEventsApi *SecurityEventsApiV1) SecurityEventsWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *securityEventsApi.Crn,
+		"crn":     *securityEventsApi.Crn,
 		"zone_id": *securityEventsApi.ZoneID,
 	}
 
@@ -303,7 +303,6 @@ type ResultInfoCursors struct {
 	Before *string `json:"before" validate:"required"`
 }
 
-
 // UnmarshalResultInfoCursors unmarshals an instance of ResultInfoCursors from the specified map of raw messages.
 func UnmarshalResultInfoCursors(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResultInfoCursors)
@@ -327,7 +326,6 @@ type ResultInfoScannedRange struct {
 	// End date and time of the events.
 	Until *string `json:"until" validate:"required"`
 }
-
 
 // UnmarshalResultInfoScannedRange unmarshals an instance of ResultInfoScannedRange from the specified map of raw messages.
 func UnmarshalResultInfoScannedRange(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -358,7 +356,6 @@ type SecurityEventObjectMatchesItem struct {
 	// metadata.
 	Metadata interface{} `json:"metadata" validate:"required"`
 }
-
 
 // UnmarshalSecurityEventObjectMatchesItem unmarshals an instance of SecurityEventObjectMatchesItem from the specified map of raw messages.
 func UnmarshalSecurityEventObjectMatchesItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -450,77 +447,77 @@ type SecurityEventsOptions struct {
 // Constants associated with the SecurityEventsOptions.IpClass property.
 // IP class is a map of client IP to visitor classification.
 const (
-	SecurityEventsOptions_IpClass_Backupservice = "backupService"
-	SecurityEventsOptions_IpClass_Badhost = "badHost"
-	SecurityEventsOptions_IpClass_Clean = "clean"
-	SecurityEventsOptions_IpClass_Greylist = "greylist"
-	SecurityEventsOptions_IpClass_Mobileplatform = "mobilePlatform"
+	SecurityEventsOptions_IpClass_Backupservice     = "backupService"
+	SecurityEventsOptions_IpClass_Badhost           = "badHost"
+	SecurityEventsOptions_IpClass_Clean             = "clean"
+	SecurityEventsOptions_IpClass_Greylist          = "greylist"
+	SecurityEventsOptions_IpClass_Mobileplatform    = "mobilePlatform"
 	SecurityEventsOptions_IpClass_Monitoringservice = "monitoringService"
-	SecurityEventsOptions_IpClass_Norecord = "noRecord"
-	SecurityEventsOptions_IpClass_Scan = "scan"
-	SecurityEventsOptions_IpClass_Searchengine = "searchEngine"
-	SecurityEventsOptions_IpClass_Securityscanner = "securityScanner"
-	SecurityEventsOptions_IpClass_Tor = "tor"
-	SecurityEventsOptions_IpClass_Unknown = "unknown"
-	SecurityEventsOptions_IpClass_Whitelist = "whitelist"
+	SecurityEventsOptions_IpClass_Norecord          = "noRecord"
+	SecurityEventsOptions_IpClass_Scan              = "scan"
+	SecurityEventsOptions_IpClass_Searchengine      = "searchEngine"
+	SecurityEventsOptions_IpClass_Securityscanner   = "securityScanner"
+	SecurityEventsOptions_IpClass_Tor               = "tor"
+	SecurityEventsOptions_IpClass_Unknown           = "unknown"
+	SecurityEventsOptions_IpClass_Whitelist         = "whitelist"
 )
 
 // Constants associated with the SecurityEventsOptions.Method property.
 // The HTTP method of the request.
 const (
-	SecurityEventsOptions_Method_Acl = "ACL"
+	SecurityEventsOptions_Method_Acl             = "ACL"
 	SecurityEventsOptions_Method_BaselineControl = "BASELINE-CONTROL"
-	SecurityEventsOptions_Method_Bcopy = "BCOPY"
-	SecurityEventsOptions_Method_Bdelete = "BDELETE"
-	SecurityEventsOptions_Method_Bmove = "BMOVE"
-	SecurityEventsOptions_Method_Bpropfind = "BPROPFIND"
-	SecurityEventsOptions_Method_Bproppatch = "BPROPPATCH"
-	SecurityEventsOptions_Method_Checkin = "CHECKIN"
-	SecurityEventsOptions_Method_Checkout = "CHECKOUT"
-	SecurityEventsOptions_Method_Connect = "CONNECT"
-	SecurityEventsOptions_Method_Cook = "COOK"
-	SecurityEventsOptions_Method_Copy = "COPY"
-	SecurityEventsOptions_Method_Delete = "DELETE"
-	SecurityEventsOptions_Method_Get = "GET"
-	SecurityEventsOptions_Method_Head = "HEAD"
-	SecurityEventsOptions_Method_JSON = "JSON"
-	SecurityEventsOptions_Method_Label = "LABEL"
-	SecurityEventsOptions_Method_Lock = "LOCK"
-	SecurityEventsOptions_Method_Merge = "MERGE"
-	SecurityEventsOptions_Method_Mkactivity = "MKACTIVITY"
-	SecurityEventsOptions_Method_Mkcol = "MKCOL"
-	SecurityEventsOptions_Method_Mkworkspace = "MKWORKSPACE"
-	SecurityEventsOptions_Method_Move = "MOVE"
-	SecurityEventsOptions_Method_Notify = "NOTIFY"
-	SecurityEventsOptions_Method_Options = "OPTIONS"
-	SecurityEventsOptions_Method_Orderpatch = "ORDERPATCH"
-	SecurityEventsOptions_Method_Patch = "PATCH"
-	SecurityEventsOptions_Method_Poll = "POLL"
-	SecurityEventsOptions_Method_Post = "POST"
-	SecurityEventsOptions_Method_Propfind = "PROPFIND"
-	SecurityEventsOptions_Method_Proppatch = "PROPPATCH"
-	SecurityEventsOptions_Method_Purge = "PURGE"
-	SecurityEventsOptions_Method_Put = "PUT"
-	SecurityEventsOptions_Method_Report = "REPORT"
-	SecurityEventsOptions_Method_RpcInData = "RPC_IN_DATA"
-	SecurityEventsOptions_Method_RpcOutData = "RPC_OUT_DATA"
-	SecurityEventsOptions_Method_Search = "SEARCH"
-	SecurityEventsOptions_Method_Subscribe = "SUBSCRIBE"
-	SecurityEventsOptions_Method_Trace = "TRACE"
-	SecurityEventsOptions_Method_Track = "TRACK"
-	SecurityEventsOptions_Method_Uncheckout = "UNCHECKOUT"
-	SecurityEventsOptions_Method_Unlock = "UNLOCK"
-	SecurityEventsOptions_Method_Unsubscribe = "UNSUBSCRIBE"
-	SecurityEventsOptions_Method_Update = "UPDATE"
-	SecurityEventsOptions_Method_VersionControl = "VERSION-CONTROL"
-	SecurityEventsOptions_Method_XMsEnumatts = "X-MS-ENUMATTS"
+	SecurityEventsOptions_Method_Bcopy           = "BCOPY"
+	SecurityEventsOptions_Method_Bdelete         = "BDELETE"
+	SecurityEventsOptions_Method_Bmove           = "BMOVE"
+	SecurityEventsOptions_Method_Bpropfind       = "BPROPFIND"
+	SecurityEventsOptions_Method_Bproppatch      = "BPROPPATCH"
+	SecurityEventsOptions_Method_Checkin         = "CHECKIN"
+	SecurityEventsOptions_Method_Checkout        = "CHECKOUT"
+	SecurityEventsOptions_Method_Connect         = "CONNECT"
+	SecurityEventsOptions_Method_Cook            = "COOK"
+	SecurityEventsOptions_Method_Copy            = "COPY"
+	SecurityEventsOptions_Method_Delete          = "DELETE"
+	SecurityEventsOptions_Method_Get             = "GET"
+	SecurityEventsOptions_Method_Head            = "HEAD"
+	SecurityEventsOptions_Method_JSON            = "JSON"
+	SecurityEventsOptions_Method_Label           = "LABEL"
+	SecurityEventsOptions_Method_Lock            = "LOCK"
+	SecurityEventsOptions_Method_Merge           = "MERGE"
+	SecurityEventsOptions_Method_Mkactivity      = "MKACTIVITY"
+	SecurityEventsOptions_Method_Mkcol           = "MKCOL"
+	SecurityEventsOptions_Method_Mkworkspace     = "MKWORKSPACE"
+	SecurityEventsOptions_Method_Move            = "MOVE"
+	SecurityEventsOptions_Method_Notify          = "NOTIFY"
+	SecurityEventsOptions_Method_Options         = "OPTIONS"
+	SecurityEventsOptions_Method_Orderpatch      = "ORDERPATCH"
+	SecurityEventsOptions_Method_Patch           = "PATCH"
+	SecurityEventsOptions_Method_Poll            = "POLL"
+	SecurityEventsOptions_Method_Post            = "POST"
+	SecurityEventsOptions_Method_Propfind        = "PROPFIND"
+	SecurityEventsOptions_Method_Proppatch       = "PROPPATCH"
+	SecurityEventsOptions_Method_Purge           = "PURGE"
+	SecurityEventsOptions_Method_Put             = "PUT"
+	SecurityEventsOptions_Method_Report          = "REPORT"
+	SecurityEventsOptions_Method_RpcInData       = "RPC_IN_DATA"
+	SecurityEventsOptions_Method_RpcOutData      = "RPC_OUT_DATA"
+	SecurityEventsOptions_Method_Search          = "SEARCH"
+	SecurityEventsOptions_Method_Subscribe       = "SUBSCRIBE"
+	SecurityEventsOptions_Method_Trace           = "TRACE"
+	SecurityEventsOptions_Method_Track           = "TRACK"
+	SecurityEventsOptions_Method_Uncheckout      = "UNCHECKOUT"
+	SecurityEventsOptions_Method_Unlock          = "UNLOCK"
+	SecurityEventsOptions_Method_Unsubscribe     = "UNSUBSCRIBE"
+	SecurityEventsOptions_Method_Update          = "UPDATE"
+	SecurityEventsOptions_Method_VersionControl  = "VERSION-CONTROL"
+	SecurityEventsOptions_Method_XMsEnumatts     = "X-MS-ENUMATTS"
 )
 
 // Constants associated with the SecurityEventsOptions.Scheme property.
 // The scheme of the uri.
 const (
-	SecurityEventsOptions_Scheme_Http = "http"
-	SecurityEventsOptions_Scheme_Https = "https"
+	SecurityEventsOptions_Scheme_Http    = "http"
+	SecurityEventsOptions_Scheme_Https   = "https"
 	SecurityEventsOptions_Scheme_Unknown = "unknown"
 )
 
@@ -530,9 +527,9 @@ const (
 	SecurityEventsOptions_Proto_Http10 = "HTTP/1.0"
 	SecurityEventsOptions_Proto_Http11 = "HTTP/1.1"
 	SecurityEventsOptions_Proto_Http12 = "HTTP/1.2"
-	SecurityEventsOptions_Proto_Http2 = "HTTP/2"
+	SecurityEventsOptions_Proto_Http2  = "HTTP/2"
 	SecurityEventsOptions_Proto_Spdy31 = "SPDY/3.1"
-	SecurityEventsOptions_Proto_Unk = "UNK"
+	SecurityEventsOptions_Proto_Unk    = "UNK"
 )
 
 // Constants associated with the SecurityEventsOptions.Kind property.
@@ -544,33 +541,33 @@ const (
 // Constants associated with the SecurityEventsOptions.Action property.
 // What type of action was taken.
 const (
-	SecurityEventsOptions_Action_Allow = "allow"
-	SecurityEventsOptions_Action_Challenge = "challenge"
+	SecurityEventsOptions_Action_Allow           = "allow"
+	SecurityEventsOptions_Action_Challenge       = "challenge"
 	SecurityEventsOptions_Action_Connectionclose = "connectionClose"
-	SecurityEventsOptions_Action_Drop = "drop"
-	SecurityEventsOptions_Action_Jschallenge = "jschallenge"
-	SecurityEventsOptions_Action_Log = "log"
-	SecurityEventsOptions_Action_Simulate = "simulate"
-	SecurityEventsOptions_Action_Unknown = "unknown"
+	SecurityEventsOptions_Action_Drop            = "drop"
+	SecurityEventsOptions_Action_Jschallenge     = "jschallenge"
+	SecurityEventsOptions_Action_Log             = "log"
+	SecurityEventsOptions_Action_Simulate        = "simulate"
+	SecurityEventsOptions_Action_Unknown         = "unknown"
 )
 
 // Constants associated with the SecurityEventsOptions.Source property.
 // Source of the event.
 const (
-	SecurityEventsOptions_Source_Asn = "asn"
-	SecurityEventsOptions_Source_Bic = "bic"
-	SecurityEventsOptions_Source_Country = "country"
+	SecurityEventsOptions_Source_Asn           = "asn"
+	SecurityEventsOptions_Source_Bic           = "bic"
+	SecurityEventsOptions_Source_Country       = "country"
 	SecurityEventsOptions_Source_Firewallrules = "firewallRules"
-	SecurityEventsOptions_Source_Hot = "hot"
-	SecurityEventsOptions_Source_Ip = "ip"
-	SecurityEventsOptions_Source_Iprange = "ipRange"
-	SecurityEventsOptions_Source_L7ddos = "l7ddos"
-	SecurityEventsOptions_Source_Ratelimit = "rateLimit"
+	SecurityEventsOptions_Source_Hot           = "hot"
+	SecurityEventsOptions_Source_Ip            = "ip"
+	SecurityEventsOptions_Source_Iprange       = "ipRange"
+	SecurityEventsOptions_Source_L7ddos        = "l7ddos"
+	SecurityEventsOptions_Source_Ratelimit     = "rateLimit"
 	SecurityEventsOptions_Source_Securitylevel = "securityLevel"
-	SecurityEventsOptions_Source_Uablock = "uaBlock"
-	SecurityEventsOptions_Source_Unknown = "unknown"
-	SecurityEventsOptions_Source_Waf = "waf"
-	SecurityEventsOptions_Source_Zonelockdown = "zoneLockdown"
+	SecurityEventsOptions_Source_Uablock       = "uaBlock"
+	SecurityEventsOptions_Source_Unknown       = "unknown"
+	SecurityEventsOptions_Source_Waf           = "waf"
+	SecurityEventsOptions_Source_Zonelockdown  = "zoneLockdown"
 )
 
 // NewSecurityEventsOptions : Instantiate SecurityEventsOptions
@@ -707,7 +704,6 @@ type ResultInfo struct {
 	ScannedRange *ResultInfoScannedRange `json:"scanned_range" validate:"required"`
 }
 
-
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResultInfo)
@@ -786,102 +782,102 @@ const (
 // Constants associated with the SecurityEventObject.Source property.
 // Source of the event.
 const (
-	SecurityEventObject_Source_Asn = "asn"
-	SecurityEventObject_Source_Bic = "bic"
-	SecurityEventObject_Source_Country = "country"
+	SecurityEventObject_Source_Asn           = "asn"
+	SecurityEventObject_Source_Bic           = "bic"
+	SecurityEventObject_Source_Country       = "country"
 	SecurityEventObject_Source_Firewallrules = "firewallRules"
-	SecurityEventObject_Source_Hot = "hot"
-	SecurityEventObject_Source_Ip = "ip"
-	SecurityEventObject_Source_Iprange = "ipRange"
-	SecurityEventObject_Source_L7ddos = "l7ddos"
-	SecurityEventObject_Source_Ratelimit = "rateLimit"
+	SecurityEventObject_Source_Hot           = "hot"
+	SecurityEventObject_Source_Ip            = "ip"
+	SecurityEventObject_Source_Iprange       = "ipRange"
+	SecurityEventObject_Source_L7ddos        = "l7ddos"
+	SecurityEventObject_Source_Ratelimit     = "rateLimit"
 	SecurityEventObject_Source_Securitylevel = "securityLevel"
-	SecurityEventObject_Source_Uablock = "uaBlock"
-	SecurityEventObject_Source_Unknown = "unknown"
-	SecurityEventObject_Source_Waf = "waf"
-	SecurityEventObject_Source_Zonelockdown = "zoneLockdown"
+	SecurityEventObject_Source_Uablock       = "uaBlock"
+	SecurityEventObject_Source_Unknown       = "unknown"
+	SecurityEventObject_Source_Waf           = "waf"
+	SecurityEventObject_Source_Zonelockdown  = "zoneLockdown"
 )
 
 // Constants associated with the SecurityEventObject.Action property.
 // What type of action was taken.
 const (
-	SecurityEventObject_Action_Allow = "allow"
-	SecurityEventObject_Action_Challenge = "challenge"
+	SecurityEventObject_Action_Allow           = "allow"
+	SecurityEventObject_Action_Challenge       = "challenge"
 	SecurityEventObject_Action_Connectionclose = "connectionClose"
-	SecurityEventObject_Action_Drop = "drop"
-	SecurityEventObject_Action_Jschallenge = "jschallenge"
-	SecurityEventObject_Action_Log = "log"
-	SecurityEventObject_Action_Simulate = "simulate"
-	SecurityEventObject_Action_Unknown = "unknown"
+	SecurityEventObject_Action_Drop            = "drop"
+	SecurityEventObject_Action_Jschallenge     = "jschallenge"
+	SecurityEventObject_Action_Log             = "log"
+	SecurityEventObject_Action_Simulate        = "simulate"
+	SecurityEventObject_Action_Unknown         = "unknown"
 )
 
 // Constants associated with the SecurityEventObject.IpClass property.
 // IP class is a map of client IP to visitor classification.
 const (
-	SecurityEventObject_IpClass_Backupservice = "backupService"
-	SecurityEventObject_IpClass_Badhost = "badHost"
-	SecurityEventObject_IpClass_Clean = "clean"
-	SecurityEventObject_IpClass_Greylist = "greylist"
-	SecurityEventObject_IpClass_Mobileplatform = "mobilePlatform"
+	SecurityEventObject_IpClass_Backupservice     = "backupService"
+	SecurityEventObject_IpClass_Badhost           = "badHost"
+	SecurityEventObject_IpClass_Clean             = "clean"
+	SecurityEventObject_IpClass_Greylist          = "greylist"
+	SecurityEventObject_IpClass_Mobileplatform    = "mobilePlatform"
 	SecurityEventObject_IpClass_Monitoringservice = "monitoringService"
-	SecurityEventObject_IpClass_Norecord = "noRecord"
-	SecurityEventObject_IpClass_Scan = "scan"
-	SecurityEventObject_IpClass_Searchengine = "searchEngine"
-	SecurityEventObject_IpClass_Securityscanner = "securityScanner"
-	SecurityEventObject_IpClass_Tor = "tor"
-	SecurityEventObject_IpClass_Unknown = "unknown"
-	SecurityEventObject_IpClass_Whitelist = "whitelist"
+	SecurityEventObject_IpClass_Norecord          = "noRecord"
+	SecurityEventObject_IpClass_Scan              = "scan"
+	SecurityEventObject_IpClass_Searchengine      = "searchEngine"
+	SecurityEventObject_IpClass_Securityscanner   = "securityScanner"
+	SecurityEventObject_IpClass_Tor               = "tor"
+	SecurityEventObject_IpClass_Unknown           = "unknown"
+	SecurityEventObject_IpClass_Whitelist         = "whitelist"
 )
 
 // Constants associated with the SecurityEventObject.Method property.
 // The HTTP method of the request.
 const (
-	SecurityEventObject_Method_Acl = "ACL"
+	SecurityEventObject_Method_Acl             = "ACL"
 	SecurityEventObject_Method_BaselineControl = "BASELINE-CONTROL"
-	SecurityEventObject_Method_Bcopy = "BCOPY"
-	SecurityEventObject_Method_Bdelete = "BDELETE"
-	SecurityEventObject_Method_Bmove = "BMOVE"
-	SecurityEventObject_Method_Bpropfind = "BPROPFIND"
-	SecurityEventObject_Method_Bproppatch = "BPROPPATCH"
-	SecurityEventObject_Method_Checkin = "CHECKIN"
-	SecurityEventObject_Method_Checkout = "CHECKOUT"
-	SecurityEventObject_Method_Connect = "CONNECT"
-	SecurityEventObject_Method_Cook = "COOK"
-	SecurityEventObject_Method_Copy = "COPY"
-	SecurityEventObject_Method_Delete = "DELETE"
-	SecurityEventObject_Method_Get = "GET"
-	SecurityEventObject_Method_Head = "HEAD"
-	SecurityEventObject_Method_JSON = "JSON"
-	SecurityEventObject_Method_Label = "LABEL"
-	SecurityEventObject_Method_Lock = "LOCK"
-	SecurityEventObject_Method_Merge = "MERGE"
-	SecurityEventObject_Method_Mkactivity = "MKACTIVITY"
-	SecurityEventObject_Method_Mkcol = "MKCOL"
-	SecurityEventObject_Method_Mkworkspace = "MKWORKSPACE"
-	SecurityEventObject_Method_Move = "MOVE"
-	SecurityEventObject_Method_Notify = "NOTIFY"
-	SecurityEventObject_Method_Options = "OPTIONS"
-	SecurityEventObject_Method_Orderpatch = "ORDERPATCH"
-	SecurityEventObject_Method_Patch = "PATCH"
-	SecurityEventObject_Method_Poll = "POLL"
-	SecurityEventObject_Method_Post = "POST"
-	SecurityEventObject_Method_Propfind = "PROPFIND"
-	SecurityEventObject_Method_Proppatch = "PROPPATCH"
-	SecurityEventObject_Method_Purge = "PURGE"
-	SecurityEventObject_Method_Put = "PUT"
-	SecurityEventObject_Method_Report = "REPORT"
-	SecurityEventObject_Method_RpcInData = "RPC_IN_DATA"
-	SecurityEventObject_Method_RpcOutData = "RPC_OUT_DATA"
-	SecurityEventObject_Method_Search = "SEARCH"
-	SecurityEventObject_Method_Subscribe = "SUBSCRIBE"
-	SecurityEventObject_Method_Trace = "TRACE"
-	SecurityEventObject_Method_Track = "TRACK"
-	SecurityEventObject_Method_Uncheckout = "UNCHECKOUT"
-	SecurityEventObject_Method_Unlock = "UNLOCK"
-	SecurityEventObject_Method_Unsubscribe = "UNSUBSCRIBE"
-	SecurityEventObject_Method_Update = "UPDATE"
-	SecurityEventObject_Method_VersionControl = "VERSION-CONTROL"
-	SecurityEventObject_Method_XMsEnumatts = "X-MS-ENUMATTS"
+	SecurityEventObject_Method_Bcopy           = "BCOPY"
+	SecurityEventObject_Method_Bdelete         = "BDELETE"
+	SecurityEventObject_Method_Bmove           = "BMOVE"
+	SecurityEventObject_Method_Bpropfind       = "BPROPFIND"
+	SecurityEventObject_Method_Bproppatch      = "BPROPPATCH"
+	SecurityEventObject_Method_Checkin         = "CHECKIN"
+	SecurityEventObject_Method_Checkout        = "CHECKOUT"
+	SecurityEventObject_Method_Connect         = "CONNECT"
+	SecurityEventObject_Method_Cook            = "COOK"
+	SecurityEventObject_Method_Copy            = "COPY"
+	SecurityEventObject_Method_Delete          = "DELETE"
+	SecurityEventObject_Method_Get             = "GET"
+	SecurityEventObject_Method_Head            = "HEAD"
+	SecurityEventObject_Method_JSON            = "JSON"
+	SecurityEventObject_Method_Label           = "LABEL"
+	SecurityEventObject_Method_Lock            = "LOCK"
+	SecurityEventObject_Method_Merge           = "MERGE"
+	SecurityEventObject_Method_Mkactivity      = "MKACTIVITY"
+	SecurityEventObject_Method_Mkcol           = "MKCOL"
+	SecurityEventObject_Method_Mkworkspace     = "MKWORKSPACE"
+	SecurityEventObject_Method_Move            = "MOVE"
+	SecurityEventObject_Method_Notify          = "NOTIFY"
+	SecurityEventObject_Method_Options         = "OPTIONS"
+	SecurityEventObject_Method_Orderpatch      = "ORDERPATCH"
+	SecurityEventObject_Method_Patch           = "PATCH"
+	SecurityEventObject_Method_Poll            = "POLL"
+	SecurityEventObject_Method_Post            = "POST"
+	SecurityEventObject_Method_Propfind        = "PROPFIND"
+	SecurityEventObject_Method_Proppatch       = "PROPPATCH"
+	SecurityEventObject_Method_Purge           = "PURGE"
+	SecurityEventObject_Method_Put             = "PUT"
+	SecurityEventObject_Method_Report          = "REPORT"
+	SecurityEventObject_Method_RpcInData       = "RPC_IN_DATA"
+	SecurityEventObject_Method_RpcOutData      = "RPC_OUT_DATA"
+	SecurityEventObject_Method_Search          = "SEARCH"
+	SecurityEventObject_Method_Subscribe       = "SUBSCRIBE"
+	SecurityEventObject_Method_Trace           = "TRACE"
+	SecurityEventObject_Method_Track           = "TRACK"
+	SecurityEventObject_Method_Uncheckout      = "UNCHECKOUT"
+	SecurityEventObject_Method_Unlock          = "UNLOCK"
+	SecurityEventObject_Method_Unsubscribe     = "UNSUBSCRIBE"
+	SecurityEventObject_Method_Update          = "UPDATE"
+	SecurityEventObject_Method_VersionControl  = "VERSION-CONTROL"
+	SecurityEventObject_Method_XMsEnumatts     = "X-MS-ENUMATTS"
 )
 
 // Constants associated with the SecurityEventObject.Proto property.
@@ -890,19 +886,18 @@ const (
 	SecurityEventObject_Proto_Http10 = "HTTP/1.0"
 	SecurityEventObject_Proto_Http11 = "HTTP/1.1"
 	SecurityEventObject_Proto_Http12 = "HTTP/1.2"
-	SecurityEventObject_Proto_Http2 = "HTTP/2"
+	SecurityEventObject_Proto_Http2  = "HTTP/2"
 	SecurityEventObject_Proto_Spdy31 = "SPDY/3.1"
-	SecurityEventObject_Proto_Unk = "UNK"
+	SecurityEventObject_Proto_Unk    = "UNK"
 )
 
 // Constants associated with the SecurityEventObject.Scheme property.
 // The scheme of the uri.
 const (
-	SecurityEventObject_Scheme_Http = "http"
-	SecurityEventObject_Scheme_Https = "https"
+	SecurityEventObject_Scheme_Http    = "http"
+	SecurityEventObject_Scheme_Https   = "https"
 	SecurityEventObject_Scheme_Unknown = "unknown"
 )
-
 
 // UnmarshalSecurityEventObject unmarshals an instance of SecurityEventObject from the specified map of raw messages.
 func UnmarshalSecurityEventObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -996,7 +991,6 @@ type SecurityEvents struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalSecurityEvents unmarshals an instance of SecurityEvents from the specified map of raw messages.
 func UnmarshalSecurityEvents(m map[string]json.RawMessage, result interface{}) (err error) {

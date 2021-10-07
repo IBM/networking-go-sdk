@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package rangeapplicationsv1 : Operations and models for the RangeApplicationsV1 service
 package rangeapplicationsv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // RangeApplicationsV1 : Range Applications
@@ -120,8 +120,8 @@ func NewRangeApplicationsV1(options *RangeApplicationsV1Options) (service *Range
 	}
 
 	service = &RangeApplicationsV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -193,7 +193,7 @@ func (rangeApplications *RangeApplicationsV1) ListRangeAppsWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *rangeApplications.Crn,
+		"crn":             *rangeApplications.Crn,
 		"zone_identifier": *rangeApplications.ZoneIdentifier,
 	}
 
@@ -265,7 +265,7 @@ func (rangeApplications *RangeApplicationsV1) CreateRangeAppWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *rangeApplications.Crn,
+		"crn":             *rangeApplications.Crn,
 		"zone_identifier": *rangeApplications.ZoneIdentifier,
 	}
 
@@ -361,9 +361,9 @@ func (rangeApplications *RangeApplicationsV1) GetRangeAppWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *rangeApplications.Crn,
+		"crn":             *rangeApplications.Crn,
 		"zone_identifier": *rangeApplications.ZoneIdentifier,
-		"app_identifier": *getRangeAppOptions.AppIdentifier,
+		"app_identifier":  *getRangeAppOptions.AppIdentifier,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -421,9 +421,9 @@ func (rangeApplications *RangeApplicationsV1) UpdateRangeAppWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *rangeApplications.Crn,
+		"crn":             *rangeApplications.Crn,
 		"zone_identifier": *rangeApplications.ZoneIdentifier,
-		"app_identifier": *updateRangeAppOptions.AppIdentifier,
+		"app_identifier":  *updateRangeAppOptions.AppIdentifier,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -518,9 +518,9 @@ func (rangeApplications *RangeApplicationsV1) DeleteRangeAppWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *rangeApplications.Crn,
+		"crn":             *rangeApplications.Crn,
 		"zone_identifier": *rangeApplications.ZoneIdentifier,
-		"app_identifier": *deleteRangeAppOptions.AppIdentifier,
+		"app_identifier":  *deleteRangeAppOptions.AppIdentifier,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -604,10 +604,10 @@ type CreateRangeAppOptions struct {
 // Constants associated with the CreateRangeAppOptions.ProxyProtocol property.
 // Allows for the true client IP to be passed to the service.
 const (
-	CreateRangeAppOptions_ProxyProtocol_Off = "off"
+	CreateRangeAppOptions_ProxyProtocol_Off    = "off"
 	CreateRangeAppOptions_ProxyProtocol_Simple = "simple"
-	CreateRangeAppOptions_ProxyProtocol_V1 = "v1"
-	CreateRangeAppOptions_ProxyProtocol_V2 = "v2"
+	CreateRangeAppOptions_ProxyProtocol_V1     = "v1"
+	CreateRangeAppOptions_ProxyProtocol_V2     = "v2"
 )
 
 // Constants associated with the CreateRangeAppOptions.TrafficType property.
@@ -615,24 +615,24 @@ const (
 // case of "http" or "https" HTTP/s features at the edge are applied ot this traffic.
 const (
 	CreateRangeAppOptions_TrafficType_Direct = "direct"
-	CreateRangeAppOptions_TrafficType_Http = "http"
-	CreateRangeAppOptions_TrafficType_Https = "https"
+	CreateRangeAppOptions_TrafficType_Http   = "http"
+	CreateRangeAppOptions_TrafficType_Https  = "https"
 )
 
 // Constants associated with the CreateRangeAppOptions.Tls property.
 // Configure if and how TLS connections are terminated at the edge.
 const (
 	CreateRangeAppOptions_Tls_Flexible = "flexible"
-	CreateRangeAppOptions_Tls_Full = "full"
-	CreateRangeAppOptions_Tls_Off = "off"
-	CreateRangeAppOptions_Tls_Strict = "strict"
+	CreateRangeAppOptions_Tls_Full     = "full"
+	CreateRangeAppOptions_Tls_Off      = "off"
+	CreateRangeAppOptions_Tls_Strict   = "strict"
 )
 
 // NewCreateRangeAppOptions : Instantiate CreateRangeAppOptions
 func (*RangeApplicationsV1) NewCreateRangeAppOptions(protocol string, dns *RangeAppReqDns) *CreateRangeAppOptions {
 	return &CreateRangeAppOptions{
 		Protocol: core.StringPtr(protocol),
-		Dns: dns,
+		Dns:      dns,
 	}
 }
 
@@ -779,17 +779,17 @@ type ListRangeAppsOptions struct {
 // Constants associated with the ListRangeAppsOptions.Order property.
 // Field by which to order the list of Range applications.
 const (
-	ListRangeAppsOptions_Order_AppID = "app_id"
-	ListRangeAppsOptions_Order_CreatedOn = "created_on"
-	ListRangeAppsOptions_Order_Dns = "dns"
+	ListRangeAppsOptions_Order_AppID      = "app_id"
+	ListRangeAppsOptions_Order_CreatedOn  = "created_on"
+	ListRangeAppsOptions_Order_Dns        = "dns"
 	ListRangeAppsOptions_Order_ModifiedOn = "modified_on"
-	ListRangeAppsOptions_Order_Protocol = "protocol"
+	ListRangeAppsOptions_Order_Protocol   = "protocol"
 )
 
 // Constants associated with the ListRangeAppsOptions.Direction property.
 // Direction in which to order results [ascending/descending order].
 const (
-	ListRangeAppsOptions_Direction_Asc = "asc"
+	ListRangeAppsOptions_Direction_Asc  = "asc"
 	ListRangeAppsOptions_Direction_Desc = "desc"
 )
 
@@ -837,7 +837,6 @@ type RangeAppReqDns struct {
 	Name *string `json:"name,omitempty"`
 }
 
-
 // UnmarshalRangeAppReqDns unmarshals an instance of RangeAppReqDns from the specified map of raw messages.
 func UnmarshalRangeAppReqDns(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RangeAppReqDns)
@@ -871,11 +870,10 @@ const (
 // Constants associated with the RangeAppReqEdgeIps.Connectivity property.
 // Specifies the IP version (or all).
 const (
-	RangeAppReqEdgeIps_Connectivity_All = "all"
+	RangeAppReqEdgeIps_Connectivity_All  = "all"
 	RangeAppReqEdgeIps_Connectivity_Ipv4 = "ipv4"
 	RangeAppReqEdgeIps_Connectivity_Ipv6 = "ipv6"
 )
-
 
 // UnmarshalRangeAppReqEdgeIps unmarshals an instance of RangeAppReqEdgeIps from the specified map of raw messages.
 func UnmarshalRangeAppReqEdgeIps(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -899,7 +897,6 @@ type RangeAppReqOriginDns struct {
 	// Name of the origin.
 	Name *string `json:"name" validate:"required"`
 }
-
 
 // NewRangeAppReqOriginDns : Instantiate RangeAppReqOriginDns (Generic Model Constructor)
 func (*RangeApplicationsV1) NewRangeAppReqOriginDns(name string) (model *RangeAppReqOriginDns, err error) {
@@ -936,7 +933,6 @@ const (
 	RangeApplicationObjectDns_Type_Cname = "CNAME"
 )
 
-
 // UnmarshalRangeApplicationObjectDns unmarshals an instance of RangeApplicationObjectDns from the specified map of raw messages.
 func UnmarshalRangeApplicationObjectDns(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RangeApplicationObjectDns)
@@ -970,11 +966,10 @@ const (
 // Constants associated with the RangeApplicationObjectEdgeIps.Connectivity property.
 // Specifies the IP version (or all).
 const (
-	RangeApplicationObjectEdgeIps_Connectivity_All = "all"
+	RangeApplicationObjectEdgeIps_Connectivity_All  = "all"
 	RangeApplicationObjectEdgeIps_Connectivity_Ipv4 = "ipv4"
 	RangeApplicationObjectEdgeIps_Connectivity_Ipv6 = "ipv6"
 )
-
 
 // UnmarshalRangeApplicationObjectEdgeIps unmarshals an instance of RangeApplicationObjectEdgeIps from the specified map of raw messages.
 func UnmarshalRangeApplicationObjectEdgeIps(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1038,10 +1033,10 @@ type UpdateRangeAppOptions struct {
 // Constants associated with the UpdateRangeAppOptions.ProxyProtocol property.
 // Allows for the true client IP to be passed to the service.
 const (
-	UpdateRangeAppOptions_ProxyProtocol_Off = "off"
+	UpdateRangeAppOptions_ProxyProtocol_Off    = "off"
 	UpdateRangeAppOptions_ProxyProtocol_Simple = "simple"
-	UpdateRangeAppOptions_ProxyProtocol_V1 = "v1"
-	UpdateRangeAppOptions_ProxyProtocol_V2 = "v2"
+	UpdateRangeAppOptions_ProxyProtocol_V1     = "v1"
+	UpdateRangeAppOptions_ProxyProtocol_V2     = "v2"
 )
 
 // Constants associated with the UpdateRangeAppOptions.TrafficType property.
@@ -1049,25 +1044,25 @@ const (
 // case of "http" or "https" HTTP/s features at the edge are applied ot this traffic.
 const (
 	UpdateRangeAppOptions_TrafficType_Direct = "direct"
-	UpdateRangeAppOptions_TrafficType_Http = "http"
-	UpdateRangeAppOptions_TrafficType_Https = "https"
+	UpdateRangeAppOptions_TrafficType_Http   = "http"
+	UpdateRangeAppOptions_TrafficType_Https  = "https"
 )
 
 // Constants associated with the UpdateRangeAppOptions.Tls property.
 // Configure if and how TLS connections are terminated at the edge.
 const (
 	UpdateRangeAppOptions_Tls_Flexible = "flexible"
-	UpdateRangeAppOptions_Tls_Full = "full"
-	UpdateRangeAppOptions_Tls_Off = "off"
-	UpdateRangeAppOptions_Tls_Strict = "strict"
+	UpdateRangeAppOptions_Tls_Full     = "full"
+	UpdateRangeAppOptions_Tls_Off      = "off"
+	UpdateRangeAppOptions_Tls_Strict   = "strict"
 )
 
 // NewUpdateRangeAppOptions : Instantiate UpdateRangeAppOptions
 func (*RangeApplicationsV1) NewUpdateRangeAppOptions(appIdentifier string, protocol string, dns *RangeAppReqDns) *UpdateRangeAppOptions {
 	return &UpdateRangeAppOptions{
 		AppIdentifier: core.StringPtr(appIdentifier),
-		Protocol: core.StringPtr(protocol),
-		Dns: dns,
+		Protocol:      core.StringPtr(protocol),
+		Dns:           dns,
 	}
 }
 
@@ -1183,19 +1178,19 @@ type RangeApplicationObject struct {
 // Constants associated with the RangeApplicationObject.ProxyProtocol property.
 // Allows for the true client IP to be passed to the service.
 const (
-	RangeApplicationObject_ProxyProtocol_Off = "off"
+	RangeApplicationObject_ProxyProtocol_Off    = "off"
 	RangeApplicationObject_ProxyProtocol_Simple = "simple"
-	RangeApplicationObject_ProxyProtocol_V1 = "v1"
-	RangeApplicationObject_ProxyProtocol_V2 = "v2"
+	RangeApplicationObject_ProxyProtocol_V1     = "v1"
+	RangeApplicationObject_ProxyProtocol_V2     = "v2"
 )
 
 // Constants associated with the RangeApplicationObject.Tls property.
 // Specifies the TLS termination at the edge.
 const (
 	RangeApplicationObject_Tls_Flexible = "flexible"
-	RangeApplicationObject_Tls_Full = "full"
-	RangeApplicationObject_Tls_Off = "off"
-	RangeApplicationObject_Tls_Strict = "strict"
+	RangeApplicationObject_Tls_Full     = "full"
+	RangeApplicationObject_Tls_Off      = "off"
+	RangeApplicationObject_Tls_Strict   = "strict"
 )
 
 // Constants associated with the RangeApplicationObject.TrafficType property.
@@ -1203,10 +1198,9 @@ const (
 // case of "http" or "https" HTTP/s features at the edge are applied ot this traffic.
 const (
 	RangeApplicationObject_TrafficType_Direct = "direct"
-	RangeApplicationObject_TrafficType_Http = "http"
-	RangeApplicationObject_TrafficType_Https = "https"
+	RangeApplicationObject_TrafficType_Http   = "http"
+	RangeApplicationObject_TrafficType_Https  = "https"
 )
-
 
 // UnmarshalRangeApplicationObject unmarshals an instance of RangeApplicationObject from the specified map of raw messages.
 func UnmarshalRangeApplicationObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1274,7 +1268,6 @@ type RangeApplicationResp struct {
 	Result *RangeApplicationObject `json:"result" validate:"required"`
 }
 
-
 // UnmarshalRangeApplicationResp unmarshals an instance of RangeApplicationResp from the specified map of raw messages.
 func UnmarshalRangeApplicationResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RangeApplicationResp)
@@ -1312,7 +1305,6 @@ type RangeApplications struct {
 	// Container for Range application objects.
 	Result []RangeApplicationObject `json:"result" validate:"required"`
 }
-
 
 // UnmarshalRangeApplications unmarshals an instance of RangeApplications from the specified map of raw messages.
 func UnmarshalRangeApplications(m map[string]json.RawMessage, result interface{}) (err error) {

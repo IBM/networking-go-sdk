@@ -21,9 +21,10 @@ package permittednetworksfordnszonesv1
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"reflect"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // PermittedNetworksForDnsZonesV1 : Permitted Networks for DNS Zones
@@ -369,7 +370,7 @@ const (
 func (*PermittedNetworksForDnsZonesV1) NewCreatePermittedNetworkOptions(instanceID string, dnszoneID string) *CreatePermittedNetworkOptions {
 	return &CreatePermittedNetworkOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -430,8 +431,8 @@ type DeletePermittedNetworkOptions struct {
 // NewDeletePermittedNetworkOptions : Instantiate DeletePermittedNetworkOptions
 func (*PermittedNetworksForDnsZonesV1) NewDeletePermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *DeletePermittedNetworkOptions {
 	return &DeletePermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		DnszoneID:          core.StringPtr(dnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
@@ -487,8 +488,8 @@ type GetPermittedNetworkOptions struct {
 // NewGetPermittedNetworkOptions : Instantiate GetPermittedNetworkOptions
 func (*PermittedNetworksForDnsZonesV1) NewGetPermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *GetPermittedNetworkOptions {
 	return &GetPermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		DnszoneID:          core.StringPtr(dnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
@@ -548,7 +549,7 @@ type ListPermittedNetworksOptions struct {
 func (*PermittedNetworksForDnsZonesV1) NewListPermittedNetworksOptions(instanceID string, dnszoneID string) *ListPermittedNetworksOptions {
 	return &ListPermittedNetworksOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -594,7 +595,6 @@ type FirstHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalFirstHref unmarshals an instance of FirstHref from the specified map of raw messages.
 func UnmarshalFirstHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FirstHref)
@@ -626,7 +626,6 @@ type ListPermittedNetworks struct {
 	// href.
 	Next *NextHref `json:"next,omitempty"`
 }
-
 
 // UnmarshalListPermittedNetworks unmarshals an instance of ListPermittedNetworks from the specified map of raw messages.
 func UnmarshalListPermittedNetworks(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -664,7 +663,6 @@ type NextHref struct {
 	// href.
 	Href *string `json:"href,omitempty"`
 }
-
 
 // UnmarshalNextHref unmarshals an instance of NextHref from the specified map of raw messages.
 func UnmarshalNextHref(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -707,10 +705,9 @@ const (
 // Constants associated with the PermittedNetwork.State property.
 // The state of a permitted network.
 const (
-	PermittedNetwork_State_Active = "ACTIVE"
+	PermittedNetwork_State_Active            = "ACTIVE"
 	PermittedNetwork_State_RemovalInProgress = "REMOVAL_IN_PROGRESS"
 )
-
 
 // UnmarshalPermittedNetwork unmarshals an instance of PermittedNetwork from the specified map of raw messages.
 func UnmarshalPermittedNetwork(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -748,7 +745,6 @@ type PermittedNetworkVpc struct {
 	// CRN string uniquely identifies a VPC.
 	VpcCrn *string `json:"vpc_crn" validate:"required"`
 }
-
 
 // NewPermittedNetworkVpc : Instantiate PermittedNetworkVpc (Generic Model Constructor)
 func (*PermittedNetworksForDnsZonesV1) NewPermittedNetworkVpc(vpcCrn string) (model *PermittedNetworkVpc, err error) {

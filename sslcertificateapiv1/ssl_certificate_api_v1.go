@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package sslcertificateapiv1 : Operations and models for the SslCertificateApiV1 service
 package sslcertificateapiv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // SslCertificateApiV1 : SSL Certificate
@@ -120,8 +120,8 @@ func NewSslCertificateApiV1(options *SslCertificateApiV1Options) (service *SslCe
 	}
 
 	service = &SslCertificateApiV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -195,7 +195,7 @@ func (sslCertificateApi *SslCertificateApiV1) ListCertificatesWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -254,7 +254,7 @@ func (sslCertificateApi *SslCertificateApiV1) OrderCertificateWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -329,7 +329,7 @@ func (sslCertificateApi *SslCertificateApiV1) DeleteCertificateWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 		"cert_identifier": *deleteCertificateOptions.CertIdentifier,
 	}
@@ -378,7 +378,7 @@ func (sslCertificateApi *SslCertificateApiV1) GetSslSettingWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -433,7 +433,7 @@ func (sslCertificateApi *SslCertificateApiV1) ChangeSslSettingWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -498,7 +498,7 @@ func (sslCertificateApi *SslCertificateApiV1) ListCustomCertificatesWithContext(
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -553,7 +553,7 @@ func (sslCertificateApi *SslCertificateApiV1) UploadCustomCertificateWithContext
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -631,9 +631,9 @@ func (sslCertificateApi *SslCertificateApiV1) GetCustomCertificateWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
-		"custom_cert_id": *getCustomCertificateOptions.CustomCertID,
+		"custom_cert_id":  *getCustomCertificateOptions.CustomCertID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -691,9 +691,9 @@ func (sslCertificateApi *SslCertificateApiV1) UpdateCustomCertificateWithContext
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
-		"custom_cert_id": *updateCustomCertificateOptions.CustomCertID,
+		"custom_cert_id":  *updateCustomCertificateOptions.CustomCertID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -770,9 +770,9 @@ func (sslCertificateApi *SslCertificateApiV1) DeleteCustomCertificateWithContext
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
-		"custom_cert_id": *deleteCustomCertificateOptions.CustomCertID,
+		"custom_cert_id":  *deleteCustomCertificateOptions.CustomCertID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -816,7 +816,7 @@ func (sslCertificateApi *SslCertificateApiV1) ChangeCertificatePriorityWithConte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -871,7 +871,7 @@ func (sslCertificateApi *SslCertificateApiV1) GetUniversalCertificateSettingWith
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -926,7 +926,7 @@ func (sslCertificateApi *SslCertificateApiV1) ChangeUniversalCertificateSettingW
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -981,7 +981,7 @@ func (sslCertificateApi *SslCertificateApiV1) GetTls12SettingWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -1036,7 +1036,7 @@ func (sslCertificateApi *SslCertificateApiV1) ChangeTls12SettingWithContext(ctx 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -1101,7 +1101,7 @@ func (sslCertificateApi *SslCertificateApiV1) GetTls13SettingWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -1156,7 +1156,7 @@ func (sslCertificateApi *SslCertificateApiV1) ChangeTls13SettingWithContext(ctx 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *sslCertificateApi.Crn,
+		"crn":             *sslCertificateApi.Crn,
 		"zone_identifier": *sslCertificateApi.ZoneIdentifier,
 	}
 
@@ -1216,11 +1216,10 @@ type CertPriorityReqCertificatesItem struct {
 	Priority *int64 `json:"priority" validate:"required"`
 }
 
-
 // NewCertPriorityReqCertificatesItem : Instantiate CertPriorityReqCertificatesItem (Generic Model Constructor)
 func (*SslCertificateApiV1) NewCertPriorityReqCertificatesItem(id string, priority int64) (model *CertPriorityReqCertificatesItem, err error) {
 	model = &CertPriorityReqCertificatesItem{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		Priority: core.Int64Ptr(priority),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -1281,9 +1280,9 @@ type ChangeSslSettingOptions struct {
 // value.
 const (
 	ChangeSslSettingOptions_Value_Flexible = "flexible"
-	ChangeSslSettingOptions_Value_Full = "full"
-	ChangeSslSettingOptions_Value_Off = "off"
-	ChangeSslSettingOptions_Value_Strict = "strict"
+	ChangeSslSettingOptions_Value_Full     = "full"
+	ChangeSslSettingOptions_Value_Off      = "off"
+	ChangeSslSettingOptions_Value_Strict   = "strict"
 )
 
 // NewChangeSslSettingOptions : Instantiate ChangeSslSettingOptions
@@ -1316,7 +1315,7 @@ type ChangeTls12SettingOptions struct {
 // value.
 const (
 	ChangeTls12SettingOptions_Value_Off = "off"
-	ChangeTls12SettingOptions_Value_On = "on"
+	ChangeTls12SettingOptions_Value_On  = "on"
 )
 
 // NewChangeTls12SettingOptions : Instantiate ChangeTls12SettingOptions
@@ -1349,7 +1348,7 @@ type ChangeTls13SettingOptions struct {
 // value.
 const (
 	ChangeTls13SettingOptions_Value_Off = "off"
-	ChangeTls13SettingOptions_Value_On = "on"
+	ChangeTls13SettingOptions_Value_On  = "on"
 )
 
 // NewChangeTls13SettingOptions : Instantiate ChangeTls13SettingOptions
@@ -1404,11 +1403,10 @@ type CustomCertReqGeoRestrictions struct {
 // Constants associated with the CustomCertReqGeoRestrictions.Label property.
 // properties.
 const (
-	CustomCertReqGeoRestrictions_Label_Eu = "eu"
+	CustomCertReqGeoRestrictions_Label_Eu              = "eu"
 	CustomCertReqGeoRestrictions_Label_HighestSecurity = "highest_security"
-	CustomCertReqGeoRestrictions_Label_Us = "us"
+	CustomCertReqGeoRestrictions_Label_Us              = "us"
 )
-
 
 // NewCustomCertReqGeoRestrictions : Instantiate CustomCertReqGeoRestrictions (Generic Model Constructor)
 func (*SslCertificateApiV1) NewCustomCertReqGeoRestrictions(label string) (model *CustomCertReqGeoRestrictions, err error) {
@@ -1695,7 +1693,6 @@ type Tls12SettingRespMessagesItem struct {
 	Status *string `json:"status,omitempty"`
 }
 
-
 // UnmarshalTls12SettingRespMessagesItem unmarshals an instance of Tls12SettingRespMessagesItem from the specified map of raw messages.
 func UnmarshalTls12SettingRespMessagesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Tls12SettingRespMessagesItem)
@@ -1727,7 +1724,6 @@ type Tls12SettingRespResult struct {
 const (
 	Tls12SettingRespResult_ID_Tls12Only = "tls_1_2_only"
 )
-
 
 // UnmarshalTls12SettingRespResult unmarshals an instance of Tls12SettingRespResult from the specified map of raw messages.
 func UnmarshalTls12SettingRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1773,7 +1769,6 @@ const (
 	Tls13SettingRespResult_ID_Tls13 = "tls_1_3"
 )
 
-
 // UnmarshalTls13SettingRespResult unmarshals an instance of Tls13SettingRespResult from the specified map of raw messages.
 func UnmarshalTls13SettingRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Tls13SettingRespResult)
@@ -1802,7 +1797,6 @@ type UniversalSettingRespResult struct {
 	// enabled.
 	Enabled *bool `json:"enabled" validate:"required"`
 }
-
 
 // UnmarshalUniversalSettingRespResult unmarshals an instance of UniversalSettingRespResult from the specified map of raw messages.
 func UnmarshalUniversalSettingRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1839,8 +1833,8 @@ type UpdateCustomCertificateOptions struct {
 // Constants associated with the UpdateCustomCertificateOptions.BundleMethod property.
 // Methods shown in UI mapping to API: Compatible(ubiquitous), Modern(optimal), User Defined(force).
 const (
-	UpdateCustomCertificateOptions_BundleMethod_Force = "force"
-	UpdateCustomCertificateOptions_BundleMethod_Optimal = "optimal"
+	UpdateCustomCertificateOptions_BundleMethod_Force      = "force"
+	UpdateCustomCertificateOptions_BundleMethod_Optimal    = "optimal"
 	UpdateCustomCertificateOptions_BundleMethod_Ubiquitous = "ubiquitous"
 )
 
@@ -1908,8 +1902,8 @@ type UploadCustomCertificateOptions struct {
 // Constants associated with the UploadCustomCertificateOptions.BundleMethod property.
 // Methods shown in UI mapping to API: Compatible(ubiquitous), Modern(optimal), User Defined(force).
 const (
-	UploadCustomCertificateOptions_BundleMethod_Force = "force"
-	UploadCustomCertificateOptions_BundleMethod_Optimal = "optimal"
+	UploadCustomCertificateOptions_BundleMethod_Force      = "force"
+	UploadCustomCertificateOptions_BundleMethod_Optimal    = "optimal"
 	UploadCustomCertificateOptions_BundleMethod_Ubiquitous = "ubiquitous"
 )
 
@@ -1959,7 +1953,6 @@ type Certificate struct {
 	// status.
 	Status *string `json:"status" validate:"required"`
 }
-
 
 // UnmarshalCertificate unmarshals an instance of Certificate from the specified map of raw messages.
 func UnmarshalCertificate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2015,7 +2008,6 @@ type CustomCertPack struct {
 	// priority.
 	Priority *float64 `json:"priority" validate:"required"`
 }
-
 
 // UnmarshalCustomCertPack unmarshals an instance of CustomCertPack from the specified map of raw messages.
 func UnmarshalCustomCertPack(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2083,7 +2075,6 @@ type CustomCertResp struct {
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalCustomCertResp unmarshals an instance of CustomCertResp from the specified map of raw messages.
 func UnmarshalCustomCertResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CustomCertResp)
@@ -2127,7 +2118,6 @@ type DedicatedCertificatePack struct {
 	// status.
 	Status *string `json:"status" validate:"required"`
 }
-
 
 // UnmarshalDedicatedCertificatePack unmarshals an instance of DedicatedCertificatePack from the specified map of raw messages.
 func UnmarshalDedicatedCertificatePack(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2178,7 +2168,6 @@ type DedicatedCertificateResp struct {
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalDedicatedCertificateResp unmarshals an instance of DedicatedCertificateResp from the specified map of raw messages.
 func UnmarshalDedicatedCertificateResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DedicatedCertificateResp)
@@ -2223,7 +2212,6 @@ type ListCertificateResp struct {
 	// messages.
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalListCertificateResp unmarshals an instance of ListCertificateResp from the specified map of raw messages.
 func UnmarshalListCertificateResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2270,7 +2258,6 @@ type ListCustomCertsResp struct {
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalListCustomCertsResp unmarshals an instance of ListCustomCertsResp from the specified map of raw messages.
 func UnmarshalListCustomCertsResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListCustomCertsResp)
@@ -2313,7 +2300,6 @@ type ResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResultInfo)
@@ -2351,7 +2337,6 @@ type SslSetting struct {
 	// modified date.
 	ModifiedOn *string `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalSslSetting unmarshals an instance of SslSetting from the specified map of raw messages.
 func UnmarshalSslSetting(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2391,7 +2376,6 @@ type SslSettingResp struct {
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalSslSettingResp unmarshals an instance of SslSettingResp from the specified map of raw messages.
 func UnmarshalSslSettingResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SslSettingResp)
@@ -2429,7 +2413,6 @@ type Tls12SettingResp struct {
 	// messages.
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalTls12SettingResp unmarshals an instance of Tls12SettingResp from the specified map of raw messages.
 func UnmarshalTls12SettingResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2469,7 +2452,6 @@ type Tls13SettingResp struct {
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalTls13SettingResp unmarshals an instance of Tls13SettingResp from the specified map of raw messages.
 func UnmarshalTls13SettingResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Tls13SettingResp)
@@ -2507,7 +2489,6 @@ type UniversalSettingResp struct {
 	// messages.
 	Messages []Tls12SettingRespMessagesItem `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalUniversalSettingResp unmarshals an instance of UniversalSettingResp from the specified map of raw messages.
 func UnmarshalUniversalSettingResp(m map[string]json.RawMessage, result interface{}) (err error) {

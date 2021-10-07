@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package routingv1 : Operations and models for the RoutingV1 service
 package routingv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // RoutingV1 : Routing
@@ -120,8 +120,8 @@ func NewRoutingV1(options *RoutingV1Options) (service *RoutingV1, err error) {
 	}
 
 	service = &RoutingV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -193,7 +193,7 @@ func (routing *RoutingV1) GetSmartRoutingWithContext(ctx context.Context, getSma
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *routing.Crn,
+		"crn":             *routing.Crn,
 		"zone_identifier": *routing.ZoneIdentifier,
 	}
 
@@ -248,7 +248,7 @@ func (routing *RoutingV1) UpdateSmartRoutingWithContext(ctx context.Context, upd
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *routing.Crn,
+		"crn":             *routing.Crn,
 		"zone_identifier": *routing.ZoneIdentifier,
 	}
 
@@ -332,7 +332,6 @@ type SmartRoutingRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalSmartRoutingRespResult unmarshals an instance of SmartRoutingRespResult from the specified map of raw messages.
 func UnmarshalSmartRoutingRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SmartRoutingRespResult)
@@ -369,7 +368,7 @@ type UpdateSmartRoutingOptions struct {
 // Value.
 const (
 	UpdateSmartRoutingOptions_Value_Off = "off"
-	UpdateSmartRoutingOptions_Value_On = "on"
+	UpdateSmartRoutingOptions_Value_On  = "on"
 )
 
 // NewUpdateSmartRoutingOptions : Instantiate UpdateSmartRoutingOptions
@@ -403,7 +402,6 @@ type SmartRoutingResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalSmartRoutingResp unmarshals an instance of SmartRoutingResp from the specified map of raw messages.
 func UnmarshalSmartRoutingResp(m map[string]json.RawMessage, result interface{}) (err error) {
