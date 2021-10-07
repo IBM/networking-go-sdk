@@ -19,22 +19,23 @@ package dnszonesv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/dnszonesv1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/dnszonesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`DnsZonesV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
 			testService, testServiceErr := dnszonesv1.NewDnsZonesV1(&dnszonesv1.DnsZonesV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
@@ -65,14 +66,13 @@ var _ = Describe(`DnsZonesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_ZONES_URL": "https://dnszonesv1/api",
+				"DNS_ZONES_URL":       "https://dnszonesv1/api",
 				"DNS_ZONES_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnszonesv1.NewDnsZonesV1UsingExternalConfig(&dnszonesv1.DnsZonesV1Options{
-				})
+				testService, testServiceErr := dnszonesv1.NewDnsZonesV1UsingExternalConfig(&dnszonesv1.DnsZonesV1Options{})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -89,8 +89,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := dnszonesv1.NewDnsZonesV1UsingExternalConfig(&dnszonesv1.DnsZonesV1Options{
-				})
+				testService, testServiceErr := dnszonesv1.NewDnsZonesV1UsingExternalConfig(&dnszonesv1.DnsZonesV1Options{})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -102,13 +101,12 @@ var _ = Describe(`DnsZonesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_ZONES_URL": "https://dnszonesv1/api",
+				"DNS_ZONES_URL":       "https://dnszonesv1/api",
 				"DNS_ZONES_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := dnszonesv1.NewDnsZonesV1UsingExternalConfig(&dnszonesv1.DnsZonesV1Options{
-			})
+			testService, testServiceErr := dnszonesv1.NewDnsZonesV1UsingExternalConfig(&dnszonesv1.DnsZonesV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(testService).To(BeNil())
@@ -119,7 +117,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_ZONES_AUTH_TYPE":   "NOAuth",
+				"DNS_ZONES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -229,7 +227,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.VpcID = core.StringPtr("testString")
- 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListDnszones(listDnszonesOptionsModel)
@@ -357,7 +355,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 				createDnszoneOptionsModel.Description = core.StringPtr("The DNS zone is used for VPCs in us-east region")
 				createDnszoneOptionsModel.Label = core.StringPtr("us-east")
 				createDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateDnszone(createDnszoneOptionsModel)
@@ -436,7 +434,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 				deleteDnszoneOptionsModel.InstanceID = core.StringPtr("testString")
 				deleteDnszoneOptionsModel.DnszoneID = core.StringPtr("testString")
 				deleteDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deleteDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				response, operationErr = testService.DeleteDnszone(deleteDnszoneOptionsModel)
@@ -555,7 +553,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 				getDnszoneOptionsModel.InstanceID = core.StringPtr("testString")
 				getDnszoneOptionsModel.DnszoneID = core.StringPtr("testString")
 				getDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetDnszone(getDnszoneOptionsModel)
@@ -681,7 +679,7 @@ var _ = Describe(`DnsZonesV1`, func() {
 				updateDnszoneOptionsModel.Description = core.StringPtr("The DNS zone is used for VPCs in us-east region")
 				updateDnszoneOptionsModel.Label = core.StringPtr("us-east")
 				updateDnszoneOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updateDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateDnszoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.UpdateDnszone(updateDnszoneOptionsModel)

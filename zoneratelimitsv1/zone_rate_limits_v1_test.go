@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/zoneratelimitsv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/zoneratelimitsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`ZoneRateLimitsV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(zoneRateLimitsService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(zoneRateLimitsService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-				URL: "https://zoneratelimitsv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://zoneratelimitsv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONE_RATE_LIMITS_URL": "https://zoneratelimitsv1/api",
+				"ZONE_RATE_LIMITS_URL":       "https://zoneratelimitsv1/api",
 				"ZONE_RATE_LIMITS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1UsingExternalConfig(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(zoneRateLimitsService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1UsingExternalConfig(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(zoneRateLimitsService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1UsingExternalConfig(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := zoneRateLimitsService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONE_RATE_LIMITS_URL": "https://zoneratelimitsv1/api",
+				"ZONE_RATE_LIMITS_URL":       "https://zoneratelimitsv1/api",
 				"ZONE_RATE_LIMITS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1UsingExternalConfig(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONE_RATE_LIMITS_AUTH_TYPE":   "NOAuth",
+				"ZONE_RATE_LIMITS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1UsingExternalConfig(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -211,9 +212,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke ListAllZoneRateLimits with error: Operation response processing error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -273,9 +274,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke ListAllZoneRateLimits successfully`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -327,9 +328,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke ListAllZoneRateLimits with error: Operation request error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -373,9 +374,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke CreateZoneRateLimits with error: Operation response processing error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -496,9 +497,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke CreateZoneRateLimits successfully`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -599,9 +600,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke CreateZoneRateLimits with error: Operation request error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -694,9 +695,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRateLimit with error: Operation response processing error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -751,9 +752,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRateLimit successfully`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -804,9 +805,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRateLimit with error: Operation validation and request error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -856,9 +857,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke GetRateLimit with error: Operation response processing error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -913,9 +914,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke GetRateLimit successfully`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -966,9 +967,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke GetRateLimit with error: Operation validation and request error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1018,9 +1019,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke UpdateRateLimit with error: Operation response processing error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1142,9 +1143,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke UpdateRateLimit successfully`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1246,9 +1247,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			})
 			It(`Invoke UpdateRateLimit with error: Operation validation and request error`, func() {
 				zoneRateLimitsService, serviceErr := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1335,9 +1336,9 @@ var _ = Describe(`ZoneRateLimitsV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			zoneRateLimitsService, _ := zoneratelimitsv1.NewZoneRateLimitsV1(&zoneratelimitsv1.ZoneRateLimitsV1Options{
-				URL:           "http://zoneratelimitsv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://zoneratelimitsv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateZoneRateLimitsOptions successfully`, func() {

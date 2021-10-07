@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package globalloadbalancermonitorv1 : Operations and models for the GlobalLoadBalancerMonitorV1 service
 package globalloadbalancermonitorv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // GlobalLoadBalancerMonitorV1 : Global Load Balancer Monitor
@@ -114,7 +114,7 @@ func NewGlobalLoadBalancerMonitorV1(options *GlobalLoadBalancerMonitorV1Options)
 
 	service = &GlobalLoadBalancerMonitorV1{
 		Service: baseService,
-		Crn: options.Crn,
+		Crn:     options.Crn,
 	}
 
 	return
@@ -343,7 +343,7 @@ func (globalLoadBalancerMonitor *GlobalLoadBalancerMonitorV1) EditLoadBalancerMo
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancerMonitor.Crn,
+		"crn":                *globalLoadBalancerMonitor.Crn,
 		"monitor_identifier": *editLoadBalancerMonitorOptions.MonitorIdentifier,
 	}
 
@@ -448,7 +448,7 @@ func (globalLoadBalancerMonitor *GlobalLoadBalancerMonitorV1) DeleteLoadBalancer
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancerMonitor.Crn,
+		"crn":                *globalLoadBalancerMonitor.Crn,
 		"monitor_identifier": *deleteLoadBalancerMonitorOptions.MonitorIdentifier,
 	}
 
@@ -507,7 +507,7 @@ func (globalLoadBalancerMonitor *GlobalLoadBalancerMonitorV1) GetLoadBalancerMon
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancerMonitor.Crn,
+		"crn":                *globalLoadBalancerMonitor.Crn,
 		"monitor_identifier": *getLoadBalancerMonitorOptions.MonitorIdentifier,
 	}
 
@@ -715,7 +715,6 @@ type DeleteMonitorRespResult struct {
 	// identifier.
 	ID *string `json:"id" validate:"required"`
 }
-
 
 // UnmarshalDeleteMonitorRespResult unmarshals an instance of DeleteMonitorRespResult from the specified map of raw messages.
 func UnmarshalDeleteMonitorRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -934,7 +933,6 @@ type DeleteMonitorResp struct {
 	Result *DeleteMonitorRespResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalDeleteMonitorResp unmarshals an instance of DeleteMonitorResp from the specified map of raw messages.
 func UnmarshalDeleteMonitorResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteMonitorResp)
@@ -975,7 +973,6 @@ type ListMonitorResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListMonitorResp unmarshals an instance of ListMonitorResp from the specified map of raw messages.
 func UnmarshalListMonitorResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1054,7 +1051,6 @@ type MonitorPack struct {
 	// header.
 	Header map[string][]string `json:"header,omitempty"`
 }
-
 
 // UnmarshalMonitorPack unmarshals an instance of MonitorPack from the specified map of raw messages.
 func UnmarshalMonitorPack(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1142,7 +1138,6 @@ type MonitorResp struct {
 	Result *MonitorPack `json:"result" validate:"required"`
 }
 
-
 // UnmarshalMonitorResp unmarshals an instance of MonitorResp from the specified map of raw messages.
 func UnmarshalMonitorResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MonitorResp)
@@ -1180,7 +1175,6 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
-
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {

@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/sslcertificateapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/sslcertificateapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`SslCertificateApiV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(sslCertificateApiService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(sslCertificateApiService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-				URL: "https://sslcertificateapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://sslcertificateapiv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SSL_CERTIFICATE_API_URL": "https://sslcertificateapiv1/api",
+				"SSL_CERTIFICATE_API_URL":       "https://sslcertificateapiv1/api",
 				"SSL_CERTIFICATE_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1UsingExternalConfig(&sslcertificateapiv1.SslCertificateApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(sslCertificateApiService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1UsingExternalConfig(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(sslCertificateApiService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1UsingExternalConfig(&sslcertificateapiv1.SslCertificateApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := sslCertificateApiService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SSL_CERTIFICATE_API_URL": "https://sslcertificateapiv1/api",
+				"SSL_CERTIFICATE_API_URL":       "https://sslcertificateapiv1/api",
 				"SSL_CERTIFICATE_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1UsingExternalConfig(&sslcertificateapiv1.SslCertificateApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SSL_CERTIFICATE_API_AUTH_TYPE":   "NOAuth",
+				"SSL_CERTIFICATE_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1UsingExternalConfig(&sslcertificateapiv1.SslCertificateApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -209,9 +210,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ListCertificates with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -268,9 +269,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ListCertificates successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -321,9 +322,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ListCertificates with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -368,9 +369,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke OrderCertificate with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -445,9 +446,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke OrderCertificate successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -500,9 +501,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke OrderCertificate with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -549,9 +550,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke DeleteCertificate successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -582,9 +583,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke DeleteCertificate with error: Operation validation and request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -633,9 +634,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetSslSetting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -689,9 +690,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetSslSetting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -741,9 +742,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetSslSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -785,9 +786,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeSslSetting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -858,9 +859,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeSslSetting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -911,9 +912,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeSslSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -956,9 +957,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ListCustomCertificates with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1012,9 +1013,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ListCustomCertificates successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1064,9 +1065,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ListCustomCertificates with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1108,9 +1109,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke UploadCustomCertificate with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1188,9 +1189,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke UploadCustomCertificate successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1248,9 +1249,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke UploadCustomCertificate with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1300,9 +1301,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetCustomCertificate with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1357,9 +1358,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetCustomCertificate successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1410,9 +1411,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetCustomCertificate with error: Operation validation and request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1462,9 +1463,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke UpdateCustomCertificate with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1543,9 +1544,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke UpdateCustomCertificate successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1604,9 +1605,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke UpdateCustomCertificate with error: Operation validation and request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1664,9 +1665,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke DeleteCustomCertificate successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1696,9 +1697,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke DeleteCustomCertificate with error: Operation validation and request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1762,9 +1763,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeCertificatePriority successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1799,9 +1800,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeCertificatePriority with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1848,9 +1849,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetUniversalCertificateSetting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1904,9 +1905,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetUniversalCertificateSetting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1956,9 +1957,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetUniversalCertificateSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2016,9 +2017,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeUniversalCertificateSetting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2048,9 +2049,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeUniversalCertificateSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2092,9 +2093,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetTls12Setting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2148,9 +2149,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetTls12Setting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2200,9 +2201,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetTls12Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2244,9 +2245,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeTls12Setting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2317,9 +2318,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeTls12Setting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2370,9 +2371,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeTls12Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2415,9 +2416,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetTls13Setting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2471,9 +2472,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetTls13Setting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2523,9 +2524,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke GetTls13Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2567,9 +2568,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeTls13Setting with error: Operation response processing error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2640,9 +2641,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeTls13Setting successfully`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2693,9 +2694,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 			It(`Invoke ChangeTls13Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2724,9 +2725,9 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			sslCertificateApiService, _ := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
-				URL:           "http://sslcertificateapiv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://sslcertificateapiv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCertPriorityReqCertificatesItem successfully`, func() {

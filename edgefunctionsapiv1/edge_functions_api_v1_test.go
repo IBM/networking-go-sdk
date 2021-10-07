@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/edgefunctionsapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/edgefunctionsapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`EdgeFunctionsApiV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(edgeFunctionsApiService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(edgeFunctionsApiService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL: "https://edgefunctionsapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://edgefunctionsapiv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"EDGE_FUNCTIONS_API_URL": "https://edgefunctionsapiv1/api",
+				"EDGE_FUNCTIONS_API_URL":       "https://edgefunctionsapiv1/api",
 				"EDGE_FUNCTIONS_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(edgeFunctionsApiService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(edgeFunctionsApiService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := edgeFunctionsApiService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"EDGE_FUNCTIONS_API_URL": "https://edgefunctionsapiv1/api",
+				"EDGE_FUNCTIONS_API_URL":       "https://edgefunctionsapiv1/api",
 				"EDGE_FUNCTIONS_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"EDGE_FUNCTIONS_API_AUTH_TYPE":   "NOAuth",
+				"EDGE_FUNCTIONS_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -209,9 +210,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke ListEdgeFunctionsActions with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -268,9 +269,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke ListEdgeFunctionsActions successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -321,9 +322,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke ListEdgeFunctionsActions with error: Operation request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -368,9 +369,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke UpdateEdgeFunctionsAction with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -445,9 +446,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke UpdateEdgeFunctionsAction successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -500,9 +501,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke UpdateEdgeFunctionsAction with error: Operation validation and request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -564,9 +565,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke GetEdgeFunctionsAction successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -618,9 +619,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke GetEdgeFunctionsAction with error: Operation validation and request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -673,9 +674,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke DeleteEdgeFunctionsAction with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -733,9 +734,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke DeleteEdgeFunctionsAction successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -787,9 +788,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke DeleteEdgeFunctionsAction with error: Operation validation and request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -826,8 +827,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(edgeFunctionsApiService).ToNot(BeNil())
@@ -835,8 +836,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(edgeFunctionsApiService).To(BeNil())
@@ -844,8 +845,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL: "https://edgefunctionsapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://edgefunctionsapiv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -867,14 +868,14 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"EDGE_FUNCTIONS_API_URL": "https://edgefunctionsapiv1/api",
+				"EDGE_FUNCTIONS_API_URL":       "https://edgefunctionsapiv1/api",
 				"EDGE_FUNCTIONS_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(edgeFunctionsApiService).ToNot(BeNil())
@@ -890,8 +891,8 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(edgeFunctionsApiService).ToNot(BeNil())
@@ -908,7 +909,7 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := edgeFunctionsApiService.SetServiceURL("https://testService/api")
@@ -928,13 +929,13 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"EDGE_FUNCTIONS_API_URL": "https://edgefunctionsapiv1/api",
+				"EDGE_FUNCTIONS_API_URL":       "https://edgefunctionsapiv1/api",
 				"EDGE_FUNCTIONS_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -947,13 +948,13 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"EDGE_FUNCTIONS_API_AUTH_TYPE":   "NOAuth",
+				"EDGE_FUNCTIONS_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1UsingExternalConfig(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -995,9 +996,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke CreateEdgeFunctionsTrigger with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1072,9 +1073,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke CreateEdgeFunctionsTrigger successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1127,9 +1128,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke CreateEdgeFunctionsTrigger with error: Operation request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1176,9 +1177,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke ListEdgeFunctionsTriggers with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1235,9 +1236,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke ListEdgeFunctionsTriggers successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1288,9 +1289,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke ListEdgeFunctionsTriggers with error: Operation request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1335,9 +1336,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke GetEdgeFunctionsTrigger with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1395,9 +1396,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke GetEdgeFunctionsTrigger successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1449,9 +1450,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke GetEdgeFunctionsTrigger with error: Operation validation and request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1504,9 +1505,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke UpdateEdgeFunctionsTrigger with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1582,9 +1583,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke UpdateEdgeFunctionsTrigger successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1638,9 +1639,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke UpdateEdgeFunctionsTrigger with error: Operation validation and request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1695,9 +1696,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke DeleteEdgeFunctionsTrigger with error: Operation response processing error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1755,9 +1756,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke DeleteEdgeFunctionsTrigger successfully`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1809,9 +1810,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			})
 			It(`Invoke DeleteEdgeFunctionsTrigger with error: Operation validation and request error`, func() {
 				edgeFunctionsApiService, serviceErr := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1848,9 +1849,9 @@ var _ = Describe(`EdgeFunctionsApiV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			edgeFunctionsApiService, _ := edgefunctionsapiv1.NewEdgeFunctionsApiV1(&edgefunctionsapiv1.EdgeFunctionsApiV1Options{
-				URL:           "http://edgefunctionsapiv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://edgefunctionsapiv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateEdgeFunctionsTriggerOptions successfully`, func() {

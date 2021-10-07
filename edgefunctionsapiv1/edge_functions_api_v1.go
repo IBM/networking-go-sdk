@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package edgefunctionsapiv1 : Operations and models for the EdgeFunctionsApiV1 service
 package edgefunctionsapiv1
@@ -26,13 +25,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"io"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // EdgeFunctionsApiV1 : Edge Functions
@@ -121,8 +121,8 @@ func NewEdgeFunctionsApiV1(options *EdgeFunctionsApiV1Options) (service *EdgeFun
 	}
 
 	service = &EdgeFunctionsApiV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -255,7 +255,7 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) UpdateEdgeFunctionsActionWithContext
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":         *edgeFunctionsApi.Crn,
 		"script_name": *updateEdgeFunctionsActionOptions.ScriptName,
 	}
 
@@ -323,7 +323,7 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) GetEdgeFunctionsActionWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":         *edgeFunctionsApi.Crn,
 		"script_name": *getEdgeFunctionsActionOptions.ScriptName,
 	}
 
@@ -376,7 +376,7 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) DeleteEdgeFunctionsActionWithContext
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":         *edgeFunctionsApi.Crn,
 		"script_name": *deleteEdgeFunctionsActionOptions.ScriptName,
 	}
 
@@ -434,7 +434,7 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) CreateEdgeFunctionsTriggerWithContex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":             *edgeFunctionsApi.Crn,
 		"zone_identifier": *edgeFunctionsApi.ZoneIdentifier,
 	}
 
@@ -505,7 +505,7 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) ListEdgeFunctionsTriggersWithContext
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":             *edgeFunctionsApi.Crn,
 		"zone_identifier": *edgeFunctionsApi.ZoneIdentifier,
 	}
 
@@ -567,9 +567,9 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) GetEdgeFunctionsTriggerWithContext(c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":             *edgeFunctionsApi.Crn,
 		"zone_identifier": *edgeFunctionsApi.ZoneIdentifier,
-		"route_id": *getEdgeFunctionsTriggerOptions.RouteID,
+		"route_id":        *getEdgeFunctionsTriggerOptions.RouteID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -630,9 +630,9 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) UpdateEdgeFunctionsTriggerWithContex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":             *edgeFunctionsApi.Crn,
 		"zone_identifier": *edgeFunctionsApi.ZoneIdentifier,
-		"route_id": *updateEdgeFunctionsTriggerOptions.RouteID,
+		"route_id":        *updateEdgeFunctionsTriggerOptions.RouteID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -706,9 +706,9 @@ func (edgeFunctionsApi *EdgeFunctionsApiV1) DeleteEdgeFunctionsTriggerWithContex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *edgeFunctionsApi.Crn,
+		"crn":             *edgeFunctionsApi.Crn,
 		"zone_identifier": *edgeFunctionsApi.ZoneIdentifier,
-		"route_id": *deleteEdgeFunctionsTriggerOptions.RouteID,
+		"route_id":        *deleteEdgeFunctionsTriggerOptions.RouteID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1111,7 +1111,6 @@ type CreateEdgeFunctionsTriggerResp struct {
 	Messages []string `json:"messages,omitempty"`
 }
 
-
 // UnmarshalCreateEdgeFunctionsTriggerResp unmarshals an instance of CreateEdgeFunctionsTriggerResp from the specified map of raw messages.
 func UnmarshalCreateEdgeFunctionsTriggerResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CreateEdgeFunctionsTriggerResp)
@@ -1150,7 +1149,6 @@ type DeleteEdgeFunctionsActionResp struct {
 	Messages []string `json:"messages,omitempty"`
 }
 
-
 // UnmarshalDeleteEdgeFunctionsActionResp unmarshals an instance of DeleteEdgeFunctionsActionResp from the specified map of raw messages.
 func UnmarshalDeleteEdgeFunctionsActionResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteEdgeFunctionsActionResp)
@@ -1179,7 +1177,6 @@ type EdgeFunctionsActionID struct {
 	// edge functions action identifier tag.
 	ID *string `json:"id,omitempty"`
 }
-
 
 // UnmarshalEdgeFunctionsActionID unmarshals an instance of EdgeFunctionsActionID from the specified map of raw messages.
 func UnmarshalEdgeFunctionsActionID(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1212,7 +1209,6 @@ type EdgeFunctionsActionResp struct {
 	// An array with items in the list response.
 	Routes []EdgeFunctionsTriggerResp `json:"routes,omitempty"`
 }
-
 
 // UnmarshalEdgeFunctionsActionResp unmarshals an instance of EdgeFunctionsActionResp from the specified map of raw messages.
 func UnmarshalEdgeFunctionsActionResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1251,7 +1247,6 @@ type EdgeFunctionsTriggerID struct {
 	ID *string `json:"id,omitempty"`
 }
 
-
 // UnmarshalEdgeFunctionsTriggerID unmarshals an instance of EdgeFunctionsTriggerID from the specified map of raw messages.
 func UnmarshalEdgeFunctionsTriggerID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EdgeFunctionsTriggerID)
@@ -1277,7 +1272,6 @@ type EdgeFunctionsTriggerResp struct {
 	// request limit fail open or not.
 	RequestLimitFailOpen *bool `json:"request_limit_fail_open,omitempty"`
 }
-
 
 // UnmarshalEdgeFunctionsTriggerResp unmarshals an instance of EdgeFunctionsTriggerResp from the specified map of raw messages.
 func UnmarshalEdgeFunctionsTriggerResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1317,7 +1311,6 @@ type GetEdgeFunctionsActionResp struct {
 	Messages []string `json:"messages,omitempty"`
 }
 
-
 // UnmarshalGetEdgeFunctionsActionResp unmarshals an instance of GetEdgeFunctionsActionResp from the specified map of raw messages.
 func UnmarshalGetEdgeFunctionsActionResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetEdgeFunctionsActionResp)
@@ -1355,7 +1348,6 @@ type GetEdgeFunctionsTriggerResp struct {
 	// An array with messages.
 	Messages []string `json:"messages,omitempty"`
 }
-
 
 // UnmarshalGetEdgeFunctionsTriggerResp unmarshals an instance of GetEdgeFunctionsTriggerResp from the specified map of raw messages.
 func UnmarshalGetEdgeFunctionsTriggerResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1395,7 +1387,6 @@ type ListEdgeFunctionsActionsResp struct {
 	Messages []string `json:"messages,omitempty"`
 }
 
-
 // UnmarshalListEdgeFunctionsActionsResp unmarshals an instance of ListEdgeFunctionsActionsResp from the specified map of raw messages.
 func UnmarshalListEdgeFunctionsActionsResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListEdgeFunctionsActionsResp)
@@ -1433,7 +1424,6 @@ type ListEdgeFunctionsTriggersResp struct {
 	// An array with messages.
 	Messages []string `json:"messages,omitempty"`
 }
-
 
 // UnmarshalListEdgeFunctionsTriggersResp unmarshals an instance of ListEdgeFunctionsTriggersResp from the specified map of raw messages.
 func UnmarshalListEdgeFunctionsTriggersResp(m map[string]json.RawMessage, result interface{}) (err error) {

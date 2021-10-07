@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/wafapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/wafapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`WafApiV1`, func() {
@@ -41,16 +42,16 @@ var _ = Describe(`WafApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(wafApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 			Expect(wafApiService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`WafApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
-				URL: "https://wafapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:    "https://wafapiv1/api",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`WafApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"WAF_API_URL": "https://wafapiv1/api",
+				"WAF_API_URL":       "https://wafapiv1/api",
 				"WAF_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1UsingExternalConfig(&wafapiv1.WafApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(wafApiService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`WafApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1UsingExternalConfig(&wafapiv1.WafApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:    "https://testService/api",
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(wafApiService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`WafApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1UsingExternalConfig(&wafapiv1.WafApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				err := wafApiService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`WafApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"WAF_API_URL": "https://wafapiv1/api",
+				"WAF_API_URL":       "https://wafapiv1/api",
 				"WAF_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			wafApiService, serviceErr := wafapiv1.NewWafApiV1UsingExternalConfig(&wafapiv1.WafApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`WafApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"WAF_API_AUTH_TYPE":   "NOAuth",
+				"WAF_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			wafApiService, serviceErr := wafapiv1.NewWafApiV1UsingExternalConfig(&wafapiv1.WafApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -209,8 +210,8 @@ var _ = Describe(`WafApiV1`, func() {
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafApiService).ToNot(BeNil())
@@ -265,8 +266,8 @@ var _ = Describe(`WafApiV1`, func() {
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafApiService).ToNot(BeNil())
@@ -317,8 +318,8 @@ var _ = Describe(`WafApiV1`, func() {
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafApiService).ToNot(BeNil())
@@ -361,8 +362,8 @@ var _ = Describe(`WafApiV1`, func() {
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafApiService).ToNot(BeNil())
@@ -434,8 +435,8 @@ var _ = Describe(`WafApiV1`, func() {
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafApiService).ToNot(BeNil())
@@ -487,8 +488,8 @@ var _ = Describe(`WafApiV1`, func() {
 				wafApiService, serviceErr := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(wafApiService).ToNot(BeNil())
@@ -518,8 +519,8 @@ var _ = Describe(`WafApiV1`, func() {
 			wafApiService, _ := wafapiv1.NewWafApiV1(&wafapiv1.WafApiV1Options{
 				URL:           "http://wafapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			It(`Invoke NewGetWafSettingsOptions successfully`, func() {
 				// Construct an instance of the GetWafSettingsOptions model

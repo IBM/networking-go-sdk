@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package custompagesv1 : Operations and models for the CustomPagesV1 service
 package custompagesv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // CustomPagesV1 : Custom Pages
@@ -120,8 +120,8 @@ func NewCustomPagesV1(options *CustomPagesV1Options) (service *CustomPagesV1, er
 	}
 
 	service = &CustomPagesV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -251,7 +251,7 @@ func (customPages *CustomPagesV1) GetInstanceCustomPageWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *customPages.Crn,
+		"crn":             *customPages.Crn,
 		"page_identifier": *getInstanceCustomPageOptions.PageIdentifier,
 	}
 
@@ -310,7 +310,7 @@ func (customPages *CustomPagesV1) UpdateInstanceCustomPageWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *customPages.Crn,
+		"crn":             *customPages.Crn,
 		"page_identifier": *updateInstanceCustomPageOptions.PageIdentifier,
 	}
 
@@ -378,7 +378,7 @@ func (customPages *CustomPagesV1) ListZoneCustomPagesWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *customPages.Crn,
+		"crn":             *customPages.Crn,
 		"zone_identifier": *customPages.ZoneIdentifier,
 	}
 
@@ -437,7 +437,7 @@ func (customPages *CustomPagesV1) GetZoneCustomPageWithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *customPages.Crn,
+		"crn":             *customPages.Crn,
 		"zone_identifier": *customPages.ZoneIdentifier,
 		"page_identifier": *getZoneCustomPageOptions.PageIdentifier,
 	}
@@ -497,7 +497,7 @@ func (customPages *CustomPagesV1) UpdateZoneCustomPageWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *customPages.Crn,
+		"crn":             *customPages.Crn,
 		"zone_identifier": *customPages.ZoneIdentifier,
 		"page_identifier": *updateZoneCustomPageOptions.PageIdentifier,
 	}
@@ -564,14 +564,14 @@ type GetInstanceCustomPageOptions struct {
 // Constants associated with the GetInstanceCustomPageOptions.PageIdentifier property.
 // Custom page identifier.
 const (
-	GetInstanceCustomPageOptions_PageIdentifier_AlwaysOnline = "always_online"
-	GetInstanceCustomPageOptions_PageIdentifier_BasicChallenge = "basic_challenge"
+	GetInstanceCustomPageOptions_PageIdentifier_AlwaysOnline     = "always_online"
+	GetInstanceCustomPageOptions_PageIdentifier_BasicChallenge   = "basic_challenge"
 	GetInstanceCustomPageOptions_PageIdentifier_CountryChallenge = "country_challenge"
-	GetInstanceCustomPageOptions_PageIdentifier_IpBlock = "ip_block"
-	GetInstanceCustomPageOptions_PageIdentifier_RatelimitBlock = "ratelimit_block"
-	GetInstanceCustomPageOptions_PageIdentifier_UnderAttack = "under_attack"
-	GetInstanceCustomPageOptions_PageIdentifier_WafBlock = "waf_block"
-	GetInstanceCustomPageOptions_PageIdentifier_WafChallenge = "waf_challenge"
+	GetInstanceCustomPageOptions_PageIdentifier_IpBlock          = "ip_block"
+	GetInstanceCustomPageOptions_PageIdentifier_RatelimitBlock   = "ratelimit_block"
+	GetInstanceCustomPageOptions_PageIdentifier_UnderAttack      = "under_attack"
+	GetInstanceCustomPageOptions_PageIdentifier_WafBlock         = "waf_block"
+	GetInstanceCustomPageOptions_PageIdentifier_WafChallenge     = "waf_challenge"
 )
 
 // NewGetInstanceCustomPageOptions : Instantiate GetInstanceCustomPageOptions
@@ -605,14 +605,14 @@ type GetZoneCustomPageOptions struct {
 // Constants associated with the GetZoneCustomPageOptions.PageIdentifier property.
 // Custom page identifier.
 const (
-	GetZoneCustomPageOptions_PageIdentifier_AlwaysOnline = "always_online"
-	GetZoneCustomPageOptions_PageIdentifier_BasicChallenge = "basic_challenge"
+	GetZoneCustomPageOptions_PageIdentifier_AlwaysOnline     = "always_online"
+	GetZoneCustomPageOptions_PageIdentifier_BasicChallenge   = "basic_challenge"
 	GetZoneCustomPageOptions_PageIdentifier_CountryChallenge = "country_challenge"
-	GetZoneCustomPageOptions_PageIdentifier_IpBlock = "ip_block"
-	GetZoneCustomPageOptions_PageIdentifier_RatelimitBlock = "ratelimit_block"
-	GetZoneCustomPageOptions_PageIdentifier_UnderAttack = "under_attack"
-	GetZoneCustomPageOptions_PageIdentifier_WafBlock = "waf_block"
-	GetZoneCustomPageOptions_PageIdentifier_WafChallenge = "waf_challenge"
+	GetZoneCustomPageOptions_PageIdentifier_IpBlock          = "ip_block"
+	GetZoneCustomPageOptions_PageIdentifier_RatelimitBlock   = "ratelimit_block"
+	GetZoneCustomPageOptions_PageIdentifier_UnderAttack      = "under_attack"
+	GetZoneCustomPageOptions_PageIdentifier_WafBlock         = "waf_block"
+	GetZoneCustomPageOptions_PageIdentifier_WafChallenge     = "waf_challenge"
 )
 
 // NewGetZoneCustomPageOptions : Instantiate GetZoneCustomPageOptions
@@ -651,7 +651,6 @@ type ListCustomPagesRespResultInfo struct {
 	// Total number of results.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
-
 
 // UnmarshalListCustomPagesRespResultInfo unmarshals an instance of ListCustomPagesRespResultInfo from the specified map of raw messages.
 func UnmarshalListCustomPagesRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -734,21 +733,21 @@ type UpdateInstanceCustomPageOptions struct {
 // Constants associated with the UpdateInstanceCustomPageOptions.PageIdentifier property.
 // Custom page identifier.
 const (
-	UpdateInstanceCustomPageOptions_PageIdentifier_AlwaysOnline = "always_online"
-	UpdateInstanceCustomPageOptions_PageIdentifier_BasicChallenge = "basic_challenge"
+	UpdateInstanceCustomPageOptions_PageIdentifier_AlwaysOnline     = "always_online"
+	UpdateInstanceCustomPageOptions_PageIdentifier_BasicChallenge   = "basic_challenge"
 	UpdateInstanceCustomPageOptions_PageIdentifier_CountryChallenge = "country_challenge"
-	UpdateInstanceCustomPageOptions_PageIdentifier_IpBlock = "ip_block"
-	UpdateInstanceCustomPageOptions_PageIdentifier_RatelimitBlock = "ratelimit_block"
-	UpdateInstanceCustomPageOptions_PageIdentifier_UnderAttack = "under_attack"
-	UpdateInstanceCustomPageOptions_PageIdentifier_WafBlock = "waf_block"
-	UpdateInstanceCustomPageOptions_PageIdentifier_WafChallenge = "waf_challenge"
+	UpdateInstanceCustomPageOptions_PageIdentifier_IpBlock          = "ip_block"
+	UpdateInstanceCustomPageOptions_PageIdentifier_RatelimitBlock   = "ratelimit_block"
+	UpdateInstanceCustomPageOptions_PageIdentifier_UnderAttack      = "under_attack"
+	UpdateInstanceCustomPageOptions_PageIdentifier_WafBlock         = "waf_block"
+	UpdateInstanceCustomPageOptions_PageIdentifier_WafChallenge     = "waf_challenge"
 )
 
 // Constants associated with the UpdateInstanceCustomPageOptions.State property.
 // The Custom Page state.
 const (
 	UpdateInstanceCustomPageOptions_State_Customized = "customized"
-	UpdateInstanceCustomPageOptions_State_Default = "default"
+	UpdateInstanceCustomPageOptions_State_Default    = "default"
 )
 
 // NewUpdateInstanceCustomPageOptions : Instantiate UpdateInstanceCustomPageOptions
@@ -800,21 +799,21 @@ type UpdateZoneCustomPageOptions struct {
 // Constants associated with the UpdateZoneCustomPageOptions.PageIdentifier property.
 // Custom page identifier.
 const (
-	UpdateZoneCustomPageOptions_PageIdentifier_AlwaysOnline = "always_online"
-	UpdateZoneCustomPageOptions_PageIdentifier_BasicChallenge = "basic_challenge"
+	UpdateZoneCustomPageOptions_PageIdentifier_AlwaysOnline     = "always_online"
+	UpdateZoneCustomPageOptions_PageIdentifier_BasicChallenge   = "basic_challenge"
 	UpdateZoneCustomPageOptions_PageIdentifier_CountryChallenge = "country_challenge"
-	UpdateZoneCustomPageOptions_PageIdentifier_IpBlock = "ip_block"
-	UpdateZoneCustomPageOptions_PageIdentifier_RatelimitBlock = "ratelimit_block"
-	UpdateZoneCustomPageOptions_PageIdentifier_UnderAttack = "under_attack"
-	UpdateZoneCustomPageOptions_PageIdentifier_WafBlock = "waf_block"
-	UpdateZoneCustomPageOptions_PageIdentifier_WafChallenge = "waf_challenge"
+	UpdateZoneCustomPageOptions_PageIdentifier_IpBlock          = "ip_block"
+	UpdateZoneCustomPageOptions_PageIdentifier_RatelimitBlock   = "ratelimit_block"
+	UpdateZoneCustomPageOptions_PageIdentifier_UnderAttack      = "under_attack"
+	UpdateZoneCustomPageOptions_PageIdentifier_WafBlock         = "waf_block"
+	UpdateZoneCustomPageOptions_PageIdentifier_WafChallenge     = "waf_challenge"
 )
 
 // Constants associated with the UpdateZoneCustomPageOptions.State property.
 // The Custom Page state.
 const (
 	UpdateZoneCustomPageOptions_State_Customized = "customized"
-	UpdateZoneCustomPageOptions_State_Default = "default"
+	UpdateZoneCustomPageOptions_State_Default    = "default"
 )
 
 // NewUpdateZoneCustomPageOptions : Instantiate UpdateZoneCustomPageOptions
@@ -878,32 +877,31 @@ type CustomPageObject struct {
 // Constants associated with the CustomPageObject.ID property.
 // Custom page identifier.
 const (
-	CustomPageObject_ID_AlwaysOnline = "always_online"
-	CustomPageObject_ID_BasicChallenge = "basic_challenge"
+	CustomPageObject_ID_AlwaysOnline     = "always_online"
+	CustomPageObject_ID_BasicChallenge   = "basic_challenge"
 	CustomPageObject_ID_CountryChallenge = "country_challenge"
-	CustomPageObject_ID_IpBlock = "ip_block"
-	CustomPageObject_ID_RatelimitBlock = "ratelimit_block"
-	CustomPageObject_ID_UnderAttack = "under_attack"
-	CustomPageObject_ID_WafBlock = "waf_block"
-	CustomPageObject_ID_WafChallenge = "waf_challenge"
+	CustomPageObject_ID_IpBlock          = "ip_block"
+	CustomPageObject_ID_RatelimitBlock   = "ratelimit_block"
+	CustomPageObject_ID_UnderAttack      = "under_attack"
+	CustomPageObject_ID_WafBlock         = "waf_block"
+	CustomPageObject_ID_WafChallenge     = "waf_challenge"
 )
 
 // Constants associated with the CustomPageObject.RequiredTokens property.
 const (
-	CustomPageObject_RequiredTokens_AlwaysOnlineNoCopyBox = "::ALWAYS_ONLINE_NO_COPY_BOX::"
-	CustomPageObject_RequiredTokens_CaptchaBox = "::CAPTCHA_BOX::"
+	CustomPageObject_RequiredTokens_AlwaysOnlineNoCopyBox   = "::ALWAYS_ONLINE_NO_COPY_BOX::"
+	CustomPageObject_RequiredTokens_CaptchaBox              = "::CAPTCHA_BOX::"
 	CustomPageObject_RequiredTokens_CloudflareError1000sBox = "::CLOUDFLARE_ERROR_1000S_BOX::"
-	CustomPageObject_RequiredTokens_CloudflareError500sBox = "::CLOUDFLARE_ERROR_500S_BOX::"
-	CustomPageObject_RequiredTokens_ImUnderAttackBox = "::IM_UNDER_ATTACK_BOX::"
+	CustomPageObject_RequiredTokens_CloudflareError500sBox  = "::CLOUDFLARE_ERROR_500S_BOX::"
+	CustomPageObject_RequiredTokens_ImUnderAttackBox        = "::IM_UNDER_ATTACK_BOX::"
 )
 
 // Constants associated with the CustomPageObject.State property.
 // The Custom Page state.
 const (
 	CustomPageObject_State_Customized = "customized"
-	CustomPageObject_State_Default = "default"
+	CustomPageObject_State_Default    = "default"
 )
-
 
 // UnmarshalCustomPageObject unmarshals an instance of CustomPageObject from the specified map of raw messages.
 func UnmarshalCustomPageObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -959,7 +957,6 @@ type CustomPageSpecificResp struct {
 	Result *CustomPageObject `json:"result" validate:"required"`
 }
 
-
 // UnmarshalCustomPageSpecificResp unmarshals an instance of CustomPageSpecificResp from the specified map of raw messages.
 func UnmarshalCustomPageSpecificResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CustomPageSpecificResp)
@@ -1000,7 +997,6 @@ type ListCustomPagesResp struct {
 	// Statistics of results.
 	ResultInfo *ListCustomPagesRespResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListCustomPagesResp unmarshals an instance of ListCustomPagesResp from the specified map of raw messages.
 func UnmarshalListCustomPagesResp(m map[string]json.RawMessage, result interface{}) (err error) {

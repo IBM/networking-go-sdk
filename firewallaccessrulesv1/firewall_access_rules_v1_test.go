@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/firewallaccessrulesv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/firewallaccessrulesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`FirewallAccessRulesV1`, func() {
@@ -40,7 +41,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 		It(`Instantiate service client`, func() {
 			firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			Expect(firewallAccessRulesService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -76,7 +77,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FIREWALL_ACCESS_RULES_URL": "https://firewallaccessrulesv1/api",
+				"FIREWALL_ACCESS_RULES_URL":       "https://firewallaccessrulesv1/api",
 				"FIREWALL_ACCESS_RULES_AUTH_TYPE": "noauth",
 			}
 
@@ -134,7 +135,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FIREWALL_ACCESS_RULES_URL": "https://firewallaccessrulesv1/api",
+				"FIREWALL_ACCESS_RULES_URL":       "https://firewallaccessrulesv1/api",
 				"FIREWALL_ACCESS_RULES_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,7 +153,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FIREWALL_ACCESS_RULES_AUTH_TYPE":   "NOAuth",
+				"FIREWALL_ACCESS_RULES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -216,7 +217,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -297,7 +298,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -357,7 +358,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -408,7 +409,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -486,7 +487,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -545,7 +546,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -595,7 +596,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -650,7 +651,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -702,7 +703,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -752,7 +753,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -807,7 +808,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -859,7 +860,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -909,7 +910,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -982,7 +983,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -1036,7 +1037,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 				firewallAccessRulesService, serviceErr := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallAccessRulesService).ToNot(BeNil())
@@ -1074,7 +1075,7 @@ var _ = Describe(`FirewallAccessRulesV1`, func() {
 			firewallAccessRulesService, _ := firewallaccessrulesv1.NewFirewallAccessRulesV1(&firewallaccessrulesv1.FirewallAccessRulesV1Options{
 				URL:           "http://firewallaccessrulesv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			It(`Invoke NewAccountAccessRuleInputConfiguration successfully`, func() {
 				target := "ip"

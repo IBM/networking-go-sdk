@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/custompagesv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/custompagesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`CustomPagesV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`CustomPagesV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(customPagesService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`CustomPagesV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(customPagesService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`CustomPagesV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-				URL: "https://custompagesv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://custompagesv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`CustomPagesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CUSTOM_PAGES_URL": "https://custompagesv1/api",
+				"CUSTOM_PAGES_URL":       "https://custompagesv1/api",
 				"CUSTOM_PAGES_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1UsingExternalConfig(&custompagesv1.CustomPagesV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(customPagesService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`CustomPagesV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1UsingExternalConfig(&custompagesv1.CustomPagesV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(customPagesService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`CustomPagesV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1UsingExternalConfig(&custompagesv1.CustomPagesV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := customPagesService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`CustomPagesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CUSTOM_PAGES_URL": "https://custompagesv1/api",
+				"CUSTOM_PAGES_URL":       "https://custompagesv1/api",
 				"CUSTOM_PAGES_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			customPagesService, serviceErr := custompagesv1.NewCustomPagesV1UsingExternalConfig(&custompagesv1.CustomPagesV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`CustomPagesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CUSTOM_PAGES_AUTH_TYPE":   "NOAuth",
+				"CUSTOM_PAGES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			customPagesService, serviceErr := custompagesv1.NewCustomPagesV1UsingExternalConfig(&custompagesv1.CustomPagesV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -207,9 +208,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke ListInstanceCustomPages with error: Operation response processing error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -263,9 +264,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke ListInstanceCustomPages successfully`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -315,9 +316,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke ListInstanceCustomPages with error: Operation request error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -359,9 +360,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke GetInstanceCustomPage with error: Operation response processing error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -416,9 +417,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke GetInstanceCustomPage successfully`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -469,9 +470,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke GetInstanceCustomPage with error: Operation validation and request error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -521,9 +522,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke UpdateInstanceCustomPage with error: Operation response processing error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -596,9 +597,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke UpdateInstanceCustomPage successfully`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -651,9 +652,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke UpdateInstanceCustomPage with error: Operation validation and request error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -705,9 +706,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke ListZoneCustomPages with error: Operation response processing error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -761,9 +762,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke ListZoneCustomPages successfully`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -813,9 +814,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke ListZoneCustomPages with error: Operation request error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -857,9 +858,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke GetZoneCustomPage with error: Operation response processing error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -914,9 +915,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke GetZoneCustomPage successfully`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -967,9 +968,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke GetZoneCustomPage with error: Operation validation and request error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1019,9 +1020,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke UpdateZoneCustomPage with error: Operation response processing error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1094,9 +1095,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke UpdateZoneCustomPage successfully`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1149,9 +1150,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			})
 			It(`Invoke UpdateZoneCustomPage with error: Operation validation and request error`, func() {
 				customPagesService, serviceErr := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1189,9 +1190,9 @@ var _ = Describe(`CustomPagesV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			customPagesService, _ := custompagesv1.NewCustomPagesV1(&custompagesv1.CustomPagesV1Options{
-				URL:           "http://custompagesv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://custompagesv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewGetInstanceCustomPageOptions successfully`, func() {

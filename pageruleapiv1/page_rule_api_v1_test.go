@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/pageruleapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/pageruleapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`PageRuleApiV1`, func() {
@@ -41,16 +42,16 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(pageRuleApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 			Expect(pageRuleApiService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
-				URL: "https://pageruleapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:    "https://pageruleapiv1/api",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"PAGE_RULE_API_URL": "https://pageruleapiv1/api",
+				"PAGE_RULE_API_URL":       "https://pageruleapiv1/api",
 				"PAGE_RULE_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:    "https://testService/api",
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				err := pageRuleApiService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"PAGE_RULE_API_URL": "https://pageruleapiv1/api",
+				"PAGE_RULE_API_URL":       "https://pageruleapiv1/api",
 				"PAGE_RULE_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`PageRuleApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"PAGE_RULE_API_AUTH_TYPE":   "NOAuth",
+				"PAGE_RULE_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1UsingExternalConfig(&pageruleapiv1.PageRuleApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -209,8 +210,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -266,8 +267,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -319,8 +320,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -371,8 +372,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -463,8 +464,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -535,8 +536,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -606,8 +607,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -698,8 +699,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -770,8 +771,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -841,8 +842,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -898,8 +899,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -951,8 +952,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1011,8 +1012,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1079,8 +1080,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1135,8 +1136,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1183,8 +1184,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1274,8 +1275,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1345,8 +1346,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 				pageRuleApiService, serviceErr := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(pageRuleApiService).ToNot(BeNil())
@@ -1394,8 +1395,8 @@ var _ = Describe(`PageRuleApiV1`, func() {
 			pageRuleApiService, _ := pageruleapiv1.NewPageRuleApiV1(&pageruleapiv1.PageRuleApiV1Options{
 				URL:           "http://pageruleapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			It(`Invoke NewChangePageRuleOptions successfully`, func() {
 				// Construct an instance of the TargetsItemConstraint model

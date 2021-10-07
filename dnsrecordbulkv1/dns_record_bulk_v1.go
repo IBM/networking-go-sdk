@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package dnsrecordbulkv1 : Operations and models for the DnsRecordBulkV1 service
 package dnsrecordbulkv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"io"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // DnsRecordBulkV1 : Import/Export zone files
@@ -120,8 +120,8 @@ func NewDnsRecordBulkV1(options *DnsRecordBulkV1Options) (service *DnsRecordBulk
 	}
 
 	service = &DnsRecordBulkV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -193,7 +193,7 @@ func (dnsRecordBulk *DnsRecordBulkV1) GetDnsRecordsBulkWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *dnsRecordBulk.Crn,
+		"crn":             *dnsRecordBulk.Crn,
 		"zone_identifier": *dnsRecordBulk.ZoneIdentifier,
 	}
 
@@ -241,13 +241,13 @@ func (dnsRecordBulk *DnsRecordBulkV1) PostDnsRecordsBulkWithContext(ctx context.
 	if err != nil {
 		return
 	}
-	if (postDnsRecordsBulkOptions.File == nil) {
+	if postDnsRecordsBulkOptions.File == nil {
 		err = fmt.Errorf("at least one of  or file must be supplied")
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *dnsRecordBulk.Crn,
+		"crn":             *dnsRecordBulk.Crn,
 		"zone_identifier": *dnsRecordBulk.ZoneIdentifier,
 	}
 
@@ -302,7 +302,6 @@ type DnsRecordsObjectMessagesItem struct {
 	Message *string `json:"message,omitempty"`
 }
 
-
 // UnmarshalDnsRecordsObjectMessagesItem unmarshals an instance of DnsRecordsObjectMessagesItem from the specified map of raw messages.
 func UnmarshalDnsRecordsObjectMessagesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DnsRecordsObjectMessagesItem)
@@ -326,7 +325,6 @@ type DnsRecordsObjectResult struct {
 	// total records parsed.
 	TotalRecordsParsed *int64 `json:"total_records_parsed" validate:"required"`
 }
-
 
 // UnmarshalDnsRecordsObjectResult unmarshals an instance of DnsRecordsObjectResult from the specified map of raw messages.
 func UnmarshalDnsRecordsObjectResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -354,7 +352,6 @@ type DnsRecordsObjectTiming struct {
 	// process time.
 	ProcessTime *int64 `json:"process_time,omitempty"`
 }
-
 
 // UnmarshalDnsRecordsObjectTiming unmarshals an instance of DnsRecordsObjectTiming from the specified map of raw messages.
 func UnmarshalDnsRecordsObjectTiming(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -445,7 +442,6 @@ type DnsRecordsObject struct {
 	// timing object.
 	Timing *DnsRecordsObjectTiming `json:"timing,omitempty"`
 }
-
 
 // UnmarshalDnsRecordsObject unmarshals an instance of DnsRecordsObject from the specified map of raw messages.
 func UnmarshalDnsRecordsObject(m map[string]json.RawMessage, result interface{}) (err error) {

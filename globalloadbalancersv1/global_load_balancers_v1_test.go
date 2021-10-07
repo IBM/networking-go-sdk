@@ -19,17 +19,18 @@ package globalloadbalancersv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/globalloadbalancersv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancersv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`GlobalLoadBalancersV1`, func() {
@@ -65,14 +66,13 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_URL": "https://globalloadbalancersv1/api",
+				"GLOBAL_LOAD_BALANCERS_URL":       "https://globalloadbalancersv1/api",
 				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-				})
+				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 				Expect(globalLoadBalancersService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -89,8 +89,7 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-				})
+				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 				err := globalLoadBalancersService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(globalLoadBalancersService).ToNot(BeNil())
@@ -102,13 +101,12 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_URL": "https://globalloadbalancersv1/api",
+				"GLOBAL_LOAD_BALANCERS_URL":       "https://globalloadbalancersv1/api",
 				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-			})
+			globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(globalLoadBalancersService).To(BeNil())
@@ -119,7 +117,7 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE":   "NOAuth",
+				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -807,14 +805,13 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_URL": "https://globalloadbalancersv1/api",
+				"GLOBAL_LOAD_BALANCERS_URL":       "https://globalloadbalancersv1/api",
 				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-				})
+				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 				Expect(globalLoadBalancersService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -831,8 +828,7 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-				})
+				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 				err := globalLoadBalancersService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(globalLoadBalancersService).ToNot(BeNil())
@@ -844,13 +840,12 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_URL": "https://globalloadbalancersv1/api",
+				"GLOBAL_LOAD_BALANCERS_URL":       "https://globalloadbalancersv1/api",
 				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-			})
+			globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(globalLoadBalancersService).To(BeNil())
@@ -861,7 +856,7 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE":   "NOAuth",
+				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -1559,14 +1554,13 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_URL": "https://globalloadbalancersv1/api",
+				"GLOBAL_LOAD_BALANCERS_URL":       "https://globalloadbalancersv1/api",
 				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-				})
+				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 				Expect(globalLoadBalancersService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -1583,8 +1577,7 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-				})
+				globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 				err := globalLoadBalancersService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(globalLoadBalancersService).ToNot(BeNil())
@@ -1596,13 +1589,12 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_URL": "https://globalloadbalancersv1/api",
+				"GLOBAL_LOAD_BALANCERS_URL":       "https://globalloadbalancersv1/api",
 				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{
-			})
+			globalLoadBalancersService, serviceErr := globalloadbalancersv1.NewGlobalLoadBalancersV1UsingExternalConfig(&globalloadbalancersv1.GlobalLoadBalancersV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(globalLoadBalancersService).To(BeNil())
@@ -1613,7 +1605,7 @@ var _ = Describe(`GlobalLoadBalancersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE":   "NOAuth",
+				"GLOBAL_LOAD_BALANCERS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)

@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.12.0-64fe8d3f-20200820-144050
  */
- 
 
 // Package globalloadbalancersv1 : Operations and models for the GlobalLoadBalancersV1 service
 // Deprecated: This module is deprecated. For more detail https://github.com/IBM/networking-go-sdk/blob/master/DEPRECATION-NOTICE.md
@@ -26,9 +25,10 @@ package globalloadbalancersv1
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"reflect"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // GlobalLoadBalancersV1 : Global Load Balancers
@@ -1133,7 +1133,7 @@ type CreateLoadBalancerOptions struct {
 func (*GlobalLoadBalancersV1) NewCreateLoadBalancerOptions(instanceID string, dnszoneID string) *CreateLoadBalancerOptions {
 	return &CreateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -1263,15 +1263,15 @@ type CreateMonitorOptions struct {
 // Constants associated with the CreateMonitorOptions.Type property.
 // The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
 const (
-	CreateMonitorOptions_Type_Http = "HTTP"
+	CreateMonitorOptions_Type_Http  = "HTTP"
 	CreateMonitorOptions_Type_Https = "HTTPS"
-	CreateMonitorOptions_Type_Tcp = "TCP"
+	CreateMonitorOptions_Type_Tcp   = "TCP"
 )
 
 // Constants associated with the CreateMonitorOptions.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	CreateMonitorOptions_Method_Get = "GET"
+	CreateMonitorOptions_Method_Get  = "GET"
 	CreateMonitorOptions_Method_Head = "HEAD"
 )
 
@@ -1422,11 +1422,11 @@ type CreatePoolOptions struct {
 // Constants associated with the CreatePoolOptions.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	CreatePoolOptions_HealthcheckRegion_AuSyd = "au-syd"
-	CreatePoolOptions_HealthcheckRegion_EuDu = "eu-du"
-	CreatePoolOptions_HealthcheckRegion_EuGb = "eu-gb"
-	CreatePoolOptions_HealthcheckRegion_JpTok = "jp-tok"
-	CreatePoolOptions_HealthcheckRegion_UsEast = "us-east"
+	CreatePoolOptions_HealthcheckRegion_AuSyd   = "au-syd"
+	CreatePoolOptions_HealthcheckRegion_EuDu    = "eu-du"
+	CreatePoolOptions_HealthcheckRegion_EuGb    = "eu-gb"
+	CreatePoolOptions_HealthcheckRegion_JpTok   = "jp-tok"
+	CreatePoolOptions_HealthcheckRegion_UsEast  = "us-east"
 	CreatePoolOptions_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -1531,8 +1531,8 @@ type DeleteLoadBalancerOptions struct {
 func (*GlobalLoadBalancersV1) NewDeleteLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *DeleteLoadBalancerOptions {
 	return &DeleteLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
@@ -1585,7 +1585,7 @@ type DeleteMonitorOptions struct {
 func (*GlobalLoadBalancersV1) NewDeleteMonitorOptions(instanceID string, monitorID string) *DeleteMonitorOptions {
 	return &DeleteMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
@@ -1632,7 +1632,7 @@ type DeletePoolOptions struct {
 func (*GlobalLoadBalancersV1) NewDeletePoolOptions(instanceID string, poolID string) *DeletePoolOptions {
 	return &DeletePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
@@ -1682,8 +1682,8 @@ type GetLoadBalancerOptions struct {
 func (*GlobalLoadBalancersV1) NewGetLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *GetLoadBalancerOptions {
 	return &GetLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
@@ -1736,7 +1736,7 @@ type GetMonitorOptions struct {
 func (*GlobalLoadBalancersV1) NewGetMonitorOptions(instanceID string, monitorID string) *GetMonitorOptions {
 	return &GetMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
@@ -1783,7 +1783,7 @@ type GetPoolOptions struct {
 func (*GlobalLoadBalancersV1) NewGetPoolOptions(instanceID string, poolID string) *GetPoolOptions {
 	return &GetPoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
@@ -1830,7 +1830,7 @@ type ListLoadBalancersOptions struct {
 func (*GlobalLoadBalancersV1) NewListLoadBalancersOptions(instanceID string, dnszoneID string) *ListLoadBalancersOptions {
 	return &ListLoadBalancersOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -1941,7 +1941,6 @@ type LoadBalancerAzPoolsItem struct {
 	Pools []string `json:"pools,omitempty"`
 }
 
-
 // UnmarshalLoadBalancerAzPoolsItem unmarshals an instance of LoadBalancerAzPoolsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerAzPoolsItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerAzPoolsItem)
@@ -2001,8 +2000,8 @@ type UpdateLoadBalancerOptions struct {
 func (*GlobalLoadBalancersV1) NewUpdateLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *UpdateLoadBalancerOptions {
 	return &UpdateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
@@ -2142,15 +2141,15 @@ type UpdateMonitorOptions struct {
 // Constants associated with the UpdateMonitorOptions.Type property.
 // The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
 const (
-	UpdateMonitorOptions_Type_Http = "HTTP"
+	UpdateMonitorOptions_Type_Http  = "HTTP"
 	UpdateMonitorOptions_Type_Https = "HTTPS"
-	UpdateMonitorOptions_Type_Tcp = "TCP"
+	UpdateMonitorOptions_Type_Tcp   = "TCP"
 )
 
 // Constants associated with the UpdateMonitorOptions.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	UpdateMonitorOptions_Method_Get = "GET"
+	UpdateMonitorOptions_Method_Get  = "GET"
 	UpdateMonitorOptions_Method_Head = "HEAD"
 )
 
@@ -2158,7 +2157,7 @@ const (
 func (*GlobalLoadBalancersV1) NewUpdateMonitorOptions(instanceID string, monitorID string) *UpdateMonitorOptions {
 	return &UpdateMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
@@ -2311,11 +2310,11 @@ type UpdatePoolOptions struct {
 // Constants associated with the UpdatePoolOptions.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	UpdatePoolOptions_HealthcheckRegion_AuSyd = "au-syd"
-	UpdatePoolOptions_HealthcheckRegion_EuDu = "eu-du"
-	UpdatePoolOptions_HealthcheckRegion_EuGb = "eu-gb"
-	UpdatePoolOptions_HealthcheckRegion_JpTok = "jp-tok"
-	UpdatePoolOptions_HealthcheckRegion_UsEast = "us-east"
+	UpdatePoolOptions_HealthcheckRegion_AuSyd   = "au-syd"
+	UpdatePoolOptions_HealthcheckRegion_EuDu    = "eu-du"
+	UpdatePoolOptions_HealthcheckRegion_EuGb    = "eu-gb"
+	UpdatePoolOptions_HealthcheckRegion_JpTok   = "jp-tok"
+	UpdatePoolOptions_HealthcheckRegion_UsEast  = "us-east"
 	UpdatePoolOptions_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -2323,7 +2322,7 @@ const (
 func (*GlobalLoadBalancersV1) NewUpdatePoolOptions(instanceID string, poolID string) *UpdatePoolOptions {
 	return &UpdatePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
@@ -2411,7 +2410,6 @@ type FirstHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalFirstHref unmarshals an instance of FirstHref from the specified map of raw messages.
 func UnmarshalFirstHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FirstHref)
@@ -2432,11 +2430,10 @@ type HealthcheckHeader struct {
 	Value []string `json:"value" validate:"required"`
 }
 
-
 // NewHealthcheckHeader : Instantiate HealthcheckHeader (Generic Model Constructor)
 func (*GlobalLoadBalancersV1) NewHealthcheckHeader(name string, value []string) (model *HealthcheckHeader, err error) {
 	model = &HealthcheckHeader{
-		Name: core.StringPtr(name),
+		Name:  core.StringPtr(name),
 		Value: value,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -2481,7 +2478,6 @@ type ListLoadBalancers struct {
 	// href.
 	Next *NextHref `json:"next" validate:"required"`
 }
-
 
 // UnmarshalListLoadBalancers unmarshals an instance of ListLoadBalancers from the specified map of raw messages.
 func UnmarshalListLoadBalancers(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2542,7 +2538,6 @@ type ListMonitors struct {
 	Next *NextHref `json:"next" validate:"required"`
 }
 
-
 // UnmarshalListMonitors unmarshals an instance of ListMonitors from the specified map of raw messages.
 func UnmarshalListMonitors(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListMonitors)
@@ -2601,7 +2596,6 @@ type ListPools struct {
 	// href.
 	Next *NextHref `json:"next" validate:"required"`
 }
-
 
 // UnmarshalListPools unmarshals an instance of ListPools from the specified map of raw messages.
 func UnmarshalListPools(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2680,9 +2674,8 @@ type LoadBalancer struct {
 const (
 	LoadBalancer_Health_Critical = "CRITICAL"
 	LoadBalancer_Health_Degraded = "DEGRADED"
-	LoadBalancer_Health_Healthy = "HEALTHY"
+	LoadBalancer_Health_Healthy  = "HEALTHY"
 )
-
 
 // UnmarshalLoadBalancer unmarshals an instance of LoadBalancer from the specified map of raw messages.
 func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2795,10 +2788,9 @@ type Monitor struct {
 // Constants associated with the Monitor.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	Monitor_Method_Get = "GET"
+	Monitor_Method_Get  = "GET"
 	Monitor_Method_Head = "HEAD"
 )
-
 
 // UnmarshalMonitor unmarshals an instance of Monitor from the specified map of raw messages.
 func UnmarshalMonitor(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2877,7 +2869,6 @@ type NextHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalNextHref unmarshals an instance of NextHref from the specified map of raw messages.
 func UnmarshalNextHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(NextHref)
@@ -2909,7 +2900,6 @@ type Origin struct {
 	// The failure reason of the origin server if it is unhealthy.
 	HealthFailureReason *string `json:"health_failure_reason,omitempty"`
 }
-
 
 // UnmarshalOrigin unmarshals an instance of Origin from the specified map of raw messages.
 func UnmarshalOrigin(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2956,7 +2946,6 @@ type OriginInput struct {
 	// Whether the origin server is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 }
-
 
 // UnmarshalOriginInput unmarshals an instance of OriginInput from the specified map of raw messages.
 func UnmarshalOriginInput(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3030,20 +3019,19 @@ type Pool struct {
 const (
 	Pool_Health_Critical = "CRITICAL"
 	Pool_Health_Degraded = "DEGRADED"
-	Pool_Health_Healthy = "HEALTHY"
+	Pool_Health_Healthy  = "HEALTHY"
 )
 
 // Constants associated with the Pool.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	Pool_HealthcheckRegion_AuSyd = "au-syd"
-	Pool_HealthcheckRegion_EuDu = "eu-du"
-	Pool_HealthcheckRegion_EuGb = "eu-gb"
-	Pool_HealthcheckRegion_JpTok = "jp-tok"
-	Pool_HealthcheckRegion_UsEast = "us-east"
+	Pool_HealthcheckRegion_AuSyd   = "au-syd"
+	Pool_HealthcheckRegion_EuDu    = "eu-du"
+	Pool_HealthcheckRegion_EuGb    = "eu-gb"
+	Pool_HealthcheckRegion_JpTok   = "jp-tok"
+	Pool_HealthcheckRegion_UsEast  = "us-east"
 	Pool_HealthcheckRegion_UsSouth = "us-south"
 )
-
 
 // UnmarshalPool unmarshals an instance of Pool from the specified map of raw messages.
 func UnmarshalPool(m map[string]json.RawMessage, result interface{}) (err error) {

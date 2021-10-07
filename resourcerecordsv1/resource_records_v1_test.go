@@ -19,22 +19,23 @@ package resourcerecordsv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/resourcerecordsv1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/resourcerecordsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`ResourceRecordsV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
 			testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1(&resourcerecordsv1.ResourceRecordsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
@@ -65,14 +66,13 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RESOURCE_RECORDS_URL": "https://resourcerecordsv1/api",
+				"RESOURCE_RECORDS_URL":       "https://resourcerecordsv1/api",
 				"RESOURCE_RECORDS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1UsingExternalConfig(&resourcerecordsv1.ResourceRecordsV1Options{
-				})
+				testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1UsingExternalConfig(&resourcerecordsv1.ResourceRecordsV1Options{})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -89,8 +89,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1UsingExternalConfig(&resourcerecordsv1.ResourceRecordsV1Options{
-				})
+				testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1UsingExternalConfig(&resourcerecordsv1.ResourceRecordsV1Options{})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -102,13 +101,12 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RESOURCE_RECORDS_URL": "https://resourcerecordsv1/api",
+				"RESOURCE_RECORDS_URL":       "https://resourcerecordsv1/api",
 				"RESOURCE_RECORDS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1UsingExternalConfig(&resourcerecordsv1.ResourceRecordsV1Options{
-			})
+			testService, testServiceErr := resourcerecordsv1.NewResourceRecordsV1UsingExternalConfig(&resourcerecordsv1.ResourceRecordsV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(testService).To(BeNil())
@@ -119,7 +117,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RESOURCE_RECORDS_AUTH_TYPE":   "NOAuth",
+				"RESOURCE_RECORDS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -225,7 +223,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(38))
- 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListResourceRecords(listResourceRecordsOptionsModel)
@@ -369,7 +367,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
 				createResourceRecordOptionsModel.Protocol = core.StringPtr("udp")
 				createResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreateResourceRecord(createResourceRecordOptionsModel)
@@ -457,7 +455,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 				deleteResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
 				deleteResourceRecordOptionsModel.RecordID = core.StringPtr("testString")
 				deleteResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deleteResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deleteResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				response, operationErr = testService.DeleteResourceRecord(deleteResourceRecordOptionsModel)
@@ -579,7 +577,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 				getResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
 				getResourceRecordOptionsModel.RecordID = core.StringPtr("testString")
 				getResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetResourceRecord(getResourceRecordOptionsModel)
@@ -722,7 +720,7 @@ var _ = Describe(`ResourceRecordsV1`, func() {
 				updateResourceRecordOptionsModel.Service = core.StringPtr("_sip")
 				updateResourceRecordOptionsModel.Protocol = core.StringPtr("udp")
 				updateResourceRecordOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				updateResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				updateResourceRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.UpdateResourceRecord(updateResourceRecordOptionsModel)

@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package pageruleapiv1 : Operations and models for the PageRuleApiV1 service
 package pageruleapiv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // PageRuleApiV1 : This document describes CIS Pagerule API.
@@ -120,8 +120,8 @@ func NewPageRuleApiV1(options *PageRuleApiV1Options) (service *PageRuleApiV1, er
 
 	service = &PageRuleApiV1{
 		Service: baseService,
-		Crn: options.Crn,
-		ZoneID: options.ZoneID,
+		Crn:     options.Crn,
+		ZoneID:  options.ZoneID,
 	}
 
 	return
@@ -196,7 +196,7 @@ func (pageRuleApi *PageRuleApiV1) GetPageRuleWithContext(ctx context.Context, ge
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *pageRuleApi.Crn,
+		"crn":     *pageRuleApi.Crn,
 		"zone_id": *pageRuleApi.ZoneID,
 		"rule_id": *getPageRuleOptions.RuleID,
 	}
@@ -256,7 +256,7 @@ func (pageRuleApi *PageRuleApiV1) ChangePageRuleWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *pageRuleApi.Crn,
+		"crn":     *pageRuleApi.Crn,
 		"zone_id": *pageRuleApi.ZoneID,
 		"rule_id": *changePageRuleOptions.RuleID,
 	}
@@ -335,7 +335,7 @@ func (pageRuleApi *PageRuleApiV1) UpdatePageRuleWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *pageRuleApi.Crn,
+		"crn":     *pageRuleApi.Crn,
 		"zone_id": *pageRuleApi.ZoneID,
 		"rule_id": *updatePageRuleOptions.RuleID,
 	}
@@ -414,7 +414,7 @@ func (pageRuleApi *PageRuleApiV1) DeletePageRuleWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *pageRuleApi.Crn,
+		"crn":     *pageRuleApi.Crn,
 		"zone_id": *pageRuleApi.ZoneID,
 		"rule_id": *deletePageRuleOptions.RuleID,
 	}
@@ -470,7 +470,7 @@ func (pageRuleApi *PageRuleApiV1) ListPageRulesWithContext(ctx context.Context, 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *pageRuleApi.Crn,
+		"crn":     *pageRuleApi.Crn,
 		"zone_id": *pageRuleApi.ZoneID,
 	}
 
@@ -538,7 +538,7 @@ func (pageRuleApi *PageRuleApiV1) CreatePageRuleWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *pageRuleApi.Crn,
+		"crn":     *pageRuleApi.Crn,
 		"zone_id": *pageRuleApi.ZoneID,
 	}
 
@@ -606,7 +606,6 @@ type ActionsForwardingUrlValue struct {
 	// status code.
 	StatusCode *int64 `json:"status_code,omitempty"`
 }
-
 
 // UnmarshalActionsForwardingUrlValue unmarshals an instance of ActionsForwardingUrlValue from the specified map of raw messages.
 func UnmarshalActionsForwardingUrlValue(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -923,25 +922,25 @@ type PageRulesBodyActionsItem struct {
 // "disable_security"           with     "email_obfuscation", "server_side_exclude", "waf"
 // ".
 const (
-	PageRulesBodyActionsItem_ID_AlwaysOnline = "always_online"
-	PageRulesBodyActionsItem_ID_AlwaysUseHttps = "always_use_https"
-	PageRulesBodyActionsItem_ID_AutomaticHttpsRewrites = "automatic_https_rewrites"
-	PageRulesBodyActionsItem_ID_BrowserCacheTTL = "browser_cache_ttl"
-	PageRulesBodyActionsItem_ID_BrowserCheck = "browser_check"
-	PageRulesBodyActionsItem_ID_BypassCacheOnCookie = "bypass_cache_on_cookie"
-	PageRulesBodyActionsItem_ID_CacheDeceptionArmor = "cache_deception_armor"
-	PageRulesBodyActionsItem_ID_CacheLevel = "cache_level"
-	PageRulesBodyActionsItem_ID_DisableSecurity = "disable_security"
-	PageRulesBodyActionsItem_ID_EdgeCacheTTL = "edge_cache_ttl"
-	PageRulesBodyActionsItem_ID_EmailObfuscation = "email_obfuscation"
-	PageRulesBodyActionsItem_ID_ExplicitCacheControl = "explicit_cache_control"
-	PageRulesBodyActionsItem_ID_ForwardingURL = "forwarding_url"
-	PageRulesBodyActionsItem_ID_IpGeolocation = "ip_geolocation"
+	PageRulesBodyActionsItem_ID_AlwaysOnline            = "always_online"
+	PageRulesBodyActionsItem_ID_AlwaysUseHttps          = "always_use_https"
+	PageRulesBodyActionsItem_ID_AutomaticHttpsRewrites  = "automatic_https_rewrites"
+	PageRulesBodyActionsItem_ID_BrowserCacheTTL         = "browser_cache_ttl"
+	PageRulesBodyActionsItem_ID_BrowserCheck            = "browser_check"
+	PageRulesBodyActionsItem_ID_BypassCacheOnCookie     = "bypass_cache_on_cookie"
+	PageRulesBodyActionsItem_ID_CacheDeceptionArmor     = "cache_deception_armor"
+	PageRulesBodyActionsItem_ID_CacheLevel              = "cache_level"
+	PageRulesBodyActionsItem_ID_DisableSecurity         = "disable_security"
+	PageRulesBodyActionsItem_ID_EdgeCacheTTL            = "edge_cache_ttl"
+	PageRulesBodyActionsItem_ID_EmailObfuscation        = "email_obfuscation"
+	PageRulesBodyActionsItem_ID_ExplicitCacheControl    = "explicit_cache_control"
+	PageRulesBodyActionsItem_ID_ForwardingURL           = "forwarding_url"
+	PageRulesBodyActionsItem_ID_IpGeolocation           = "ip_geolocation"
 	PageRulesBodyActionsItem_ID_OpportunisticEncryption = "opportunistic_encryption"
-	PageRulesBodyActionsItem_ID_SecurityLevel = "security_level"
-	PageRulesBodyActionsItem_ID_ServerSideExclude = "server_side_exclude"
-	PageRulesBodyActionsItem_ID_Ssl = "ssl"
-	PageRulesBodyActionsItem_ID_Waf = "waf"
+	PageRulesBodyActionsItem_ID_SecurityLevel           = "security_level"
+	PageRulesBodyActionsItem_ID_ServerSideExclude       = "server_side_exclude"
+	PageRulesBodyActionsItem_ID_Ssl                     = "ssl"
+	PageRulesBodyActionsItem_ID_Waf                     = "waf"
 )
 
 func (*PageRulesBodyActionsItem) isaPageRulesBodyActionsItem() bool {
@@ -973,7 +972,6 @@ type PageRulesDeleteResponseResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
-
 // UnmarshalPageRulesDeleteResponseResult unmarshals an instance of PageRulesDeleteResponseResult from the specified map of raw messages.
 func UnmarshalPageRulesDeleteResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PageRulesDeleteResponseResult)
@@ -994,11 +992,10 @@ type TargetsItem struct {
 	Constraint *TargetsItemConstraint `json:"constraint" validate:"required"`
 }
 
-
 // NewTargetsItem : Instantiate TargetsItem (Generic Model Constructor)
 func (*PageRuleApiV1) NewTargetsItem(target string, constraint *TargetsItemConstraint) (model *TargetsItem, err error) {
 	model = &TargetsItem{
-		Target: core.StringPtr(target),
+		Target:     core.StringPtr(target),
 		Constraint: constraint,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -1029,12 +1026,11 @@ type TargetsItemConstraint struct {
 	Value *string `json:"value" validate:"required"`
 }
 
-
 // NewTargetsItemConstraint : Instantiate TargetsItemConstraint (Generic Model Constructor)
 func (*PageRuleApiV1) NewTargetsItemConstraint(operator string, value string) (model *TargetsItemConstraint, err error) {
 	model = &TargetsItemConstraint{
 		Operator: core.StringPtr(operator),
-		Value: core.StringPtr(value),
+		Value:    core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -1134,7 +1130,6 @@ type PageRulesDeleteResponse struct {
 	Result *PageRulesDeleteResponseResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalPageRulesDeleteResponse unmarshals an instance of PageRulesDeleteResponse from the specified map of raw messages.
 func UnmarshalPageRulesDeleteResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PageRulesDeleteResponse)
@@ -1173,7 +1168,6 @@ type PageRulesResponseListAll struct {
 	Result []PageRuleResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalPageRulesResponseListAll unmarshals an instance of PageRulesResponseListAll from the specified map of raw messages.
 func UnmarshalPageRulesResponseListAll(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PageRulesResponseListAll)
@@ -1211,7 +1205,6 @@ type PageRulesResponseWithoutResultInfo struct {
 	// page rule result.
 	Result *PageRuleResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalPageRulesResponseWithoutResultInfo unmarshals an instance of PageRulesResponseWithoutResultInfo from the specified map of raw messages.
 func UnmarshalPageRulesResponseWithoutResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1259,7 +1252,6 @@ type PageRuleResult struct {
 	// created date.
 	CreatedOn *string `json:"created_on" validate:"required"`
 }
-
 
 // UnmarshalPageRuleResult unmarshals an instance of PageRuleResult from the specified map of raw messages.
 func UnmarshalPageRuleResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1312,7 +1304,6 @@ const (
 	PageRulesBodyActionsItemActionsBypassCacheOnCookie_ID_BypassCacheOnCookie = "bypass_cache_on_cookie"
 )
 
-
 // NewPageRulesBodyActionsItemActionsBypassCacheOnCookie : Instantiate PageRulesBodyActionsItemActionsBypassCacheOnCookie (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsBypassCacheOnCookie(id string) (model *PageRulesBodyActionsItemActionsBypassCacheOnCookie, err error) {
 	model = &PageRulesBodyActionsItemActionsBypassCacheOnCookie{
@@ -1360,13 +1351,12 @@ const (
 // Constants associated with the PageRulesBodyActionsItemActionsCacheLevel.Value property.
 // value.
 const (
-	PageRulesBodyActionsItemActionsCacheLevel_Value_Aggressive = "aggressive"
-	PageRulesBodyActionsItemActionsCacheLevel_Value_Basic = "basic"
-	PageRulesBodyActionsItemActionsCacheLevel_Value_Bypass = "bypass"
+	PageRulesBodyActionsItemActionsCacheLevel_Value_Aggressive      = "aggressive"
+	PageRulesBodyActionsItemActionsCacheLevel_Value_Basic           = "basic"
+	PageRulesBodyActionsItemActionsCacheLevel_Value_Bypass          = "bypass"
 	PageRulesBodyActionsItemActionsCacheLevel_Value_CacheEverything = "cache_everything"
-	PageRulesBodyActionsItemActionsCacheLevel_Value_Simplified = "simplified"
+	PageRulesBodyActionsItemActionsCacheLevel_Value_Simplified      = "simplified"
 )
-
 
 // NewPageRulesBodyActionsItemActionsCacheLevel : Instantiate PageRulesBodyActionsItemActionsCacheLevel (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsCacheLevel(id string) (model *PageRulesBodyActionsItemActionsCacheLevel, err error) {
@@ -1412,7 +1402,6 @@ const (
 	PageRulesBodyActionsItemActionsEdgeCacheTTL_ID_EdgeCacheTTL = "edge_cache_ttl"
 )
 
-
 // NewPageRulesBodyActionsItemActionsEdgeCacheTTL : Instantiate PageRulesBodyActionsItemActionsEdgeCacheTTL (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsEdgeCacheTTL(id string) (model *PageRulesBodyActionsItemActionsEdgeCacheTTL, err error) {
 	model = &PageRulesBodyActionsItemActionsEdgeCacheTTL{
@@ -1457,7 +1446,6 @@ const (
 	PageRulesBodyActionsItemActionsForwardingURL_ID_ForwardingURL = "forwarding_url"
 )
 
-
 // NewPageRulesBodyActionsItemActionsForwardingURL : Instantiate PageRulesBodyActionsItemActionsForwardingURL (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsForwardingURL(id string) (model *PageRulesBodyActionsItemActionsForwardingURL, err error) {
 	model = &PageRulesBodyActionsItemActionsForwardingURL{
@@ -1499,10 +1487,9 @@ type PageRulesBodyActionsItemActionsSecurity struct {
 // Constants associated with the PageRulesBodyActionsItemActionsSecurity.ID property.
 // identifier.
 const (
-	PageRulesBodyActionsItemActionsSecurity_ID_AlwaysUseHttps = "always_use_https"
+	PageRulesBodyActionsItemActionsSecurity_ID_AlwaysUseHttps  = "always_use_https"
 	PageRulesBodyActionsItemActionsSecurity_ID_DisableSecurity = "disable_security"
 )
-
 
 // NewPageRulesBodyActionsItemActionsSecurity : Instantiate PageRulesBodyActionsItemActionsSecurity (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsSecurity(id string) (model *PageRulesBodyActionsItemActionsSecurity, err error) {
@@ -1552,13 +1539,12 @@ const (
 // value.
 const (
 	PageRulesBodyActionsItemActionsSecurityLevel_Value_EssentiallyOff = "essentially_off"
-	PageRulesBodyActionsItemActionsSecurityLevel_Value_High = "high"
-	PageRulesBodyActionsItemActionsSecurityLevel_Value_Low = "low"
-	PageRulesBodyActionsItemActionsSecurityLevel_Value_Medium = "medium"
-	PageRulesBodyActionsItemActionsSecurityLevel_Value_Off = "off"
-	PageRulesBodyActionsItemActionsSecurityLevel_Value_UnderAttack = "under_attack"
+	PageRulesBodyActionsItemActionsSecurityLevel_Value_High           = "high"
+	PageRulesBodyActionsItemActionsSecurityLevel_Value_Low            = "low"
+	PageRulesBodyActionsItemActionsSecurityLevel_Value_Medium         = "medium"
+	PageRulesBodyActionsItemActionsSecurityLevel_Value_Off            = "off"
+	PageRulesBodyActionsItemActionsSecurityLevel_Value_UnderAttack    = "under_attack"
 )
-
 
 // NewPageRulesBodyActionsItemActionsSecurityLevel : Instantiate PageRulesBodyActionsItemActionsSecurityLevel (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsSecurityLevel(id string) (model *PageRulesBodyActionsItemActionsSecurityLevel, err error) {
@@ -1601,25 +1587,24 @@ type PageRulesBodyActionsItemActionsSecurityOptions struct {
 // Constants associated with the PageRulesBodyActionsItemActionsSecurityOptions.ID property.
 // identifier.
 const (
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_AlwaysOnline = "always_online"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_AutomaticHttpsRewrites = "automatic_https_rewrites"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_BrowserCheck = "browser_check"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_CacheDeceptionArmor = "cache_deception_armor"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_EmailObfuscation = "email_obfuscation"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_ExplicitCacheControl = "explicit_cache_control"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_IpGeolocation = "ip_geolocation"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_AlwaysOnline            = "always_online"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_AutomaticHttpsRewrites  = "automatic_https_rewrites"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_BrowserCheck            = "browser_check"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_CacheDeceptionArmor     = "cache_deception_armor"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_EmailObfuscation        = "email_obfuscation"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_ExplicitCacheControl    = "explicit_cache_control"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_IpGeolocation           = "ip_geolocation"
 	PageRulesBodyActionsItemActionsSecurityOptions_ID_OpportunisticEncryption = "opportunistic_encryption"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_ServerSideExclude = "server_side_exclude"
-	PageRulesBodyActionsItemActionsSecurityOptions_ID_Waf = "waf"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_ServerSideExclude       = "server_side_exclude"
+	PageRulesBodyActionsItemActionsSecurityOptions_ID_Waf                     = "waf"
 )
 
 // Constants associated with the PageRulesBodyActionsItemActionsSecurityOptions.Value property.
 // value.
 const (
 	PageRulesBodyActionsItemActionsSecurityOptions_Value_Off = "off"
-	PageRulesBodyActionsItemActionsSecurityOptions_Value_On = "on"
+	PageRulesBodyActionsItemActionsSecurityOptions_Value_On  = "on"
 )
-
 
 // NewPageRulesBodyActionsItemActionsSecurityOptions : Instantiate PageRulesBodyActionsItemActionsSecurityOptions (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsSecurityOptions(id string) (model *PageRulesBodyActionsItemActionsSecurityOptions, err error) {
@@ -1668,13 +1653,12 @@ const (
 // Constants associated with the PageRulesBodyActionsItemActionsSsl.Value property.
 // value.
 const (
-	PageRulesBodyActionsItemActionsSsl_Value_Flexible = "flexible"
-	PageRulesBodyActionsItemActionsSsl_Value_Full = "full"
-	PageRulesBodyActionsItemActionsSsl_Value_Off = "off"
+	PageRulesBodyActionsItemActionsSsl_Value_Flexible   = "flexible"
+	PageRulesBodyActionsItemActionsSsl_Value_Full       = "full"
+	PageRulesBodyActionsItemActionsSsl_Value_Off        = "off"
 	PageRulesBodyActionsItemActionsSsl_Value_OriginPull = "origin_pull"
-	PageRulesBodyActionsItemActionsSsl_Value_Strict = "strict"
+	PageRulesBodyActionsItemActionsSsl_Value_Strict     = "strict"
 )
-
 
 // NewPageRulesBodyActionsItemActionsSsl : Instantiate PageRulesBodyActionsItemActionsSsl (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsSsl(id string) (model *PageRulesBodyActionsItemActionsSsl, err error) {
@@ -1719,7 +1703,6 @@ type PageRulesBodyActionsItemActionsTTL struct {
 const (
 	PageRulesBodyActionsItemActionsTTL_ID_BrowserCacheTTL = "browser_cache_ttl"
 )
-
 
 // NewPageRulesBodyActionsItemActionsTTL : Instantiate PageRulesBodyActionsItemActionsTTL (Generic Model Constructor)
 func (*PageRuleApiV1) NewPageRulesBodyActionsItemActionsTTL(id string) (model *PageRulesBodyActionsItemActionsTTL, err error) {
