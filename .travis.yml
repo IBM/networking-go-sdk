@@ -46,4 +46,4 @@ deploy:
     skip_cleanup: true
     on:
       go: '1.14.x'
-      branch: main
+      branch: master
