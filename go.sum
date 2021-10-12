@@ -1,8 +1,4 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/IBM/go-sdk-core v1.1.0 h1:pV73lZqr9r1xKb3h08c1uNG3AphwoV5KzUzhS+pfEqY=
-github.com/IBM/go-sdk-core v1.1.0/go.mod h1:2pcx9YWsIsZ3I7kH+1amiAkXvLTZtAq9kbxsfXilSoY=
-github.com/IBM/go-sdk-core/v4 v4.9.0 h1:OkSg5kaEfVoNuBA4IsIOz8Ur5rbGHbWxmWCZ7nK/oc0=
-github.com/IBM/go-sdk-core/v4 v4.9.0/go.mod h1:DbQ+3pFoIjxGGTEiA9zQ2V0cemMNmFMkLBBnR729HKg=
 github.com/IBM/go-sdk-core/v5 v5.4.5 h1:fP/SLOMxRzhHaqS+I5XN+1CWrAAWn8fdzWuZvbR5KxE=
 github.com/IBM/go-sdk-core/v5 v5.4.5/go.mod h1:Sn+z+qTDREQvCr+UFa22TqqfXNxx3o723y8GsfLV8e0=
 github.com/asaskevich/govalidator v0.0.0-20190424111038-f61b66f89f4a/go.mod h1:lB+ZfQJz7igIIfQNfa7Ml4HSf2uFQQRzpGGRXenZAgY=

@@ -31,7 +31,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
@@ -166,7 +166,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayOptions := service.NewGetTransitGatewayOptions(os.Getenv("GATEWAY_INSTANCE_ID"))
 
-				// Gateway creation might not be instantaneous.  Poll the Gateway looking for 'available' status.  Fail after 2 min
+				// Gateway creation might not be instantaneous.  Poll the Gateway looking for 'available' status.  Fail after 5 min
 				timer := 0
 				for {
 					response, _, _ := service.GetTransitGateway(getTransitGatewayOptions)
@@ -185,12 +185,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than available, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(*response.Status).To(Equal("available")) // timed out fail if status is not available
 						break
 					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -379,7 +379,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID"))
 
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 2 min
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
 				timer := 0
 				for {
 					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
@@ -397,12 +397,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 20 { // 5 min timer (20x5sec)
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// wait 5 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -441,7 +441,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_CLASSIC"))
 
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 2 min
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
 				timer := 0
 				for {
 					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
@@ -458,12 +458,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// wait 5 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -505,7 +505,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
 
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 2 min
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
 				timer := 0
 				for {
 					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
@@ -523,12 +523,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// wait 5 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -575,7 +575,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_GRE"))
 
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 2 min
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
 				timer := 0
 				for {
 					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
@@ -592,12 +592,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
 						break
 					} else {
-						// wait 5 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -768,7 +768,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_GRE"))
 
-				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
+				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 5 min
 				timer := 0
 				for {
 					// Get the current rc for the VC
@@ -781,12 +781,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 4 min timer (24x10sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 10 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// Still exists, wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -809,7 +809,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID"))
 
-				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
+				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 5 min
 				timer := 0
 				for {
 					// Get the current rc for the VC
@@ -822,12 +822,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 4 min timer (24x10sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 10 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// Still exists, wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -850,7 +850,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
 
-				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
+				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 5 min
 				timer := 0
 				for {
 					// Get the current rc for the VC
@@ -863,12 +863,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 4 min timer (24x10sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 10 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// Still exists, wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
@@ -892,7 +892,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_CLASSIC"))
 
-				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
+				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 5 min
 				timer := 0
 				for {
 					// Get the current rc for the VC
@@ -905,12 +905,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 
 					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 4 min timer (24x10sec)
+					if timer > 20 { // 5 min timer (20x15sec)
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
-						// Still exists, wait 10 sec
-						time.Sleep(time.Duration(10) * time.Second)
+						// Still exists, wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
 						timer = timer + 1
 					}
 				}
