@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/dnsrecordsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`DnsRecordsV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(dnsRecordsService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(dnsRecordsService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL: "https://dnsrecordsv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://dnsrecordsv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_URL": "https://dnsrecordsv1/api",
+				"DNS_RECORDS_URL":       "https://dnsrecordsv1/api",
 				"DNS_RECORDS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(dnsRecordsService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(dnsRecordsService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := dnsRecordsService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_URL": "https://dnsrecordsv1/api",
+				"DNS_RECORDS_URL":       "https://dnsrecordsv1/api",
 				"DNS_RECORDS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_RECORDS_AUTH_TYPE":   "NOAuth",
+				"DNS_RECORDS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1UsingExternalConfig(&dnsrecordsv1.DnsRecordsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -223,9 +224,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation response processing error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -303,9 +304,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke ListAllDnsRecords successfully`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -363,9 +364,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -415,9 +416,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke CreateDnsRecord with error: Operation response processing error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -493,9 +494,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke CreateDnsRecord successfully`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -551,9 +552,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke CreateDnsRecord with error: Operation request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -601,9 +602,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation response processing error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -658,9 +659,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke DeleteDnsRecord successfully`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -711,9 +712,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation validation and request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -763,9 +764,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke GetDnsRecord with error: Operation response processing error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -820,9 +821,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke GetDnsRecord successfully`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -873,9 +874,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke GetDnsRecord with error: Operation validation and request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -925,9 +926,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation response processing error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1005,9 +1006,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke UpdateDnsRecord successfully`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1065,9 +1066,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation validation and request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1110,9 +1111,9 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			dnsRecordsService, _ := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
-				URL:           "http://dnsrecordsv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://dnsrecordsv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateDnsRecordOptions successfully`, func() {

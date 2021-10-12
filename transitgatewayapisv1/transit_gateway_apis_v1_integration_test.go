@@ -41,6 +41,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
+	Skip("Skipping Tests")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -869,6 +870,47 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					} else {
 						// Still exists, wait 15 sec
 						time.Sleep(time.Duration(15) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+		})
+		Context(`Successfully delete Directlink connection by instanceID`, func() {
+			It(`Successfully delete resource by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CONN_INSTANCE_ID_DL")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+			It("Successfully waits for connection to report as deleted", func() {
+				shouldSkipTest()
+
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
+
+				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 4 min
+				timer := 0
+				for {
+					// Get the current rc for the VC
+					_, detailedResponse, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+
+					// if 404 then we are done
+					if detailedResponse.StatusCode == 404 {
+						Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
+						break
+					}
+
+					// other than 404, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 24 { // 4 min timer (24x10sec)
+						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
+						break
+					} else {
+						// Still exists, wait 10 sec
+						time.Sleep(time.Duration(10) * time.Second)
 						timer = timer + 1
 					}
 				}

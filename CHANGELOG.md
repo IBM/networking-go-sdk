@@ -1,3 +1,37 @@
+# [0.23.0](https://github.com/IBM/networking-go-sdk/compare/v0.22.0...v0.23.0) (2021-10-07)
+
+
+### Bug Fixes
+
+* enable build for go version 1.16 and 1.17 ([d2eb0d7](https://github.com/IBM/networking-go-sdk/commit/d2eb0d715344a84f019f3e8fd13973d1130c7cfe))
+
+
+### Features
+
+* **DirectLink:** add the changes to update the BGP parameters and enable BFD config on directlink gateways ([544c90d](https://github.com/IBM/networking-go-sdk/commit/544c90de4c053bc0ff1a8ee767440b3a27f5a1e6))
+
+# [0.22.0](https://github.com/IBM/networking-go-sdk/compare/v0.21.0...v0.22.0) (2021-09-16)
+
+
+### Features
+
+* SDK Custom Resolver Location as Optional ([62e56a5](https://github.com/IBM/networking-go-sdk/commit/62e56a56aaba9ecb7570ed0147635c91536d4d82))
+
+# [0.21.0](https://github.com/IBM/networking-go-sdk/compare/v0.20.0...v0.21.0) (2021-09-07)
+
+
+### Features
+
+* **brotli:** added brotli setting ([3c73241](https://github.com/IBM/networking-go-sdk/commit/3c73241b06d76dc9b886b94b741b1367d9886dd7))
+
+# [0.20.0](https://github.com/IBM/networking-go-sdk/compare/v0.19.0...v0.20.0) (2021-08-30)
+
+
+### Features
+
+* Support for directlink tgw connection type ([#53](https://github.com/IBM/networking-go-sdk/issues/53)) ([76e5681](https://github.com/IBM/networking-go-sdk/commit/76e56816a76d59ec0f8bcd561928a8e6cbd918cc))
+* **DirectLink:** iallow the Directlink gateway to be attached to transit gateway ([d49dd43](https://github.com/IBM/networking-go-sdk/commit/d49dd435ad82333cd99121aa0b5fe1ee50770026))
+
 # [0.19.0](https://github.com/IBM/networking-go-sdk/compare/v0.18.0...v0.19.0) (2021-07-15)
 
 

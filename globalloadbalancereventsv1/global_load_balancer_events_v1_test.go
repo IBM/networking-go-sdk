@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/globalloadbalancereventsv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancereventsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
@@ -40,7 +41,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 		It(`Instantiate service client`, func() {
 			globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			Expect(globalLoadBalancerEventsService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -76,7 +77,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_EVENTS_URL": "https://globalloadbalancereventsv1/api",
+				"GLOBAL_LOAD_BALANCER_EVENTS_URL":       "https://globalloadbalancereventsv1/api",
 				"GLOBAL_LOAD_BALANCER_EVENTS_AUTH_TYPE": "noauth",
 			}
 
@@ -134,7 +135,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_EVENTS_URL": "https://globalloadbalancereventsv1/api",
+				"GLOBAL_LOAD_BALANCER_EVENTS_URL":       "https://globalloadbalancereventsv1/api",
 				"GLOBAL_LOAD_BALANCER_EVENTS_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,7 +153,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_EVENTS_AUTH_TYPE":   "NOAuth",
+				"GLOBAL_LOAD_BALANCER_EVENTS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -198,7 +199,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
@@ -252,7 +253,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
@@ -303,7 +304,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 				globalLoadBalancerEventsService, serviceErr := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerEventsService).ToNot(BeNil())
@@ -331,7 +332,7 @@ var _ = Describe(`GlobalLoadBalancerEventsV1`, func() {
 			globalLoadBalancerEventsService, _ := globalloadbalancereventsv1.NewGlobalLoadBalancerEventsV1(&globalloadbalancereventsv1.GlobalLoadBalancerEventsV1Options{
 				URL:           "http://globalloadbalancereventsv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			It(`Invoke NewGetLoadBalancerEventsOptions successfully`, func() {
 				// Construct an instance of the GetLoadBalancerEventsOptions model

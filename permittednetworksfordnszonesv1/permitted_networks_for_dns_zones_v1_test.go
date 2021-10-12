@@ -19,22 +19,23 @@ package permittednetworksfordnszonesv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/permittednetworksfordnszonesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 	var testServer *httptest.Server
-    Describe(`Service constructor tests`, func() {
+	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
 			testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
@@ -65,14 +66,13 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"PERMITTED_NETWORKS_FOR_DNS_ZONES_URL": "https://permittednetworksfordnszonesv1/api",
+				"PERMITTED_NETWORKS_FOR_DNS_ZONES_URL":       "https://permittednetworksfordnszonesv1/api",
 				"PERMITTED_NETWORKS_FOR_DNS_ZONES_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1UsingExternalConfig(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{
-				})
+				testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1UsingExternalConfig(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{})
 				Expect(testService).ToNot(BeNil())
 				Expect(testServiceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -89,8 +89,7 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1UsingExternalConfig(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{
-				})
+				testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1UsingExternalConfig(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{})
 				err := testService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(testService).ToNot(BeNil())
@@ -102,13 +101,12 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"PERMITTED_NETWORKS_FOR_DNS_ZONES_URL": "https://permittednetworksfordnszonesv1/api",
+				"PERMITTED_NETWORKS_FOR_DNS_ZONES_URL":       "https://permittednetworksfordnszonesv1/api",
 				"PERMITTED_NETWORKS_FOR_DNS_ZONES_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1UsingExternalConfig(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{
-			})
+			testService, testServiceErr := permittednetworksfordnszonesv1.NewPermittedNetworksForDnsZonesV1UsingExternalConfig(&permittednetworksfordnszonesv1.PermittedNetworksForDnsZonesV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(testService).To(BeNil())
@@ -119,7 +117,7 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"PERMITTED_NETWORKS_FOR_DNS_ZONES_AUTH_TYPE":   "NOAuth",
+				"PERMITTED_NETWORKS_FOR_DNS_ZONES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -225,7 +223,7 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Offset = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Limit = core.StringPtr("testString")
- 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
@@ -361,7 +359,7 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.CreatePermittedNetwork(createPermittedNetworkOptionsModel)
@@ -491,7 +489,7 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 				deletePermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				deletePermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
 				deletePermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				deletePermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				deletePermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.DeletePermittedNetwork(deletePermittedNetworkOptionsModel)
@@ -616,7 +614,7 @@ var _ = Describe(`PermittedNetworksForDnsZonesV1`, func() {
 				getPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				getPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
 				getPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
- 				getPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				getPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
 				result, response, operationErr = testService.GetPermittedNetwork(getPermittedNetworkOptionsModel)

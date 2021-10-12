@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package wafapiv1 : Operations and models for the WafApiV1 service
 package wafapiv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // WafApiV1 : This document describes CIS WAF API.
@@ -120,8 +120,8 @@ func NewWafApiV1(options *WafApiV1Options) (service *WafApiV1, err error) {
 
 	service = &WafApiV1{
 		Service: baseService,
-		Crn: options.Crn,
-		ZoneID: options.ZoneID,
+		Crn:     options.Crn,
+		ZoneID:  options.ZoneID,
 	}
 
 	return
@@ -192,7 +192,7 @@ func (wafApi *WafApiV1) GetWafSettingsWithContext(ctx context.Context, getWafSet
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafApi.Crn,
+		"crn":     *wafApi.Crn,
 		"zone_id": *wafApi.ZoneID,
 	}
 
@@ -247,7 +247,7 @@ func (wafApi *WafApiV1) UpdateWafSettingsWithContext(ctx context.Context, update
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafApi.Crn,
+		"crn":     *wafApi.Crn,
 		"zone_id": *wafApi.ZoneID,
 	}
 
@@ -329,7 +329,7 @@ type UpdateWafSettingsOptions struct {
 // value.
 const (
 	UpdateWafSettingsOptions_Value_Off = "off"
-	UpdateWafSettingsOptions_Value_On = "on"
+	UpdateWafSettingsOptions_Value_On  = "on"
 )
 
 // NewUpdateWafSettingsOptions : Instantiate UpdateWafSettingsOptions
@@ -363,7 +363,6 @@ type WafResponseResult struct {
 	// modified date.
 	ModifiedOn *string `json:"modified_on,omitempty"`
 }
-
 
 // UnmarshalWafResponseResult unmarshals an instance of WafResponseResult from the specified map of raw messages.
 func UnmarshalWafResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -402,7 +401,6 @@ type WafResponse struct {
 	// result.
 	Result *WafResponseResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalWafResponse unmarshals an instance of WafResponse from the specified map of raw messages.
 func UnmarshalWafResponse(m map[string]json.RawMessage, result interface{}) (err error) {

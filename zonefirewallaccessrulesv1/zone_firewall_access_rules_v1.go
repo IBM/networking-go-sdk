@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package zonefirewallaccessrulesv1 : Operations and models for the ZoneFirewallAccessRulesV1 service
 package zonefirewallaccessrulesv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // ZoneFirewallAccessRulesV1 : Zone Firewall Access Rules
@@ -119,8 +119,8 @@ func NewZoneFirewallAccessRulesV1(options *ZoneFirewallAccessRulesV1Options) (se
 	}
 
 	service = &ZoneFirewallAccessRulesV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -192,7 +192,7 @@ func (zoneFirewallAccessRules *ZoneFirewallAccessRulesV1) ListAllZoneAccessRules
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneFirewallAccessRules.Crn,
+		"crn":             *zoneFirewallAccessRules.Crn,
 		"zone_identifier": *zoneFirewallAccessRules.ZoneIdentifier,
 	}
 
@@ -275,7 +275,7 @@ func (zoneFirewallAccessRules *ZoneFirewallAccessRulesV1) CreateZoneAccessRuleWi
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneFirewallAccessRules.Crn,
+		"crn":             *zoneFirewallAccessRules.Crn,
 		"zone_identifier": *zoneFirewallAccessRules.ZoneIdentifier,
 	}
 
@@ -350,8 +350,8 @@ func (zoneFirewallAccessRules *ZoneFirewallAccessRulesV1) DeleteZoneAccessRuleWi
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneFirewallAccessRules.Crn,
-		"zone_identifier": *zoneFirewallAccessRules.ZoneIdentifier,
+		"crn":                   *zoneFirewallAccessRules.Crn,
+		"zone_identifier":       *zoneFirewallAccessRules.ZoneIdentifier,
 		"accessrule_identifier": *deleteZoneAccessRuleOptions.AccessruleIdentifier,
 	}
 
@@ -410,8 +410,8 @@ func (zoneFirewallAccessRules *ZoneFirewallAccessRulesV1) GetZoneAccessRuleWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneFirewallAccessRules.Crn,
-		"zone_identifier": *zoneFirewallAccessRules.ZoneIdentifier,
+		"crn":                   *zoneFirewallAccessRules.Crn,
+		"zone_identifier":       *zoneFirewallAccessRules.ZoneIdentifier,
 		"accessrule_identifier": *getZoneAccessRuleOptions.AccessruleIdentifier,
 	}
 
@@ -470,8 +470,8 @@ func (zoneFirewallAccessRules *ZoneFirewallAccessRulesV1) UpdateZoneAccessRuleWi
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneFirewallAccessRules.Crn,
-		"zone_identifier": *zoneFirewallAccessRules.ZoneIdentifier,
+		"crn":                   *zoneFirewallAccessRules.Crn,
+		"zone_identifier":       *zoneFirewallAccessRules.ZoneIdentifier,
 		"accessrule_identifier": *updateZoneAccessRuleOptions.AccessruleIdentifier,
 	}
 
@@ -543,10 +543,10 @@ type CreateZoneAccessRuleOptions struct {
 // Constants associated with the CreateZoneAccessRuleOptions.Mode property.
 // The action to apply to a matched request.
 const (
-	CreateZoneAccessRuleOptions_Mode_Block = "block"
-	CreateZoneAccessRuleOptions_Mode_Challenge = "challenge"
+	CreateZoneAccessRuleOptions_Mode_Block       = "block"
+	CreateZoneAccessRuleOptions_Mode_Challenge   = "challenge"
 	CreateZoneAccessRuleOptions_Mode_JsChallenge = "js_challenge"
-	CreateZoneAccessRuleOptions_Mode_Whitelist = "whitelist"
+	CreateZoneAccessRuleOptions_Mode_Whitelist   = "whitelist"
 )
 
 // NewCreateZoneAccessRuleOptions : Instantiate CreateZoneAccessRuleOptions
@@ -611,7 +611,6 @@ type DeleteZoneAccessRuleRespResult struct {
 	// ID.
 	ID *string `json:"id" validate:"required"`
 }
-
 
 // UnmarshalDeleteZoneAccessRuleRespResult unmarshals an instance of DeleteZoneAccessRuleRespResult from the specified map of raw messages.
 func UnmarshalDeleteZoneAccessRuleRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -688,18 +687,18 @@ type ListAllZoneAccessRulesOptions struct {
 // Constants associated with the ListAllZoneAccessRulesOptions.Mode property.
 // Search access rules by mode.
 const (
-	ListAllZoneAccessRulesOptions_Mode_Block = "block"
-	ListAllZoneAccessRulesOptions_Mode_Challenge = "challenge"
+	ListAllZoneAccessRulesOptions_Mode_Block       = "block"
+	ListAllZoneAccessRulesOptions_Mode_Challenge   = "challenge"
 	ListAllZoneAccessRulesOptions_Mode_JsChallenge = "js_challenge"
-	ListAllZoneAccessRulesOptions_Mode_Whitelist = "whitelist"
+	ListAllZoneAccessRulesOptions_Mode_Whitelist   = "whitelist"
 )
 
 // Constants associated with the ListAllZoneAccessRulesOptions.ConfigurationTarget property.
 // Search access rules by configuration target.
 const (
-	ListAllZoneAccessRulesOptions_ConfigurationTarget_Asn = "asn"
+	ListAllZoneAccessRulesOptions_ConfigurationTarget_Asn     = "asn"
 	ListAllZoneAccessRulesOptions_ConfigurationTarget_Country = "country"
-	ListAllZoneAccessRulesOptions_ConfigurationTarget_Ip = "ip"
+	ListAllZoneAccessRulesOptions_ConfigurationTarget_Ip      = "ip"
 	ListAllZoneAccessRulesOptions_ConfigurationTarget_IpRange = "ip_range"
 )
 
@@ -707,14 +706,14 @@ const (
 // Field by which to order list of access rules.
 const (
 	ListAllZoneAccessRulesOptions_Order_ConfigurationTarget = "configuration.target"
-	ListAllZoneAccessRulesOptions_Order_ConfigurationValue = "configuration.value"
-	ListAllZoneAccessRulesOptions_Order_Mode = "mode"
+	ListAllZoneAccessRulesOptions_Order_ConfigurationValue  = "configuration.value"
+	ListAllZoneAccessRulesOptions_Order_Mode                = "mode"
 )
 
 // Constants associated with the ListAllZoneAccessRulesOptions.Direction property.
 // Direction in which to order results [ascending/descending order].
 const (
-	ListAllZoneAccessRulesOptions_Direction_Asc = "asc"
+	ListAllZoneAccessRulesOptions_Direction_Asc  = "asc"
 	ListAllZoneAccessRulesOptions_Direction_Desc = "desc"
 )
 
@@ -805,7 +804,6 @@ type ListZoneAccessRulesRespResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalListZoneAccessRulesRespResultInfo unmarshals an instance of ListZoneAccessRulesRespResultInfo from the specified map of raw messages.
 func UnmarshalListZoneAccessRulesRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListZoneAccessRulesRespResultInfo)
@@ -847,10 +845,10 @@ type UpdateZoneAccessRuleOptions struct {
 // Constants associated with the UpdateZoneAccessRuleOptions.Mode property.
 // The action to apply to a matched request.
 const (
-	UpdateZoneAccessRuleOptions_Mode_Block = "block"
-	UpdateZoneAccessRuleOptions_Mode_Challenge = "challenge"
+	UpdateZoneAccessRuleOptions_Mode_Block       = "block"
+	UpdateZoneAccessRuleOptions_Mode_Challenge   = "challenge"
 	UpdateZoneAccessRuleOptions_Mode_JsChallenge = "js_challenge"
-	UpdateZoneAccessRuleOptions_Mode_Whitelist = "whitelist"
+	UpdateZoneAccessRuleOptions_Mode_Whitelist   = "whitelist"
 )
 
 // NewUpdateZoneAccessRuleOptions : Instantiate UpdateZoneAccessRuleOptions
@@ -897,18 +895,17 @@ type ZoneAccessRuleInputConfiguration struct {
 // Constants associated with the ZoneAccessRuleInputConfiguration.Target property.
 // The request property to target.
 const (
-	ZoneAccessRuleInputConfiguration_Target_Asn = "asn"
+	ZoneAccessRuleInputConfiguration_Target_Asn     = "asn"
 	ZoneAccessRuleInputConfiguration_Target_Country = "country"
-	ZoneAccessRuleInputConfiguration_Target_Ip = "ip"
+	ZoneAccessRuleInputConfiguration_Target_Ip      = "ip"
 	ZoneAccessRuleInputConfiguration_Target_IpRange = "ip_range"
 )
-
 
 // NewZoneAccessRuleInputConfiguration : Instantiate ZoneAccessRuleInputConfiguration (Generic Model Constructor)
 func (*ZoneFirewallAccessRulesV1) NewZoneAccessRuleInputConfiguration(target string, value string) (model *ZoneAccessRuleInputConfiguration, err error) {
 	model = &ZoneAccessRuleInputConfiguration{
 		Target: core.StringPtr(target),
-		Value: core.StringPtr(value),
+		Value:  core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -942,12 +939,11 @@ type ZoneAccessRuleObjectConfiguration struct {
 // Constants associated with the ZoneAccessRuleObjectConfiguration.Target property.
 // target.
 const (
-	ZoneAccessRuleObjectConfiguration_Target_Asn = "asn"
+	ZoneAccessRuleObjectConfiguration_Target_Asn     = "asn"
 	ZoneAccessRuleObjectConfiguration_Target_Country = "country"
-	ZoneAccessRuleObjectConfiguration_Target_Ip = "ip"
+	ZoneAccessRuleObjectConfiguration_Target_Ip      = "ip"
 	ZoneAccessRuleObjectConfiguration_Target_IpRange = "ip_range"
 )
-
 
 // UnmarshalZoneAccessRuleObjectConfiguration unmarshals an instance of ZoneAccessRuleObjectConfiguration from the specified map of raw messages.
 func UnmarshalZoneAccessRuleObjectConfiguration(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -976,9 +972,8 @@ type ZoneAccessRuleObjectScope struct {
 // level("account").
 const (
 	ZoneAccessRuleObjectScope_Type_Account = "account"
-	ZoneAccessRuleObjectScope_Type_Zone = "zone"
+	ZoneAccessRuleObjectScope_Type_Zone    = "zone"
 )
-
 
 // UnmarshalZoneAccessRuleObjectScope unmarshals an instance of ZoneAccessRuleObjectScope from the specified map of raw messages.
 func UnmarshalZoneAccessRuleObjectScope(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1005,7 +1000,6 @@ type DeleteZoneAccessRuleResp struct {
 	// Container for response information.
 	Result *DeleteZoneAccessRuleRespResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalDeleteZoneAccessRuleResp unmarshals an instance of DeleteZoneAccessRuleResp from the specified map of raw messages.
 func UnmarshalDeleteZoneAccessRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1047,7 +1041,6 @@ type ListZoneAccessRulesResp struct {
 	// Statistics of results.
 	ResultInfo *ListZoneAccessRulesRespResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListZoneAccessRulesResp unmarshals an instance of ListZoneAccessRulesResp from the specified map of raw messages.
 func UnmarshalListZoneAccessRulesResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1105,21 +1098,20 @@ type ZoneAccessRuleObject struct {
 
 // Constants associated with the ZoneAccessRuleObject.AllowedModes property.
 const (
-	ZoneAccessRuleObject_AllowedModes_Block = "block"
-	ZoneAccessRuleObject_AllowedModes_Challenge = "challenge"
+	ZoneAccessRuleObject_AllowedModes_Block       = "block"
+	ZoneAccessRuleObject_AllowedModes_Challenge   = "challenge"
 	ZoneAccessRuleObject_AllowedModes_JsChallenge = "js_challenge"
-	ZoneAccessRuleObject_AllowedModes_Whitelist = "whitelist"
+	ZoneAccessRuleObject_AllowedModes_Whitelist   = "whitelist"
 )
 
 // Constants associated with the ZoneAccessRuleObject.Mode property.
 // The action to be applied to a request matching the access rule.
 const (
-	ZoneAccessRuleObject_Mode_Block = "block"
-	ZoneAccessRuleObject_Mode_Challenge = "challenge"
+	ZoneAccessRuleObject_Mode_Block       = "block"
+	ZoneAccessRuleObject_Mode_Challenge   = "challenge"
 	ZoneAccessRuleObject_Mode_JsChallenge = "js_challenge"
-	ZoneAccessRuleObject_Mode_Whitelist = "whitelist"
+	ZoneAccessRuleObject_Mode_Whitelist   = "whitelist"
 )
-
 
 // UnmarshalZoneAccessRuleObject unmarshals an instance of ZoneAccessRuleObject from the specified map of raw messages.
 func UnmarshalZoneAccessRuleObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1174,7 +1166,6 @@ type ZoneAccessRuleResp struct {
 	// access rule object.
 	Result *ZoneAccessRuleObject `json:"result" validate:"required"`
 }
-
 
 // UnmarshalZoneAccessRuleResp unmarshals an instance of ZoneAccessRuleResp from the specified map of raw messages.
 func UnmarshalZoneAccessRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {

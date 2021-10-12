@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package zonelockdownv1 : Operations and models for the ZoneLockdownV1 service
 package zonelockdownv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // ZoneLockdownV1 : Zone Lockdown
@@ -119,8 +119,8 @@ func NewZoneLockdownV1(options *ZoneLockdownV1Options) (service *ZoneLockdownV1,
 	}
 
 	service = &ZoneLockdownV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -192,7 +192,7 @@ func (zoneLockdown *ZoneLockdownV1) ListAllZoneLockownRulesWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneLockdown.Crn,
+		"crn":             *zoneLockdown.Crn,
 		"zone_identifier": *zoneLockdown.ZoneIdentifier,
 	}
 
@@ -254,7 +254,7 @@ func (zoneLockdown *ZoneLockdownV1) CreateZoneLockdownRuleWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneLockdown.Crn,
+		"crn":             *zoneLockdown.Crn,
 		"zone_identifier": *zoneLockdown.ZoneIdentifier,
 	}
 
@@ -338,8 +338,8 @@ func (zoneLockdown *ZoneLockdownV1) DeleteZoneLockdownRuleWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneLockdown.Crn,
-		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+		"crn":                      *zoneLockdown.Crn,
+		"zone_identifier":          *zoneLockdown.ZoneIdentifier,
 		"lockdown_rule_identifier": *deleteZoneLockdownRuleOptions.LockdownRuleIdentifier,
 	}
 
@@ -398,8 +398,8 @@ func (zoneLockdown *ZoneLockdownV1) GetLockdownWithContext(ctx context.Context, 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneLockdown.Crn,
-		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+		"crn":                      *zoneLockdown.Crn,
+		"zone_identifier":          *zoneLockdown.ZoneIdentifier,
 		"lockdown_rule_identifier": *getLockdownOptions.LockdownRuleIdentifier,
 	}
 
@@ -458,8 +458,8 @@ func (zoneLockdown *ZoneLockdownV1) UpdateLockdownRuleWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneLockdown.Crn,
-		"zone_identifier": *zoneLockdown.ZoneIdentifier,
+		"crn":                      *zoneLockdown.Crn,
+		"zone_identifier":          *zoneLockdown.ZoneIdentifier,
 		"lockdown_rule_identifier": *updateLockdownRuleOptions.LockdownRuleIdentifier,
 	}
 
@@ -604,7 +604,6 @@ type DeleteLockdownRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
-
 // UnmarshalDeleteLockdownRespResult unmarshals an instance of DeleteLockdownRespResult from the specified map of raw messages.
 func UnmarshalDeleteLockdownRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteLockdownRespResult)
@@ -722,7 +721,6 @@ type ListLockdownRespResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalListLockdownRespResultInfo unmarshals an instance of ListLockdownRespResultInfo from the specified map of raw messages.
 func UnmarshalListLockdownRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListLockdownRespResultInfo)
@@ -758,16 +756,15 @@ type LockdownInputConfigurationsItem struct {
 // Constants associated with the LockdownInputConfigurationsItem.Target property.
 // properties.
 const (
-	LockdownInputConfigurationsItem_Target_Ip = "ip"
+	LockdownInputConfigurationsItem_Target_Ip      = "ip"
 	LockdownInputConfigurationsItem_Target_IpRange = "ip_range"
 )
-
 
 // NewLockdownInputConfigurationsItem : Instantiate LockdownInputConfigurationsItem (Generic Model Constructor)
 func (*ZoneLockdownV1) NewLockdownInputConfigurationsItem(target string, value string) (model *LockdownInputConfigurationsItem, err error) {
 	model = &LockdownInputConfigurationsItem{
 		Target: core.StringPtr(target),
-		Value: core.StringPtr(value),
+		Value:  core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -800,10 +797,9 @@ type LockdownObjectConfigurationsItem struct {
 // Constants associated with the LockdownObjectConfigurationsItem.Target property.
 // target.
 const (
-	LockdownObjectConfigurationsItem_Target_Ip = "ip"
+	LockdownObjectConfigurationsItem_Target_Ip      = "ip"
 	LockdownObjectConfigurationsItem_Target_IpRange = "ip_range"
 )
-
 
 // UnmarshalLockdownObjectConfigurationsItem unmarshals an instance of LockdownObjectConfigurationsItem from the specified map of raw messages.
 func UnmarshalLockdownObjectConfigurationsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -919,7 +915,6 @@ type DeleteLockdownResp struct {
 	Result *DeleteLockdownRespResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalDeleteLockdownResp unmarshals an instance of DeleteLockdownResp from the specified map of raw messages.
 func UnmarshalDeleteLockdownResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteLockdownResp)
@@ -960,7 +955,6 @@ type ListLockdownResp struct {
 	// Statistics of results.
 	ResultInfo *ListLockdownRespResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListLockdownResp unmarshals an instance of ListLockdownResp from the specified map of raw messages.
 func UnmarshalListLockdownResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1012,7 +1006,6 @@ type LockdownObject struct {
 	Configurations []LockdownObjectConfigurationsItem `json:"configurations" validate:"required"`
 }
 
-
 // UnmarshalLockdownObject unmarshals an instance of LockdownObject from the specified map of raw messages.
 func UnmarshalLockdownObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LockdownObject)
@@ -1058,7 +1051,6 @@ type LockdownResp struct {
 	// lockdown object.
 	Result *LockdownObject `json:"result" validate:"required"`
 }
-
 
 // UnmarshalLockdownResp unmarshals an instance of LockdownResp from the specified map of raw messages.
 func UnmarshalLockdownResp(m map[string]json.RawMessage, result interface{}) (err error) {

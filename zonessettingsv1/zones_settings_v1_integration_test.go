@@ -7,9 +7,8 @@ package zonessettingsv1_test
 import (
 	"fmt"
 	"os"
-	"strings"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	. "github.com/IBM/networking-go-sdk/zonessettingsv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
@@ -21,6 +20,7 @@ const configFile = "../cis.env"
 var configLoaded bool = true
 
 func shouldSkipTest() {
+	Skip("Skipping Tests")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -28,7 +28,7 @@ func shouldSkipTest() {
 
 var _ = Describe(`zone_settings_v1_test`, func() {
 	BeforeEach(func() {
-		Skip("Skipping Tests")
+		// Skip("Skipping Tests")
 	})
 
 	if _, err := os.Stat(configFile); err != nil {
@@ -47,7 +47,7 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 	serviceURL := os.Getenv("API_ENDPOINT")
 	crn := os.Getenv("CRN")
 	zone_id := os.Getenv("ZONE_ID")
-	url := os.Getenv("URL_MATCH")
+	// url := os.Getenv("URL_MATCH")
 	globalOptions := &ZonesSettingsV1Options{
 		ServiceName:    "cis_services",
 		URL:            serviceURL,
@@ -63,7 +63,7 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 	Describe(`zone_settings_v1_test`, func() {
 		Context(`zone_settings_v1_test`, func() {
 			It(`DNSSEC setting test`, func() {
-				shouldSkipTest()
+				// shouldSkipTest()
 				getOpt := service.NewGetZoneDnssecOptions()
 				getResult, getResp, getErr := service.GetZoneDnssec(getOpt)
 				Expect(getErr).To(BeNil())
@@ -372,8 +372,9 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				Expect(getResult).ToNot(BeNil())
 				Expect(*getResult.Success).Should(BeTrue())
 
-				value := strings.Split(url, ".")
-				mobileOpt, err := service.NewMobileRedirecSettingValue(MobileRedirecSettingValue_Status_Off, value[0], false)
+				// value := strings.Split(url, ".")
+				value := "mobile"
+				mobileOpt, err := service.NewMobileRedirecSettingValue(MobileRedirecSettingValue_Status_Off, value, false)
 				Expect(err).To(BeNil())
 
 				updateOpt := service.NewUpdateMobileRedirectOptions()
@@ -588,6 +589,26 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 					updateOpt.SetValue(UpdateTlsClientAuthOptions_Value_On)
 				}
 				updateResult, updateResp, updateErr := service.UpdateTlsClientAuth(updateOpt)
+				Expect(updateErr).To(BeNil())
+				Expect(updateResp).ToNot(BeNil())
+				Expect(updateResult).ToNot(BeNil())
+				Expect(*updateResult.Success).Should(BeTrue())
+			})
+			It(`Brotli setting test`, func() {
+				shouldSkipTest()
+				getOpt := service.NewGetBrotliOptions()
+				getResult, getResp, getErr := service.GetBrotli((getOpt))
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+
+				updateOpt := service.NewUpdateBrotliOptions()
+				updateOpt.SetValue(UpdateBrotliOptions_Value_Off)
+				if *getResult.Result.Value != UpdateBrotliOptions_Value_Off {
+					updateOpt.SetValue(UpdateBrotliOptions_Value_On)
+				}
+				updateResult, updateResp, updateErr := service.UpdateBrotli(updateOpt)
 				Expect(updateErr).To(BeNil())
 				Expect(updateResp).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())

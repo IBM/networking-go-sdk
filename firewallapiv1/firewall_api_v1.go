@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package firewallapiv1 : Operations and models for the FirewallApiV1 service
 package firewallapiv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // FirewallApiV1 : Firewall API
@@ -119,8 +119,8 @@ func NewFirewallApiV1(options *FirewallApiV1Options) (service *FirewallApiV1, er
 	}
 
 	service = &FirewallApiV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -192,7 +192,7 @@ func (firewallApi *FirewallApiV1) GetSecurityLevelSettingWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *firewallApi.Crn,
+		"crn":             *firewallApi.Crn,
 		"zone_identifier": *firewallApi.ZoneIdentifier,
 	}
 
@@ -247,7 +247,7 @@ func (firewallApi *FirewallApiV1) SetSecurityLevelSettingWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *firewallApi.Crn,
+		"crn":             *firewallApi.Crn,
 		"zone_identifier": *firewallApi.ZoneIdentifier,
 	}
 
@@ -322,7 +322,6 @@ type SecurityLevelSettingRespMessagesItem struct {
 	Status *string `json:"status,omitempty"`
 }
 
-
 // UnmarshalSecurityLevelSettingRespMessagesItem unmarshals an instance of SecurityLevelSettingRespMessagesItem from the specified map of raw messages.
 func UnmarshalSecurityLevelSettingRespMessagesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityLevelSettingRespMessagesItem)
@@ -354,7 +353,6 @@ type SecurityLevelSettingRespResult struct {
 const (
 	SecurityLevelSettingRespResult_ID_SecurityLevel = "security_level"
 )
-
 
 // UnmarshalSecurityLevelSettingRespResult unmarshals an instance of SecurityLevelSettingRespResult from the specified map of raw messages.
 func UnmarshalSecurityLevelSettingRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -392,10 +390,10 @@ type SetSecurityLevelSettingOptions struct {
 // security level.
 const (
 	SetSecurityLevelSettingOptions_Value_EssentiallyOff = "essentially_off"
-	SetSecurityLevelSettingOptions_Value_High = "high"
-	SetSecurityLevelSettingOptions_Value_Low = "low"
-	SetSecurityLevelSettingOptions_Value_Medium = "medium"
-	SetSecurityLevelSettingOptions_Value_UnderAttack = "under_attack"
+	SetSecurityLevelSettingOptions_Value_High           = "high"
+	SetSecurityLevelSettingOptions_Value_Low            = "low"
+	SetSecurityLevelSettingOptions_Value_Medium         = "medium"
+	SetSecurityLevelSettingOptions_Value_UnderAttack    = "under_attack"
 )
 
 // NewSetSecurityLevelSettingOptions : Instantiate SetSecurityLevelSettingOptions
@@ -429,7 +427,6 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
-
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -471,7 +468,6 @@ type SecurityLevelSettingResp struct {
 	// array of messages.
 	Messages []SecurityLevelSettingRespMessagesItem `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalSecurityLevelSettingResp unmarshals an instance of SecurityLevelSettingResp from the specified map of raw messages.
 func UnmarshalSecurityLevelSettingResp(m map[string]json.RawMessage, result interface{}) (err error) {

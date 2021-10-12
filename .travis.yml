@@ -1,9 +1,11 @@
 language: go
 
-dist: xenial
+dist: bionic
 
 go:
-- 1.12.x
+- 1.14.x
+- 1.16.x
+- 1.17.x
 
 notifications:
   email: true
@@ -14,34 +16,34 @@ env:
 
 before_install:
 - sudo apt-get update
-- sudo apt-get install python
-- nvm install 12
-- npm install -g npm@6.x
+- pyenv global 3.8
 - >-
   [ -z "${TRAVIS_TAG}" ] &&  [ "${TRAVIS_PULL_REQUEST}" == "false" ]
-  && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true
   && openssl aes-256-cbc -K $encrypted_d4a185972ecc_key -iv $encrypted_d4a185972ecc_iv -in pdns.env.enc -out pdns.env -d || true
   && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d || true
   && openssl aes-256-cbc -K $encrypted_3d8a3eb98382_key -iv $encrypted_3d8a3eb98382_iv -in transit.env.enc -out transit.env -d || true
+  && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true
   && openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true
 
 install:
-- curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.21.0
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.41.1
 
 script:
-- make travis-ci
+  - make travis-ci
 
-# To enable semantic-release, uncomment these sections.
 before_deploy:
-- pip install --user bump2version
-- npm install @semantic-release/changelog
-- npm install @semantic-release/exec
-- npm install @semantic-release/git
-- npm install @semantic-release/github
+  - nvm install 14
+  - npm install -g npm@6.x
+  - npm install @semantic-release/changelog
+  - npm install @semantic-release/exec
+  - npm install @semantic-release/git
+  - npm install @semantic-release/github
+  - pip install --user bump2version
 
 deploy:
-- provider: script
-  script: npx semantic-release
-  skip_cleanup: true
-  on:
-    branch: master
+  - provider: script
+    script: npx semantic-release
+    skip_cleanup: true
+    on:
+      go: '1.14.x'
+      branch: master

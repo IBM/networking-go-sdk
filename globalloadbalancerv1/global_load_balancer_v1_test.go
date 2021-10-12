@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/globalloadbalancerv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancerv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`GlobalLoadBalancerV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(globalLoadBalancerService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(globalLoadBalancerService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-				URL: "https://globalloadbalancerv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://globalloadbalancerv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_URL": "https://globalloadbalancerv1/api",
+				"GLOBAL_LOAD_BALANCER_URL":       "https://globalloadbalancerv1/api",
 				"GLOBAL_LOAD_BALANCER_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1UsingExternalConfig(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(globalLoadBalancerService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1UsingExternalConfig(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(globalLoadBalancerService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1UsingExternalConfig(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := globalLoadBalancerService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_URL": "https://globalloadbalancerv1/api",
+				"GLOBAL_LOAD_BALANCER_URL":       "https://globalloadbalancerv1/api",
 				"GLOBAL_LOAD_BALANCER_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1UsingExternalConfig(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_AUTH_TYPE":   "NOAuth",
+				"GLOBAL_LOAD_BALANCER_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1UsingExternalConfig(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -207,9 +208,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke ListAllLoadBalancers with error: Operation response processing error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -263,9 +264,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke ListAllLoadBalancers successfully`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -315,9 +316,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke ListAllLoadBalancers with error: Operation request error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -359,9 +360,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke CreateLoadBalancer with error: Operation response processing error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -442,9 +443,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke CreateLoadBalancer successfully`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -505,9 +506,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke CreateLoadBalancer with error: Operation request error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -560,9 +561,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke EditLoadBalancer with error: Operation response processing error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -644,9 +645,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke EditLoadBalancer successfully`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -708,9 +709,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke EditLoadBalancer with error: Operation validation and request error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -771,9 +772,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke DeleteLoadBalancer with error: Operation response processing error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -828,9 +829,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke DeleteLoadBalancer successfully`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -881,9 +882,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke DeleteLoadBalancer with error: Operation validation and request error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -933,9 +934,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke GetLoadBalancerSettings with error: Operation response processing error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -990,9 +991,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke GetLoadBalancerSettings successfully`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1043,9 +1044,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			})
 			It(`Invoke GetLoadBalancerSettings with error: Operation validation and request error`, func() {
 				globalLoadBalancerService, serviceErr := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1081,9 +1082,9 @@ var _ = Describe(`GlobalLoadBalancerV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			globalLoadBalancerService, _ := globalloadbalancerv1.NewGlobalLoadBalancerV1(&globalloadbalancerv1.GlobalLoadBalancerV1Options{
-				URL:           "http://globalloadbalancerv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://globalloadbalancerv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewCreateLoadBalancerOptions successfully`, func() {

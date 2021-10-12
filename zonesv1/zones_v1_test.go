@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/zonesv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/zonesv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`ZonesV1`, func() {
@@ -40,7 +41,7 @@ var _ = Describe(`ZonesV1`, func() {
 		It(`Instantiate service client`, func() {
 			zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			Expect(zonesService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -76,7 +77,7 @@ var _ = Describe(`ZonesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONES_URL": "https://zonesv1/api",
+				"ZONES_URL":       "https://zonesv1/api",
 				"ZONES_AUTH_TYPE": "noauth",
 			}
 
@@ -134,7 +135,7 @@ var _ = Describe(`ZonesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONES_URL": "https://zonesv1/api",
+				"ZONES_URL":       "https://zonesv1/api",
 				"ZONES_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,7 +153,7 @@ var _ = Describe(`ZonesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONES_AUTH_TYPE":   "NOAuth",
+				"ZONES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -202,7 +203,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -262,7 +263,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -315,7 +316,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -359,7 +360,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -430,7 +431,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -482,7 +483,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -525,7 +526,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -580,7 +581,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -632,7 +633,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -682,7 +683,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -737,7 +738,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -789,7 +790,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -839,7 +840,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -911,7 +912,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -964,7 +965,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -1015,7 +1016,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -1070,7 +1071,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -1122,7 +1123,7 @@ var _ = Describe(`ZonesV1`, func() {
 				zonesService, serviceErr := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(zonesService).ToNot(BeNil())
@@ -1158,7 +1159,7 @@ var _ = Describe(`ZonesV1`, func() {
 			zonesService, _ := zonesv1.NewZonesV1(&zonesv1.ZonesV1Options{
 				URL:           "http://zonesv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateZoneOptions successfully`, func() {
 				// Construct an instance of the CreateZoneOptions model

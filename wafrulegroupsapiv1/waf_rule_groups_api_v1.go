@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package wafrulegroupsapiv1 : Operations and models for the WafRuleGroupsApiV1 service
 package wafrulegroupsapiv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // WafRuleGroupsApiV1 : This document describes CIS WAF Rule Groups API.
@@ -120,8 +120,8 @@ func NewWafRuleGroupsApiV1(options *WafRuleGroupsApiV1Options) (service *WafRule
 
 	service = &WafRuleGroupsApiV1{
 		Service: baseService,
-		Crn: options.Crn,
-		ZoneID: options.ZoneID,
+		Crn:     options.Crn,
+		ZoneID:  options.ZoneID,
 	}
 
 	return
@@ -196,9 +196,9 @@ func (wafRuleGroupsApi *WafRuleGroupsApiV1) ListWafRuleGroupsWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRuleGroupsApi.Crn,
+		"crn":     *wafRuleGroupsApi.Crn,
 		"zone_id": *wafRuleGroupsApi.ZoneID,
-		"pkg_id": *listWafRuleGroupsOptions.PkgID,
+		"pkg_id":  *listWafRuleGroupsOptions.PkgID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -281,9 +281,9 @@ func (wafRuleGroupsApi *WafRuleGroupsApiV1) GetWafRuleGroupWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRuleGroupsApi.Crn,
-		"zone_id": *wafRuleGroupsApi.ZoneID,
-		"pkg_id": *getWafRuleGroupOptions.PkgID,
+		"crn":      *wafRuleGroupsApi.Crn,
+		"zone_id":  *wafRuleGroupsApi.ZoneID,
+		"pkg_id":   *getWafRuleGroupOptions.PkgID,
 		"group_id": *getWafRuleGroupOptions.GroupID,
 	}
 
@@ -342,9 +342,9 @@ func (wafRuleGroupsApi *WafRuleGroupsApiV1) UpdateWafRuleGroupWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRuleGroupsApi.Crn,
-		"zone_id": *wafRuleGroupsApi.ZoneID,
-		"pkg_id": *updateWafRuleGroupOptions.PkgID,
+		"crn":      *wafRuleGroupsApi.Crn,
+		"zone_id":  *wafRuleGroupsApi.ZoneID,
+		"pkg_id":   *updateWafRuleGroupOptions.PkgID,
 		"group_id": *updateWafRuleGroupOptions.GroupID,
 	}
 
@@ -410,7 +410,7 @@ type GetWafRuleGroupOptions struct {
 // NewGetWafRuleGroupOptions : Instantiate GetWafRuleGroupOptions
 func (*WafRuleGroupsApiV1) NewGetWafRuleGroupOptions(pkgID string, groupID string) *GetWafRuleGroupOptions {
 	return &GetWafRuleGroupOptions{
-		PkgID: core.StringPtr(pkgID),
+		PkgID:   core.StringPtr(pkgID),
 		GroupID: core.StringPtr(groupID),
 	}
 }
@@ -470,13 +470,13 @@ type ListWafRuleGroupsOptions struct {
 // Whether or not the rules contained within this group are configurable/usable.
 const (
 	ListWafRuleGroupsOptions_Mode_Off = "off"
-	ListWafRuleGroupsOptions_Mode_On = "on"
+	ListWafRuleGroupsOptions_Mode_On  = "on"
 )
 
 // Constants associated with the ListWafRuleGroupsOptions.Direction property.
 // Direction to order packages.
 const (
-	ListWafRuleGroupsOptions_Direction_Asc = "asc"
+	ListWafRuleGroupsOptions_Direction_Asc  = "asc"
 	ListWafRuleGroupsOptions_Direction_Desc = "desc"
 )
 
@@ -573,13 +573,13 @@ type UpdateWafRuleGroupOptions struct {
 // Whether or not the rules contained within this group are configurable/usable.
 const (
 	UpdateWafRuleGroupOptions_Mode_Off = "off"
-	UpdateWafRuleGroupOptions_Mode_On = "on"
+	UpdateWafRuleGroupOptions_Mode_On  = "on"
 )
 
 // NewUpdateWafRuleGroupOptions : Instantiate UpdateWafRuleGroupOptions
 func (*WafRuleGroupsApiV1) NewUpdateWafRuleGroupOptions(pkgID string, groupID string) *UpdateWafRuleGroupOptions {
 	return &UpdateWafRuleGroupOptions{
-		PkgID: core.StringPtr(pkgID),
+		PkgID:   core.StringPtr(pkgID),
 		GroupID: core.StringPtr(groupID),
 	}
 }
@@ -623,7 +623,6 @@ type WafGroupResponseResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalWafGroupResponseResultInfo unmarshals an instance of WafGroupResponseResultInfo from the specified map of raw messages.
 func UnmarshalWafGroupResponseResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafGroupResponseResultInfo)
@@ -661,7 +660,6 @@ type WafGroupsResponseResultInfo struct {
 	// Total number of results.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
-
 
 // UnmarshalWafGroupsResponseResultInfo unmarshals an instance of WafGroupsResponseResultInfo from the specified map of raw messages.
 func UnmarshalWafGroupsResponseResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -703,7 +701,6 @@ type WafGroupResponse struct {
 	// Statistics of results.
 	ResultInfo *WafGroupResponseResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalWafGroupResponse unmarshals an instance of WafGroupResponse from the specified map of raw messages.
 func UnmarshalWafGroupResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -749,7 +746,6 @@ type WafGroupsResponse struct {
 	// Statistics of results.
 	ResultInfo *WafGroupsResponseResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalWafGroupsResponse unmarshals an instance of WafGroupsResponse from the specified map of raw messages.
 func UnmarshalWafGroupsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -804,7 +800,6 @@ type WafRuleProperties struct {
 	// Allowed Modes.
 	AllowedModes []string `json:"allowed_modes,omitempty"`
 }
-
 
 // UnmarshalWafRuleProperties unmarshals an instance of WafRuleProperties from the specified map of raw messages.
 func UnmarshalWafRuleProperties(m map[string]json.RawMessage, result interface{}) (err error) {

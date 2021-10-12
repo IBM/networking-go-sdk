@@ -26,6 +26,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v4/core"
@@ -41,6 +42,15 @@ func shouldSkipTest() {
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
+}
+
+func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
+	for _, port := range ports {
+		if port.ProviderName != nil && !strings.Contains(strings.ToLower(*port.ProviderName), "equinix") {
+			return &port
+		}
+	}
+	return nil
 }
 
 var _ = Describe(`DirectLinkV1`, func() {
@@ -387,9 +397,10 @@ var _ = Describe(`DirectLinkV1`, func() {
 				result, detailedResponse, err := service.ListPorts(listPortsOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
-				portId = *result.Ports[0].ID
-				portLocationDisplayName = *result.Ports[0].LocationDisplayName
-				portLocationName = *result.Ports[0].LocationName
+				port := getPortIdForConnect(result.Ports)
+				portId = *port.ID
+				portLocationDisplayName = *port.LocationDisplayName
+				portLocationName = *port.LocationName
 			})
 
 			It("create connect gateway", func() {
@@ -832,10 +843,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 			Expect(*result.Ports[0].ProviderName).NotTo(Equal(""))
 			Expect(len(result.Ports[0].SupportedLinkSpeeds)).Should(BeNumerically(">=", 0))
 
-			os.Setenv("PORT_ID", *result.Ports[0].ID)
-			os.Setenv("PORT_LOCATION_DISPLAY_NAME", *result.Ports[0].LocationDisplayName)
-			os.Setenv("PORT_LOCATION_NAME", *result.Ports[0].LocationName)
-			os.Setenv("PORT_LABEL", *result.Ports[0].Label)
+			port := getPortIdForConnect(result.Ports)
+			os.Setenv("PORT_ID", *port.ID)
+			os.Setenv("PORT_LOCATION_DISPLAY_NAME", *port.LocationDisplayName)
+			os.Setenv("PORT_LOCATION_NAME", *port.LocationName)
+			os.Setenv("PORT_LABEL", *port.Label)
 
 		})
 
@@ -1289,6 +1301,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Update the Authentication key for the gateway", func() {
 			It("should successfully clear the auth key", func() {
+				shouldSkipTest()
 				authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
 				gatewayId := os.Getenv("GATEWAY_ID")
 
@@ -1300,6 +1313,494 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*res.ID).To(Equal(gatewayId))
 				Expect(res.AuthenticationKey).To(BeNil())
 				Expect(*res.Name).To(Equal(gatewayName))
+			})
+		})
+
+		Context("Delete a gateway", func() {
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
+
+	Describe("DLAAS", func() {
+
+		Describe("Create/Verify/update a connect gateway", func() {
+			timestamp := time.Now().Unix()
+			gatewayName := "GO-INT-SDK-Connect-DLAAS-" + strconv.FormatInt(timestamp, 10)
+			bgpAsn := int64(64999)
+			global := true
+			speedMbps := int64(1000)
+			metered := false
+			// to create a connect gateway, we need to have a port.  List the ports and save the id of the 1st one found
+			portId := ""
+			portLocationDisplayName := ""
+			portLocationName := ""
+
+			It("List ports and save the id of the first port", func() {
+				shouldSkipTest()
+
+				listPortsOptions := service.NewListPortsOptions()
+				result, detailedResponse, err := service.ListPorts(listPortsOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				port := getPortIdForConnect(result.Ports)
+				portId = *port.ID
+				portLocationDisplayName = *port.LocationDisplayName
+				portLocationName = *port.LocationName
+			})
+
+			It("create connect gateway with connection_mode as transit", func() {
+				shouldSkipTest()
+
+				portIdentity, _ := service.NewGatewayPortIdentity(portId)
+				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
+				gateway.ConnectionMode = core.StringPtr("transit")
+				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
+				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				// Save the gateway id for deletion
+				os.Setenv("GATEWAY_ID", *result.ID)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.BgpAsn).To(Equal(bgpAsn))
+				Expect(*result.Global).To(Equal(true))
+				Expect(*result.Metered).To(Equal(metered))
+				Expect(*result.SpeedMbps).To(Equal(speedMbps))
+				Expect(*result.LocationName).To(Equal(portLocationName))
+				Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
+				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+				Expect(*result.BgpIbmAsn).NotTo(Equal(0))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.Crn).To(HavePrefix("crn:v1"))
+				Expect(*result.OperationalStatus).To(Equal("create_pending"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.Type).To(Equal("connect"))
+				Expect(*result.Port.ID).To(Equal(portId))
+				Expect(*result.ProviderApiManaged).To(Equal(false))
+				Expect(*result.ConnectionMode).To(Equal("transit"))
+			})
+
+			It("Successfully waits for gateway to be provisioned state", func() {
+				shouldSkipTest()
+
+				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+				// before connection_mode can be updated on a gateway, it needs to have operational_status of provisioned.  We need to wait for
+				// the new gateway to go to provisioned so we can delete it.
+				timer := 0
+				for {
+					// Get the current status for the gateway
+					result, detailedResponse, err := service.GetGateway(getGatewayOptions)
+					Expect(err).To(BeNil())
+					Expect(detailedResponse.StatusCode).To(Equal(200))
+
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.BgpAsn).To(Equal(bgpAsn))
+					Expect(*result.Global).To(Equal(true))
+					Expect(*result.Metered).To(Equal(metered))
+					Expect(*result.SpeedMbps).To(Equal(speedMbps))
+					Expect(*result.LocationName).To(Equal(portLocationName))
+					Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
+					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
+					Expect(*result.BgpStatus).To(Equal("idle"))
+					Expect(*result.CreatedAt).NotTo(Equal(""))
+					Expect(*result.Crn).To(HavePrefix("crn:v1"))
+					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+					Expect(*result.Type).To(Equal("connect"))
+					Expect(*result.Port.ID).To(Equal(portId))
+					Expect(*result.ProviderApiManaged).To(Equal(false))
+
+					// if operational status is "provisioned" then we are done
+					if *result.OperationalStatus == "provisioned" {
+						Expect(*result.OperationalStatus).To(Equal("provisioned"))
+						break
+					}
+
+					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 24 { // 2 min timer (24x5sec)
+						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+						break
+					} else {
+						// Still exists, wait 5 sec
+						time.Sleep(time.Duration(5) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+
+			It("should successfully switch the connection mode to direct", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetConnectionMode("direct")
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(*res.ConnectionMode).To(Equal("direct"))
+				Expect(*res.Name).To(Equal(gatewayName))
+			})
+
+			It("Successfully waits for gateway to be provisioned state", func() {
+				shouldSkipTest()
+
+				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+				// before connection_mode can be updated on a gateway, it needs to have operational_status of provisioned.  We need to wait for
+				// the new gateway to go to provisioned so we can delete it.
+				timer := 0
+				for {
+					// Get the current status for the gateway
+					result, detailedResponse, err := service.GetGateway(getGatewayOptions)
+					Expect(err).To(BeNil())
+					Expect(detailedResponse.StatusCode).To(Equal(200))
+
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.BgpAsn).To(Equal(bgpAsn))
+					Expect(*result.Global).To(Equal(true))
+					Expect(*result.Metered).To(Equal(metered))
+					Expect(*result.SpeedMbps).To(Equal(speedMbps))
+					Expect(*result.LocationName).To(Equal(portLocationName))
+					Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
+					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
+					Expect(*result.BgpStatus).To(Equal("idle"))
+					Expect(*result.CreatedAt).NotTo(Equal(""))
+					Expect(*result.Crn).To(HavePrefix("crn:v1"))
+					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+					Expect(*result.Type).To(Equal("connect"))
+					Expect(*result.Port.ID).To(Equal(portId))
+					Expect(*result.ProviderApiManaged).To(Equal(false))
+
+					// if operational status is "provisioned" then we are done
+					if *result.OperationalStatus == "provisioned" {
+						Expect(*result.OperationalStatus).To(Equal("provisioned"))
+						break
+					}
+
+					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 24 { // 2 min timer (24x5sec)
+						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+						break
+					} else {
+						// Still exists, wait 5 sec
+						time.Sleep(time.Duration(5) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+
+			It("Successfully deletes connect gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+
+		Describe("Create/verify/update a dedicated gateway", func() {
+			timestamp := time.Now().Unix()
+			gatewayName := "GO-INT-SDK-Dedicated-DLAAS-" + strconv.FormatInt(timestamp, 10)
+			bgpAsn := int64(64999)
+			crossConnectRouter := "LAB-xcr01.dal09"
+			global := true
+			locationName := os.Getenv("LOCATION_NAME")
+			speedMbps := int64(1000)
+			metered := false
+			carrierName := "carrier1"
+			customerName := "customer1"
+			gatewayType := "dedicated"
+			connectionMode := "direct"
+
+			It("should successfully create a dedicated gateway with connection mode as direct", func() {
+				shouldSkipTest()
+
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
+				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.Metered = core.BoolPtr(false)
+				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+				gatewayTemplateModel.ConnectionMode = core.StringPtr(connectionMode)
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+
+				result, resp, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
+
+				os.Setenv("GATEWAY_ID", *result.ID)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.BgpAsn).To(Equal(bgpAsn))
+				Expect(*result.Global).To(Equal(global))
+				Expect(*result.Metered).To(Equal(metered))
+				Expect(*result.SpeedMbps).To(Equal(speedMbps))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.Crn).To(HavePrefix("crn:v1"))
+				Expect(*result.LinkStatus).To(Equal("down"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.ConnectionMode).To(Equal("direct"))
+			})
+
+			It("should successfully switch the connection mode to transit", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetConnectionMode("transit")
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(*res.ConnectionMode).To(Equal("transit"))
+				Expect(*res.Name).To(Equal(gatewayName))
+			})
+
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
+
+	Describe("BGP IP Update", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-BGP-IP-SDK-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		crossConnectRouter := "LAB-xcr01.dal09"
+		global := true
+		locationName := os.Getenv("LOCATION_NAME")
+		speedMbps := int64(1000)
+		metered := false
+		carrierName := "carrier1"
+		customerName := "customer1"
+		gatewayType := "dedicated"
+
+		Context("Create a Gateway", func() {
+			It("should successfully create a gateway", func() {
+				shouldSkipTest()
+
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
+				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.Metered = core.BoolPtr(false)
+				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+
+				result, resp, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
+
+				os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("BGP_IP_CER", *result.BgpCerCidr)
+				os.Setenv("BGP_IP_IBM", *result.BgpIbmCidr)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.BgpAsn).To(Equal(bgpAsn))
+				Expect(*result.Global).To(Equal(global))
+				Expect(*result.Metered).To(Equal(metered))
+				Expect(*result.SpeedMbps).To(Equal(speedMbps))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.Crn).To(HavePrefix("crn:v1"))
+				Expect(*result.LinkStatus).To(Equal("down"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+
+			})
+		})
+
+		Context("Update the BGP ASN for the gateway", func() {
+			It("should successfully update the bgp asn", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				bgpAsn := int64(63999)
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBgpAsn(bgpAsn)
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(*res.BgpAsn).To(Equal(bgpAsn))
+				Expect(*res.Name).To(Equal(gatewayName))
+			})
+		})
+
+		Context("Update the BGP IP for the gateway", func() {
+			It("should either successfully update the BGP IP CER and IBM CIDR", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBgpCerCidr("172.17.252.2/29").SetBgpIbmCidr("172.17.252.1/29")
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				if err != nil {
+					Expect(err.Error()).To(Equal("Please make sure localIP and remoteIP are not in use"))
+				} else {
+					Expect(err).To(BeNil())
+					Expect(resp.StatusCode).To(Equal(200))
+
+					Expect(*res.ID).To(Equal(gatewayId))
+					Expect(*res.Name).To(Equal(gatewayName))
+				}
+
+			})
+		})
+
+		Context("Delete a gateway", func() {
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
+
+	Describe("BFD Config", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-BFD-SDK-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		crossConnectRouter := "LAB-xcr01.dal09"
+		locationName := os.Getenv("LOCATION_NAME")
+		speedMbps := int64(1000)
+		carrierName := "carrier1"
+		customerName := "customer1"
+		gatewayType := "dedicated"
+		bfdInterval := int64(1000)
+		bfdMultiplier := int64(10)
+
+		Context("Create a Gateway", func() {
+			It("should successfully create a gateway", func() {
+				shouldSkipTest()
+
+				// Create a template for BFD Config
+				bfdTemplate := new(directlinkv1.GatewayBfdConfigTemplate)
+				bfdTemplate.Interval = &bfdInterval
+				bfdTemplate.Multiplier = &bfdMultiplier
+
+				// Create a template for Gateway model
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(bgpAsn)
+				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.Metered = core.BoolPtr(false)
+				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(speedMbps)
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+				gatewayTemplateModel.BfdConfig = bfdTemplate
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+
+				result, resp, err := service.CreateGateway(createGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
+
+				os.Setenv("GATEWAY_ID", *result.ID)
+
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(result.BfdConfig).NotTo(BeNil())
+				Expect(result.BfdConfig.BfdStatus).NotTo(BeNil())
+				Expect(*result.BfdConfig.Interval).To(Equal(bfdInterval))
+				Expect(*result.BfdConfig.Multiplier).To(Equal(bfdMultiplier))
+			})
+		})
+
+		Context("Update the BFD Config for the gateway", func() {
+			It("should successfully update the bfd config", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				updatedBfdInterval := int64(400)
+				updatedBfdMultiplier := int64(200)
+
+				// Create a template for BFD Config
+				bfdPatchTemplate := new(directlinkv1.GatewayBfdPatchTemplate)
+				bfdPatchTemplate.Interval = &updatedBfdInterval
+				bfdPatchTemplate.Multiplier = &updatedBfdMultiplier
+
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBfdConfig(bfdPatchTemplate)
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
+
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(*res.Name).To(Equal(gatewayName))
+				Expect(res.BfdConfig).NotTo(BeNil())
+				Expect(res.BfdConfig.BfdStatus).NotTo(BeNil())
+				Expect(*res.BfdConfig.Interval).To(Equal(updatedBfdInterval))
+				Expect(*res.BfdConfig.Multiplier).To(Equal(updatedBfdMultiplier))
 			})
 		})
 

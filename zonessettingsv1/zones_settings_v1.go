@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package zonessettingsv1 : Operations and models for the ZonesSettingsV1 service
 package zonessettingsv1
@@ -26,12 +25,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // ZonesSettingsV1 : CIS Zones Settings
@@ -120,8 +120,8 @@ func NewZonesSettingsV1(options *ZonesSettingsV1Options) (service *ZonesSettings
 	}
 
 	service = &ZonesSettingsV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -193,7 +193,7 @@ func (zonesSettings *ZonesSettingsV1) GetZoneDnssecWithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -248,7 +248,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateZoneDnssecWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -313,7 +313,7 @@ func (zonesSettings *ZonesSettingsV1) GetZoneCnameFlatteningWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -368,7 +368,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateZoneCnameFlatteningWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -433,7 +433,7 @@ func (zonesSettings *ZonesSettingsV1) GetOpportunisticEncryptionWithContext(ctx 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -488,7 +488,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateOpportunisticEncryptionWithContext(c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -553,7 +553,7 @@ func (zonesSettings *ZonesSettingsV1) GetChallengeTTLWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -608,7 +608,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateChallengeTTLWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -673,7 +673,7 @@ func (zonesSettings *ZonesSettingsV1) GetAutomaticHttpsRewritesWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -728,7 +728,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateAutomaticHttpsRewritesWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -793,7 +793,7 @@ func (zonesSettings *ZonesSettingsV1) GetTrueClientIpWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -848,7 +848,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateTrueClientIpWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -913,7 +913,7 @@ func (zonesSettings *ZonesSettingsV1) GetAlwaysUseHttpsWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -968,7 +968,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateAlwaysUseHttpsWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1033,7 +1033,7 @@ func (zonesSettings *ZonesSettingsV1) GetImageSizeOptimizationWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1088,7 +1088,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateImageSizeOptimizationWithContext(ctx
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1153,7 +1153,7 @@ func (zonesSettings *ZonesSettingsV1) GetScriptLoadOptimizationWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1208,7 +1208,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateScriptLoadOptimizationWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1273,7 +1273,7 @@ func (zonesSettings *ZonesSettingsV1) GetImageLoadOptimizationWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1328,7 +1328,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateImageLoadOptimizationWithContext(ctx
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1393,7 +1393,7 @@ func (zonesSettings *ZonesSettingsV1) GetMinifyWithContext(ctx context.Context, 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1448,7 +1448,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateMinifyWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1513,7 +1513,7 @@ func (zonesSettings *ZonesSettingsV1) GetMinTlsVersionWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1568,7 +1568,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateMinTlsVersionWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1633,7 +1633,7 @@ func (zonesSettings *ZonesSettingsV1) GetIpGeolocationWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1688,7 +1688,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateIpGeolocationWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1753,7 +1753,7 @@ func (zonesSettings *ZonesSettingsV1) GetServerSideExcludeWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1808,7 +1808,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateServerSideExcludeWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1873,7 +1873,7 @@ func (zonesSettings *ZonesSettingsV1) GetSecurityHeaderWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1928,7 +1928,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateSecurityHeaderWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -1993,7 +1993,7 @@ func (zonesSettings *ZonesSettingsV1) GetMobileRedirectWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2048,7 +2048,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateMobileRedirectWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2113,7 +2113,7 @@ func (zonesSettings *ZonesSettingsV1) GetPrefetchPreloadWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2168,7 +2168,7 @@ func (zonesSettings *ZonesSettingsV1) UpdatePrefetchPreloadWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2233,7 +2233,7 @@ func (zonesSettings *ZonesSettingsV1) GetHttp2WithContext(ctx context.Context, g
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2288,7 +2288,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateHttp2WithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2353,7 +2353,7 @@ func (zonesSettings *ZonesSettingsV1) GetHttp3WithContext(ctx context.Context, g
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2408,7 +2408,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateHttp3WithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2473,7 +2473,7 @@ func (zonesSettings *ZonesSettingsV1) GetIpv6WithContext(ctx context.Context, ge
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2528,7 +2528,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateIpv6WithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2593,7 +2593,7 @@ func (zonesSettings *ZonesSettingsV1) GetWebSocketsWithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2648,7 +2648,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateWebSocketsWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2713,7 +2713,7 @@ func (zonesSettings *ZonesSettingsV1) GetPseudoIpv4WithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2768,7 +2768,7 @@ func (zonesSettings *ZonesSettingsV1) UpdatePseudoIpv4WithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2833,7 +2833,7 @@ func (zonesSettings *ZonesSettingsV1) GetResponseBufferingWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2888,7 +2888,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateResponseBufferingWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -2953,7 +2953,7 @@ func (zonesSettings *ZonesSettingsV1) GetHotlinkProtectionWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3008,7 +3008,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateHotlinkProtectionWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3073,7 +3073,7 @@ func (zonesSettings *ZonesSettingsV1) GetMaxUploadWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3128,7 +3128,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateMaxUploadWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3193,7 +3193,7 @@ func (zonesSettings *ZonesSettingsV1) GetTlsClientAuthWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3248,7 +3248,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateTlsClientAuthWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3299,6 +3299,126 @@ func (zonesSettings *ZonesSettingsV1) UpdateTlsClientAuthWithContext(ctx context
 	return
 }
 
+// GetBrotli : Get brotli setting
+// Get brotli setting for a zone.
+func (zonesSettings *ZonesSettingsV1) GetBrotli(getBrotliOptions *GetBrotliOptions) (result *BrotliResp, response *core.DetailedResponse, err error) {
+	return zonesSettings.GetBrotliWithContext(context.Background(), getBrotliOptions)
+}
+
+// GetBrotliWithContext is an alternate form of the GetBrotli method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) GetBrotliWithContext(ctx context.Context, getBrotliOptions *GetBrotliOptions) (result *BrotliResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getBrotliOptions, "getBrotliOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/brotli`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getBrotliOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetBrotli")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBrotliResp)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// UpdateBrotli : Update brotli setting
+// Update brotli setting for a zone.
+func (zonesSettings *ZonesSettingsV1) UpdateBrotli(updateBrotliOptions *UpdateBrotliOptions) (result *BrotliResp, response *core.DetailedResponse, err error) {
+	return zonesSettings.UpdateBrotliWithContext(context.Background(), updateBrotliOptions)
+}
+
+// UpdateBrotliWithContext is an alternate form of the UpdateBrotli method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) UpdateBrotliWithContext(ctx context.Context, updateBrotliOptions *UpdateBrotliOptions) (result *BrotliResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(updateBrotliOptions, "updateBrotliOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/brotli`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateBrotliOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateBrotli")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateBrotliOptions.Value != nil {
+		body["value"] = updateBrotliOptions.Value
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBrotliResp)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
 // GetBrowserCheck : Get browser check setting
 // Get browser check setting for a zone.
 func (zonesSettings *ZonesSettingsV1) GetBrowserCheck(getBrowserCheckOptions *GetBrowserCheckOptions) (result *BrowserCheckResp, response *core.DetailedResponse, err error) {
@@ -3313,7 +3433,7 @@ func (zonesSettings *ZonesSettingsV1) GetBrowserCheckWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3368,7 +3488,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateBrowserCheckWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3433,7 +3553,7 @@ func (zonesSettings *ZonesSettingsV1) GetEnableErrorPagesOnWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3488,7 +3608,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateEnableErrorPagesOnWithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3553,7 +3673,7 @@ func (zonesSettings *ZonesSettingsV1) GetWebApplicationFirewallWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3608,7 +3728,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateWebApplicationFirewallWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3673,7 +3793,7 @@ func (zonesSettings *ZonesSettingsV1) GetCiphersWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3728,7 +3848,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateCiphersWithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zonesSettings.Crn,
+		"crn":             *zonesSettings.Crn,
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
@@ -3794,7 +3914,6 @@ type AlwaysUseHttpsRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalAlwaysUseHttpsRespResult unmarshals an instance of AlwaysUseHttpsRespResult from the specified map of raw messages.
 func UnmarshalAlwaysUseHttpsRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(AlwaysUseHttpsRespResult)
@@ -3833,10 +3952,47 @@ type AutomaticHttpsRewritesRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalAutomaticHttpsRewritesRespResult unmarshals an instance of AutomaticHttpsRewritesRespResult from the specified map of raw messages.
 func UnmarshalAutomaticHttpsRewritesRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(AutomaticHttpsRewritesRespResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BrotliRespResult : Container for response information.
+type BrotliRespResult struct {
+	// ID.
+	ID *string `json:"id" validate:"required"`
+
+	// Value.
+	Value *string `json:"value" validate:"required"`
+
+	// Editable.
+	Editable *bool `json:"editable" validate:"required"`
+
+	// Modified date.
+	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
+}
+
+// UnmarshalBrotliRespResult unmarshals an instance of BrotliRespResult from the specified map of raw messages.
+func UnmarshalBrotliRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BrotliRespResult)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
@@ -3871,7 +4027,6 @@ type BrowserCheckRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalBrowserCheckRespResult unmarshals an instance of BrowserCheckRespResult from the specified map of raw messages.
 func UnmarshalBrowserCheckRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3911,7 +4066,6 @@ type ChallengeTtlRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalChallengeTtlRespResult unmarshals an instance of ChallengeTtlRespResult from the specified map of raw messages.
 func UnmarshalChallengeTtlRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ChallengeTtlRespResult)
@@ -3949,7 +4103,6 @@ type CiphersRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalCiphersRespResult unmarshals an instance of CiphersRespResult from the specified map of raw messages.
 func UnmarshalCiphersRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4006,6 +4159,24 @@ func (*ZonesSettingsV1) NewGetAutomaticHttpsRewritesOptions() *GetAutomaticHttps
 
 // SetHeaders : Allow user to set Headers
 func (options *GetAutomaticHttpsRewritesOptions) SetHeaders(param map[string]string) *GetAutomaticHttpsRewritesOptions {
+	options.Headers = param
+	return options
+}
+
+// GetBrotliOptions : The GetBrotli options.
+type GetBrotliOptions struct {
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetBrotliOptions : Instantiate GetBrotliOptions
+func (*ZonesSettingsV1) NewGetBrotliOptions() *GetBrotliOptions {
+	return &GetBrotliOptions{}
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetBrotliOptions) SetHeaders(param map[string]string) *GetBrotliOptions {
 	options.Headers = param
 	return options
 }
@@ -4529,7 +4700,6 @@ type HotlinkProtectionRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalHotlinkProtectionRespResult unmarshals an instance of HotlinkProtectionRespResult from the specified map of raw messages.
 func UnmarshalHotlinkProtectionRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(HotlinkProtectionRespResult)
@@ -4567,7 +4737,6 @@ type Http2RespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalHttp2RespResult unmarshals an instance of Http2RespResult from the specified map of raw messages.
 func UnmarshalHttp2RespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4645,7 +4814,6 @@ type ImageLoadOptimizationRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalImageLoadOptimizationRespResult unmarshals an instance of ImageLoadOptimizationRespResult from the specified map of raw messages.
 func UnmarshalImageLoadOptimizationRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ImageLoadOptimizationRespResult)
@@ -4683,7 +4851,6 @@ type ImageSizeOptimizationRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalImageSizeOptimizationRespResult unmarshals an instance of ImageSizeOptimizationRespResult from the specified map of raw messages.
 func UnmarshalImageSizeOptimizationRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4723,7 +4890,6 @@ type IpGeolocationRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalIpGeolocationRespResult unmarshals an instance of IpGeolocationRespResult from the specified map of raw messages.
 func UnmarshalIpGeolocationRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(IpGeolocationRespResult)
@@ -4761,7 +4927,6 @@ type Ipv6RespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalIpv6RespResult unmarshals an instance of Ipv6RespResult from the specified map of raw messages.
 func UnmarshalIpv6RespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4801,7 +4966,6 @@ type MaxUploadRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalMaxUploadRespResult unmarshals an instance of MaxUploadRespResult from the specified map of raw messages.
 func UnmarshalMaxUploadRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MaxUploadRespResult)
@@ -4839,7 +5003,6 @@ type MinTlsVersionRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalMinTlsVersionRespResult unmarshals an instance of MinTlsVersionRespResult from the specified map of raw messages.
 func UnmarshalMinTlsVersionRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4879,7 +5042,6 @@ type MinifyRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalMinifyRespResult unmarshals an instance of MinifyRespResult from the specified map of raw messages.
 func UnmarshalMinifyRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MinifyRespResult)
@@ -4914,7 +5076,6 @@ type MinifyRespResultValue struct {
 	// js.
 	Js *string `json:"js" validate:"required"`
 }
-
 
 // UnmarshalMinifyRespResultValue unmarshals an instance of MinifyRespResultValue from the specified map of raw messages.
 func UnmarshalMinifyRespResultValue(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4951,30 +5112,29 @@ type MinifySettingValue struct {
 // Automatically minify all CSS for your website.
 const (
 	MinifySettingValue_Css_Off = "off"
-	MinifySettingValue_Css_On = "on"
+	MinifySettingValue_Css_On  = "on"
 )
 
 // Constants associated with the MinifySettingValue.HTML property.
 // Automatically minify all HTML for your website.
 const (
 	MinifySettingValue_HTML_Off = "off"
-	MinifySettingValue_HTML_On = "on"
+	MinifySettingValue_HTML_On  = "on"
 )
 
 // Constants associated with the MinifySettingValue.Js property.
 // Automatically minify all JavaScript for your website.
 const (
 	MinifySettingValue_Js_Off = "off"
-	MinifySettingValue_Js_On = "on"
+	MinifySettingValue_Js_On  = "on"
 )
-
 
 // NewMinifySettingValue : Instantiate MinifySettingValue (Generic Model Constructor)
 func (*ZonesSettingsV1) NewMinifySettingValue(css string, html string, js string) (model *MinifySettingValue, err error) {
 	model = &MinifySettingValue{
-		Css: core.StringPtr(css),
+		Css:  core.StringPtr(css),
 		HTML: core.StringPtr(html),
-		Js: core.StringPtr(js),
+		Js:   core.StringPtr(js),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -5016,16 +5176,15 @@ type MobileRedirecSettingValue struct {
 // Whether or not the mobile redirection is enabled.
 const (
 	MobileRedirecSettingValue_Status_Off = "off"
-	MobileRedirecSettingValue_Status_On = "on"
+	MobileRedirecSettingValue_Status_On  = "on"
 )
-
 
 // NewMobileRedirecSettingValue : Instantiate MobileRedirecSettingValue (Generic Model Constructor)
 func (*ZonesSettingsV1) NewMobileRedirecSettingValue(status string, mobileSubdomain string, stripURI bool) (model *MobileRedirecSettingValue, err error) {
 	model = &MobileRedirecSettingValue{
-		Status: core.StringPtr(status),
+		Status:          core.StringPtr(status),
 		MobileSubdomain: core.StringPtr(mobileSubdomain),
-		StripURI: core.BoolPtr(stripURI),
+		StripURI:        core.BoolPtr(stripURI),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -5065,7 +5224,6 @@ type MobileRedirectRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalMobileRedirectRespResult unmarshals an instance of MobileRedirectRespResult from the specified map of raw messages.
 func UnmarshalMobileRedirectRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MobileRedirectRespResult)
@@ -5102,7 +5260,6 @@ type MobileRedirectRespResultValue struct {
 	StripURI *bool `json:"strip_uri" validate:"required"`
 }
 
-
 // UnmarshalMobileRedirectRespResultValue unmarshals an instance of MobileRedirectRespResultValue from the specified map of raw messages.
 func UnmarshalMobileRedirectRespResultValue(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MobileRedirectRespResultValue)
@@ -5136,7 +5293,6 @@ type OpportunisticEncryptionRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalOpportunisticEncryptionRespResult unmarshals an instance of OpportunisticEncryptionRespResult from the specified map of raw messages.
 func UnmarshalOpportunisticEncryptionRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5176,7 +5332,6 @@ type OriginErrorPagePassThruRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalOriginErrorPagePassThruRespResult unmarshals an instance of OriginErrorPagePassThruRespResult from the specified map of raw messages.
 func UnmarshalOriginErrorPagePassThruRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OriginErrorPagePassThruRespResult)
@@ -5214,7 +5369,6 @@ type PrefetchPreloadRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalPrefetchPreloadRespResult unmarshals an instance of PrefetchPreloadRespResult from the specified map of raw messages.
 func UnmarshalPrefetchPreloadRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5254,7 +5408,6 @@ type PseudoIpv4RespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalPseudoIpv4RespResult unmarshals an instance of PseudoIpv4RespResult from the specified map of raw messages.
 func UnmarshalPseudoIpv4RespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PseudoIpv4RespResult)
@@ -5292,7 +5445,6 @@ type ResponseBufferingRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalResponseBufferingRespResult unmarshals an instance of ResponseBufferingRespResult from the specified map of raw messages.
 func UnmarshalResponseBufferingRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5332,7 +5484,6 @@ type ScriptLoadOptimizationRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalScriptLoadOptimizationRespResult unmarshals an instance of ScriptLoadOptimizationRespResult from the specified map of raw messages.
 func UnmarshalScriptLoadOptimizationRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ScriptLoadOptimizationRespResult)
@@ -5371,7 +5522,6 @@ type SecurityHeaderRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalSecurityHeaderRespResult unmarshals an instance of SecurityHeaderRespResult from the specified map of raw messages.
 func UnmarshalSecurityHeaderRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityHeaderRespResult)
@@ -5401,7 +5551,6 @@ type SecurityHeaderRespResultValue struct {
 	StrictTransportSecurity *SecurityHeaderRespResultValueStrictTransportSecurity `json:"strict_transport_security" validate:"required"`
 }
 
-
 // UnmarshalSecurityHeaderRespResultValue unmarshals an instance of SecurityHeaderRespResultValue from the specified map of raw messages.
 func UnmarshalSecurityHeaderRespResultValue(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityHeaderRespResultValue)
@@ -5427,7 +5576,6 @@ type SecurityHeaderRespResultValueStrictTransportSecurity struct {
 	// Whether or not to include 'X-Content-Type-Options:nosniff' header.
 	Nosniff *bool `json:"nosniff" validate:"required"`
 }
-
 
 // UnmarshalSecurityHeaderRespResultValueStrictTransportSecurity unmarshals an instance of SecurityHeaderRespResultValueStrictTransportSecurity from the specified map of raw messages.
 func UnmarshalSecurityHeaderRespResultValueStrictTransportSecurity(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5457,7 +5605,6 @@ type SecurityHeaderSettingValue struct {
 	// Strict transport security.
 	StrictTransportSecurity *SecurityHeaderSettingValueStrictTransportSecurity `json:"strict_transport_security" validate:"required"`
 }
-
 
 // NewSecurityHeaderSettingValue : Instantiate SecurityHeaderSettingValue (Generic Model Constructor)
 func (*ZonesSettingsV1) NewSecurityHeaderSettingValue(strictTransportSecurity *SecurityHeaderSettingValueStrictTransportSecurity) (model *SecurityHeaderSettingValue, err error) {
@@ -5494,14 +5641,13 @@ type SecurityHeaderSettingValueStrictTransportSecurity struct {
 	Nosniff *bool `json:"nosniff" validate:"required"`
 }
 
-
 // NewSecurityHeaderSettingValueStrictTransportSecurity : Instantiate SecurityHeaderSettingValueStrictTransportSecurity (Generic Model Constructor)
 func (*ZonesSettingsV1) NewSecurityHeaderSettingValueStrictTransportSecurity(enabled bool, maxAge int64, includeSubdomains bool, nosniff bool) (model *SecurityHeaderSettingValueStrictTransportSecurity, err error) {
 	model = &SecurityHeaderSettingValueStrictTransportSecurity{
-		Enabled: core.BoolPtr(enabled),
-		MaxAge: core.Int64Ptr(maxAge),
+		Enabled:           core.BoolPtr(enabled),
+		MaxAge:            core.Int64Ptr(maxAge),
 		IncludeSubdomains: core.BoolPtr(includeSubdomains),
-		Nosniff: core.BoolPtr(nosniff),
+		Nosniff:           core.BoolPtr(nosniff),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -5545,7 +5691,6 @@ type ServerSideExcludeRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalServerSideExcludeRespResult unmarshals an instance of ServerSideExcludeRespResult from the specified map of raw messages.
 func UnmarshalServerSideExcludeRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ServerSideExcludeRespResult)
@@ -5583,7 +5728,6 @@ type TlsClientAuthRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalTlsClientAuthRespResult unmarshals an instance of TlsClientAuthRespResult from the specified map of raw messages.
 func UnmarshalTlsClientAuthRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5623,7 +5767,6 @@ type TrueClientIpRespResult struct {
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
 
-
 // UnmarshalTrueClientIpRespResult unmarshals an instance of TrueClientIpRespResult from the specified map of raw messages.
 func UnmarshalTrueClientIpRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(TrueClientIpRespResult)
@@ -5660,7 +5803,7 @@ type UpdateAlwaysUseHttpsOptions struct {
 // Value.
 const (
 	UpdateAlwaysUseHttpsOptions_Value_Off = "off"
-	UpdateAlwaysUseHttpsOptions_Value_On = "on"
+	UpdateAlwaysUseHttpsOptions_Value_On  = "on"
 )
 
 // NewUpdateAlwaysUseHttpsOptions : Instantiate UpdateAlwaysUseHttpsOptions
@@ -5693,7 +5836,7 @@ type UpdateAutomaticHttpsRewritesOptions struct {
 // Value.
 const (
 	UpdateAutomaticHttpsRewritesOptions_Value_Off = "off"
-	UpdateAutomaticHttpsRewritesOptions_Value_On = "on"
+	UpdateAutomaticHttpsRewritesOptions_Value_On  = "on"
 )
 
 // NewUpdateAutomaticHttpsRewritesOptions : Instantiate UpdateAutomaticHttpsRewritesOptions
@@ -5713,6 +5856,39 @@ func (options *UpdateAutomaticHttpsRewritesOptions) SetHeaders(param map[string]
 	return options
 }
 
+// UpdateBrotliOptions : The UpdateBrotli options.
+type UpdateBrotliOptions struct {
+	// Value.
+	Value *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateBrotliOptions.Value property.
+// Value.
+const (
+	UpdateBrotliOptions_Value_Off = "off"
+	UpdateBrotliOptions_Value_On  = "on"
+)
+
+// NewUpdateBrotliOptions : Instantiate UpdateBrotliOptions
+func (*ZonesSettingsV1) NewUpdateBrotliOptions() *UpdateBrotliOptions {
+	return &UpdateBrotliOptions{}
+}
+
+// SetValue : Allow user to set Value
+func (options *UpdateBrotliOptions) SetValue(value string) *UpdateBrotliOptions {
+	options.Value = core.StringPtr(value)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateBrotliOptions) SetHeaders(param map[string]string) *UpdateBrotliOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateBrowserCheckOptions : The UpdateBrowserCheck options.
 type UpdateBrowserCheckOptions struct {
 	// Value.
@@ -5726,7 +5902,7 @@ type UpdateBrowserCheckOptions struct {
 // Value.
 const (
 	UpdateBrowserCheckOptions_Value_Off = "off"
-	UpdateBrowserCheckOptions_Value_On = "on"
+	UpdateBrowserCheckOptions_Value_On  = "on"
 )
 
 // NewUpdateBrowserCheckOptions : Instantiate UpdateBrowserCheckOptions
@@ -5783,26 +5959,26 @@ type UpdateCiphersOptions struct {
 
 // Constants associated with the UpdateCiphersOptions.Value property.
 const (
-	UpdateCiphersOptions_Value_Aes128GcmSha256 = "AES128-GCM-SHA256"
-	UpdateCiphersOptions_Value_Aes128Sha = "AES128-SHA"
-	UpdateCiphersOptions_Value_Aes128Sha256 = "AES128-SHA256"
-	UpdateCiphersOptions_Value_Aes256GcmSha384 = "AES256-GCM-SHA384"
-	UpdateCiphersOptions_Value_Aes256Sha = "AES256-SHA"
-	UpdateCiphersOptions_Value_Aes256Sha256 = "AES256-SHA256"
-	UpdateCiphersOptions_Value_DesCbc3Sha = "DES-CBC3-SHA"
-	UpdateCiphersOptions_Value_EcdheEcdsaAes128GcmSha256 = "ECDHE-ECDSA-AES128-GCM-SHA256"
-	UpdateCiphersOptions_Value_EcdheEcdsaAes128Sha = "ECDHE-ECDSA-AES128-SHA"
-	UpdateCiphersOptions_Value_EcdheEcdsaAes128Sha256 = "ECDHE-ECDSA-AES128-SHA256"
-	UpdateCiphersOptions_Value_EcdheEcdsaAes256GcmSha384 = "ECDHE-ECDSA-AES256-GCM-SHA384"
-	UpdateCiphersOptions_Value_EcdheEcdsaAes256Sha384 = "ECDHE-ECDSA-AES256-SHA384"
+	UpdateCiphersOptions_Value_Aes128GcmSha256            = "AES128-GCM-SHA256"
+	UpdateCiphersOptions_Value_Aes128Sha                  = "AES128-SHA"
+	UpdateCiphersOptions_Value_Aes128Sha256               = "AES128-SHA256"
+	UpdateCiphersOptions_Value_Aes256GcmSha384            = "AES256-GCM-SHA384"
+	UpdateCiphersOptions_Value_Aes256Sha                  = "AES256-SHA"
+	UpdateCiphersOptions_Value_Aes256Sha256               = "AES256-SHA256"
+	UpdateCiphersOptions_Value_DesCbc3Sha                 = "DES-CBC3-SHA"
+	UpdateCiphersOptions_Value_EcdheEcdsaAes128GcmSha256  = "ECDHE-ECDSA-AES128-GCM-SHA256"
+	UpdateCiphersOptions_Value_EcdheEcdsaAes128Sha        = "ECDHE-ECDSA-AES128-SHA"
+	UpdateCiphersOptions_Value_EcdheEcdsaAes128Sha256     = "ECDHE-ECDSA-AES128-SHA256"
+	UpdateCiphersOptions_Value_EcdheEcdsaAes256GcmSha384  = "ECDHE-ECDSA-AES256-GCM-SHA384"
+	UpdateCiphersOptions_Value_EcdheEcdsaAes256Sha384     = "ECDHE-ECDSA-AES256-SHA384"
 	UpdateCiphersOptions_Value_EcdheEcdsaChacha20Poly1305 = "ECDHE-ECDSA-CHACHA20-POLY1305"
-	UpdateCiphersOptions_Value_EcdheRsaAes128GcmSha256 = "ECDHE-RSA-AES128-GCM-SHA256"
-	UpdateCiphersOptions_Value_EcdheRsaAes128Sha = "ECDHE-RSA-AES128-SHA"
-	UpdateCiphersOptions_Value_EcdheRsaAes128Sha256 = "ECDHE-RSA-AES128-SHA256"
-	UpdateCiphersOptions_Value_EcdheRsaAes256GcmSha384 = "ECDHE-RSA-AES256-GCM-SHA384"
-	UpdateCiphersOptions_Value_EcdheRsaAes256Sha = "ECDHE-RSA-AES256-SHA"
-	UpdateCiphersOptions_Value_EcdheRsaAes256Sha384 = "ECDHE-RSA-AES256-SHA384"
-	UpdateCiphersOptions_Value_EcdheRsaChacha20Poly1305 = "ECDHE-RSA-CHACHA20-POLY1305"
+	UpdateCiphersOptions_Value_EcdheRsaAes128GcmSha256    = "ECDHE-RSA-AES128-GCM-SHA256"
+	UpdateCiphersOptions_Value_EcdheRsaAes128Sha          = "ECDHE-RSA-AES128-SHA"
+	UpdateCiphersOptions_Value_EcdheRsaAes128Sha256       = "ECDHE-RSA-AES128-SHA256"
+	UpdateCiphersOptions_Value_EcdheRsaAes256GcmSha384    = "ECDHE-RSA-AES256-GCM-SHA384"
+	UpdateCiphersOptions_Value_EcdheRsaAes256Sha          = "ECDHE-RSA-AES256-SHA"
+	UpdateCiphersOptions_Value_EcdheRsaAes256Sha384       = "ECDHE-RSA-AES256-SHA384"
+	UpdateCiphersOptions_Value_EcdheRsaChacha20Poly1305   = "ECDHE-RSA-CHACHA20-POLY1305"
 )
 
 // NewUpdateCiphersOptions : Instantiate UpdateCiphersOptions
@@ -5835,7 +6011,7 @@ type UpdateEnableErrorPagesOnOptions struct {
 // Value.
 const (
 	UpdateEnableErrorPagesOnOptions_Value_Off = "off"
-	UpdateEnableErrorPagesOnOptions_Value_On = "on"
+	UpdateEnableErrorPagesOnOptions_Value_On  = "on"
 )
 
 // NewUpdateEnableErrorPagesOnOptions : Instantiate UpdateEnableErrorPagesOnOptions
@@ -5868,7 +6044,7 @@ type UpdateHotlinkProtectionOptions struct {
 // Value.
 const (
 	UpdateHotlinkProtectionOptions_Value_Off = "off"
-	UpdateHotlinkProtectionOptions_Value_On = "on"
+	UpdateHotlinkProtectionOptions_Value_On  = "on"
 )
 
 // NewUpdateHotlinkProtectionOptions : Instantiate UpdateHotlinkProtectionOptions
@@ -5901,7 +6077,7 @@ type UpdateHttp2Options struct {
 // Value.
 const (
 	UpdateHttp2Options_Value_Off = "off"
-	UpdateHttp2Options_Value_On = "on"
+	UpdateHttp2Options_Value_On  = "on"
 )
 
 // NewUpdateHttp2Options : Instantiate UpdateHttp2Options
@@ -5934,7 +6110,7 @@ type UpdateHttp3Options struct {
 // Value.
 const (
 	UpdateHttp3Options_Value_Off = "off"
-	UpdateHttp3Options_Value_On = "on"
+	UpdateHttp3Options_Value_On  = "on"
 )
 
 // NewUpdateHttp3Options : Instantiate UpdateHttp3Options
@@ -5967,7 +6143,7 @@ type UpdateImageLoadOptimizationOptions struct {
 // Value.
 const (
 	UpdateImageLoadOptimizationOptions_Value_Off = "off"
-	UpdateImageLoadOptimizationOptions_Value_On = "on"
+	UpdateImageLoadOptimizationOptions_Value_On  = "on"
 )
 
 // NewUpdateImageLoadOptimizationOptions : Instantiate UpdateImageLoadOptimizationOptions
@@ -6004,8 +6180,8 @@ type UpdateImageSizeOptimizationOptions struct {
 // of image files without impacting visual quality.
 const (
 	UpdateImageSizeOptimizationOptions_Value_Lossless = "lossless"
-	UpdateImageSizeOptimizationOptions_Value_Lossy = "lossy"
-	UpdateImageSizeOptimizationOptions_Value_Off = "off"
+	UpdateImageSizeOptimizationOptions_Value_Lossy    = "lossy"
+	UpdateImageSizeOptimizationOptions_Value_Off      = "off"
 )
 
 // NewUpdateImageSizeOptimizationOptions : Instantiate UpdateImageSizeOptimizationOptions
@@ -6038,7 +6214,7 @@ type UpdateIpGeolocationOptions struct {
 // Value.
 const (
 	UpdateIpGeolocationOptions_Value_Off = "off"
-	UpdateIpGeolocationOptions_Value_On = "on"
+	UpdateIpGeolocationOptions_Value_On  = "on"
 )
 
 // NewUpdateIpGeolocationOptions : Instantiate UpdateIpGeolocationOptions
@@ -6071,7 +6247,7 @@ type UpdateIpv6Options struct {
 // Value.
 const (
 	UpdateIpv6Options_Value_Off = "off"
-	UpdateIpv6Options_Value_On = "on"
+	UpdateIpv6Options_Value_On  = "on"
 )
 
 // NewUpdateIpv6Options : Instantiate UpdateIpv6Options
@@ -6209,7 +6385,7 @@ type UpdateOpportunisticEncryptionOptions struct {
 // Value.
 const (
 	UpdateOpportunisticEncryptionOptions_Value_Off = "off"
-	UpdateOpportunisticEncryptionOptions_Value_On = "on"
+	UpdateOpportunisticEncryptionOptions_Value_On  = "on"
 )
 
 // NewUpdateOpportunisticEncryptionOptions : Instantiate UpdateOpportunisticEncryptionOptions
@@ -6242,7 +6418,7 @@ type UpdatePrefetchPreloadOptions struct {
 // Value.
 const (
 	UpdatePrefetchPreloadOptions_Value_Off = "off"
-	UpdatePrefetchPreloadOptions_Value_On = "on"
+	UpdatePrefetchPreloadOptions_Value_On  = "on"
 )
 
 // NewUpdatePrefetchPreloadOptions : Instantiate UpdatePrefetchPreloadOptions
@@ -6274,8 +6450,8 @@ type UpdatePseudoIpv4Options struct {
 // Constants associated with the UpdatePseudoIpv4Options.Value property.
 // Value.
 const (
-	UpdatePseudoIpv4Options_Value_AddHeader = "add_header"
-	UpdatePseudoIpv4Options_Value_Off = "off"
+	UpdatePseudoIpv4Options_Value_AddHeader       = "add_header"
+	UpdatePseudoIpv4Options_Value_Off             = "off"
 	UpdatePseudoIpv4Options_Value_OverwriteHeader = "overwrite_header"
 )
 
@@ -6309,7 +6485,7 @@ type UpdateResponseBufferingOptions struct {
 // Value.
 const (
 	UpdateResponseBufferingOptions_Value_Off = "off"
-	UpdateResponseBufferingOptions_Value_On = "on"
+	UpdateResponseBufferingOptions_Value_On  = "on"
 )
 
 // NewUpdateResponseBufferingOptions : Instantiate UpdateResponseBufferingOptions
@@ -6342,7 +6518,7 @@ type UpdateScriptLoadOptimizationOptions struct {
 // Value.
 const (
 	UpdateScriptLoadOptimizationOptions_Value_Off = "off"
-	UpdateScriptLoadOptimizationOptions_Value_On = "on"
+	UpdateScriptLoadOptimizationOptions_Value_On  = "on"
 )
 
 // NewUpdateScriptLoadOptimizationOptions : Instantiate UpdateScriptLoadOptimizationOptions
@@ -6401,7 +6577,7 @@ type UpdateServerSideExcludeOptions struct {
 // Value.
 const (
 	UpdateServerSideExcludeOptions_Value_Off = "off"
-	UpdateServerSideExcludeOptions_Value_On = "on"
+	UpdateServerSideExcludeOptions_Value_On  = "on"
 )
 
 // NewUpdateServerSideExcludeOptions : Instantiate UpdateServerSideExcludeOptions
@@ -6434,7 +6610,7 @@ type UpdateTlsClientAuthOptions struct {
 // Value.
 const (
 	UpdateTlsClientAuthOptions_Value_Off = "off"
-	UpdateTlsClientAuthOptions_Value_On = "on"
+	UpdateTlsClientAuthOptions_Value_On  = "on"
 )
 
 // NewUpdateTlsClientAuthOptions : Instantiate UpdateTlsClientAuthOptions
@@ -6467,7 +6643,7 @@ type UpdateTrueClientIpOptions struct {
 // Value.
 const (
 	UpdateTrueClientIpOptions_Value_Off = "off"
-	UpdateTrueClientIpOptions_Value_On = "on"
+	UpdateTrueClientIpOptions_Value_On  = "on"
 )
 
 // NewUpdateTrueClientIpOptions : Instantiate UpdateTrueClientIpOptions
@@ -6500,7 +6676,7 @@ type UpdateWebApplicationFirewallOptions struct {
 // Value.
 const (
 	UpdateWebApplicationFirewallOptions_Value_Off = "off"
-	UpdateWebApplicationFirewallOptions_Value_On = "on"
+	UpdateWebApplicationFirewallOptions_Value_On  = "on"
 )
 
 // NewUpdateWebApplicationFirewallOptions : Instantiate UpdateWebApplicationFirewallOptions
@@ -6533,7 +6709,7 @@ type UpdateWebSocketsOptions struct {
 // Value.
 const (
 	UpdateWebSocketsOptions_Value_Off = "off"
-	UpdateWebSocketsOptions_Value_On = "on"
+	UpdateWebSocketsOptions_Value_On  = "on"
 )
 
 // NewUpdateWebSocketsOptions : Instantiate UpdateWebSocketsOptions
@@ -6567,7 +6743,7 @@ type UpdateZoneCnameFlatteningOptions struct {
 // Valid values are "flatten_at_root", "flatten_all". "flatten_at_root" - Flatten CNAME at root domain. This is the
 // default value. "flatten_all" - Flatten all CNAME records under your domain.
 const (
-	UpdateZoneCnameFlatteningOptions_Value_FlattenAll = "flatten_all"
+	UpdateZoneCnameFlatteningOptions_Value_FlattenAll    = "flatten_all"
 	UpdateZoneCnameFlatteningOptions_Value_FlattenAtRoot = "flatten_at_root"
 )
 
@@ -6600,7 +6776,7 @@ type UpdateZoneDnssecOptions struct {
 // Constants associated with the UpdateZoneDnssecOptions.Status property.
 // Status.
 const (
-	UpdateZoneDnssecOptions_Status_Active = "active"
+	UpdateZoneDnssecOptions_Status_Active   = "active"
 	UpdateZoneDnssecOptions_Status_Disabled = "disabled"
 )
 
@@ -6635,7 +6811,6 @@ type WafRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalWafRespResult unmarshals an instance of WafRespResult from the specified map of raw messages.
 func UnmarshalWafRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6674,7 +6849,6 @@ type WebsocketsRespResult struct {
 	// Modified date.
 	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
 }
-
 
 // UnmarshalWebsocketsRespResult unmarshals an instance of WebsocketsRespResult from the specified map of raw messages.
 func UnmarshalWebsocketsRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6735,13 +6909,12 @@ type ZonesDnssecRespResult struct {
 // Constants associated with the ZonesDnssecRespResult.Status property.
 // Status.
 const (
-	ZonesDnssecRespResult_Status_Active = "active"
-	ZonesDnssecRespResult_Status_Disabled = "disabled"
-	ZonesDnssecRespResult_Status_Error = "error"
-	ZonesDnssecRespResult_Status_Pending = "pending"
+	ZonesDnssecRespResult_Status_Active          = "active"
+	ZonesDnssecRespResult_Status_Disabled        = "disabled"
+	ZonesDnssecRespResult_Status_Error           = "error"
+	ZonesDnssecRespResult_Status_Pending         = "pending"
 	ZonesDnssecRespResult_Status_PendingDisabled = "pending-disabled"
 )
-
 
 // UnmarshalZonesDnssecRespResult unmarshals an instance of ZonesDnssecRespResult from the specified map of raw messages.
 func UnmarshalZonesDnssecRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6805,7 +6978,6 @@ type AlwaysUseHttpsResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalAlwaysUseHttpsResp unmarshals an instance of AlwaysUseHttpsResp from the specified map of raw messages.
 func UnmarshalAlwaysUseHttpsResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(AlwaysUseHttpsResp)
@@ -6844,11 +7016,48 @@ type AutomaticHttpsRewritesResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalAutomaticHttpsRewritesResp unmarshals an instance of AutomaticHttpsRewritesResp from the specified map of raw messages.
 func UnmarshalAutomaticHttpsRewritesResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(AutomaticHttpsRewritesResp)
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalAutomaticHttpsRewritesRespResult)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BrotliResp : Brotli response.
+type BrotliResp struct {
+	// Container for response information.
+	Result *BrotliRespResult `json:"result" validate:"required"`
+
+	// Was the get successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+}
+
+// UnmarshalBrotliResp unmarshals an instance of BrotliResp from the specified map of raw messages.
+func UnmarshalBrotliResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BrotliResp)
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalBrotliRespResult)
 	if err != nil {
 		return
 	}
@@ -6882,7 +7091,6 @@ type BrowserCheckResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalBrowserCheckResp unmarshals an instance of BrowserCheckResp from the specified map of raw messages.
 func UnmarshalBrowserCheckResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6922,7 +7130,6 @@ type ChallengeTtlResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalChallengeTtlResp unmarshals an instance of ChallengeTtlResp from the specified map of raw messages.
 func UnmarshalChallengeTtlResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ChallengeTtlResp)
@@ -6960,7 +7167,6 @@ type CiphersResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalCiphersResp unmarshals an instance of CiphersResp from the specified map of raw messages.
 func UnmarshalCiphersResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7003,10 +7209,9 @@ type CnameFlatteningResponse struct {
 // Constants associated with the CnameFlatteningResponse.Value property.
 // value.
 const (
-	CnameFlatteningResponse_Value_FlattenAll = "flatten_all"
+	CnameFlatteningResponse_Value_FlattenAll    = "flatten_all"
 	CnameFlatteningResponse_Value_FlattenAtRoot = "flatten_at_root"
 )
-
 
 // UnmarshalCnameFlatteningResponse unmarshals an instance of CnameFlatteningResponse from the specified map of raw messages.
 func UnmarshalCnameFlatteningResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7046,7 +7251,6 @@ type HotlinkProtectionResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalHotlinkProtectionResp unmarshals an instance of HotlinkProtectionResp from the specified map of raw messages.
 func UnmarshalHotlinkProtectionResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(HotlinkProtectionResp)
@@ -7084,7 +7288,6 @@ type Http2Resp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalHttp2Resp unmarshals an instance of Http2Resp from the specified map of raw messages.
 func UnmarshalHttp2Resp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7162,7 +7365,6 @@ type ImageLoadOptimizationResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalImageLoadOptimizationResp unmarshals an instance of ImageLoadOptimizationResp from the specified map of raw messages.
 func UnmarshalImageLoadOptimizationResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ImageLoadOptimizationResp)
@@ -7200,7 +7402,6 @@ type ImageSizeOptimizationResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalImageSizeOptimizationResp unmarshals an instance of ImageSizeOptimizationResp from the specified map of raw messages.
 func UnmarshalImageSizeOptimizationResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7240,7 +7441,6 @@ type IpGeolocationResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalIpGeolocationResp unmarshals an instance of IpGeolocationResp from the specified map of raw messages.
 func UnmarshalIpGeolocationResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(IpGeolocationResp)
@@ -7278,7 +7478,6 @@ type Ipv6Resp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalIpv6Resp unmarshals an instance of Ipv6Resp from the specified map of raw messages.
 func UnmarshalIpv6Resp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7318,7 +7517,6 @@ type MaxUploadResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalMaxUploadResp unmarshals an instance of MaxUploadResp from the specified map of raw messages.
 func UnmarshalMaxUploadResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MaxUploadResp)
@@ -7356,7 +7554,6 @@ type MinTlsVersionResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalMinTlsVersionResp unmarshals an instance of MinTlsVersionResp from the specified map of raw messages.
 func UnmarshalMinTlsVersionResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7396,7 +7593,6 @@ type MinifyResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalMinifyResp unmarshals an instance of MinifyResp from the specified map of raw messages.
 func UnmarshalMinifyResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MinifyResp)
@@ -7434,7 +7630,6 @@ type MobileRedirectResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalMobileRedirectResp unmarshals an instance of MobileRedirectResp from the specified map of raw messages.
 func UnmarshalMobileRedirectResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7474,7 +7669,6 @@ type OpportunisticEncryptionResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalOpportunisticEncryptionResp unmarshals an instance of OpportunisticEncryptionResp from the specified map of raw messages.
 func UnmarshalOpportunisticEncryptionResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OpportunisticEncryptionResp)
@@ -7512,7 +7706,6 @@ type OriginErrorPagePassThruResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalOriginErrorPagePassThruResp unmarshals an instance of OriginErrorPagePassThruResp from the specified map of raw messages.
 func UnmarshalOriginErrorPagePassThruResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7552,7 +7745,6 @@ type PrefetchPreloadResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalPrefetchPreloadResp unmarshals an instance of PrefetchPreloadResp from the specified map of raw messages.
 func UnmarshalPrefetchPreloadResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PrefetchPreloadResp)
@@ -7590,7 +7782,6 @@ type PseudoIpv4Resp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalPseudoIpv4Resp unmarshals an instance of PseudoIpv4Resp from the specified map of raw messages.
 func UnmarshalPseudoIpv4Resp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7630,7 +7821,6 @@ type ResponseBufferingResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalResponseBufferingResp unmarshals an instance of ResponseBufferingResp from the specified map of raw messages.
 func UnmarshalResponseBufferingResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResponseBufferingResp)
@@ -7668,7 +7858,6 @@ type ScriptLoadOptimizationResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalScriptLoadOptimizationResp unmarshals an instance of ScriptLoadOptimizationResp from the specified map of raw messages.
 func UnmarshalScriptLoadOptimizationResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7708,7 +7897,6 @@ type SecurityHeaderResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalSecurityHeaderResp unmarshals an instance of SecurityHeaderResp from the specified map of raw messages.
 func UnmarshalSecurityHeaderResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityHeaderResp)
@@ -7746,7 +7934,6 @@ type ServerSideExcludeResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalServerSideExcludeResp unmarshals an instance of ServerSideExcludeResp from the specified map of raw messages.
 func UnmarshalServerSideExcludeResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7786,7 +7973,6 @@ type TlsClientAuthResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalTlsClientAuthResp unmarshals an instance of TlsClientAuthResp from the specified map of raw messages.
 func UnmarshalTlsClientAuthResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(TlsClientAuthResp)
@@ -7824,7 +8010,6 @@ type TrueClientIpResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalTrueClientIpResp unmarshals an instance of TrueClientIpResp from the specified map of raw messages.
 func UnmarshalTrueClientIpResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7864,7 +8049,6 @@ type WafResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 }
 
-
 // UnmarshalWafResp unmarshals an instance of WafResp from the specified map of raw messages.
 func UnmarshalWafResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafResp)
@@ -7902,7 +8086,6 @@ type WebsocketsResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 }
-
 
 // UnmarshalWebsocketsResp unmarshals an instance of WebsocketsResp from the specified map of raw messages.
 func UnmarshalWebsocketsResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7942,7 +8125,6 @@ type ZonesCnameFlatteningResp struct {
 	Result *CnameFlatteningResponse `json:"result" validate:"required"`
 }
 
-
 // UnmarshalZonesCnameFlatteningResp unmarshals an instance of ZonesCnameFlatteningResp from the specified map of raw messages.
 func UnmarshalZonesCnameFlatteningResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ZonesCnameFlatteningResp)
@@ -7980,7 +8162,6 @@ type ZonesDnssecResp struct {
 	// Container for response information.
 	Result *ZonesDnssecRespResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalZonesDnssecResp unmarshals an instance of ZonesDnssecResp from the specified map of raw messages.
 func UnmarshalZonesDnssecResp(m map[string]json.RawMessage, result interface{}) (err error) {

@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
@@ -40,7 +41,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		It(`Instantiate service client`, func() {
 			globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -76,7 +77,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_MONITOR_URL": "https://globalloadbalancermonitorv1/api",
+				"GLOBAL_LOAD_BALANCER_MONITOR_URL":       "https://globalloadbalancermonitorv1/api",
 				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE": "noauth",
 			}
 
@@ -134,7 +135,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_MONITOR_URL": "https://globalloadbalancermonitorv1/api",
+				"GLOBAL_LOAD_BALANCER_MONITOR_URL":       "https://globalloadbalancermonitorv1/api",
 				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,7 +153,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE":   "NOAuth",
+				"GLOBAL_LOAD_BALANCER_MONITOR_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -198,7 +199,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -252,7 +253,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -303,7 +304,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -345,7 +346,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -428,7 +429,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -492,7 +493,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -547,7 +548,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -631,7 +632,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -696,7 +697,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -759,7 +760,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -814,7 +815,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -866,7 +867,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -916,7 +917,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -971,7 +972,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -1023,7 +1024,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 				globalLoadBalancerMonitorService, serviceErr := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(globalLoadBalancerMonitorService).ToNot(BeNil())
@@ -1059,7 +1060,7 @@ var _ = Describe(`GlobalLoadBalancerMonitorV1`, func() {
 			globalLoadBalancerMonitorService, _ := globalloadbalancermonitorv1.NewGlobalLoadBalancerMonitorV1(&globalloadbalancermonitorv1.GlobalLoadBalancerMonitorV1Options{
 				URL:           "http://globalloadbalancermonitorv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateLoadBalancerMonitorOptions successfully`, func() {
 				// Construct an instance of the CreateLoadBalancerMonitorOptions model

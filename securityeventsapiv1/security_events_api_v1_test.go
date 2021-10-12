@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/securityeventsapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/securityeventsapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`SecurityEventsApiV1`, func() {
@@ -41,16 +42,16 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(securityEventsApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 			Expect(securityEventsApiService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
-				URL: "https://securityeventsapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:    "https://securityeventsapiv1/api",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SECURITY_EVENTS_API_URL": "https://securityeventsapiv1/api",
+				"SECURITY_EVENTS_API_URL":       "https://securityeventsapiv1/api",
 				"SECURITY_EVENTS_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1UsingExternalConfig(&securityeventsapiv1.SecurityEventsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(securityEventsApiService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1UsingExternalConfig(&securityeventsapiv1.SecurityEventsApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:    "https://testService/api",
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(securityEventsApiService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1UsingExternalConfig(&securityeventsapiv1.SecurityEventsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				err := securityEventsApiService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SECURITY_EVENTS_API_URL": "https://securityeventsapiv1/api",
+				"SECURITY_EVENTS_API_URL":       "https://securityeventsapiv1/api",
 				"SECURITY_EVENTS_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1UsingExternalConfig(&securityeventsapiv1.SecurityEventsApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SECURITY_EVENTS_API_AUTH_TYPE":   "NOAuth",
+				"SECURITY_EVENTS_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1UsingExternalConfig(&securityeventsapiv1.SecurityEventsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -228,7 +229,6 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 
 					Expect(req.URL.Query()["country"]).To(Equal([]string{"testString"}))
 
-
 					// TODO: Add check for since query parameter
 
 					Expect(req.URL.Query()["source"]).To(Equal([]string{"unknown"}))
@@ -236,7 +236,6 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 
 					Expect(req.URL.Query()["rule_id"]).To(Equal([]string{"testString"}))
-
 
 					// TODO: Add check for until query parameter
 
@@ -249,8 +248,8 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 				securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(securityEventsApiService).ToNot(BeNil())
@@ -339,7 +338,6 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 
 					Expect(req.URL.Query()["country"]).To(Equal([]string{"testString"}))
 
-
 					// TODO: Add check for since query parameter
 
 					Expect(req.URL.Query()["source"]).To(Equal([]string{"unknown"}))
@@ -347,7 +345,6 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 
 					Expect(req.URL.Query()["rule_id"]).To(Equal([]string{"testString"}))
-
 
 					// TODO: Add check for until query parameter
 
@@ -364,8 +361,8 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 				securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(securityEventsApiService).ToNot(BeNil())
@@ -435,8 +432,8 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 				securityEventsApiService, serviceErr := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(securityEventsApiService).ToNot(BeNil())
@@ -484,8 +481,8 @@ var _ = Describe(`SecurityEventsApiV1`, func() {
 			securityEventsApiService, _ := securityeventsapiv1.NewSecurityEventsApiV1(&securityeventsapiv1.SecurityEventsApiV1Options{
 				URL:           "http://securityeventsapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			It(`Invoke NewSecurityEventsOptions successfully`, func() {
 				// Construct an instance of the SecurityEventsOptions model

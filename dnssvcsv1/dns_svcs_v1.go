@@ -15,9 +15,8 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ * IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
  */
- 
 
 // Package dnssvcsv1 : Operations and models for the DnsSvcsV1 service
 package dnssvcsv1
@@ -26,18 +25,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
-	"github.com/go-openapi/strfmt"
 	"io"
 	"net/http"
 	"reflect"
+	"strconv"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/go-openapi/strfmt"
 )
 
 // DnsSvcsV1 : DNS Services API
 //
-// Version: 1.0.0
+// API Version: 1.0.0
 type DnsSvcsV1 struct {
 	Service *core.BaseService
 }
@@ -220,11 +221,13 @@ func (dnsSvcs *DnsSvcsV1) ListDnszonesWithContext(ctx context.Context, listDnszo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListDnszones)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListDnszones)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -297,11 +300,13 @@ func (dnsSvcs *DnsSvcsV1) CreateDnszoneWithContext(ctx context.Context, createDn
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -325,7 +330,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteDnszoneWithContext(ctx context.Context, deleteDn
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteDnszoneOptions.InstanceID,
-		"dnszone_id": *deleteDnszoneOptions.DnszoneID,
+		"dnszone_id":  *deleteDnszoneOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -377,7 +382,7 @@ func (dnsSvcs *DnsSvcsV1) GetDnszoneWithContext(ctx context.Context, getDnszoneO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getDnszoneOptions.InstanceID,
-		"dnszone_id": *getDnszoneOptions.DnszoneID,
+		"dnszone_id":  *getDnszoneOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -411,11 +416,13 @@ func (dnsSvcs *DnsSvcsV1) GetDnszoneWithContext(ctx context.Context, getDnszoneO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -439,7 +446,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszoneWithContext(ctx context.Context, updateDn
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateDnszoneOptions.InstanceID,
-		"dnszone_id": *updateDnszoneOptions.DnszoneID,
+		"dnszone_id":  *updateDnszoneOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -486,11 +493,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszoneWithContext(ctx context.Context, updateDn
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDnszone)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -514,7 +523,7 @@ func (dnsSvcs *DnsSvcsV1) ListResourceRecordsWithContext(ctx context.Context, li
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listResourceRecordsOptions.InstanceID,
-		"dnszone_id": *listResourceRecordsOptions.DnszoneID,
+		"dnszone_id":  *listResourceRecordsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -555,11 +564,13 @@ func (dnsSvcs *DnsSvcsV1) ListResourceRecordsWithContext(ctx context.Context, li
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListResourceRecords)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListResourceRecords)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -583,7 +594,7 @@ func (dnsSvcs *DnsSvcsV1) CreateResourceRecordWithContext(ctx context.Context, c
 
 	pathParamsMap := map[string]string{
 		"instance_id": *createResourceRecordOptions.InstanceID,
-		"dnszone_id": *createResourceRecordOptions.DnszoneID,
+		"dnszone_id":  *createResourceRecordOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -642,11 +653,13 @@ func (dnsSvcs *DnsSvcsV1) CreateResourceRecordWithContext(ctx context.Context, c
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -670,8 +683,8 @@ func (dnsSvcs *DnsSvcsV1) DeleteResourceRecordWithContext(ctx context.Context, d
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteResourceRecordOptions.InstanceID,
-		"dnszone_id": *deleteResourceRecordOptions.DnszoneID,
-		"record_id": *deleteResourceRecordOptions.RecordID,
+		"dnszone_id":  *deleteResourceRecordOptions.DnszoneID,
+		"record_id":   *deleteResourceRecordOptions.RecordID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -723,8 +736,8 @@ func (dnsSvcs *DnsSvcsV1) GetResourceRecordWithContext(ctx context.Context, getR
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getResourceRecordOptions.InstanceID,
-		"dnszone_id": *getResourceRecordOptions.DnszoneID,
-		"record_id": *getResourceRecordOptions.RecordID,
+		"dnszone_id":  *getResourceRecordOptions.DnszoneID,
+		"record_id":   *getResourceRecordOptions.RecordID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -758,11 +771,13 @@ func (dnsSvcs *DnsSvcsV1) GetResourceRecordWithContext(ctx context.Context, getR
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -786,8 +801,8 @@ func (dnsSvcs *DnsSvcsV1) UpdateResourceRecordWithContext(ctx context.Context, u
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateResourceRecordOptions.InstanceID,
-		"dnszone_id": *updateResourceRecordOptions.DnszoneID,
-		"record_id": *updateResourceRecordOptions.RecordID,
+		"dnszone_id":  *updateResourceRecordOptions.DnszoneID,
+		"record_id":   *updateResourceRecordOptions.RecordID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -843,11 +858,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateResourceRecordWithContext(ctx context.Context, u
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceRecord)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -871,7 +888,7 @@ func (dnsSvcs *DnsSvcsV1) ExportResourceRecordsWithContext(ctx context.Context, 
 
 	pathParamsMap := map[string]string{
 		"instance_id": *exportResourceRecordsOptions.InstanceID,
-		"dnszone_id": *exportResourceRecordsOptions.DnszoneID,
+		"dnszone_id":  *exportResourceRecordsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -921,14 +938,14 @@ func (dnsSvcs *DnsSvcsV1) ImportResourceRecordsWithContext(ctx context.Context, 
 	if err != nil {
 		return
 	}
-	if (importResourceRecordsOptions.File == nil) {
+	if importResourceRecordsOptions.File == nil {
 		err = fmt.Errorf("at least one of  or file must be supplied")
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"instance_id": *importResourceRecordsOptions.InstanceID,
-		"dnszone_id": *importResourceRecordsOptions.DnszoneID,
+		"dnszone_id":  *importResourceRecordsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -967,11 +984,13 @@ func (dnsSvcs *DnsSvcsV1) ImportResourceRecordsWithContext(ctx context.Context, 
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalImportResourceRecordsResp)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalImportResourceRecordsResp)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -995,7 +1014,7 @@ func (dnsSvcs *DnsSvcsV1) ListPermittedNetworksWithContext(ctx context.Context, 
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listPermittedNetworksOptions.InstanceID,
-		"dnszone_id": *listPermittedNetworksOptions.DnszoneID,
+		"dnszone_id":  *listPermittedNetworksOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1036,11 +1055,13 @@ func (dnsSvcs *DnsSvcsV1) ListPermittedNetworksWithContext(ctx context.Context, 
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPermittedNetworks)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPermittedNetworks)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1064,7 +1085,7 @@ func (dnsSvcs *DnsSvcsV1) CreatePermittedNetworkWithContext(ctx context.Context,
 
 	pathParamsMap := map[string]string{
 		"instance_id": *createPermittedNetworkOptions.InstanceID,
-		"dnszone_id": *createPermittedNetworkOptions.DnszoneID,
+		"dnszone_id":  *createPermittedNetworkOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1111,11 +1132,13 @@ func (dnsSvcs *DnsSvcsV1) CreatePermittedNetworkWithContext(ctx context.Context,
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1138,8 +1161,8 @@ func (dnsSvcs *DnsSvcsV1) DeletePermittedNetworkWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *deletePermittedNetworkOptions.InstanceID,
-		"dnszone_id": *deletePermittedNetworkOptions.DnszoneID,
+		"instance_id":          *deletePermittedNetworkOptions.InstanceID,
+		"dnszone_id":           *deletePermittedNetworkOptions.DnszoneID,
 		"permitted_network_id": *deletePermittedNetworkOptions.PermittedNetworkID,
 	}
 
@@ -1174,11 +1197,13 @@ func (dnsSvcs *DnsSvcsV1) DeletePermittedNetworkWithContext(ctx context.Context,
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1201,8 +1226,8 @@ func (dnsSvcs *DnsSvcsV1) GetPermittedNetworkWithContext(ctx context.Context, ge
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *getPermittedNetworkOptions.InstanceID,
-		"dnszone_id": *getPermittedNetworkOptions.DnszoneID,
+		"instance_id":          *getPermittedNetworkOptions.InstanceID,
+		"dnszone_id":           *getPermittedNetworkOptions.DnszoneID,
 		"permitted_network_id": *getPermittedNetworkOptions.PermittedNetworkID,
 	}
 
@@ -1237,11 +1262,13 @@ func (dnsSvcs *DnsSvcsV1) GetPermittedNetworkWithContext(ctx context.Context, ge
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPermittedNetwork)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1265,7 +1292,7 @@ func (dnsSvcs *DnsSvcsV1) ListLoadBalancersWithContext(ctx context.Context, list
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listLoadBalancersOptions.InstanceID,
-		"dnszone_id": *listLoadBalancersOptions.DnszoneID,
+		"dnszone_id":  *listLoadBalancersOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1299,11 +1326,13 @@ func (dnsSvcs *DnsSvcsV1) ListLoadBalancersWithContext(ctx context.Context, list
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListLoadBalancers)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListLoadBalancers)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1327,7 +1356,7 @@ func (dnsSvcs *DnsSvcsV1) CreateLoadBalancerWithContext(ctx context.Context, cre
 
 	pathParamsMap := map[string]string{
 		"instance_id": *createLoadBalancerOptions.InstanceID,
-		"dnszone_id": *createLoadBalancerOptions.DnszoneID,
+		"dnszone_id":  *createLoadBalancerOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1389,11 +1418,13 @@ func (dnsSvcs *DnsSvcsV1) CreateLoadBalancerWithContext(ctx context.Context, cre
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1417,8 +1448,8 @@ func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancerWithContext(ctx context.Context, del
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteLoadBalancerOptions.InstanceID,
-		"dnszone_id": *deleteLoadBalancerOptions.DnszoneID,
-		"lb_id": *deleteLoadBalancerOptions.LbID,
+		"dnszone_id":  *deleteLoadBalancerOptions.DnszoneID,
+		"lb_id":       *deleteLoadBalancerOptions.LbID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1470,8 +1501,8 @@ func (dnsSvcs *DnsSvcsV1) GetLoadBalancerWithContext(ctx context.Context, getLoa
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getLoadBalancerOptions.InstanceID,
-		"dnszone_id": *getLoadBalancerOptions.DnszoneID,
-		"lb_id": *getLoadBalancerOptions.LbID,
+		"dnszone_id":  *getLoadBalancerOptions.DnszoneID,
+		"lb_id":       *getLoadBalancerOptions.LbID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1505,11 +1536,13 @@ func (dnsSvcs *DnsSvcsV1) GetLoadBalancerWithContext(ctx context.Context, getLoa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1533,8 +1566,8 @@ func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancerWithContext(ctx context.Context, upd
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateLoadBalancerOptions.InstanceID,
-		"dnszone_id": *updateLoadBalancerOptions.DnszoneID,
-		"lb_id": *updateLoadBalancerOptions.LbID,
+		"dnszone_id":  *updateLoadBalancerOptions.DnszoneID,
+		"lb_id":       *updateLoadBalancerOptions.LbID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1596,11 +1629,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancerWithContext(ctx context.Context, upd
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLoadBalancer)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1657,11 +1692,13 @@ func (dnsSvcs *DnsSvcsV1) ListPoolsWithContext(ctx context.Context, listPoolsOpt
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPools)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListPools)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1752,11 +1789,13 @@ func (dnsSvcs *DnsSvcsV1) CreatePoolWithContext(ctx context.Context, createPoolO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1780,7 +1819,7 @@ func (dnsSvcs *DnsSvcsV1) DeletePoolWithContext(ctx context.Context, deletePoolO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deletePoolOptions.InstanceID,
-		"pool_id": *deletePoolOptions.PoolID,
+		"pool_id":     *deletePoolOptions.PoolID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1832,7 +1871,7 @@ func (dnsSvcs *DnsSvcsV1) GetPoolWithContext(ctx context.Context, getPoolOptions
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getPoolOptions.InstanceID,
-		"pool_id": *getPoolOptions.PoolID,
+		"pool_id":     *getPoolOptions.PoolID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1866,11 +1905,13 @@ func (dnsSvcs *DnsSvcsV1) GetPoolWithContext(ctx context.Context, getPoolOptions
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -1894,7 +1935,7 @@ func (dnsSvcs *DnsSvcsV1) UpdatePoolWithContext(ctx context.Context, updatePoolO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updatePoolOptions.InstanceID,
-		"pool_id": *updatePoolOptions.PoolID,
+		"pool_id":     *updatePoolOptions.PoolID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1962,11 +2003,13 @@ func (dnsSvcs *DnsSvcsV1) UpdatePoolWithContext(ctx context.Context, updatePoolO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPool)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2023,11 +2066,13 @@ func (dnsSvcs *DnsSvcsV1) ListMonitorsWithContext(ctx context.Context, listMonit
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListMonitors)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListMonitors)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2130,11 +2175,13 @@ func (dnsSvcs *DnsSvcsV1) CreateMonitorWithContext(ctx context.Context, createMo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2158,7 +2205,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteMonitorWithContext(ctx context.Context, deleteMo
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteMonitorOptions.InstanceID,
-		"monitor_id": *deleteMonitorOptions.MonitorID,
+		"monitor_id":  *deleteMonitorOptions.MonitorID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2210,7 +2257,7 @@ func (dnsSvcs *DnsSvcsV1) GetMonitorWithContext(ctx context.Context, getMonitorO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getMonitorOptions.InstanceID,
-		"monitor_id": *getMonitorOptions.MonitorID,
+		"monitor_id":  *getMonitorOptions.MonitorID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -2244,11 +2291,13 @@ func (dnsSvcs *DnsSvcsV1) GetMonitorWithContext(ctx context.Context, getMonitorO
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2272,7 +2321,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateMonitorWithContext(ctx context.Context, updateMo
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateMonitorOptions.InstanceID,
-		"monitor_id": *updateMonitorOptions.MonitorID,
+		"monitor_id":  *updateMonitorOptions.MonitorID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -2352,11 +2401,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateMonitorWithContext(ctx context.Context, updateMo
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalMonitor)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2413,11 +2464,13 @@ func (dnsSvcs *DnsSvcsV1) ListCustomResolversWithContext(ctx context.Context, li
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolverList)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolverList)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2490,11 +2543,13 @@ func (dnsSvcs *DnsSvcsV1) CreateCustomResolverWithContext(ctx context.Context, c
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2604,11 +2659,13 @@ func (dnsSvcs *DnsSvcsV1) GetCustomResolverWithContext(ctx context.Context, getC
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2682,11 +2739,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateCustomResolverWithContext(ctx context.Context, u
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCustomResolver)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2757,11 +2816,13 @@ func (dnsSvcs *DnsSvcsV1) AddCustomResolverLocationWithContext(ctx context.Conte
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocation)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocation)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2833,11 +2894,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateCustomResolverLocationWithContext(ctx context.Co
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocation)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocation)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -2948,11 +3011,13 @@ func (dnsSvcs *DnsSvcsV1) ListForwardingRulesWithContext(ctx context.Context, li
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRuleList)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRuleList)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -3029,11 +3094,13 @@ func (dnsSvcs *DnsSvcsV1) CreateForwardingRuleWithContext(ctx context.Context, c
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -3058,7 +3125,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteForwardingRuleWithContext(ctx context.Context, d
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteForwardingRuleOptions.InstanceID,
 		"resolver_id": *deleteForwardingRuleOptions.ResolverID,
-		"rule_id": *deleteForwardingRuleOptions.RuleID,
+		"rule_id":     *deleteForwardingRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -3111,7 +3178,7 @@ func (dnsSvcs *DnsSvcsV1) GetForwardingRuleWithContext(ctx context.Context, getF
 	pathParamsMap := map[string]string{
 		"instance_id": *getForwardingRuleOptions.InstanceID,
 		"resolver_id": *getForwardingRuleOptions.ResolverID,
-		"rule_id": *getForwardingRuleOptions.RuleID,
+		"rule_id":     *getForwardingRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -3145,11 +3212,13 @@ func (dnsSvcs *DnsSvcsV1) GetForwardingRuleWithContext(ctx context.Context, getF
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -3174,7 +3243,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateForwardingRuleWithContext(ctx context.Context, u
 	pathParamsMap := map[string]string{
 		"instance_id": *updateForwardingRuleOptions.InstanceID,
 		"resolver_id": *updateForwardingRuleOptions.ResolverID,
-		"rule_id": *updateForwardingRuleOptions.RuleID,
+		"rule_id":     *updateForwardingRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -3224,11 +3293,13 @@ func (dnsSvcs *DnsSvcsV1) UpdateForwardingRuleWithContext(ctx context.Context, u
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalForwardingRule)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	response.Result = result
 
 	return
 }
@@ -3236,10 +3307,10 @@ func (dnsSvcs *DnsSvcsV1) UpdateForwardingRuleWithContext(ctx context.Context, u
 // AddCustomResolverLocationOptions : The AddCustomResolverLocation options.
 type AddCustomResolverLocationOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Custom resolver location, subnet CRN.
 	SubnetCrn *string `json:"subnet_crn,omitempty"`
@@ -3248,7 +3319,7 @@ type AddCustomResolverLocationOptions struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3263,33 +3334,33 @@ func (*DnsSvcsV1) NewAddCustomResolverLocationOptions(instanceID string, resolve
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *AddCustomResolverLocationOptions) SetInstanceID(instanceID string) *AddCustomResolverLocationOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *AddCustomResolverLocationOptions) SetInstanceID(instanceID string) *AddCustomResolverLocationOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *AddCustomResolverLocationOptions) SetResolverID(resolverID string) *AddCustomResolverLocationOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *AddCustomResolverLocationOptions) SetResolverID(resolverID string) *AddCustomResolverLocationOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetSubnetCrn : Allow user to set SubnetCrn
-func (options *AddCustomResolverLocationOptions) SetSubnetCrn(subnetCrn string) *AddCustomResolverLocationOptions {
-	options.SubnetCrn = core.StringPtr(subnetCrn)
-	return options
+func (_options *AddCustomResolverLocationOptions) SetSubnetCrn(subnetCrn string) *AddCustomResolverLocationOptions {
+	_options.SubnetCrn = core.StringPtr(subnetCrn)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *AddCustomResolverLocationOptions) SetEnabled(enabled bool) *AddCustomResolverLocationOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *AddCustomResolverLocationOptions) SetEnabled(enabled bool) *AddCustomResolverLocationOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *AddCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *AddCustomResolverLocationOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *AddCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *AddCustomResolverLocationOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3301,7 +3372,7 @@ func (options *AddCustomResolverLocationOptions) SetHeaders(param map[string]str
 // CreateCustomResolverOptions : The CreateCustomResolver options.
 type CreateCustomResolverOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Name of the custom resolver.
 	Name *string `json:"name,omitempty"`
@@ -3313,7 +3384,7 @@ type CreateCustomResolverOptions struct {
 	Locations []LocationInput `json:"locations,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3327,33 +3398,33 @@ func (*DnsSvcsV1) NewCreateCustomResolverOptions(instanceID string) *CreateCusto
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreateCustomResolverOptions) SetInstanceID(instanceID string) *CreateCustomResolverOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreateCustomResolverOptions) SetInstanceID(instanceID string) *CreateCustomResolverOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *CreateCustomResolverOptions) SetName(name string) *CreateCustomResolverOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *CreateCustomResolverOptions) SetName(name string) *CreateCustomResolverOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *CreateCustomResolverOptions) SetDescription(description string) *CreateCustomResolverOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *CreateCustomResolverOptions) SetDescription(description string) *CreateCustomResolverOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetLocations : Allow user to set Locations
-func (options *CreateCustomResolverOptions) SetLocations(locations []LocationInput) *CreateCustomResolverOptions {
-	options.Locations = locations
-	return options
+func (_options *CreateCustomResolverOptions) SetLocations(locations []LocationInput) *CreateCustomResolverOptions {
+	_options.Locations = locations
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreateCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *CreateCustomResolverOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreateCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *CreateCustomResolverOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3365,7 +3436,7 @@ func (options *CreateCustomResolverOptions) SetHeaders(param map[string]string) 
 // CreateDnszoneOptions : The CreateDnszone options.
 type CreateDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Name of DNS zone.
 	Name *string `json:"name,omitempty"`
@@ -3377,7 +3448,7 @@ type CreateDnszoneOptions struct {
 	Label *string `json:"label,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3391,33 +3462,33 @@ func (*DnsSvcsV1) NewCreateDnszoneOptions(instanceID string) *CreateDnszoneOptio
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreateDnszoneOptions) SetInstanceID(instanceID string) *CreateDnszoneOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreateDnszoneOptions) SetInstanceID(instanceID string) *CreateDnszoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *CreateDnszoneOptions) SetName(name string) *CreateDnszoneOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *CreateDnszoneOptions) SetName(name string) *CreateDnszoneOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *CreateDnszoneOptions) SetDescription(description string) *CreateDnszoneOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *CreateDnszoneOptions) SetDescription(description string) *CreateDnszoneOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetLabel : Allow user to set Label
-func (options *CreateDnszoneOptions) SetLabel(label string) *CreateDnszoneOptions {
-	options.Label = core.StringPtr(label)
-	return options
+func (_options *CreateDnszoneOptions) SetLabel(label string) *CreateDnszoneOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreateDnszoneOptions) SetXCorrelationID(xCorrelationID string) *CreateDnszoneOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreateDnszoneOptions) SetXCorrelationID(xCorrelationID string) *CreateDnszoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3429,10 +3500,10 @@ func (options *CreateDnszoneOptions) SetHeaders(param map[string]string) *Create
 // CreateForwardingRuleOptions : The CreateForwardingRule options.
 type CreateForwardingRuleOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Descriptive text of the forwarding rule.
 	Description *string `json:"description,omitempty"`
@@ -3447,7 +3518,7 @@ type CreateForwardingRuleOptions struct {
 	ForwardTo []string `json:"forward_to,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3468,45 +3539,45 @@ func (*DnsSvcsV1) NewCreateForwardingRuleOptions(instanceID string, resolverID s
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreateForwardingRuleOptions) SetInstanceID(instanceID string) *CreateForwardingRuleOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreateForwardingRuleOptions) SetInstanceID(instanceID string) *CreateForwardingRuleOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *CreateForwardingRuleOptions) SetResolverID(resolverID string) *CreateForwardingRuleOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *CreateForwardingRuleOptions) SetResolverID(resolverID string) *CreateForwardingRuleOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *CreateForwardingRuleOptions) SetDescription(description string) *CreateForwardingRuleOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *CreateForwardingRuleOptions) SetDescription(description string) *CreateForwardingRuleOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetType : Allow user to set Type
-func (options *CreateForwardingRuleOptions) SetType(typeVar string) *CreateForwardingRuleOptions {
-	options.Type = core.StringPtr(typeVar)
-	return options
+func (_options *CreateForwardingRuleOptions) SetType(typeVar string) *CreateForwardingRuleOptions {
+	_options.Type = core.StringPtr(typeVar)
+	return _options
 }
 
 // SetMatch : Allow user to set Match
-func (options *CreateForwardingRuleOptions) SetMatch(match string) *CreateForwardingRuleOptions {
-	options.Match = core.StringPtr(match)
-	return options
+func (_options *CreateForwardingRuleOptions) SetMatch(match string) *CreateForwardingRuleOptions {
+	_options.Match = core.StringPtr(match)
+	return _options
 }
 
 // SetForwardTo : Allow user to set ForwardTo
-func (options *CreateForwardingRuleOptions) SetForwardTo(forwardTo []string) *CreateForwardingRuleOptions {
-	options.ForwardTo = forwardTo
-	return options
+func (_options *CreateForwardingRuleOptions) SetForwardTo(forwardTo []string) *CreateForwardingRuleOptions {
+	_options.ForwardTo = forwardTo
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreateForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *CreateForwardingRuleOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreateForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *CreateForwardingRuleOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3518,10 +3589,10 @@ func (options *CreateForwardingRuleOptions) SetHeaders(param map[string]string) 
 // CreateLoadBalancerOptions : The CreateLoadBalancer options.
 type CreateLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Name of the load balancer.
 	Name *string `json:"name,omitempty"`
@@ -3546,7 +3617,7 @@ type CreateLoadBalancerOptions struct {
 	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3556,68 +3627,68 @@ type CreateLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewCreateLoadBalancerOptions(instanceID string, dnszoneID string) *CreateLoadBalancerOptions {
 	return &CreateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreateLoadBalancerOptions) SetInstanceID(instanceID string) *CreateLoadBalancerOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreateLoadBalancerOptions) SetInstanceID(instanceID string) *CreateLoadBalancerOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *CreateLoadBalancerOptions) SetDnszoneID(dnszoneID string) *CreateLoadBalancerOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *CreateLoadBalancerOptions) SetDnszoneID(dnszoneID string) *CreateLoadBalancerOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *CreateLoadBalancerOptions) SetName(name string) *CreateLoadBalancerOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *CreateLoadBalancerOptions) SetName(name string) *CreateLoadBalancerOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *CreateLoadBalancerOptions) SetDescription(description string) *CreateLoadBalancerOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *CreateLoadBalancerOptions) SetDescription(description string) *CreateLoadBalancerOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *CreateLoadBalancerOptions) SetEnabled(enabled bool) *CreateLoadBalancerOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *CreateLoadBalancerOptions) SetEnabled(enabled bool) *CreateLoadBalancerOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetTTL : Allow user to set TTL
-func (options *CreateLoadBalancerOptions) SetTTL(ttl int64) *CreateLoadBalancerOptions {
-	options.TTL = core.Int64Ptr(ttl)
-	return options
+func (_options *CreateLoadBalancerOptions) SetTTL(ttl int64) *CreateLoadBalancerOptions {
+	_options.TTL = core.Int64Ptr(ttl)
+	return _options
 }
 
 // SetFallbackPool : Allow user to set FallbackPool
-func (options *CreateLoadBalancerOptions) SetFallbackPool(fallbackPool string) *CreateLoadBalancerOptions {
-	options.FallbackPool = core.StringPtr(fallbackPool)
-	return options
+func (_options *CreateLoadBalancerOptions) SetFallbackPool(fallbackPool string) *CreateLoadBalancerOptions {
+	_options.FallbackPool = core.StringPtr(fallbackPool)
+	return _options
 }
 
 // SetDefaultPools : Allow user to set DefaultPools
-func (options *CreateLoadBalancerOptions) SetDefaultPools(defaultPools []string) *CreateLoadBalancerOptions {
-	options.DefaultPools = defaultPools
-	return options
+func (_options *CreateLoadBalancerOptions) SetDefaultPools(defaultPools []string) *CreateLoadBalancerOptions {
+	_options.DefaultPools = defaultPools
+	return _options
 }
 
 // SetAzPools : Allow user to set AzPools
-func (options *CreateLoadBalancerOptions) SetAzPools(azPools []LoadBalancerAzPoolsItem) *CreateLoadBalancerOptions {
-	options.AzPools = azPools
-	return options
+func (_options *CreateLoadBalancerOptions) SetAzPools(azPools []LoadBalancerAzPoolsItem) *CreateLoadBalancerOptions {
+	_options.AzPools = azPools
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreateLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *CreateLoadBalancerOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreateLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *CreateLoadBalancerOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3629,7 +3700,7 @@ func (options *CreateLoadBalancerOptions) SetHeaders(param map[string]string) *C
 // CreateMonitorOptions : The CreateMonitor options.
 type CreateMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The name of the load balancer monitor.
 	Name *string `json:"name,omitempty"`
@@ -3677,7 +3748,7 @@ type CreateMonitorOptions struct {
 	ExpectedBody *string `json:"expected_body,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3686,15 +3757,15 @@ type CreateMonitorOptions struct {
 // Constants associated with the CreateMonitorOptions.Type property.
 // The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
 const (
-	CreateMonitorOptions_Type_Http = "HTTP"
+	CreateMonitorOptions_Type_Http  = "HTTP"
 	CreateMonitorOptions_Type_Https = "HTTPS"
-	CreateMonitorOptions_Type_Tcp = "TCP"
+	CreateMonitorOptions_Type_Tcp   = "TCP"
 )
 
 // Constants associated with the CreateMonitorOptions.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	CreateMonitorOptions_Method_Get = "GET"
+	CreateMonitorOptions_Method_Get  = "GET"
 	CreateMonitorOptions_Method_Head = "HEAD"
 )
 
@@ -3706,93 +3777,93 @@ func (*DnsSvcsV1) NewCreateMonitorOptions(instanceID string) *CreateMonitorOptio
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreateMonitorOptions) SetInstanceID(instanceID string) *CreateMonitorOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreateMonitorOptions) SetInstanceID(instanceID string) *CreateMonitorOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *CreateMonitorOptions) SetName(name string) *CreateMonitorOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *CreateMonitorOptions) SetName(name string) *CreateMonitorOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *CreateMonitorOptions) SetDescription(description string) *CreateMonitorOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *CreateMonitorOptions) SetDescription(description string) *CreateMonitorOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetType : Allow user to set Type
-func (options *CreateMonitorOptions) SetType(typeVar string) *CreateMonitorOptions {
-	options.Type = core.StringPtr(typeVar)
-	return options
+func (_options *CreateMonitorOptions) SetType(typeVar string) *CreateMonitorOptions {
+	_options.Type = core.StringPtr(typeVar)
+	return _options
 }
 
 // SetPort : Allow user to set Port
-func (options *CreateMonitorOptions) SetPort(port int64) *CreateMonitorOptions {
-	options.Port = core.Int64Ptr(port)
-	return options
+func (_options *CreateMonitorOptions) SetPort(port int64) *CreateMonitorOptions {
+	_options.Port = core.Int64Ptr(port)
+	return _options
 }
 
 // SetInterval : Allow user to set Interval
-func (options *CreateMonitorOptions) SetInterval(interval int64) *CreateMonitorOptions {
-	options.Interval = core.Int64Ptr(interval)
-	return options
+func (_options *CreateMonitorOptions) SetInterval(interval int64) *CreateMonitorOptions {
+	_options.Interval = core.Int64Ptr(interval)
+	return _options
 }
 
 // SetRetries : Allow user to set Retries
-func (options *CreateMonitorOptions) SetRetries(retries int64) *CreateMonitorOptions {
-	options.Retries = core.Int64Ptr(retries)
-	return options
+func (_options *CreateMonitorOptions) SetRetries(retries int64) *CreateMonitorOptions {
+	_options.Retries = core.Int64Ptr(retries)
+	return _options
 }
 
 // SetTimeout : Allow user to set Timeout
-func (options *CreateMonitorOptions) SetTimeout(timeout int64) *CreateMonitorOptions {
-	options.Timeout = core.Int64Ptr(timeout)
-	return options
+func (_options *CreateMonitorOptions) SetTimeout(timeout int64) *CreateMonitorOptions {
+	_options.Timeout = core.Int64Ptr(timeout)
+	return _options
 }
 
 // SetMethod : Allow user to set Method
-func (options *CreateMonitorOptions) SetMethod(method string) *CreateMonitorOptions {
-	options.Method = core.StringPtr(method)
-	return options
+func (_options *CreateMonitorOptions) SetMethod(method string) *CreateMonitorOptions {
+	_options.Method = core.StringPtr(method)
+	return _options
 }
 
 // SetPath : Allow user to set Path
-func (options *CreateMonitorOptions) SetPath(path string) *CreateMonitorOptions {
-	options.Path = core.StringPtr(path)
-	return options
+func (_options *CreateMonitorOptions) SetPath(path string) *CreateMonitorOptions {
+	_options.Path = core.StringPtr(path)
+	return _options
 }
 
 // SetHeadersVar : Allow user to set HeadersVar
-func (options *CreateMonitorOptions) SetHeadersVar(headersVar []HealthcheckHeader) *CreateMonitorOptions {
-	options.HeadersVar = headersVar
-	return options
+func (_options *CreateMonitorOptions) SetHeadersVar(headersVar []HealthcheckHeader) *CreateMonitorOptions {
+	_options.HeadersVar = headersVar
+	return _options
 }
 
 // SetAllowInsecure : Allow user to set AllowInsecure
-func (options *CreateMonitorOptions) SetAllowInsecure(allowInsecure bool) *CreateMonitorOptions {
-	options.AllowInsecure = core.BoolPtr(allowInsecure)
-	return options
+func (_options *CreateMonitorOptions) SetAllowInsecure(allowInsecure bool) *CreateMonitorOptions {
+	_options.AllowInsecure = core.BoolPtr(allowInsecure)
+	return _options
 }
 
 // SetExpectedCodes : Allow user to set ExpectedCodes
-func (options *CreateMonitorOptions) SetExpectedCodes(expectedCodes string) *CreateMonitorOptions {
-	options.ExpectedCodes = core.StringPtr(expectedCodes)
-	return options
+func (_options *CreateMonitorOptions) SetExpectedCodes(expectedCodes string) *CreateMonitorOptions {
+	_options.ExpectedCodes = core.StringPtr(expectedCodes)
+	return _options
 }
 
 // SetExpectedBody : Allow user to set ExpectedBody
-func (options *CreateMonitorOptions) SetExpectedBody(expectedBody string) *CreateMonitorOptions {
-	options.ExpectedBody = core.StringPtr(expectedBody)
-	return options
+func (_options *CreateMonitorOptions) SetExpectedBody(expectedBody string) *CreateMonitorOptions {
+	_options.ExpectedBody = core.StringPtr(expectedBody)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreateMonitorOptions) SetXCorrelationID(xCorrelationID string) *CreateMonitorOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreateMonitorOptions) SetXCorrelationID(xCorrelationID string) *CreateMonitorOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3804,10 +3875,10 @@ func (options *CreateMonitorOptions) SetHeaders(param map[string]string) *Create
 // CreatePermittedNetworkOptions : The CreatePermittedNetwork options.
 type CreatePermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The type of a permitted network.
 	Type *string `json:"type,omitempty"`
@@ -3816,7 +3887,7 @@ type CreatePermittedNetworkOptions struct {
 	PermittedNetwork *PermittedNetworkVpc `json:"permitted_network,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3832,38 +3903,38 @@ const (
 func (*DnsSvcsV1) NewCreatePermittedNetworkOptions(instanceID string, dnszoneID string) *CreatePermittedNetworkOptions {
 	return &CreatePermittedNetworkOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreatePermittedNetworkOptions) SetInstanceID(instanceID string) *CreatePermittedNetworkOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreatePermittedNetworkOptions) SetInstanceID(instanceID string) *CreatePermittedNetworkOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *CreatePermittedNetworkOptions) SetDnszoneID(dnszoneID string) *CreatePermittedNetworkOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *CreatePermittedNetworkOptions) SetDnszoneID(dnszoneID string) *CreatePermittedNetworkOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetType : Allow user to set Type
-func (options *CreatePermittedNetworkOptions) SetType(typeVar string) *CreatePermittedNetworkOptions {
-	options.Type = core.StringPtr(typeVar)
-	return options
+func (_options *CreatePermittedNetworkOptions) SetType(typeVar string) *CreatePermittedNetworkOptions {
+	_options.Type = core.StringPtr(typeVar)
+	return _options
 }
 
 // SetPermittedNetwork : Allow user to set PermittedNetwork
-func (options *CreatePermittedNetworkOptions) SetPermittedNetwork(permittedNetwork *PermittedNetworkVpc) *CreatePermittedNetworkOptions {
-	options.PermittedNetwork = permittedNetwork
-	return options
+func (_options *CreatePermittedNetworkOptions) SetPermittedNetwork(permittedNetwork *PermittedNetworkVpc) *CreatePermittedNetworkOptions {
+	_options.PermittedNetwork = permittedNetwork
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreatePermittedNetworkOptions) SetXCorrelationID(xCorrelationID string) *CreatePermittedNetworkOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreatePermittedNetworkOptions) SetXCorrelationID(xCorrelationID string) *CreatePermittedNetworkOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -3875,7 +3946,7 @@ func (options *CreatePermittedNetworkOptions) SetHeaders(param map[string]string
 // CreatePoolOptions : The CreatePool options.
 type CreatePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Name of the load balancer pool.
 	Name *string `json:"name,omitempty"`
@@ -3907,7 +3978,7 @@ type CreatePoolOptions struct {
 	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3916,11 +3987,11 @@ type CreatePoolOptions struct {
 // Constants associated with the CreatePoolOptions.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	CreatePoolOptions_HealthcheckRegion_AuSyd = "au-syd"
-	CreatePoolOptions_HealthcheckRegion_EuDu = "eu-du"
-	CreatePoolOptions_HealthcheckRegion_EuGb = "eu-gb"
-	CreatePoolOptions_HealthcheckRegion_JpTok = "jp-tok"
-	CreatePoolOptions_HealthcheckRegion_UsEast = "us-east"
+	CreatePoolOptions_HealthcheckRegion_AuSyd   = "au-syd"
+	CreatePoolOptions_HealthcheckRegion_EuDu    = "eu-du"
+	CreatePoolOptions_HealthcheckRegion_EuGb    = "eu-gb"
+	CreatePoolOptions_HealthcheckRegion_JpTok   = "jp-tok"
+	CreatePoolOptions_HealthcheckRegion_UsEast  = "us-east"
 	CreatePoolOptions_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -3932,69 +4003,69 @@ func (*DnsSvcsV1) NewCreatePoolOptions(instanceID string) *CreatePoolOptions {
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreatePoolOptions) SetInstanceID(instanceID string) *CreatePoolOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreatePoolOptions) SetInstanceID(instanceID string) *CreatePoolOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *CreatePoolOptions) SetName(name string) *CreatePoolOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *CreatePoolOptions) SetName(name string) *CreatePoolOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *CreatePoolOptions) SetDescription(description string) *CreatePoolOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *CreatePoolOptions) SetDescription(description string) *CreatePoolOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *CreatePoolOptions) SetEnabled(enabled bool) *CreatePoolOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *CreatePoolOptions) SetEnabled(enabled bool) *CreatePoolOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetHealthyOriginsThreshold : Allow user to set HealthyOriginsThreshold
-func (options *CreatePoolOptions) SetHealthyOriginsThreshold(healthyOriginsThreshold int64) *CreatePoolOptions {
-	options.HealthyOriginsThreshold = core.Int64Ptr(healthyOriginsThreshold)
-	return options
+func (_options *CreatePoolOptions) SetHealthyOriginsThreshold(healthyOriginsThreshold int64) *CreatePoolOptions {
+	_options.HealthyOriginsThreshold = core.Int64Ptr(healthyOriginsThreshold)
+	return _options
 }
 
 // SetOrigins : Allow user to set Origins
-func (options *CreatePoolOptions) SetOrigins(origins []OriginInput) *CreatePoolOptions {
-	options.Origins = origins
-	return options
+func (_options *CreatePoolOptions) SetOrigins(origins []OriginInput) *CreatePoolOptions {
+	_options.Origins = origins
+	return _options
 }
 
 // SetMonitor : Allow user to set Monitor
-func (options *CreatePoolOptions) SetMonitor(monitor string) *CreatePoolOptions {
-	options.Monitor = core.StringPtr(monitor)
-	return options
+func (_options *CreatePoolOptions) SetMonitor(monitor string) *CreatePoolOptions {
+	_options.Monitor = core.StringPtr(monitor)
+	return _options
 }
 
 // SetNotificationChannel : Allow user to set NotificationChannel
-func (options *CreatePoolOptions) SetNotificationChannel(notificationChannel string) *CreatePoolOptions {
-	options.NotificationChannel = core.StringPtr(notificationChannel)
-	return options
+func (_options *CreatePoolOptions) SetNotificationChannel(notificationChannel string) *CreatePoolOptions {
+	_options.NotificationChannel = core.StringPtr(notificationChannel)
+	return _options
 }
 
 // SetHealthcheckRegion : Allow user to set HealthcheckRegion
-func (options *CreatePoolOptions) SetHealthcheckRegion(healthcheckRegion string) *CreatePoolOptions {
-	options.HealthcheckRegion = core.StringPtr(healthcheckRegion)
-	return options
+func (_options *CreatePoolOptions) SetHealthcheckRegion(healthcheckRegion string) *CreatePoolOptions {
+	_options.HealthcheckRegion = core.StringPtr(healthcheckRegion)
+	return _options
 }
 
 // SetHealthcheckSubnets : Allow user to set HealthcheckSubnets
-func (options *CreatePoolOptions) SetHealthcheckSubnets(healthcheckSubnets []string) *CreatePoolOptions {
-	options.HealthcheckSubnets = healthcheckSubnets
-	return options
+func (_options *CreatePoolOptions) SetHealthcheckSubnets(healthcheckSubnets []string) *CreatePoolOptions {
+	_options.HealthcheckSubnets = healthcheckSubnets
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreatePoolOptions) SetXCorrelationID(xCorrelationID string) *CreatePoolOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreatePoolOptions) SetXCorrelationID(xCorrelationID string) *CreatePoolOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4006,10 +4077,10 @@ func (options *CreatePoolOptions) SetHeaders(param map[string]string) *CreatePoo
 // CreateResourceRecordOptions : The CreateResourceRecord options.
 type CreateResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Name of the resource record.
 	Name *string `json:"name,omitempty"`
@@ -4030,7 +4101,7 @@ type CreateResourceRecordOptions struct {
 	Protocol *string `json:"protocol,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4039,75 +4110,75 @@ type CreateResourceRecordOptions struct {
 // Constants associated with the CreateResourceRecordOptions.Type property.
 // Type of the resource record.
 const (
-	CreateResourceRecordOptions_Type_A = "A"
-	CreateResourceRecordOptions_Type_Aaaa = "AAAA"
+	CreateResourceRecordOptions_Type_A     = "A"
+	CreateResourceRecordOptions_Type_Aaaa  = "AAAA"
 	CreateResourceRecordOptions_Type_Cname = "CNAME"
-	CreateResourceRecordOptions_Type_Mx = "MX"
-	CreateResourceRecordOptions_Type_Ptr = "PTR"
-	CreateResourceRecordOptions_Type_Srv = "SRV"
-	CreateResourceRecordOptions_Type_Txt = "TXT"
+	CreateResourceRecordOptions_Type_Mx    = "MX"
+	CreateResourceRecordOptions_Type_Ptr   = "PTR"
+	CreateResourceRecordOptions_Type_Srv   = "SRV"
+	CreateResourceRecordOptions_Type_Txt   = "TXT"
 )
 
 // NewCreateResourceRecordOptions : Instantiate CreateResourceRecordOptions
 func (*DnsSvcsV1) NewCreateResourceRecordOptions(instanceID string, dnszoneID string) *CreateResourceRecordOptions {
 	return &CreateResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *CreateResourceRecordOptions) SetInstanceID(instanceID string) *CreateResourceRecordOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *CreateResourceRecordOptions) SetInstanceID(instanceID string) *CreateResourceRecordOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *CreateResourceRecordOptions) SetDnszoneID(dnszoneID string) *CreateResourceRecordOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *CreateResourceRecordOptions) SetDnszoneID(dnszoneID string) *CreateResourceRecordOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *CreateResourceRecordOptions) SetName(name string) *CreateResourceRecordOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *CreateResourceRecordOptions) SetName(name string) *CreateResourceRecordOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetType : Allow user to set Type
-func (options *CreateResourceRecordOptions) SetType(typeVar string) *CreateResourceRecordOptions {
-	options.Type = core.StringPtr(typeVar)
-	return options
+func (_options *CreateResourceRecordOptions) SetType(typeVar string) *CreateResourceRecordOptions {
+	_options.Type = core.StringPtr(typeVar)
+	return _options
 }
 
 // SetRdata : Allow user to set Rdata
-func (options *CreateResourceRecordOptions) SetRdata(rdata ResourceRecordInputRdataIntf) *CreateResourceRecordOptions {
-	options.Rdata = rdata
-	return options
+func (_options *CreateResourceRecordOptions) SetRdata(rdata ResourceRecordInputRdataIntf) *CreateResourceRecordOptions {
+	_options.Rdata = rdata
+	return _options
 }
 
 // SetTTL : Allow user to set TTL
-func (options *CreateResourceRecordOptions) SetTTL(ttl int64) *CreateResourceRecordOptions {
-	options.TTL = core.Int64Ptr(ttl)
-	return options
+func (_options *CreateResourceRecordOptions) SetTTL(ttl int64) *CreateResourceRecordOptions {
+	_options.TTL = core.Int64Ptr(ttl)
+	return _options
 }
 
 // SetService : Allow user to set Service
-func (options *CreateResourceRecordOptions) SetService(service string) *CreateResourceRecordOptions {
-	options.Service = core.StringPtr(service)
-	return options
+func (_options *CreateResourceRecordOptions) SetService(service string) *CreateResourceRecordOptions {
+	_options.Service = core.StringPtr(service)
+	return _options
 }
 
 // SetProtocol : Allow user to set Protocol
-func (options *CreateResourceRecordOptions) SetProtocol(protocol string) *CreateResourceRecordOptions {
-	options.Protocol = core.StringPtr(protocol)
-	return options
+func (_options *CreateResourceRecordOptions) SetProtocol(protocol string) *CreateResourceRecordOptions {
+	_options.Protocol = core.StringPtr(protocol)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *CreateResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *CreateResourceRecordOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *CreateResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *CreateResourceRecordOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4119,16 +4190,16 @@ func (options *CreateResourceRecordOptions) SetHeaders(param map[string]string) 
 // DeleteCustomResolverLocationOptions : The DeleteCustomResolverLocation options.
 type DeleteCustomResolverLocationOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Custom resolver location ID.
-	LocationID *string `json:"location_id" validate:"required,ne="`
+	LocationID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4144,27 +4215,27 @@ func (*DnsSvcsV1) NewDeleteCustomResolverLocationOptions(instanceID string, reso
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteCustomResolverLocationOptions) SetInstanceID(instanceID string) *DeleteCustomResolverLocationOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteCustomResolverLocationOptions) SetInstanceID(instanceID string) *DeleteCustomResolverLocationOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *DeleteCustomResolverLocationOptions) SetResolverID(resolverID string) *DeleteCustomResolverLocationOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *DeleteCustomResolverLocationOptions) SetResolverID(resolverID string) *DeleteCustomResolverLocationOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetLocationID : Allow user to set LocationID
-func (options *DeleteCustomResolverLocationOptions) SetLocationID(locationID string) *DeleteCustomResolverLocationOptions {
-	options.LocationID = core.StringPtr(locationID)
-	return options
+func (_options *DeleteCustomResolverLocationOptions) SetLocationID(locationID string) *DeleteCustomResolverLocationOptions {
+	_options.LocationID = core.StringPtr(locationID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *DeleteCustomResolverLocationOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *DeleteCustomResolverLocationOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4176,13 +4247,13 @@ func (options *DeleteCustomResolverLocationOptions) SetHeaders(param map[string]
 // DeleteCustomResolverOptions : The DeleteCustomResolver options.
 type DeleteCustomResolverOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4197,21 +4268,21 @@ func (*DnsSvcsV1) NewDeleteCustomResolverOptions(instanceID string, resolverID s
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteCustomResolverOptions) SetInstanceID(instanceID string) *DeleteCustomResolverOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteCustomResolverOptions) SetInstanceID(instanceID string) *DeleteCustomResolverOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *DeleteCustomResolverOptions) SetResolverID(resolverID string) *DeleteCustomResolverOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *DeleteCustomResolverOptions) SetResolverID(resolverID string) *DeleteCustomResolverOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *DeleteCustomResolverOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *DeleteCustomResolverOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4223,13 +4294,13 @@ func (options *DeleteCustomResolverOptions) SetHeaders(param map[string]string) 
 // DeleteDnszoneOptions : The DeleteDnszone options.
 type DeleteDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4239,26 +4310,26 @@ type DeleteDnszoneOptions struct {
 func (*DnsSvcsV1) NewDeleteDnszoneOptions(instanceID string, dnszoneID string) *DeleteDnszoneOptions {
 	return &DeleteDnszoneOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteDnszoneOptions) SetInstanceID(instanceID string) *DeleteDnszoneOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteDnszoneOptions) SetInstanceID(instanceID string) *DeleteDnszoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *DeleteDnszoneOptions) SetDnszoneID(dnszoneID string) *DeleteDnszoneOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *DeleteDnszoneOptions) SetDnszoneID(dnszoneID string) *DeleteDnszoneOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteDnszoneOptions) SetXCorrelationID(xCorrelationID string) *DeleteDnszoneOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteDnszoneOptions) SetXCorrelationID(xCorrelationID string) *DeleteDnszoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4270,16 +4341,16 @@ func (options *DeleteDnszoneOptions) SetHeaders(param map[string]string) *Delete
 // DeleteForwardingRuleOptions : The DeleteForwardingRule options.
 type DeleteForwardingRuleOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a forwarding rule.
-	RuleID *string `json:"rule_id" validate:"required,ne="`
+	RuleID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4290,32 +4361,32 @@ func (*DnsSvcsV1) NewDeleteForwardingRuleOptions(instanceID string, resolverID s
 	return &DeleteForwardingRuleOptions{
 		InstanceID: core.StringPtr(instanceID),
 		ResolverID: core.StringPtr(resolverID),
-		RuleID: core.StringPtr(ruleID),
+		RuleID:     core.StringPtr(ruleID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteForwardingRuleOptions) SetInstanceID(instanceID string) *DeleteForwardingRuleOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteForwardingRuleOptions) SetInstanceID(instanceID string) *DeleteForwardingRuleOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *DeleteForwardingRuleOptions) SetResolverID(resolverID string) *DeleteForwardingRuleOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *DeleteForwardingRuleOptions) SetResolverID(resolverID string) *DeleteForwardingRuleOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetRuleID : Allow user to set RuleID
-func (options *DeleteForwardingRuleOptions) SetRuleID(ruleID string) *DeleteForwardingRuleOptions {
-	options.RuleID = core.StringPtr(ruleID)
-	return options
+func (_options *DeleteForwardingRuleOptions) SetRuleID(ruleID string) *DeleteForwardingRuleOptions {
+	_options.RuleID = core.StringPtr(ruleID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *DeleteForwardingRuleOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *DeleteForwardingRuleOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4327,16 +4398,16 @@ func (options *DeleteForwardingRuleOptions) SetHeaders(param map[string]string) 
 // DeleteLoadBalancerOptions : The DeleteLoadBalancer options.
 type DeleteLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required,ne="`
+	LbID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4346,33 +4417,33 @@ type DeleteLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewDeleteLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *DeleteLoadBalancerOptions {
 	return &DeleteLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteLoadBalancerOptions) SetInstanceID(instanceID string) *DeleteLoadBalancerOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteLoadBalancerOptions) SetInstanceID(instanceID string) *DeleteLoadBalancerOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *DeleteLoadBalancerOptions) SetDnszoneID(dnszoneID string) *DeleteLoadBalancerOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *DeleteLoadBalancerOptions) SetDnszoneID(dnszoneID string) *DeleteLoadBalancerOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetLbID : Allow user to set LbID
-func (options *DeleteLoadBalancerOptions) SetLbID(lbID string) *DeleteLoadBalancerOptions {
-	options.LbID = core.StringPtr(lbID)
-	return options
+func (_options *DeleteLoadBalancerOptions) SetLbID(lbID string) *DeleteLoadBalancerOptions {
+	_options.LbID = core.StringPtr(lbID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *DeleteLoadBalancerOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *DeleteLoadBalancerOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4384,13 +4455,13 @@ func (options *DeleteLoadBalancerOptions) SetHeaders(param map[string]string) *D
 // DeleteMonitorOptions : The DeleteMonitor options.
 type DeleteMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required,ne="`
+	MonitorID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4400,26 +4471,26 @@ type DeleteMonitorOptions struct {
 func (*DnsSvcsV1) NewDeleteMonitorOptions(instanceID string, monitorID string) *DeleteMonitorOptions {
 	return &DeleteMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteMonitorOptions) SetInstanceID(instanceID string) *DeleteMonitorOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteMonitorOptions) SetInstanceID(instanceID string) *DeleteMonitorOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetMonitorID : Allow user to set MonitorID
-func (options *DeleteMonitorOptions) SetMonitorID(monitorID string) *DeleteMonitorOptions {
-	options.MonitorID = core.StringPtr(monitorID)
-	return options
+func (_options *DeleteMonitorOptions) SetMonitorID(monitorID string) *DeleteMonitorOptions {
+	_options.MonitorID = core.StringPtr(monitorID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteMonitorOptions) SetXCorrelationID(xCorrelationID string) *DeleteMonitorOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteMonitorOptions) SetXCorrelationID(xCorrelationID string) *DeleteMonitorOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4431,16 +4502,16 @@ func (options *DeleteMonitorOptions) SetHeaders(param map[string]string) *Delete
 // DeletePermittedNetworkOptions : The DeletePermittedNetwork options.
 type DeletePermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a permitted network.
-	PermittedNetworkID *string `json:"permitted_network_id" validate:"required,ne="`
+	PermittedNetworkID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4449,34 +4520,34 @@ type DeletePermittedNetworkOptions struct {
 // NewDeletePermittedNetworkOptions : Instantiate DeletePermittedNetworkOptions
 func (*DnsSvcsV1) NewDeletePermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *DeletePermittedNetworkOptions {
 	return &DeletePermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		DnszoneID:          core.StringPtr(dnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeletePermittedNetworkOptions) SetInstanceID(instanceID string) *DeletePermittedNetworkOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeletePermittedNetworkOptions) SetInstanceID(instanceID string) *DeletePermittedNetworkOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *DeletePermittedNetworkOptions) SetDnszoneID(dnszoneID string) *DeletePermittedNetworkOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *DeletePermittedNetworkOptions) SetDnszoneID(dnszoneID string) *DeletePermittedNetworkOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetPermittedNetworkID : Allow user to set PermittedNetworkID
-func (options *DeletePermittedNetworkOptions) SetPermittedNetworkID(permittedNetworkID string) *DeletePermittedNetworkOptions {
-	options.PermittedNetworkID = core.StringPtr(permittedNetworkID)
-	return options
+func (_options *DeletePermittedNetworkOptions) SetPermittedNetworkID(permittedNetworkID string) *DeletePermittedNetworkOptions {
+	_options.PermittedNetworkID = core.StringPtr(permittedNetworkID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeletePermittedNetworkOptions) SetXCorrelationID(xCorrelationID string) *DeletePermittedNetworkOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeletePermittedNetworkOptions) SetXCorrelationID(xCorrelationID string) *DeletePermittedNetworkOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4488,13 +4559,13 @@ func (options *DeletePermittedNetworkOptions) SetHeaders(param map[string]string
 // DeletePoolOptions : The DeletePool options.
 type DeletePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4504,26 +4575,26 @@ type DeletePoolOptions struct {
 func (*DnsSvcsV1) NewDeletePoolOptions(instanceID string, poolID string) *DeletePoolOptions {
 	return &DeletePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeletePoolOptions) SetInstanceID(instanceID string) *DeletePoolOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeletePoolOptions) SetInstanceID(instanceID string) *DeletePoolOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetPoolID : Allow user to set PoolID
-func (options *DeletePoolOptions) SetPoolID(poolID string) *DeletePoolOptions {
-	options.PoolID = core.StringPtr(poolID)
-	return options
+func (_options *DeletePoolOptions) SetPoolID(poolID string) *DeletePoolOptions {
+	_options.PoolID = core.StringPtr(poolID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeletePoolOptions) SetXCorrelationID(xCorrelationID string) *DeletePoolOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeletePoolOptions) SetXCorrelationID(xCorrelationID string) *DeletePoolOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4535,16 +4606,16 @@ func (options *DeletePoolOptions) SetHeaders(param map[string]string) *DeletePoo
 // DeleteResourceRecordOptions : The DeleteResourceRecord options.
 type DeleteResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required,ne="`
+	RecordID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4554,33 +4625,33 @@ type DeleteResourceRecordOptions struct {
 func (*DnsSvcsV1) NewDeleteResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *DeleteResourceRecordOptions {
 	return &DeleteResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RecordID: core.StringPtr(recordID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RecordID:   core.StringPtr(recordID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *DeleteResourceRecordOptions) SetInstanceID(instanceID string) *DeleteResourceRecordOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *DeleteResourceRecordOptions) SetInstanceID(instanceID string) *DeleteResourceRecordOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *DeleteResourceRecordOptions) SetDnszoneID(dnszoneID string) *DeleteResourceRecordOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *DeleteResourceRecordOptions) SetDnszoneID(dnszoneID string) *DeleteResourceRecordOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetRecordID : Allow user to set RecordID
-func (options *DeleteResourceRecordOptions) SetRecordID(recordID string) *DeleteResourceRecordOptions {
-	options.RecordID = core.StringPtr(recordID)
-	return options
+func (_options *DeleteResourceRecordOptions) SetRecordID(recordID string) *DeleteResourceRecordOptions {
+	_options.RecordID = core.StringPtr(recordID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *DeleteResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *DeleteResourceRecordOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *DeleteResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *DeleteResourceRecordOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4592,13 +4663,13 @@ func (options *DeleteResourceRecordOptions) SetHeaders(param map[string]string) 
 // ExportResourceRecordsOptions : The ExportResourceRecords options.
 type ExportResourceRecordsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4608,26 +4679,26 @@ type ExportResourceRecordsOptions struct {
 func (*DnsSvcsV1) NewExportResourceRecordsOptions(instanceID string, dnszoneID string) *ExportResourceRecordsOptions {
 	return &ExportResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ExportResourceRecordsOptions) SetInstanceID(instanceID string) *ExportResourceRecordsOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ExportResourceRecordsOptions) SetInstanceID(instanceID string) *ExportResourceRecordsOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *ExportResourceRecordsOptions) SetDnszoneID(dnszoneID string) *ExportResourceRecordsOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *ExportResourceRecordsOptions) SetDnszoneID(dnszoneID string) *ExportResourceRecordsOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ExportResourceRecordsOptions) SetXCorrelationID(xCorrelationID string) *ExportResourceRecordsOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ExportResourceRecordsOptions) SetXCorrelationID(xCorrelationID string) *ExportResourceRecordsOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4639,13 +4710,13 @@ func (options *ExportResourceRecordsOptions) SetHeaders(param map[string]string)
 // GetCustomResolverOptions : The GetCustomResolver options.
 type GetCustomResolverOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4660,21 +4731,21 @@ func (*DnsSvcsV1) NewGetCustomResolverOptions(instanceID string, resolverID stri
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetCustomResolverOptions) SetInstanceID(instanceID string) *GetCustomResolverOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetCustomResolverOptions) SetInstanceID(instanceID string) *GetCustomResolverOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *GetCustomResolverOptions) SetResolverID(resolverID string) *GetCustomResolverOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *GetCustomResolverOptions) SetResolverID(resolverID string) *GetCustomResolverOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *GetCustomResolverOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *GetCustomResolverOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4686,13 +4757,13 @@ func (options *GetCustomResolverOptions) SetHeaders(param map[string]string) *Ge
 // GetDnszoneOptions : The GetDnszone options.
 type GetDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4702,26 +4773,26 @@ type GetDnszoneOptions struct {
 func (*DnsSvcsV1) NewGetDnszoneOptions(instanceID string, dnszoneID string) *GetDnszoneOptions {
 	return &GetDnszoneOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetDnszoneOptions) SetInstanceID(instanceID string) *GetDnszoneOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetDnszoneOptions) SetInstanceID(instanceID string) *GetDnszoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *GetDnszoneOptions) SetDnszoneID(dnszoneID string) *GetDnszoneOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *GetDnszoneOptions) SetDnszoneID(dnszoneID string) *GetDnszoneOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetDnszoneOptions) SetXCorrelationID(xCorrelationID string) *GetDnszoneOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetDnszoneOptions) SetXCorrelationID(xCorrelationID string) *GetDnszoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4733,16 +4804,16 @@ func (options *GetDnszoneOptions) SetHeaders(param map[string]string) *GetDnszon
 // GetForwardingRuleOptions : The GetForwardingRule options.
 type GetForwardingRuleOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a forwarding rule.
-	RuleID *string `json:"rule_id" validate:"required,ne="`
+	RuleID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4753,32 +4824,32 @@ func (*DnsSvcsV1) NewGetForwardingRuleOptions(instanceID string, resolverID stri
 	return &GetForwardingRuleOptions{
 		InstanceID: core.StringPtr(instanceID),
 		ResolverID: core.StringPtr(resolverID),
-		RuleID: core.StringPtr(ruleID),
+		RuleID:     core.StringPtr(ruleID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetForwardingRuleOptions) SetInstanceID(instanceID string) *GetForwardingRuleOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetForwardingRuleOptions) SetInstanceID(instanceID string) *GetForwardingRuleOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *GetForwardingRuleOptions) SetResolverID(resolverID string) *GetForwardingRuleOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *GetForwardingRuleOptions) SetResolverID(resolverID string) *GetForwardingRuleOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetRuleID : Allow user to set RuleID
-func (options *GetForwardingRuleOptions) SetRuleID(ruleID string) *GetForwardingRuleOptions {
-	options.RuleID = core.StringPtr(ruleID)
-	return options
+func (_options *GetForwardingRuleOptions) SetRuleID(ruleID string) *GetForwardingRuleOptions {
+	_options.RuleID = core.StringPtr(ruleID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *GetForwardingRuleOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *GetForwardingRuleOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4790,16 +4861,16 @@ func (options *GetForwardingRuleOptions) SetHeaders(param map[string]string) *Ge
 // GetLoadBalancerOptions : The GetLoadBalancer options.
 type GetLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required,ne="`
+	LbID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4809,33 +4880,33 @@ type GetLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewGetLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *GetLoadBalancerOptions {
 	return &GetLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetLoadBalancerOptions) SetInstanceID(instanceID string) *GetLoadBalancerOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetLoadBalancerOptions) SetInstanceID(instanceID string) *GetLoadBalancerOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *GetLoadBalancerOptions) SetDnszoneID(dnszoneID string) *GetLoadBalancerOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *GetLoadBalancerOptions) SetDnszoneID(dnszoneID string) *GetLoadBalancerOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetLbID : Allow user to set LbID
-func (options *GetLoadBalancerOptions) SetLbID(lbID string) *GetLoadBalancerOptions {
-	options.LbID = core.StringPtr(lbID)
-	return options
+func (_options *GetLoadBalancerOptions) SetLbID(lbID string) *GetLoadBalancerOptions {
+	_options.LbID = core.StringPtr(lbID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *GetLoadBalancerOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *GetLoadBalancerOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4847,13 +4918,13 @@ func (options *GetLoadBalancerOptions) SetHeaders(param map[string]string) *GetL
 // GetMonitorOptions : The GetMonitor options.
 type GetMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required,ne="`
+	MonitorID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4863,26 +4934,26 @@ type GetMonitorOptions struct {
 func (*DnsSvcsV1) NewGetMonitorOptions(instanceID string, monitorID string) *GetMonitorOptions {
 	return &GetMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetMonitorOptions) SetInstanceID(instanceID string) *GetMonitorOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetMonitorOptions) SetInstanceID(instanceID string) *GetMonitorOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetMonitorID : Allow user to set MonitorID
-func (options *GetMonitorOptions) SetMonitorID(monitorID string) *GetMonitorOptions {
-	options.MonitorID = core.StringPtr(monitorID)
-	return options
+func (_options *GetMonitorOptions) SetMonitorID(monitorID string) *GetMonitorOptions {
+	_options.MonitorID = core.StringPtr(monitorID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetMonitorOptions) SetXCorrelationID(xCorrelationID string) *GetMonitorOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetMonitorOptions) SetXCorrelationID(xCorrelationID string) *GetMonitorOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4894,16 +4965,16 @@ func (options *GetMonitorOptions) SetHeaders(param map[string]string) *GetMonito
 // GetPermittedNetworkOptions : The GetPermittedNetwork options.
 type GetPermittedNetworkOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a permitted network.
-	PermittedNetworkID *string `json:"permitted_network_id" validate:"required,ne="`
+	PermittedNetworkID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4912,34 +4983,34 @@ type GetPermittedNetworkOptions struct {
 // NewGetPermittedNetworkOptions : Instantiate GetPermittedNetworkOptions
 func (*DnsSvcsV1) NewGetPermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *GetPermittedNetworkOptions {
 	return &GetPermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		DnszoneID:          core.StringPtr(dnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetPermittedNetworkOptions) SetInstanceID(instanceID string) *GetPermittedNetworkOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetPermittedNetworkOptions) SetInstanceID(instanceID string) *GetPermittedNetworkOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *GetPermittedNetworkOptions) SetDnszoneID(dnszoneID string) *GetPermittedNetworkOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *GetPermittedNetworkOptions) SetDnszoneID(dnszoneID string) *GetPermittedNetworkOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetPermittedNetworkID : Allow user to set PermittedNetworkID
-func (options *GetPermittedNetworkOptions) SetPermittedNetworkID(permittedNetworkID string) *GetPermittedNetworkOptions {
-	options.PermittedNetworkID = core.StringPtr(permittedNetworkID)
-	return options
+func (_options *GetPermittedNetworkOptions) SetPermittedNetworkID(permittedNetworkID string) *GetPermittedNetworkOptions {
+	_options.PermittedNetworkID = core.StringPtr(permittedNetworkID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetPermittedNetworkOptions) SetXCorrelationID(xCorrelationID string) *GetPermittedNetworkOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetPermittedNetworkOptions) SetXCorrelationID(xCorrelationID string) *GetPermittedNetworkOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4951,13 +5022,13 @@ func (options *GetPermittedNetworkOptions) SetHeaders(param map[string]string) *
 // GetPoolOptions : The GetPool options.
 type GetPoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4967,26 +5038,26 @@ type GetPoolOptions struct {
 func (*DnsSvcsV1) NewGetPoolOptions(instanceID string, poolID string) *GetPoolOptions {
 	return &GetPoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetPoolOptions) SetInstanceID(instanceID string) *GetPoolOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetPoolOptions) SetInstanceID(instanceID string) *GetPoolOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetPoolID : Allow user to set PoolID
-func (options *GetPoolOptions) SetPoolID(poolID string) *GetPoolOptions {
-	options.PoolID = core.StringPtr(poolID)
-	return options
+func (_options *GetPoolOptions) SetPoolID(poolID string) *GetPoolOptions {
+	_options.PoolID = core.StringPtr(poolID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetPoolOptions) SetXCorrelationID(xCorrelationID string) *GetPoolOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetPoolOptions) SetXCorrelationID(xCorrelationID string) *GetPoolOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -4998,16 +5069,16 @@ func (options *GetPoolOptions) SetHeaders(param map[string]string) *GetPoolOptio
 // GetResourceRecordOptions : The GetResourceRecord options.
 type GetResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required,ne="`
+	RecordID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5017,33 +5088,33 @@ type GetResourceRecordOptions struct {
 func (*DnsSvcsV1) NewGetResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *GetResourceRecordOptions {
 	return &GetResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RecordID: core.StringPtr(recordID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RecordID:   core.StringPtr(recordID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *GetResourceRecordOptions) SetInstanceID(instanceID string) *GetResourceRecordOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *GetResourceRecordOptions) SetInstanceID(instanceID string) *GetResourceRecordOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *GetResourceRecordOptions) SetDnszoneID(dnszoneID string) *GetResourceRecordOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *GetResourceRecordOptions) SetDnszoneID(dnszoneID string) *GetResourceRecordOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetRecordID : Allow user to set RecordID
-func (options *GetResourceRecordOptions) SetRecordID(recordID string) *GetResourceRecordOptions {
-	options.RecordID = core.StringPtr(recordID)
-	return options
+func (_options *GetResourceRecordOptions) SetRecordID(recordID string) *GetResourceRecordOptions {
+	_options.RecordID = core.StringPtr(recordID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *GetResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *GetResourceRecordOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *GetResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *GetResourceRecordOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5055,19 +5126,19 @@ func (options *GetResourceRecordOptions) SetHeaders(param map[string]string) *Ge
 // ImportResourceRecordsOptions : The ImportResourceRecords options.
 type ImportResourceRecordsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// file to upload.
-	File io.ReadCloser `json:"file,omitempty"`
+	File io.ReadCloser `json:"-"`
 
 	// The content type of file.
-	FileContentType *string `json:"file_content_type,omitempty"`
+	FileContentType *string `json:"-"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5077,38 +5148,38 @@ type ImportResourceRecordsOptions struct {
 func (*DnsSvcsV1) NewImportResourceRecordsOptions(instanceID string, dnszoneID string) *ImportResourceRecordsOptions {
 	return &ImportResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ImportResourceRecordsOptions) SetInstanceID(instanceID string) *ImportResourceRecordsOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ImportResourceRecordsOptions) SetInstanceID(instanceID string) *ImportResourceRecordsOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *ImportResourceRecordsOptions) SetDnszoneID(dnszoneID string) *ImportResourceRecordsOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *ImportResourceRecordsOptions) SetDnszoneID(dnszoneID string) *ImportResourceRecordsOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetFile : Allow user to set File
-func (options *ImportResourceRecordsOptions) SetFile(file io.ReadCloser) *ImportResourceRecordsOptions {
-	options.File = file
-	return options
+func (_options *ImportResourceRecordsOptions) SetFile(file io.ReadCloser) *ImportResourceRecordsOptions {
+	_options.File = file
+	return _options
 }
 
 // SetFileContentType : Allow user to set FileContentType
-func (options *ImportResourceRecordsOptions) SetFileContentType(fileContentType string) *ImportResourceRecordsOptions {
-	options.FileContentType = core.StringPtr(fileContentType)
-	return options
+func (_options *ImportResourceRecordsOptions) SetFileContentType(fileContentType string) *ImportResourceRecordsOptions {
+	_options.FileContentType = core.StringPtr(fileContentType)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ImportResourceRecordsOptions) SetXCorrelationID(xCorrelationID string) *ImportResourceRecordsOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ImportResourceRecordsOptions) SetXCorrelationID(xCorrelationID string) *ImportResourceRecordsOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5120,10 +5191,10 @@ func (options *ImportResourceRecordsOptions) SetHeaders(param map[string]string)
 // ListCustomResolversOptions : The ListCustomResolvers options.
 type ListCustomResolversOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5137,15 +5208,15 @@ func (*DnsSvcsV1) NewListCustomResolversOptions(instanceID string) *ListCustomRe
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListCustomResolversOptions) SetInstanceID(instanceID string) *ListCustomResolversOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListCustomResolversOptions) SetInstanceID(instanceID string) *ListCustomResolversOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListCustomResolversOptions) SetXCorrelationID(xCorrelationID string) *ListCustomResolversOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListCustomResolversOptions) SetXCorrelationID(xCorrelationID string) *ListCustomResolversOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5157,16 +5228,16 @@ func (options *ListCustomResolversOptions) SetHeaders(param map[string]string) *
 // ListDnszonesOptions : The ListDnszones options.
 type ListDnszonesOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Specify how many resource records to skip over, the default value is 0.
-	Offset *int64 `json:"offset,omitempty"`
+	Offset *int64 `json:"-"`
 
 	// Specify how many resource records are returned, the default value is 200.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64 `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5180,27 +5251,27 @@ func (*DnsSvcsV1) NewListDnszonesOptions(instanceID string) *ListDnszonesOptions
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListDnszonesOptions) SetInstanceID(instanceID string) *ListDnszonesOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListDnszonesOptions) SetInstanceID(instanceID string) *ListDnszonesOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListDnszonesOptions) SetXCorrelationID(xCorrelationID string) *ListDnszonesOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListDnszonesOptions) SetXCorrelationID(xCorrelationID string) *ListDnszonesOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetOffset : Allow user to set Offset
-func (options *ListDnszonesOptions) SetOffset(offset int64) *ListDnszonesOptions {
-	options.Offset = core.Int64Ptr(offset)
-	return options
+func (_options *ListDnszonesOptions) SetOffset(offset int64) *ListDnszonesOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
 }
 
 // SetLimit : Allow user to set Limit
-func (options *ListDnszonesOptions) SetLimit(limit int64) *ListDnszonesOptions {
-	options.Limit = core.Int64Ptr(limit)
-	return options
+func (_options *ListDnszonesOptions) SetLimit(limit int64) *ListDnszonesOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5212,13 +5283,13 @@ func (options *ListDnszonesOptions) SetHeaders(param map[string]string) *ListDns
 // ListForwardingRulesOptions : The ListForwardingRules options.
 type ListForwardingRulesOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5233,21 +5304,21 @@ func (*DnsSvcsV1) NewListForwardingRulesOptions(instanceID string, resolverID st
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListForwardingRulesOptions) SetInstanceID(instanceID string) *ListForwardingRulesOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListForwardingRulesOptions) SetInstanceID(instanceID string) *ListForwardingRulesOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *ListForwardingRulesOptions) SetResolverID(resolverID string) *ListForwardingRulesOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *ListForwardingRulesOptions) SetResolverID(resolverID string) *ListForwardingRulesOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListForwardingRulesOptions) SetXCorrelationID(xCorrelationID string) *ListForwardingRulesOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListForwardingRulesOptions) SetXCorrelationID(xCorrelationID string) *ListForwardingRulesOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5259,13 +5330,13 @@ func (options *ListForwardingRulesOptions) SetHeaders(param map[string]string) *
 // ListLoadBalancersOptions : The ListLoadBalancers options.
 type ListLoadBalancersOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5275,26 +5346,26 @@ type ListLoadBalancersOptions struct {
 func (*DnsSvcsV1) NewListLoadBalancersOptions(instanceID string, dnszoneID string) *ListLoadBalancersOptions {
 	return &ListLoadBalancersOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListLoadBalancersOptions) SetInstanceID(instanceID string) *ListLoadBalancersOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListLoadBalancersOptions) SetInstanceID(instanceID string) *ListLoadBalancersOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *ListLoadBalancersOptions) SetDnszoneID(dnszoneID string) *ListLoadBalancersOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *ListLoadBalancersOptions) SetDnszoneID(dnszoneID string) *ListLoadBalancersOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListLoadBalancersOptions) SetXCorrelationID(xCorrelationID string) *ListLoadBalancersOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListLoadBalancersOptions) SetXCorrelationID(xCorrelationID string) *ListLoadBalancersOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5306,10 +5377,10 @@ func (options *ListLoadBalancersOptions) SetHeaders(param map[string]string) *Li
 // ListMonitorsOptions : The ListMonitors options.
 type ListMonitorsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5323,15 +5394,15 @@ func (*DnsSvcsV1) NewListMonitorsOptions(instanceID string) *ListMonitorsOptions
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListMonitorsOptions) SetInstanceID(instanceID string) *ListMonitorsOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListMonitorsOptions) SetInstanceID(instanceID string) *ListMonitorsOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListMonitorsOptions) SetXCorrelationID(xCorrelationID string) *ListMonitorsOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListMonitorsOptions) SetXCorrelationID(xCorrelationID string) *ListMonitorsOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5343,19 +5414,19 @@ func (options *ListMonitorsOptions) SetHeaders(param map[string]string) *ListMon
 // ListPermittedNetworksOptions : The ListPermittedNetworks options.
 type ListPermittedNetworksOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Specify how many resource records to skip over, the default value is 0.
-	Offset *int64 `json:"offset,omitempty"`
+	Offset *int64 `json:"-"`
 
 	// Specify how many resource records are returned, the default value is 200.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64 `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5365,38 +5436,38 @@ type ListPermittedNetworksOptions struct {
 func (*DnsSvcsV1) NewListPermittedNetworksOptions(instanceID string, dnszoneID string) *ListPermittedNetworksOptions {
 	return &ListPermittedNetworksOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListPermittedNetworksOptions) SetInstanceID(instanceID string) *ListPermittedNetworksOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListPermittedNetworksOptions) SetInstanceID(instanceID string) *ListPermittedNetworksOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *ListPermittedNetworksOptions) SetDnszoneID(dnszoneID string) *ListPermittedNetworksOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *ListPermittedNetworksOptions) SetDnszoneID(dnszoneID string) *ListPermittedNetworksOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListPermittedNetworksOptions) SetXCorrelationID(xCorrelationID string) *ListPermittedNetworksOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListPermittedNetworksOptions) SetXCorrelationID(xCorrelationID string) *ListPermittedNetworksOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetOffset : Allow user to set Offset
-func (options *ListPermittedNetworksOptions) SetOffset(offset int64) *ListPermittedNetworksOptions {
-	options.Offset = core.Int64Ptr(offset)
-	return options
+func (_options *ListPermittedNetworksOptions) SetOffset(offset int64) *ListPermittedNetworksOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
 }
 
 // SetLimit : Allow user to set Limit
-func (options *ListPermittedNetworksOptions) SetLimit(limit int64) *ListPermittedNetworksOptions {
-	options.Limit = core.Int64Ptr(limit)
-	return options
+func (_options *ListPermittedNetworksOptions) SetLimit(limit int64) *ListPermittedNetworksOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5408,10 +5479,10 @@ func (options *ListPermittedNetworksOptions) SetHeaders(param map[string]string)
 // ListPoolsOptions : The ListPools options.
 type ListPoolsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5425,15 +5496,15 @@ func (*DnsSvcsV1) NewListPoolsOptions(instanceID string) *ListPoolsOptions {
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListPoolsOptions) SetInstanceID(instanceID string) *ListPoolsOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListPoolsOptions) SetInstanceID(instanceID string) *ListPoolsOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListPoolsOptions) SetXCorrelationID(xCorrelationID string) *ListPoolsOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListPoolsOptions) SetXCorrelationID(xCorrelationID string) *ListPoolsOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5445,19 +5516,19 @@ func (options *ListPoolsOptions) SetHeaders(param map[string]string) *ListPoolsO
 // ListResourceRecordsOptions : The ListResourceRecords options.
 type ListResourceRecordsOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Specify how many resource records to skip over, the default value is 0.
-	Offset *int64 `json:"offset,omitempty"`
+	Offset *int64 `json:"-"`
 
 	// Specify how many resource records are returned, the default value is 200.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64 `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5467,38 +5538,38 @@ type ListResourceRecordsOptions struct {
 func (*DnsSvcsV1) NewListResourceRecordsOptions(instanceID string, dnszoneID string) *ListResourceRecordsOptions {
 	return &ListResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *ListResourceRecordsOptions) SetInstanceID(instanceID string) *ListResourceRecordsOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *ListResourceRecordsOptions) SetInstanceID(instanceID string) *ListResourceRecordsOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *ListResourceRecordsOptions) SetDnszoneID(dnszoneID string) *ListResourceRecordsOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *ListResourceRecordsOptions) SetDnszoneID(dnszoneID string) *ListResourceRecordsOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *ListResourceRecordsOptions) SetXCorrelationID(xCorrelationID string) *ListResourceRecordsOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *ListResourceRecordsOptions) SetXCorrelationID(xCorrelationID string) *ListResourceRecordsOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetOffset : Allow user to set Offset
-func (options *ListResourceRecordsOptions) SetOffset(offset int64) *ListResourceRecordsOptions {
-	options.Offset = core.Int64Ptr(offset)
-	return options
+func (_options *ListResourceRecordsOptions) SetOffset(offset int64) *ListResourceRecordsOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
 }
 
 // SetLimit : Allow user to set Limit
-func (options *ListResourceRecordsOptions) SetLimit(limit int64) *ListResourceRecordsOptions {
-	options.Limit = core.Int64Ptr(limit)
-	return options
+func (_options *ListResourceRecordsOptions) SetLimit(limit int64) *ListResourceRecordsOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5515,7 +5586,6 @@ type LoadBalancerAzPoolsItem struct {
 	// List of load balancer pools.
 	Pools []string `json:"pools,omitempty"`
 }
-
 
 // UnmarshalLoadBalancerAzPoolsItem unmarshals an instance of LoadBalancerAzPoolsItem from the specified map of raw messages.
 func UnmarshalLoadBalancerAzPoolsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5546,7 +5616,6 @@ type PoolHealthcheckVsisItem struct {
 	// vpc crn.
 	Vpc *string `json:"vpc,omitempty"`
 }
-
 
 // UnmarshalPoolHealthcheckVsisItem unmarshals an instance of PoolHealthcheckVsisItem from the specified map of raw messages.
 func UnmarshalPoolHealthcheckVsisItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5579,7 +5648,6 @@ type RecordsImportErrorModelError struct {
 	// An internal error occurred. Try again later.
 	Message *string `json:"message" validate:"required"`
 }
-
 
 // UnmarshalRecordsImportErrorModelError unmarshals an instance of RecordsImportErrorModelError from the specified map of raw messages.
 func UnmarshalRecordsImportErrorModelError(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5791,13 +5859,13 @@ func UnmarshalResourceRecordUpdateInputRdata(m map[string]json.RawMessage, resul
 // UpdateCustomResolverLocationOptions : The UpdateCustomResolverLocation options.
 type UpdateCustomResolverLocationOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Custom resolver location ID.
-	LocationID *string `json:"location_id" validate:"required,ne="`
+	LocationID *string `json:"-" validate:"required,ne="`
 
 	// Enable/Disable custom resolver location.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -5806,7 +5874,7 @@ type UpdateCustomResolverLocationOptions struct {
 	SubnetCrn *string `json:"subnet_crn,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5822,39 +5890,39 @@ func (*DnsSvcsV1) NewUpdateCustomResolverLocationOptions(instanceID string, reso
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateCustomResolverLocationOptions) SetInstanceID(instanceID string) *UpdateCustomResolverLocationOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateCustomResolverLocationOptions) SetInstanceID(instanceID string) *UpdateCustomResolverLocationOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *UpdateCustomResolverLocationOptions) SetResolverID(resolverID string) *UpdateCustomResolverLocationOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *UpdateCustomResolverLocationOptions) SetResolverID(resolverID string) *UpdateCustomResolverLocationOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetLocationID : Allow user to set LocationID
-func (options *UpdateCustomResolverLocationOptions) SetLocationID(locationID string) *UpdateCustomResolverLocationOptions {
-	options.LocationID = core.StringPtr(locationID)
-	return options
+func (_options *UpdateCustomResolverLocationOptions) SetLocationID(locationID string) *UpdateCustomResolverLocationOptions {
+	_options.LocationID = core.StringPtr(locationID)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *UpdateCustomResolverLocationOptions) SetEnabled(enabled bool) *UpdateCustomResolverLocationOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *UpdateCustomResolverLocationOptions) SetEnabled(enabled bool) *UpdateCustomResolverLocationOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetSubnetCrn : Allow user to set SubnetCrn
-func (options *UpdateCustomResolverLocationOptions) SetSubnetCrn(subnetCrn string) *UpdateCustomResolverLocationOptions {
-	options.SubnetCrn = core.StringPtr(subnetCrn)
-	return options
+func (_options *UpdateCustomResolverLocationOptions) SetSubnetCrn(subnetCrn string) *UpdateCustomResolverLocationOptions {
+	_options.SubnetCrn = core.StringPtr(subnetCrn)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *UpdateCustomResolverLocationOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateCustomResolverLocationOptions) SetXCorrelationID(xCorrelationID string) *UpdateCustomResolverLocationOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5866,10 +5934,10 @@ func (options *UpdateCustomResolverLocationOptions) SetHeaders(param map[string]
 // UpdateCustomResolverOptions : The UpdateCustomResolver options.
 type UpdateCustomResolverOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// Name of the custom resolver.
 	Name *string `json:"name,omitempty"`
@@ -5881,7 +5949,7 @@ type UpdateCustomResolverOptions struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5896,39 +5964,39 @@ func (*DnsSvcsV1) NewUpdateCustomResolverOptions(instanceID string, resolverID s
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateCustomResolverOptions) SetInstanceID(instanceID string) *UpdateCustomResolverOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateCustomResolverOptions) SetInstanceID(instanceID string) *UpdateCustomResolverOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *UpdateCustomResolverOptions) SetResolverID(resolverID string) *UpdateCustomResolverOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *UpdateCustomResolverOptions) SetResolverID(resolverID string) *UpdateCustomResolverOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *UpdateCustomResolverOptions) SetName(name string) *UpdateCustomResolverOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *UpdateCustomResolverOptions) SetName(name string) *UpdateCustomResolverOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *UpdateCustomResolverOptions) SetDescription(description string) *UpdateCustomResolverOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *UpdateCustomResolverOptions) SetDescription(description string) *UpdateCustomResolverOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *UpdateCustomResolverOptions) SetEnabled(enabled bool) *UpdateCustomResolverOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *UpdateCustomResolverOptions) SetEnabled(enabled bool) *UpdateCustomResolverOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *UpdateCustomResolverOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateCustomResolverOptions) SetXCorrelationID(xCorrelationID string) *UpdateCustomResolverOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -5940,10 +6008,10 @@ func (options *UpdateCustomResolverOptions) SetHeaders(param map[string]string) 
 // UpdateDnszoneOptions : The UpdateDnszone options.
 type UpdateDnszoneOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The text describing the purpose of a DNS zone.
 	Description *string `json:"description,omitempty"`
@@ -5952,7 +6020,7 @@ type UpdateDnszoneOptions struct {
 	Label *string `json:"label,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -5962,38 +6030,38 @@ type UpdateDnszoneOptions struct {
 func (*DnsSvcsV1) NewUpdateDnszoneOptions(instanceID string, dnszoneID string) *UpdateDnszoneOptions {
 	return &UpdateDnszoneOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateDnszoneOptions) SetInstanceID(instanceID string) *UpdateDnszoneOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateDnszoneOptions) SetInstanceID(instanceID string) *UpdateDnszoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *UpdateDnszoneOptions) SetDnszoneID(dnszoneID string) *UpdateDnszoneOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *UpdateDnszoneOptions) SetDnszoneID(dnszoneID string) *UpdateDnszoneOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *UpdateDnszoneOptions) SetDescription(description string) *UpdateDnszoneOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *UpdateDnszoneOptions) SetDescription(description string) *UpdateDnszoneOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetLabel : Allow user to set Label
-func (options *UpdateDnszoneOptions) SetLabel(label string) *UpdateDnszoneOptions {
-	options.Label = core.StringPtr(label)
-	return options
+func (_options *UpdateDnszoneOptions) SetLabel(label string) *UpdateDnszoneOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateDnszoneOptions) SetXCorrelationID(xCorrelationID string) *UpdateDnszoneOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateDnszoneOptions) SetXCorrelationID(xCorrelationID string) *UpdateDnszoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -6005,13 +6073,13 @@ func (options *UpdateDnszoneOptions) SetHeaders(param map[string]string) *Update
 // UpdateForwardingRuleOptions : The UpdateForwardingRule options.
 type UpdateForwardingRuleOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a custom resolver.
-	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+	ResolverID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a forwarding rule.
-	RuleID *string `json:"rule_id" validate:"required,ne="`
+	RuleID *string `json:"-" validate:"required,ne="`
 
 	// Descriptive text of the forwarding rule.
 	Description *string `json:"description,omitempty"`
@@ -6023,7 +6091,7 @@ type UpdateForwardingRuleOptions struct {
 	ForwardTo []string `json:"forward_to,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -6034,50 +6102,50 @@ func (*DnsSvcsV1) NewUpdateForwardingRuleOptions(instanceID string, resolverID s
 	return &UpdateForwardingRuleOptions{
 		InstanceID: core.StringPtr(instanceID),
 		ResolverID: core.StringPtr(resolverID),
-		RuleID: core.StringPtr(ruleID),
+		RuleID:     core.StringPtr(ruleID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateForwardingRuleOptions) SetInstanceID(instanceID string) *UpdateForwardingRuleOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateForwardingRuleOptions) SetInstanceID(instanceID string) *UpdateForwardingRuleOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetResolverID : Allow user to set ResolverID
-func (options *UpdateForwardingRuleOptions) SetResolverID(resolverID string) *UpdateForwardingRuleOptions {
-	options.ResolverID = core.StringPtr(resolverID)
-	return options
+func (_options *UpdateForwardingRuleOptions) SetResolverID(resolverID string) *UpdateForwardingRuleOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
 }
 
 // SetRuleID : Allow user to set RuleID
-func (options *UpdateForwardingRuleOptions) SetRuleID(ruleID string) *UpdateForwardingRuleOptions {
-	options.RuleID = core.StringPtr(ruleID)
-	return options
+func (_options *UpdateForwardingRuleOptions) SetRuleID(ruleID string) *UpdateForwardingRuleOptions {
+	_options.RuleID = core.StringPtr(ruleID)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *UpdateForwardingRuleOptions) SetDescription(description string) *UpdateForwardingRuleOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *UpdateForwardingRuleOptions) SetDescription(description string) *UpdateForwardingRuleOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetMatch : Allow user to set Match
-func (options *UpdateForwardingRuleOptions) SetMatch(match string) *UpdateForwardingRuleOptions {
-	options.Match = core.StringPtr(match)
-	return options
+func (_options *UpdateForwardingRuleOptions) SetMatch(match string) *UpdateForwardingRuleOptions {
+	_options.Match = core.StringPtr(match)
+	return _options
 }
 
 // SetForwardTo : Allow user to set ForwardTo
-func (options *UpdateForwardingRuleOptions) SetForwardTo(forwardTo []string) *UpdateForwardingRuleOptions {
-	options.ForwardTo = forwardTo
-	return options
+func (_options *UpdateForwardingRuleOptions) SetForwardTo(forwardTo []string) *UpdateForwardingRuleOptions {
+	_options.ForwardTo = forwardTo
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *UpdateForwardingRuleOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateForwardingRuleOptions) SetXCorrelationID(xCorrelationID string) *UpdateForwardingRuleOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -6089,13 +6157,13 @@ func (options *UpdateForwardingRuleOptions) SetHeaders(param map[string]string) 
 // UpdateLoadBalancerOptions : The UpdateLoadBalancer options.
 type UpdateLoadBalancerOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer.
-	LbID *string `json:"lb_id" validate:"required,ne="`
+	LbID *string `json:"-" validate:"required,ne="`
 
 	// Name of the load balancer.
 	Name *string `json:"name,omitempty"`
@@ -6120,7 +6188,7 @@ type UpdateLoadBalancerOptions struct {
 	AzPools []LoadBalancerAzPoolsItem `json:"az_pools,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -6130,75 +6198,75 @@ type UpdateLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewUpdateLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *UpdateLoadBalancerOptions {
 	return &UpdateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateLoadBalancerOptions) SetInstanceID(instanceID string) *UpdateLoadBalancerOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetInstanceID(instanceID string) *UpdateLoadBalancerOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *UpdateLoadBalancerOptions) SetDnszoneID(dnszoneID string) *UpdateLoadBalancerOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetDnszoneID(dnszoneID string) *UpdateLoadBalancerOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetLbID : Allow user to set LbID
-func (options *UpdateLoadBalancerOptions) SetLbID(lbID string) *UpdateLoadBalancerOptions {
-	options.LbID = core.StringPtr(lbID)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetLbID(lbID string) *UpdateLoadBalancerOptions {
+	_options.LbID = core.StringPtr(lbID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *UpdateLoadBalancerOptions) SetName(name string) *UpdateLoadBalancerOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetName(name string) *UpdateLoadBalancerOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *UpdateLoadBalancerOptions) SetDescription(description string) *UpdateLoadBalancerOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetDescription(description string) *UpdateLoadBalancerOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *UpdateLoadBalancerOptions) SetEnabled(enabled bool) *UpdateLoadBalancerOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetEnabled(enabled bool) *UpdateLoadBalancerOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetTTL : Allow user to set TTL
-func (options *UpdateLoadBalancerOptions) SetTTL(ttl int64) *UpdateLoadBalancerOptions {
-	options.TTL = core.Int64Ptr(ttl)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetTTL(ttl int64) *UpdateLoadBalancerOptions {
+	_options.TTL = core.Int64Ptr(ttl)
+	return _options
 }
 
 // SetFallbackPool : Allow user to set FallbackPool
-func (options *UpdateLoadBalancerOptions) SetFallbackPool(fallbackPool string) *UpdateLoadBalancerOptions {
-	options.FallbackPool = core.StringPtr(fallbackPool)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetFallbackPool(fallbackPool string) *UpdateLoadBalancerOptions {
+	_options.FallbackPool = core.StringPtr(fallbackPool)
+	return _options
 }
 
 // SetDefaultPools : Allow user to set DefaultPools
-func (options *UpdateLoadBalancerOptions) SetDefaultPools(defaultPools []string) *UpdateLoadBalancerOptions {
-	options.DefaultPools = defaultPools
-	return options
+func (_options *UpdateLoadBalancerOptions) SetDefaultPools(defaultPools []string) *UpdateLoadBalancerOptions {
+	_options.DefaultPools = defaultPools
+	return _options
 }
 
 // SetAzPools : Allow user to set AzPools
-func (options *UpdateLoadBalancerOptions) SetAzPools(azPools []LoadBalancerAzPoolsItem) *UpdateLoadBalancerOptions {
-	options.AzPools = azPools
-	return options
+func (_options *UpdateLoadBalancerOptions) SetAzPools(azPools []LoadBalancerAzPoolsItem) *UpdateLoadBalancerOptions {
+	_options.AzPools = azPools
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *UpdateLoadBalancerOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateLoadBalancerOptions) SetXCorrelationID(xCorrelationID string) *UpdateLoadBalancerOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -6210,10 +6278,10 @@ func (options *UpdateLoadBalancerOptions) SetHeaders(param map[string]string) *U
 // UpdateMonitorOptions : The UpdateMonitor options.
 type UpdateMonitorOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer monitor.
-	MonitorID *string `json:"monitor_id" validate:"required,ne="`
+	MonitorID *string `json:"-" validate:"required,ne="`
 
 	// The name of the load balancer monitor.
 	Name *string `json:"name,omitempty"`
@@ -6262,7 +6330,7 @@ type UpdateMonitorOptions struct {
 	ExpectedBody *string `json:"expected_body,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -6271,15 +6339,15 @@ type UpdateMonitorOptions struct {
 // Constants associated with the UpdateMonitorOptions.Type property.
 // The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
 const (
-	UpdateMonitorOptions_Type_Http = "HTTP"
+	UpdateMonitorOptions_Type_Http  = "HTTP"
 	UpdateMonitorOptions_Type_Https = "HTTPS"
-	UpdateMonitorOptions_Type_Tcp = "TCP"
+	UpdateMonitorOptions_Type_Tcp   = "TCP"
 )
 
 // Constants associated with the UpdateMonitorOptions.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	UpdateMonitorOptions_Method_Get = "GET"
+	UpdateMonitorOptions_Method_Get  = "GET"
 	UpdateMonitorOptions_Method_Head = "HEAD"
 )
 
@@ -6287,104 +6355,104 @@ const (
 func (*DnsSvcsV1) NewUpdateMonitorOptions(instanceID string, monitorID string) *UpdateMonitorOptions {
 	return &UpdateMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateMonitorOptions) SetInstanceID(instanceID string) *UpdateMonitorOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateMonitorOptions) SetInstanceID(instanceID string) *UpdateMonitorOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetMonitorID : Allow user to set MonitorID
-func (options *UpdateMonitorOptions) SetMonitorID(monitorID string) *UpdateMonitorOptions {
-	options.MonitorID = core.StringPtr(monitorID)
-	return options
+func (_options *UpdateMonitorOptions) SetMonitorID(monitorID string) *UpdateMonitorOptions {
+	_options.MonitorID = core.StringPtr(monitorID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *UpdateMonitorOptions) SetName(name string) *UpdateMonitorOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *UpdateMonitorOptions) SetName(name string) *UpdateMonitorOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *UpdateMonitorOptions) SetDescription(description string) *UpdateMonitorOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *UpdateMonitorOptions) SetDescription(description string) *UpdateMonitorOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetType : Allow user to set Type
-func (options *UpdateMonitorOptions) SetType(typeVar string) *UpdateMonitorOptions {
-	options.Type = core.StringPtr(typeVar)
-	return options
+func (_options *UpdateMonitorOptions) SetType(typeVar string) *UpdateMonitorOptions {
+	_options.Type = core.StringPtr(typeVar)
+	return _options
 }
 
 // SetPort : Allow user to set Port
-func (options *UpdateMonitorOptions) SetPort(port int64) *UpdateMonitorOptions {
-	options.Port = core.Int64Ptr(port)
-	return options
+func (_options *UpdateMonitorOptions) SetPort(port int64) *UpdateMonitorOptions {
+	_options.Port = core.Int64Ptr(port)
+	return _options
 }
 
 // SetInterval : Allow user to set Interval
-func (options *UpdateMonitorOptions) SetInterval(interval int64) *UpdateMonitorOptions {
-	options.Interval = core.Int64Ptr(interval)
-	return options
+func (_options *UpdateMonitorOptions) SetInterval(interval int64) *UpdateMonitorOptions {
+	_options.Interval = core.Int64Ptr(interval)
+	return _options
 }
 
 // SetRetries : Allow user to set Retries
-func (options *UpdateMonitorOptions) SetRetries(retries int64) *UpdateMonitorOptions {
-	options.Retries = core.Int64Ptr(retries)
-	return options
+func (_options *UpdateMonitorOptions) SetRetries(retries int64) *UpdateMonitorOptions {
+	_options.Retries = core.Int64Ptr(retries)
+	return _options
 }
 
 // SetTimeout : Allow user to set Timeout
-func (options *UpdateMonitorOptions) SetTimeout(timeout int64) *UpdateMonitorOptions {
-	options.Timeout = core.Int64Ptr(timeout)
-	return options
+func (_options *UpdateMonitorOptions) SetTimeout(timeout int64) *UpdateMonitorOptions {
+	_options.Timeout = core.Int64Ptr(timeout)
+	return _options
 }
 
 // SetMethod : Allow user to set Method
-func (options *UpdateMonitorOptions) SetMethod(method string) *UpdateMonitorOptions {
-	options.Method = core.StringPtr(method)
-	return options
+func (_options *UpdateMonitorOptions) SetMethod(method string) *UpdateMonitorOptions {
+	_options.Method = core.StringPtr(method)
+	return _options
 }
 
 // SetPath : Allow user to set Path
-func (options *UpdateMonitorOptions) SetPath(path string) *UpdateMonitorOptions {
-	options.Path = core.StringPtr(path)
-	return options
+func (_options *UpdateMonitorOptions) SetPath(path string) *UpdateMonitorOptions {
+	_options.Path = core.StringPtr(path)
+	return _options
 }
 
 // SetHeadersVar : Allow user to set HeadersVar
-func (options *UpdateMonitorOptions) SetHeadersVar(headersVar []HealthcheckHeader) *UpdateMonitorOptions {
-	options.HeadersVar = headersVar
-	return options
+func (_options *UpdateMonitorOptions) SetHeadersVar(headersVar []HealthcheckHeader) *UpdateMonitorOptions {
+	_options.HeadersVar = headersVar
+	return _options
 }
 
 // SetAllowInsecure : Allow user to set AllowInsecure
-func (options *UpdateMonitorOptions) SetAllowInsecure(allowInsecure bool) *UpdateMonitorOptions {
-	options.AllowInsecure = core.BoolPtr(allowInsecure)
-	return options
+func (_options *UpdateMonitorOptions) SetAllowInsecure(allowInsecure bool) *UpdateMonitorOptions {
+	_options.AllowInsecure = core.BoolPtr(allowInsecure)
+	return _options
 }
 
 // SetExpectedCodes : Allow user to set ExpectedCodes
-func (options *UpdateMonitorOptions) SetExpectedCodes(expectedCodes string) *UpdateMonitorOptions {
-	options.ExpectedCodes = core.StringPtr(expectedCodes)
-	return options
+func (_options *UpdateMonitorOptions) SetExpectedCodes(expectedCodes string) *UpdateMonitorOptions {
+	_options.ExpectedCodes = core.StringPtr(expectedCodes)
+	return _options
 }
 
 // SetExpectedBody : Allow user to set ExpectedBody
-func (options *UpdateMonitorOptions) SetExpectedBody(expectedBody string) *UpdateMonitorOptions {
-	options.ExpectedBody = core.StringPtr(expectedBody)
-	return options
+func (_options *UpdateMonitorOptions) SetExpectedBody(expectedBody string) *UpdateMonitorOptions {
+	_options.ExpectedBody = core.StringPtr(expectedBody)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateMonitorOptions) SetXCorrelationID(xCorrelationID string) *UpdateMonitorOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateMonitorOptions) SetXCorrelationID(xCorrelationID string) *UpdateMonitorOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -6396,10 +6464,10 @@ func (options *UpdateMonitorOptions) SetHeaders(param map[string]string) *Update
 // UpdatePoolOptions : The UpdatePool options.
 type UpdatePoolOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a load balancer pool.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `json:"-" validate:"required,ne="`
 
 	// Name of the load balancer pool.
 	Name *string `json:"name,omitempty"`
@@ -6431,7 +6499,7 @@ type UpdatePoolOptions struct {
 	HealthcheckSubnets []string `json:"healthcheck_subnets,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -6440,11 +6508,11 @@ type UpdatePoolOptions struct {
 // Constants associated with the UpdatePoolOptions.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	UpdatePoolOptions_HealthcheckRegion_AuSyd = "au-syd"
-	UpdatePoolOptions_HealthcheckRegion_EuDu = "eu-du"
-	UpdatePoolOptions_HealthcheckRegion_EuGb = "eu-gb"
-	UpdatePoolOptions_HealthcheckRegion_JpTok = "jp-tok"
-	UpdatePoolOptions_HealthcheckRegion_UsEast = "us-east"
+	UpdatePoolOptions_HealthcheckRegion_AuSyd   = "au-syd"
+	UpdatePoolOptions_HealthcheckRegion_EuDu    = "eu-du"
+	UpdatePoolOptions_HealthcheckRegion_EuGb    = "eu-gb"
+	UpdatePoolOptions_HealthcheckRegion_JpTok   = "jp-tok"
+	UpdatePoolOptions_HealthcheckRegion_UsEast  = "us-east"
 	UpdatePoolOptions_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -6452,80 +6520,80 @@ const (
 func (*DnsSvcsV1) NewUpdatePoolOptions(instanceID string, poolID string) *UpdatePoolOptions {
 	return &UpdatePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdatePoolOptions) SetInstanceID(instanceID string) *UpdatePoolOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdatePoolOptions) SetInstanceID(instanceID string) *UpdatePoolOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetPoolID : Allow user to set PoolID
-func (options *UpdatePoolOptions) SetPoolID(poolID string) *UpdatePoolOptions {
-	options.PoolID = core.StringPtr(poolID)
-	return options
+func (_options *UpdatePoolOptions) SetPoolID(poolID string) *UpdatePoolOptions {
+	_options.PoolID = core.StringPtr(poolID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *UpdatePoolOptions) SetName(name string) *UpdatePoolOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *UpdatePoolOptions) SetName(name string) *UpdatePoolOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (options *UpdatePoolOptions) SetDescription(description string) *UpdatePoolOptions {
-	options.Description = core.StringPtr(description)
-	return options
+func (_options *UpdatePoolOptions) SetDescription(description string) *UpdatePoolOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (options *UpdatePoolOptions) SetEnabled(enabled bool) *UpdatePoolOptions {
-	options.Enabled = core.BoolPtr(enabled)
-	return options
+func (_options *UpdatePoolOptions) SetEnabled(enabled bool) *UpdatePoolOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
 }
 
 // SetHealthyOriginsThreshold : Allow user to set HealthyOriginsThreshold
-func (options *UpdatePoolOptions) SetHealthyOriginsThreshold(healthyOriginsThreshold int64) *UpdatePoolOptions {
-	options.HealthyOriginsThreshold = core.Int64Ptr(healthyOriginsThreshold)
-	return options
+func (_options *UpdatePoolOptions) SetHealthyOriginsThreshold(healthyOriginsThreshold int64) *UpdatePoolOptions {
+	_options.HealthyOriginsThreshold = core.Int64Ptr(healthyOriginsThreshold)
+	return _options
 }
 
 // SetOrigins : Allow user to set Origins
-func (options *UpdatePoolOptions) SetOrigins(origins []OriginInput) *UpdatePoolOptions {
-	options.Origins = origins
-	return options
+func (_options *UpdatePoolOptions) SetOrigins(origins []OriginInput) *UpdatePoolOptions {
+	_options.Origins = origins
+	return _options
 }
 
 // SetMonitor : Allow user to set Monitor
-func (options *UpdatePoolOptions) SetMonitor(monitor string) *UpdatePoolOptions {
-	options.Monitor = core.StringPtr(monitor)
-	return options
+func (_options *UpdatePoolOptions) SetMonitor(monitor string) *UpdatePoolOptions {
+	_options.Monitor = core.StringPtr(monitor)
+	return _options
 }
 
 // SetNotificationChannel : Allow user to set NotificationChannel
-func (options *UpdatePoolOptions) SetNotificationChannel(notificationChannel string) *UpdatePoolOptions {
-	options.NotificationChannel = core.StringPtr(notificationChannel)
-	return options
+func (_options *UpdatePoolOptions) SetNotificationChannel(notificationChannel string) *UpdatePoolOptions {
+	_options.NotificationChannel = core.StringPtr(notificationChannel)
+	return _options
 }
 
 // SetHealthcheckRegion : Allow user to set HealthcheckRegion
-func (options *UpdatePoolOptions) SetHealthcheckRegion(healthcheckRegion string) *UpdatePoolOptions {
-	options.HealthcheckRegion = core.StringPtr(healthcheckRegion)
-	return options
+func (_options *UpdatePoolOptions) SetHealthcheckRegion(healthcheckRegion string) *UpdatePoolOptions {
+	_options.HealthcheckRegion = core.StringPtr(healthcheckRegion)
+	return _options
 }
 
 // SetHealthcheckSubnets : Allow user to set HealthcheckSubnets
-func (options *UpdatePoolOptions) SetHealthcheckSubnets(healthcheckSubnets []string) *UpdatePoolOptions {
-	options.HealthcheckSubnets = healthcheckSubnets
-	return options
+func (_options *UpdatePoolOptions) SetHealthcheckSubnets(healthcheckSubnets []string) *UpdatePoolOptions {
+	_options.HealthcheckSubnets = healthcheckSubnets
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdatePoolOptions) SetXCorrelationID(xCorrelationID string) *UpdatePoolOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdatePoolOptions) SetXCorrelationID(xCorrelationID string) *UpdatePoolOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -6537,13 +6605,13 @@ func (options *UpdatePoolOptions) SetHeaders(param map[string]string) *UpdatePoo
 // UpdateResourceRecordOptions : The UpdateResourceRecord options.
 type UpdateResourceRecordOptions struct {
 	// The unique identifier of a service instance.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a DNS zone.
-	DnszoneID *string `json:"dnszone_id" validate:"required,ne="`
+	DnszoneID *string `json:"-" validate:"required,ne="`
 
 	// The unique identifier of a resource record.
-	RecordID *string `json:"record_id" validate:"required,ne="`
+	RecordID *string `json:"-" validate:"required,ne="`
 
 	// Name of the resource record.
 	Name *string `json:"name,omitempty"`
@@ -6561,7 +6629,7 @@ type UpdateResourceRecordOptions struct {
 	Protocol *string `json:"protocol,omitempty"`
 
 	// Uniquely identifying a request.
-	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+	XCorrelationID *string `json:"-"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -6571,63 +6639,63 @@ type UpdateResourceRecordOptions struct {
 func (*DnsSvcsV1) NewUpdateResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *UpdateResourceRecordOptions {
 	return &UpdateResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RecordID: core.StringPtr(recordID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RecordID:   core.StringPtr(recordID),
 	}
 }
 
 // SetInstanceID : Allow user to set InstanceID
-func (options *UpdateResourceRecordOptions) SetInstanceID(instanceID string) *UpdateResourceRecordOptions {
-	options.InstanceID = core.StringPtr(instanceID)
-	return options
+func (_options *UpdateResourceRecordOptions) SetInstanceID(instanceID string) *UpdateResourceRecordOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
 }
 
 // SetDnszoneID : Allow user to set DnszoneID
-func (options *UpdateResourceRecordOptions) SetDnszoneID(dnszoneID string) *UpdateResourceRecordOptions {
-	options.DnszoneID = core.StringPtr(dnszoneID)
-	return options
+func (_options *UpdateResourceRecordOptions) SetDnszoneID(dnszoneID string) *UpdateResourceRecordOptions {
+	_options.DnszoneID = core.StringPtr(dnszoneID)
+	return _options
 }
 
 // SetRecordID : Allow user to set RecordID
-func (options *UpdateResourceRecordOptions) SetRecordID(recordID string) *UpdateResourceRecordOptions {
-	options.RecordID = core.StringPtr(recordID)
-	return options
+func (_options *UpdateResourceRecordOptions) SetRecordID(recordID string) *UpdateResourceRecordOptions {
+	_options.RecordID = core.StringPtr(recordID)
+	return _options
 }
 
 // SetName : Allow user to set Name
-func (options *UpdateResourceRecordOptions) SetName(name string) *UpdateResourceRecordOptions {
-	options.Name = core.StringPtr(name)
-	return options
+func (_options *UpdateResourceRecordOptions) SetName(name string) *UpdateResourceRecordOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
 }
 
 // SetRdata : Allow user to set Rdata
-func (options *UpdateResourceRecordOptions) SetRdata(rdata ResourceRecordUpdateInputRdataIntf) *UpdateResourceRecordOptions {
-	options.Rdata = rdata
-	return options
+func (_options *UpdateResourceRecordOptions) SetRdata(rdata ResourceRecordUpdateInputRdataIntf) *UpdateResourceRecordOptions {
+	_options.Rdata = rdata
+	return _options
 }
 
 // SetTTL : Allow user to set TTL
-func (options *UpdateResourceRecordOptions) SetTTL(ttl int64) *UpdateResourceRecordOptions {
-	options.TTL = core.Int64Ptr(ttl)
-	return options
+func (_options *UpdateResourceRecordOptions) SetTTL(ttl int64) *UpdateResourceRecordOptions {
+	_options.TTL = core.Int64Ptr(ttl)
+	return _options
 }
 
 // SetService : Allow user to set Service
-func (options *UpdateResourceRecordOptions) SetService(service string) *UpdateResourceRecordOptions {
-	options.Service = core.StringPtr(service)
-	return options
+func (_options *UpdateResourceRecordOptions) SetService(service string) *UpdateResourceRecordOptions {
+	_options.Service = core.StringPtr(service)
+	return _options
 }
 
 // SetProtocol : Allow user to set Protocol
-func (options *UpdateResourceRecordOptions) SetProtocol(protocol string) *UpdateResourceRecordOptions {
-	options.Protocol = core.StringPtr(protocol)
-	return options
+func (_options *UpdateResourceRecordOptions) SetProtocol(protocol string) *UpdateResourceRecordOptions {
+	_options.Protocol = core.StringPtr(protocol)
+	return _options
 }
 
 // SetXCorrelationID : Allow user to set XCorrelationID
-func (options *UpdateResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *UpdateResourceRecordOptions {
-	options.XCorrelationID = core.StringPtr(xCorrelationID)
-	return options
+func (_options *UpdateResourceRecordOptions) SetXCorrelationID(xCorrelationID string) *UpdateResourceRecordOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -6668,9 +6736,8 @@ type CustomResolver struct {
 const (
 	CustomResolver_Health_Critical = "CRITICAL"
 	CustomResolver_Health_Degraded = "DEGRADED"
-	CustomResolver_Health_Healthy = "HEALTHY"
+	CustomResolver_Health_Healthy  = "HEALTHY"
 )
-
 
 // UnmarshalCustomResolver unmarshals an instance of CustomResolver from the specified map of raw messages.
 func UnmarshalCustomResolver(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6717,7 +6784,6 @@ type CustomResolverList struct {
 	CustomResolvers []CustomResolver `json:"custom_resolvers,omitempty"`
 }
 
-
 // UnmarshalCustomResolverList unmarshals an instance of CustomResolverList from the specified map of raw messages.
 func UnmarshalCustomResolverList(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CustomResolverList)
@@ -6759,13 +6825,12 @@ type Dnszone struct {
 // Constants associated with the Dnszone.State property.
 // State of DNS zone.
 const (
-	Dnszone_State_Active = "active"
-	Dnszone_State_Deleted = "deleted"
-	Dnszone_State_Disabled = "disabled"
-	Dnszone_State_PendingDelete = "pending_delete"
+	Dnszone_State_Active            = "active"
+	Dnszone_State_Deleted           = "deleted"
+	Dnszone_State_Disabled          = "disabled"
+	Dnszone_State_PendingDelete     = "pending_delete"
 	Dnszone_State_PendingNetworkAdd = "pending_network_add"
 )
-
 
 // UnmarshalDnszone unmarshals an instance of Dnszone from the specified map of raw messages.
 func UnmarshalDnszone(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6812,7 +6877,6 @@ type FirstHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalFirstHref unmarshals an instance of FirstHref from the specified map of raw messages.
 func UnmarshalFirstHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FirstHref)
@@ -6852,9 +6916,8 @@ type ForwardingRule struct {
 // Type of the forwarding rule.
 const (
 	ForwardingRule_Type_Default = "default"
-	ForwardingRule_Type_Zone = "zone"
+	ForwardingRule_Type_Zone    = "zone"
 )
-
 
 // UnmarshalForwardingRule unmarshals an instance of ForwardingRule from the specified map of raw messages.
 func UnmarshalForwardingRule(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6896,7 +6959,6 @@ type ForwardingRuleList struct {
 	ForwardingRules []ForwardingRule `json:"forwarding_rules,omitempty"`
 }
 
-
 // UnmarshalForwardingRuleList unmarshals an instance of ForwardingRuleList from the specified map of raw messages.
 func UnmarshalForwardingRuleList(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ForwardingRuleList)
@@ -6917,14 +6979,13 @@ type HealthcheckHeader struct {
 	Value []string `json:"value" validate:"required"`
 }
 
-
 // NewHealthcheckHeader : Instantiate HealthcheckHeader (Generic Model Constructor)
-func (*DnsSvcsV1) NewHealthcheckHeader(name string, value []string) (model *HealthcheckHeader, err error) {
-	model = &HealthcheckHeader{
-		Name: core.StringPtr(name),
+func (*DnsSvcsV1) NewHealthcheckHeader(name string, value []string) (_model *HealthcheckHeader, err error) {
+	_model = &HealthcheckHeader{
+		Name:  core.StringPtr(name),
 		Value: value,
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -6966,7 +7027,6 @@ type ImportResourceRecordsResp struct {
 	// Number of records parsed from the zone file.
 	Errors []RecordsImportErrorModel `json:"errors,omitempty"`
 }
-
 
 // UnmarshalImportResourceRecordsResp unmarshals an instance of ImportResourceRecordsResp from the specified map of raw messages.
 func UnmarshalImportResourceRecordsResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7024,7 +7084,6 @@ type ListDnszones struct {
 	Next *NextHref `json:"next,omitempty"`
 }
 
-
 // UnmarshalListDnszones unmarshals an instance of ListDnszones from the specified map of raw messages.
 func UnmarshalListDnszones(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListDnszones)
@@ -7056,6 +7115,23 @@ func UnmarshalListDnszones(m map[string]json.RawMessage, result interface{}) (er
 	return
 }
 
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *ListDnszones) GetNextOffset() (*int64, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	offset, err := core.GetQueryParam(resp.Next.Href, "offset")
+	if err != nil || offset == nil {
+		return nil, err
+	}
+	var offsetValue int64
+	offsetValue, err = strconv.ParseInt(*offset, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return core.Int64Ptr(offsetValue), nil
+}
+
 // ListLoadBalancers : List Global Load Balancers response.
 type ListLoadBalancers struct {
 	// An array of Global Load Balancers.
@@ -7079,7 +7155,6 @@ type ListLoadBalancers struct {
 	// href.
 	Next *NextHref `json:"next" validate:"required"`
 }
-
 
 // UnmarshalListLoadBalancers unmarshals an instance of ListLoadBalancers from the specified map of raw messages.
 func UnmarshalListLoadBalancers(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7140,7 +7215,6 @@ type ListMonitors struct {
 	Next *NextHref `json:"next" validate:"required"`
 }
 
-
 // UnmarshalListMonitors unmarshals an instance of ListMonitors from the specified map of raw messages.
 func UnmarshalListMonitors(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListMonitors)
@@ -7197,7 +7271,6 @@ type ListPermittedNetworks struct {
 	Next *NextHref `json:"next,omitempty"`
 }
 
-
 // UnmarshalListPermittedNetworks unmarshals an instance of ListPermittedNetworks from the specified map of raw messages.
 func UnmarshalListPermittedNetworks(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListPermittedNetworks)
@@ -7229,6 +7302,23 @@ func UnmarshalListPermittedNetworks(m map[string]json.RawMessage, result interfa
 	return
 }
 
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *ListPermittedNetworks) GetNextOffset() (*int64, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	offset, err := core.GetQueryParam(resp.Next.Href, "offset")
+	if err != nil || offset == nil {
+		return nil, err
+	}
+	var offsetValue int64
+	offsetValue, err = strconv.ParseInt(*offset, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return core.Int64Ptr(offsetValue), nil
+}
+
 // ListPools : List load balancer pools response.
 type ListPools struct {
 	// An array of load balancer pools.
@@ -7252,7 +7342,6 @@ type ListPools struct {
 	// href.
 	Next *NextHref `json:"next" validate:"required"`
 }
-
 
 // UnmarshalListPools unmarshals an instance of ListPools from the specified map of raw messages.
 func UnmarshalListPools(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7310,7 +7399,6 @@ type ListResourceRecords struct {
 	Next *NextHref `json:"next,omitempty"`
 }
 
-
 // UnmarshalListResourceRecords unmarshals an instance of ListResourceRecords from the specified map of raw messages.
 func UnmarshalListResourceRecords(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListResourceRecords)
@@ -7340,6 +7428,23 @@ func UnmarshalListResourceRecords(m map[string]json.RawMessage, result interface
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *ListResourceRecords) GetNextOffset() (*int64, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	offset, err := core.GetQueryParam(resp.Next.Href, "offset")
+	if err != nil || offset == nil {
+		return nil, err
+	}
+	var offsetValue int64
+	offsetValue, err = strconv.ParseInt(*offset, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return core.Int64Ptr(offsetValue), nil
 }
 
 // LoadBalancer : Load balancer details.
@@ -7384,9 +7489,8 @@ type LoadBalancer struct {
 const (
 	LoadBalancer_Health_Critical = "CRITICAL"
 	LoadBalancer_Health_Degraded = "DEGRADED"
-	LoadBalancer_Health_Healthy = "HEALTHY"
+	LoadBalancer_Health_Healthy  = "HEALTHY"
 )
-
 
 // UnmarshalLoadBalancer unmarshals an instance of LoadBalancer from the specified map of raw messages.
 func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7457,7 +7561,6 @@ type Location struct {
 	DnsServerIp *string `json:"dns_server_ip,omitempty"`
 }
 
-
 // UnmarshalLocation unmarshals an instance of Location from the specified map of raw messages.
 func UnmarshalLocation(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Location)
@@ -7494,13 +7597,12 @@ type LocationInput struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-
 // NewLocationInput : Instantiate LocationInput (Generic Model Constructor)
-func (*DnsSvcsV1) NewLocationInput(subnetCrn string) (model *LocationInput, err error) {
-	model = &LocationInput{
+func (*DnsSvcsV1) NewLocationInput(subnetCrn string) (_model *LocationInput, err error) {
+	_model = &LocationInput{
 		SubnetCrn: core.StringPtr(subnetCrn),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -7579,10 +7681,9 @@ type Monitor struct {
 // Constants associated with the Monitor.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	Monitor_Method_Get = "GET"
+	Monitor_Method_Get  = "GET"
 	Monitor_Method_Head = "HEAD"
 )
-
 
 // UnmarshalMonitor unmarshals an instance of Monitor from the specified map of raw messages.
 func UnmarshalMonitor(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7661,7 +7762,6 @@ type NextHref struct {
 	Href *string `json:"href,omitempty"`
 }
 
-
 // UnmarshalNextHref unmarshals an instance of NextHref from the specified map of raw messages.
 func UnmarshalNextHref(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(NextHref)
@@ -7693,7 +7793,6 @@ type Origin struct {
 	// The failure reason of the origin server if it is unhealthy.
 	HealthFailureReason *string `json:"health_failure_reason,omitempty"`
 }
-
 
 // UnmarshalOrigin unmarshals an instance of Origin from the specified map of raw messages.
 func UnmarshalOrigin(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7740,7 +7839,6 @@ type OriginInput struct {
 	// Whether the origin server is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 }
-
 
 // UnmarshalOriginInput unmarshals an instance of OriginInput from the specified map of raw messages.
 func UnmarshalOriginInput(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7795,10 +7893,9 @@ const (
 // Constants associated with the PermittedNetwork.State property.
 // The state of a permitted network.
 const (
-	PermittedNetwork_State_Active = "ACTIVE"
+	PermittedNetwork_State_Active            = "ACTIVE"
 	PermittedNetwork_State_RemovalInProgress = "REMOVAL_IN_PROGRESS"
 )
-
 
 // UnmarshalPermittedNetwork unmarshals an instance of PermittedNetwork from the specified map of raw messages.
 func UnmarshalPermittedNetwork(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7837,13 +7934,12 @@ type PermittedNetworkVpc struct {
 	VpcCrn *string `json:"vpc_crn" validate:"required"`
 }
 
-
 // NewPermittedNetworkVpc : Instantiate PermittedNetworkVpc (Generic Model Constructor)
-func (*DnsSvcsV1) NewPermittedNetworkVpc(vpcCrn string) (model *PermittedNetworkVpc, err error) {
-	model = &PermittedNetworkVpc{
+func (*DnsSvcsV1) NewPermittedNetworkVpc(vpcCrn string) (_model *PermittedNetworkVpc, err error) {
+	_model = &PermittedNetworkVpc{
 		VpcCrn: core.StringPtr(vpcCrn),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -7910,20 +8006,19 @@ type Pool struct {
 const (
 	Pool_Health_Critical = "CRITICAL"
 	Pool_Health_Degraded = "DEGRADED"
-	Pool_Health_Healthy = "HEALTHY"
+	Pool_Health_Healthy  = "HEALTHY"
 )
 
 // Constants associated with the Pool.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	Pool_HealthcheckRegion_AuSyd = "au-syd"
-	Pool_HealthcheckRegion_EuDu = "eu-du"
-	Pool_HealthcheckRegion_EuGb = "eu-gb"
-	Pool_HealthcheckRegion_JpTok = "jp-tok"
-	Pool_HealthcheckRegion_UsEast = "us-east"
+	Pool_HealthcheckRegion_AuSyd   = "au-syd"
+	Pool_HealthcheckRegion_EuDu    = "eu-du"
+	Pool_HealthcheckRegion_EuGb    = "eu-gb"
+	Pool_HealthcheckRegion_JpTok   = "jp-tok"
+	Pool_HealthcheckRegion_UsEast  = "us-east"
 	Pool_HealthcheckRegion_UsSouth = "us-south"
 )
-
 
 // UnmarshalPool unmarshals an instance of Pool from the specified map of raw messages.
 func UnmarshalPool(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8012,7 +8107,6 @@ type RecordStatsByType struct {
 	PTR *int64 `json:"PTR" validate:"required"`
 }
 
-
 // UnmarshalRecordStatsByType unmarshals an instance of RecordStatsByType from the specified map of raw messages.
 func UnmarshalRecordStatsByType(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RecordStatsByType)
@@ -8056,7 +8150,6 @@ type RecordsImportErrorModel struct {
 	Error *RecordsImportErrorModelError `json:"error" validate:"required"`
 }
 
-
 // UnmarshalRecordsImportErrorModel unmarshals an instance of RecordsImportErrorModel from the specified map of raw messages.
 func UnmarshalRecordsImportErrorModel(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RecordsImportErrorModel)
@@ -8080,7 +8173,6 @@ type RecordsImportMessageModel struct {
 	// Message to describe import DNS records error.
 	Message *string `json:"message" validate:"required"`
 }
-
 
 // UnmarshalRecordsImportMessageModel unmarshals an instance of RecordsImportMessageModel from the specified map of raw messages.
 func UnmarshalRecordsImportMessageModel(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8130,15 +8222,14 @@ type ResourceRecord struct {
 // Constants associated with the ResourceRecord.Type property.
 // Type of the resource record.
 const (
-	ResourceRecord_Type_A = "A"
-	ResourceRecord_Type_Aaaa = "AAAA"
+	ResourceRecord_Type_A     = "A"
+	ResourceRecord_Type_Aaaa  = "AAAA"
 	ResourceRecord_Type_Cname = "CNAME"
-	ResourceRecord_Type_Mx = "MX"
-	ResourceRecord_Type_Ptr = "PTR"
-	ResourceRecord_Type_Srv = "SRV"
-	ResourceRecord_Type_Txt = "TXT"
+	ResourceRecord_Type_Mx    = "MX"
+	ResourceRecord_Type_Ptr   = "PTR"
+	ResourceRecord_Type_Srv   = "SRV"
+	ResourceRecord_Type_Txt   = "TXT"
 )
-
 
 // UnmarshalResourceRecord unmarshals an instance of ResourceRecord from the specified map of raw messages.
 func UnmarshalResourceRecord(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8190,13 +8281,12 @@ type ResourceRecordInputRdataRdataARecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataARecord : Instantiate ResourceRecordInputRdataRdataARecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataARecord(ip string) (model *ResourceRecordInputRdataRdataARecord, err error) {
-	model = &ResourceRecordInputRdataRdataARecord{
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataARecord(ip string) (_model *ResourceRecordInputRdataRdataARecord, err error) {
+	_model = &ResourceRecordInputRdataRdataARecord{
 		Ip: core.StringPtr(ip),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8222,13 +8312,12 @@ type ResourceRecordInputRdataRdataAaaaRecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataAaaaRecord : Instantiate ResourceRecordInputRdataRdataAaaaRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordInputRdataRdataAaaaRecord, err error) {
-	model = &ResourceRecordInputRdataRdataAaaaRecord{
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataAaaaRecord(ip string) (_model *ResourceRecordInputRdataRdataAaaaRecord, err error) {
+	_model = &ResourceRecordInputRdataRdataAaaaRecord{
 		Ip: core.StringPtr(ip),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8254,13 +8343,12 @@ type ResourceRecordInputRdataRdataCnameRecord struct {
 	Cname *string `json:"cname" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataCnameRecord : Instantiate ResourceRecordInputRdataRdataCnameRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataCnameRecord(cname string) (model *ResourceRecordInputRdataRdataCnameRecord, err error) {
-	model = &ResourceRecordInputRdataRdataCnameRecord{
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataCnameRecord(cname string) (_model *ResourceRecordInputRdataRdataCnameRecord, err error) {
+	_model = &ResourceRecordInputRdataRdataCnameRecord{
 		Cname: core.StringPtr(cname),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8289,14 +8377,13 @@ type ResourceRecordInputRdataRdataMxRecord struct {
 	Preference *int64 `json:"preference" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataMxRecord : Instantiate ResourceRecordInputRdataRdataMxRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordInputRdataRdataMxRecord, err error) {
-	model = &ResourceRecordInputRdataRdataMxRecord{
-		Exchange: core.StringPtr(exchange),
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataMxRecord(exchange string, preference int64) (_model *ResourceRecordInputRdataRdataMxRecord, err error) {
+	_model = &ResourceRecordInputRdataRdataMxRecord{
+		Exchange:   core.StringPtr(exchange),
 		Preference: core.Int64Ptr(preference),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8326,13 +8413,12 @@ type ResourceRecordInputRdataRdataPtrRecord struct {
 	Ptrdname *string `json:"ptrdname" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataPtrRecord : Instantiate ResourceRecordInputRdataRdataPtrRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordInputRdataRdataPtrRecord, err error) {
-	model = &ResourceRecordInputRdataRdataPtrRecord{
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataPtrRecord(ptrdname string) (_model *ResourceRecordInputRdataRdataPtrRecord, err error) {
+	_model = &ResourceRecordInputRdataRdataPtrRecord{
 		Ptrdname: core.StringPtr(ptrdname),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8367,16 +8453,15 @@ type ResourceRecordInputRdataRdataSrvRecord struct {
 	Weight *int64 `json:"weight" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataSrvRecord : Instantiate ResourceRecordInputRdataRdataSrvRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordInputRdataRdataSrvRecord, err error) {
-	model = &ResourceRecordInputRdataRdataSrvRecord{
-		Port: core.Int64Ptr(port),
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (_model *ResourceRecordInputRdataRdataSrvRecord, err error) {
+	_model = &ResourceRecordInputRdataRdataSrvRecord{
+		Port:     core.Int64Ptr(port),
 		Priority: core.Int64Ptr(priority),
-		Target: core.StringPtr(target),
-		Weight: core.Int64Ptr(weight),
+		Target:   core.StringPtr(target),
+		Weight:   core.Int64Ptr(weight),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8414,13 +8499,12 @@ type ResourceRecordInputRdataRdataTxtRecord struct {
 	Text *string `json:"text" validate:"required"`
 }
 
-
 // NewResourceRecordInputRdataRdataTxtRecord : Instantiate ResourceRecordInputRdataRdataTxtRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordInputRdataRdataTxtRecord(text string) (model *ResourceRecordInputRdataRdataTxtRecord, err error) {
-	model = &ResourceRecordInputRdataRdataTxtRecord{
+func (*DnsSvcsV1) NewResourceRecordInputRdataRdataTxtRecord(text string) (_model *ResourceRecordInputRdataRdataTxtRecord, err error) {
+	_model = &ResourceRecordInputRdataRdataTxtRecord{
 		Text: core.StringPtr(text),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8446,13 +8530,12 @@ type ResourceRecordUpdateInputRdataRdataARecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataARecord : Instantiate ResourceRecordUpdateInputRdataRdataARecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataARecord(ip string) (model *ResourceRecordUpdateInputRdataRdataARecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataARecord{
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataARecord(ip string) (_model *ResourceRecordUpdateInputRdataRdataARecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataARecord{
 		Ip: core.StringPtr(ip),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8478,13 +8561,12 @@ type ResourceRecordUpdateInputRdataRdataAaaaRecord struct {
 	Ip *string `json:"ip" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataAaaaRecord : Instantiate ResourceRecordUpdateInputRdataRdataAaaaRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip string) (model *ResourceRecordUpdateInputRdataRdataAaaaRecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataAaaaRecord{
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataAaaaRecord(ip string) (_model *ResourceRecordUpdateInputRdataRdataAaaaRecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataAaaaRecord{
 		Ip: core.StringPtr(ip),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8510,13 +8592,12 @@ type ResourceRecordUpdateInputRdataRdataCnameRecord struct {
 	Cname *string `json:"cname" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataCnameRecord : Instantiate ResourceRecordUpdateInputRdataRdataCnameRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataCnameRecord(cname string) (model *ResourceRecordUpdateInputRdataRdataCnameRecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataCnameRecord{
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataCnameRecord(cname string) (_model *ResourceRecordUpdateInputRdataRdataCnameRecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataCnameRecord{
 		Cname: core.StringPtr(cname),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8545,14 +8626,13 @@ type ResourceRecordUpdateInputRdataRdataMxRecord struct {
 	Preference *int64 `json:"preference" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataMxRecord : Instantiate ResourceRecordUpdateInputRdataRdataMxRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataMxRecord(exchange string, preference int64) (model *ResourceRecordUpdateInputRdataRdataMxRecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataMxRecord{
-		Exchange: core.StringPtr(exchange),
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataMxRecord(exchange string, preference int64) (_model *ResourceRecordUpdateInputRdataRdataMxRecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataMxRecord{
+		Exchange:   core.StringPtr(exchange),
 		Preference: core.Int64Ptr(preference),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8582,13 +8662,12 @@ type ResourceRecordUpdateInputRdataRdataPtrRecord struct {
 	Ptrdname *string `json:"ptrdname" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataPtrRecord : Instantiate ResourceRecordUpdateInputRdataRdataPtrRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname string) (model *ResourceRecordUpdateInputRdataRdataPtrRecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataPtrRecord{
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataPtrRecord(ptrdname string) (_model *ResourceRecordUpdateInputRdataRdataPtrRecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataPtrRecord{
 		Ptrdname: core.StringPtr(ptrdname),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8623,16 +8702,15 @@ type ResourceRecordUpdateInputRdataRdataSrvRecord struct {
 	Weight *int64 `json:"weight" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataSrvRecord : Instantiate ResourceRecordUpdateInputRdataRdataSrvRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (model *ResourceRecordUpdateInputRdataRdataSrvRecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataSrvRecord{
-		Port: core.Int64Ptr(port),
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (_model *ResourceRecordUpdateInputRdataRdataSrvRecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataSrvRecord{
+		Port:     core.Int64Ptr(port),
 		Priority: core.Int64Ptr(priority),
-		Target: core.StringPtr(target),
-		Weight: core.Int64Ptr(weight),
+		Target:   core.StringPtr(target),
+		Weight:   core.Int64Ptr(weight),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
@@ -8670,13 +8748,12 @@ type ResourceRecordUpdateInputRdataRdataTxtRecord struct {
 	Text *string `json:"text" validate:"required"`
 }
 
-
 // NewResourceRecordUpdateInputRdataRdataTxtRecord : Instantiate ResourceRecordUpdateInputRdataRdataTxtRecord (Generic Model Constructor)
-func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataTxtRecord(text string) (model *ResourceRecordUpdateInputRdataRdataTxtRecord, err error) {
-	model = &ResourceRecordUpdateInputRdataRdataTxtRecord{
+func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataTxtRecord(text string) (_model *ResourceRecordUpdateInputRdataRdataTxtRecord, err error) {
+	_model = &ResourceRecordUpdateInputRdataRdataTxtRecord{
 		Text: core.StringPtr(text),
 	}
-	err = core.ValidateStruct(model, "required parameters")
+	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 

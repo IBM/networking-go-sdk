@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/cisipapiv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/cisipapiv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`CisIpApiV1`, func() {
@@ -66,14 +67,13 @@ var _ = Describe(`CisIpApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CIS_IP_API_URL": "https://cisipapiv1/api",
+				"CIS_IP_API_URL":       "https://cisipapiv1/api",
 				"CIS_IP_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
-				})
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{})
 				Expect(cisIpApiService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -102,8 +102,7 @@ var _ = Describe(`CisIpApiV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
-				})
+				cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{})
 				err := cisIpApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(cisIpApiService).ToNot(BeNil())
@@ -121,13 +120,12 @@ var _ = Describe(`CisIpApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CIS_IP_API_URL": "https://cisipapiv1/api",
+				"CIS_IP_API_URL":       "https://cisipapiv1/api",
 				"CIS_IP_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{
-			})
+			cisIpApiService, serviceErr := cisipapiv1.NewCisIpApiV1UsingExternalConfig(&cisipapiv1.CisIpApiV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(cisIpApiService).To(BeNil())
@@ -138,7 +136,7 @@ var _ = Describe(`CisIpApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CIS_IP_API_AUTH_TYPE":   "NOAuth",
+				"CIS_IP_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)

@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package wafrulepackagesapiv1 : Operations and models for the WafRulePackagesApiV1 service
 package wafrulepackagesapiv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // WafRulePackagesApiV1 : This document describes CIS WAF Rule Packages API.
@@ -120,8 +120,8 @@ func NewWafRulePackagesApiV1(options *WafRulePackagesApiV1Options) (service *Waf
 
 	service = &WafRulePackagesApiV1{
 		Service: baseService,
-		Crn: options.Crn,
-		ZoneID: options.ZoneID,
+		Crn:     options.Crn,
+		ZoneID:  options.ZoneID,
 	}
 
 	return
@@ -192,7 +192,7 @@ func (wafRulePackagesApi *WafRulePackagesApiV1) ListWafPackagesWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRulePackagesApi.Crn,
+		"crn":     *wafRulePackagesApi.Crn,
 		"zone_id": *wafRulePackagesApi.ZoneID,
 	}
 
@@ -270,8 +270,8 @@ func (wafRulePackagesApi *WafRulePackagesApiV1) GetWafPackageWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRulePackagesApi.Crn,
-		"zone_id": *wafRulePackagesApi.ZoneID,
+		"crn":        *wafRulePackagesApi.Crn,
+		"zone_id":    *wafRulePackagesApi.ZoneID,
 		"package_id": *getWafPackageOptions.PackageID,
 	}
 
@@ -330,8 +330,8 @@ func (wafRulePackagesApi *WafRulePackagesApiV1) UpdateWafPackageWithContext(ctx 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *wafRulePackagesApi.Crn,
-		"zone_id": *wafRulePackagesApi.ZoneID,
+		"crn":        *wafRulePackagesApi.Crn,
+		"zone_id":    *wafRulePackagesApi.ZoneID,
 		"package_id": *updateWafPackageOptions.PackageID,
 	}
 
@@ -440,7 +440,7 @@ type ListWafPackagesOptions struct {
 // Constants associated with the ListWafPackagesOptions.Direction property.
 // Direction to order packages.
 const (
-	ListWafPackagesOptions_Direction_Asc = "asc"
+	ListWafPackagesOptions_Direction_Asc  = "asc"
 	ListWafPackagesOptions_Direction_Desc = "desc"
 )
 
@@ -516,18 +516,18 @@ type UpdateWafPackageOptions struct {
 // Constants associated with the UpdateWafPackageOptions.Sensitivity property.
 // The sensitivity of the firewall package.
 const (
-	UpdateWafPackageOptions_Sensitivity_High = "high"
-	UpdateWafPackageOptions_Sensitivity_Low = "low"
+	UpdateWafPackageOptions_Sensitivity_High   = "high"
+	UpdateWafPackageOptions_Sensitivity_Low    = "low"
 	UpdateWafPackageOptions_Sensitivity_Medium = "medium"
-	UpdateWafPackageOptions_Sensitivity_Off = "off"
+	UpdateWafPackageOptions_Sensitivity_Off    = "off"
 )
 
 // Constants associated with the UpdateWafPackageOptions.ActionMode property.
 // The default action that will be taken for rules under the firewall package.
 const (
-	UpdateWafPackageOptions_ActionMode_Block = "block"
+	UpdateWafPackageOptions_ActionMode_Block     = "block"
 	UpdateWafPackageOptions_ActionMode_Challenge = "challenge"
-	UpdateWafPackageOptions_ActionMode_Simulate = "simulate"
+	UpdateWafPackageOptions_ActionMode_Simulate  = "simulate"
 )
 
 // NewUpdateWafPackageOptions : Instantiate UpdateWafPackageOptions
@@ -588,7 +588,6 @@ type WafPackageResponseResult struct {
 	ActionMode *string `json:"action_mode,omitempty"`
 }
 
-
 // UnmarshalWafPackageResponseResult unmarshals an instance of WafPackageResponseResult from the specified map of raw messages.
 func UnmarshalWafPackageResponseResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafPackageResponseResult)
@@ -643,7 +642,6 @@ type WafPackagesResponseResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalWafPackagesResponseResultInfo unmarshals an instance of WafPackagesResponseResultInfo from the specified map of raw messages.
 func UnmarshalWafPackagesResponseResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafPackagesResponseResultInfo)
@@ -687,7 +685,6 @@ type WafPackagesResponseResultItem struct {
 	// Value.
 	Status *string `json:"status,omitempty"`
 }
-
 
 // UnmarshalWafPackagesResponseResultItem unmarshals an instance of WafPackagesResponseResultItem from the specified map of raw messages.
 func UnmarshalWafPackagesResponseResultItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -735,7 +732,6 @@ type WafPackageResponse struct {
 	Result *WafPackageResponseResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalWafPackageResponse unmarshals an instance of WafPackageResponse from the specified map of raw messages.
 func UnmarshalWafPackageResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(WafPackageResponse)
@@ -776,7 +772,6 @@ type WafPackagesResponse struct {
 	// Statistics of results.
 	ResultInfo *WafPackagesResponseResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalWafPackagesResponse unmarshals an instance of WafPackagesResponse from the specified map of raw messages.
 func UnmarshalWafPackagesResponse(m map[string]json.RawMessage, result interface{}) (err error) {

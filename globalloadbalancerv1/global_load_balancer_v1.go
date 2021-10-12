@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package globalloadbalancerv1 : Operations and models for the GlobalLoadBalancerV1 service
 package globalloadbalancerv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // GlobalLoadBalancerV1 : Global Load Balancer
@@ -119,8 +119,8 @@ func NewGlobalLoadBalancerV1(options *GlobalLoadBalancerV1Options) (service *Glo
 	}
 
 	service = &GlobalLoadBalancerV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -192,7 +192,7 @@ func (globalLoadBalancer *GlobalLoadBalancerV1) ListAllLoadBalancersWithContext(
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancer.Crn,
+		"crn":             *globalLoadBalancer.Crn,
 		"zone_identifier": *globalLoadBalancer.ZoneIdentifier,
 	}
 
@@ -247,7 +247,7 @@ func (globalLoadBalancer *GlobalLoadBalancerV1) CreateLoadBalancerWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancer.Crn,
+		"crn":             *globalLoadBalancer.Crn,
 		"zone_identifier": *globalLoadBalancer.ZoneIdentifier,
 	}
 
@@ -346,8 +346,8 @@ func (globalLoadBalancer *GlobalLoadBalancerV1) EditLoadBalancerWithContext(ctx 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancer.Crn,
-		"zone_identifier": *globalLoadBalancer.ZoneIdentifier,
+		"crn":                      *globalLoadBalancer.Crn,
+		"zone_identifier":          *globalLoadBalancer.ZoneIdentifier,
 		"load_balancer_identifier": *editLoadBalancerOptions.LoadBalancerIdentifier,
 	}
 
@@ -446,8 +446,8 @@ func (globalLoadBalancer *GlobalLoadBalancerV1) DeleteLoadBalancerWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancer.Crn,
-		"zone_identifier": *globalLoadBalancer.ZoneIdentifier,
+		"crn":                      *globalLoadBalancer.Crn,
+		"zone_identifier":          *globalLoadBalancer.ZoneIdentifier,
 		"load_balancer_identifier": *deleteLoadBalancerOptions.LoadBalancerIdentifier,
 	}
 
@@ -506,8 +506,8 @@ func (globalLoadBalancer *GlobalLoadBalancerV1) GetLoadBalancerSettingsWithConte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *globalLoadBalancer.Crn,
-		"zone_identifier": *globalLoadBalancer.ZoneIdentifier,
+		"crn":                      *globalLoadBalancer.Crn,
+		"zone_identifier":          *globalLoadBalancer.ZoneIdentifier,
 		"load_balancer_identifier": *getLoadBalancerSettingsOptions.LoadBalancerIdentifier,
 	}
 
@@ -590,18 +590,18 @@ type CreateLoadBalancerOptions struct {
 // Constants associated with the CreateLoadBalancerOptions.SessionAffinity property.
 // session affinity.
 const (
-	CreateLoadBalancerOptions_SessionAffinity_Cookie = "cookie"
+	CreateLoadBalancerOptions_SessionAffinity_Cookie   = "cookie"
 	CreateLoadBalancerOptions_SessionAffinity_IpCookie = "ip_cookie"
-	CreateLoadBalancerOptions_SessionAffinity_None = "none"
+	CreateLoadBalancerOptions_SessionAffinity_None     = "none"
 )
 
 // Constants associated with the CreateLoadBalancerOptions.SteeringPolicy property.
 // steering policy.
 const (
 	CreateLoadBalancerOptions_SteeringPolicy_DynamicLatency = "dynamic_latency"
-	CreateLoadBalancerOptions_SteeringPolicy_Geo = "geo"
-	CreateLoadBalancerOptions_SteeringPolicy_Off = "off"
-	CreateLoadBalancerOptions_SteeringPolicy_Random = "random"
+	CreateLoadBalancerOptions_SteeringPolicy_Geo            = "geo"
+	CreateLoadBalancerOptions_SteeringPolicy_Off            = "off"
+	CreateLoadBalancerOptions_SteeringPolicy_Random         = "random"
 )
 
 // NewCreateLoadBalancerOptions : Instantiate CreateLoadBalancerOptions
@@ -715,7 +715,6 @@ type DeleteLoadBalancersRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
-
 // UnmarshalDeleteLoadBalancersRespResult unmarshals an instance of DeleteLoadBalancersRespResult from the specified map of raw messages.
 func UnmarshalDeleteLoadBalancersRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteLoadBalancersRespResult)
@@ -772,18 +771,18 @@ type EditLoadBalancerOptions struct {
 // Constants associated with the EditLoadBalancerOptions.SessionAffinity property.
 // session affinity.
 const (
-	EditLoadBalancerOptions_SessionAffinity_Cookie = "cookie"
+	EditLoadBalancerOptions_SessionAffinity_Cookie   = "cookie"
 	EditLoadBalancerOptions_SessionAffinity_IpCookie = "ip_cookie"
-	EditLoadBalancerOptions_SessionAffinity_None = "none"
+	EditLoadBalancerOptions_SessionAffinity_None     = "none"
 )
 
 // Constants associated with the EditLoadBalancerOptions.SteeringPolicy property.
 // steering policy.
 const (
 	EditLoadBalancerOptions_SteeringPolicy_DynamicLatency = "dynamic_latency"
-	EditLoadBalancerOptions_SteeringPolicy_Geo = "geo"
-	EditLoadBalancerOptions_SteeringPolicy_Off = "off"
-	EditLoadBalancerOptions_SteeringPolicy_Random = "random"
+	EditLoadBalancerOptions_SteeringPolicy_Geo            = "geo"
+	EditLoadBalancerOptions_SteeringPolicy_Off            = "off"
+	EditLoadBalancerOptions_SteeringPolicy_Random         = "random"
 )
 
 // NewEditLoadBalancerOptions : Instantiate EditLoadBalancerOptions
@@ -932,7 +931,6 @@ type DeleteLoadBalancersResp struct {
 	Result *DeleteLoadBalancersRespResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalDeleteLoadBalancersResp unmarshals an instance of DeleteLoadBalancersResp from the specified map of raw messages.
 func UnmarshalDeleteLoadBalancersResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteLoadBalancersResp)
@@ -973,7 +971,6 @@ type ListLoadBalancersResp struct {
 	// result information.
 	ResultInfo *ResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListLoadBalancersResp unmarshals an instance of ListLoadBalancersResp from the specified map of raw messages.
 func UnmarshalListLoadBalancersResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1050,20 +1047,19 @@ type LoadBalancerPack struct {
 // Constants associated with the LoadBalancerPack.SessionAffinity property.
 // session affinity.
 const (
-	LoadBalancerPack_SessionAffinity_Cookie = "cookie"
+	LoadBalancerPack_SessionAffinity_Cookie   = "cookie"
 	LoadBalancerPack_SessionAffinity_IpCookie = "ip_cookie"
-	LoadBalancerPack_SessionAffinity_None = "none"
+	LoadBalancerPack_SessionAffinity_None     = "none"
 )
 
 // Constants associated with the LoadBalancerPack.SteeringPolicy property.
 // steering policy.
 const (
 	LoadBalancerPack_SteeringPolicy_DynamicLatency = "dynamic_latency"
-	LoadBalancerPack_SteeringPolicy_Geo = "geo"
-	LoadBalancerPack_SteeringPolicy_Off = "off"
-	LoadBalancerPack_SteeringPolicy_Random = "random"
+	LoadBalancerPack_SteeringPolicy_Geo            = "geo"
+	LoadBalancerPack_SteeringPolicy_Off            = "off"
+	LoadBalancerPack_SteeringPolicy_Random         = "random"
 )
-
 
 // UnmarshalLoadBalancerPack unmarshals an instance of LoadBalancerPack from the specified map of raw messages.
 func UnmarshalLoadBalancerPack(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1143,7 +1139,6 @@ type LoadBalancersResp struct {
 	Result *LoadBalancerPack `json:"result" validate:"required"`
 }
 
-
 // UnmarshalLoadBalancersResp unmarshals an instance of LoadBalancersResp from the specified map of raw messages.
 func UnmarshalLoadBalancersResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancersResp)
@@ -1181,7 +1176,6 @@ type ResultInfo struct {
 	// total count.
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
-
 
 // UnmarshalResultInfo unmarshals an instance of ResultInfo from the specified map of raw messages.
 func UnmarshalResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {

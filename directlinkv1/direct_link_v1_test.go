@@ -245,7 +245,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully with retries`, func() {
@@ -300,7 +300,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
@@ -419,6 +419,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
 				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigTemplate model
+				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
+				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -441,13 +446,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
+				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
+				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				gatewayTemplateModel.ResourceGroup = resourceGroupIdentityModel
 				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				gatewayTemplateModel.Type = core.StringPtr("dedicated")
@@ -514,7 +522,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully with retries`, func() {
@@ -530,6 +538,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
 				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+
+				// Construct an instance of the GatewayBfdConfigTemplate model
+				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
+				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -553,13 +566,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
+				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
+				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				gatewayTemplateModel.ResourceGroup = resourceGroupIdentityModel
 				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				gatewayTemplateModel.Type = core.StringPtr("dedicated")
@@ -628,7 +644,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
@@ -649,6 +665,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
 				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+
+				// Construct an instance of the GatewayBfdConfigTemplate model
+				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
+				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -672,13 +693,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
+				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
+				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				gatewayTemplateModel.ResourceGroup = resourceGroupIdentityModel
 				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				gatewayTemplateModel.Type = core.StringPtr("dedicated")
@@ -713,6 +737,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
 				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigTemplate model
+				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
+				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -735,13 +764,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
+				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
+				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				gatewayTemplateModel.ResourceGroup = resourceGroupIdentityModel
 				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				gatewayTemplateModel.Type = core.StringPtr("dedicated")
@@ -797,6 +829,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
 				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigTemplate model
+				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
+				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -819,13 +856,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
+				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
+				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				gatewayTemplateModel.ResourceGroup = resourceGroupIdentityModel
 				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				gatewayTemplateModel.Type = core.StringPtr("dedicated")
@@ -992,7 +1032,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully with retries`, func() {
@@ -1048,7 +1088,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
@@ -1177,6 +1217,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
 				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdPatchTemplate model
+				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
+				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
 				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
 				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
@@ -1196,12 +1241,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
+				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
+				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
+				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
+				updateGatewayOptionsModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				updateGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1257,7 +1308,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully with retries`, func() {
@@ -1273,6 +1324,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
 				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
 				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+
+				// Construct an instance of the GatewayBfdPatchTemplate model
+				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
+				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
 				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
@@ -1293,12 +1349,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
+				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
+				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
+				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
+				updateGatewayOptionsModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				updateGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1356,7 +1418,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
@@ -1378,6 +1440,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
 				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdPatchTemplate model
+				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
+				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
 				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
 				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
@@ -1397,12 +1464,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
+				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
+				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
+				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
+				updateGatewayOptionsModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				updateGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1426,6 +1499,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
 				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdPatchTemplate model
+				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
+				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
 				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
 				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
@@ -1445,12 +1523,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
+				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
+				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
+				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
+				updateGatewayOptionsModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				updateGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1495,6 +1579,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
 				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdPatchTemplate model
+				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
+				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
 				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
 				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
@@ -1514,12 +1603,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
 				updateGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
+				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
+				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
+				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
+				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				updateGatewayOptionsModel.Metered = core.BoolPtr(false)
 				updateGatewayOptionsModel.Name = core.StringPtr("testGateway")
 				updateGatewayOptionsModel.OperationalStatus = core.StringPtr("loa_accepted")
+				updateGatewayOptionsModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				updateGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				updateGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1566,6 +1661,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
 				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigActionTemplate model
+				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
+				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -1579,6 +1679,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
+				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
+				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -1637,7 +1739,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully with retries`, func() {
@@ -1654,6 +1756,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
 				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigActionTemplate model
+				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
+				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -1667,6 +1774,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
+				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
+				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -1727,7 +1836,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
@@ -1749,6 +1858,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
 				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigActionTemplate model
+				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
+				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -1762,6 +1876,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
+				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
+				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -1788,6 +1904,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
 				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigActionTemplate model
+				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
+				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -1801,6 +1922,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
+				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
+				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -1848,6 +1971,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
 				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
+				// Construct an instance of the GatewayBfdConfigActionTemplate model
+				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
+				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -1861,6 +1989,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
+				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
+				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -2547,6 +2677,236 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Invoke operation
 				result, response, operationErr := directLinkService.GetGatewayStatistics(getGatewayStatisticsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayStatus(getGatewayStatusOptions *GetGatewayStatusOptions) - Operation response error`, func() {
+		version := "testString"
+		getGatewayStatusPath := "/gateways/testString/status"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayStatusPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"bgp"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetGatewayStatus with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayStatusOptions model
+				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
+				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
+				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.GetGatewayStatus(getGatewayStatusOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.GetGatewayStatus(getGatewayStatusOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayStatus(getGatewayStatusOptions *GetGatewayStatusOptions)`, func() {
+		version := "testString"
+		getGatewayStatusPath := "/gateways/testString/status"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayStatusPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"bgp"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"status": [{"type": "bgp", "updated_at": "2020-08-20T06:58:41.909Z", "value": "active"}]}`)
+				}))
+			})
+			It(`Invoke GetGatewayStatus successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetGatewayStatusOptions model
+				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
+				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
+				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.GetGatewayStatusWithContext(ctx, getGatewayStatusOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.GetGatewayStatus(getGatewayStatusOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.GetGatewayStatusWithContext(ctx, getGatewayStatusOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayStatusPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"bgp"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"status": [{"type": "bgp", "updated_at": "2020-08-20T06:58:41.909Z", "value": "active"}]}`)
+				}))
+			})
+			It(`Invoke GetGatewayStatus successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.GetGatewayStatus(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetGatewayStatusOptions model
+				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
+				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
+				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.GetGatewayStatus(getGatewayStatusOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetGatewayStatus with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayStatusOptions model
+				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
+				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
+				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.GetGatewayStatus(getGatewayStatusOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetGatewayStatusOptions model with no property values
+				getGatewayStatusOptionsModelNew := new(directlinkv1.GetGatewayStatusOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.GetGatewayStatus(getGatewayStatusOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetGatewayStatus successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayStatusOptions model
+				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
+				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
+				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.GetGatewayStatus(getGatewayStatusOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -4761,6 +5121,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 				Expect(gatewayActionTemplateAuthenticationKeyModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")))
 
+				// Construct an instance of the GatewayBfdConfigActionTemplate model
+				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
+				Expect(gatewayBfdConfigActionTemplateModel).ToNot(BeNil())
+				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+				Expect(gatewayBfdConfigActionTemplateModel.Interval).To(Equal(core.Int64Ptr(int64(2000))))
+				Expect(gatewayBfdConfigActionTemplateModel.Multiplier).To(Equal(core.Int64Ptr(int64(10))))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
@@ -4780,6 +5148,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.SetID("testString")
 				createGatewayActionOptionsModel.SetAction("create_gateway_approve")
 				createGatewayActionOptionsModel.SetAuthenticationKey(gatewayActionTemplateAuthenticationKeyModel)
+				createGatewayActionOptionsModel.SetBfdConfig(gatewayBfdConfigActionTemplateModel)
+				createGatewayActionOptionsModel.SetConnectionMode("transit")
 				createGatewayActionOptionsModel.SetGlobal(true)
 				createGatewayActionOptionsModel.SetMetered(false)
 				createGatewayActionOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
@@ -4789,6 +5159,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(createGatewayActionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(createGatewayActionOptionsModel.Action).To(Equal(core.StringPtr("create_gateway_approve")))
 				Expect(createGatewayActionOptionsModel.AuthenticationKey).To(Equal(gatewayActionTemplateAuthenticationKeyModel))
+				Expect(createGatewayActionOptionsModel.BfdConfig).To(Equal(gatewayBfdConfigActionTemplateModel))
+				Expect(createGatewayActionOptionsModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
 				Expect(createGatewayActionOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(createGatewayActionOptionsModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(createGatewayActionOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
@@ -4815,6 +5187,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayTemplateAuthenticationKeyModel).ToNot(BeNil())
 				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 				Expect(gatewayTemplateAuthenticationKeyModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")))
+
+				// Construct an instance of the GatewayBfdConfigTemplate model
+				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
+				Expect(gatewayBfdConfigTemplateModel).ToNot(BeNil())
+				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+				Expect(gatewayBfdConfigTemplateModel.Interval).To(Equal(core.Int64Ptr(int64(2000))))
+				Expect(gatewayBfdConfigTemplateModel.Multiplier).To(Equal(core.Int64Ptr(int64(10))))
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -4850,13 +5230,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				Expect(gatewayTemplateModel).ToNot(BeNil())
 				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
+				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
+				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
 				gatewayTemplateModel.Global = core.BoolPtr(true)
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
+				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
 				gatewayTemplateModel.ResourceGroup = resourceGroupIdentityModel
 				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				gatewayTemplateModel.Type = core.StringPtr("dedicated")
@@ -4866,13 +5249,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
 				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				Expect(gatewayTemplateModel.AuthenticationKey).To(Equal(gatewayTemplateAuthenticationKeyModel))
+				Expect(gatewayTemplateModel.BfdConfig).To(Equal(gatewayBfdConfigTemplateModel))
 				Expect(gatewayTemplateModel.BgpAsn).To(Equal(core.Int64Ptr(int64(64999))))
 				Expect(gatewayTemplateModel.BgpBaseCidr).To(Equal(core.StringPtr("testString")))
 				Expect(gatewayTemplateModel.BgpCerCidr).To(Equal(core.StringPtr("169.254.0.10/30")))
 				Expect(gatewayTemplateModel.BgpIbmCidr).To(Equal(core.StringPtr("169.254.0.9/30")))
+				Expect(gatewayTemplateModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
 				Expect(gatewayTemplateModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(gatewayTemplateModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(gatewayTemplateModel.Name).To(Equal(core.StringPtr("myGateway")))
+				Expect(gatewayTemplateModel.PatchPanelCompletionNotice).To(Equal(core.StringPtr("patch panel configuration details")))
 				Expect(gatewayTemplateModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(gatewayTemplateModel.SpeedMbps).To(Equal(core.Int64Ptr(int64(1000))))
 				Expect(gatewayTemplateModel.Type).To(Equal(core.StringPtr("dedicated")))
@@ -4935,6 +5321,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It(`Invoke NewGatewayActionTemplateAuthenticationKey successfully`, func() {
 				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
 				model, err := directLinkService.NewGatewayActionTemplateAuthenticationKey(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayBfdConfigActionTemplate successfully`, func() {
+				interval := int64(2000)
+				model, err := directLinkService.NewGatewayBfdConfigActionTemplate(interval)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayBfdConfigTemplate successfully`, func() {
+				interval := int64(2000)
+				model, err := directLinkService.NewGatewayBfdConfigTemplate(interval)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -5008,6 +5406,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(getGatewayStatisticsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getGatewayStatisticsOptionsModel.Type).To(Equal(core.StringPtr("macsec_mka")))
 				Expect(getGatewayStatisticsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetGatewayStatusOptions successfully`, func() {
+				// Construct an instance of the GetGatewayStatusOptions model
+				id := "testString"
+				getGatewayStatusOptionsModel := directLinkService.NewGetGatewayStatusOptions(id)
+				getGatewayStatusOptionsModel.SetID("testString")
+				getGatewayStatusOptionsModel.SetType("bgp")
+				getGatewayStatusOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getGatewayStatusOptionsModel).ToNot(BeNil())
+				Expect(getGatewayStatusOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayStatusOptionsModel.Type).To(Equal(core.StringPtr("bgp")))
+				Expect(getGatewayStatusOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayVirtualConnectionOptions successfully`, func() {
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
@@ -5128,6 +5538,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 				Expect(gatewayPatchTemplateAuthenticationKeyModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")))
 
+				// Construct an instance of the GatewayBfdPatchTemplate model
+				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
+				Expect(gatewayBfdPatchTemplateModel).ToNot(BeNil())
+				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
+				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+				Expect(gatewayBfdPatchTemplateModel.Interval).To(Equal(core.Int64Ptr(int64(2000))))
+				Expect(gatewayBfdPatchTemplateModel.Multiplier).To(Equal(core.Int64Ptr(int64(10))))
+
 				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
 				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
 				Expect(gatewayMacsecConfigPatchTemplateFallbackCakModel).ToNot(BeNil())
@@ -5157,23 +5575,35 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel := directLinkService.NewUpdateGatewayOptions(id)
 				updateGatewayOptionsModel.SetID("testString")
 				updateGatewayOptionsModel.SetAuthenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
+				updateGatewayOptionsModel.SetBfdConfig(gatewayBfdPatchTemplateModel)
+				updateGatewayOptionsModel.SetBgpAsn(int64(64999))
+				updateGatewayOptionsModel.SetBgpCerCidr("169.254.0.10/30")
+				updateGatewayOptionsModel.SetBgpIbmCidr("169.254.0.9/30")
+				updateGatewayOptionsModel.SetConnectionMode("transit")
 				updateGatewayOptionsModel.SetGlobal(true)
 				updateGatewayOptionsModel.SetLoaRejectReason("The port mentioned was incorrect")
 				updateGatewayOptionsModel.SetMacsecConfig(gatewayMacsecConfigPatchTemplateModel)
 				updateGatewayOptionsModel.SetMetered(false)
 				updateGatewayOptionsModel.SetName("testGateway")
 				updateGatewayOptionsModel.SetOperationalStatus("loa_accepted")
+				updateGatewayOptionsModel.SetPatchPanelCompletionNotice("patch panel configuration details")
 				updateGatewayOptionsModel.SetSpeedMbps(int64(1000))
 				updateGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateGatewayOptionsModel).ToNot(BeNil())
 				Expect(updateGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateGatewayOptionsModel.AuthenticationKey).To(Equal(gatewayPatchTemplateAuthenticationKeyModel))
+				Expect(updateGatewayOptionsModel.BfdConfig).To(Equal(gatewayBfdPatchTemplateModel))
+				Expect(updateGatewayOptionsModel.BgpAsn).To(Equal(core.Int64Ptr(int64(64999))))
+				Expect(updateGatewayOptionsModel.BgpCerCidr).To(Equal(core.StringPtr("169.254.0.10/30")))
+				Expect(updateGatewayOptionsModel.BgpIbmCidr).To(Equal(core.StringPtr("169.254.0.9/30")))
+				Expect(updateGatewayOptionsModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
 				Expect(updateGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(updateGatewayOptionsModel.LoaRejectReason).To(Equal(core.StringPtr("The port mentioned was incorrect")))
 				Expect(updateGatewayOptionsModel.MacsecConfig).To(Equal(gatewayMacsecConfigPatchTemplateModel))
 				Expect(updateGatewayOptionsModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(updateGatewayOptionsModel.Name).To(Equal(core.StringPtr("testGateway")))
 				Expect(updateGatewayOptionsModel.OperationalStatus).To(Equal(core.StringPtr("loa_accepted")))
+				Expect(updateGatewayOptionsModel.PatchPanelCompletionNotice).To(Equal(core.StringPtr("patch panel configuration details")))
 				Expect(updateGatewayOptionsModel.SpeedMbps).To(Equal(core.Int64Ptr(int64(1000))))
 				Expect(updateGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})

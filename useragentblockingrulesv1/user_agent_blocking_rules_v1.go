@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package useragentblockingrulesv1 : Operations and models for the UserAgentBlockingRulesV1 service
 package useragentblockingrulesv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // UserAgentBlockingRulesV1 : User-Agent Blocking Rules
@@ -119,8 +119,8 @@ func NewUserAgentBlockingRulesV1(options *UserAgentBlockingRulesV1Options) (serv
 	}
 
 	service = &UserAgentBlockingRulesV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -192,7 +192,7 @@ func (userAgentBlockingRules *UserAgentBlockingRulesV1) ListAllZoneUserAgentRule
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *userAgentBlockingRules.Crn,
+		"crn":             *userAgentBlockingRules.Crn,
 		"zone_identifier": *userAgentBlockingRules.ZoneIdentifier,
 	}
 
@@ -254,7 +254,7 @@ func (userAgentBlockingRules *UserAgentBlockingRulesV1) CreateZoneUserAgentRuleW
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *userAgentBlockingRules.Crn,
+		"crn":             *userAgentBlockingRules.Crn,
 		"zone_identifier": *userAgentBlockingRules.ZoneIdentifier,
 	}
 
@@ -332,8 +332,8 @@ func (userAgentBlockingRules *UserAgentBlockingRulesV1) DeleteZoneUserAgentRuleW
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *userAgentBlockingRules.Crn,
-		"zone_identifier": *userAgentBlockingRules.ZoneIdentifier,
+		"crn":                       *userAgentBlockingRules.Crn,
+		"zone_identifier":           *userAgentBlockingRules.ZoneIdentifier,
 		"useragent_rule_identifier": *deleteZoneUserAgentRuleOptions.UseragentRuleIdentifier,
 	}
 
@@ -392,8 +392,8 @@ func (userAgentBlockingRules *UserAgentBlockingRulesV1) GetUserAgentRuleWithCont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *userAgentBlockingRules.Crn,
-		"zone_identifier": *userAgentBlockingRules.ZoneIdentifier,
+		"crn":                       *userAgentBlockingRules.Crn,
+		"zone_identifier":           *userAgentBlockingRules.ZoneIdentifier,
 		"useragent_rule_identifier": *getUserAgentRuleOptions.UseragentRuleIdentifier,
 	}
 
@@ -452,8 +452,8 @@ func (userAgentBlockingRules *UserAgentBlockingRulesV1) UpdateUserAgentRuleWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *userAgentBlockingRules.Crn,
-		"zone_identifier": *userAgentBlockingRules.ZoneIdentifier,
+		"crn":                       *userAgentBlockingRules.Crn,
+		"zone_identifier":           *userAgentBlockingRules.ZoneIdentifier,
 		"useragent_rule_identifier": *updateUserAgentRuleOptions.UseragentRuleIdentifier,
 	}
 
@@ -534,8 +534,8 @@ type CreateZoneUserAgentRuleOptions struct {
 // Constants associated with the CreateZoneUserAgentRuleOptions.Mode property.
 // The type of action to perform.
 const (
-	CreateZoneUserAgentRuleOptions_Mode_Block = "block"
-	CreateZoneUserAgentRuleOptions_Mode_Challenge = "challenge"
+	CreateZoneUserAgentRuleOptions_Mode_Block       = "block"
+	CreateZoneUserAgentRuleOptions_Mode_Challenge   = "challenge"
 	CreateZoneUserAgentRuleOptions_Mode_JsChallenge = "js_challenge"
 )
 
@@ -579,7 +579,6 @@ type DeleteUseragentRuleRespResult struct {
 	// ID.
 	ID *string `json:"id" validate:"required"`
 }
-
 
 // UnmarshalDeleteUseragentRuleRespResult unmarshals an instance of DeleteUseragentRuleRespResult from the specified map of raw messages.
 func UnmarshalDeleteUseragentRuleRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -698,7 +697,6 @@ type ListUseragentRulesRespResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalListUseragentRulesRespResultInfo unmarshals an instance of ListUseragentRulesRespResultInfo from the specified map of raw messages.
 func UnmarshalListUseragentRulesRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListUseragentRulesRespResultInfo)
@@ -746,8 +744,8 @@ type UpdateUserAgentRuleOptions struct {
 // Constants associated with the UpdateUserAgentRuleOptions.Mode property.
 // The type of action to perform.
 const (
-	UpdateUserAgentRuleOptions_Mode_Block = "block"
-	UpdateUserAgentRuleOptions_Mode_Challenge = "challenge"
+	UpdateUserAgentRuleOptions_Mode_Block       = "block"
+	UpdateUserAgentRuleOptions_Mode_Challenge   = "challenge"
 	UpdateUserAgentRuleOptions_Mode_JsChallenge = "js_challenge"
 )
 
@@ -809,12 +807,11 @@ const (
 	UseragentRuleInputConfiguration_Target_Ua = "ua"
 )
 
-
 // NewUseragentRuleInputConfiguration : Instantiate UseragentRuleInputConfiguration (Generic Model Constructor)
 func (*UserAgentBlockingRulesV1) NewUseragentRuleInputConfiguration(target string, value string) (model *UseragentRuleInputConfiguration, err error) {
 	model = &UseragentRuleInputConfiguration{
 		Target: core.StringPtr(target),
-		Value: core.StringPtr(value),
+		Value:  core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -850,7 +847,6 @@ const (
 	UseragentRuleObjectConfiguration_Target_Ua = "ua"
 )
 
-
 // UnmarshalUseragentRuleObjectConfiguration unmarshals an instance of UseragentRuleObjectConfiguration from the specified map of raw messages.
 func UnmarshalUseragentRuleObjectConfiguration(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UseragentRuleObjectConfiguration)
@@ -880,7 +876,6 @@ type DeleteUseragentRuleResp struct {
 	// Container for response information.
 	Result *DeleteUseragentRuleRespResult `json:"result" validate:"required"`
 }
-
 
 // UnmarshalDeleteUseragentRuleResp unmarshals an instance of DeleteUseragentRuleResp from the specified map of raw messages.
 func UnmarshalDeleteUseragentRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -922,7 +917,6 @@ type ListUseragentRulesResp struct {
 	// Statistics of results.
 	ResultInfo *ListUseragentRulesRespResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListUseragentRulesResp unmarshals an instance of ListUseragentRulesResp from the specified map of raw messages.
 func UnmarshalListUseragentRulesResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -972,11 +966,10 @@ type UseragentRuleObject struct {
 // Constants associated with the UseragentRuleObject.Mode property.
 // The type of action to perform.
 const (
-	UseragentRuleObject_Mode_Block = "block"
-	UseragentRuleObject_Mode_Challenge = "challenge"
+	UseragentRuleObject_Mode_Block       = "block"
+	UseragentRuleObject_Mode_Challenge   = "challenge"
 	UseragentRuleObject_Mode_JsChallenge = "js_challenge"
 )
-
 
 // UnmarshalUseragentRuleObject unmarshals an instance of UseragentRuleObject from the specified map of raw messages.
 func UnmarshalUseragentRuleObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1019,7 +1012,6 @@ type UseragentRuleResp struct {
 	// user agent rule object.
 	Result *UseragentRuleObject `json:"result" validate:"required"`
 }
-
 
 // UnmarshalUseragentRuleResp unmarshals an instance of UseragentRuleResp from the specified map of raw messages.
 func UnmarshalUseragentRuleResp(m map[string]json.RawMessage, result interface{}) (err error) {

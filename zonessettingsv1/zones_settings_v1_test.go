@@ -20,17 +20,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/networking-go-sdk/zonessettingsv1"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/zonessettingsv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`ZonesSettingsV1`, func() {
@@ -40,8 +41,8 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(zonesSettingsService).ToNot(BeNil())
@@ -49,8 +50,8 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(zonesSettingsService).To(BeNil())
@@ -58,8 +59,8 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-				URL: "https://zonessettingsv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://zonessettingsv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +82,14 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONES_SETTINGS_URL": "https://zonessettingsv1/api",
+				"ZONES_SETTINGS_URL":       "https://zonessettingsv1/api",
 				"ZONES_SETTINGS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1UsingExternalConfig(&zonessettingsv1.ZonesSettingsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(zonesSettingsService).ToNot(BeNil())
@@ -104,8 +105,8 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1UsingExternalConfig(&zonessettingsv1.ZonesSettingsV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(zonesSettingsService).ToNot(BeNil())
@@ -122,7 +123,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1UsingExternalConfig(&zonessettingsv1.ZonesSettingsV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := zonesSettingsService.SetServiceURL("https://testService/api")
@@ -142,13 +143,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONES_SETTINGS_URL": "https://zonessettingsv1/api",
+				"ZONES_SETTINGS_URL":       "https://zonessettingsv1/api",
 				"ZONES_SETTINGS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1UsingExternalConfig(&zonessettingsv1.ZonesSettingsV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -161,13 +162,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ZONES_SETTINGS_AUTH_TYPE":   "NOAuth",
+				"ZONES_SETTINGS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1UsingExternalConfig(&zonessettingsv1.ZonesSettingsV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -207,9 +208,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetZoneDnssec with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -263,9 +264,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetZoneDnssec successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -315,9 +316,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetZoneDnssec with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -359,9 +360,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateZoneDnssec with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -432,9 +433,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateZoneDnssec successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -485,9 +486,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateZoneDnssec with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -530,9 +531,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetZoneCnameFlattening with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -586,9 +587,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetZoneCnameFlattening successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -638,9 +639,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetZoneCnameFlattening with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -682,9 +683,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateZoneCnameFlattening with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -755,9 +756,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateZoneCnameFlattening successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -808,9 +809,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateZoneCnameFlattening with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -853,9 +854,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetOpportunisticEncryption with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -909,9 +910,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetOpportunisticEncryption successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -961,9 +962,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetOpportunisticEncryption with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1005,9 +1006,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateOpportunisticEncryption with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1078,9 +1079,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateOpportunisticEncryption successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1131,9 +1132,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateOpportunisticEncryption with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1176,9 +1177,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetChallengeTTL with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1232,9 +1233,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetChallengeTTL successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1284,9 +1285,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetChallengeTTL with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1328,9 +1329,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateChallengeTTL with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1401,9 +1402,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateChallengeTTL successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1454,9 +1455,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateChallengeTTL with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1499,9 +1500,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetAutomaticHttpsRewrites with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1555,9 +1556,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetAutomaticHttpsRewrites successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1607,9 +1608,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetAutomaticHttpsRewrites with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1651,9 +1652,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateAutomaticHttpsRewrites with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1724,9 +1725,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateAutomaticHttpsRewrites successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1777,9 +1778,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateAutomaticHttpsRewrites with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1822,9 +1823,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetTrueClientIp with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1878,9 +1879,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetTrueClientIp successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1930,9 +1931,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetTrueClientIp with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1974,9 +1975,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateTrueClientIp with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2047,9 +2048,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateTrueClientIp successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2100,9 +2101,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateTrueClientIp with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2145,9 +2146,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetAlwaysUseHttps with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2201,9 +2202,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetAlwaysUseHttps successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2253,9 +2254,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetAlwaysUseHttps with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2297,9 +2298,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateAlwaysUseHttps with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2370,9 +2371,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateAlwaysUseHttps successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2423,9 +2424,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateAlwaysUseHttps with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2468,9 +2469,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetImageSizeOptimization with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2524,9 +2525,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetImageSizeOptimization successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2576,9 +2577,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetImageSizeOptimization with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2620,9 +2621,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateImageSizeOptimization with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2693,9 +2694,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateImageSizeOptimization successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2746,9 +2747,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateImageSizeOptimization with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2791,9 +2792,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetScriptLoadOptimization with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2847,9 +2848,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetScriptLoadOptimization successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2899,9 +2900,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetScriptLoadOptimization with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2943,9 +2944,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateScriptLoadOptimization with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3016,9 +3017,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateScriptLoadOptimization successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3069,9 +3070,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateScriptLoadOptimization with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3114,9 +3115,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetImageLoadOptimization with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3170,9 +3171,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetImageLoadOptimization successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3222,9 +3223,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetImageLoadOptimization with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3266,9 +3267,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateImageLoadOptimization with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3339,9 +3340,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateImageLoadOptimization successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3392,9 +3393,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateImageLoadOptimization with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3437,9 +3438,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMinify with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3493,9 +3494,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMinify successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3545,9 +3546,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMinify with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3589,9 +3590,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMinify with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3668,9 +3669,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMinify successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3727,9 +3728,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMinify with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3778,9 +3779,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMinTlsVersion with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3834,9 +3835,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMinTlsVersion successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3886,9 +3887,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMinTlsVersion with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3930,9 +3931,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMinTlsVersion with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4003,9 +4004,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMinTlsVersion successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4056,9 +4057,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMinTlsVersion with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4101,9 +4102,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetIpGeolocation with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4157,9 +4158,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetIpGeolocation successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4209,9 +4210,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetIpGeolocation with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4253,9 +4254,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateIpGeolocation with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4326,9 +4327,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateIpGeolocation successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4379,9 +4380,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateIpGeolocation with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4424,9 +4425,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetServerSideExclude with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4480,9 +4481,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetServerSideExclude successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4532,9 +4533,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetServerSideExclude with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4576,9 +4577,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateServerSideExclude with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4649,9 +4650,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateServerSideExclude successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4702,9 +4703,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateServerSideExclude with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4747,9 +4748,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetSecurityHeader with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4803,9 +4804,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetSecurityHeader successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4855,9 +4856,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetSecurityHeader with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4899,9 +4900,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateSecurityHeader with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4983,9 +4984,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateSecurityHeader successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5047,9 +5048,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateSecurityHeader with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5103,9 +5104,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMobileRedirect with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5159,9 +5160,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMobileRedirect successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5211,9 +5212,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMobileRedirect with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5255,9 +5256,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMobileRedirect with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5334,9 +5335,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMobileRedirect successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5393,9 +5394,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMobileRedirect with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5444,9 +5445,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetPrefetchPreload with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5500,9 +5501,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetPrefetchPreload successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5552,9 +5553,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetPrefetchPreload with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5596,9 +5597,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdatePrefetchPreload with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5669,9 +5670,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdatePrefetchPreload successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5722,9 +5723,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdatePrefetchPreload with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5767,9 +5768,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetHttp2 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5823,9 +5824,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetHttp2 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5875,9 +5876,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetHttp2 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5919,9 +5920,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp2 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5992,9 +5993,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp2 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6045,9 +6046,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp2 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6090,9 +6091,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp3 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6161,9 +6162,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp3 successfully with retries`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6233,9 +6234,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp3 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6261,9 +6262,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHttp3 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6306,9 +6307,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetIpv6 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6362,9 +6363,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetIpv6 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6414,9 +6415,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetIpv6 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6458,9 +6459,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateIpv6 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6531,9 +6532,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateIpv6 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6584,9 +6585,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateIpv6 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6629,9 +6630,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetWebSockets with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6685,9 +6686,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetWebSockets successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6737,9 +6738,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetWebSockets with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6781,9 +6782,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateWebSockets with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6854,9 +6855,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateWebSockets successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6907,9 +6908,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateWebSockets with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6952,9 +6953,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetPseudoIpv4 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7008,9 +7009,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetPseudoIpv4 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7060,9 +7061,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetPseudoIpv4 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7104,9 +7105,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdatePseudoIpv4 with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7177,9 +7178,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdatePseudoIpv4 successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7230,9 +7231,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdatePseudoIpv4 with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7275,9 +7276,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetResponseBuffering with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7331,9 +7332,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetResponseBuffering successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7383,9 +7384,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetResponseBuffering with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7427,9 +7428,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateResponseBuffering with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7500,9 +7501,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateResponseBuffering successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7553,9 +7554,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateResponseBuffering with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7598,9 +7599,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetHotlinkProtection with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7654,9 +7655,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetHotlinkProtection successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7706,9 +7707,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetHotlinkProtection with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7750,9 +7751,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHotlinkProtection with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7823,9 +7824,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHotlinkProtection successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7876,9 +7877,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateHotlinkProtection with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7921,9 +7922,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMaxUpload with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7977,9 +7978,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMaxUpload successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8029,9 +8030,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetMaxUpload with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8073,9 +8074,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMaxUpload with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8146,9 +8147,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMaxUpload successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8199,9 +8200,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateMaxUpload with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8244,9 +8245,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetTlsClientAuth with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8300,9 +8301,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetTlsClientAuth successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8352,9 +8353,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetTlsClientAuth with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8396,9 +8397,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateTlsClientAuth with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8469,9 +8470,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateTlsClientAuth successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8522,9 +8523,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateTlsClientAuth with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8538,6 +8539,402 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				err := zonesSettingsService.SetServiceURL("")
 				Expect(err).To(BeNil())
 				result, response, operationErr := zonesSettingsService.UpdateTlsClientAuth(updateTlsClientAuthOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetBrotli(getBrotliOptions *GetBrotliOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getBrotliPath := "/v1/testString/zones/testString/settings/brotli"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBrotliPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetBrotli with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetBrotliOptions model
+				getBrotliOptionsModel := new(zonessettingsv1.GetBrotliOptions)
+				getBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetBrotli(getBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetBrotli(getBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetBrotli(getBrotliOptions *GetBrotliOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getBrotliPath := "/v1/testString/zones/testString/settings/brotli"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBrotliPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "brotli", "value": "off", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetBrotli successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetBrotliOptions model
+				getBrotliOptionsModel := new(zonessettingsv1.GetBrotliOptions)
+				getBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetBrotliWithContext(ctx, getBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetBrotli(getBrotliOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetBrotliWithContext(ctx, getBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBrotliPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "brotli", "value": "off", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetBrotli successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetBrotli(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetBrotliOptions model
+				getBrotliOptionsModel := new(zonessettingsv1.GetBrotliOptions)
+				getBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetBrotli(getBrotliOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetBrotli with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetBrotliOptions model
+				getBrotliOptionsModel := new(zonessettingsv1.GetBrotliOptions)
+				getBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetBrotli(getBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateBrotli(updateBrotliOptions *UpdateBrotliOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateBrotliPath := "/v1/testString/zones/testString/settings/brotli"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBrotliPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateBrotli with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateBrotliOptions model
+				updateBrotliOptionsModel := new(zonessettingsv1.UpdateBrotliOptions)
+				updateBrotliOptionsModel.Value = core.StringPtr("on")
+				updateBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateBrotli(updateBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateBrotli(updateBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateBrotli(updateBrotliOptions *UpdateBrotliOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateBrotliPath := "/v1/testString/zones/testString/settings/brotli"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBrotliPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "brotli", "value": "off", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateBrotli successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateBrotliOptions model
+				updateBrotliOptionsModel := new(zonessettingsv1.UpdateBrotliOptions)
+				updateBrotliOptionsModel.Value = core.StringPtr("on")
+				updateBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateBrotliWithContext(ctx, updateBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateBrotli(updateBrotliOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateBrotliWithContext(ctx, updateBrotliOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBrotliPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "brotli", "value": "off", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateBrotli successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateBrotli(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateBrotliOptions model
+				updateBrotliOptionsModel := new(zonessettingsv1.UpdateBrotliOptions)
+				updateBrotliOptionsModel.Value = core.StringPtr("on")
+				updateBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateBrotli(updateBrotliOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateBrotli with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateBrotliOptions model
+				updateBrotliOptionsModel := new(zonessettingsv1.UpdateBrotliOptions)
+				updateBrotliOptionsModel.Value = core.StringPtr("on")
+				updateBrotliOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateBrotli(updateBrotliOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
@@ -8567,9 +8964,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetBrowserCheck with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8623,9 +9020,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetBrowserCheck successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8675,9 +9072,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetBrowserCheck with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8719,9 +9116,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateBrowserCheck with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8792,9 +9189,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateBrowserCheck successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8845,9 +9242,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateBrowserCheck with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8890,9 +9287,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetEnableErrorPagesOn with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8946,9 +9343,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetEnableErrorPagesOn successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8998,9 +9395,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetEnableErrorPagesOn with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9042,9 +9439,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateEnableErrorPagesOn with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9115,9 +9512,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateEnableErrorPagesOn successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9168,9 +9565,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateEnableErrorPagesOn with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9213,9 +9610,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetWebApplicationFirewall with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9269,9 +9666,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetWebApplicationFirewall successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9321,9 +9718,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetWebApplicationFirewall with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9365,9 +9762,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateWebApplicationFirewall with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9438,9 +9835,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateWebApplicationFirewall successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9491,9 +9888,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateWebApplicationFirewall with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9536,9 +9933,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetCiphers with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9592,9 +9989,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetCiphers successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9644,9 +10041,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke GetCiphers with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9688,9 +10085,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateCiphers with error: Operation response processing error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9761,9 +10158,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateCiphers successfully`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9814,9 +10211,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 			It(`Invoke UpdateCiphers with error: Operation request error`, func() {
 				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -9845,9 +10242,9 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			zonesSettingsService, _ := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
-				URL:           "http://zonessettingsv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://zonessettingsv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewGetAlwaysUseHttpsOptions successfully`, func() {
@@ -9863,6 +10260,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				getAutomaticHttpsRewritesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getAutomaticHttpsRewritesOptionsModel).ToNot(BeNil())
 				Expect(getAutomaticHttpsRewritesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetBrotliOptions successfully`, func() {
+				// Construct an instance of the GetBrotliOptions model
+				getBrotliOptionsModel := zonesSettingsService.NewGetBrotliOptions()
+				getBrotliOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getBrotliOptionsModel).ToNot(BeNil())
+				Expect(getBrotliOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetBrowserCheckOptions successfully`, func() {
 				// Construct an instance of the GetBrowserCheckOptions model
@@ -10107,6 +10511,15 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updateAutomaticHttpsRewritesOptionsModel).ToNot(BeNil())
 				Expect(updateAutomaticHttpsRewritesOptionsModel.Value).To(Equal(core.StringPtr("false")))
 				Expect(updateAutomaticHttpsRewritesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateBrotliOptions successfully`, func() {
+				// Construct an instance of the UpdateBrotliOptions model
+				updateBrotliOptionsModel := zonesSettingsService.NewUpdateBrotliOptions()
+				updateBrotliOptionsModel.SetValue("on")
+				updateBrotliOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateBrotliOptionsModel).ToNot(BeNil())
+				Expect(updateBrotliOptionsModel.Value).To(Equal(core.StringPtr("on")))
+				Expect(updateBrotliOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateBrowserCheckOptions successfully`, func() {
 				// Construct an instance of the UpdateBrowserCheckOptions model

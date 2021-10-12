@@ -17,7 +17,6 @@
 /*
  * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
- 
 
 // Package zoneratelimitsv1 : Operations and models for the ZoneRateLimitsV1 service
 package zoneratelimitsv1
@@ -26,11 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.com/IBM/networking-go-sdk/common"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // ZoneRateLimitsV1 : Zone Rate Limits
@@ -119,8 +119,8 @@ func NewZoneRateLimitsV1(options *ZoneRateLimitsV1Options) (service *ZoneRateLim
 	}
 
 	service = &ZoneRateLimitsV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -192,7 +192,7 @@ func (zoneRateLimits *ZoneRateLimitsV1) ListAllZoneRateLimitsWithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneRateLimits.Crn,
+		"crn":             *zoneRateLimits.Crn,
 		"zone_identifier": *zoneRateLimits.ZoneIdentifier,
 	}
 
@@ -254,7 +254,7 @@ func (zoneRateLimits *ZoneRateLimitsV1) CreateZoneRateLimitsWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneRateLimits.Crn,
+		"crn":             *zoneRateLimits.Crn,
 		"zone_identifier": *zoneRateLimits.ZoneIdentifier,
 	}
 
@@ -344,8 +344,8 @@ func (zoneRateLimits *ZoneRateLimitsV1) DeleteZoneRateLimitWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneRateLimits.Crn,
-		"zone_identifier": *zoneRateLimits.ZoneIdentifier,
+		"crn":                   *zoneRateLimits.Crn,
+		"zone_identifier":       *zoneRateLimits.ZoneIdentifier,
 		"rate_limit_identifier": *deleteZoneRateLimitOptions.RateLimitIdentifier,
 	}
 
@@ -404,8 +404,8 @@ func (zoneRateLimits *ZoneRateLimitsV1) GetRateLimitWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneRateLimits.Crn,
-		"zone_identifier": *zoneRateLimits.ZoneIdentifier,
+		"crn":                   *zoneRateLimits.Crn,
+		"zone_identifier":       *zoneRateLimits.ZoneIdentifier,
 		"rate_limit_identifier": *getRateLimitOptions.RateLimitIdentifier,
 	}
 
@@ -464,8 +464,8 @@ func (zoneRateLimits *ZoneRateLimitsV1) UpdateRateLimitWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *zoneRateLimits.Crn,
-		"zone_identifier": *zoneRateLimits.ZoneIdentifier,
+		"crn":                   *zoneRateLimits.Crn,
+		"zone_identifier":       *zoneRateLimits.ZoneIdentifier,
 		"rate_limit_identifier": *updateRateLimitOptions.RateLimitIdentifier,
 	}
 
@@ -635,7 +635,6 @@ type DeleteRateLimitRespResult struct {
 	ID *string `json:"id" validate:"required"`
 }
 
-
 // UnmarshalDeleteRateLimitRespResult unmarshals an instance of DeleteRateLimitRespResult from the specified map of raw messages.
 func UnmarshalDeleteRateLimitRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteRateLimitRespResult)
@@ -753,7 +752,6 @@ type ListRatelimitRespResultInfo struct {
 	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
-
 // UnmarshalListRatelimitRespResultInfo unmarshals an instance of ListRatelimitRespResultInfo from the specified map of raw messages.
 func UnmarshalListRatelimitRespResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ListRatelimitRespResultInfo)
@@ -794,12 +792,11 @@ type RatelimitInputAction struct {
 // Constants associated with the RatelimitInputAction.Mode property.
 // The type of action to perform.
 const (
-	RatelimitInputAction_Mode_Ban = "ban"
-	RatelimitInputAction_Mode_Challenge = "challenge"
+	RatelimitInputAction_Mode_Ban         = "ban"
+	RatelimitInputAction_Mode_Challenge   = "challenge"
 	RatelimitInputAction_Mode_JsChallenge = "js_challenge"
-	RatelimitInputAction_Mode_Simulate = "simulate"
+	RatelimitInputAction_Mode_Simulate    = "simulate"
 )
-
 
 // NewRatelimitInputAction : Instantiate RatelimitInputAction (Generic Model Constructor)
 func (*ZoneRateLimitsV1) NewRatelimitInputAction(mode string) (model *RatelimitInputAction, err error) {
@@ -843,10 +840,9 @@ type RatelimitInputActionResponse struct {
 // The content type of the body.
 const (
 	RatelimitInputActionResponse_ContentType_ApplicationJSON = "application/json"
-	RatelimitInputActionResponse_ContentType_TextPlain = "text/plain"
-	RatelimitInputActionResponse_ContentType_TextXml = "text/xml"
+	RatelimitInputActionResponse_ContentType_TextPlain       = "text/plain"
+	RatelimitInputActionResponse_ContentType_TextXml         = "text/xml"
 )
-
 
 // UnmarshalRatelimitInputActionResponse unmarshals an instance of RatelimitInputActionResponse from the specified map of raw messages.
 func UnmarshalRatelimitInputActionResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -878,11 +874,10 @@ const (
 	RatelimitInputBypassItem_Name_URL = "url"
 )
 
-
 // NewRatelimitInputBypassItem : Instantiate RatelimitInputBypassItem (Generic Model Constructor)
 func (*ZoneRateLimitsV1) NewRatelimitInputBypassItem(name string, value string) (model *RatelimitInputBypassItem, err error) {
 	model = &RatelimitInputBypassItem{
-		Name: core.StringPtr(name),
+		Name:  core.StringPtr(name),
 		Value: core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -916,7 +911,6 @@ const (
 	RatelimitInputCorrelate_By_Nat = "nat"
 )
 
-
 // NewRatelimitInputCorrelate : Instantiate RatelimitInputCorrelate (Generic Model Constructor)
 func (*ZoneRateLimitsV1) NewRatelimitInputCorrelate(by string) (model *RatelimitInputCorrelate, err error) {
 	model = &RatelimitInputCorrelate{
@@ -946,7 +940,6 @@ type RatelimitInputMatch struct {
 	// response.
 	Response *RatelimitInputMatchResponse `json:"response,omitempty"`
 }
-
 
 // UnmarshalRatelimitInputMatch unmarshals an instance of RatelimitInputMatch from the specified map of raw messages.
 func UnmarshalRatelimitInputMatch(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -978,22 +971,21 @@ type RatelimitInputMatchRequest struct {
 
 // Constants associated with the RatelimitInputMatchRequest.Methods property.
 const (
-	RatelimitInputMatchRequest_Methods_All = "_ALL_"
+	RatelimitInputMatchRequest_Methods_All    = "_ALL_"
 	RatelimitInputMatchRequest_Methods_Delete = "DELETE"
-	RatelimitInputMatchRequest_Methods_Get = "GET"
-	RatelimitInputMatchRequest_Methods_Head = "HEAD"
-	RatelimitInputMatchRequest_Methods_Patch = "PATCH"
-	RatelimitInputMatchRequest_Methods_Post = "POST"
-	RatelimitInputMatchRequest_Methods_Put = "PUT"
+	RatelimitInputMatchRequest_Methods_Get    = "GET"
+	RatelimitInputMatchRequest_Methods_Head   = "HEAD"
+	RatelimitInputMatchRequest_Methods_Patch  = "PATCH"
+	RatelimitInputMatchRequest_Methods_Post   = "POST"
+	RatelimitInputMatchRequest_Methods_Put    = "PUT"
 )
 
 // Constants associated with the RatelimitInputMatchRequest.Schemes property.
 const (
-	RatelimitInputMatchRequest_Schemes_All = "_ALL_"
-	RatelimitInputMatchRequest_Schemes_Http = "HTTP"
+	RatelimitInputMatchRequest_Schemes_All   = "_ALL_"
+	RatelimitInputMatchRequest_Schemes_Http  = "HTTP"
 	RatelimitInputMatchRequest_Schemes_Https = "HTTPS"
 )
-
 
 // NewRatelimitInputMatchRequest : Instantiate RatelimitInputMatchRequest (Generic Model Constructor)
 func (*ZoneRateLimitsV1) NewRatelimitInputMatchRequest(url string) (model *RatelimitInputMatchRequest, err error) {
@@ -1037,7 +1029,6 @@ type RatelimitInputMatchResponse struct {
 	// interacting with the response.headers property.
 	OriginTraffic *bool `json:"origin_traffic,omitempty"`
 }
-
 
 // UnmarshalRatelimitInputMatchResponse unmarshals an instance of RatelimitInputMatchResponse from the specified map of raw messages.
 func UnmarshalRatelimitInputMatchResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1083,12 +1074,11 @@ const (
 	RatelimitInputMatchResponseHeadersItem_Value_Hit = "HIT"
 )
 
-
 // NewRatelimitInputMatchResponseHeadersItem : Instantiate RatelimitInputMatchResponseHeadersItem (Generic Model Constructor)
 func (*ZoneRateLimitsV1) NewRatelimitInputMatchResponseHeadersItem(name string, op string, value string) (model *RatelimitInputMatchResponseHeadersItem, err error) {
 	model = &RatelimitInputMatchResponseHeadersItem{
-		Name: core.StringPtr(name),
-		Op: core.StringPtr(op),
+		Name:  core.StringPtr(name),
+		Op:    core.StringPtr(op),
 		Value: core.StringPtr(value),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -1131,12 +1121,11 @@ type RatelimitObjectAction struct {
 // Constants associated with the RatelimitObjectAction.Mode property.
 // The type of action to perform.
 const (
-	RatelimitObjectAction_Mode_Ban = "ban"
-	RatelimitObjectAction_Mode_Challenge = "challenge"
+	RatelimitObjectAction_Mode_Ban         = "ban"
+	RatelimitObjectAction_Mode_Challenge   = "challenge"
 	RatelimitObjectAction_Mode_JsChallenge = "js_challenge"
-	RatelimitObjectAction_Mode_Simulate = "simulate"
+	RatelimitObjectAction_Mode_Simulate    = "simulate"
 )
-
 
 // UnmarshalRatelimitObjectAction unmarshals an instance of RatelimitObjectAction from the specified map of raw messages.
 func UnmarshalRatelimitObjectAction(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1171,10 +1160,9 @@ type RatelimitObjectActionResponse struct {
 // The content type of the body.
 const (
 	RatelimitObjectActionResponse_ContentType_ApplicationJSON = "application/json"
-	RatelimitObjectActionResponse_ContentType_TextPlain = "text/plain"
-	RatelimitObjectActionResponse_ContentType_TextXml = "text/xml"
+	RatelimitObjectActionResponse_ContentType_TextPlain       = "text/plain"
+	RatelimitObjectActionResponse_ContentType_TextXml         = "text/xml"
 )
-
 
 // UnmarshalRatelimitObjectActionResponse unmarshals an instance of RatelimitObjectActionResponse from the specified map of raw messages.
 func UnmarshalRatelimitObjectActionResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1206,7 +1194,6 @@ const (
 	RatelimitObjectBypassItem_Name_URL = "url"
 )
 
-
 // UnmarshalRatelimitObjectBypassItem unmarshals an instance of RatelimitObjectBypassItem from the specified map of raw messages.
 func UnmarshalRatelimitObjectBypassItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RatelimitObjectBypassItem)
@@ -1234,7 +1221,6 @@ const (
 	RatelimitObjectCorrelate_By_Nat = "nat"
 )
 
-
 // UnmarshalRatelimitObjectCorrelate unmarshals an instance of RatelimitObjectCorrelate from the specified map of raw messages.
 func UnmarshalRatelimitObjectCorrelate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RatelimitObjectCorrelate)
@@ -1255,7 +1241,6 @@ type RatelimitObjectMatch struct {
 	// response.
 	Response *RatelimitObjectMatchResponse `json:"response,omitempty"`
 }
-
 
 // UnmarshalRatelimitObjectMatch unmarshals an instance of RatelimitObjectMatch from the specified map of raw messages.
 func UnmarshalRatelimitObjectMatch(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1287,22 +1272,21 @@ type RatelimitObjectMatchRequest struct {
 
 // Constants associated with the RatelimitObjectMatchRequest.Methods property.
 const (
-	RatelimitObjectMatchRequest_Methods_All = "_ALL_"
+	RatelimitObjectMatchRequest_Methods_All    = "_ALL_"
 	RatelimitObjectMatchRequest_Methods_Delete = "DELETE"
-	RatelimitObjectMatchRequest_Methods_Get = "GET"
-	RatelimitObjectMatchRequest_Methods_Head = "HEAD"
-	RatelimitObjectMatchRequest_Methods_Patch = "PATCH"
-	RatelimitObjectMatchRequest_Methods_Post = "POST"
-	RatelimitObjectMatchRequest_Methods_Put = "PUT"
+	RatelimitObjectMatchRequest_Methods_Get    = "GET"
+	RatelimitObjectMatchRequest_Methods_Head   = "HEAD"
+	RatelimitObjectMatchRequest_Methods_Patch  = "PATCH"
+	RatelimitObjectMatchRequest_Methods_Post   = "POST"
+	RatelimitObjectMatchRequest_Methods_Put    = "PUT"
 )
 
 // Constants associated with the RatelimitObjectMatchRequest.Schemes property.
 const (
-	RatelimitObjectMatchRequest_Schemes_All = "_ALL_"
-	RatelimitObjectMatchRequest_Schemes_Http = "HTTP"
+	RatelimitObjectMatchRequest_Schemes_All   = "_ALL_"
+	RatelimitObjectMatchRequest_Schemes_Http  = "HTTP"
 	RatelimitObjectMatchRequest_Schemes_Https = "HTTPS"
 )
-
 
 // UnmarshalRatelimitObjectMatchRequest unmarshals an instance of RatelimitObjectMatchRequest from the specified map of raw messages.
 func UnmarshalRatelimitObjectMatchRequest(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1337,7 +1321,6 @@ type RatelimitObjectMatchResponse struct {
 	// interacting with the response.headers property.
 	OriginTraffic *bool `json:"origin_traffic,omitempty"`
 }
-
 
 // UnmarshalRatelimitObjectMatchResponse unmarshals an instance of RatelimitObjectMatchResponse from the specified map of raw messages.
 func UnmarshalRatelimitObjectMatchResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1382,7 +1365,6 @@ const (
 const (
 	RatelimitObjectMatchResponseHeadersItem_Value_Hit = "HIT"
 )
-
 
 // UnmarshalRatelimitObjectMatchResponseHeadersItem unmarshals an instance of RatelimitObjectMatchResponseHeadersItem from the specified map of raw messages.
 func UnmarshalRatelimitObjectMatchResponseHeadersItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1521,7 +1503,6 @@ type DeleteRateLimitResp struct {
 	Result *DeleteRateLimitRespResult `json:"result" validate:"required"`
 }
 
-
 // UnmarshalDeleteRateLimitResp unmarshals an instance of DeleteRateLimitResp from the specified map of raw messages.
 func UnmarshalDeleteRateLimitResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteRateLimitResp)
@@ -1562,7 +1543,6 @@ type ListRatelimitResp struct {
 	// Statistics of results.
 	ResultInfo *ListRatelimitRespResultInfo `json:"result_info" validate:"required"`
 }
-
 
 // UnmarshalListRatelimitResp unmarshals an instance of ListRatelimitResp from the specified map of raw messages.
 func UnmarshalListRatelimitResp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -1624,7 +1604,6 @@ type RatelimitObject struct {
 	Match *RatelimitObjectMatch `json:"match" validate:"required"`
 }
 
-
 // UnmarshalRatelimitObject unmarshals an instance of RatelimitObject from the specified map of raw messages.
 func UnmarshalRatelimitObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RatelimitObject)
@@ -1682,7 +1661,6 @@ type RatelimitResp struct {
 	// rate limit object.
 	Result *RatelimitObject `json:"result" validate:"required"`
 }
-
 
 // UnmarshalRatelimitResp unmarshals an instance of RatelimitResp from the specified map of raw messages.
 func UnmarshalRatelimitResp(m map[string]json.RawMessage, result interface{}) (err error) {
