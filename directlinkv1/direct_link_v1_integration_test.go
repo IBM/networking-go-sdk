@@ -292,8 +292,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions)
 				Expect(result).To(BeNil())
 				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Cannot find Gateway"))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err.Error()).To(Equal("Invalid Gateway Id."))
+				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
 			It("Successfully Updates the Gateway", func() {
@@ -367,8 +367,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
 				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Cannot find Gateway"))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err.Error()).To(Equal("Invalid Gateway Id."))
+				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
 			It("Successfully deletes a gateway", func() {
