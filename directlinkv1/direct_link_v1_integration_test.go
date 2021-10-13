@@ -45,8 +45,9 @@ func shouldSkipTest() {
 }
 
 func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
+	providerToUse := "DL2-TEST"
 	for _, port := range ports {
-		if port.ProviderName != nil && !strings.Contains(strings.ToLower(*port.ProviderName), "equinix") {
+		if port.ProviderName != nil && strings.Contains(*port.ProviderName, providerToUse) {
 			return &port
 		}
 	}
