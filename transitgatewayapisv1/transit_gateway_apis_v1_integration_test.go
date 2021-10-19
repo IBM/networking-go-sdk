@@ -41,7 +41,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	Skip("Skipping Tests")
+	//Skip("Skipping Tests")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}

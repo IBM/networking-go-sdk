@@ -9,12 +9,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/go-sdk-core/v5/core"
+	. "github.com/IBM/networking-go-sdk/zonesv1"
 	guuid "github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/IBM/networking-go-sdk/zonesv1"
 )
 
 const configFile = "../cis.env"

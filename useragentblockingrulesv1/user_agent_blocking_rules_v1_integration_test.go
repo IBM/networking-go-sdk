@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	. "github.com/IBM/networking-go-sdk/useragentblockingrulesv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
