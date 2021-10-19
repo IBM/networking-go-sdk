@@ -117,9 +117,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 								connID := *conn.ID
 								deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, connID)
 
-								detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
-								Expect(err).To(BeNil())
-								Expect(detailedResponse.StatusCode).To(Equal(204))
+								service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 							}
 						} else { // remove empty gateways
 							deleteTransitGatewayOptions := service.NewDeleteTransitGatewayOptions(gatewayID)
@@ -345,6 +343,34 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 	})
 	Describe(`CreateTransitGatewayConnection(createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions)`, func() {
+
+		Context(`Success: create Classic Transit Gateway Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new resource`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				network_type := "classic"
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(gatewayID, network_type)
+				createTransitGatewayConnectionOptions.SetHeaders(header)
+				createTransitGatewayConnectionOptions.SetName(connectionName + "classic")
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				os.Setenv("CONN_INSTANCE_ID_CLASSIC", *result.ID)
+
+				Expect(*result.Name).To(Equal(connectionName + "classic"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+			})
+		})
 		Context(`Success: create VPC Transit Gateway Connection`, func() {
 			header := map[string]string{
 				"Content-type": "application/json",
@@ -373,101 +399,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.UpdatedAt).NotTo(Equal(""))
 				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
-			})
-
-			It("Successfully waits for connection to report as attached", func() {
-				shouldSkipTest()
-
-				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID"))
-
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
-				timer := 0
-				for {
-					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
-
-					// if attached then we are done
-					if *response.Status == "attached" {
-						// response is attached, exit success
-						Expect(*response.Name).To(Equal(connectionName))
-						Expect(*response.NetworkID).To(Equal(os.Getenv("VPC_CRN")))
-						Expect(*response.NetworkType).To(Equal("vpc"))
-						Expect(*response.CreatedAt).NotTo(Equal(""))
-						Expect(*response.UpdatedAt).NotTo(Equal(""))
-						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID")))
-						break
-					}
-
-					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 20 { // 5 min timer (20x5sec)
-						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
-						break
-					} else {
-						// wait 15 sec
-						time.Sleep(time.Duration(15) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
-		})
-
-		Context(`Success: create Classic Transit Gateway Connection`, func() {
-			header := map[string]string{
-				"Content-type": "application/json",
-			}
-			It(`Successfully create new resource`, func() {
-				shouldSkipTest()
-
-				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
-				network_type := "classic"
-				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(gatewayID, network_type)
-				createTransitGatewayConnectionOptions.SetHeaders(header)
-				createTransitGatewayConnectionOptions.SetName(connectionName + "classic")
-
-				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(201))
-
-				os.Setenv("CONN_INSTANCE_ID_CLASSIC", *result.ID)
-
-				Expect(*result.Name).To(Equal(connectionName + "classic"))
-				Expect(*result.NetworkType).To(Equal(network_type))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.UpdatedAt).NotTo(Equal(""))
-				Expect(*result.ID).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-			})
-
-			It("Successfully waits for connection to report as attached", func() {
-				shouldSkipTest()
-
-				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_CLASSIC"))
-
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
-				timer := 0
-				for {
-					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
-
-					// if attached then we are done
-					if *response.Status == "attached" {
-						// response is attached, exit success
-						Expect(*response.Name).To(Equal(connectionName + "classic"))
-						Expect(*response.NetworkType).To(Equal("classic"))
-						Expect(*response.CreatedAt).NotTo(Equal(""))
-						Expect(*response.UpdatedAt).NotTo(Equal(""))
-						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_CLASSIC")))
-						break
-					}
-
-					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 20 { // 5 min timer (20x15sec)
-						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
-						break
-					} else {
-						// wait 15 sec
-						time.Sleep(time.Duration(15) * time.Second)
-						timer = timer + 1
-					}
-				}
 			})
 		})
 
@@ -500,11 +431,16 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
 			})
+		})
 
-			It("Successfully waits for connection to report as attached", func() {
+		Context(`Success: create GRE Transit Gateway Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It("Successfully waits for classic connection to report as attached", func() {
 				shouldSkipTest()
 
-				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_CLASSIC"))
 
 				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
 				timer := 0
@@ -514,12 +450,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// if attached then we are done
 					if *response.Status == "attached" {
 						// response is attached, exit success
-						Expect(*response.Name).To(Equal(connectionName + "dlaas"))
-						Expect(*response.NetworkID).To(Equal(os.Getenv("DL_CRN")))
-						Expect(*response.NetworkType).To(Equal("directlink"))
+						Expect(*response.Name).To(Equal(connectionName + "classic"))
+						Expect(*response.NetworkType).To(Equal("classic"))
 						Expect(*response.CreatedAt).NotTo(Equal(""))
 						Expect(*response.UpdatedAt).NotTo(Equal(""))
-						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_DL")))
+						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_CLASSIC")))
 						break
 					}
 
@@ -534,13 +469,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 			})
-		})
-
-		Context(`Success: create GRE Transit Gateway Connection`, func() {
-			header := map[string]string{
-				"Content-type": "application/json",
-			}
-			It(`Successfully create new resource`, func() {
+			It(`Successfully create new GRE connection`, func() {
 				shouldSkipTest()
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
@@ -569,39 +498,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.UpdatedAt).NotTo(Equal(""))
 				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
-			})
-
-			It("Successfully waits for connection to report as attached", func() {
-				shouldSkipTest()
-
-				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_GRE"))
-
-				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
-				timer := 0
-				for {
-					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
-
-					// if attached then we are done
-					if *response.Status == "attached" {
-						// response is attached, exit success
-						Expect(*response.Name).To(Equal(connectionName + "gre"))
-						Expect(*response.NetworkType).To(Equal("gre_tunnel"))
-						Expect(*response.CreatedAt).NotTo(Equal(""))
-						Expect(*response.UpdatedAt).NotTo(Equal(""))
-						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_GRE")))
-						break
-					}
-
-					// other than attached, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 20 { // 5 min timer (20x15sec)
-						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
-						break
-					} else {
-						// wait 15 sec
-						time.Sleep(time.Duration(15) * time.Second)
-						timer = timer + 1
-					}
-				}
 			})
 		})
 
@@ -647,7 +543,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				for _, conn := range result.Connections {
 					if *conn.ID == os.Getenv("CONN_INSTANCE_ID") {
 						Expect(*conn.Name).To(Equal(connectionName))
-						Expect(*conn.Status).To(Equal("attached"))
 						Expect(*conn.NetworkID).To(Equal(os.Getenv("VPC_CRN")))
 						Expect(*conn.NetworkType).To(Equal("vpc"))
 						Expect(*conn.CreatedAt).NotTo(Equal(""))
@@ -681,7 +576,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.NetworkType).To(Equal("vpc"))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.UpdatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("attached"))
 			})
 		})
 
@@ -707,6 +601,40 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 	Describe(`UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions)`, func() {
 		Context(`Successfully update GatewayConnection name by instanceID`, func() {
+
+			It("Successfully waits for VPC connection to report as attached before updating", func() {
+				shouldSkipTest()
+
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID"))
+
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
+				timer := 0
+				for {
+					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+
+					// if attached then we are done
+					if *response.Status == "attached" {
+						// response is attached, exit success
+						Expect(*response.Name).To(Equal(connectionName))
+						Expect(*response.NetworkID).To(Equal(os.Getenv("VPC_CRN")))
+						Expect(*response.NetworkType).To(Equal("vpc"))
+						Expect(*response.CreatedAt).NotTo(Equal(""))
+						Expect(*response.UpdatedAt).NotTo(Equal(""))
+						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID")))
+						break
+					}
+
+					// other than attached, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 20 { // 5 min timer (20x5sec)
+						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
+						break
+					} else {
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
 			It(`Successfully update resource by instanceID`, func() {
 				shouldSkipTest()
 
@@ -753,6 +681,38 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 	Describe(`DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions *DeleteTransitGatewayConnectionOptions)`, func() {
 		Context(`Successfully delete GRE connection by instanceID`, func() {
+			It("Successfully waits for GRE connection to report as attached", func() {
+				shouldSkipTest()
+
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_GRE"))
+
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
+				timer := 0
+				for {
+					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+
+					// if attached then we are done
+					if *response.Status == "attached" {
+						// response is attached, exit success
+						Expect(*response.Name).To(Equal(connectionName + "gre"))
+						Expect(*response.NetworkType).To(Equal("gre_tunnel"))
+						Expect(*response.CreatedAt).NotTo(Equal(""))
+						Expect(*response.UpdatedAt).NotTo(Equal(""))
+						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_GRE")))
+						break
+					}
+
+					// other than attached, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 20 { // 5 min timer (20x15sec)
+						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
+						break
+					} else {
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
 			It(`Successfully delete resource by instanceID`, func() {
 				shouldSkipTest()
 
@@ -764,7 +724,68 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(204))
 			})
-			It("Successfully waits for connection to report as deleted", func() {
+		})
+		Context(`Successfully delete VPC connection by instanceID`, func() {
+			It(`Successfully delete resource by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+		Context(`Successfully delete Directlink connection by instanceID`, func() {
+			It("Successfully waits for connection to report as attached", func() {
+				shouldSkipTest()
+
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
+
+				// Connection creation might not be instantaneous.  Poll the Conn looking for 'attached' status.  Fail after 5 min
+				timer := 0
+				for {
+					response, _, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+
+					// if attached then we are done
+					if *response.Status == "attached" {
+						// response is attached, exit success
+						Expect(*response.Name).To(Equal(connectionName + "dlaas"))
+						Expect(*response.NetworkID).To(Equal(os.Getenv("DL_CRN")))
+						Expect(*response.NetworkType).To(Equal("directlink"))
+						Expect(*response.CreatedAt).NotTo(Equal(""))
+						Expect(*response.UpdatedAt).NotTo(Equal(""))
+						Expect(*response.ID).To(Equal(os.Getenv("CONN_INSTANCE_ID_DL")))
+						break
+					}
+
+					// other than attached, see if we have reached the timeout value.  If so, exit with failure
+					if timer > 20 { // 5 min timer (20x15sec)
+						Expect(*response.Status).To(Equal("attached")) // timed out fail if status is not attached
+						break
+					} else {
+						// wait 15 sec
+						time.Sleep(time.Duration(15) * time.Second)
+						timer = timer + 1
+					}
+				}
+			})
+			It(`Successfully delete resource by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CONN_INSTANCE_ID_DL")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+		Context(`Successfully delete Classic connection by instanceID`, func() {
+			It("Successfully waits for GRE connection to report as deleted", func() {
 				shouldSkipTest()
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_GRE"))
@@ -792,20 +813,41 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 			})
-		})
-		Context(`Successfully delete VPC connection by instanceID`, func() {
 			It(`Successfully delete resource by instanceID`, func() {
 				shouldSkipTest()
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
-				instanceID := os.Getenv("CONN_INSTANCE_ID")
+				instanceID := os.Getenv("CONN_INSTANCE_ID_CLASSIC")
 				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
 
 				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(204))
+				//time.Sleep(90 * time.Second)
 			})
-			It("Successfully waits for connection to report as deleted", func() {
+		})
+		Context(`Failed to delete resource by instanceID`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			badinstanceID := "111"
+			deleteTransitGatewayConnectionOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionOptions{}
+			deleteTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
+			deleteTransitGatewayConnectionOptions.SetID(badinstanceID)
+			deleteTransitGatewayConnectionOptions.SetHeaders(header)
+			It(`Failed to delete resource by instanceID`, func() {
+				shouldSkipTest()
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`DeleteTransitGateway(deleteTransitGatewayOptions *DeleteTransitGatewayOptions)`, func() {
+		Context(`Successfully delete resource by instanceID`, func() {
+			It("Successfully waits for VPC connection to report as deleted", func() {
 				shouldSkipTest()
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID"))
@@ -833,61 +875,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 			})
-		})
-		Context(`Successfully delete Directlink connection by instanceID`, func() {
-			It(`Successfully delete resource by instanceID`, func() {
-				shouldSkipTest()
-
-				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
-				instanceID := os.Getenv("CONN_INSTANCE_ID_DL")
-				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
-
-				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-			})
-			It("Successfully waits for connection to report as deleted", func() {
-				shouldSkipTest()
-
-				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
-
-				// Connection delete might not be instantaneous.  Poll the Conn looking for a not found.  Fail after 5 min
-				timer := 0
-				for {
-					// Get the current rc for the VC
-					_, detailedResponse, _ := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
-
-					// if 404 then we are done
-					if detailedResponse.StatusCode == 404 {
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
-						break
-					}
-
-					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 20 { // 5 min timer (20x15sec)
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
-						break
-					} else {
-						// Still exists, wait 15 sec
-						time.Sleep(time.Duration(15) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
-		})
-		Context(`Successfully delete Directlink connection by instanceID`, func() {
-			It(`Successfully delete resource by instanceID`, func() {
-				shouldSkipTest()
-
-				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
-				instanceID := os.Getenv("CONN_INSTANCE_ID_DL")
-				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
-
-				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-			})
-			It("Successfully waits for connection to report as deleted", func() {
+			It("Successfully waits for DL connection to report as deleted", func() {
 				shouldSkipTest()
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_DL"))
@@ -915,21 +903,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 			})
-		})
-		Context(`Successfully delete Classic connection by instanceID`, func() {
-			It(`Successfully delete resource by instanceID`, func() {
-				shouldSkipTest()
-
-				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
-				instanceID := os.Getenv("CONN_INSTANCE_ID_CLASSIC")
-				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
-
-				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-				//time.Sleep(90 * time.Second)
-			})
-			It("Successfully waits for connection to report as deleted", func() {
+			It("Successfully waits for Classic connection to report as deleted", func() {
 				shouldSkipTest()
 
 				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(os.Getenv("GATEWAY_INSTANCE_ID"), os.Getenv("CONN_INSTANCE_ID_CLASSIC"))
@@ -957,28 +931,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 			})
-		})
-		Context(`Failed to delete resource by instanceID`, func() {
-			header := map[string]string{
-				"Content-type": "application/json",
-			}
-			badinstanceID := "111"
-			deleteTransitGatewayConnectionOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionOptions{}
-			deleteTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
-			deleteTransitGatewayConnectionOptions.SetID(badinstanceID)
-			deleteTransitGatewayConnectionOptions.SetHeaders(header)
-			It(`Failed to delete resource by instanceID`, func() {
-				shouldSkipTest()
-
-				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
-				Expect(detailedResponse.StatusCode).To(Equal(404))
-				Expect(err).Should(HaveOccurred())
-			})
-		})
-	})
-
-	Describe(`DeleteTransitGateway(deleteTransitGatewayOptions *DeleteTransitGatewayOptions)`, func() {
-		Context(`Successfully delete resource by instanceID`, func() {
 			It(`Successfully delete resource by instanceID`, func() {
 				shouldSkipTest()
 
