@@ -41,7 +41,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	//Skip("Skipping Tests")
+	Skip("Skipping Tests")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -117,7 +117,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 								connID := *conn.ID
 								deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, connID)
 
-								service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+								detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+								Expect(err).To(BeNil())
+								Expect(detailedResponse.StatusCode).To(Equal(204))
 							}
 						} else { // remove empty gateways
 							deleteTransitGatewayOptions := service.NewDeleteTransitGatewayOptions(gatewayID)
