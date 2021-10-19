@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/networking-go-sdk/globalloadbalancermonitorv1"
 	"github.com/IBM/networking-go-sdk/globalloadbalancerpoolsv0"
 	. "github.com/IBM/networking-go-sdk/globalloadbalancerv1"
