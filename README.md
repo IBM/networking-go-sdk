@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud Networking Go SDK Version 0.23.0
+# IBM Cloud Networking Go SDK Version 0.23.1
 
 Go client library to interact with the various [IBM Cloud Networking Service APIs](https://cloud.ibm.com/apidocs?category=<networking>).
 
@@ -88,7 +88,7 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 
 ## Installation
 
-The current version of this SDK: 0.23.0
+The current version of this SDK: 0.23.1
 
 There are a few different ways to download and install the Networking Go SDK project for use by your
 Go application:
@@ -157,7 +157,7 @@ to your `Gopkg.toml` file. Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/networking-go-sdk"
-  version = "0.23.0"
+  version = "0.23.1"
 
 ```
 
