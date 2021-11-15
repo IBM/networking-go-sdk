@@ -37,6 +37,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
+	Skip("test exceeds the 10 mins travis limit")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -1287,6 +1288,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 // deleteResourceTest deletes a Transit Resource: Resource delete might not be
 // instantaneous.Poll the Resource looking for a not found. Fail after 4 min
+//nolint
 func deleteCheckTest(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID string) {
 	timer := 0
 	statusCode := 0
@@ -1327,6 +1329,7 @@ func deleteCheckTest(service *transitgatewayapisv1.TransitGatewayApisV1, gateway
 }
 
 // isResourceAvailable checks until the resource status is available/attached/complete. Fail after 2 min.
+//nolint
 func isResourceAvailable(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID string) {
 	timer := 0
 	delay := 5
