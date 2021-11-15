@@ -37,6 +37,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
+	Skip("test exceeds the 10 mins travis limit")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
