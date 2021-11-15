@@ -383,7 +383,7 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReportW
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayRouteReportOptions.TransitGatewayID,
-		"id": *deleteTransitGatewayRouteReportOptions.ID,
+		"id":                 *deleteTransitGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -434,7 +434,7 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReportWith
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayRouteReportOptions.TransitGatewayID,
-		"id": *getTransitGatewayRouteReportOptions.ID,
+		"id":                 *getTransitGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -987,7 +987,7 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWi
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionOptions.TransitGatewayID,
-		"id": *deleteTransitGatewayConnectionOptions.ID,
+		"id":                 *deleteTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1038,7 +1038,7 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithC
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionOptions.TransitGatewayID,
-		"id": *getTransitGatewayConnectionOptions.ID,
+		"id":                 *getTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1101,7 +1101,7 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWi
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionOptions.TransitGatewayID,
-		"id": *updateTransitGatewayConnectionOptions.ID,
+		"id":                 *updateTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -1174,7 +1174,7 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionAc
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayConnectionActionsOptions.TransitGatewayID,
-		"id": *createTransitGatewayConnectionActionsOptions.ID,
+		"id":                 *createTransitGatewayConnectionActionsOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1351,15 +1351,15 @@ type CreateTransitGatewayConnectionActionsOptions struct {
 // The action that is to be performed against the connection request.
 const (
 	CreateTransitGatewayConnectionActionsOptions_Action_Approve = "approve"
-	CreateTransitGatewayConnectionActionsOptions_Action_Reject = "reject"
+	CreateTransitGatewayConnectionActionsOptions_Action_Reject  = "reject"
 )
 
 // NewCreateTransitGatewayConnectionActionsOptions : Instantiate CreateTransitGatewayConnectionActionsOptions
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionActionsOptions(transitGatewayID string, id string, action string) *CreateTransitGatewayConnectionActionsOptions {
 	return &CreateTransitGatewayConnectionActionsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID: core.StringPtr(id),
-		Action: core.StringPtr(action),
+		ID:               core.StringPtr(id),
+		Action:           core.StringPtr(action),
 	}
 }
 
@@ -1450,17 +1450,17 @@ type CreateTransitGatewayConnectionOptions struct {
 // Defines what type of network is connected via this connection. For access to gre_tunnel connections contact IBM
 // support.
 const (
-	CreateTransitGatewayConnectionOptions_NetworkType_Classic = "classic"
+	CreateTransitGatewayConnectionOptions_NetworkType_Classic    = "classic"
 	CreateTransitGatewayConnectionOptions_NetworkType_Directlink = "directlink"
-	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel = "gre_tunnel"
-	CreateTransitGatewayConnectionOptions_NetworkType_Vpc = "vpc"
+	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel  = "gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_Vpc        = "vpc"
 )
 
 // NewCreateTransitGatewayConnectionOptions : Instantiate CreateTransitGatewayConnectionOptions
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionOptions(transitGatewayID string, networkType string) *CreateTransitGatewayConnectionOptions {
 	return &CreateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		NetworkType: core.StringPtr(networkType),
+		NetworkType:      core.StringPtr(networkType),
 	}
 }
 
@@ -1565,7 +1565,7 @@ type CreateTransitGatewayOptions struct {
 func (*TransitGatewayApisV1) NewCreateTransitGatewayOptions(location string, name string) *CreateTransitGatewayOptions {
 	return &CreateTransitGatewayOptions{
 		Location: core.StringPtr(location),
-		Name: core.StringPtr(name),
+		Name:     core.StringPtr(name),
 	}
 }
 
@@ -1643,7 +1643,7 @@ type DeleteTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionOptions(transitGatewayID string, id string) *DeleteTransitGatewayConnectionOptions {
 	return &DeleteTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID: core.StringPtr(id),
+		ID:               core.StringPtr(id),
 	}
 }
 
@@ -1709,7 +1709,7 @@ type DeleteTransitGatewayRouteReportOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayRouteReportOptions(transitGatewayID string, id string) *DeleteTransitGatewayRouteReportOptions {
 	return &DeleteTransitGatewayRouteReportOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID: core.StringPtr(id),
+		ID:               core.StringPtr(id),
 	}
 }
 
@@ -1775,7 +1775,7 @@ type GetTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionOptions(transitGatewayID string, id string) *GetTransitGatewayConnectionOptions {
 	return &GetTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID: core.StringPtr(id),
+		ID:               core.StringPtr(id),
 	}
 }
 
@@ -1841,7 +1841,7 @@ type GetTransitGatewayRouteReportOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayRouteReportOptions(transitGatewayID string, id string) *GetTransitGatewayRouteReportOptions {
 	return &GetTransitGatewayRouteReportOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID: core.StringPtr(id),
+		ID:               core.StringPtr(id),
 	}
 }
 
@@ -2095,7 +2095,7 @@ type RouteReport struct {
 // using this field must tolerate unexpected values.
 const (
 	RouteReport_Status_Complete = "complete"
-	RouteReport_Status_Pending = "pending"
+	RouteReport_Status_Pending  = "pending"
 )
 
 // UnmarshalRouteReport unmarshals an instance of RouteReport from the specified map of raw messages.
@@ -2488,10 +2488,10 @@ type TransitConnection struct {
 // Defines what type of network is connected via this connection. The list of enumerated values for this property may
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnection_NetworkType_Classic = "classic"
+	TransitConnection_NetworkType_Classic    = "classic"
 	TransitConnection_NetworkType_Directlink = "directlink"
-	TransitConnection_NetworkType_GreTunnel = "gre_tunnel"
-	TransitConnection_NetworkType_Vpc = "vpc"
+	TransitConnection_NetworkType_GreTunnel  = "gre_tunnel"
+	TransitConnection_NetworkType_Vpc        = "vpc"
 )
 
 // Constants associated with the TransitConnection.RequestStatus property.
@@ -2501,8 +2501,8 @@ const (
 const (
 	TransitConnection_RequestStatus_Approved = "approved"
 	TransitConnection_RequestStatus_Detached = "detached"
-	TransitConnection_RequestStatus_Expired = "expired"
-	TransitConnection_RequestStatus_Pending = "pending"
+	TransitConnection_RequestStatus_Expired  = "expired"
+	TransitConnection_RequestStatus_Pending  = "pending"
 	TransitConnection_RequestStatus_Rejected = "rejected"
 )
 
@@ -2510,12 +2510,12 @@ const (
 // Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field must tolerate unexpected values.
 const (
-	TransitConnection_Status_Attached = "attached"
-	TransitConnection_Status_Deleting = "deleting"
-	TransitConnection_Status_Detached = "detached"
+	TransitConnection_Status_Attached  = "attached"
+	TransitConnection_Status_Deleting  = "deleting"
+	TransitConnection_Status_Detached  = "detached"
 	TransitConnection_Status_Detaching = "detaching"
-	TransitConnection_Status_Failed = "failed"
-	TransitConnection_Status_Pending = "pending"
+	TransitConnection_Status_Failed    = "failed"
+	TransitConnection_Status_Pending   = "pending"
 )
 
 // UnmarshalTransitConnection unmarshals an instance of TransitConnection from the specified map of raw messages.
@@ -2725,9 +2725,9 @@ type TransitGateway struct {
 // processes using this field must tolerate unexpected values.
 const (
 	TransitGateway_Status_Available = "available"
-	TransitGateway_Status_Deleting = "deleting"
-	TransitGateway_Status_Failed = "failed"
-	TransitGateway_Status_Pending = "pending"
+	TransitGateway_Status_Deleting  = "deleting"
+	TransitGateway_Status_Failed    = "failed"
+	TransitGateway_Status_Pending   = "pending"
 )
 
 // UnmarshalTransitGateway unmarshals an instance of TransitGateway from the specified map of raw messages.
@@ -2948,10 +2948,10 @@ type TransitGatewayConnectionCust struct {
 // Defines what type of network is connected via this connection. The list of enumerated values for this property may
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCust_NetworkType_Classic = "classic"
+	TransitGatewayConnectionCust_NetworkType_Classic    = "classic"
 	TransitGatewayConnectionCust_NetworkType_Directlink = "directlink"
-	TransitGatewayConnectionCust_NetworkType_GreTunnel = "gre_tunnel"
-	TransitGatewayConnectionCust_NetworkType_Vpc = "vpc"
+	TransitGatewayConnectionCust_NetworkType_GreTunnel  = "gre_tunnel"
+	TransitGatewayConnectionCust_NetworkType_Vpc        = "vpc"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.RequestStatus property.
@@ -2961,8 +2961,8 @@ const (
 const (
 	TransitGatewayConnectionCust_RequestStatus_Approved = "approved"
 	TransitGatewayConnectionCust_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCust_RequestStatus_Expired = "expired"
-	TransitGatewayConnectionCust_RequestStatus_Pending = "pending"
+	TransitGatewayConnectionCust_RequestStatus_Expired  = "expired"
+	TransitGatewayConnectionCust_RequestStatus_Pending  = "pending"
 	TransitGatewayConnectionCust_RequestStatus_Rejected = "rejected"
 )
 
@@ -2970,12 +2970,12 @@ const (
 // Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 // Code and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCust_Status_Attached = "attached"
-	TransitGatewayConnectionCust_Status_Deleting = "deleting"
-	TransitGatewayConnectionCust_Status_Detached = "detached"
+	TransitGatewayConnectionCust_Status_Attached  = "attached"
+	TransitGatewayConnectionCust_Status_Deleting  = "deleting"
+	TransitGatewayConnectionCust_Status_Detached  = "detached"
 	TransitGatewayConnectionCust_Status_Detaching = "detaching"
-	TransitGatewayConnectionCust_Status_Failed = "failed"
-	TransitGatewayConnectionCust_Status_Pending = "pending"
+	TransitGatewayConnectionCust_Status_Failed    = "failed"
+	TransitGatewayConnectionCust_Status_Pending   = "pending"
 )
 
 // UnmarshalTransitGatewayConnectionCust unmarshals an instance of TransitGatewayConnectionCust from the specified map of raw messages.
@@ -3126,7 +3126,7 @@ type UpdateTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionOptions(transitGatewayID string, id string) *UpdateTransitGatewayConnectionOptions {
 	return &UpdateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID: core.StringPtr(id),
+		ID:               core.StringPtr(id),
 	}
 }
 
@@ -3207,6 +3207,7 @@ type ZoneIdentity struct {
 	// Availability zone name.
 	Name *string `json:"name,omitempty"`
 }
+
 func (*ZoneIdentity) isaZoneIdentity() bool {
 	return true
 }

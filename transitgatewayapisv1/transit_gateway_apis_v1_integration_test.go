@@ -1,6 +1,3 @@
-Skip to content
- Enterprise
-Search or jump to…
 /**
  * (C) Copyright IBM Corp. 2020,2021.
  *
@@ -31,10 +28,10 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 )
 
 var configLoaded = false
