@@ -432,6 +432,751 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 	})
 	})
+	Describe(`ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions) - Operation response error`, func() {
+		version := "testString"
+		listTransitGatewayRouteReportsPath := "/transit_gateways/testString/route_reports"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayRouteReportsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListTransitGatewayRouteReports with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
+				listTransitGatewayRouteReportsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayRouteReportsOptions)
+				listTransitGatewayRouteReportsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions)`, func() {
+		version := "testString"
+		listTransitGatewayRouteReportsPath := "/transit_gateways/testString/route_reports"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayRouteReportsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "Prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListTransitGatewayRouteReports successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
+				listTransitGatewayRouteReportsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayRouteReportsOptions)
+				listTransitGatewayRouteReportsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.ListTransitGatewayRouteReportsWithContext(ctx, listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.ListTransitGatewayRouteReportsWithContext(ctx, listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayRouteReportsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "Prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListTransitGatewayRouteReports successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayRouteReports(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
+				listTransitGatewayRouteReportsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayRouteReportsOptions)
+				listTransitGatewayRouteReportsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListTransitGatewayRouteReports with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
+				listTransitGatewayRouteReportsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayRouteReportsOptions)
+				listTransitGatewayRouteReportsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListTransitGatewayRouteReportsOptions model with no property values
+				listTransitGatewayRouteReportsOptionsModelNew := new(transitgatewayapisv1.ListTransitGatewayRouteReportsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListTransitGatewayRouteReports successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
+				listTransitGatewayRouteReportsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayRouteReportsOptions)
+				listTransitGatewayRouteReportsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions) - Operation response error`, func() {
+		version := "testString"
+		createTransitGatewayRouteReportPath := "/transit_gateways/testString/route_reports"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayRouteReport with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayRouteReportOptions model
+				createTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayRouteReportOptions)
+				createTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions)`, func() {
+		version := "testString"
+		createTransitGatewayRouteReportPath := "/transit_gateways/testString/route_reports"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "Prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayRouteReport successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateTransitGatewayRouteReportOptions model
+				createTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayRouteReportOptions)
+				createTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.CreateTransitGatewayRouteReportWithContext(ctx, createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.CreateTransitGatewayRouteReportWithContext(ctx, createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "Prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayRouteReport successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayRouteReport(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayRouteReportOptions model
+				createTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayRouteReportOptions)
+				createTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateTransitGatewayRouteReport with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayRouteReportOptions model
+				createTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayRouteReportOptions)
+				createTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateTransitGatewayRouteReportOptions model with no property values
+				createTransitGatewayRouteReportOptionsModelNew := new(transitgatewayapisv1.CreateTransitGatewayRouteReportOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(202)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayRouteReport successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayRouteReportOptions model
+				createTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayRouteReportOptions)
+				createTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions *DeleteTransitGatewayRouteReportOptions)`, func() {
+		version := "testString"
+		deleteTransitGatewayRouteReportPath := "/transit_gateways/testString/route_reports/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteTransitGatewayRouteReport successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := transitGatewayApisService.DeleteTransitGatewayRouteReport(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteTransitGatewayRouteReportOptions model
+				deleteTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.DeleteTransitGatewayRouteReportOptions)
+				deleteTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				deleteTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				deleteTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = transitGatewayApisService.DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteTransitGatewayRouteReport with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteTransitGatewayRouteReportOptions model
+				deleteTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.DeleteTransitGatewayRouteReportOptions)
+				deleteTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				deleteTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				deleteTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := transitGatewayApisService.DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteTransitGatewayRouteReportOptions model with no property values
+				deleteTransitGatewayRouteReportOptionsModelNew := new(transitgatewayapisv1.DeleteTransitGatewayRouteReportOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = transitGatewayApisService.DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions) - Operation response error`, func() {
+		version := "testString"
+		getTransitGatewayRouteReportPath := "/transit_gateways/testString/route_reports/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetTransitGatewayRouteReport with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the GetTransitGatewayRouteReportOptions model
+				getTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.GetTransitGatewayRouteReportOptions)
+				getTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions)`, func() {
+		version := "testString"
+		getTransitGatewayRouteReportPath := "/transit_gateways/testString/route_reports/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "Prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke GetTransitGatewayRouteReport successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetTransitGatewayRouteReportOptions model
+				getTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.GetTransitGatewayRouteReportOptions)
+				getTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.GetTransitGatewayRouteReportWithContext(ctx, getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.GetTransitGatewayRouteReportWithContext(ctx, getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "Prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke GetTransitGatewayRouteReport successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayRouteReport(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetTransitGatewayRouteReportOptions model
+				getTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.GetTransitGatewayRouteReportOptions)
+				getTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetTransitGatewayRouteReport with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the GetTransitGatewayRouteReportOptions model
+				getTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.GetTransitGatewayRouteReportOptions)
+				getTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetTransitGatewayRouteReportOptions model with no property values
+				getTransitGatewayRouteReportOptionsModelNew := new(transitgatewayapisv1.GetTransitGatewayRouteReportOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetTransitGatewayRouteReport successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the GetTransitGatewayRouteReportOptions model
+				getTransitGatewayRouteReportOptionsModel := new(transitgatewayapisv1.GetTransitGatewayRouteReportOptions)
+				getTransitGatewayRouteReportOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ListTransitGateways(listTransitGatewaysOptions *ListTransitGatewaysOptions) - Operation response error`, func() {
 		version := "testString"
 		listTransitGatewaysPath := "/transit_gateways"
@@ -3250,6 +3995,16 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateTransitGatewayRouteReportOptions successfully`, func() {
+				// Construct an instance of the CreateTransitGatewayRouteReportOptions model
+				transitGatewayID := "testString"
+				createTransitGatewayRouteReportOptionsModel := transitGatewayApisService.NewCreateTransitGatewayRouteReportOptions(transitGatewayID)
+				createTransitGatewayRouteReportOptionsModel.SetTransitGatewayID("testString")
+				createTransitGatewayRouteReportOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createTransitGatewayRouteReportOptionsModel).ToNot(BeNil())
+				Expect(createTransitGatewayRouteReportOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(createTransitGatewayRouteReportOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteTransitGatewayConnectionOptions successfully`, func() {
 				// Construct an instance of the DeleteTransitGatewayConnectionOptions model
 				transitGatewayID := "testString"
@@ -3272,6 +4027,19 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(deleteTransitGatewayOptionsModel).ToNot(BeNil())
 				Expect(deleteTransitGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteTransitGatewayRouteReportOptions successfully`, func() {
+				// Construct an instance of the DeleteTransitGatewayRouteReportOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				deleteTransitGatewayRouteReportOptionsModel := transitGatewayApisService.NewDeleteTransitGatewayRouteReportOptions(transitGatewayID, id)
+				deleteTransitGatewayRouteReportOptionsModel.SetTransitGatewayID("testString")
+				deleteTransitGatewayRouteReportOptionsModel.SetID("testString")
+				deleteTransitGatewayRouteReportOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteTransitGatewayRouteReportOptionsModel).ToNot(BeNil())
+				Expect(deleteTransitGatewayRouteReportOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteTransitGatewayRouteReportOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteTransitGatewayRouteReportOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayLocationOptions successfully`, func() {
 				// Construct an instance of the GetGatewayLocationOptions model
@@ -3306,6 +4074,19 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(getTransitGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetTransitGatewayRouteReportOptions successfully`, func() {
+				// Construct an instance of the GetTransitGatewayRouteReportOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				getTransitGatewayRouteReportOptionsModel := transitGatewayApisService.NewGetTransitGatewayRouteReportOptions(transitGatewayID, id)
+				getTransitGatewayRouteReportOptionsModel.SetTransitGatewayID("testString")
+				getTransitGatewayRouteReportOptionsModel.SetID("testString")
+				getTransitGatewayRouteReportOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getTransitGatewayRouteReportOptionsModel).ToNot(BeNil())
+				Expect(getTransitGatewayRouteReportOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(getTransitGatewayRouteReportOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getTransitGatewayRouteReportOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListConnectionsOptions successfully`, func() {
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := transitGatewayApisService.NewListConnectionsOptions()
@@ -3335,6 +4116,16 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(listTransitGatewayConnectionsOptionsModel).ToNot(BeNil())
 				Expect(listTransitGatewayConnectionsOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
 				Expect(listTransitGatewayConnectionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListTransitGatewayRouteReportsOptions successfully`, func() {
+				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
+				transitGatewayID := "testString"
+				listTransitGatewayRouteReportsOptionsModel := transitGatewayApisService.NewListTransitGatewayRouteReportsOptions(transitGatewayID)
+				listTransitGatewayRouteReportsOptionsModel.SetTransitGatewayID("testString")
+				listTransitGatewayRouteReportsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listTransitGatewayRouteReportsOptionsModel).ToNot(BeNil())
+				Expect(listTransitGatewayRouteReportsOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayRouteReportsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListTransitGatewaysOptions successfully`, func() {
 				// Construct an instance of the ListTransitGatewaysOptions model
