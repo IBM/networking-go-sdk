@@ -45,6 +45,7 @@ func shouldSkipTest() {
 	}
 }
 
+//nolint
 func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
 	providerToUse := "DL2-TEST"
 	for _, port := range ports {
