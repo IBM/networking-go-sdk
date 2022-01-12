@@ -45,6 +45,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`dnssvcsv1`, func() {
+	defer GinkgoRecover()
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
