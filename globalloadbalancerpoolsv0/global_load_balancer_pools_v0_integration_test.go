@@ -26,7 +26,7 @@ func shouldSkipTest() {
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
-	Skip("Environemnt issue, temporarily skipping...")
+	//Skip("Environemnt issue, temporarily skipping...")
 }
 
 var _ = Describe(`GlobalLoadBalancerPoolsV0`, func() {
