@@ -1,3 +1,12 @@
+# [0.24.0](https://github.com/IBM/networking-go-sdk/compare/v0.23.1...v0.24.0) (2021-11-15)
+
+
+### Features
+
+* Added Gateway Route Reports Integration tests for GO-SDK. ([96b5ef1](https://github.com/IBM/networking-go-sdk/commit/96b5ef11a711f7fd6f0990bb43b6b446c5a1585c))
+* Added Gateway Route Reports Integration tests for GO-SDK. ([162a024](https://github.com/IBM/networking-go-sdk/commit/162a02483988ce7ea60495e70a0897698218e02e))
+* Added Gateway Route Reports Integration tests for GO-SDK. ([#67](https://github.com/IBM/networking-go-sdk/issues/67)) ([aa7b1b0](https://github.com/IBM/networking-go-sdk/commit/aa7b1b0915e95bc1f3508c94d6cd7bbef975d2b4))
+
 ## [0.23.1](https://github.com/IBM/networking-go-sdk/compare/v0.23.0...v0.23.1) (2021-10-19)
 
 
