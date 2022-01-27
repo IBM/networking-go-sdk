@@ -1,3 +1,12 @@
+# [0.25.0](https://github.com/IBM/networking-go-sdk/compare/v0.24.0...v0.25.0) (2022-01-27)
+
+
+### Features
+
+* **Alert-policies:** added Alert-policies ([ceb70af](https://github.com/IBM/networking-go-sdk/commit/ceb70afedd87741aaa8812ab1a74d64b18fab21d))
+* **Alert-policies:** added alter-policies ([5858506](https://github.com/IBM/networking-go-sdk/commit/5858506ff097762bbe3b913a6b1880db46b4fd4e))
+* **AlertWebhooks:** added Alert-webhooks ([f7612b5](https://github.com/IBM/networking-go-sdk/commit/f7612b5e9ebece5887921103a84433d4fc5acbf4))
+
 # [0.24.0](https://github.com/IBM/networking-go-sdk/compare/v0.23.1...v0.24.0) (2021-11-15)
 
 
