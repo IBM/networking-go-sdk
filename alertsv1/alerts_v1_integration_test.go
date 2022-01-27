@@ -253,7 +253,7 @@ var _ = Describe(`alertsv1`, func() {
 				Expect(updateResponse).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())
 
-				//Get alert policy by identifier
+				//Get alert policy by identifiers
 				getOpt := service.NewGetAlertPolicyOptions(upadteAlert_id)
 				getOpt.SetPolicyID(upadteAlert_id)
 				getResult, getResp, getErr := service.GetAlertPolicy(getOpt)
