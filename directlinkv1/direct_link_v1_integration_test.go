@@ -681,7 +681,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("dedicated"))
 				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
-				Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
 
 			})
 
