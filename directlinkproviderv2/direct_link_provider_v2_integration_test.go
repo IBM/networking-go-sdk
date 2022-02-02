@@ -1204,12 +1204,12 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				}
 
 				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-				if timer > 24 { // 2 min timer (24x5sec)
+				if timer > 24 { // 4 min timer (24x10sec)
 					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 					break
 				} else {
 					// Still exists, wait 5 sec
-					time.Sleep(time.Duration(5) * time.Second)
+					time.Sleep(time.Duration(10) * time.Second)
 					timer = timer + 1
 				}
 			}
