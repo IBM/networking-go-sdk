@@ -17,8 +17,8 @@
 package directlinkproviderv2_test
 
 /*
- How to run this test:
- go test -v ./directlinkproviderv2
+   How to run this test:
+   go test -v ./directlinkproviderv2
 */
 
 import (
@@ -1005,6 +1005,212 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				} else {
 					// Still exists, wait 5 sec
 					time.Sleep(time.Duration(5) * time.Second)
+					timer = timer + 1
+				}
+			}
+		})
+
+		It("Successfully request gateway delete using provider account", func() {
+			shouldSkipTest()
+
+			gatewayId := os.Getenv("GATEWAY_ID")
+			deteleGatewayOptions := serviceV2.NewDeleteProviderGatewayOptions(gatewayId)
+			_, detailedResponse, _ := serviceV2.DeleteProviderGateway(deteleGatewayOptions)
+			Expect(detailedResponse.StatusCode).To(Equal(202))
+		})
+
+		It(`Successfully approve gateway delete using client account`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			// Get the current status for the gateway
+			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+			Expect(detailedResponse.StatusCode).To(Equal(204))
+		})
+	})
+
+	Describe("Direct Link Provider Gateways with VLAN", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-SDK-PROVIDER-VLAN-UPD-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		customerAccount := os.Getenv("CUSTOMER_ACCT_ID")
+		speedMbps := int64(1000)
+		vlan := int64(38)
+
+		// Construct an instance of the ProviderGatewayPortIdentity model
+		providerGatewayPortIdentityModel := new(directlinkproviderv2.ProviderGatewayPortIdentity)
+		var firstPort directlinkproviderv2.ProviderPort
+
+		It(`Successfully get a provider port`, func() {
+			shouldSkipTest()
+
+			listPortsOptions := serviceV2.NewListProviderPortsOptions()
+			result, detailedResponse, err := serviceV2.ListProviderPorts(listPortsOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			ports := result.Ports
+			firstPort = ports[0]
+			providerGatewayPortIdentityModel.ID = firstPort.ID
+		})
+
+		It(`Successfully create gateway`, func() {
+			shouldSkipTest()
+
+			gatewayOptions := new(directlinkproviderv2.CreateProviderGatewayOptions)
+			gatewayOptions.BgpAsn = core.Int64Ptr(bgpAsn)
+			gatewayOptions.CustomerAccountID = core.StringPtr(customerAccount)
+			gatewayOptions.Name = core.StringPtr(gatewayName)
+			gatewayOptions.Port = providerGatewayPortIdentityModel
+			gatewayOptions.SpeedMbps = core.Int64Ptr(speedMbps)
+			gatewayOptions.Vlan = core.Int64Ptr(vlan)
+
+			result, detailedResponse, err := serviceV2.CreateProviderGateway(gatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(201))
+
+			os.Setenv("GATEWAY_ID", *result.ID)
+		})
+
+		It(`Successfully approve the provider created gateway`, func() {
+			shouldSkipTest()
+
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				"create_gateway_approve")
+			createGatewayActionOptions.SetMetered(false)
+			createGatewayActionOptions.SetGlobal(false)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV1.CreateGatewayAction(createGatewayActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+			Expect(*result.SpeedMbps).To(Equal(speedMbps))
+			Expect(*result.Vlan).To(Equal(vlan))
+			Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+			Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+			Expect(*result.Global).To(Equal(false))
+			Expect(*result.Metered).To(Equal(false))
+			Expect(*result.OperationalStatus).To(Equal("create_pending"))
+			Expect(*result.Port.ID).To(Equal(*firstPort.ID))
+			Expect(*result.ProviderApiManaged).To(Equal(true))
+			Expect(*result.Type).To(Equal("connect"))
+		})
+
+		It("Successfully waits for connect gateway to move to provisioned state", func() {
+			shouldSkipTest()
+
+			getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+			// the new gateway to go to provisioned so we can delete it.
+			timer := 0
+			for {
+				// Get the current status for the gateway
+				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				// if operational status is "provisioned" then we are done
+				if *result.OperationalStatus == "provisioned" {
+					Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.OperationalStatus).To(Equal("provisioned"))
+					break
+				}
+
+				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+				if timer > 24 { // 2 min timer (24x5sec)
+					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+					break
+				} else {
+					// Still exists, wait 5 sec
+					time.Sleep(time.Duration(5) * time.Second)
+					timer = timer + 1
+				}
+			}
+		})
+
+		It("should successfully send the update request for new vlan", func() {
+			shouldSkipTest()
+
+			newVlan := int64(83)
+			updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
+			updateGatewayOptions.SetVlan(newVlan)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV2.UpdateProviderGateway(updateGatewayOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.Vlan).To(Equal(vlan)) // Not updated until the change request is approved
+		})
+
+		It(`Successfully approve the update request`, func() {
+			shouldSkipTest()
+
+			newVlan := int64(83)
+
+			// Create []updates array
+			vlanUpdate := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate)
+			vlanUpdate.Vlan = &newVlan
+			var updateAttributes []directlinkv1.GatewayActionTemplateUpdatesItemIntf
+			updateAttributes = append(updateAttributes, vlanUpdate)
+
+			updateGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
+				directlinkv1.CreateGatewayActionOptions_Action_UpdateAttributesApprove)
+			updateGatewayActionOptions.SetUpdates(updateAttributes)
+
+			// Get the current status for the gateway
+			result, detailedResponse, err := serviceV1.CreateGatewayAction(updateGatewayActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+			Expect(*result.Name).To(Equal(gatewayName))
+			Expect(*result.OperationalStatus).To(Equal("provisioned"))
+			Expect(*result.Vlan).To(Equal(newVlan))
+
+		})
+
+		It("Successfully waits for connect gateway to move to provisioned state", func() {
+			shouldSkipTest()
+
+			getGatewayOptions := serviceV1.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
+
+			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
+			// the new gateway to go to provisioned so we can delete it.
+			timer := 0
+			for {
+				// Get the current status for the gateway
+				result, detailedResponse, err := serviceV1.GetGateway(getGatewayOptions)
+
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				// if operational status is "provisioned" then we are done
+				if *result.OperationalStatus == "provisioned" {
+					Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
+					Expect(*result.Name).To(Equal(gatewayName))
+					Expect(*result.OperationalStatus).To(Equal("provisioned"))
+					break
+				}
+
+				// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
+				if timer > 24 { // 4 min timer (24x10sec)
+					Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
+					break
+				} else {
+					// Still exists, wait 5 sec
+					time.Sleep(time.Duration(10) * time.Second)
 					timer = timer + 1
 				}
 			}

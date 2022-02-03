@@ -17,8 +17,8 @@
 package directlinkv1_test
 
 /*
- How to run this test:
- go test -v ./directlinkv1
+   How to run this test:
+   go test -v ./directlinkv1
 */
 
 import (
@@ -683,7 +683,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("dedicated"))
 				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
-				Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
 
 			})
 

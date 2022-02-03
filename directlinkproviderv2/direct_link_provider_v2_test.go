@@ -404,6 +404,25 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextStart successfully`, func() {
+				responseObject := new(directlinkproviderv2.ProviderGatewayCollection)
+				nextObject := new(directlinkproviderv2.ProviderGatewayCollectionNext)
+				nextObject.Start = core.StringPtr("abc-123")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.StringPtr("abc-123")))
+			})
+			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
+				responseObject := new(directlinkproviderv2.ProviderGatewayCollection)
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
 	})
 	Describe(`CreateProviderGateway(createProviderGatewayOptions *CreateProviderGatewayOptions) - Operation response error`, func() {
 		version := "testString"
@@ -445,6 +464,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				createProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				createProviderGatewayOptionsModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
 				createProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				createProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				createProviderGatewayOptionsModel.CheckOnly = core.StringPtr("testString")
 				createProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -527,6 +547,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				createProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				createProviderGatewayOptionsModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
 				createProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				createProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				createProviderGatewayOptionsModel.CheckOnly = core.StringPtr("testString")
 				createProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -616,6 +637,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				createProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				createProviderGatewayOptionsModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
 				createProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				createProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				createProviderGatewayOptionsModel.CheckOnly = core.StringPtr("testString")
 				createProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -648,6 +670,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				createProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				createProviderGatewayOptionsModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
 				createProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				createProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				createProviderGatewayOptionsModel.CheckOnly = core.StringPtr("testString")
 				createProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -701,6 +724,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				createProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
 				createProviderGatewayOptionsModel.BgpCerCidr = core.StringPtr("10.254.30.78/30")
 				createProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("10.254.30.77/30")
+				createProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				createProviderGatewayOptionsModel.CheckOnly = core.StringPtr("testString")
 				createProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1195,6 +1219,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				updateProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateProviderGatewayOptionsModel.Name = core.StringPtr("myNewGateway")
 				updateProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				updateProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				updateProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkProviderService.UpdateProviderGateway(updateProviderGatewayOptionsModel)
@@ -1270,6 +1295,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				updateProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateProviderGatewayOptionsModel.Name = core.StringPtr("myNewGateway")
 				updateProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				updateProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				updateProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1352,6 +1378,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				updateProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateProviderGatewayOptionsModel.Name = core.StringPtr("myNewGateway")
 				updateProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				updateProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				updateProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1378,6 +1405,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				updateProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateProviderGatewayOptionsModel.Name = core.StringPtr("myNewGateway")
 				updateProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				updateProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				updateProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkProviderService.SetServiceURL("")
@@ -1425,6 +1453,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				updateProviderGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateProviderGatewayOptionsModel.Name = core.StringPtr("myNewGateway")
 				updateProviderGatewayOptionsModel.SpeedMbps = core.Int64Ptr(int64(1000))
+				updateProviderGatewayOptionsModel.Vlan = core.Int64Ptr(int64(10))
 				updateProviderGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1663,6 +1692,25 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextStart successfully`, func() {
+				responseObject := new(directlinkproviderv2.ProviderPortCollection)
+				nextObject := new(directlinkproviderv2.ProviderPortCollectionNext)
+				nextObject.Start = core.StringPtr("abc-123")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.StringPtr("abc-123")))
+			})
+			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
+				responseObject := new(directlinkproviderv2.ProviderPortCollection)
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
 			})
 		})
 	})
@@ -1917,6 +1965,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				createProviderGatewayOptionsModel.SetSpeedMbps(int64(1000))
 				createProviderGatewayOptionsModel.SetBgpCerCidr("10.254.30.78/30")
 				createProviderGatewayOptionsModel.SetBgpIbmCidr("10.254.30.77/30")
+				createProviderGatewayOptionsModel.SetVlan(int64(10))
 				createProviderGatewayOptionsModel.SetCheckOnly("testString")
 				createProviderGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createProviderGatewayOptionsModel).ToNot(BeNil())
@@ -1927,6 +1976,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				Expect(createProviderGatewayOptionsModel.SpeedMbps).To(Equal(core.Int64Ptr(int64(1000))))
 				Expect(createProviderGatewayOptionsModel.BgpCerCidr).To(Equal(core.StringPtr("10.254.30.78/30")))
 				Expect(createProviderGatewayOptionsModel.BgpIbmCidr).To(Equal(core.StringPtr("10.254.30.77/30")))
+				Expect(createProviderGatewayOptionsModel.Vlan).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(createProviderGatewayOptionsModel.CheckOnly).To(Equal(core.StringPtr("testString")))
 				Expect(createProviderGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -1984,8 +2034,8 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			})
 			It(`Invoke NewProviderGatewayPortIdentity successfully`, func() {
 				id := "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"
-				model, err := directLinkProviderService.NewProviderGatewayPortIdentity(id)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkProviderService.NewProviderGatewayPortIdentity(id)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewUpdateProviderGatewayOptions successfully`, func() {
@@ -1998,6 +2048,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				updateProviderGatewayOptionsModel.SetBgpIbmCidr("169.254.0.9/30")
 				updateProviderGatewayOptionsModel.SetName("myNewGateway")
 				updateProviderGatewayOptionsModel.SetSpeedMbps(int64(1000))
+				updateProviderGatewayOptionsModel.SetVlan(int64(10))
 				updateProviderGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateProviderGatewayOptionsModel).ToNot(BeNil())
 				Expect(updateProviderGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
@@ -2006,6 +2057,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				Expect(updateProviderGatewayOptionsModel.BgpIbmCidr).To(Equal(core.StringPtr("169.254.0.9/30")))
 				Expect(updateProviderGatewayOptionsModel.Name).To(Equal(core.StringPtr("myNewGateway")))
 				Expect(updateProviderGatewayOptionsModel.SpeedMbps).To(Equal(core.Int64Ptr(int64(1000))))
+				Expect(updateProviderGatewayOptionsModel.Vlan).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(updateProviderGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 		})

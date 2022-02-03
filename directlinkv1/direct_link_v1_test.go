@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2469,7 +2469,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getGatewayStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka"}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka_session"}))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2488,7 +2488,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
 				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
-				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkService.GetGatewayStatistics(getGatewayStatisticsOptionsModel)
@@ -2520,7 +2520,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getGatewayStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka"}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka_session"}))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
@@ -2544,7 +2544,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
 				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
-				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2581,7 +2581,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getGatewayStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka"}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"macsec_mka_session"}))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -2607,7 +2607,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
 				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
-				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2629,7 +2629,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
 				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
-				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -2672,7 +2672,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
 				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
-				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka")
+				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -3820,6 +3820,25 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextStart successfully`, func() {
+				responseObject := new(directlinkv1.PortCollection)
+				nextObject := new(directlinkv1.PortsPaginatedCollectionNext)
+				nextObject.Start = core.StringPtr("abc-123")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.StringPtr("abc-123")))
+			})
+			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
+				responseObject := new(directlinkv1.PortCollection)
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
 			})
 		})
 	})
@@ -5320,32 +5339,32 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewGatewayActionTemplateAuthenticationKey successfully`, func() {
 				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
-				model, err := directLinkService.NewGatewayActionTemplateAuthenticationKey(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayActionTemplateAuthenticationKey(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayBfdConfigActionTemplate successfully`, func() {
 				interval := int64(2000)
-				model, err := directLinkService.NewGatewayBfdConfigActionTemplate(interval)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayBfdConfigActionTemplate(interval)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayBfdConfigTemplate successfully`, func() {
 				interval := int64(2000)
-				model, err := directLinkService.NewGatewayBfdConfigTemplate(interval)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayBfdConfigTemplate(interval)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayMacsecConfigPatchTemplateFallbackCak successfully`, func() {
 				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				model, err := directLinkService.NewGatewayMacsecConfigPatchTemplateFallbackCak(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayMacsecConfigPatchTemplateFallbackCak(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayMacsecConfigPatchTemplatePrimaryCak successfully`, func() {
 				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				model, err := directLinkService.NewGatewayMacsecConfigPatchTemplatePrimaryCak(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayMacsecConfigPatchTemplatePrimaryCak(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayMacsecConfigTemplate successfully`, func() {
@@ -5356,32 +5375,32 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewGatewayMacsecConfigTemplateFallbackCak successfully`, func() {
 				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				model, err := directLinkService.NewGatewayMacsecConfigTemplateFallbackCak(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayMacsecConfigTemplateFallbackCak(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayMacsecConfigTemplatePrimaryCak successfully`, func() {
 				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				model, err := directLinkService.NewGatewayMacsecConfigTemplatePrimaryCak(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayMacsecConfigTemplatePrimaryCak(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayPatchTemplateAuthenticationKey successfully`, func() {
 				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
-				model, err := directLinkService.NewGatewayPatchTemplateAuthenticationKey(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayPatchTemplateAuthenticationKey(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayPortIdentity successfully`, func() {
 				id := "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"
-				model, err := directLinkService.NewGatewayPortIdentity(id)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayPortIdentity(id)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayTemplateAuthenticationKey successfully`, func() {
 				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
-				model, err := directLinkService.NewGatewayTemplateAuthenticationKey(crn)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayTemplateAuthenticationKey(crn)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGetGatewayOptions successfully`, func() {
@@ -5397,14 +5416,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It(`Invoke NewGetGatewayStatisticsOptions successfully`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				id := "testString"
-				typeVar := "macsec_mka"
+				typeVar := "macsec_mka_session"
 				getGatewayStatisticsOptionsModel := directLinkService.NewGetGatewayStatisticsOptions(id, typeVar)
 				getGatewayStatisticsOptionsModel.SetID("testString")
-				getGatewayStatisticsOptionsModel.SetType("macsec_mka")
+				getGatewayStatisticsOptionsModel.SetType("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getGatewayStatisticsOptionsModel).ToNot(BeNil())
 				Expect(getGatewayStatisticsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getGatewayStatisticsOptionsModel.Type).To(Equal(core.StringPtr("macsec_mka")))
+				Expect(getGatewayStatisticsOptionsModel.Type).To(Equal(core.StringPtr("macsec_mka_session")))
 				Expect(getGatewayStatisticsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayStatusOptions successfully`, func() {
@@ -5527,8 +5546,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewResourceGroupIdentity successfully`, func() {
 				id := "56969d6043e9465c883cb9f7363e78e8"
-				model, err := directLinkService.NewResourceGroupIdentity(id)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewResourceGroupIdentity(id)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewUpdateGatewayOptions successfully`, func() {
@@ -5646,8 +5665,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				crossConnectRouter := "xcr01.dal03"
 				customerName := "newCustomerName"
 				locationName := "dal03"
-				model, err := directLinkService.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, name, speedMbps, typeVar, carrierName, crossConnectRouter, customerName, locationName)
-				Expect(model).ToNot(BeNil())
+				_model, err := directLinkService.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, name, speedMbps, typeVar, carrierName, crossConnectRouter, customerName, locationName)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 		})
