@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/IBM/networking-go-sdk/compare/v0.25.0...v0.26.0) (2022-02-03)
+
+
+### Features
+
+* add the changes to allow the provider to provider/edit the vlan while creating directlink gateways ([#73](https://github.com/IBM/networking-go-sdk/issues/73)) ([4c63d9c](https://github.com/IBM/networking-go-sdk/commit/4c63d9c4b1658abb906128963f92c7225562e1eb))
+
 # [0.25.0](https://github.com/IBM/networking-go-sdk/compare/v0.24.0...v0.25.0) (2022-01-27)
 
 
