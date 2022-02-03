@@ -17,4 +17,4 @@ lint:
 	golangci-lint run
 
 tidy:
-	go mod tidy -compat=1.17
+	go mod tidy
