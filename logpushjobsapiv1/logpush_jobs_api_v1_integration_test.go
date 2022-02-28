@@ -148,6 +148,14 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 
 				allJobs := getResult.Result
 
+				// Get Logpush Job by jobID
+				getJob := allJobs[0]
+				getOptions := testService.NewGetLogpushJobV2Options(*getJob.ID)
+				result, response, operationErr = testService.GetLogpushJobV2(getOptions)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
 				//Update Logpush Jobs
 				updateOptions := testService.NewUpdateLogpushJobV2Options(*job.ID)
 				updateLogpushJobV2RequestModel := &UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq{
