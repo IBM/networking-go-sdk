@@ -1,3 +1,10 @@
+# [0.27.0](https://github.com/IBM/networking-go-sdk/compare/v0.26.0...v0.27.0) (2022-02-28)
+
+
+### Features
+
+* **LogDNA:** added Logdna ([2e8b871](https://github.com/IBM/networking-go-sdk/commit/2e8b8718dd89a66c6526f2b5b74a6328d12b1001))
+
 # [0.26.0](https://github.com/IBM/networking-go-sdk/compare/v0.25.0...v0.26.0) (2022-02-03)
 
 
