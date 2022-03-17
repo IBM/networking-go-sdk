@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020,2021.
+ * (C) Copyright IBM Corp. 2020,2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,11 @@
 package transitgatewayapisv1_test
 
 /*
+
 How to run this test:
+
 go test -v ./transitgatewayapisv1
+
 */
 
 import (
@@ -123,7 +126,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 										detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 										Expect(err).To(BeNil())
 										Expect(detailedResponse.StatusCode).To(Equal(204))
-										deleteCheckTest(service, gatewayID, connID, "")
+										deleteCheckTest(service, gatewayID, connID, "", "")
 									} else {
 										connIDs = append(connIDs, connID)
 									}
@@ -135,7 +138,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 								detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 								Expect(err).To(BeNil())
 								Expect(detailedResponse.StatusCode).To(Equal(204))
-								deleteCheckTest(service, gatewayID, curConn, "")
+								deleteCheckTest(service, gatewayID, curConn, "", "")
 							}
 						}
 						// Remove empty gateways
@@ -256,7 +259,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				isResourceAvailable(service, gatewayID, "", "")
 			})
 		})
-
 		Context(`Failure: POST Transit gateway`, func() {
 			createTransitGatewayOptions := &transitgatewayapisv1.CreateTransitGatewayOptions{}
 			createTransitGatewayOptions.SetName("testString")
@@ -1107,7 +1109,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				instanceID := os.Getenv("RR_INSTANCE_ID")
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
-				deleteCheckTest(service, gatewayID, "", instanceID)
+				deleteCheckTest(service, gatewayID, "", instanceID, "")
 			})
 		})
 
@@ -1125,6 +1127,215 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				shouldSkipTest()
 
 				detailedResponse, err := service.DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions)
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//              Transit Gateway Connection Prefix Filter Tests               //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`CreateTransitGatewayConnectionPrefixFilter(reateTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: POST Gateway Connection Prefix Filter`, func() {
+			It(`Successfully create Gateway Connection Prefix Filter`, func() {
+				shouldSkipTest()
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				action := "permit"
+				prefix := "192.168.100.0/24"
+
+				createTransitGatewayConnectionPrefixFilterOptions := service.NewCreateTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, action, prefix).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				Expect(*result.ID).NotTo(Equal(""))
+				os.Setenv("PF_INSTANCE_ID", *result.ID)
+
+				Expect(*result.Prefix).To(Equal(prefix))
+				Expect(*result.Action).To(Equal(action))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+			})
+		})
+
+		Context(`Failure: POST Gateway Connection Prefix Filter`, func() {
+			It(`Fail to create a new Gateway Connection Prefix Filter`, func() {
+				shouldSkipTest()
+
+				createTransitGatewayConnectionPrefixFilterOptions := &transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions{}
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+
+				createTransitGatewayConnectionPrefixFilterOptions.SetTransitGatewayID(gatewayID)
+				createTransitGatewayConnectionPrefixFilterOptions.SetID(classicConnID)
+				createTransitGatewayConnectionPrefixFilterOptions.SetAction("testString")
+				createTransitGatewayConnectionPrefixFilterOptions.SetPrefix("testString")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				createTransitGatewayConnectionPrefixFilterOptions.SetHeaders(header)
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).ToNot(Equal(200))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions)`, func() {
+		Context(`Success: LIST Transit Gateway Connection Prefix Filters`, func() {
+			It(`Successfully list all transit gateway connection prefix filters`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				pfID := os.Getenv("PF_INSTANCE_ID")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				listTransitGatewayConnectionPrefixFiltersOptions := service.NewListTransitGatewayConnectionPrefixFiltersOptions(gatewayID, classicConnID).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(len(result.PrefixFilters)).Should(BeNumerically(">", 0))
+
+				found := false
+				for _, pf := range result.PrefixFilters {
+					if *pf.ID == pfID {
+						Expect(*pf.Action).To(Equal("permit"))
+						Expect(*pf.Prefix).To(Equal("192.168.100.0/24"))
+						Expect(*pf.CreatedAt).NotTo(Equal(""))
+						Expect(*pf.UpdatedAt).NotTo(Equal(""))
+
+						found = true
+						break
+					}
+				}
+				Expect(found).To(Equal(true))
+			})
+		})
+	})
+
+	Describe(`UpdateTransitGatewayConnectionPrefixFilter(lupdateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: UPDATE (PATCH) Transit Gateway Connection Prefix Filter`, func() {
+			It(`Successfully update transit gateway connection prefix filter`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				pfID := os.Getenv("PF_INSTANCE_ID")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+
+				newAction := "deny"
+
+				updateTransitGatewayConnectionPrefixFiltersOptions := service.NewUpdateTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, pfID)
+
+				updateTransitGatewayConnectionPrefixFiltersOptions.SetHeaders(header)
+				updateTransitGatewayConnectionPrefixFiltersOptions.SetAction(newAction)
+
+				result, detailedResponse, err := service.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFiltersOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.ID).To(Equal(pfID))
+				Expect(*result.Prefix).To(Equal("192.168.100.0/24"))
+				Expect(*result.Action).To(Equal(newAction))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+			})
+		})
+	})
+
+	Describe(`GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: GET Transit Gateway Connection Prefix Filter`, func() {
+			It(`Successfully get transit gateway connection prefix filter`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				pfID := os.Getenv("PF_INSTANCE_ID")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+
+				getTransitGatewayConnectionPrefixFiltersOptions := service.NewGetTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, pfID).SetHeaders(header)
+
+				result, detailedResponse, err := service.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFiltersOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.ID).To(Equal(pfID))
+				Expect(*result.Prefix).To(Equal("192.168.100.0/24"))
+				Expect(*result.Action).To(Equal("deny"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//             DELETE Transit Gateway Connection Prefix Filters              //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: DELETE Gateway Connection Prefix Filter`, func() {
+			It(`Successfully delete gateway connection prefix filter by instanceID`, func() {
+				shouldSkipTest()
+
+				pfID := os.Getenv("PF_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionPrefixFilterOptions := service.NewDeleteTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, pfID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for Gateway Connection Prefix Filter to report as deleted", func() {
+				shouldSkipTest()
+
+				pfID := os.Getenv("PF_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, classicConnID, "", pfID)
+			})
+		})
+
+		Context(`Failure: DELETE prefix filter by FilterID`, func() {
+			It(`Successfully verify DELETE failure by FilterID`, func() {
+				shouldSkipTest()
+				badPfInstanceID := "abc123"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+
+				deleteTransitGatewayConnectionPrefixFilterOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionPrefixFilterOptions{}
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetTransitGatewayID(gatewayID)
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetID(classicConnID)
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetFilterID(badPfInstanceID)
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetHeaders(header)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions)
 				Expect(detailedResponse.StatusCode).To(Equal(404))
 				Expect(err).Should(HaveOccurred())
 			})
@@ -1154,7 +1365,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				instanceID := os.Getenv("GRE_CONN_INSTANCE_ID")
-				deleteCheckTest(service, gatewayID, instanceID, "")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
 			})
 		})
 
@@ -1176,7 +1387,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				instanceID := os.Getenv("VPC_CONN_INSTANCE_ID")
-				deleteCheckTest(service, gatewayID, instanceID, "")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
 			})
 		})
 
@@ -1198,7 +1409,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
-				deleteCheckTest(service, gatewayID, instanceID, "")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
 			})
 		})
 
@@ -1220,7 +1431,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				instanceID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
-				deleteCheckTest(service, gatewayID, instanceID, "")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
 			})
 		})
 
@@ -1287,23 +1498,24 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 ///////////////////////////////////////////////////////////////////////////////
 
 // deleteResourceTest deletes a Transit Resource: Resource delete might not be
-// instantaneous.Poll the Resource looking for a not found. Fail after 4 min
-//nolint
-func deleteCheckTest(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID string) {
+// instantaneous.  Poll the Resource looking for a not found. Fail after 4 min
+func deleteCheckTest(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID, pfID string) {
 	timer := 0
 	statusCode := 0
 
 	for {
-		if connID != "" && rrID == "" {
+		if connID != "" && rrID == "" && pfID == "" {
 			getTransitResourceOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, connID)
 			_, detailedResponse, _ := service.GetTransitGatewayConnection(getTransitResourceOptions)
 			statusCode = detailedResponse.StatusCode
-
+		} else if pfID != "" {
+			getTransitResourceOptions := service.NewGetTransitGatewayConnectionPrefixFilterOptions(gatewayID, connID, pfID)
+			_, detailedResponse, _ := service.GetTransitGatewayConnectionPrefixFilter(getTransitResourceOptions)
+			statusCode = detailedResponse.StatusCode
 		} else if connID == "" && rrID != "" {
 			getTransitResourceOptions := service.NewGetTransitGatewayRouteReportOptions(gatewayID, rrID)
 			_, detailedResponse, _ := service.GetTransitGatewayRouteReport(getTransitResourceOptions)
 			statusCode = detailedResponse.StatusCode
-
 		} else {
 			getTransitResourceOptions := service.NewGetTransitGatewayOptions(gatewayID)
 			_, detailedResponse, _ := service.GetTransitGateway(getTransitResourceOptions)
@@ -1329,7 +1541,6 @@ func deleteCheckTest(service *transitgatewayapisv1.TransitGatewayApisV1, gateway
 }
 
 // isResourceAvailable checks until the resource status is available/attached/complete. Fail after 2 min.
-//nolint
 func isResourceAvailable(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID string) {
 	timer := 0
 	delay := 5

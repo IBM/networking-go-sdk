@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -254,7 +254,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully with retries`, func() {
@@ -315,7 +315,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully`, func() {
@@ -429,6 +429,1114 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+	})
+	Describe(`ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions) - Operation response error`, func() {
+		version := "testString"
+		listTransitGatewayConnectionPrefixFiltersPath := "/transit_gateways/testString/connections/testString/prefix_filters"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayConnectionPrefixFiltersPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListTransitGatewayConnectionPrefixFilters with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the ListTransitGatewayConnectionPrefixFiltersOptions model
+				listTransitGatewayConnectionPrefixFiltersOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionPrefixFiltersOptions)
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions)`, func() {
+		version := "testString"
+		listTransitGatewayConnectionPrefixFiltersPath := "/transit_gateways/testString/connections/testString/prefix_filters"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayConnectionPrefixFiltersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListTransitGatewayConnectionPrefixFilters successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListTransitGatewayConnectionPrefixFiltersOptions model
+				listTransitGatewayConnectionPrefixFiltersOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionPrefixFiltersOptions)
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.ListTransitGatewayConnectionPrefixFiltersWithContext(ctx, listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.ListTransitGatewayConnectionPrefixFiltersWithContext(ctx, listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayConnectionPrefixFiltersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListTransitGatewayConnectionPrefixFilters successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListTransitGatewayConnectionPrefixFiltersOptions model
+				listTransitGatewayConnectionPrefixFiltersOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionPrefixFiltersOptions)
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListTransitGatewayConnectionPrefixFilters with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the ListTransitGatewayConnectionPrefixFiltersOptions model
+				listTransitGatewayConnectionPrefixFiltersOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionPrefixFiltersOptions)
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListTransitGatewayConnectionPrefixFiltersOptions model with no property values
+				listTransitGatewayConnectionPrefixFiltersOptionsModelNew := new(transitgatewayapisv1.ListTransitGatewayConnectionPrefixFiltersOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListTransitGatewayConnectionPrefixFilters successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the ListTransitGatewayConnectionPrefixFiltersOptions model
+				listTransitGatewayConnectionPrefixFiltersOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionPrefixFiltersOptions)
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		createTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayConnectionPrefixFilterOptions model
+				createTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions)
+				createTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		version := "testString"
+		createTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayConnectionPrefixFilter successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateTransitGatewayConnectionPrefixFilterOptions model
+				createTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions)
+				createTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilterWithContext(ctx, createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilterWithContext(ctx, createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayConnectionPrefixFilterOptions model
+				createTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions)
+				createTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateTransitGatewayConnectionPrefixFilter with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayConnectionPrefixFilterOptions model
+				createTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions)
+				createTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateTransitGatewayConnectionPrefixFilterOptions model with no property values
+				createTransitGatewayConnectionPrefixFilterOptionsModelNew := new(transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTransitGatewayConnectionPrefixFilterOptions model
+				createTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions)
+				createTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		version := "testString"
+		deleteTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := transitGatewayApisService.DeleteTransitGatewayConnectionPrefixFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteTransitGatewayConnectionPrefixFilterOptions model
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.DeleteTransitGatewayConnectionPrefixFilterOptions)
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = transitGatewayApisService.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteTransitGatewayConnectionPrefixFilter with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteTransitGatewayConnectionPrefixFilterOptions model
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.DeleteTransitGatewayConnectionPrefixFilterOptions)
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := transitGatewayApisService.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteTransitGatewayConnectionPrefixFilterOptions model with no property values
+				deleteTransitGatewayConnectionPrefixFilterOptionsModelNew := new(transitgatewayapisv1.DeleteTransitGatewayConnectionPrefixFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = transitGatewayApisService.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		getTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the GetTransitGatewayConnectionPrefixFilterOptions model
+				getTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.GetTransitGatewayConnectionPrefixFilterOptions)
+				getTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		version := "testString"
+		getTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke GetTransitGatewayConnectionPrefixFilter successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetTransitGatewayConnectionPrefixFilterOptions model
+				getTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.GetTransitGatewayConnectionPrefixFilterOptions)
+				getTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.GetTransitGatewayConnectionPrefixFilterWithContext(ctx, getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.GetTransitGatewayConnectionPrefixFilterWithContext(ctx, getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke GetTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetTransitGatewayConnectionPrefixFilterOptions model
+				getTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.GetTransitGatewayConnectionPrefixFilterOptions)
+				getTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetTransitGatewayConnectionPrefixFilter with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the GetTransitGatewayConnectionPrefixFilterOptions model
+				getTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.GetTransitGatewayConnectionPrefixFilterOptions)
+				getTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetTransitGatewayConnectionPrefixFilterOptions model with no property values
+				getTransitGatewayConnectionPrefixFilterOptionsModelNew := new(transitgatewayapisv1.GetTransitGatewayConnectionPrefixFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the GetTransitGatewayConnectionPrefixFilterOptions model
+				getTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.GetTransitGatewayConnectionPrefixFilterOptions)
+				getTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		updateTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model
+				updateTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionPrefixFilterOptions)
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				transitGatewayApisService.EnableRetries(0, 0)
+				result, response, operationErr = transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		version := "testString"
+		updateTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke UpdateTransitGatewayConnectionPrefixFilter successfully with retries`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model
+				updateTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionPrefixFilterOptions)
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilterWithContext(ctx, updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				transitGatewayApisService.DisableRetries()
+				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilterWithContext(ctx, updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateTransitGatewayConnectionPrefixFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke UpdateTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model
+				updateTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionPrefixFilterOptions)
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateTransitGatewayConnectionPrefixFilter with error: Operation validation and request error`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model
+				updateTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionPrefixFilterOptions)
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := transitGatewayApisService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model with no property values
+				updateTransitGatewayConnectionPrefixFilterOptionsModelNew := new(transitgatewayapisv1.UpdateTransitGatewayConnectionPrefixFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateTransitGatewayConnectionPrefixFilter successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model
+				updateTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionPrefixFilterOptions)
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.FilterID = core.StringPtr("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Action = core.StringPtr("permit")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Ge = core.Int64Ptr(int64(0))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Le = core.Int64Ptr(int64(32))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
@@ -2336,7 +3444,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully with retries`, func() {
@@ -2392,7 +3500,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully`, func() {
@@ -2517,6 +3625,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
+				// Construct an instance of the TransitGatewayConnectionPrefixFilter model
+				transitGatewayConnectionPrefixFilterModel := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+				transitGatewayConnectionPrefixFilterModel.Action = core.StringPtr("permit")
+				transitGatewayConnectionPrefixFilterModel.Ge = core.Int64Ptr(int64(0))
+				transitGatewayConnectionPrefixFilterModel.Le = core.Int64Ptr(int64(32))
+				transitGatewayConnectionPrefixFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
@@ -2531,6 +3646,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
 				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.StringPtr("65010")
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
@@ -2589,7 +3706,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection successfully with retries`, func() {
@@ -2601,6 +3718,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 				transitGatewayApisService.EnableRetries(0, 0)
+
+				// Construct an instance of the TransitGatewayConnectionPrefixFilter model
+				transitGatewayConnectionPrefixFilterModel := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+				transitGatewayConnectionPrefixFilterModel.Action = core.StringPtr("permit")
+				transitGatewayConnectionPrefixFilterModel.Ge = core.Int64Ptr(int64(0))
+				transitGatewayConnectionPrefixFilterModel.Le = core.Int64Ptr(int64(32))
+				transitGatewayConnectionPrefixFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
@@ -2616,6 +3740,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
 				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.StringPtr("65010")
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
@@ -2676,7 +3802,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection successfully`, func() {
@@ -2694,6 +3820,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the TransitGatewayConnectionPrefixFilter model
+				transitGatewayConnectionPrefixFilterModel := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+				transitGatewayConnectionPrefixFilterModel.Action = core.StringPtr("permit")
+				transitGatewayConnectionPrefixFilterModel.Ge = core.Int64Ptr(int64(0))
+				transitGatewayConnectionPrefixFilterModel.Le = core.Int64Ptr(int64(32))
+				transitGatewayConnectionPrefixFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
@@ -2708,6 +3841,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
 				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.StringPtr("65010")
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
@@ -2730,6 +3865,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
+				// Construct an instance of the TransitGatewayConnectionPrefixFilter model
+				transitGatewayConnectionPrefixFilterModel := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+				transitGatewayConnectionPrefixFilterModel.Action = core.StringPtr("permit")
+				transitGatewayConnectionPrefixFilterModel.Ge = core.Int64Ptr(int64(0))
+				transitGatewayConnectionPrefixFilterModel.Le = core.Int64Ptr(int64(32))
+				transitGatewayConnectionPrefixFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
@@ -2744,6 +3886,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
 				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.StringPtr("65010")
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
@@ -2787,6 +3931,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
+				// Construct an instance of the TransitGatewayConnectionPrefixFilter model
+				transitGatewayConnectionPrefixFilterModel := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+				transitGatewayConnectionPrefixFilterModel.Action = core.StringPtr("permit")
+				transitGatewayConnectionPrefixFilterModel.Ge = core.Int64Ptr(int64(0))
+				transitGatewayConnectionPrefixFilterModel.Le = core.Int64Ptr(int64(32))
+				transitGatewayConnectionPrefixFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
@@ -2801,6 +3952,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
 				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.StringPtr("65010")
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
@@ -2962,7 +4115,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection successfully with retries`, func() {
@@ -3019,7 +4172,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection successfully`, func() {
@@ -3152,6 +4305,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				updateTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				updateTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel)
@@ -3206,7 +4360,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection successfully with retries`, func() {
@@ -3224,6 +4378,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				updateTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				updateTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3280,7 +4435,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection successfully`, func() {
@@ -3303,6 +4458,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				updateTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				updateTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3326,6 +4482,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				updateTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				updateTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
@@ -3370,6 +4527,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				updateTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
 				updateTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -3934,6 +5092,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayConnectionActionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateTransitGatewayConnectionOptions successfully`, func() {
+				// Construct an instance of the TransitGatewayConnectionPrefixFilter model
+				transitGatewayConnectionPrefixFilterModel := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+				Expect(transitGatewayConnectionPrefixFilterModel).ToNot(BeNil())
+				transitGatewayConnectionPrefixFilterModel.Action = core.StringPtr("permit")
+				transitGatewayConnectionPrefixFilterModel.Ge = core.Int64Ptr(int64(0))
+				transitGatewayConnectionPrefixFilterModel.Le = core.Int64Ptr(int64(32))
+				transitGatewayConnectionPrefixFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+				Expect(transitGatewayConnectionPrefixFilterModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(transitGatewayConnectionPrefixFilterModel.Ge).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(transitGatewayConnectionPrefixFilterModel.Le).To(Equal(core.Int64Ptr(int64(32))))
+				Expect(transitGatewayConnectionPrefixFilterModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				Expect(zoneIdentityModel).ToNot(BeNil())
@@ -3952,6 +5122,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.SetName("Transit_Service_BWTN_SJ_DL")
 				createTransitGatewayConnectionOptionsModel.SetNetworkAccountID("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.SetNetworkID("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.SetPrefixFilters([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel})
+				createTransitGatewayConnectionOptionsModel.SetPrefixFiltersDefault("permit")
 				createTransitGatewayConnectionOptionsModel.SetRemoteBgpAsn("65010")
 				createTransitGatewayConnectionOptionsModel.SetRemoteGatewayIp("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.SetRemoteTunnelIp("192.168.129.1")
@@ -3966,11 +5138,38 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
 				Expect(createTransitGatewayConnectionOptionsModel.NetworkAccountID).To(Equal(core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")))
 				Expect(createTransitGatewayConnectionOptionsModel.NetworkID).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")))
+				Expect(createTransitGatewayConnectionOptionsModel.PrefixFilters).To(Equal([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}))
+				Expect(createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault).To(Equal(core.StringPtr("permit")))
 				Expect(createTransitGatewayConnectionOptionsModel.RemoteBgpAsn).To(Equal(core.StringPtr("65010")))
 				Expect(createTransitGatewayConnectionOptionsModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
 				Expect(createTransitGatewayConnectionOptionsModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
 				Expect(createTransitGatewayConnectionOptionsModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(createTransitGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateTransitGatewayConnectionPrefixFilterOptions successfully`, func() {
+				// Construct an instance of the CreateTransitGatewayConnectionPrefixFilterOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				createTransitGatewayConnectionPrefixFilterOptionsAction := "permit"
+				createTransitGatewayConnectionPrefixFilterOptionsPrefix := "192.168.100.0/24"
+				createTransitGatewayConnectionPrefixFilterOptionsModel := transitGatewayApisService.NewCreateTransitGatewayConnectionPrefixFilterOptions(transitGatewayID, id, createTransitGatewayConnectionPrefixFilterOptionsAction, createTransitGatewayConnectionPrefixFilterOptionsPrefix)
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetTransitGatewayID("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetID("testString")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetAction("permit")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetPrefix("192.168.100.0/24")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetBefore("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetGe(int64(0))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetLe(int64(32))
+				createTransitGatewayConnectionPrefixFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel).ToNot(BeNil())
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.Before).To(Equal(core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.Ge).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.Le).To(Equal(core.Int64Ptr(int64(32))))
+				Expect(createTransitGatewayConnectionPrefixFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateTransitGatewayOptions successfully`, func() {
 				// Construct an instance of the ResourceGroupIdentity model
@@ -4018,6 +5217,22 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(deleteTransitGatewayConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteTransitGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewDeleteTransitGatewayConnectionPrefixFilterOptions successfully`, func() {
+				// Construct an instance of the DeleteTransitGatewayConnectionPrefixFilterOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				filterID := "testString"
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel := transitGatewayApisService.NewDeleteTransitGatewayConnectionPrefixFilterOptions(transitGatewayID, id, filterID)
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.SetTransitGatewayID("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.SetID("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.SetFilterID("testString")
+				deleteTransitGatewayConnectionPrefixFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteTransitGatewayConnectionPrefixFilterOptionsModel).ToNot(BeNil())
+				Expect(deleteTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteTransitGatewayConnectionPrefixFilterOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteTransitGatewayConnectionPrefixFilterOptionsModel.FilterID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteTransitGatewayConnectionPrefixFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteTransitGatewayOptions successfully`, func() {
 				// Construct an instance of the DeleteTransitGatewayOptions model
 				id := "testString"
@@ -4064,6 +5279,22 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(getTransitGatewayConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getTransitGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetTransitGatewayConnectionPrefixFilterOptions successfully`, func() {
+				// Construct an instance of the GetTransitGatewayConnectionPrefixFilterOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				filterID := "testString"
+				getTransitGatewayConnectionPrefixFilterOptionsModel := transitGatewayApisService.NewGetTransitGatewayConnectionPrefixFilterOptions(transitGatewayID, id, filterID)
+				getTransitGatewayConnectionPrefixFilterOptionsModel.SetTransitGatewayID("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.SetID("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.SetFilterID("testString")
+				getTransitGatewayConnectionPrefixFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getTransitGatewayConnectionPrefixFilterOptionsModel).ToNot(BeNil())
+				Expect(getTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(getTransitGatewayConnectionPrefixFilterOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getTransitGatewayConnectionPrefixFilterOptionsModel.FilterID).To(Equal(core.StringPtr("testString")))
+				Expect(getTransitGatewayConnectionPrefixFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetTransitGatewayOptions successfully`, func() {
 				// Construct an instance of the GetTransitGatewayOptions model
 				id := "testString"
@@ -4107,6 +5338,19 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(listGatewayLocationsOptionsModel).ToNot(BeNil())
 				Expect(listGatewayLocationsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListTransitGatewayConnectionPrefixFiltersOptions successfully`, func() {
+				// Construct an instance of the ListTransitGatewayConnectionPrefixFiltersOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				listTransitGatewayConnectionPrefixFiltersOptionsModel := transitGatewayApisService.NewListTransitGatewayConnectionPrefixFiltersOptions(transitGatewayID, id)
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.SetTransitGatewayID("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.SetID("testString")
+				listTransitGatewayConnectionPrefixFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listTransitGatewayConnectionPrefixFiltersOptionsModel).ToNot(BeNil())
+				Expect(listTransitGatewayConnectionPrefixFiltersOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayConnectionPrefixFiltersOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayConnectionPrefixFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListTransitGatewayConnectionsOptions successfully`, func() {
 				// Construct an instance of the ListTransitGatewayConnectionsOptions model
 				transitGatewayID := "testString"
@@ -4144,6 +5388,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewTransitGatewayConnectionPrefixFilter successfully`, func() {
+				action := "permit"
+				prefix := "192.168.100.0/24"
+				_model, err := transitGatewayApisService.NewTransitGatewayConnectionPrefixFilter(action, prefix)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewUpdateTransitGatewayConnectionOptions successfully`, func() {
 				// Construct an instance of the UpdateTransitGatewayConnectionOptions model
 				transitGatewayID := "testString"
@@ -4152,12 +5403,40 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayConnectionOptionsModel.SetTransitGatewayID("testString")
 				updateTransitGatewayConnectionOptionsModel.SetID("testString")
 				updateTransitGatewayConnectionOptionsModel.SetName("Transit_Service_BWTN_SJ_DL")
+				updateTransitGatewayConnectionOptionsModel.SetPrefixFiltersDefault("permit")
 				updateTransitGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateTransitGatewayConnectionOptionsModel).ToNot(BeNil())
 				Expect(updateTransitGatewayConnectionOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
 				Expect(updateTransitGatewayConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateTransitGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
+				Expect(updateTransitGatewayConnectionOptionsModel.PrefixFiltersDefault).To(Equal(core.StringPtr("permit")))
 				Expect(updateTransitGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateTransitGatewayConnectionPrefixFilterOptions successfully`, func() {
+				// Construct an instance of the UpdateTransitGatewayConnectionPrefixFilterOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				filterID := "testString"
+				updateTransitGatewayConnectionPrefixFilterOptionsModel := transitGatewayApisService.NewUpdateTransitGatewayConnectionPrefixFilterOptions(transitGatewayID, id, filterID)
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetTransitGatewayID("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetID("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetFilterID("testString")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetAction("permit")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetBefore("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetGe(int64(0))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetLe(int64(32))
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetPrefix("192.168.100.0/24")
+				updateTransitGatewayConnectionPrefixFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel).ToNot(BeNil())
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.FilterID).To(Equal(core.StringPtr("testString")))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.Before).To(Equal(core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.Ge).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.Le).To(Equal(core.Int64Ptr(int64(32))))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(updateTransitGatewayConnectionPrefixFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateTransitGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdateTransitGatewayOptions model
