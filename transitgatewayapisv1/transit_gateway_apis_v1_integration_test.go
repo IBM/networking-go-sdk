@@ -98,7 +98,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				SetHeaders(header)
 
 			It(`Checking gateways`, func() {
-				shouldSkipTest()
+				// shouldSkipTest()
 
 				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
 				Expect(err).To(BeNil())
@@ -126,6 +126,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 										detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 										Expect(err).To(BeNil())
 										Expect(detailedResponse.StatusCode).To(Equal(204))
+										isResourceAvailable(service, gatewayID, connID, "")
 										deleteCheckTest(service, gatewayID, connID, "", "")
 									} else {
 										connIDs = append(connIDs, connID)
