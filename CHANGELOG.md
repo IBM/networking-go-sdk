@@ -1,3 +1,10 @@
+# [0.28.0](https://github.com/IBM/networking-go-sdk/compare/v0.27.0...v0.28.0) (2022-03-26)
+
+
+### Features
+
+* Push new release to production ([#80](https://github.com/IBM/networking-go-sdk/issues/80)) ([9234d50](https://github.com/IBM/networking-go-sdk/commit/9234d5083ce44d60cf69f0c1ac587552b9b91070))
+
 # [0.27.0](https://github.com/IBM/networking-go-sdk/compare/v0.26.0...v0.27.0) (2022-02-28)
 
 
