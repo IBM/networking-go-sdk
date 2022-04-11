@@ -1,3 +1,10 @@
+# [0.29.0](https://github.com/IBM/networking-go-sdk/compare/v0.28.0...v0.29.0) (2022-04-11)
+
+
+### Features
+
+* **Origin-auth:** added Authenticated Origin Pull ([b89671d](https://github.com/IBM/networking-go-sdk/commit/b89671d49dfaa93be244c5bfad2e1080465e3fce))
+
 # [0.28.0](https://github.com/IBM/networking-go-sdk/compare/v0.27.0...v0.28.0) (2022-03-26)
 
 
