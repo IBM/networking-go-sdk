@@ -1,3 +1,10 @@
+# [0.30.0](https://github.com/IBM/networking-go-sdk/compare/v0.29.0...v0.30.0) (2022-05-10)
+
+
+### Features
+
+* **mtls:** added MTLS ([484a845](https://github.com/IBM/networking-go-sdk/commit/484a845d6484644a45600a2df7b311a766f5fcec))
+
 # [0.29.0](https://github.com/IBM/networking-go-sdk/compare/v0.28.0...v0.29.0) (2022-04-11)
 
 
