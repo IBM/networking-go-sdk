@@ -20,7 +20,6 @@ const configFile = "../cis.env"
 var configLoaded bool = true
 
 func shouldSkipTest() {
-	Skip("Authentication failing, skipping...")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
