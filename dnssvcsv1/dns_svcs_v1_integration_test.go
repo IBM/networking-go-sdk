@@ -45,8 +45,6 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`dnssvcsv1`, func() {
-	defer GinkgoRecover()
-
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -56,14 +54,42 @@ var _ = Describe(`dnssvcsv1`, func() {
 		configLoaded = false
 	}
 
+	// first API key
 	authenticator, err := core.GetAuthenticatorFromEnvironment("dns_svcs")
 	if err != nil {
 		panic(err)
 	}
+	dnsServicesURL := os.Getenv("DNS_SVCS_URL")
 	options := &dnssvcsv1.DnsSvcsV1Options{
+		ServiceName:   "dns_svcs",
+		URL:           dnsServicesURL,
 		Authenticator: authenticator,
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
+	if serviceErr != nil {
+		panic(err)
+	}
+	ownerAPIKey := os.Getenv("DNS_SVCS_OWNER_APIKEY")
+	if ownerAPIKey == "" {
+		panic("Cross account owner API key is not set")
+	}
+
+	setEnvErr := os.Setenv("DNS_SVCS_APIKEY", ownerAPIKey)
+	if setEnvErr != nil {
+		panic(setEnvErr)
+	}
+
+	// second API key
+	authenticatorOwnerDnsInstanceAccount, err := core.GetAuthenticatorFromEnvironment("dns_svcs")
+	if err != nil {
+		panic(err)
+	}
+	optionsOwnerDnsInstanceAccount := &dnssvcsv1.DnsSvcsV1Options{
+		ServiceName:   "dns_svcs",
+		URL:           dnsServicesURL,
+		Authenticator: authenticatorOwnerDnsInstanceAccount,
+	}
+	serviceOwnerDnsInstanceAccount, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(optionsOwnerDnsInstanceAccount)
 	if serviceErr != nil {
 		panic(err)
 	}
@@ -72,6 +98,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 	vpcCrn := os.Getenv("DNS_SVCS_VPC_CRN")
 	subnetCrn := os.Getenv("DNS_SVCS_SUBNET_CRN")
 	customCrn := os.Getenv("DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN")
+	ownerInstanceID := os.Getenv("DNS_SVCS_OWNER_INSTANCE_ID")
+	ownerZoneID := os.Getenv("DNS_SVCS_OWNER_ZONE_ID")
+	vpcCrnLzPermittedNetwork := os.Getenv("DNS_SVCS_VPC_CRN_LZ_PERMITTED_NETWORK")
 
 	Describe(`dnssvcsv1`, func() {
 		Context(`dnssvcsv1`, func() {
@@ -1496,6 +1525,241 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(errDel).To(BeNil())
 				Expect(responseDel).ToNot(BeNil())
 				Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+			})
+		})
+	})
+
+	Describe(`crossaccountsv1`, func() {
+		Context(`crossaccountsv1`, func() {
+			BeforeEach(func() {
+				shouldSkipTest()
+
+				// list linked zones
+				listLinkedZonesOptions := service.NewListLinkedZonesOptions(instanceID)
+				listLinkedZonesOptions.SetXCorrelationID("listLinkedZones123")
+				Expect(listLinkedZonesOptions).ToNot(BeNil())
+				resultList, responseList, errList := service.ListLinkedZones(listLinkedZonesOptions)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(resultList).ToNot(BeNil())
+
+				// delete linked zones
+				for _, linkedZone := range resultList.LinkedDnszones {
+					// list access request
+					listDnszoneAccessRequestsOptions := serviceOwnerDnsInstanceAccount.NewListDnszoneAccessRequestsOptions(
+						ownerInstanceID,
+						*linkedZone.LinkedTo.ZoneID,
+					)
+					listDnszoneAccessRequestsOptions.SetXCorrelationID("lzpermittednetworks-listDnszoneaccessrequests-beforeeach")
+					resultListAccessRequests, responseListAccessRequests, errListAccessRequests := serviceOwnerDnsInstanceAccount.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptions)
+					Expect(errListAccessRequests).To(BeNil())
+					Expect(responseListAccessRequests).ToNot(BeNil())
+					Expect(responseListAccessRequests.GetStatusCode()).To(BeEquivalentTo(200))
+					Expect(resultListAccessRequests).ToNot(BeNil())
+					Expect(resultListAccessRequests.AccessRequests).ToNot(BeNil())
+					Expect(len(resultListAccessRequests.AccessRequests) > 0).To(BeTrue())
+
+					// update access request
+					updateDnszoneAccessRequestsOptions :=
+						service.NewUpdateDnszoneAccessRequestOptions(
+							ownerInstanceID,
+							ownerZoneID,
+							*resultListAccessRequests.AccessRequests[0].ID,
+						)
+					updateDnszoneAccessRequestsOptions.SetXCorrelationID("lzpermittednetworks-updatednszoneaccessrequests-beforeeach")
+					updateDnszoneAccessRequestsOptions.SetAction("REVOKE")
+					resultUpdate, responseUpdate, errUpdate := serviceOwnerDnsInstanceAccount.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestsOptions)
+					Expect(errUpdate).To(BeNil())
+					Expect(responseUpdate).ToNot(BeNil())
+					Expect(responseUpdate.GetStatusCode()).To(BeEquivalentTo(200))
+					Expect(resultUpdate).ToNot(BeNil())
+
+					deleteLinkedZonesOptions := service.NewDeleteLinkedZoneOptions(instanceID, *linkedZone.ID)
+					response, err := service.DeleteLinkedZone(deleteLinkedZonesOptions)
+					Expect(err).To(BeNil())
+					Expect(response).ToNot(BeNil())
+					Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+				}
+			})
+			AfterEach(func() {
+				shouldSkipTest()
+
+				// list linked zones
+				listLinkedZonesOptions := service.NewListLinkedZonesOptions(instanceID)
+				listLinkedZonesOptions.SetXCorrelationID("listLinkedZones123")
+				Expect(listLinkedZonesOptions).ToNot(BeNil())
+				resultList, responseList, errList := service.ListLinkedZones(listLinkedZonesOptions)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(resultList).ToNot(BeNil())
+
+				// delete linked zones
+				for _, linkedZone := range resultList.LinkedDnszones {
+					// list access request
+					listDnszoneAccessRequestsOptions := serviceOwnerDnsInstanceAccount.NewListDnszoneAccessRequestsOptions(
+						ownerInstanceID,
+						*linkedZone.LinkedTo.ZoneID,
+					)
+					listDnszoneAccessRequestsOptions.SetXCorrelationID("lzpermittednetworks-listDnszoneaccessrequests-beforeeach")
+					resultListAccessRequests, responseListAccessRequests, errListAccessRequests := serviceOwnerDnsInstanceAccount.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptions)
+					Expect(errListAccessRequests).To(BeNil())
+					Expect(responseListAccessRequests).ToNot(BeNil())
+					Expect(responseListAccessRequests.GetStatusCode()).To(BeEquivalentTo(200))
+					Expect(resultListAccessRequests).ToNot(BeNil())
+					Expect(resultListAccessRequests.AccessRequests).ToNot(BeNil())
+					Expect(len(resultListAccessRequests.AccessRequests) > 0).To(BeTrue())
+
+					// update access request
+					updateDnszoneAccessRequestsOptions :=
+						service.NewUpdateDnszoneAccessRequestOptions(
+							ownerInstanceID,
+							ownerZoneID,
+							*resultListAccessRequests.AccessRequests[0].ID,
+						)
+					updateDnszoneAccessRequestsOptions.SetXCorrelationID("lzpermittednetworks-updatednszoneaccessrequests-beforeeach")
+					updateDnszoneAccessRequestsOptions.SetAction("REVOKE")
+					resultUpdate, responseUpdate, errUpdate := serviceOwnerDnsInstanceAccount.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestsOptions)
+					Expect(errUpdate).To(BeNil())
+					Expect(responseUpdate).ToNot(BeNil())
+					Expect(responseUpdate.GetStatusCode()).To(BeEquivalentTo(200))
+					Expect(resultUpdate).ToNot(BeNil())
+
+					// delete linked zone
+					deleteLinkedZonesOptions := service.NewDeleteLinkedZoneOptions(instanceID, *linkedZone.ID)
+					response, err := service.DeleteLinkedZone(deleteLinkedZonesOptions)
+					Expect(err).To(BeNil())
+					Expect(response).ToNot(BeNil())
+					Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+				}
+			})
+			It(`create/list/update/delete/get cross accounts (linked zones, access requests, and permitted networks)`, func() {
+				// Create Linked Zone
+				createLinkedZoneOptions := service.NewCreateLinkedZoneOptions(instanceID)
+				createLinkedZoneOptions.SetXCorrelationID("create-linkedZone123")
+				createLinkedZoneOptions.SetOwnerInstanceID(ownerInstanceID)
+				createLinkedZoneOptions.SetOwnerZoneID(ownerZoneID)
+				resultCreateLZ, responseCreateLZ, errCreateLZ := service.CreateLinkedZone(createLinkedZoneOptions)
+				Expect(errCreateLZ).To(BeNil())
+				Expect(responseCreateLZ).ToNot(BeNil())
+				Expect(responseCreateLZ.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultCreateLZ).ToNot(BeNil())
+
+				// List Linked Zones
+				listLinkedZonesOptions := service.NewListLinkedZonesOptions(instanceID)
+				resultListLZ, responseListLZ, errListLZ := service.ListLinkedZones(listLinkedZonesOptions)
+				Expect(errListLZ).To(BeNil())
+				Expect(responseListLZ).ToNot(BeNil())
+				Expect(responseListLZ.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultListLZ).ToNot(BeNil())
+
+				// Get Linked Zone
+				getLinkedZonesOptions := service.NewGetLinkedZoneOptions(instanceID, *resultCreateLZ.ID)
+				resultGetLZ, responseGetLZ, errGetLZ := service.GetLinkedZone(getLinkedZonesOptions)
+				Expect(errGetLZ).To(BeNil())
+				Expect(responseGetLZ).ToNot(BeNil())
+				Expect(responseGetLZ.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultGetLZ).ToNot(BeNil())
+
+				// Update Linked Zone
+				updateLinkedZonesOptions := service.NewUpdateLinkedZoneOptions(instanceID, *resultCreateLZ.ID)
+				updateLinkedZonesOptions.SetDescription("new description")
+				resultUpdateLZ, responseUpdateLZ, errUpdateLZ := service.UpdateLinkedZone(updateLinkedZonesOptions)
+				Expect(errUpdateLZ).To(BeNil())
+				Expect(responseUpdateLZ).ToNot(BeNil())
+				Expect(responseUpdateLZ.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultUpdateLZ).ToNot(BeNil())
+
+				// List access request
+				listDnszoneAccessRequestsOptions := serviceOwnerDnsInstanceAccount.NewListDnszoneAccessRequestsOptions(
+					ownerInstanceID,
+					*resultCreateLZ.LinkedTo.ZoneID,
+				)
+				listDnszoneAccessRequestsOptions.SetXCorrelationID("dnszoneaccessrequest123-list")
+				resultListAccessRequests, responseListAccessRequests, errListAccessRequests := serviceOwnerDnsInstanceAccount.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptions)
+				Expect(errListAccessRequests).To(BeNil())
+				Expect(responseListAccessRequests).ToNot(BeNil())
+				Expect(responseListAccessRequests.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultListAccessRequests).ToNot(BeNil())
+				Expect(resultListAccessRequests.AccessRequests).ToNot(BeNil())
+				Expect(len(resultListAccessRequests.AccessRequests) > 0).To(BeTrue())
+
+				// get access request
+				getDnszoneAccessRequestsOptions :=
+					service.NewGetDnszoneAccessRequestOptions(
+						ownerInstanceID,
+						ownerZoneID,
+						*resultListAccessRequests.AccessRequests[0].ID,
+					)
+				getDnszoneAccessRequestsOptions.SetXCorrelationID("dnszoneaccessrequest123-get")
+				resultGetAccessRequests, responseGetAccessRequests, errGetAccessRequests := serviceOwnerDnsInstanceAccount.GetDnszoneAccessRequest(getDnszoneAccessRequestsOptions)
+				Expect(errGetAccessRequests).To(BeNil())
+				Expect(responseGetAccessRequests).ToNot(BeNil())
+				Expect(responseGetAccessRequests.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultGetAccessRequests).ToNot(BeNil())
+
+				// Update access request
+				updateDnszoneAccessRequestsOptions :=
+					service.NewUpdateDnszoneAccessRequestOptions(
+						ownerInstanceID,
+						ownerZoneID,
+						*resultListAccessRequests.AccessRequests[0].ID,
+					)
+				updateDnszoneAccessRequestsOptions.SetXCorrelationID("dnszoneaccessrequest123-update")
+				updateDnszoneAccessRequestsOptions.SetAction("APPROVE")
+				resultUpdate, responseUpdate, errUpdate := serviceOwnerDnsInstanceAccount.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestsOptions)
+				Expect(errUpdate).To(BeNil())
+				Expect(responseUpdate).ToNot(BeNil())
+				Expect(responseUpdate.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultUpdate).ToNot(BeNil())
+
+				// Create LZ Permitted Networks
+				createLzPermittedNetworkOptions := service.NewCreateLzPermittedNetworkOptions(instanceID, *resultCreateLZ.ID)
+				createLzPermittedNetworkOptions.SetXCorrelationID("lzpermittednetworks-create")
+				createLzPermittedNetworkOptions.SetType("vpc")
+
+				permittedNetwork, errNewPermittedNetworkVpc := service.NewPermittedNetworkVpc(vpcCrnLzPermittedNetwork)
+				Expect(errNewPermittedNetworkVpc).To(BeNil())
+
+				createLzPermittedNetworkOptions.SetPermittedNetwork(permittedNetwork)
+				resultCreate, responseCreate, errCreate := service.CreateLzPermittedNetwork(createLzPermittedNetworkOptions)
+				Expect(errCreate).To(BeNil())
+				Expect(responseCreate).ToNot(BeNil())
+				Expect(responseCreate.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultCreate).ToNot(BeNil())
+
+				// list LZ Permitted Networks
+				listLinkedPermittedNetworkOptions := service.NewListLinkedPermittedNetworksOptions(instanceID, *resultCreateLZ.ID)
+				listLinkedPermittedNetworkOptions.SetXCorrelationID("lzpermittednetworks-list")
+				resultList, responseList, errList := service.ListLinkedPermittedNetworks(listLinkedPermittedNetworkOptions)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(responseList.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultList).ToNot(BeNil())
+
+				// get LZ Permitted Networks
+				getLinkedPermittedNetworkOptions := service.NewGetLinkedPermittedNetworkOptions(instanceID, *resultCreateLZ.ID, *resultCreate.ID)
+				getLinkedPermittedNetworkOptions.SetXCorrelationID("lzpermittednetworks-get")
+				resultGet, responseGet, errGet := service.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptions)
+				Expect(errGet).To(BeNil())
+				Expect(responseGet).ToNot(BeNil())
+				Expect(responseGet.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(resultGet).ToNot(BeNil())
+
+				// delete LZ Permitted Networks
+				deleteLzPermittedNetworkOptions := service.NewDeleteLzPermittedNetworkOptions(instanceID, *resultCreateLZ.ID, *resultCreate.ID)
+				deleteLzPermittedNetworkOptions.SetXCorrelationID("lzpermittednetworks-delete")
+				resultDelete, responseDelete, errGet := service.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptions)
+				Expect(errGet).To(BeNil())
+				Expect(responseDelete).ToNot(BeNil())
+				Expect(responseDelete.GetStatusCode()).To(BeEquivalentTo(202))
+				Expect(resultDelete).ToNot(BeNil())
+
+				// Delete Linked Zone
+				deleteLinkedZoneOptions := service.NewDeleteLinkedZoneOptions(instanceID, *resultCreateLZ.ID)
+				responseDeleteLZ, errDeleteLZ := service.DeleteLinkedZone(deleteLinkedZoneOptions)
+				Expect(errDeleteLZ).To(BeNil())
+				Expect(responseDeleteLZ).ToNot(BeNil())
+				Expect(responseDeleteLZ.GetStatusCode()).To(BeEquivalentTo(204))
 			})
 		})
 	})
