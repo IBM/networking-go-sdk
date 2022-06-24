@@ -189,7 +189,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 		})
 	})
-
 	Describe(`resourcerecordsv1`, func() {
 		Context(`resourcerecordsv1`, func() {
 			var zoneInfo *dnssvcsv1.Dnszone
@@ -277,7 +276,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 					}
 				}
 			})
-
 			It(`create/update/delete/get pdns A records`, func() {
 				shouldSkipTest()
 
@@ -713,13 +711,13 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 		})
 	})
-
 	Describe(`PDNSgloballoadbalancersv1`, func() {
 		var zoneInfo *dnssvcsv1.Dnszone
 
 		Context(`PDNSgloballoadbalancersv1`, func() {
 			BeforeEach(func() {
 				shouldSkipTest()
+
 				Skip("pools")
 				// delete all dns zones
 				listOptions := service.NewListDnszonesOptions(instanceID)
@@ -854,6 +852,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 			It(`create/list PDNS load balancer monitor and pool`, func() {
 				shouldSkipTest()
+
 				Skip("pools")
 				//Create and List Monitor
 				for i := 1; i < 4; i++ {
@@ -1031,8 +1030,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*updatePoolResult.Description).To(BeEquivalentTo("updating testPool"))
 				Expect(updatePoolResult.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
 				Expect(len(updatePoolResult.HealthcheckVsis)).To(BeIdenticalTo(1))
-				Expect(*updatePoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
-				Expect(*updatePoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
+				// Expect(*updatePoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				// Expect(*updatePoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Create Load Balancer
 				createLoadBalancerOptions := service.NewCreateLoadBalancerOptions(instanceID, *zoneInfo.ID)
@@ -1116,6 +1115,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			var zoneInfo *dnssvcsv1.Dnszone
 			BeforeEach(func() {
 				shouldSkipTest()
+
 				Skip("permitted network")
 				// delete all dns zones
 				listOptions := service.NewListDnszonesOptions(instanceID)
@@ -1230,6 +1230,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 			It(`create/update/delete/get permitted networks`, func() {
 				shouldSkipTest()
+
 				Skip("permitted network")
 				header := map[string]string{
 					"test": "teststring",
@@ -1306,7 +1307,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 		})
 	})
-
 	Describe(`customresolverv1`, func() {
 		Context(`customresolverv1`, func() {
 			BeforeEach(func() {
@@ -1365,6 +1365,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
 
 				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
+
 				locationId := result.Locations[0].ID
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -1386,7 +1387,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				// Test Get Custom Resolver
 				getCustomResolverOptionsModel := service.NewGetCustomResolverOptions(instanceID, customResolverIDs[0])
-				getCustomResolverOptionsModel.SetXCorrelationID("abc12387")
+				getCustomResolverOptionsModel.SetXCorrelationID("abc123")
 				Expect(getCustomResolverOptionsModel).ToNot(BeNil())
 				resultGet, responseGet, errGet := service.GetCustomResolver(getCustomResolverOptionsModel)
 				Expect(errGet).To(BeNil())
@@ -1401,6 +1402,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				updateCustomResolverOptionsModel.SetEnabled(false)
 				updateCustomResolverOptionsModel.SetXCorrelationID("abc123")
 				Expect(updateCustomResolverOptionsModel).ToNot(BeNil())
+
 				resultUpdate, responseUpdate, errUpdate := service.UpdateCustomResolver(updateCustomResolverOptionsModel)
 				Expect(errUpdate).To(BeNil())
 				Expect(responseUpdate).ToNot(BeNil())
@@ -1429,7 +1431,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
 
 				resAdd, responseAdd, errAdd := service.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
-
 				Expect(errAdd).To(BeNil())
 				Expect(responseAdd).ToNot(BeNil())
 				Expect(resAdd).ToNot(BeNil())
@@ -1459,13 +1460,13 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(responseList).ToNot(BeNil())
 				Expect(resultList).ToNot(BeNil())
 
-				//Test Update Custom Resolver Location
-
+				// Test Update Custom Resolver Location
 				updateCustomResolverLocationOptionsModel := service.NewUpdateCustomResolverLocationOptions(instanceID, customResolverIDs[0], *locationID)
 				updateCustomResolverLocationOptionsModel.SetSubnetCrn(subnetCrn)
 				updateCustomResolverLocationOptionsModel.SetEnabled(false)
 				updateCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
 				Expect(updateCustomResolverLocationOptionsModel).ToNot(BeNil())
+
 				resultUp, responseUp, errUp := service.UpdateCustomResolverLocation(updateCustomResolverLocationOptionsModel)
 				Expect(errUp).To(BeNil())
 				Expect(responseUp).ToNot(BeNil())
