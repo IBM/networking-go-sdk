@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -177,7 +177,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListDnszones with error: Operation response processing error`, func() {
@@ -234,7 +234,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListDnszones successfully with retries`, func() {
@@ -295,7 +295,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListDnszones successfully`, func() {
@@ -402,7 +402,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Test pagination helper method on response`, func() {
 			It(`Invoke GetNextOffset successfully`, func() {
 				responseObject := new(dnssvcsv1.ListDnszones)
-				nextObject := new(dnssvcsv1.NextHref)
+				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
 
@@ -419,7 +419,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
 				responseObject := new(dnssvcsv1.ListDnszones)
-				nextObject := new(dnssvcsv1.NextHref)
+				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
 
@@ -429,7 +429,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
 				responseObject := new(dnssvcsv1.ListDnszones)
-				nextObject := new(dnssvcsv1.NextHref)
+				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
 
@@ -453,7 +453,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateDnszone with error: Operation response processing error`, func() {
@@ -525,7 +525,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke CreateDnszone successfully with retries`, func() {
@@ -601,7 +601,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke CreateDnszone successfully`, func() {
@@ -797,7 +797,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetDnszone with error: Operation response processing error`, func() {
@@ -851,7 +851,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke GetDnszone successfully with retries`, func() {
@@ -909,7 +909,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke GetDnszone successfully`, func() {
@@ -1025,7 +1025,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateDnszone with error: Operation response processing error`, func() {
@@ -1097,7 +1097,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszone successfully with retries`, func() {
@@ -1173,7 +1173,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszone successfully`, func() {
@@ -1297,7 +1297,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListResourceRecords with error: Operation response processing error`, func() {
@@ -1355,7 +1355,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListResourceRecords successfully with retries`, func() {
@@ -1417,7 +1417,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListResourceRecords successfully`, func() {
@@ -1527,7 +1527,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Test pagination helper method on response`, func() {
 			It(`Invoke GetNextOffset successfully`, func() {
 				responseObject := new(dnssvcsv1.ListResourceRecords)
-				nextObject := new(dnssvcsv1.NextHref)
+				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
 
@@ -1544,7 +1544,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
 				responseObject := new(dnssvcsv1.ListResourceRecords)
-				nextObject := new(dnssvcsv1.NextHref)
+				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
 
@@ -1554,7 +1554,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
 				responseObject := new(dnssvcsv1.ListResourceRecords)
-				nextObject := new(dnssvcsv1.NextHref)
+				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
 
@@ -1578,7 +1578,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateResourceRecord with error: Operation response processing error`, func() {
@@ -1964,7 +1964,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetResourceRecord with error: Operation response processing error`, func() {
@@ -2197,7 +2197,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateResourceRecord with error: Operation response processing error`, func() {
@@ -2690,7 +2690,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ImportResourceRecords with error: Operation response processing error`, func() {
@@ -2942,11 +2942,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListPermittedNetworks with error: Operation response processing error`, func() {
@@ -2962,8 +2960,6 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
-				listPermittedNetworksOptionsModel.Offset = core.Int64Ptr(int64(38))
-				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListPermittedNetworks(listPermittedNetworksOptionsModel)
@@ -2996,15 +2992,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
 				}))
 			})
 			It(`Invoke ListPermittedNetworks successfully with retries`, func() {
@@ -3021,8 +3015,6 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
-				listPermittedNetworksOptionsModel.Offset = core.Int64Ptr(int64(38))
-				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3061,12 +3053,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
-					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
 				}))
 			})
 			It(`Invoke ListPermittedNetworks successfully`, func() {
@@ -3088,8 +3078,6 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
-				listPermittedNetworksOptionsModel.Offset = core.Int64Ptr(int64(38))
-				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3112,8 +3100,6 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
-				listPermittedNetworksOptionsModel.Offset = core.Int64Ptr(int64(38))
-				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -3157,8 +3143,6 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
-				listPermittedNetworksOptionsModel.Offset = core.Int64Ptr(int64(38))
-				listPermittedNetworksOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -3171,45 +3155,6 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
-			})
-		})
-		Context(`Test pagination helper method on response`, func() {
-			It(`Invoke GetNextOffset successfully`, func() {
-				responseObject := new(dnssvcsv1.ListPermittedNetworks)
-				nextObject := new(dnssvcsv1.NextHref)
-				nextObject.Href = core.StringPtr("ibm.com?offset=135")
-				responseObject.Next = nextObject
-
-				value, err := responseObject.GetNextOffset()
-				Expect(err).To(BeNil())
-				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
-			})
-			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
-				responseObject := new(dnssvcsv1.ListPermittedNetworks)
-
-				value, err := responseObject.GetNextOffset()
-				Expect(err).To(BeNil())
-				Expect(value).To(BeNil())
-			})
-			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
-				responseObject := new(dnssvcsv1.ListPermittedNetworks)
-				nextObject := new(dnssvcsv1.NextHref)
-				nextObject.Href = core.StringPtr("ibm.com")
-				responseObject.Next = nextObject
-
-				value, err := responseObject.GetNextOffset()
-				Expect(err).To(BeNil())
-				Expect(value).To(BeNil())
-			})
-			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
-				responseObject := new(dnssvcsv1.ListPermittedNetworks)
-				nextObject := new(dnssvcsv1.NextHref)
-				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
-				responseObject.Next = nextObject
-
-				value, err := responseObject.GetNextOffset()
-				Expect(err).NotTo(BeNil())
-				Expect(value).To(BeNil())
 			})
 		})
 	})
@@ -3227,7 +3172,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreatePermittedNetwork with error: Operation response processing error`, func() {
@@ -3517,7 +3462,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke DeletePermittedNetwork with error: Operation response processing error`, func() {
@@ -3750,7 +3695,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetPermittedNetwork with error: Operation response processing error`, func() {
@@ -3981,9 +3926,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers with error: Operation response processing error`, func() {
@@ -3999,6 +3946,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.InstanceID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.DnszoneID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLoadBalancersOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLoadBalancersOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListLoadBalancers(listLoadBalancersOptionsModel)
@@ -4031,13 +3980,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully with retries`, func() {
@@ -4054,6 +4005,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.InstanceID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.DnszoneID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLoadBalancersOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLoadBalancersOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -4092,10 +4045,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully`, func() {
@@ -4117,6 +4072,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.InstanceID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.DnszoneID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLoadBalancersOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLoadBalancersOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4139,6 +4096,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.InstanceID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.DnszoneID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLoadBalancersOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLoadBalancersOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -4182,6 +4141,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.InstanceID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.DnszoneID = core.StringPtr("testString")
 				listLoadBalancersOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLoadBalancersOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLoadBalancersOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -4194,6 +4155,45 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.ListLoadBalancers)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.ListLoadBalancers)
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ListLoadBalancers)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ListLoadBalancers)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
 			})
 		})
 	})
@@ -4211,7 +4211,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer with error: Operation response processing error`, func() {
@@ -4607,7 +4607,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer with error: Operation response processing error`, func() {
@@ -4840,7 +4840,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer with error: Operation response processing error`, func() {
@@ -5163,9 +5163,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListPools with error: Operation response processing error`, func() {
@@ -5180,6 +5182,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
 				listPoolsOptionsModel.InstanceID = core.StringPtr("testString")
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listPoolsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listPoolsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListPools(listPoolsOptionsModel)
@@ -5212,13 +5216,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListPools successfully with retries`, func() {
@@ -5234,6 +5240,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
 				listPoolsOptionsModel.InstanceID = core.StringPtr("testString")
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listPoolsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listPoolsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -5272,10 +5280,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListPools successfully`, func() {
@@ -5296,6 +5306,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
 				listPoolsOptionsModel.InstanceID = core.StringPtr("testString")
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listPoolsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listPoolsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5317,6 +5329,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
 				listPoolsOptionsModel.InstanceID = core.StringPtr("testString")
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listPoolsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listPoolsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -5359,6 +5373,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := new(dnssvcsv1.ListPoolsOptions)
 				listPoolsOptionsModel.InstanceID = core.StringPtr("testString")
 				listPoolsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listPoolsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listPoolsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -5371,6 +5387,45 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.ListPools)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.ListPools)
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ListPools)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ListPools)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
 			})
 		})
 	})
@@ -5388,7 +5443,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreatePool with error: Operation response processing error`, func() {
@@ -5797,7 +5852,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetPool with error: Operation response processing error`, func() {
@@ -6025,7 +6080,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdatePool with error: Operation response processing error`, func() {
@@ -6363,9 +6418,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListMonitors with error: Operation response processing error`, func() {
@@ -6380,6 +6437,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
 				listMonitorsOptionsModel.InstanceID = core.StringPtr("testString")
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listMonitorsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listMonitorsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListMonitors(listMonitorsOptionsModel)
@@ -6412,13 +6471,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListMonitors successfully with retries`, func() {
@@ -6434,6 +6495,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
 				listMonitorsOptionsModel.InstanceID = core.StringPtr("testString")
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listMonitorsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listMonitorsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -6472,10 +6535,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListMonitors successfully`, func() {
@@ -6496,6 +6561,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
 				listMonitorsOptionsModel.InstanceID = core.StringPtr("testString")
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listMonitorsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listMonitorsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6517,6 +6584,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
 				listMonitorsOptionsModel.InstanceID = core.StringPtr("testString")
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listMonitorsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listMonitorsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -6559,6 +6628,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := new(dnssvcsv1.ListMonitorsOptions)
 				listMonitorsOptionsModel.InstanceID = core.StringPtr("testString")
 				listMonitorsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listMonitorsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listMonitorsOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listMonitorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -6571,6 +6642,45 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.ListMonitors)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.ListMonitors)
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ListMonitors)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ListMonitors)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
 			})
 		})
 	})
@@ -6588,7 +6698,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateMonitor with error: Operation response processing error`, func() {
@@ -7007,7 +7117,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetMonitor with error: Operation response processing error`, func() {
@@ -7235,7 +7345,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateMonitor with error: Operation response processing error`, func() {
@@ -7585,7 +7695,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers with error: Operation response processing error`, func() {
@@ -7638,7 +7748,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers successfully with retries`, func() {
@@ -7695,7 +7805,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers successfully`, func() {
@@ -7808,7 +7918,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver with error: Operation response processing error`, func() {
@@ -7885,7 +7995,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver successfully with retries`, func() {
@@ -7966,7 +8076,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver successfully`, func() {
@@ -8177,7 +8287,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetCustomResolver with error: Operation response processing error`, func() {
@@ -8231,7 +8341,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke GetCustomResolver successfully with retries`, func() {
@@ -8289,7 +8399,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke GetCustomResolver successfully`, func() {
@@ -8405,7 +8515,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver with error: Operation response processing error`, func() {
@@ -8478,7 +8588,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver successfully with retries`, func() {
@@ -8555,7 +8665,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver successfully`, func() {
@@ -8666,6 +8776,271 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
+	Describe(`UpdateCrLocationsOrder(updateCrLocationsOrderOptions *UpdateCrLocationsOrderOptions) - Operation response error`, func() {
+		updateCrLocationsOrderPath := "/instances/testString/custom_resolvers/testString/locations_order"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCrLocationsOrderPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateCrLocationsOrder with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCrLocationsOrderOptions model
+				updateCrLocationsOrderOptionsModel := new(dnssvcsv1.UpdateCrLocationsOrderOptions)
+				updateCrLocationsOrderOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Locations = []string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}
+				updateCrLocationsOrderOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateCrLocationsOrder(updateCrLocationsOrderOptions *UpdateCrLocationsOrderOptions)`, func() {
+		updateCrLocationsOrderPath := "/instances/testString/custom_resolvers/testString/locations_order"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCrLocationsOrderPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateCrLocationsOrder successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateCrLocationsOrderOptions model
+				updateCrLocationsOrderOptionsModel := new(dnssvcsv1.UpdateCrLocationsOrderOptions)
+				updateCrLocationsOrderOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Locations = []string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}
+				updateCrLocationsOrderOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.UpdateCrLocationsOrderWithContext(ctx, updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.UpdateCrLocationsOrderWithContext(ctx, updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCrLocationsOrderPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateCrLocationsOrder successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateCrLocationsOrder(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateCrLocationsOrderOptions model
+				updateCrLocationsOrderOptionsModel := new(dnssvcsv1.UpdateCrLocationsOrderOptions)
+				updateCrLocationsOrderOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Locations = []string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}
+				updateCrLocationsOrderOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateCrLocationsOrder with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCrLocationsOrderOptions model
+				updateCrLocationsOrderOptionsModel := new(dnssvcsv1.UpdateCrLocationsOrderOptions)
+				updateCrLocationsOrderOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Locations = []string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}
+				updateCrLocationsOrderOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateCrLocationsOrderOptions model with no property values
+				updateCrLocationsOrderOptionsModelNew := new(dnssvcsv1.UpdateCrLocationsOrderOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateCrLocationsOrder successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateCrLocationsOrderOptions model
+				updateCrLocationsOrderOptionsModel := new(dnssvcsv1.UpdateCrLocationsOrderOptions)
+				updateCrLocationsOrderOptionsModel.InstanceID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.ResolverID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Locations = []string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}
+				updateCrLocationsOrderOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateCrLocationsOrderOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.UpdateCrLocationsOrder(updateCrLocationsOrderOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`AddCustomResolverLocation(addCustomResolverLocationOptions *AddCustomResolverLocationOptions) - Operation response error`, func() {
 		addCustomResolverLocationPath := "/instances/testString/custom_resolvers/testString/locations"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -8680,7 +9055,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke AddCustomResolverLocation with error: Operation response processing error`, func() {
@@ -8950,7 +9325,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolverLocation with error: Operation response processing error`, func() {
@@ -9301,7 +9676,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListForwardingRules with error: Operation response processing error`, func() {
@@ -9355,7 +9730,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
 				}))
 			})
 			It(`Invoke ListForwardingRules successfully with retries`, func() {
@@ -9413,7 +9788,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
 				}))
 			})
 			It(`Invoke ListForwardingRules successfully`, func() {
@@ -9529,7 +9904,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule with error: Operation response processing error`, func() {
@@ -9603,7 +9978,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule successfully with retries`, func() {
@@ -9681,7 +10056,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule successfully`, func() {
@@ -9885,7 +10260,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetForwardingRule with error: Operation response processing error`, func() {
@@ -9940,7 +10315,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke GetForwardingRule successfully with retries`, func() {
@@ -9999,7 +10374,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke GetForwardingRule successfully`, func() {
@@ -10118,7 +10493,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule with error: Operation response processing error`, func() {
@@ -10192,7 +10567,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule successfully with retries`, func() {
@@ -10270,7 +10645,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule successfully`, func() {
@@ -10384,6 +10759,2901 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
+	Describe(`ListLinkedZones(listLinkedZonesOptions *ListLinkedZonesOptions) - Operation response error`, func() {
+		listLinkedZonesPath := "/instances/testString/linked_dnszones"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListLinkedZones with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListLinkedZonesOptions model
+				listLinkedZonesOptionsModel := new(dnssvcsv1.ListLinkedZonesOptions)
+				listLinkedZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLinkedZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listLinkedZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListLinkedZones(listLinkedZonesOptions *ListLinkedZonesOptions)`, func() {
+		listLinkedZonesPath := "/instances/testString/linked_dnszones"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+				}))
+			})
+			It(`Invoke ListLinkedZones successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListLinkedZonesOptions model
+				listLinkedZonesOptionsModel := new(dnssvcsv1.ListLinkedZonesOptions)
+				listLinkedZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLinkedZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listLinkedZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.ListLinkedZonesWithContext(ctx, listLinkedZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.ListLinkedZonesWithContext(ctx, listLinkedZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+				}))
+			})
+			It(`Invoke ListLinkedZones successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListLinkedZones(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListLinkedZonesOptions model
+				listLinkedZonesOptionsModel := new(dnssvcsv1.ListLinkedZonesOptions)
+				listLinkedZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLinkedZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listLinkedZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListLinkedZones with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListLinkedZonesOptions model
+				listLinkedZonesOptionsModel := new(dnssvcsv1.ListLinkedZonesOptions)
+				listLinkedZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLinkedZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listLinkedZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListLinkedZonesOptions model with no property values
+				listLinkedZonesOptionsModelNew := new(dnssvcsv1.ListLinkedZonesOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLinkedZones successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListLinkedZonesOptions model
+				listLinkedZonesOptionsModel := new(dnssvcsv1.ListLinkedZonesOptions)
+				listLinkedZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listLinkedZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listLinkedZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.ListLinkedZones(listLinkedZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.LinkedDnszonesList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.LinkedDnszonesList)
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.LinkedDnszonesList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.LinkedDnszonesList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+	})
+	Describe(`CreateLinkedZone(createLinkedZoneOptions *CreateLinkedZoneOptions) - Operation response error`, func() {
+		createLinkedZonePath := "/instances/testString/linked_dnszones"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createLinkedZonePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateLinkedZone with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateLinkedZoneOptions model
+				createLinkedZoneOptionsModel := new(dnssvcsv1.CreateLinkedZoneOptions)
+				createLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.OwnerInstanceID = core.StringPtr("abe30019-1c08-42dc-9ad9-a0682af70054")
+				createLinkedZoneOptionsModel.OwnerZoneID = core.StringPtr("05855abe-3908-4cdc-bf0d-063e0b1c296d")
+				createLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				createLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				createLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateLinkedZone(createLinkedZoneOptions *CreateLinkedZoneOptions)`, func() {
+		createLinkedZonePath := "/instances/testString/linked_dnszones"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createLinkedZonePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke CreateLinkedZone successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateLinkedZoneOptions model
+				createLinkedZoneOptionsModel := new(dnssvcsv1.CreateLinkedZoneOptions)
+				createLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.OwnerInstanceID = core.StringPtr("abe30019-1c08-42dc-9ad9-a0682af70054")
+				createLinkedZoneOptionsModel.OwnerZoneID = core.StringPtr("05855abe-3908-4cdc-bf0d-063e0b1c296d")
+				createLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				createLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				createLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.CreateLinkedZoneWithContext(ctx, createLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.CreateLinkedZoneWithContext(ctx, createLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createLinkedZonePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke CreateLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.CreateLinkedZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateLinkedZoneOptions model
+				createLinkedZoneOptionsModel := new(dnssvcsv1.CreateLinkedZoneOptions)
+				createLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.OwnerInstanceID = core.StringPtr("abe30019-1c08-42dc-9ad9-a0682af70054")
+				createLinkedZoneOptionsModel.OwnerZoneID = core.StringPtr("05855abe-3908-4cdc-bf0d-063e0b1c296d")
+				createLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				createLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				createLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateLinkedZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateLinkedZoneOptions model
+				createLinkedZoneOptionsModel := new(dnssvcsv1.CreateLinkedZoneOptions)
+				createLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.OwnerInstanceID = core.StringPtr("abe30019-1c08-42dc-9ad9-a0682af70054")
+				createLinkedZoneOptionsModel.OwnerZoneID = core.StringPtr("05855abe-3908-4cdc-bf0d-063e0b1c296d")
+				createLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				createLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				createLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateLinkedZoneOptions model with no property values
+				createLinkedZoneOptionsModelNew := new(dnssvcsv1.CreateLinkedZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateLinkedZoneOptions model
+				createLinkedZoneOptionsModel := new(dnssvcsv1.CreateLinkedZoneOptions)
+				createLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.OwnerInstanceID = core.StringPtr("abe30019-1c08-42dc-9ad9-a0682af70054")
+				createLinkedZoneOptionsModel.OwnerZoneID = core.StringPtr("05855abe-3908-4cdc-bf0d-063e0b1c296d")
+				createLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				createLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				createLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.CreateLinkedZone(createLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetLinkedZone(getLinkedZoneOptions *GetLinkedZoneOptions) - Operation response error`, func() {
+		getLinkedZonePath := "/instances/testString/linked_dnszones/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLinkedZonePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetLinkedZone with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLinkedZoneOptions model
+				getLinkedZoneOptionsModel := new(dnssvcsv1.GetLinkedZoneOptions)
+				getLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetLinkedZone(getLinkedZoneOptions *GetLinkedZoneOptions)`, func() {
+		getLinkedZonePath := "/instances/testString/linked_dnszones/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLinkedZonePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke GetLinkedZone successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetLinkedZoneOptions model
+				getLinkedZoneOptionsModel := new(dnssvcsv1.GetLinkedZoneOptions)
+				getLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.GetLinkedZoneWithContext(ctx, getLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.GetLinkedZoneWithContext(ctx, getLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLinkedZonePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke GetLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetLinkedZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetLinkedZoneOptions model
+				getLinkedZoneOptionsModel := new(dnssvcsv1.GetLinkedZoneOptions)
+				getLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetLinkedZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLinkedZoneOptions model
+				getLinkedZoneOptionsModel := new(dnssvcsv1.GetLinkedZoneOptions)
+				getLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetLinkedZoneOptions model with no property values
+				getLinkedZoneOptionsModelNew := new(dnssvcsv1.GetLinkedZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLinkedZoneOptions model
+				getLinkedZoneOptionsModel := new(dnssvcsv1.GetLinkedZoneOptions)
+				getLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.GetLinkedZone(getLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateLinkedZone(updateLinkedZoneOptions *UpdateLinkedZoneOptions) - Operation response error`, func() {
+		updateLinkedZonePath := "/instances/testString/linked_dnszones/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateLinkedZonePath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateLinkedZone with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateLinkedZoneOptions model
+				updateLinkedZoneOptionsModel := new(dnssvcsv1.UpdateLinkedZoneOptions)
+				updateLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				updateLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				updateLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateLinkedZone(updateLinkedZoneOptions *UpdateLinkedZoneOptions)`, func() {
+		updateLinkedZonePath := "/instances/testString/linked_dnszones/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateLinkedZonePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateLinkedZone successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateLinkedZoneOptions model
+				updateLinkedZoneOptionsModel := new(dnssvcsv1.UpdateLinkedZoneOptions)
+				updateLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				updateLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				updateLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.UpdateLinkedZoneWithContext(ctx, updateLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.UpdateLinkedZoneWithContext(ctx, updateLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateLinkedZonePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateLinkedZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateLinkedZoneOptions model
+				updateLinkedZoneOptionsModel := new(dnssvcsv1.UpdateLinkedZoneOptions)
+				updateLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				updateLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				updateLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateLinkedZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateLinkedZoneOptions model
+				updateLinkedZoneOptionsModel := new(dnssvcsv1.UpdateLinkedZoneOptions)
+				updateLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				updateLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				updateLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateLinkedZoneOptions model with no property values
+				updateLinkedZoneOptionsModelNew := new(dnssvcsv1.UpdateLinkedZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateLinkedZoneOptions model
+				updateLinkedZoneOptionsModel := new(dnssvcsv1.UpdateLinkedZoneOptions)
+				updateLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Description = core.StringPtr("linked zone example")
+				updateLinkedZoneOptionsModel.Label = core.StringPtr("dev")
+				updateLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.UpdateLinkedZone(updateLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteLinkedZone(deleteLinkedZoneOptions *DeleteLinkedZoneOptions)`, func() {
+		deleteLinkedZonePath := "/instances/testString/linked_dnszones/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLinkedZonePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteLinkedZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := dnsSvcsService.DeleteLinkedZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteLinkedZoneOptions model
+				deleteLinkedZoneOptionsModel := new(dnssvcsv1.DeleteLinkedZoneOptions)
+				deleteLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = dnsSvcsService.DeleteLinkedZone(deleteLinkedZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteLinkedZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteLinkedZoneOptions model
+				deleteLinkedZoneOptionsModel := new(dnssvcsv1.DeleteLinkedZoneOptions)
+				deleteLinkedZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLinkedZoneOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLinkedZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLinkedZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := dnsSvcsService.DeleteLinkedZone(deleteLinkedZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteLinkedZoneOptions model with no property values
+				deleteLinkedZoneOptionsModelNew := new(dnssvcsv1.DeleteLinkedZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = dnsSvcsService.DeleteLinkedZone(deleteLinkedZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListDnszoneAccessRequests(listDnszoneAccessRequestsOptions *ListDnszoneAccessRequestsOptions) - Operation response error`, func() {
+		listDnszoneAccessRequestsPath := "/instances/testString/dnszones/testString/access_requests"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszoneAccessRequestsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListDnszoneAccessRequests with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListDnszoneAccessRequestsOptions model
+				listDnszoneAccessRequestsOptionsModel := new(dnssvcsv1.ListDnszoneAccessRequestsOptions)
+				listDnszoneAccessRequestsOptionsModel.InstanceID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.DnszoneID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listDnszoneAccessRequestsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszoneAccessRequestsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListDnszoneAccessRequests(listDnszoneAccessRequestsOptions *ListDnszoneAccessRequestsOptions)`, func() {
+		listDnszoneAccessRequestsPath := "/instances/testString/dnszones/testString/access_requests"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszoneAccessRequestsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+				}))
+			})
+			It(`Invoke ListDnszoneAccessRequests successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListDnszoneAccessRequestsOptions model
+				listDnszoneAccessRequestsOptionsModel := new(dnssvcsv1.ListDnszoneAccessRequestsOptions)
+				listDnszoneAccessRequestsOptionsModel.InstanceID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.DnszoneID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listDnszoneAccessRequestsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszoneAccessRequestsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.ListDnszoneAccessRequestsWithContext(ctx, listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.ListDnszoneAccessRequestsWithContext(ctx, listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszoneAccessRequestsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+				}))
+			})
+			It(`Invoke ListDnszoneAccessRequests successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListDnszoneAccessRequests(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListDnszoneAccessRequestsOptions model
+				listDnszoneAccessRequestsOptionsModel := new(dnssvcsv1.ListDnszoneAccessRequestsOptions)
+				listDnszoneAccessRequestsOptionsModel.InstanceID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.DnszoneID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listDnszoneAccessRequestsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszoneAccessRequestsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListDnszoneAccessRequests with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListDnszoneAccessRequestsOptions model
+				listDnszoneAccessRequestsOptionsModel := new(dnssvcsv1.ListDnszoneAccessRequestsOptions)
+				listDnszoneAccessRequestsOptionsModel.InstanceID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.DnszoneID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listDnszoneAccessRequestsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszoneAccessRequestsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListDnszoneAccessRequestsOptions model with no property values
+				listDnszoneAccessRequestsOptionsModelNew := new(dnssvcsv1.ListDnszoneAccessRequestsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListDnszoneAccessRequests successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListDnszoneAccessRequestsOptions model
+				listDnszoneAccessRequestsOptionsModel := new(dnssvcsv1.ListDnszoneAccessRequestsOptions)
+				listDnszoneAccessRequestsOptionsModel.InstanceID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.DnszoneID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listDnszoneAccessRequestsOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listDnszoneAccessRequestsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszoneAccessRequestsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.ListDnszoneAccessRequests(listDnszoneAccessRequestsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.AccessRequestsList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.AccessRequestsList)
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.AccessRequestsList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.AccessRequestsList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+	})
+	Describe(`GetDnszoneAccessRequest(getDnszoneAccessRequestOptions *GetDnszoneAccessRequestOptions) - Operation response error`, func() {
+		getDnszoneAccessRequestPath := "/instances/testString/dnszones/testString/access_requests/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDnszoneAccessRequestPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetDnszoneAccessRequest with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetDnszoneAccessRequestOptions model
+				getDnszoneAccessRequestOptionsModel := new(dnssvcsv1.GetDnszoneAccessRequestOptions)
+				getDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetDnszoneAccessRequest(getDnszoneAccessRequestOptions *GetDnszoneAccessRequestOptions)`, func() {
+		getDnszoneAccessRequestPath := "/instances/testString/dnszones/testString/access_requests/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDnszoneAccessRequestPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke GetDnszoneAccessRequest successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetDnszoneAccessRequestOptions model
+				getDnszoneAccessRequestOptionsModel := new(dnssvcsv1.GetDnszoneAccessRequestOptions)
+				getDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.GetDnszoneAccessRequestWithContext(ctx, getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.GetDnszoneAccessRequestWithContext(ctx, getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDnszoneAccessRequestPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke GetDnszoneAccessRequest successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetDnszoneAccessRequest(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetDnszoneAccessRequestOptions model
+				getDnszoneAccessRequestOptionsModel := new(dnssvcsv1.GetDnszoneAccessRequestOptions)
+				getDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetDnszoneAccessRequest with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetDnszoneAccessRequestOptions model
+				getDnszoneAccessRequestOptionsModel := new(dnssvcsv1.GetDnszoneAccessRequestOptions)
+				getDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetDnszoneAccessRequestOptions model with no property values
+				getDnszoneAccessRequestOptionsModelNew := new(dnssvcsv1.GetDnszoneAccessRequestOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetDnszoneAccessRequest successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetDnszoneAccessRequestOptions model
+				getDnszoneAccessRequestOptionsModel := new(dnssvcsv1.GetDnszoneAccessRequestOptions)
+				getDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.GetDnszoneAccessRequest(getDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptions *UpdateDnszoneAccessRequestOptions) - Operation response error`, func() {
+		updateDnszoneAccessRequestPath := "/instances/testString/dnszones/testString/access_requests/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnszoneAccessRequestPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateDnszoneAccessRequest with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateDnszoneAccessRequestOptions model
+				updateDnszoneAccessRequestOptionsModel := new(dnssvcsv1.UpdateDnszoneAccessRequestOptions)
+				updateDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Action = core.StringPtr("APPROVE")
+				updateDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptions *UpdateDnszoneAccessRequestOptions)`, func() {
+		updateDnszoneAccessRequestPath := "/instances/testString/dnszones/testString/access_requests/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnszoneAccessRequestPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateDnszoneAccessRequest successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateDnszoneAccessRequestOptions model
+				updateDnszoneAccessRequestOptionsModel := new(dnssvcsv1.UpdateDnszoneAccessRequestOptions)
+				updateDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Action = core.StringPtr("APPROVE")
+				updateDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.UpdateDnszoneAccessRequestWithContext(ctx, updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.UpdateDnszoneAccessRequestWithContext(ctx, updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnszoneAccessRequestPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateDnszoneAccessRequest successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateDnszoneAccessRequest(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateDnszoneAccessRequestOptions model
+				updateDnszoneAccessRequestOptionsModel := new(dnssvcsv1.UpdateDnszoneAccessRequestOptions)
+				updateDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Action = core.StringPtr("APPROVE")
+				updateDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateDnszoneAccessRequest with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateDnszoneAccessRequestOptions model
+				updateDnszoneAccessRequestOptionsModel := new(dnssvcsv1.UpdateDnszoneAccessRequestOptions)
+				updateDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Action = core.StringPtr("APPROVE")
+				updateDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateDnszoneAccessRequestOptions model with no property values
+				updateDnszoneAccessRequestOptionsModelNew := new(dnssvcsv1.UpdateDnszoneAccessRequestOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateDnszoneAccessRequest successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateDnszoneAccessRequestOptions model
+				updateDnszoneAccessRequestOptionsModel := new(dnssvcsv1.UpdateDnszoneAccessRequestOptions)
+				updateDnszoneAccessRequestOptionsModel.InstanceID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.DnszoneID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.RequestID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Action = core.StringPtr("APPROVE")
+				updateDnszoneAccessRequestOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateDnszoneAccessRequestOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptions *ListLinkedPermittedNetworksOptions) - Operation response error`, func() {
+		listLinkedPermittedNetworksPath := "/instances/testString/linked_dnszones/testString/permitted_networks"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedPermittedNetworksPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListLinkedPermittedNetworks with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListLinkedPermittedNetworksOptions model
+				listLinkedPermittedNetworksOptionsModel := new(dnssvcsv1.ListLinkedPermittedNetworksOptions)
+				listLinkedPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptions *ListLinkedPermittedNetworksOptions)`, func() {
+		listLinkedPermittedNetworksPath := "/instances/testString/linked_dnszones/testString/permitted_networks"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedPermittedNetworksPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
+				}))
+			})
+			It(`Invoke ListLinkedPermittedNetworks successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListLinkedPermittedNetworksOptions model
+				listLinkedPermittedNetworksOptionsModel := new(dnssvcsv1.ListLinkedPermittedNetworksOptions)
+				listLinkedPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.ListLinkedPermittedNetworksWithContext(ctx, listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.ListLinkedPermittedNetworksWithContext(ctx, listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedPermittedNetworksPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
+				}))
+			})
+			It(`Invoke ListLinkedPermittedNetworks successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListLinkedPermittedNetworks(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListLinkedPermittedNetworksOptions model
+				listLinkedPermittedNetworksOptionsModel := new(dnssvcsv1.ListLinkedPermittedNetworksOptions)
+				listLinkedPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListLinkedPermittedNetworks with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListLinkedPermittedNetworksOptions model
+				listLinkedPermittedNetworksOptionsModel := new(dnssvcsv1.ListLinkedPermittedNetworksOptions)
+				listLinkedPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListLinkedPermittedNetworksOptions model with no property values
+				listLinkedPermittedNetworksOptionsModelNew := new(dnssvcsv1.ListLinkedPermittedNetworksOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLinkedPermittedNetworks successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListLinkedPermittedNetworksOptions model
+				listLinkedPermittedNetworksOptionsModel := new(dnssvcsv1.ListLinkedPermittedNetworksOptions)
+				listLinkedPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listLinkedPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.ListLinkedPermittedNetworks(listLinkedPermittedNetworksOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateLzPermittedNetwork(createLzPermittedNetworkOptions *CreateLzPermittedNetworkOptions) - Operation response error`, func() {
+		createLzPermittedNetworkPath := "/instances/testString/linked_dnszones/testString/permitted_networks"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createLzPermittedNetworkPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateLzPermittedNetwork with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the PermittedNetworkVpc model
+				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
+				permittedNetworkVpcModel.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+
+				// Construct an instance of the CreateLzPermittedNetworkOptions model
+				createLzPermittedNetworkOptionsModel := new(dnssvcsv1.CreateLzPermittedNetworkOptions)
+				createLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
+				createLzPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateLzPermittedNetwork(createLzPermittedNetworkOptions *CreateLzPermittedNetworkOptions)`, func() {
+		createLzPermittedNetworkPath := "/instances/testString/linked_dnszones/testString/permitted_networks"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createLzPermittedNetworkPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+				}))
+			})
+			It(`Invoke CreateLzPermittedNetwork successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the PermittedNetworkVpc model
+				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
+				permittedNetworkVpcModel.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+
+				// Construct an instance of the CreateLzPermittedNetworkOptions model
+				createLzPermittedNetworkOptionsModel := new(dnssvcsv1.CreateLzPermittedNetworkOptions)
+				createLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
+				createLzPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.CreateLzPermittedNetworkWithContext(ctx, createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.CreateLzPermittedNetworkWithContext(ctx, createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createLzPermittedNetworkPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+				}))
+			})
+			It(`Invoke CreateLzPermittedNetwork successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.CreateLzPermittedNetwork(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the PermittedNetworkVpc model
+				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
+				permittedNetworkVpcModel.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+
+				// Construct an instance of the CreateLzPermittedNetworkOptions model
+				createLzPermittedNetworkOptionsModel := new(dnssvcsv1.CreateLzPermittedNetworkOptions)
+				createLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
+				createLzPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateLzPermittedNetwork with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the PermittedNetworkVpc model
+				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
+				permittedNetworkVpcModel.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+
+				// Construct an instance of the CreateLzPermittedNetworkOptions model
+				createLzPermittedNetworkOptionsModel := new(dnssvcsv1.CreateLzPermittedNetworkOptions)
+				createLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
+				createLzPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateLzPermittedNetworkOptions model with no property values
+				createLzPermittedNetworkOptionsModelNew := new(dnssvcsv1.CreateLzPermittedNetworkOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateLzPermittedNetwork successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the PermittedNetworkVpc model
+				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
+				permittedNetworkVpcModel.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+
+				// Construct an instance of the CreateLzPermittedNetworkOptions model
+				createLzPermittedNetworkOptionsModel := new(dnssvcsv1.CreateLzPermittedNetworkOptions)
+				createLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
+				createLzPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.CreateLzPermittedNetwork(createLzPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptions *DeleteLzPermittedNetworkOptions) - Operation response error`, func() {
+		deleteLzPermittedNetworkPath := "/instances/testString/linked_dnszones/testString/permitted_networks/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLzPermittedNetworkPath))
+					Expect(req.Method).To(Equal("DELETE"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke DeleteLzPermittedNetwork with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteLzPermittedNetworkOptions model
+				deleteLzPermittedNetworkOptionsModel := new(dnssvcsv1.DeleteLzPermittedNetworkOptions)
+				deleteLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptions *DeleteLzPermittedNetworkOptions)`, func() {
+		deleteLzPermittedNetworkPath := "/instances/testString/linked_dnszones/testString/permitted_networks/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLzPermittedNetworkPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+				}))
+			})
+			It(`Invoke DeleteLzPermittedNetwork successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the DeleteLzPermittedNetworkOptions model
+				deleteLzPermittedNetworkOptionsModel := new(dnssvcsv1.DeleteLzPermittedNetworkOptions)
+				deleteLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.DeleteLzPermittedNetworkWithContext(ctx, deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.DeleteLzPermittedNetworkWithContext(ctx, deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLzPermittedNetworkPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+				}))
+			})
+			It(`Invoke DeleteLzPermittedNetwork successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.DeleteLzPermittedNetwork(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the DeleteLzPermittedNetworkOptions model
+				deleteLzPermittedNetworkOptionsModel := new(dnssvcsv1.DeleteLzPermittedNetworkOptions)
+				deleteLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke DeleteLzPermittedNetwork with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteLzPermittedNetworkOptions model
+				deleteLzPermittedNetworkOptionsModel := new(dnssvcsv1.DeleteLzPermittedNetworkOptions)
+				deleteLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the DeleteLzPermittedNetworkOptions model with no property values
+				deleteLzPermittedNetworkOptionsModelNew := new(dnssvcsv1.DeleteLzPermittedNetworkOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(202)
+				}))
+			})
+			It(`Invoke DeleteLzPermittedNetwork successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteLzPermittedNetworkOptions model
+				deleteLzPermittedNetworkOptionsModel := new(dnssvcsv1.DeleteLzPermittedNetworkOptions)
+				deleteLzPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteLzPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.DeleteLzPermittedNetwork(deleteLzPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptions *GetLinkedPermittedNetworkOptions) - Operation response error`, func() {
+		getLinkedPermittedNetworkPath := "/instances/testString/linked_dnszones/testString/permitted_networks/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLinkedPermittedNetworkPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetLinkedPermittedNetwork with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLinkedPermittedNetworkOptions model
+				getLinkedPermittedNetworkOptionsModel := new(dnssvcsv1.GetLinkedPermittedNetworkOptions)
+				getLinkedPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptions *GetLinkedPermittedNetworkOptions)`, func() {
+		getLinkedPermittedNetworkPath := "/instances/testString/linked_dnszones/testString/permitted_networks/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLinkedPermittedNetworkPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+				}))
+			})
+			It(`Invoke GetLinkedPermittedNetwork successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetLinkedPermittedNetworkOptions model
+				getLinkedPermittedNetworkOptionsModel := new(dnssvcsv1.GetLinkedPermittedNetworkOptions)
+				getLinkedPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.GetLinkedPermittedNetworkWithContext(ctx, getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.GetLinkedPermittedNetworkWithContext(ctx, getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLinkedPermittedNetworkPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+				}))
+			})
+			It(`Invoke GetLinkedPermittedNetwork successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetLinkedPermittedNetwork(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetLinkedPermittedNetworkOptions model
+				getLinkedPermittedNetworkOptionsModel := new(dnssvcsv1.GetLinkedPermittedNetworkOptions)
+				getLinkedPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetLinkedPermittedNetwork with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLinkedPermittedNetworkOptions model
+				getLinkedPermittedNetworkOptionsModel := new(dnssvcsv1.GetLinkedPermittedNetworkOptions)
+				getLinkedPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetLinkedPermittedNetworkOptions model with no property values
+				getLinkedPermittedNetworkOptionsModelNew := new(dnssvcsv1.GetLinkedPermittedNetworkOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLinkedPermittedNetwork successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLinkedPermittedNetworkOptions model
+				getLinkedPermittedNetworkOptionsModel := new(dnssvcsv1.GetLinkedPermittedNetworkOptions)
+				getLinkedPermittedNetworkOptionsModel.InstanceID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.LinkedDnszoneID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.PermittedNetworkID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getLinkedPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.GetLinkedPermittedNetwork(getLinkedPermittedNetworkOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			dnsSvcsService, _ := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
@@ -10476,6 +13746,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateLinkedZoneOptions successfully`, func() {
+				// Construct an instance of the CreateLinkedZoneOptions model
+				instanceID := "testString"
+				createLinkedZoneOptionsModel := dnsSvcsService.NewCreateLinkedZoneOptions(instanceID)
+				createLinkedZoneOptionsModel.SetInstanceID("testString")
+				createLinkedZoneOptionsModel.SetOwnerInstanceID("abe30019-1c08-42dc-9ad9-a0682af70054")
+				createLinkedZoneOptionsModel.SetOwnerZoneID("05855abe-3908-4cdc-bf0d-063e0b1c296d")
+				createLinkedZoneOptionsModel.SetDescription("linked zone example")
+				createLinkedZoneOptionsModel.SetLabel("dev")
+				createLinkedZoneOptionsModel.SetXCorrelationID("testString")
+				createLinkedZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createLinkedZoneOptionsModel).ToNot(BeNil())
+				Expect(createLinkedZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(createLinkedZoneOptionsModel.OwnerInstanceID).To(Equal(core.StringPtr("abe30019-1c08-42dc-9ad9-a0682af70054")))
+				Expect(createLinkedZoneOptionsModel.OwnerZoneID).To(Equal(core.StringPtr("05855abe-3908-4cdc-bf0d-063e0b1c296d")))
+				Expect(createLinkedZoneOptionsModel.Description).To(Equal(core.StringPtr("linked zone example")))
+				Expect(createLinkedZoneOptionsModel.Label).To(Equal(core.StringPtr("dev")))
+				Expect(createLinkedZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(createLinkedZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewCreateLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the LoadBalancerAzPoolsItem model
 				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
@@ -10512,6 +13802,31 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createLoadBalancerOptionsModel.AzPools).To(Equal([]dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}))
 				Expect(createLoadBalancerOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateLzPermittedNetworkOptions successfully`, func() {
+				// Construct an instance of the PermittedNetworkVpc model
+				permittedNetworkVpcModel := new(dnssvcsv1.PermittedNetworkVpc)
+				Expect(permittedNetworkVpcModel).ToNot(BeNil())
+				permittedNetworkVpcModel.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+				Expect(permittedNetworkVpcModel.VpcCrn).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")))
+
+				// Construct an instance of the CreateLzPermittedNetworkOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				createLzPermittedNetworkOptionsModel := dnsSvcsService.NewCreateLzPermittedNetworkOptions(instanceID, linkedDnszoneID)
+				createLzPermittedNetworkOptionsModel.SetInstanceID("testString")
+				createLzPermittedNetworkOptionsModel.SetLinkedDnszoneID("testString")
+				createLzPermittedNetworkOptionsModel.SetType("vpc")
+				createLzPermittedNetworkOptionsModel.SetPermittedNetwork(permittedNetworkVpcModel)
+				createLzPermittedNetworkOptionsModel.SetXCorrelationID("testString")
+				createLzPermittedNetworkOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createLzPermittedNetworkOptionsModel).ToNot(BeNil())
+				Expect(createLzPermittedNetworkOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(createLzPermittedNetworkOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(createLzPermittedNetworkOptionsModel.Type).To(Equal(core.StringPtr("vpc")))
+				Expect(createLzPermittedNetworkOptionsModel.PermittedNetwork).To(Equal(permittedNetworkVpcModel))
+				Expect(createLzPermittedNetworkOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(createLzPermittedNetworkOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateMonitorOptions successfully`, func() {
 				// Construct an instance of the HealthcheckHeader model
@@ -10725,6 +14040,21 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(deleteForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewDeleteLinkedZoneOptions successfully`, func() {
+				// Construct an instance of the DeleteLinkedZoneOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				deleteLinkedZoneOptionsModel := dnsSvcsService.NewDeleteLinkedZoneOptions(instanceID, linkedDnszoneID)
+				deleteLinkedZoneOptionsModel.SetInstanceID("testString")
+				deleteLinkedZoneOptionsModel.SetLinkedDnszoneID("testString")
+				deleteLinkedZoneOptionsModel.SetXCorrelationID("testString")
+				deleteLinkedZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteLinkedZoneOptionsModel).ToNot(BeNil())
+				Expect(deleteLinkedZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLinkedZoneOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLinkedZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLinkedZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the DeleteLoadBalancerOptions model
 				instanceID := "testString"
@@ -10742,6 +14072,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(deleteLoadBalancerOptionsModel.LbID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteLoadBalancerOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteLzPermittedNetworkOptions successfully`, func() {
+				// Construct an instance of the DeleteLzPermittedNetworkOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				permittedNetworkID := "testString"
+				deleteLzPermittedNetworkOptionsModel := dnsSvcsService.NewDeleteLzPermittedNetworkOptions(instanceID, linkedDnszoneID, permittedNetworkID)
+				deleteLzPermittedNetworkOptionsModel.SetInstanceID("testString")
+				deleteLzPermittedNetworkOptionsModel.SetLinkedDnszoneID("testString")
+				deleteLzPermittedNetworkOptionsModel.SetPermittedNetworkID("testString")
+				deleteLzPermittedNetworkOptionsModel.SetXCorrelationID("testString")
+				deleteLzPermittedNetworkOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteLzPermittedNetworkOptionsModel).ToNot(BeNil())
+				Expect(deleteLzPermittedNetworkOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLzPermittedNetworkOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLzPermittedNetworkOptionsModel.PermittedNetworkID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLzPermittedNetworkOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteLzPermittedNetworkOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteMonitorOptions successfully`, func() {
 				// Construct an instance of the DeleteMonitorOptions model
@@ -10839,6 +14187,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(getCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(getCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetDnszoneAccessRequestOptions successfully`, func() {
+				// Construct an instance of the GetDnszoneAccessRequestOptions model
+				instanceID := "testString"
+				dnszoneID := "testString"
+				requestID := "testString"
+				getDnszoneAccessRequestOptionsModel := dnsSvcsService.NewGetDnszoneAccessRequestOptions(instanceID, dnszoneID, requestID)
+				getDnszoneAccessRequestOptionsModel.SetInstanceID("testString")
+				getDnszoneAccessRequestOptionsModel.SetDnszoneID("testString")
+				getDnszoneAccessRequestOptionsModel.SetRequestID("testString")
+				getDnszoneAccessRequestOptionsModel.SetXCorrelationID("testString")
+				getDnszoneAccessRequestOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getDnszoneAccessRequestOptionsModel).ToNot(BeNil())
+				Expect(getDnszoneAccessRequestOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getDnszoneAccessRequestOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(getDnszoneAccessRequestOptionsModel.RequestID).To(Equal(core.StringPtr("testString")))
+				Expect(getDnszoneAccessRequestOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getDnszoneAccessRequestOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetDnszoneOptions successfully`, func() {
 				// Construct an instance of the GetDnszoneOptions model
 				instanceID := "testString"
@@ -10871,6 +14237,39 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(getForwardingRuleOptionsModel.RuleID).To(Equal(core.StringPtr("testString")))
 				Expect(getForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(getForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetLinkedPermittedNetworkOptions successfully`, func() {
+				// Construct an instance of the GetLinkedPermittedNetworkOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				permittedNetworkID := "testString"
+				getLinkedPermittedNetworkOptionsModel := dnsSvcsService.NewGetLinkedPermittedNetworkOptions(instanceID, linkedDnszoneID, permittedNetworkID)
+				getLinkedPermittedNetworkOptionsModel.SetInstanceID("testString")
+				getLinkedPermittedNetworkOptionsModel.SetLinkedDnszoneID("testString")
+				getLinkedPermittedNetworkOptionsModel.SetPermittedNetworkID("testString")
+				getLinkedPermittedNetworkOptionsModel.SetXCorrelationID("testString")
+				getLinkedPermittedNetworkOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getLinkedPermittedNetworkOptionsModel).ToNot(BeNil())
+				Expect(getLinkedPermittedNetworkOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedPermittedNetworkOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedPermittedNetworkOptionsModel.PermittedNetworkID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedPermittedNetworkOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedPermittedNetworkOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetLinkedZoneOptions successfully`, func() {
+				// Construct an instance of the GetLinkedZoneOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				getLinkedZoneOptionsModel := dnsSvcsService.NewGetLinkedZoneOptions(instanceID, linkedDnszoneID)
+				getLinkedZoneOptionsModel.SetInstanceID("testString")
+				getLinkedZoneOptionsModel.SetLinkedDnszoneID("testString")
+				getLinkedZoneOptionsModel.SetXCorrelationID("testString")
+				getLinkedZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getLinkedZoneOptionsModel).ToNot(BeNil())
+				Expect(getLinkedZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedZoneOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getLinkedZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the GetLoadBalancerOptions model
@@ -10987,6 +14386,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listCustomResolversOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(listCustomResolversOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListDnszoneAccessRequestsOptions successfully`, func() {
+				// Construct an instance of the ListDnszoneAccessRequestsOptions model
+				instanceID := "testString"
+				dnszoneID := "testString"
+				listDnszoneAccessRequestsOptionsModel := dnsSvcsService.NewListDnszoneAccessRequestsOptions(instanceID, dnszoneID)
+				listDnszoneAccessRequestsOptionsModel.SetInstanceID("testString")
+				listDnszoneAccessRequestsOptionsModel.SetDnszoneID("testString")
+				listDnszoneAccessRequestsOptionsModel.SetXCorrelationID("testString")
+				listDnszoneAccessRequestsOptionsModel.SetOffset(int64(38))
+				listDnszoneAccessRequestsOptionsModel.SetLimit(int64(200))
+				listDnszoneAccessRequestsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listDnszoneAccessRequestsOptionsModel).ToNot(BeNil())
+				Expect(listDnszoneAccessRequestsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listDnszoneAccessRequestsOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(listDnszoneAccessRequestsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listDnszoneAccessRequestsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listDnszoneAccessRequestsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
+				Expect(listDnszoneAccessRequestsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListDnszonesOptions successfully`, func() {
 				// Construct an instance of the ListDnszonesOptions model
 				instanceID := "testString"
@@ -11018,6 +14436,37 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listForwardingRulesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(listForwardingRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListLinkedPermittedNetworksOptions successfully`, func() {
+				// Construct an instance of the ListLinkedPermittedNetworksOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				listLinkedPermittedNetworksOptionsModel := dnsSvcsService.NewListLinkedPermittedNetworksOptions(instanceID, linkedDnszoneID)
+				listLinkedPermittedNetworksOptionsModel.SetInstanceID("testString")
+				listLinkedPermittedNetworksOptionsModel.SetLinkedDnszoneID("testString")
+				listLinkedPermittedNetworksOptionsModel.SetXCorrelationID("testString")
+				listLinkedPermittedNetworksOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listLinkedPermittedNetworksOptionsModel).ToNot(BeNil())
+				Expect(listLinkedPermittedNetworksOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listLinkedPermittedNetworksOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(listLinkedPermittedNetworksOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listLinkedPermittedNetworksOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListLinkedZonesOptions successfully`, func() {
+				// Construct an instance of the ListLinkedZonesOptions model
+				instanceID := "testString"
+				listLinkedZonesOptionsModel := dnsSvcsService.NewListLinkedZonesOptions(instanceID)
+				listLinkedZonesOptionsModel.SetInstanceID("testString")
+				listLinkedZonesOptionsModel.SetXCorrelationID("testString")
+				listLinkedZonesOptionsModel.SetOffset(int64(38))
+				listLinkedZonesOptionsModel.SetLimit(int64(200))
+				listLinkedZonesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listLinkedZonesOptionsModel).ToNot(BeNil())
+				Expect(listLinkedZonesOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listLinkedZonesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listLinkedZonesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listLinkedZonesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
+				Expect(listLinkedZonesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListLoadBalancersOptions successfully`, func() {
 				// Construct an instance of the ListLoadBalancersOptions model
 				instanceID := "testString"
@@ -11026,11 +14475,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listLoadBalancersOptionsModel.SetInstanceID("testString")
 				listLoadBalancersOptionsModel.SetDnszoneID("testString")
 				listLoadBalancersOptionsModel.SetXCorrelationID("testString")
+				listLoadBalancersOptionsModel.SetOffset(int64(38))
+				listLoadBalancersOptionsModel.SetLimit(int64(200))
 				listLoadBalancersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listLoadBalancersOptionsModel).ToNot(BeNil())
 				Expect(listLoadBalancersOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listLoadBalancersOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
 				Expect(listLoadBalancersOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listLoadBalancersOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listLoadBalancersOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listLoadBalancersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListMonitorsOptions successfully`, func() {
@@ -11039,10 +14492,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listMonitorsOptionsModel := dnsSvcsService.NewListMonitorsOptions(instanceID)
 				listMonitorsOptionsModel.SetInstanceID("testString")
 				listMonitorsOptionsModel.SetXCorrelationID("testString")
+				listMonitorsOptionsModel.SetOffset(int64(38))
+				listMonitorsOptionsModel.SetLimit(int64(200))
 				listMonitorsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listMonitorsOptionsModel).ToNot(BeNil())
 				Expect(listMonitorsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listMonitorsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listMonitorsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listMonitorsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listMonitorsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListPermittedNetworksOptions successfully`, func() {
@@ -11053,15 +14510,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel.SetInstanceID("testString")
 				listPermittedNetworksOptionsModel.SetDnszoneID("testString")
 				listPermittedNetworksOptionsModel.SetXCorrelationID("testString")
-				listPermittedNetworksOptionsModel.SetOffset(int64(38))
-				listPermittedNetworksOptionsModel.SetLimit(int64(200))
 				listPermittedNetworksOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPermittedNetworksOptionsModel).ToNot(BeNil())
 				Expect(listPermittedNetworksOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listPermittedNetworksOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
 				Expect(listPermittedNetworksOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
-				Expect(listPermittedNetworksOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
-				Expect(listPermittedNetworksOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listPermittedNetworksOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListPoolsOptions successfully`, func() {
@@ -11070,10 +14523,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPoolsOptionsModel := dnsSvcsService.NewListPoolsOptions(instanceID)
 				listPoolsOptionsModel.SetInstanceID("testString")
 				listPoolsOptionsModel.SetXCorrelationID("testString")
+				listPoolsOptionsModel.SetOffset(int64(38))
+				listPoolsOptionsModel.SetLimit(int64(200))
 				listPoolsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPoolsOptionsModel).ToNot(BeNil())
 				Expect(listPoolsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listPoolsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listPoolsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listPoolsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listPoolsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListResourceRecordsOptions successfully`, func() {
@@ -11094,6 +14551,23 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listResourceRecordsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listResourceRecordsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateCrLocationsOrderOptions successfully`, func() {
+				// Construct an instance of the UpdateCrLocationsOrderOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				updateCrLocationsOrderOptionsModel := dnsSvcsService.NewUpdateCrLocationsOrderOptions(instanceID, resolverID)
+				updateCrLocationsOrderOptionsModel.SetInstanceID("testString")
+				updateCrLocationsOrderOptionsModel.SetResolverID("testString")
+				updateCrLocationsOrderOptionsModel.SetLocations([]string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"})
+				updateCrLocationsOrderOptionsModel.SetXCorrelationID("testString")
+				updateCrLocationsOrderOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateCrLocationsOrderOptionsModel).ToNot(BeNil())
+				Expect(updateCrLocationsOrderOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCrLocationsOrderOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCrLocationsOrderOptionsModel.Locations).To(Equal([]string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}))
+				Expect(updateCrLocationsOrderOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateCrLocationsOrderOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateCustomResolverLocationOptions successfully`, func() {
 				// Construct an instance of the UpdateCustomResolverLocationOptions model
@@ -11138,6 +14612,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewUpdateDnszoneAccessRequestOptions successfully`, func() {
+				// Construct an instance of the UpdateDnszoneAccessRequestOptions model
+				instanceID := "testString"
+				dnszoneID := "testString"
+				requestID := "testString"
+				updateDnszoneAccessRequestOptionsModel := dnsSvcsService.NewUpdateDnszoneAccessRequestOptions(instanceID, dnszoneID, requestID)
+				updateDnszoneAccessRequestOptionsModel.SetInstanceID("testString")
+				updateDnszoneAccessRequestOptionsModel.SetDnszoneID("testString")
+				updateDnszoneAccessRequestOptionsModel.SetRequestID("testString")
+				updateDnszoneAccessRequestOptionsModel.SetAction("APPROVE")
+				updateDnszoneAccessRequestOptionsModel.SetXCorrelationID("testString")
+				updateDnszoneAccessRequestOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateDnszoneAccessRequestOptionsModel).ToNot(BeNil())
+				Expect(updateDnszoneAccessRequestOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateDnszoneAccessRequestOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(updateDnszoneAccessRequestOptionsModel.RequestID).To(Equal(core.StringPtr("testString")))
+				Expect(updateDnszoneAccessRequestOptionsModel.Action).To(Equal(core.StringPtr("APPROVE")))
+				Expect(updateDnszoneAccessRequestOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateDnszoneAccessRequestOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateDnszoneOptions successfully`, func() {
 				// Construct an instance of the UpdateDnszoneOptions model
 				instanceID := "testString"
@@ -11180,6 +14674,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateForwardingRuleOptionsModel.ForwardTo).To(Equal([]string{"161.26.0.7"}))
 				Expect(updateForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateLinkedZoneOptions successfully`, func() {
+				// Construct an instance of the UpdateLinkedZoneOptions model
+				instanceID := "testString"
+				linkedDnszoneID := "testString"
+				updateLinkedZoneOptionsModel := dnsSvcsService.NewUpdateLinkedZoneOptions(instanceID, linkedDnszoneID)
+				updateLinkedZoneOptionsModel.SetInstanceID("testString")
+				updateLinkedZoneOptionsModel.SetLinkedDnszoneID("testString")
+				updateLinkedZoneOptionsModel.SetDescription("linked zone example")
+				updateLinkedZoneOptionsModel.SetLabel("dev")
+				updateLinkedZoneOptionsModel.SetXCorrelationID("testString")
+				updateLinkedZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateLinkedZoneOptionsModel).ToNot(BeNil())
+				Expect(updateLinkedZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateLinkedZoneOptionsModel.LinkedDnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(updateLinkedZoneOptionsModel.Description).To(Equal(core.StringPtr("linked zone example")))
+				Expect(updateLinkedZoneOptionsModel.Label).To(Equal(core.StringPtr("dev")))
+				Expect(updateLinkedZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateLinkedZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the LoadBalancerAzPoolsItem model
