@@ -94,12 +94,12 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 
 	instanceID := os.Getenv("DNS_SVCS_INSTANCE_ID")
-	ownerInstanceID := os.Getenv("DNS_SVCS_OWNER_INSTANCE_ID")
-	ownerZoneID := os.Getenv("DNS_SVCS_OWNER_ZONE_ID")
-	vpcCrnLzPermittedNetwork := os.Getenv("DNS_SVCS_VPC_CRN_LZ_PERMITTED_NETWORK")
 	vpcCrn := os.Getenv("DNS_SVCS_VPC_CRN")
 	subnetCrn := os.Getenv("DNS_SVCS_SUBNET_CRN")
 	customCrn := os.Getenv("DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN")
+	ownerInstanceID := os.Getenv("DNS_SVCS_OWNER_INSTANCE_ID")
+	ownerZoneID := os.Getenv("DNS_SVCS_OWNER_ZONE_ID")
+	vpcCrnLzPermittedNetwork := os.Getenv("DNS_SVCS_VPC_CRN_LZ_PERMITTED_NETWORK")
 
 	Describe(`dnssvcsv1`, func() {
 		Context(`dnssvcsv1`, func() {
