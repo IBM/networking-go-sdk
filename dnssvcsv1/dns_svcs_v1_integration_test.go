@@ -1355,7 +1355,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			It(`create/list/update/delete/get  custom resolver/custom resolver location/forwarding rule`, func() {
 				shouldSkipTest()
 				locationInputModel := new(dnssvcsv1.LocationInput)
-				locationInputModel.SubnetCrn = core.StringPtr("crn:v1:staging:public:is:us-south-2:a/01652b251c3ae2787110a995d8db0135::subnet:0726-0efb5161-e948-4e22-9d78-b757e92e3d01")
+				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
 				locationInputModel.Enabled = core.BoolPtr(false)
 
 				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
