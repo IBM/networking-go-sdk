@@ -902,7 +902,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(listPoolResult).ToNot(BeNil())
 				Expect(listPoolResponse.GetStatusCode()).To(BeEquivalentTo(200))
 			})
-			It(`crate/update/get/delete PDNS GLB monitor,pool and load balancer`, func() {
+			It(`create/update/get/delete PDNS GLB monitor,pool and load balancer`, func() {
 				shouldSkipTest()
 				Skip("pools")
 
@@ -995,8 +995,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*resultPool.HealthyOriginsThreshold).To(BeEquivalentTo(1))
 				Expect(resultPool.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
 				Expect(len(resultPool.HealthcheckVsis)).To(BeIdenticalTo(1))
-				// Expect(*resultPool.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
-				// Expect(*resultPool.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
+				Expect(*resultPool.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				Expect(*resultPool.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Get Pool
 				getPoolOpt := service.NewGetPoolOptions(instanceID, *resultPool.ID)
@@ -1011,8 +1011,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*getPoolResult.HealthyOriginsThreshold).To(BeEquivalentTo(1))
 				Expect(getPoolResult.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
 				Expect(len(getPoolResult.HealthcheckVsis)).To(BeIdenticalTo(1))
-				// Expect(*getPoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
-				// Expect(*getPoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
+				Expect(*getPoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				Expect(*getPoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Update Pool
 				updatePoolOpt := service.NewUpdatePoolOptions(instanceID, *resultPool.ID)
@@ -1030,8 +1030,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*updatePoolResult.Description).To(BeEquivalentTo("updating testPool"))
 				Expect(updatePoolResult.HealthcheckSubnets).To(BeEquivalentTo([]string{subnetCrn}))
 				Expect(len(updatePoolResult.HealthcheckVsis)).To(BeIdenticalTo(1))
-				// Expect(*updatePoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
-				// Expect(*updatePoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
+				Expect(*updatePoolResult.HealthcheckVsis[0].Vpc).To(BeEquivalentTo(vpcCrn))
+				Expect(*updatePoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Create Load Balancer
 				createLoadBalancerOptions := service.NewCreateLoadBalancerOptions(instanceID, *zoneInfo.ID)
