@@ -1462,7 +1462,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				// Test Update Custom Resolver Location
 				updateCustomResolverLocationOptionsModel := service.NewUpdateCustomResolverLocationOptions(instanceID, customResolverIDs[0], *locationID)
-				updateCustomResolverLocationOptionsModel.SetSubnetCrn(subnetCrn)
 				updateCustomResolverLocationOptionsModel.SetEnabled(false)
 				updateCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
 				Expect(updateCustomResolverLocationOptionsModel).ToNot(BeNil())
