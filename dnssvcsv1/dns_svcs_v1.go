@@ -3391,6 +3391,359 @@ func (dnsSvcs *DnsSvcsV1) UpdateForwardingRuleWithContext(ctx context.Context, u
 	return
 }
 
+// CreateSecondaryZone : Create a secondary zone
+// Create a secondary zone for the custom resolver.
+func (dnsSvcs *DnsSvcsV1) CreateSecondaryZone(createSecondaryZoneOptions *CreateSecondaryZoneOptions) (result *SecondaryZone, response *core.DetailedResponse, err error) {
+	return dnsSvcs.CreateSecondaryZoneWithContext(context.Background(), createSecondaryZoneOptions)
+}
+
+// CreateSecondaryZoneWithContext is an alternate form of the CreateSecondaryZone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) CreateSecondaryZoneWithContext(ctx context.Context, createSecondaryZoneOptions *CreateSecondaryZoneOptions) (result *SecondaryZone, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createSecondaryZoneOptions, "createSecondaryZoneOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createSecondaryZoneOptions, "createSecondaryZoneOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *createSecondaryZoneOptions.InstanceID,
+		"resolver_id": *createSecondaryZoneOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createSecondaryZoneOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "CreateSecondaryZone")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if createSecondaryZoneOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*createSecondaryZoneOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if createSecondaryZoneOptions.Description != nil {
+		body["description"] = createSecondaryZoneOptions.Description
+	}
+	if createSecondaryZoneOptions.Zone != nil {
+		body["zone"] = createSecondaryZoneOptions.Zone
+	}
+	if createSecondaryZoneOptions.Enabled != nil {
+		body["enabled"] = createSecondaryZoneOptions.Enabled
+	}
+	if createSecondaryZoneOptions.TransferFrom != nil {
+		body["transfer_from"] = createSecondaryZoneOptions.TransferFrom
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecondaryZone)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListSecondaryZones : List secondary zones
+// List secondary zones for the custom resolver.
+func (dnsSvcs *DnsSvcsV1) ListSecondaryZones(listSecondaryZonesOptions *ListSecondaryZonesOptions) (result *SecondaryZoneList, response *core.DetailedResponse, err error) {
+	return dnsSvcs.ListSecondaryZonesWithContext(context.Background(), listSecondaryZonesOptions)
+}
+
+// ListSecondaryZonesWithContext is an alternate form of the ListSecondaryZones method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListSecondaryZonesWithContext(ctx context.Context, listSecondaryZonesOptions *ListSecondaryZonesOptions) (result *SecondaryZoneList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listSecondaryZonesOptions, "listSecondaryZonesOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listSecondaryZonesOptions, "listSecondaryZonesOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *listSecondaryZonesOptions.InstanceID,
+		"resolver_id": *listSecondaryZonesOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listSecondaryZonesOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "ListSecondaryZones")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if listSecondaryZonesOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*listSecondaryZonesOptions.XCorrelationID))
+	}
+
+	if listSecondaryZonesOptions.Offset != nil {
+		builder.AddQuery("offset", fmt.Sprint(*listSecondaryZonesOptions.Offset))
+	}
+	if listSecondaryZonesOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listSecondaryZonesOptions.Limit))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecondaryZoneList)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetSecondaryZone : Get a secondary zone
+// Get details of a secondary zone for the custom resolver.
+func (dnsSvcs *DnsSvcsV1) GetSecondaryZone(getSecondaryZoneOptions *GetSecondaryZoneOptions) (result *SecondaryZone, response *core.DetailedResponse, err error) {
+	return dnsSvcs.GetSecondaryZoneWithContext(context.Background(), getSecondaryZoneOptions)
+}
+
+// GetSecondaryZoneWithContext is an alternate form of the GetSecondaryZone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetSecondaryZoneWithContext(ctx context.Context, getSecondaryZoneOptions *GetSecondaryZoneOptions) (result *SecondaryZone, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getSecondaryZoneOptions, "getSecondaryZoneOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getSecondaryZoneOptions, "getSecondaryZoneOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id":       *getSecondaryZoneOptions.InstanceID,
+		"resolver_id":       *getSecondaryZoneOptions.ResolverID,
+		"secondary_zone_id": *getSecondaryZoneOptions.SecondaryZoneID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getSecondaryZoneOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "GetSecondaryZone")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if getSecondaryZoneOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*getSecondaryZoneOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecondaryZone)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateSecondaryZone : Update a secondary zone
+// Update a secondary zone for the custom resolver.
+func (dnsSvcs *DnsSvcsV1) UpdateSecondaryZone(updateSecondaryZoneOptions *UpdateSecondaryZoneOptions) (result *SecondaryZone, response *core.DetailedResponse, err error) {
+	return dnsSvcs.UpdateSecondaryZoneWithContext(context.Background(), updateSecondaryZoneOptions)
+}
+
+// UpdateSecondaryZoneWithContext is an alternate form of the UpdateSecondaryZone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) UpdateSecondaryZoneWithContext(ctx context.Context, updateSecondaryZoneOptions *UpdateSecondaryZoneOptions) (result *SecondaryZone, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateSecondaryZoneOptions, "updateSecondaryZoneOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateSecondaryZoneOptions, "updateSecondaryZoneOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id":       *updateSecondaryZoneOptions.InstanceID,
+		"resolver_id":       *updateSecondaryZoneOptions.ResolverID,
+		"secondary_zone_id": *updateSecondaryZoneOptions.SecondaryZoneID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateSecondaryZoneOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "UpdateSecondaryZone")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if updateSecondaryZoneOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*updateSecondaryZoneOptions.XCorrelationID))
+	}
+
+	body := make(map[string]interface{})
+	if updateSecondaryZoneOptions.Description != nil {
+		body["description"] = updateSecondaryZoneOptions.Description
+	}
+	if updateSecondaryZoneOptions.Enabled != nil {
+		body["enabled"] = updateSecondaryZoneOptions.Enabled
+	}
+	if updateSecondaryZoneOptions.TransferFrom != nil {
+		body["transfer_from"] = updateSecondaryZoneOptions.TransferFrom
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecondaryZone)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteSecondaryZone : Delete a secondary zone
+// Delete a secondary zone for the custom resolver.
+func (dnsSvcs *DnsSvcsV1) DeleteSecondaryZone(deleteSecondaryZoneOptions *DeleteSecondaryZoneOptions) (response *core.DetailedResponse, err error) {
+	return dnsSvcs.DeleteSecondaryZoneWithContext(context.Background(), deleteSecondaryZoneOptions)
+}
+
+// DeleteSecondaryZoneWithContext is an alternate form of the DeleteSecondaryZone method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) DeleteSecondaryZoneWithContext(ctx context.Context, deleteSecondaryZoneOptions *DeleteSecondaryZoneOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteSecondaryZoneOptions, "deleteSecondaryZoneOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteSecondaryZoneOptions, "deleteSecondaryZoneOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id":       *deleteSecondaryZoneOptions.InstanceID,
+		"resolver_id":       *deleteSecondaryZoneOptions.ResolverID,
+		"secondary_zone_id": *deleteSecondaryZoneOptions.SecondaryZoneID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteSecondaryZoneOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "DeleteSecondaryZone")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteSecondaryZoneOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*deleteSecondaryZoneOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = dnsSvcs.Service.Request(request, nil)
+
+	return
+}
+
 // ListLinkedZones : List linked zones
 // List linked zones in requestor's instance.
 func (dnsSvcs *DnsSvcsV1) ListLinkedZones(listLinkedZonesOptions *ListLinkedZonesOptions) (result *LinkedDnszonesList, response *core.DetailedResponse, err error) {
@@ -5276,6 +5629,89 @@ func (options *CreateResourceRecordOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// CreateSecondaryZoneOptions : The CreateSecondaryZone options.
+type CreateSecondaryZoneOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// Descriptive text of the secondary zone.
+	Description *string `json:"description,omitempty"`
+
+	// zone name.
+	Zone *string `json:"zone,omitempty"`
+
+	// Enable/Disable the secondary zone.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// The addresses of DNS servers where the secondary zone data should be transferred from.
+	TransferFrom []string `json:"transfer_from,omitempty"`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewCreateSecondaryZoneOptions : Instantiate CreateSecondaryZoneOptions
+func (*DnsSvcsV1) NewCreateSecondaryZoneOptions(instanceID string, resolverID string) *CreateSecondaryZoneOptions {
+	return &CreateSecondaryZoneOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *CreateSecondaryZoneOptions) SetInstanceID(instanceID string) *CreateSecondaryZoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *CreateSecondaryZoneOptions) SetResolverID(resolverID string) *CreateSecondaryZoneOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetDescription : Allow user to set Description
+func (_options *CreateSecondaryZoneOptions) SetDescription(description string) *CreateSecondaryZoneOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
+}
+
+// SetZone : Allow user to set Zone
+func (_options *CreateSecondaryZoneOptions) SetZone(zone string) *CreateSecondaryZoneOptions {
+	_options.Zone = core.StringPtr(zone)
+	return _options
+}
+
+// SetEnabled : Allow user to set Enabled
+func (_options *CreateSecondaryZoneOptions) SetEnabled(enabled bool) *CreateSecondaryZoneOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
+}
+
+// SetTransferFrom : Allow user to set TransferFrom
+func (_options *CreateSecondaryZoneOptions) SetTransferFrom(transferFrom []string) *CreateSecondaryZoneOptions {
+	_options.TransferFrom = transferFrom
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *CreateSecondaryZoneOptions) SetXCorrelationID(xCorrelationID string) *CreateSecondaryZoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateSecondaryZoneOptions) SetHeaders(param map[string]string) *CreateSecondaryZoneOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteCustomResolverLocationOptions : The DeleteCustomResolverLocation options.
 type DeleteCustomResolverLocationOptions struct {
 	// The unique identifier of a service instance.
@@ -5849,6 +6285,63 @@ func (_options *DeleteResourceRecordOptions) SetXCorrelationID(xCorrelationID st
 
 // SetHeaders : Allow user to set Headers
 func (options *DeleteResourceRecordOptions) SetHeaders(param map[string]string) *DeleteResourceRecordOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteSecondaryZoneOptions : The DeleteSecondaryZone options.
+type DeleteSecondaryZoneOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// The unique identifier of a secondary zone.
+	SecondaryZoneID *string `json:"secondary_zone_id" validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteSecondaryZoneOptions : Instantiate DeleteSecondaryZoneOptions
+func (*DnsSvcsV1) NewDeleteSecondaryZoneOptions(instanceID string, resolverID string, secondaryZoneID string) *DeleteSecondaryZoneOptions {
+	return &DeleteSecondaryZoneOptions{
+		InstanceID:      core.StringPtr(instanceID),
+		ResolverID:      core.StringPtr(resolverID),
+		SecondaryZoneID: core.StringPtr(secondaryZoneID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *DeleteSecondaryZoneOptions) SetInstanceID(instanceID string) *DeleteSecondaryZoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *DeleteSecondaryZoneOptions) SetResolverID(resolverID string) *DeleteSecondaryZoneOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetSecondaryZoneID : Allow user to set SecondaryZoneID
+func (_options *DeleteSecondaryZoneOptions) SetSecondaryZoneID(secondaryZoneID string) *DeleteSecondaryZoneOptions {
+	_options.SecondaryZoneID = core.StringPtr(secondaryZoneID)
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *DeleteSecondaryZoneOptions) SetXCorrelationID(xCorrelationID string) *DeleteSecondaryZoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteSecondaryZoneOptions) SetHeaders(param map[string]string) *DeleteSecondaryZoneOptions {
 	options.Headers = param
 	return options
 }
@@ -6473,6 +6966,63 @@ func (_options *GetResourceRecordOptions) SetXCorrelationID(xCorrelationID strin
 
 // SetHeaders : Allow user to set Headers
 func (options *GetResourceRecordOptions) SetHeaders(param map[string]string) *GetResourceRecordOptions {
+	options.Headers = param
+	return options
+}
+
+// GetSecondaryZoneOptions : The GetSecondaryZone options.
+type GetSecondaryZoneOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// The unique identifier of a secondary zone.
+	SecondaryZoneID *string `json:"secondary_zone_id" validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetSecondaryZoneOptions : Instantiate GetSecondaryZoneOptions
+func (*DnsSvcsV1) NewGetSecondaryZoneOptions(instanceID string, resolverID string, secondaryZoneID string) *GetSecondaryZoneOptions {
+	return &GetSecondaryZoneOptions{
+		InstanceID:      core.StringPtr(instanceID),
+		ResolverID:      core.StringPtr(resolverID),
+		SecondaryZoneID: core.StringPtr(secondaryZoneID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *GetSecondaryZoneOptions) SetInstanceID(instanceID string) *GetSecondaryZoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *GetSecondaryZoneOptions) SetResolverID(resolverID string) *GetSecondaryZoneOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetSecondaryZoneID : Allow user to set SecondaryZoneID
+func (_options *GetSecondaryZoneOptions) SetSecondaryZoneID(secondaryZoneID string) *GetSecondaryZoneOptions {
+	_options.SecondaryZoneID = core.StringPtr(secondaryZoneID)
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *GetSecondaryZoneOptions) SetXCorrelationID(xCorrelationID string) *GetSecondaryZoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetSecondaryZoneOptions) SetHeaders(param map[string]string) *GetSecondaryZoneOptions {
 	options.Headers = param
 	return options
 }
@@ -7155,6 +7705,71 @@ func (_options *ListResourceRecordsOptions) SetLimit(limit int64) *ListResourceR
 
 // SetHeaders : Allow user to set Headers
 func (options *ListResourceRecordsOptions) SetHeaders(param map[string]string) *ListResourceRecordsOptions {
+	options.Headers = param
+	return options
+}
+
+// ListSecondaryZonesOptions : The ListSecondaryZones options.
+type ListSecondaryZonesOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Specify how many resources to skip over, the default value is 0.
+	Offset *int64 `json:"offset,omitempty"`
+
+	// Specify maximum resources might be returned.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListSecondaryZonesOptions : Instantiate ListSecondaryZonesOptions
+func (*DnsSvcsV1) NewListSecondaryZonesOptions(instanceID string, resolverID string) *ListSecondaryZonesOptions {
+	return &ListSecondaryZonesOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *ListSecondaryZonesOptions) SetInstanceID(instanceID string) *ListSecondaryZonesOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *ListSecondaryZonesOptions) SetResolverID(resolverID string) *ListSecondaryZonesOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *ListSecondaryZonesOptions) SetXCorrelationID(xCorrelationID string) *ListSecondaryZonesOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetOffset : Allow user to set Offset
+func (_options *ListSecondaryZonesOptions) SetOffset(offset int64) *ListSecondaryZonesOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListSecondaryZonesOptions) SetLimit(limit int64) *ListSecondaryZonesOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListSecondaryZonesOptions) SetHeaders(param map[string]string) *ListSecondaryZonesOptions {
 	options.Headers = param
 	return options
 }
@@ -8476,6 +9091,90 @@ func (_options *UpdateResourceRecordOptions) SetXCorrelationID(xCorrelationID st
 
 // SetHeaders : Allow user to set Headers
 func (options *UpdateResourceRecordOptions) SetHeaders(param map[string]string) *UpdateResourceRecordOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateSecondaryZoneOptions : The UpdateSecondaryZone options.
+type UpdateSecondaryZoneOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// The unique identifier of a secondary zone.
+	SecondaryZoneID *string `json:"secondary_zone_id" validate:"required,ne="`
+
+	// Descriptive text of the secondary zone.
+	Description *string `json:"description,omitempty"`
+
+	// Enable/Disable the secondary zone.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// The addresses of DNS servers where the secondary zone data should be transferred from.
+	TransferFrom []string `json:"transfer_from,omitempty"`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateSecondaryZoneOptions : Instantiate UpdateSecondaryZoneOptions
+func (*DnsSvcsV1) NewUpdateSecondaryZoneOptions(instanceID string, resolverID string, secondaryZoneID string) *UpdateSecondaryZoneOptions {
+	return &UpdateSecondaryZoneOptions{
+		InstanceID:      core.StringPtr(instanceID),
+		ResolverID:      core.StringPtr(resolverID),
+		SecondaryZoneID: core.StringPtr(secondaryZoneID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *UpdateSecondaryZoneOptions) SetInstanceID(instanceID string) *UpdateSecondaryZoneOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *UpdateSecondaryZoneOptions) SetResolverID(resolverID string) *UpdateSecondaryZoneOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetSecondaryZoneID : Allow user to set SecondaryZoneID
+func (_options *UpdateSecondaryZoneOptions) SetSecondaryZoneID(secondaryZoneID string) *UpdateSecondaryZoneOptions {
+	_options.SecondaryZoneID = core.StringPtr(secondaryZoneID)
+	return _options
+}
+
+// SetDescription : Allow user to set Description
+func (_options *UpdateSecondaryZoneOptions) SetDescription(description string) *UpdateSecondaryZoneOptions {
+	_options.Description = core.StringPtr(description)
+	return _options
+}
+
+// SetEnabled : Allow user to set Enabled
+func (_options *UpdateSecondaryZoneOptions) SetEnabled(enabled bool) *UpdateSecondaryZoneOptions {
+	_options.Enabled = core.BoolPtr(enabled)
+	return _options
+}
+
+// SetTransferFrom : Allow user to set TransferFrom
+func (_options *UpdateSecondaryZoneOptions) SetTransferFrom(transferFrom []string) *UpdateSecondaryZoneOptions {
+	_options.TransferFrom = transferFrom
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *UpdateSecondaryZoneOptions) SetXCorrelationID(xCorrelationID string) *UpdateSecondaryZoneOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateSecondaryZoneOptions) SetHeaders(param map[string]string) *UpdateSecondaryZoneOptions {
 	options.Headers = param
 	return options
 }
@@ -10463,6 +11162,155 @@ func UnmarshalResourceRecord(m map[string]json.RawMessage, result interface{}) (
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// SecondaryZone : Secondary zone details.
+type SecondaryZone struct {
+	// Identifier of the secondary zone.
+	ID *string `json:"id" validate:"required"`
+
+	// Descriptive text of the secondary zone.
+	Description *string `json:"description,omitempty"`
+
+	// zone name.
+	Zone *string `json:"zone" validate:"required"`
+
+	// Enable/Disable the secondary zone.
+	Enabled *bool `json:"enabled" validate:"required"`
+
+	// The addresses of DNS servers where the secondary zone data should be transferred from.
+	TransferFrom []string `json:"transfer_from" validate:"required"`
+
+	// The time when a secondary zone is created.
+	CreatedOn *string `json:"created_on,omitempty"`
+
+	// The recent time when a secondary zone is modified.
+	ModifiedOn *string `json:"modified_on,omitempty"`
+}
+
+// UnmarshalSecondaryZone unmarshals an instance of SecondaryZone from the specified map of raw messages.
+func UnmarshalSecondaryZone(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecondaryZone)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "zone", &obj.Zone)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "transfer_from", &obj.TransferFrom)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_on", &obj.CreatedOn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecondaryZoneList : List of secondary zones.
+type SecondaryZoneList struct {
+	// Secondary zones.
+	SecondaryZones []SecondaryZone `json:"secondary_zones" validate:"required"`
+
+	// The number of resources to skip over.
+	Offset *int64 `json:"offset" validate:"required"`
+
+	// The maximum number of resources might be returned.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// The number of resources are returned.
+	Count *int64 `json:"count" validate:"required"`
+
+	// Total number of resources.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+
+	// href.
+	First *PaginationRef `json:"first,omitempty"`
+
+	// href.
+	Last *PaginationRef `json:"last,omitempty"`
+
+	// href.
+	Previous *PaginationRef `json:"previous,omitempty"`
+
+	// href.
+	Next *PaginationRef `json:"next,omitempty"`
+}
+
+// UnmarshalSecondaryZoneList unmarshals an instance of SecondaryZoneList from the specified map of raw messages.
+func UnmarshalSecondaryZoneList(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecondaryZoneList)
+	err = core.UnmarshalModel(m, "secondary_zones", &obj.SecondaryZones, UnmarshalSecondaryZone)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "count", &obj.Count)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationRef)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "last", &obj.Last, UnmarshalPaginationRef)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "previous", &obj.Previous, UnmarshalPaginationRef)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationRef)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *SecondaryZoneList) GetNextOffset() (*int64, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	offset, err := core.GetQueryParam(resp.Next.Href, "offset")
+	if err != nil || offset == nil {
+		return nil, err
+	}
+	var offsetValue int64
+	offsetValue, err = strconv.ParseInt(*offset, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return core.Int64Ptr(offsetValue), nil
 }
 
 // ResourceRecordInputRdataRdataARecord : The content of type-A resource record.
