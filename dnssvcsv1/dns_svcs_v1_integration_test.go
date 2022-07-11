@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	dnssvcsv1 "github.com/IBM/networking-go-sdk/dnssvcsv1"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	dnssvcsv1 "github.ibm.com/ibmcloud/networking-go-sdk/dnssvcsv1"
 )
 
 const configFile = "../dns.env"
