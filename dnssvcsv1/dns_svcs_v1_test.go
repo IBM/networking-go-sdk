@@ -10759,6 +10759,1158 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
+	Describe(`CreateSecondaryZone(createSecondaryZoneOptions *CreateSecondaryZoneOptions) - Operation response error`, func() {
+		createSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createSecondaryZonePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateSecondaryZone with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateSecondaryZoneOptions model
+				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
+				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateSecondaryZone(createSecondaryZoneOptions *CreateSecondaryZoneOptions)`, func() {
+		createSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createSecondaryZonePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke CreateSecondaryZone successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateSecondaryZoneOptions model
+				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
+				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.CreateSecondaryZoneWithContext(ctx, createSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.CreateSecondaryZoneWithContext(ctx, createSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createSecondaryZonePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke CreateSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.CreateSecondaryZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateSecondaryZoneOptions model
+				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
+				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateSecondaryZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateSecondaryZoneOptions model
+				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
+				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateSecondaryZoneOptions model with no property values
+				createSecondaryZoneOptionsModelNew := new(dnssvcsv1.CreateSecondaryZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateSecondaryZoneOptions model
+				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
+				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.CreateSecondaryZone(createSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListSecondaryZones(listSecondaryZonesOptions *ListSecondaryZonesOptions) - Operation response error`, func() {
+		listSecondaryZonesPath := "/instances/testString/custom_resolvers/testString/secondary_zones"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSecondaryZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListSecondaryZones with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecondaryZonesOptions model
+				listSecondaryZonesOptionsModel := new(dnssvcsv1.ListSecondaryZonesOptions)
+				listSecondaryZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.ResolverID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listSecondaryZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listSecondaryZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListSecondaryZones(listSecondaryZonesOptions *ListSecondaryZonesOptions)`, func() {
+		listSecondaryZonesPath := "/instances/testString/custom_resolvers/testString/secondary_zones"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSecondaryZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+				}))
+			})
+			It(`Invoke ListSecondaryZones successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListSecondaryZonesOptions model
+				listSecondaryZonesOptionsModel := new(dnssvcsv1.ListSecondaryZonesOptions)
+				listSecondaryZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.ResolverID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listSecondaryZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listSecondaryZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.ListSecondaryZonesWithContext(ctx, listSecondaryZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.ListSecondaryZonesWithContext(ctx, listSecondaryZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSecondaryZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+				}))
+			})
+			It(`Invoke ListSecondaryZones successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListSecondaryZones(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListSecondaryZonesOptions model
+				listSecondaryZonesOptionsModel := new(dnssvcsv1.ListSecondaryZonesOptions)
+				listSecondaryZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.ResolverID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listSecondaryZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listSecondaryZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListSecondaryZones with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecondaryZonesOptions model
+				listSecondaryZonesOptionsModel := new(dnssvcsv1.ListSecondaryZonesOptions)
+				listSecondaryZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.ResolverID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listSecondaryZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listSecondaryZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListSecondaryZonesOptions model with no property values
+				listSecondaryZonesOptionsModelNew := new(dnssvcsv1.ListSecondaryZonesOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSecondaryZones successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecondaryZonesOptions model
+				listSecondaryZonesOptionsModel := new(dnssvcsv1.ListSecondaryZonesOptions)
+				listSecondaryZonesOptionsModel.InstanceID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.ResolverID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listSecondaryZonesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listSecondaryZonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listSecondaryZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.ListSecondaryZones(listSecondaryZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.SecondaryZoneList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.SecondaryZoneList)
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.SecondaryZoneList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.SecondaryZoneList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+	})
+	Describe(`GetSecondaryZone(getSecondaryZoneOptions *GetSecondaryZoneOptions) - Operation response error`, func() {
+		getSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSecondaryZonePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetSecondaryZone with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecondaryZoneOptions model
+				getSecondaryZoneOptionsModel := new(dnssvcsv1.GetSecondaryZoneOptions)
+				getSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetSecondaryZone(getSecondaryZoneOptions *GetSecondaryZoneOptions)`, func() {
+		getSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSecondaryZonePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke GetSecondaryZone successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetSecondaryZoneOptions model
+				getSecondaryZoneOptionsModel := new(dnssvcsv1.GetSecondaryZoneOptions)
+				getSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.GetSecondaryZoneWithContext(ctx, getSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.GetSecondaryZoneWithContext(ctx, getSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSecondaryZonePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke GetSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetSecondaryZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetSecondaryZoneOptions model
+				getSecondaryZoneOptionsModel := new(dnssvcsv1.GetSecondaryZoneOptions)
+				getSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetSecondaryZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecondaryZoneOptions model
+				getSecondaryZoneOptionsModel := new(dnssvcsv1.GetSecondaryZoneOptions)
+				getSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetSecondaryZoneOptions model with no property values
+				getSecondaryZoneOptionsModelNew := new(dnssvcsv1.GetSecondaryZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecondaryZoneOptions model
+				getSecondaryZoneOptionsModel := new(dnssvcsv1.GetSecondaryZoneOptions)
+				getSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.GetSecondaryZone(getSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateSecondaryZone(updateSecondaryZoneOptions *UpdateSecondaryZoneOptions) - Operation response error`, func() {
+		updateSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecondaryZonePath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateSecondaryZone with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateSecondaryZoneOptions model
+				updateSecondaryZoneOptionsModel := new(dnssvcsv1.UpdateSecondaryZoneOptions)
+				updateSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				updateSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				updateSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				updateSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateSecondaryZone(updateSecondaryZoneOptions *UpdateSecondaryZoneOptions)`, func() {
+		updateSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecondaryZonePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateSecondaryZone successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateSecondaryZoneOptions model
+				updateSecondaryZoneOptionsModel := new(dnssvcsv1.UpdateSecondaryZoneOptions)
+				updateSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				updateSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				updateSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				updateSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.UpdateSecondaryZoneWithContext(ctx, updateSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.UpdateSecondaryZoneWithContext(ctx, updateSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecondaryZonePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+				}))
+			})
+			It(`Invoke UpdateSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.UpdateSecondaryZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateSecondaryZoneOptions model
+				updateSecondaryZoneOptionsModel := new(dnssvcsv1.UpdateSecondaryZoneOptions)
+				updateSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				updateSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				updateSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				updateSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateSecondaryZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateSecondaryZoneOptions model
+				updateSecondaryZoneOptionsModel := new(dnssvcsv1.UpdateSecondaryZoneOptions)
+				updateSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				updateSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				updateSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				updateSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateSecondaryZoneOptions model with no property values
+				updateSecondaryZoneOptionsModelNew := new(dnssvcsv1.UpdateSecondaryZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateSecondaryZoneOptions model
+				updateSecondaryZoneOptionsModel := new(dnssvcsv1.UpdateSecondaryZoneOptions)
+				updateSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				updateSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
+				updateSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				updateSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				updateSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsSvcsService.UpdateSecondaryZone(updateSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteSecondaryZone(deleteSecondaryZoneOptions *DeleteSecondaryZoneOptions)`, func() {
+		deleteSecondaryZonePath := "/instances/testString/custom_resolvers/testString/secondary_zones/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSecondaryZonePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteSecondaryZone successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := dnsSvcsService.DeleteSecondaryZone(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteSecondaryZoneOptions model
+				deleteSecondaryZoneOptionsModel := new(dnssvcsv1.DeleteSecondaryZoneOptions)
+				deleteSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = dnsSvcsService.DeleteSecondaryZone(deleteSecondaryZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteSecondaryZone with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteSecondaryZoneOptions model
+				deleteSecondaryZoneOptionsModel := new(dnssvcsv1.DeleteSecondaryZoneOptions)
+				deleteSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.SecondaryZoneID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsSvcsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := dnsSvcsService.DeleteSecondaryZone(deleteSecondaryZoneOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteSecondaryZoneOptions model with no property values
+				deleteSecondaryZoneOptionsModelNew := new(dnssvcsv1.DeleteSecondaryZoneOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = dnsSvcsService.DeleteSecondaryZone(deleteSecondaryZoneOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ListLinkedZones(listLinkedZonesOptions *ListLinkedZonesOptions) - Operation response error`, func() {
 		listLinkedZonesPath := "/instances/testString/linked_dnszones"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -13974,6 +15126,29 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateSecondaryZoneOptions successfully`, func() {
+				// Construct an instance of the CreateSecondaryZoneOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				createSecondaryZoneOptionsModel := dnsSvcsService.NewCreateSecondaryZoneOptions(instanceID, resolverID)
+				createSecondaryZoneOptionsModel.SetInstanceID("testString")
+				createSecondaryZoneOptionsModel.SetResolverID("testString")
+				createSecondaryZoneOptionsModel.SetDescription("secondary zone")
+				createSecondaryZoneOptionsModel.SetZone("example.com")
+				createSecondaryZoneOptionsModel.SetEnabled(false)
+				createSecondaryZoneOptionsModel.SetTransferFrom([]string{"10.0.0.7"})
+				createSecondaryZoneOptionsModel.SetXCorrelationID("testString")
+				createSecondaryZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createSecondaryZoneOptionsModel).ToNot(BeNil())
+				Expect(createSecondaryZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(createSecondaryZoneOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(createSecondaryZoneOptionsModel.Description).To(Equal(core.StringPtr("secondary zone")))
+				Expect(createSecondaryZoneOptionsModel.Zone).To(Equal(core.StringPtr("example.com")))
+				Expect(createSecondaryZoneOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
+				Expect(createSecondaryZoneOptionsModel.TransferFrom).To(Equal([]string{"10.0.0.7"}))
+				Expect(createSecondaryZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(createSecondaryZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteCustomResolverLocationOptions successfully`, func() {
 				// Construct an instance of the DeleteCustomResolverLocationOptions model
 				instanceID := "testString"
@@ -14156,6 +15331,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(deleteResourceRecordOptionsModel.RecordID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteSecondaryZoneOptions successfully`, func() {
+				// Construct an instance of the DeleteSecondaryZoneOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				secondaryZoneID := "testString"
+				deleteSecondaryZoneOptionsModel := dnsSvcsService.NewDeleteSecondaryZoneOptions(instanceID, resolverID, secondaryZoneID)
+				deleteSecondaryZoneOptionsModel.SetInstanceID("testString")
+				deleteSecondaryZoneOptionsModel.SetResolverID("testString")
+				deleteSecondaryZoneOptionsModel.SetSecondaryZoneID("testString")
+				deleteSecondaryZoneOptionsModel.SetXCorrelationID("testString")
+				deleteSecondaryZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteSecondaryZoneOptionsModel).ToNot(BeNil())
+				Expect(deleteSecondaryZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteSecondaryZoneOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteSecondaryZoneOptionsModel.SecondaryZoneID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteSecondaryZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteSecondaryZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewExportResourceRecordsOptions successfully`, func() {
 				// Construct an instance of the ExportResourceRecordsOptions model
@@ -14355,6 +15548,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(getResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(getResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetSecondaryZoneOptions successfully`, func() {
+				// Construct an instance of the GetSecondaryZoneOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				secondaryZoneID := "testString"
+				getSecondaryZoneOptionsModel := dnsSvcsService.NewGetSecondaryZoneOptions(instanceID, resolverID, secondaryZoneID)
+				getSecondaryZoneOptionsModel.SetInstanceID("testString")
+				getSecondaryZoneOptionsModel.SetResolverID("testString")
+				getSecondaryZoneOptionsModel.SetSecondaryZoneID("testString")
+				getSecondaryZoneOptionsModel.SetXCorrelationID("testString")
+				getSecondaryZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getSecondaryZoneOptionsModel).ToNot(BeNil())
+				Expect(getSecondaryZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getSecondaryZoneOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(getSecondaryZoneOptionsModel.SecondaryZoneID).To(Equal(core.StringPtr("testString")))
+				Expect(getSecondaryZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getSecondaryZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewImportResourceRecordsOptions successfully`, func() {
 				// Construct an instance of the ImportResourceRecordsOptions model
 				instanceID := "testString"
@@ -14551,6 +15762,25 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listResourceRecordsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listResourceRecordsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListSecondaryZonesOptions successfully`, func() {
+				// Construct an instance of the ListSecondaryZonesOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				listSecondaryZonesOptionsModel := dnsSvcsService.NewListSecondaryZonesOptions(instanceID, resolverID)
+				listSecondaryZonesOptionsModel.SetInstanceID("testString")
+				listSecondaryZonesOptionsModel.SetResolverID("testString")
+				listSecondaryZonesOptionsModel.SetXCorrelationID("testString")
+				listSecondaryZonesOptionsModel.SetOffset(int64(38))
+				listSecondaryZonesOptionsModel.SetLimit(int64(200))
+				listSecondaryZonesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listSecondaryZonesOptionsModel).ToNot(BeNil())
+				Expect(listSecondaryZonesOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listSecondaryZonesOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(listSecondaryZonesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listSecondaryZonesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listSecondaryZonesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
+				Expect(listSecondaryZonesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateCrLocationsOrderOptions successfully`, func() {
 				// Construct an instance of the UpdateCrLocationsOrderOptions model
@@ -14861,6 +16091,30 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateResourceRecordOptionsModel.Protocol).To(Equal(core.StringPtr("udp")))
 				Expect(updateResourceRecordOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateResourceRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateSecondaryZoneOptions successfully`, func() {
+				// Construct an instance of the UpdateSecondaryZoneOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				secondaryZoneID := "testString"
+				updateSecondaryZoneOptionsModel := dnsSvcsService.NewUpdateSecondaryZoneOptions(instanceID, resolverID, secondaryZoneID)
+				updateSecondaryZoneOptionsModel.SetInstanceID("testString")
+				updateSecondaryZoneOptionsModel.SetResolverID("testString")
+				updateSecondaryZoneOptionsModel.SetSecondaryZoneID("testString")
+				updateSecondaryZoneOptionsModel.SetDescription("secondary zone")
+				updateSecondaryZoneOptionsModel.SetEnabled(false)
+				updateSecondaryZoneOptionsModel.SetTransferFrom([]string{"10.0.0.7"})
+				updateSecondaryZoneOptionsModel.SetXCorrelationID("testString")
+				updateSecondaryZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateSecondaryZoneOptionsModel).ToNot(BeNil())
+				Expect(updateSecondaryZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(updateSecondaryZoneOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(updateSecondaryZoneOptionsModel.SecondaryZoneID).To(Equal(core.StringPtr("testString")))
+				Expect(updateSecondaryZoneOptionsModel.Description).To(Equal(core.StringPtr("secondary zone")))
+				Expect(updateSecondaryZoneOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
+				Expect(updateSecondaryZoneOptionsModel.TransferFrom).To(Equal([]string{"10.0.0.7"}))
+				Expect(updateSecondaryZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(updateSecondaryZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewHealthcheckHeader successfully`, func() {
 				name := "Host"
