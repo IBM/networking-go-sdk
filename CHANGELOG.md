@@ -1,3 +1,25 @@
+# [0.31.0](https://github.com/IBM/networking-go-sdk/compare/v0.30.0...v0.31.0) (2022-07-13)
+
+
+### Bug Fixes
+
+* comments ([1e5bdaa](https://github.com/IBM/networking-go-sdk/commit/1e5bdaadd805aac501e5cae2ab3a3b9005fd246e))
+* do not set subnet again ([5a3d97e](https://github.com/IBM/networking-go-sdk/commit/5a3d97e2ed3b9d342b51668898ddc57d4055f943))
+* panic stmt ([229e151](https://github.com/IBM/networking-go-sdk/commit/229e1510f6fc1a5ebaa75e048ed70e05235d9e1e))
+* **pdns cross acct:** do not skip all tests ([fda8ccd](https://github.com/IBM/networking-go-sdk/commit/fda8ccdfa833d1fa2a04c1ea2428a5ae099f02d8))
+* **pdns cross acct:** move var declaration ([c8e8ac5](https://github.com/IBM/networking-go-sdk/commit/c8e8ac54ee9f82e67a2ddbd587d044fc118c7d6b))
+* **pdns cross acct:** revert to orig ([3601ef8](https://github.com/IBM/networking-go-sdk/commit/3601ef8b5ca77f027d9c07c331f8a3c93e4231df))
+* **pdns cross acct:** semantics ([c6075cd](https://github.com/IBM/networking-go-sdk/commit/c6075cd3135680ecbb4ae2baea42d2d943137469))
+* remove comment, fix typo ([bab5812](https://github.com/IBM/networking-go-sdk/commit/bab58121ff0b6b90a6c4c37c56f29fdc047c6710))
+* **seczone:** fix dnssvcsv1 path ([433c8f6](https://github.com/IBM/networking-go-sdk/commit/433c8f6e125227f071f6ed8d0fce63c35fcfda46))
+* use subnet crn env var ([48d583f](https://github.com/IBM/networking-go-sdk/commit/48d583f923009d98db6d5b4afde4058045c8f83e))
+
+
+### Features
+
+* **dnssvcsv1:** add cross acct feature ([9d9df67](https://github.com/IBM/networking-go-sdk/commit/9d9df6711e46e7c461ed9d5fe0ca4b487b120899))
+* **sz:** add secondary zone support ([daedfce](https://github.com/IBM/networking-go-sdk/commit/daedfce355e379b4118cf42239786819a37338cd))
+
 # [0.30.0](https://github.com/IBM/networking-go-sdk/compare/v0.29.0...v0.30.0) (2022-05-10)
 
 
