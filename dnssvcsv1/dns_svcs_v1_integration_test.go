@@ -1648,7 +1648,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			It(`create/list/update/delete/get secondary zone`, func() {
 				shouldSkipTest()
 
-				// create custom resolver
+				// create secondary zone
 				createSecondaryZoneOptions := service.NewCreateSecondaryZoneOptions(
 					instanceID,
 					*testCustomResolver.ID,
