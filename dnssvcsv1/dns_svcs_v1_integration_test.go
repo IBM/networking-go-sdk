@@ -66,7 +66,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
 	if serviceErr != nil {
-		panic(err)
+		panic(serviceErr)
 	}
 	ownerAPIKey := os.Getenv("DNS_SVCS_OWNER_APIKEY")
 	if ownerAPIKey == "" {
@@ -1648,7 +1648,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			It(`create/list/update/delete/get secondary zone`, func() {
 				shouldSkipTest()
 
-				// create custom resolver
+				// create secondary zone
 				createSecondaryZoneOptions := service.NewCreateSecondaryZoneOptions(
 					instanceID,
 					*testCustomResolver.ID,
