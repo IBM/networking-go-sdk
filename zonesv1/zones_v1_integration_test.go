@@ -22,13 +22,13 @@ const configFile = "../cis.env"
 var configLoaded bool = true
 
 func shouldSkipTest() {
-	Skip("Skipping Tests")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
 }
 
 var _ = Describe(`zonesv1_test`, func() {
+	defer GinkgoRecover()
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -170,6 +170,52 @@ var _ = Describe(`zonesv1_test`, func() {
 				Expect(listResult).ToNot(BeNil())
 				Expect(*listResult.Success).Should(BeTrue())
 
+			})
+			It(`partial zones create/update/delete/activation check test`, func() {
+				shouldSkipTest()
+				// create partial zone
+				zoneName := fmt.Sprintf("uuid-%s.ibm.com", guuid.New().String())
+				zoneType := CreateZoneOptions_Type_Partial
+				createOpt := service.NewCreateZoneOptions()
+				createOpt.SetName(zoneName)
+				createOpt.SetType(zoneType)
+
+				createResult, createResp, createErr := service.CreateZone(createOpt)
+				Expect(createErr).To(BeNil())
+				Expect(createResp).ToNot(BeNil())
+				Expect(createResult).ToNot(BeNil())
+				Expect(*createResult.Success).Should(BeTrue())
+
+				// update partial zone
+				updateOpt := service.NewUpdateZoneOptions(*createResult.Result.ID)
+				updateOpt.SetPaused(true)
+				updateResult, updateResp, updateErr := service.UpdateZone(updateOpt)
+				Expect(updateErr).To(BeNil())
+				Expect(updateResp).ToNot(BeNil())
+				Expect(updateResult).ToNot(BeNil())
+				Expect(*updateResult.Success).Should(BeTrue())
+
+				// activation partial check
+				checkOpt := service.NewZoneActivationCheckOptions(*createResult.Result.ID)
+				checkResult, checkResp, checkErr := service.ZoneActivationCheck(checkOpt)
+				Expect(checkErr).To(BeNil())
+				Expect(checkResp).ToNot(BeNil())
+				Expect(checkResult).ToNot(BeNil())
+				Expect(*checkResult.Success).Should(BeTrue())
+
+				getOpt := service.NewGetZoneOptions(*createResult.Result.ID)
+				getResult, getResp, getErr := service.GetZone(getOpt)
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+
+				deleteOpt := service.NewDeleteZoneOptions(*createResult.Result.ID)
+				deleteResult, deleteResp, deleteErr := service.DeleteZone(deleteOpt)
+				Expect(deleteErr).To(BeNil())
+				Expect(deleteResp).ToNot(BeNil())
+				Expect(deleteResult).ToNot(BeNil())
+				Expect(*deleteResult.Success).Should(BeTrue())
 			})
 		})
 	})
