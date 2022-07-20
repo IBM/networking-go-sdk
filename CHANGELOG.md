@@ -1,3 +1,10 @@
+# [0.32.0](https://github.com/IBM/networking-go-sdk/compare/v0.31.0...v0.32.0) (2022-07-20)
+
+
+### Features
+
+* **zones:** added partial zone setup ([3e8aff6](https://github.com/IBM/networking-go-sdk/commit/3e8aff612c54c6270f6cc8e23dccbadf139cb849))
+
 # [0.31.0](https://github.com/IBM/networking-go-sdk/compare/v0.30.0...v0.31.0) (2022-07-13)
 
 
