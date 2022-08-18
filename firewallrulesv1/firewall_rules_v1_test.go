@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,14 +67,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
+				"FIREWALL_RULES_URL":       "https://firewallrulesv1/api",
 				"FIREWALL_RULES_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{})
 				Expect(firewallRulesService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -103,8 +102,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-				})
+				firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{})
 				err := firewallRulesService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(firewallRulesService).ToNot(BeNil())
@@ -122,13 +120,12 @@ var _ = Describe(`FirewallRulesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_URL": "https://firewallrulesv1/api",
+				"FIREWALL_RULES_URL":       "https://firewallrulesv1/api",
 				"FIREWALL_RULES_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{
-			})
+			firewallRulesService, serviceErr := firewallrulesv1.NewFirewallRulesV1UsingExternalConfig(&firewallrulesv1.FirewallRulesV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(firewallRulesService).To(BeNil())
@@ -139,7 +136,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FIREWALL_RULES_AUTH_TYPE":   "NOAuth",
+				"FIREWALL_RULES_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -178,7 +175,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListAllFirewallRules with error: Operation response processing error`, func() {
@@ -406,7 +403,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateFirewallRules with error: Operation response processing error`, func() {
@@ -417,22 +414,24 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallRulesService).ToNot(BeNil())
 
-				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
-				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
-				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+				// Construct an instance of the FirewallRuleInputFilterID model
+				firewallRuleInputFilterModel := new(firewallrulesv1.FirewallRuleInputFilterID)
+				firewallRuleInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
 
-				// Construct an instance of the FirewallRuleInputWithFilterID model
-				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
-				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
-				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
-				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+				// Construct an instance of the FirewallRuleInput model
+				firewallRuleInputModel := new(firewallrulesv1.FirewallRuleInput)
+				firewallRuleInputModel.Filter = firewallRuleInputFilterModel
+				firewallRuleInputModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputModel.Description = core.StringPtr("JS challenge site")
+				firewallRuleInputModel.Paused = core.BoolPtr(false)
+				firewallRuleInputModel.Priority = core.Int64Ptr(int64(1))
 
 				// Construct an instance of the CreateFirewallRulesOptions model
 				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.FirewallRuleInput = []firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := firewallRulesService.CreateFirewallRules(createFirewallRulesOptionsModel)
@@ -499,22 +498,24 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(firewallRulesService).ToNot(BeNil())
 				firewallRulesService.EnableRetries(0, 0)
 
-				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
-				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
-				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+				// Construct an instance of the FirewallRuleInputFilterID model
+				firewallRuleInputFilterModel := new(firewallrulesv1.FirewallRuleInputFilterID)
+				firewallRuleInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
 
-				// Construct an instance of the FirewallRuleInputWithFilterID model
-				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
-				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
-				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
-				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+				// Construct an instance of the FirewallRuleInput model
+				firewallRuleInputModel := new(firewallrulesv1.FirewallRuleInput)
+				firewallRuleInputModel.Filter = firewallRuleInputFilterModel
+				firewallRuleInputModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputModel.Description = core.StringPtr("JS challenge site")
+				firewallRuleInputModel.Paused = core.BoolPtr(false)
+				firewallRuleInputModel.Priority = core.Int64Ptr(int64(1))
 
 				// Construct an instance of the CreateFirewallRulesOptions model
 				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.FirewallRuleInput = []firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -589,22 +590,24 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
-				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
-				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+				// Construct an instance of the FirewallRuleInputFilterID model
+				firewallRuleInputFilterModel := new(firewallrulesv1.FirewallRuleInputFilterID)
+				firewallRuleInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
 
-				// Construct an instance of the FirewallRuleInputWithFilterID model
-				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
-				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
-				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
-				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+				// Construct an instance of the FirewallRuleInput model
+				firewallRuleInputModel := new(firewallrulesv1.FirewallRuleInput)
+				firewallRuleInputModel.Filter = firewallRuleInputFilterModel
+				firewallRuleInputModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputModel.Description = core.StringPtr("JS challenge site")
+				firewallRuleInputModel.Paused = core.BoolPtr(false)
+				firewallRuleInputModel.Priority = core.Int64Ptr(int64(1))
 
 				// Construct an instance of the CreateFirewallRulesOptions model
 				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.FirewallRuleInput = []firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -622,22 +625,24 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallRulesService).ToNot(BeNil())
 
-				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
-				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
-				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+				// Construct an instance of the FirewallRuleInputFilterID model
+				firewallRuleInputFilterModel := new(firewallrulesv1.FirewallRuleInputFilterID)
+				firewallRuleInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
 
-				// Construct an instance of the FirewallRuleInputWithFilterID model
-				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
-				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
-				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
-				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+				// Construct an instance of the FirewallRuleInput model
+				firewallRuleInputModel := new(firewallrulesv1.FirewallRuleInput)
+				firewallRuleInputModel.Filter = firewallRuleInputFilterModel
+				firewallRuleInputModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputModel.Description = core.StringPtr("JS challenge site")
+				firewallRuleInputModel.Paused = core.BoolPtr(false)
+				firewallRuleInputModel.Priority = core.Int64Ptr(int64(1))
 
 				// Construct an instance of the CreateFirewallRulesOptions model
 				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.FirewallRuleInput = []firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := firewallRulesService.SetServiceURL("")
@@ -676,22 +681,24 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(firewallRulesService).ToNot(BeNil())
 
-				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
-				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
-				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+				// Construct an instance of the FirewallRuleInputFilterID model
+				firewallRuleInputFilterModel := new(firewallrulesv1.FirewallRuleInputFilterID)
+				firewallRuleInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
 
-				// Construct an instance of the FirewallRuleInputWithFilterID model
-				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
-				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
-				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
-				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
+				// Construct an instance of the FirewallRuleInput model
+				firewallRuleInputModel := new(firewallrulesv1.FirewallRuleInput)
+				firewallRuleInputModel.Filter = firewallRuleInputFilterModel
+				firewallRuleInputModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputModel.Description = core.StringPtr("JS challenge site")
+				firewallRuleInputModel.Paused = core.BoolPtr(false)
+				firewallRuleInputModel.Priority = core.Int64Ptr(int64(1))
 
 				// Construct an instance of the CreateFirewallRulesOptions model
 				createFirewallRulesOptionsModel := new(firewallrulesv1.CreateFirewallRulesOptions)
 				createFirewallRulesOptionsModel.XAuthUserToken = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.Crn = core.StringPtr("testString")
 				createFirewallRulesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
-				createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID = []firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}
+				createFirewallRulesOptionsModel.FirewallRuleInput = []firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel}
 				createFirewallRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -721,7 +728,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateFirewllRules with error: Operation response processing error`, func() {
@@ -741,6 +748,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
 				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
 				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Priority = core.Int64Ptr(int64(1))
 				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
 				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
 
@@ -825,6 +833,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
 				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
 				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Priority = core.Int64Ptr(int64(1))
 				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
 				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
 
@@ -917,6 +926,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
 				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
 				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Priority = core.Int64Ptr(int64(1))
 				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
 				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
 
@@ -952,6 +962,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
 				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
 				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Priority = core.Int64Ptr(int64(1))
 				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
 				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
 
@@ -1008,6 +1019,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
 				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
 				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Priority = core.Int64Ptr(int64(1))
 				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
 				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
 
@@ -1047,7 +1059,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.URL.Query()["id"]).To(Equal([]string{"f2d427378e7542acb295380d352e2ebd"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke DeleteFirewallRules with error: Operation response processing error`, func() {
@@ -1282,7 +1294,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke DeleteFirewallRule with error: Operation response processing error`, func() {
@@ -1515,7 +1527,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetFirewallRule with error: Operation response processing error`, func() {
@@ -1748,7 +1760,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 					Expect(req.Header["X-Auth-User-Token"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateFirewallRule with error: Operation response processing error`, func() {
@@ -1771,6 +1783,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
 				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
 				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1851,6 +1864,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
 				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
 				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1939,6 +1953,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
 				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
 				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1970,6 +1985,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
 				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
 				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2022,6 +2038,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.FirewallRuleIdentifier = core.StringPtr("testString")
 				updateFirewallRuleOptionsModel.Action = core.StringPtr("js_challenge")
 				updateFirewallRuleOptionsModel.Paused = core.BoolPtr(false)
+				updateFirewallRuleOptionsModel.Priority = core.Int64Ptr(int64(1))
 				updateFirewallRuleOptionsModel.Description = core.StringPtr("JS challenge site")
 				updateFirewallRuleOptionsModel.Filter = firewallRuleUpdateInputFilterModel
 				updateFirewallRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2046,21 +2063,25 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Authenticator: &core.NoAuthAuthenticator{},
 			})
 			It(`Invoke NewCreateFirewallRulesOptions successfully`, func() {
-				// Construct an instance of the FirewallRuleInputWithFilterIdFilter model
-				firewallRuleInputWithFilterIdFilterModel := new(firewallrulesv1.FirewallRuleInputWithFilterIdFilter)
-				Expect(firewallRuleInputWithFilterIdFilterModel).ToNot(BeNil())
-				firewallRuleInputWithFilterIdFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
-				Expect(firewallRuleInputWithFilterIdFilterModel.ID).To(Equal(core.StringPtr("6f58318e7fa2477a23112e8118c66f61")))
+				// Construct an instance of the FirewallRuleInputFilterID model
+				firewallRuleInputFilterModel := new(firewallrulesv1.FirewallRuleInputFilterID)
+				Expect(firewallRuleInputFilterModel).ToNot(BeNil())
+				firewallRuleInputFilterModel.ID = core.StringPtr("6f58318e7fa2477a23112e8118c66f61")
+				Expect(firewallRuleInputFilterModel.ID).To(Equal(core.StringPtr("6f58318e7fa2477a23112e8118c66f61")))
 
-				// Construct an instance of the FirewallRuleInputWithFilterID model
-				firewallRuleInputWithFilterIdModel := new(firewallrulesv1.FirewallRuleInputWithFilterID)
-				Expect(firewallRuleInputWithFilterIdModel).ToNot(BeNil())
-				firewallRuleInputWithFilterIdModel.Filter = firewallRuleInputWithFilterIdFilterModel
-				firewallRuleInputWithFilterIdModel.Action = core.StringPtr("js_challenge")
-				firewallRuleInputWithFilterIdModel.Description = core.StringPtr("JS challenge site")
-				Expect(firewallRuleInputWithFilterIdModel.Filter).To(Equal(firewallRuleInputWithFilterIdFilterModel))
-				Expect(firewallRuleInputWithFilterIdModel.Action).To(Equal(core.StringPtr("js_challenge")))
-				Expect(firewallRuleInputWithFilterIdModel.Description).To(Equal(core.StringPtr("JS challenge site")))
+				// Construct an instance of the FirewallRuleInput model
+				firewallRuleInputModel := new(firewallrulesv1.FirewallRuleInput)
+				Expect(firewallRuleInputModel).ToNot(BeNil())
+				firewallRuleInputModel.Filter = firewallRuleInputFilterModel
+				firewallRuleInputModel.Action = core.StringPtr("js_challenge")
+				firewallRuleInputModel.Description = core.StringPtr("JS challenge site")
+				firewallRuleInputModel.Paused = core.BoolPtr(false)
+				firewallRuleInputModel.Priority = core.Int64Ptr(int64(1))
+				Expect(firewallRuleInputModel.Filter).To(Equal(firewallRuleInputFilterModel))
+				Expect(firewallRuleInputModel.Action).To(Equal(core.StringPtr("js_challenge")))
+				Expect(firewallRuleInputModel.Description).To(Equal(core.StringPtr("JS challenge site")))
+				Expect(firewallRuleInputModel.Paused).To(Equal(core.BoolPtr(false)))
+				Expect(firewallRuleInputModel.Priority).To(Equal(core.Int64Ptr(int64(1))))
 
 				// Construct an instance of the CreateFirewallRulesOptions model
 				xAuthUserToken := "testString"
@@ -2070,13 +2091,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				createFirewallRulesOptionsModel.SetXAuthUserToken("testString")
 				createFirewallRulesOptionsModel.SetCrn("testString")
 				createFirewallRulesOptionsModel.SetZoneIdentifier("testString")
-				createFirewallRulesOptionsModel.SetFirewallRuleInputWithFilterID([]firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel})
+				createFirewallRulesOptionsModel.SetFirewallRuleInput([]firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel})
 				createFirewallRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createFirewallRulesOptionsModel).ToNot(BeNil())
 				Expect(createFirewallRulesOptionsModel.XAuthUserToken).To(Equal(core.StringPtr("testString")))
 				Expect(createFirewallRulesOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
 				Expect(createFirewallRulesOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
-				Expect(createFirewallRulesOptionsModel.FirewallRuleInputWithFilterID).To(Equal([]firewallrulesv1.FirewallRuleInputWithFilterID{*firewallRuleInputWithFilterIdModel}))
+				Expect(createFirewallRulesOptionsModel.FirewallRuleInput).To(Equal([]firewallrulesv1.FirewallRuleInput{*firewallRuleInputModel}))
 				Expect(createFirewallRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteFirewallRuleOptions successfully`, func() {
@@ -2117,29 +2138,23 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(deleteFirewallRulesOptionsModel.ID).To(Equal(core.StringPtr("f2d427378e7542acb295380d352e2ebd")))
 				Expect(deleteFirewallRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewFirewallRuleInputWithFilterIdFilter successfully`, func() {
-				id := "6f58318e7fa2477a23112e8118c66f61"
-				model, err := firewallRulesService.NewFirewallRuleInputWithFilterIdFilter(id)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewFirewallRuleUpdateInputFilter successfully`, func() {
 				id := "6f58318e7fa2477a23112e8118c66f61"
-				model, err := firewallRulesService.NewFirewallRuleUpdateInputFilter(id)
-				Expect(model).ToNot(BeNil())
+				_model, err := firewallRulesService.NewFirewallRuleUpdateInputFilter(id)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewFirewallRulesUpdateInputItem successfully`, func() {
 				id := "52161eb6af4241bb9d4b32394be72fdf"
 				action := "js_challenge"
-				model, err := firewallRulesService.NewFirewallRulesUpdateInputItem(id, action)
-				Expect(model).ToNot(BeNil())
+				_model, err := firewallRulesService.NewFirewallRulesUpdateInputItem(id, action)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewFirewallRulesUpdateInputItemFilter successfully`, func() {
 				id := "6f58318e7fa2477a23112e8118c66f61"
-				model, err := firewallRulesService.NewFirewallRulesUpdateInputItemFilter(id)
-				Expect(model).ToNot(BeNil())
+				_model, err := firewallRulesService.NewFirewallRulesUpdateInputItemFilter(id)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGetFirewallRuleOptions successfully`, func() {
@@ -2196,6 +2211,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				updateFirewallRuleOptionsModel.SetFirewallRuleIdentifier("testString")
 				updateFirewallRuleOptionsModel.SetAction("js_challenge")
 				updateFirewallRuleOptionsModel.SetPaused(false)
+				updateFirewallRuleOptionsModel.SetPriority(int64(1))
 				updateFirewallRuleOptionsModel.SetDescription("JS challenge site")
 				updateFirewallRuleOptionsModel.SetFilter(firewallRuleUpdateInputFilterModel)
 				updateFirewallRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -2206,6 +2222,7 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(updateFirewallRuleOptionsModel.FirewallRuleIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(updateFirewallRuleOptionsModel.Action).To(Equal(core.StringPtr("js_challenge")))
 				Expect(updateFirewallRuleOptionsModel.Paused).To(Equal(core.BoolPtr(false)))
+				Expect(updateFirewallRuleOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(updateFirewallRuleOptionsModel.Description).To(Equal(core.StringPtr("JS challenge site")))
 				Expect(updateFirewallRuleOptionsModel.Filter).To(Equal(firewallRuleUpdateInputFilterModel))
 				Expect(updateFirewallRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -2223,11 +2240,13 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				firewallRulesUpdateInputItemModel.ID = core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")
 				firewallRulesUpdateInputItemModel.Action = core.StringPtr("js_challenge")
 				firewallRulesUpdateInputItemModel.Paused = core.BoolPtr(false)
+				firewallRulesUpdateInputItemModel.Priority = core.Int64Ptr(int64(1))
 				firewallRulesUpdateInputItemModel.Description = core.StringPtr("JS challenge site")
 				firewallRulesUpdateInputItemModel.Filter = firewallRulesUpdateInputItemFilterModel
 				Expect(firewallRulesUpdateInputItemModel.ID).To(Equal(core.StringPtr("52161eb6af4241bb9d4b32394be72fdf")))
 				Expect(firewallRulesUpdateInputItemModel.Action).To(Equal(core.StringPtr("js_challenge")))
 				Expect(firewallRulesUpdateInputItemModel.Paused).To(Equal(core.BoolPtr(false)))
+				Expect(firewallRulesUpdateInputItemModel.Priority).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(firewallRulesUpdateInputItemModel.Description).To(Equal(core.StringPtr("JS challenge site")))
 				Expect(firewallRulesUpdateInputItemModel.Filter).To(Equal(firewallRulesUpdateInputItemFilterModel))
 
@@ -2248,11 +2267,23 @@ var _ = Describe(`FirewallRulesV1`, func() {
 				Expect(updateFirewllRulesOptionsModel.FirewallRulesUpdateInputItem).To(Equal([]firewallrulesv1.FirewallRulesUpdateInputItem{*firewallRulesUpdateInputItemModel}))
 				Expect(updateFirewllRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewFirewallRuleInputWithFilterID successfully`, func() {
-				var filter *firewallrulesv1.FirewallRuleInputWithFilterIdFilter = nil
+			It(`Invoke NewFirewallRuleInput successfully`, func() {
+				var filter firewallrulesv1.FirewallRuleInputFilterIntf = nil
 				action := "js_challenge"
-				_, err := firewallRulesService.NewFirewallRuleInputWithFilterID(filter, action)
+				_, err := firewallRulesService.NewFirewallRuleInput(filter, action)
 				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewFirewallRuleInputFilterExpression successfully`, func() {
+				expression := `not http.request.uri.path matches "^/api/.*$"`
+				_model, err := firewallRulesService.NewFirewallRuleInputFilterExpression(expression)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewFirewallRuleInputFilterID successfully`, func() {
+				id := "6f58318e7fa2477a23112e8118c66f61"
+				_model, err := firewallRulesService.NewFirewallRuleInputFilterID(id)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 		})
 	})

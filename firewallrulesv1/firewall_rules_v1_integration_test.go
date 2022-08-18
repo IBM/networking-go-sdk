@@ -89,9 +89,6 @@ func createFilters(options *filterv1.FiltersV1Options, xAuthUserToken string, cr
 }
 
 var _ = Describe(`firewallapiv1_test`, func() {
-	BeforeEach(func() {
-		Skip("Skipping Tests")
-	})
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
@@ -127,11 +124,11 @@ var _ = Describe(`firewallapiv1_test`, func() {
 		fmt.Println(serviceErr)
 	}
 	actions := [5]string{
-		FirewallRuleInputWithFilterID_Action_Allow,
-		FirewallRuleInputWithFilterID_Action_Block,
-		FirewallRuleInputWithFilterID_Action_Challenge,
-		FirewallRuleInputWithFilterID_Action_JsChallenge,
-		FirewallRuleInputWithFilterID_Action_Log,
+		FirewallRuleInput_Action_Allow,
+		FirewallRuleInput_Action_Block,
+		FirewallRuleInput_Action_Challenge,
+		FirewallRuleInput_Action_JsChallenge,
+		FirewallRuleInput_Action_Log,
 	}
 
 	Describe(`firewallrulesv1_test`, func() {
@@ -174,19 +171,20 @@ var _ = Describe(`firewallapiv1_test`, func() {
 			It(`Create Firewall Rules | List Firewall Rules | Update Firewall Rules | Delete Firewall Rules`, func() {
 				// Create Filters
 				filter_ids := createFilters(filterOptions, xAuthUserToken, crn, zoneId)
+
 				for i := 0; i < 5; i++ {
+					filters_intf := &FirewallRuleInputFilter{ID: &filter_ids[i]}
+
 					createFirewallRulesOptionsModel := service.NewCreateFirewallRulesOptions(xAuthUserToken, crn, zoneId)
 					Expect(createFirewallRulesOptionsModel).ToNot(BeNil())
-					filterModel, err := service.NewFirewallRuleInputWithFilterIdFilter(filter_ids[i])
-					Expect(filterModel).ToNot(BeNil())
-					Expect(err).To(BeNil())
-					firewallRules := &FirewallRuleInputWithFilterID{
-						Filter:      filterModel,
+
+					firewallRules := &FirewallRuleInput{
+						Filter:      filters_intf,
 						Action:      core.StringPtr(actions[i]),
 						Description: core.StringPtr("Login-Office-SDK-Test" + strconv.Itoa(i)),
 					}
 
-					createFirewallRulesOptionsModel.SetFirewallRuleInputWithFilterID([]FirewallRuleInputWithFilterID{*firewallRules})
+					createFirewallRulesOptionsModel.SetFirewallRuleInput([]FirewallRuleInput{*firewallRules})
 					result, response, operationErr := service.CreateFirewallRules(createFirewallRulesOptionsModel)
 					Expect(operationErr).To(BeNil())
 					Expect(response).ToNot(BeNil())
@@ -233,17 +231,16 @@ var _ = Describe(`firewallapiv1_test`, func() {
 				//List Firewall rule
 				filter_ids := createFilters(filterOptions, xAuthUserToken, crn, zoneId)
 				for i := 0; i < 5; i++ {
+					filters_intf := &FirewallRuleInputFilter{ID: &filter_ids[i]}
+
 					createFirewallRulesOptionsModel := service.NewCreateFirewallRulesOptions(xAuthUserToken, crn, zoneId)
 					Expect(createFirewallRulesOptionsModel).ToNot(BeNil())
-					filterModel, err := service.NewFirewallRuleInputWithFilterIdFilter(filter_ids[i])
-					Expect(filterModel).ToNot(BeNil())
-					Expect(err).To(BeNil())
-					firewallRules := &FirewallRuleInputWithFilterID{
-						Filter:      filterModel,
+					firewallRules := &FirewallRuleInput{
+						Filter:      filters_intf,
 						Action:      core.StringPtr(actions[i]),
 						Description: core.StringPtr("Login-Office-SDK-Test" + strconv.Itoa(i)),
 					}
-					createFirewallRulesOptionsModel.SetFirewallRuleInputWithFilterID([]FirewallRuleInputWithFilterID{*firewallRules})
+					createFirewallRulesOptionsModel.SetFirewallRuleInput([]FirewallRuleInput{*firewallRules})
 					result, response, operationErr := service.CreateFirewallRules(createFirewallRulesOptionsModel)
 					Expect(operationErr).To(BeNil())
 					Expect(response).ToNot(BeNil())
