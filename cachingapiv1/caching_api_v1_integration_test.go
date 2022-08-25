@@ -243,7 +243,7 @@ var _ = Describe(`cachingapiv1_test`, func() {
 				Expect(*getResult.Result.Value).Should(BeEquivalentTo(UpdateQueryStringSortOptions_Value_Off))
 			})
 			It(`purge all test`, func() {
-				shouldSkipTest()
+				Skip("Skipping")
 				cacheOpt := service.NewPurgeAllOptions()
 				cacheResult, cacheResp, cacheErr := service.PurgeAll(cacheOpt)
 				Expect(cacheErr).To(BeNil())
