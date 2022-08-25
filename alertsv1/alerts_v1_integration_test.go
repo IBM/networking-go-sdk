@@ -104,6 +104,8 @@ var _ = Describe(`alertsv1`, func() {
 				}
 			})
 			It(`Create| Get | Update | List | Delete AlertsPolicies`, func() {
+				Skip("Skipping")
+
 				// Create a new webhook
 				createName := "My Slack Alert Webhook"
 				createURL := "https://app.slack.com/client/T02J3DPUE/D02EHU8UPPH"
