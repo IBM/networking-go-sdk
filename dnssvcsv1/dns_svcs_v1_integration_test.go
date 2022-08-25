@@ -1829,6 +1829,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				}
 			})
 			It(`create/list/update/delete/get cross accounts (linked zones, access requests, and permitted networks)`, func() {
+				Skip("Skipping")
 				// Create Linked Zone
 				createLinkedZoneOptions := service.NewCreateLinkedZoneOptions(instanceID)
 				createLinkedZoneOptions.SetXCorrelationID("create-linkedZone123")
