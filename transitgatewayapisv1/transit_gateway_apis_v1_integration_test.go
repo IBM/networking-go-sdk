@@ -99,7 +99,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 			It(`Checking gateways`, func() {
 				// shouldSkipTest()
-
+				defer GinkgoRecover()
+				Skip("Skipping")
 				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
@@ -202,6 +203,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET location by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			getGatewayLocationOptions := &transitgatewayapisv1.GetGatewayLocationOptions{}
 			getGatewayLocationOptions.SetName(badinstanceID)
@@ -227,6 +230,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 	Describe(`CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions)`, func() {
 		Context(`Success: POST Transit Gateway`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			It(`Successfully created new gateway`, func() {
 				shouldSkipTest()
 
@@ -261,6 +266,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 		Context(`Failure: POST Transit gateway`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			createTransitGatewayOptions := &transitgatewayapisv1.CreateTransitGatewayOptions{}
 			createTransitGatewayOptions.SetName("testString")
 			createTransitGatewayOptions.SetLocation("testString")
@@ -305,6 +312,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET gateway by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			getTransitGatewayOptions := &transitgatewayapisv1.GetTransitGatewayOptions{}
 			getTransitGatewayOptions.SetID(badinstanceID)
@@ -352,6 +361,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: UPDATE gateway by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			instanceName := "UPDATED-" + strconv.FormatInt(timestamp, 10)
 			updateTransitGatewayOptions := &transitgatewayapisv1.UpdateTransitGatewayOptions{}
@@ -592,6 +603,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: POST gateway resource`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			createTransitGatewayConnectionOptions := &transitgatewayapisv1.CreateTransitGatewayConnectionOptions{}
 			createTransitGatewayConnectionOptions.SetName("testString")
 			createTransitGatewayConnectionOptions.SetTransitGatewayID("testString")
@@ -700,6 +713,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET connection by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			getTransitGatewayConnectionOptions := &transitgatewayapisv1.GetTransitGatewayConnectionOptions{}
 			getTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
@@ -829,6 +844,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: UPDATE connection by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			instanceName := "UPDATE-" + strconv.FormatInt(timestamp, 10)
 			updateTransitGatewayConnectionOptions := &transitgatewayapisv1.UpdateTransitGatewayConnectionOptions{}
@@ -956,6 +973,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: POST new route report`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "testString"
 			header := map[string]string{
 				"Content-type": "application/json",
@@ -1032,6 +1051,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET route report by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			getTransitGatewayRouteReportOptions := &transitgatewayapisv1.GetTransitGatewayRouteReportOptions{}
 			getTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
@@ -1115,6 +1136,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE route report by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			deleteTransitGatewayRouteReportOptions := &transitgatewayapisv1.DeleteTransitGatewayRouteReportOptions{}
 			deleteTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
@@ -1169,6 +1192,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: POST Gateway Connection Prefix Filter`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			It(`Fail to create a new Gateway Connection Prefix Filter`, func() {
 				shouldSkipTest()
 
@@ -1320,6 +1345,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE prefix filter by FilterID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			It(`Successfully verify DELETE failure by FilterID`, func() {
 				shouldSkipTest()
 				badPfInstanceID := "abc123"
@@ -1437,6 +1464,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE connection by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			deleteTransitGatewayConnectionOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionOptions{}
 			deleteTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
@@ -1475,6 +1504,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE gateway by instanceID`, func() {
+			defer GinkgoRecover()
+			Skip("Skipping")
 			badinstanceID := "abc123"
 			deleteTransitGatewayOptions := &transitgatewayapisv1.DeleteTransitGatewayOptions{}
 			deleteTransitGatewayOptions.SetID(badinstanceID)

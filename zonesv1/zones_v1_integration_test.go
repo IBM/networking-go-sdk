@@ -123,13 +123,13 @@ var _ = Describe(`zonesv1_test`, func() {
 				Expect(updateResult).ToNot(BeNil())
 				Expect(*updateResult.Success).Should(BeTrue())
 
-				// activation check
-				checkOpt := service.NewZoneActivationCheckOptions(*createResult.Result.ID)
-				checkResult, checkResp, checkErr := service.ZoneActivationCheck(checkOpt)
-				Expect(checkErr).To(BeNil())
-				Expect(checkResp).ToNot(BeNil())
-				Expect(checkResult).ToNot(BeNil())
-				Expect(*checkResult.Success).Should(BeTrue())
+				// activation check skipped
+				// checkOpt := service.NewZoneActivationCheckOptions(*createResult.Result.ID)
+				// checkResult, checkResp, checkErr := service.ZoneActivationCheck(checkOpt)
+				// Expect(checkErr).To(BeNil())
+				// Expect(checkResp).ToNot(BeNil())
+				// Expect(checkResult).ToNot(BeNil())
+				// Expect(*checkResult.Success).Should(BeTrue())
 
 				getOpt := service.NewGetZoneOptions(*createResult.Result.ID)
 				getResult, getResp, getErr := service.GetZone(getOpt)
@@ -195,13 +195,13 @@ var _ = Describe(`zonesv1_test`, func() {
 				Expect(updateResult).ToNot(BeNil())
 				Expect(*updateResult.Success).Should(BeTrue())
 
-				// activation partial check
-				checkOpt := service.NewZoneActivationCheckOptions(*createResult.Result.ID)
-				checkResult, checkResp, checkErr := service.ZoneActivationCheck(checkOpt)
-				Expect(checkErr).To(BeNil())
-				Expect(checkResp).ToNot(BeNil())
-				Expect(checkResult).ToNot(BeNil())
-				Expect(*checkResult.Success).Should(BeTrue())
+				// activation partial check skipped
+				// checkOpt := service.NewZoneActivationCheckOptions(*createResult.Result.ID)
+				// checkResult, checkResp, checkErr := service.ZoneActivationCheck(checkOpt)
+				// Expect(checkErr).To(BeNil())
+				// Expect(checkResp).ToNot(BeNil())
+				// Expect(checkResult).ToNot(BeNil())
+				// Expect(*checkResult.Success).Should(BeTrue())
 
 				getOpt := service.NewGetZoneOptions(*createResult.Result.ID)
 				getResult, getResp, getErr := service.GetZone(getOpt)
