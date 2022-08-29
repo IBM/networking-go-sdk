@@ -104,9 +104,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// shouldSkipTest()
 				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
 				Expect(err).To(BeNil())
-				if detailedResponse == nil {
-					return
-				}
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 
 				for _, gw := range result.TransitGateways {
