@@ -1,3 +1,10 @@
+# [0.33.0](https://github.com/IBM/networking-go-sdk/compare/v0.32.0...v0.33.0) (2022-08-30)
+
+
+### Features
+
+* allow users to set priority for firewall_rules ([15b4f6f](https://github.com/IBM/networking-go-sdk/commit/15b4f6ff27cfbd826291f57b9e1b16dc20524e2d))
+
 # [0.32.0](https://github.com/IBM/networking-go-sdk/compare/v0.31.0...v0.32.0) (2022-07-20)
 
 
