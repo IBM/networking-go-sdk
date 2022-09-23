@@ -3,7 +3,6 @@ language: go
 dist: bionic
 
 go:
-- 1.14.x
 - 1.16.x
 - 1.17.x
 
@@ -46,5 +45,5 @@ deploy:
     script: npx semantic-release
     skip_cleanup: true
     on:
-      go: '1.14.x'
+      go: '1.16.x'
       branch: master
