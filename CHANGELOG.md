@@ -1,3 +1,10 @@
+# [0.34.0](https://github.com/IBM/networking-go-sdk/compare/v0.33.0...v0.34.0) (2022-09-23)
+
+
+### Features
+
+* AS Prepend and Route Report support for Direct Link ([#98](https://github.com/IBM/networking-go-sdk/issues/98)) ([0bf150b](https://github.com/IBM/networking-go-sdk/commit/0bf150b6588f5a49bf826a74bf50e3e2288af3a9))
+
 # [0.33.0](https://github.com/IBM/networking-go-sdk/compare/v0.32.0...v0.33.0) (2022-08-30)
 
 
