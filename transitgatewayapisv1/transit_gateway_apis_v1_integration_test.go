@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020, 2022.
+ * (C) Copyright IBM Corp. 2020,2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.ibm.com/ibmcloud/networking-go-sdk/transitgatewayapisv1"
 )
 
 var configLoaded = false
