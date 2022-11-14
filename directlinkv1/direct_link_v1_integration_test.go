@@ -23,6 +23,7 @@ package directlinkv1_test
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -39,7 +40,7 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	Skip("skipping failing test")
+	//Skip("skipping failing test")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -57,6 +58,8 @@ func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
 }
 
 var _ = Describe(`DirectLinkV1`, func() {
+	defer GinkgoRecover()
+	// Skip("Skipping")
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
@@ -103,6 +106,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 		carrierName := "carrier1"
 		customerName := "customer1"
 		gatewayType := "dedicated"
+		etag := ""
 
 		invalidGatewayId := "000000000000000000000000000000000000"
 
@@ -412,6 +416,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
 				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				// Construct an instance of the AsPrependTemplate model
+				asPrependTemplateModel := new(directlinkv1.AsPrependTemplate)
+				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependTemplateModel.Policy = core.StringPtr("import")
+				asPrependTemplateModel.SpecificPrefixes = []string{"172.17.0.0/16"}
+
+				gateway.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
+
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 
@@ -439,6 +452,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Type).To(Equal("connect"))
 				Expect(*result.Port.ID).To(Equal(portId))
 				Expect(*result.ProviderApiManaged).To(Equal(false))
+
+				result_model := result.AsPrepends
+				if len(result_model) > 0 {
+					Expect(result_model[0].Length).To(Equal(asPrependTemplateModel.Length))
+					Expect(result_model[0].Policy).To(Equal(asPrependTemplateModel.Policy))
+					Expect(result_model[0].SpecificPrefixes).To(Equal(asPrependTemplateModel.SpecificPrefixes))
+				}
+
 			})
 
 			It("Successfully waits for connect gateway to be provisioned state", func() {
@@ -472,6 +493,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(*result.Type).To(Equal("connect"))
 					Expect(*result.Port.ID).To(Equal(portId))
 					Expect(*result.ProviderApiManaged).To(Equal(false))
+					Expect(len(result.AsPrepends)).NotTo(Equal(0))
 
 					// if operational status is "provisioned" then we are done
 					if *result.OperationalStatus == "provisioned" {
@@ -480,7 +502,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 240 { // 2 min timer (24x5sec)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
@@ -489,6 +511,58 @@ var _ = Describe(`DirectLinkV1`, func() {
 						timer = timer + 1
 					}
 				}
+			})
+
+			It("Successfully lists as prepends for connect gateway ", func() {
+				shouldSkipTest()
+
+				listGatewayAsPrependsOptions := service.NewListGatewayAsPrependsOptions(os.Getenv("GATEWAY_ID"))
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptions.GatewayID = core.StringPtr(os.Getenv("GATEWAY_ID"))
+				listGatewayAsPrependsOptions.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				result, response, operationErr := service.ListGatewayAsPrepends(listGatewayAsPrependsOptions)
+				Expect(operationErr).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(result).ToNot(BeNil())
+
+				asPrependPrefixArrayTemplateModel, _ := service.NewAsPrependPrefixArrayTemplate(4, "import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"172.17.0.0/16"}
+				Expect(strings.Contains(*result.AsPrepends[0].Policy, "import"), true)
+				Expect(*result.AsPrepends[0].Length).To(Equal(int64(4)))
+				Expect(result.AsPrepends[0].SpecificPrefixes).To(Equal(asPrependPrefixArrayTemplateModel.SpecificPrefixes))
+				etag = response.GetHeaders().Get("etag")
+			})
+
+			It("Successfully replace as prepends for connect gateway ", func() {
+				shouldSkipTest()
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel, _ := service.NewAsPrependPrefixArrayTemplate(4, "import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"172.17.0.0/16"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr(os.Getenv("GATEWAY_ID"))
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(etag)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"If-Match": etag}
+
+				result, response, operationErr := service.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				if operationErr != nil {
+					fmt.Println(operationErr)
+				}
+				Expect(operationErr).To(BeNil())
+				Expect(response.StatusCode).To(Equal(201))
+				Expect(result).ToNot(BeNil())
+				Expect(strings.Contains(*result.AsPrepends[0].Policy, "import"), true)
+				Expect(*result.AsPrepends[0].Length).To(Equal(int64(4)))
+				// Test Specific Prefixes
+				Expect(result.AsPrepends[0].SpecificPrefixes).To(Equal(asPrependPrefixArrayTemplateModel.SpecificPrefixes))
+				// Expect(resultModel[0].CreatedAt).ToNot(BeNil())
+				// Expect(resultModel[0].UpdatedAt).ToNot(BeNil())
+				// Expect(resultModel[0].ID).ToNot(BeNil())
 			})
 
 			It("Successfully deletes connect gateway", func() {
@@ -683,6 +757,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("dedicated"))
 				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
+				Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
 
 			})
 
