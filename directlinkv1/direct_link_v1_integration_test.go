@@ -417,7 +417,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
 				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
 				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				// Construct an instance of the AsPrependTemplate model
+				// Construct an instance of the AsPrependTemplate model with Specific Prefixes
 				asPrependTemplateModel := new(directlinkv1.AsPrependTemplate)
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
