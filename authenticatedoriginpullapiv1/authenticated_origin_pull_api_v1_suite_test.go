@@ -24,6 +24,7 @@ import (
 )
 
 func TestAuthenticatedOriginPullApiV1(t *testing.T) {
+	defer GinkgoRecover()
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "AuthenticatedOriginPullApiV1 Suite")
 }
