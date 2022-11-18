@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.40.0-910cf8c2-20211006-154754
+ * IBM OpenAPI SDK Code Generator Version: 3.58.0-ac124633-20221004-152309
  */
 
 // Package directlinkv1 : Operations and models for the DirectLinkV1 service
@@ -174,6 +174,144 @@ func (directLink *DirectLinkV1) EnableRetries(maxRetries int, maxRetryInterval t
 // DisableRetries disables automatic retries for requests invoked for this service instance.
 func (directLink *DirectLinkV1) DisableRetries() {
 	directLink.Service.DisableRetries()
+}
+
+// ListGatewayAsPrepends : List AS Prepends
+// Retrieve all AS Prepends for the specified Direct Link gateway.
+func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
+}
+
+// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ReplaceGatewayAsPrepends : Replace existing AS Prepends
+// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
+// AS Prepend item is unchanged.
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
+}
+
+// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if replaceGatewayAsPrependsOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
+		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
 }
 
 // ListGatewayRouteReports : List route reports
@@ -1793,7 +1931,7 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 	return
 }
 
-// AsPrepend : AS Prepend.
+// AsPrepend : Gateway AS Prepend object.
 type AsPrepend struct {
 	// The date and time resource was created.
 	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
@@ -1809,6 +1947,10 @@ type AsPrepend struct {
 
 	// Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes.
 	Prefix *string `json:"prefix,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+	// prefixes.  Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
 
 	// The date and time resource was last updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
@@ -1844,7 +1986,137 @@ func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err e
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependCollection : array of AS Prepends.
+type AsPrependCollection struct {
+	// array of AS Prepend information.
+	AsPrepends []AsPrependEntry `json:"as_prepends,omitempty"`
+}
+
+// UnmarshalAsPrependCollection unmarshals an instance of AsPrependCollection from the specified map of raw messages.
+func UnmarshalAsPrependCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependCollection)
+	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependEntry)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependEntry : AS Prepends API object.
+type AsPrependEntry struct {
+	// The date and time resource was created.
+	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+
+	// The unique identifier for this AS Prepend.
+	ID *string `json:"id,omitempty"`
+
+	// Number of times the ASN to appended to the AS Path.
+	Length *int64 `json:"length,omitempty"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+	// prefixes.  Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+
+	// The date and time resource was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+}
+
+// Constants associated with the AsPrependEntry.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependEntry_Policy_Export = "export"
+	AsPrependEntry_Policy_Import = "import"
+)
+
+// UnmarshalAsPrependEntry unmarshals an instance of AsPrependEntry from the specified map of raw messages.
+func UnmarshalAsPrependEntry(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependEntry)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependPrefixArrayTemplate : Create AS Prepend Configuration template.
+type AsPrependPrefixArrayTemplate struct {
+	// Number of times the ASN to be prepended to the AS Path.
+	Length *int64 `json:"length" validate:"required"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy" validate:"required"`
+
+	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+	// Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+}
+
+// Constants associated with the AsPrependPrefixArrayTemplate.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependPrefixArrayTemplate_Policy_Export = "export"
+	AsPrependPrefixArrayTemplate_Policy_Import = "import"
+)
+
+// NewAsPrependPrefixArrayTemplate : Instantiate AsPrependPrefixArrayTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewAsPrependPrefixArrayTemplate(length int64, policy string) (_model *AsPrependPrefixArrayTemplate, err error) {
+	_model = &AsPrependPrefixArrayTemplate{
+		Length: core.Int64Ptr(length),
+		Policy: core.StringPtr(policy),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalAsPrependPrefixArrayTemplate unmarshals an instance of AsPrependPrefixArrayTemplate from the specified map of raw messages.
+func UnmarshalAsPrependPrefixArrayTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependPrefixArrayTemplate)
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
 	if err != nil {
 		return
 	}
@@ -1854,7 +2126,7 @@ func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err e
 
 // AsPrependTemplate : Create AS Prepend Configuration template.
 type AsPrependTemplate struct {
-	// Number of times the ASN to appended to the AS Path.
+	// Number of times the ASN to be prepended to the AS Path.
 	Length *int64 `json:"length" validate:"required"`
 
 	// Route type this AS Prepend applies to.
@@ -1863,6 +2135,9 @@ type AsPrependTemplate struct {
 	// Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
 	// Prepend applies to all prefixes.
 	Prefix *string `json:"prefix,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
 }
 
 // Constants associated with the AsPrependTemplate.Policy property.
@@ -1894,6 +2169,10 @@ func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
 	if err != nil {
 		return
 	}
@@ -4356,6 +4635,34 @@ func (options *GetPortOptions) SetHeaders(param map[string]string) *GetPortOptio
 	return options
 }
 
+// ListGatewayAsPrependsOptions : The ListGatewayAsPrepends options.
+type ListGatewayAsPrependsOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListGatewayAsPrependsOptions : Instantiate ListGatewayAsPrependsOptions
+func (*DirectLinkV1) NewListGatewayAsPrependsOptions(gatewayID string) *ListGatewayAsPrependsOptions {
+	return &ListGatewayAsPrependsOptions{
+		GatewayID: core.StringPtr(gatewayID),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *ListGatewayAsPrependsOptions) SetGatewayID(gatewayID string) *ListGatewayAsPrependsOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListGatewayAsPrependsOptions) SetHeaders(param map[string]string) *ListGatewayAsPrependsOptions {
+	options.Headers = param
+	return options
+}
+
 // ListGatewayCompletionNoticeOptions : The ListGatewayCompletionNotice options.
 type ListGatewayCompletionNoticeOptions struct {
 	// Direct Link Dedicated gateway identifier.
@@ -4973,6 +5280,53 @@ func UnmarshalPortsPaginatedCollectionNext(m map[string]json.RawMessage, result 
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// ReplaceGatewayAsPrependsOptions : The ReplaceGatewayAsPrepends options.
+type ReplaceGatewayAsPrependsOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// array of AS Prepend configuration information.
+	AsPrepends []AsPrependPrefixArrayTemplate `json:"as_prepends,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewReplaceGatewayAsPrependsOptions : Instantiate ReplaceGatewayAsPrependsOptions
+func (*DirectLinkV1) NewReplaceGatewayAsPrependsOptions(gatewayID string, ifMatch string) *ReplaceGatewayAsPrependsOptions {
+	return &ReplaceGatewayAsPrependsOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *ReplaceGatewayAsPrependsOptions) SetGatewayID(gatewayID string) *ReplaceGatewayAsPrependsOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *ReplaceGatewayAsPrependsOptions) SetIfMatch(ifMatch string) *ReplaceGatewayAsPrependsOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetAsPrepends : Allow user to set AsPrepends
+func (_options *ReplaceGatewayAsPrependsOptions) SetAsPrepends(asPrepends []AsPrependPrefixArrayTemplate) *ReplaceGatewayAsPrependsOptions {
+	_options.AsPrepends = asPrepends
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ReplaceGatewayAsPrependsOptions) SetHeaders(param map[string]string) *ReplaceGatewayAsPrependsOptions {
+	options.Headers = param
+	return options
 }
 
 // ResourceGroupIdentity : Resource group for this resource. If unspecified, the account's [default resource

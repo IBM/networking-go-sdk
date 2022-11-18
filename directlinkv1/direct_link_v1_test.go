@@ -179,6 +179,528 @@ var _ = Describe(`DirectLinkV1`, func() {
 			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
+	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) - Operation response error`, func() {
+		version := "testString"
+		listGatewayAsPrependsPath := "/gateways/testString/as_prepends"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions)`, func() {
+		version := "testString"
+		listGatewayAsPrependsPath := "/gateways/testString/as_prepends"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListGatewayAsPrepends with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListGatewayAsPrependsOptions model with no property values
+				listGatewayAsPrependsOptionsModelNew := new(directlinkv1.ListGatewayAsPrependsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) - Operation response error`, func() {
+		version := "testString"
+		replaceGatewayAsPrependsPath := "/gateways/testString/as_prepends"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions)`, func() {
+		version := "testString"
+		replaceGatewayAsPrependsPath := "/gateways/testString/as_prepends"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ReplaceGatewayAsPrepends with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ReplaceGatewayAsPrependsOptions model with no property values
+				replaceGatewayAsPrependsOptionsModelNew := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) - Operation response error`, func() {
 		version := "testString"
 		listGatewayRouteReportsPath := "/gateways/testString/route_reports"
@@ -990,7 +1512,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully with retries`, func() {
@@ -1045,7 +1567,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
@@ -1165,6 +1687,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
@@ -1274,7 +1797,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully with retries`, func() {
@@ -1292,6 +1815,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
@@ -1403,7 +1927,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
@@ -1426,6 +1950,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
@@ -1504,6 +2029,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
@@ -1603,6 +2129,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
@@ -1812,7 +2339,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully with retries`, func() {
@@ -1868,7 +2395,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
@@ -2088,7 +2615,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully with retries`, func() {
@@ -2198,7 +2725,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
@@ -2442,6 +2969,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
@@ -2526,7 +3054,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully with retries`, func() {
@@ -2544,6 +3072,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
@@ -2630,7 +3159,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
@@ -2653,6 +3182,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
@@ -2706,6 +3236,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
@@ -2780,6 +3311,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
 				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
@@ -4419,7 +4951,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -4438,7 +4970,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -4473,7 +5005,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
@@ -4497,7 +5029,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4537,7 +5069,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -4563,7 +5095,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4586,7 +5118,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4623,7 +5155,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
 				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listPortsOptionsModel.LocationName = core.StringPtr("testString")
 				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5950,6 +6482,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Authenticator: &core.NoAuthAuthenticator{},
 				Version: core.StringPtr(version),
 			})
+			It(`Invoke NewAsPrependPrefixArrayTemplate successfully`, func() {
+				length := int64(4)
+				policy := "import"
+				_model, err := directLinkService.NewAsPrependPrefixArrayTemplate(length, policy)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewAsPrependTemplate successfully`, func() {
 				length := int64(4)
 				policy := "import"
@@ -5964,9 +6503,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 				Expect(asPrependTemplateModel.Length).To(Equal(core.Int64Ptr(int64(4))))
 				Expect(asPrependTemplateModel.Policy).To(Equal(core.StringPtr("import")))
 				Expect(asPrependTemplateModel.Prefix).To(Equal(core.StringPtr("172.17.0.0/16")))
+				Expect(asPrependTemplateModel.SpecificPrefixes).To(Equal([]string{"192.168.3.0/24"}))
 
 				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
 				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
@@ -6043,9 +6584,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
 				asPrependTemplateModel.Policy = core.StringPtr("import")
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
+				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 				Expect(asPrependTemplateModel.Length).To(Equal(core.Int64Ptr(int64(4))))
 				Expect(asPrependTemplateModel.Policy).To(Equal(core.StringPtr("import")))
 				Expect(asPrependTemplateModel.Prefix).To(Equal(core.StringPtr("172.17.0.0/16")))
+				Expect(asPrependTemplateModel.SpecificPrefixes).To(Equal([]string{"192.168.3.0/24"}))
 
 				// Construct an instance of the GatewayTemplateAuthenticationKey model
 				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
@@ -6345,6 +6888,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(getPortOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getPortOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListGatewayAsPrependsOptions successfully`, func() {
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				gatewayID := "testString"
+				listGatewayAsPrependsOptionsModel := directLinkService.NewListGatewayAsPrependsOptions(gatewayID)
+				listGatewayAsPrependsOptionsModel.SetGatewayID("testString")
+				listGatewayAsPrependsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listGatewayAsPrependsOptionsModel).ToNot(BeNil())
+				Expect(listGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listGatewayAsPrependsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListGatewayCompletionNoticeOptions successfully`, func() {
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
 				id := "testString"
@@ -6429,14 +6982,39 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ListPortsOptions model
 				listPortsOptionsModel := directLinkService.NewListPortsOptions()
 				listPortsOptionsModel.SetStart("testString")
-				listPortsOptionsModel.SetLimit(int64(1))
+				listPortsOptionsModel.SetLimit(int64(10))
 				listPortsOptionsModel.SetLocationName("testString")
 				listPortsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPortsOptionsModel).ToNot(BeNil())
 				Expect(listPortsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listPortsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listPortsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listPortsOptionsModel.LocationName).To(Equal(core.StringPtr("testString")))
 				Expect(listPortsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewReplaceGatewayAsPrependsOptions successfully`, func() {
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				Expect(asPrependPrefixArrayTemplateModel).ToNot(BeNil())
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+				Expect(asPrependPrefixArrayTemplateModel.Length).To(Equal(core.Int64Ptr(int64(4))))
+				Expect(asPrependPrefixArrayTemplateModel.Policy).To(Equal(core.StringPtr("import")))
+				Expect(asPrependPrefixArrayTemplateModel.SpecificPrefixes).To(Equal([]string{"192.168.3.0/24"}))
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				gatewayID := "testString"
+				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
+				replaceGatewayAsPrependsOptionsModel := directLinkService.NewReplaceGatewayAsPrependsOptions(gatewayID, ifMatch)
+				replaceGatewayAsPrependsOptionsModel.SetGatewayID("testString")
+				replaceGatewayAsPrependsOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.SetAsPrepends([]directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel})
+				replaceGatewayAsPrependsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(replaceGatewayAsPrependsOptionsModel).ToNot(BeNil())
+				Expect(replaceGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(replaceGatewayAsPrependsOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+				Expect(replaceGatewayAsPrependsOptionsModel.AsPrepends).To(Equal([]directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}))
+				Expect(replaceGatewayAsPrependsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewResourceGroupIdentity successfully`, func() {
 				id := "56969d6043e9465c883cb9f7363e78e8"

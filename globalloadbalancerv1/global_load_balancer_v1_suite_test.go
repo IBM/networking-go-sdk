@@ -17,12 +17,14 @@
 package globalloadbalancerv1_test
 
 import (
+	"testing"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"testing"
 )
 
 func TestGlobalLoadBalancerV1(t *testing.T) {
+	defer GinkgoRecover()
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "GlobalLoadBalancerV1 Suite")
 }
