@@ -53,6 +53,7 @@ var _ = Describe(`authenticatedoriginpullapiv1`, func() {
 		fmt.Println(serviceErr)
 	}
 	Describe(`authenticatedoriginpullapiv1_test`, func() {
+		Skip("Skipping Tests")
 		Context(`authenticatedoriginpullapiv1_test`, func() {
 			defer GinkgoRecover()
 			BeforeEach(func() {

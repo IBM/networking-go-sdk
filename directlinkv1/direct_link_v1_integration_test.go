@@ -736,7 +736,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 
 	Describe("Offering Types", func() {
-
+		BeforeEach(func() {
+			Skip("Skipping Tests")
+		})
 		Context("Locations", func() {
 			It("should fetch the locations for the type dedicated", func() {
 				shouldSkipTest()
