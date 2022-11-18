@@ -1,3 +1,16 @@
+# [0.35.0](https://github.com/IBM/networking-go-sdk/compare/v0.34.0...v0.35.0) (2022-11-18)
+
+
+### Features
+
+* added AS-Prepends ([bfc0d2c](https://github.com/IBM/networking-go-sdk/commit/bfc0d2c63de2d5f272d18c2e6286376b1996ba6b))
+* added AS-Prepends ([3c7eebe](https://github.com/IBM/networking-go-sdk/commit/3c7eebe19ad39b6eea0bec3e2f1957c4f06c3c0e))
+* **AS-Prepends:** added AS-Prepends ([928bda8](https://github.com/IBM/networking-go-sdk/commit/928bda8f9e822f13db4367d3f5ec37e06621c6b5))
+* **AS-Prepends:** added AS-Prepends ([a255b42](https://github.com/IBM/networking-go-sdk/commit/a255b4289702cb3c9345e5ca39ad4478102302c8))
+* **AS-Prepends:** added AS-Prepends ([eca595e](https://github.com/IBM/networking-go-sdk/commit/eca595e3ee3fd1d34e4c1e2b9384a0076fd80eeb))
+* **AS-Prepends:** added AS-Prepends ([278e203](https://github.com/IBM/networking-go-sdk/commit/278e203728c8b92d20553fd9a6a0914f26fd52da))
+* **AS-Prepends:** added AS-Prepends latest ([6314d13](https://github.com/IBM/networking-go-sdk/commit/6314d1309fb95d4a8d25eba11bfdafab7c95d447))
+
 # [0.34.0](https://github.com/IBM/networking-go-sdk/compare/v0.33.0...v0.34.0) (2022-09-23)
 
 
