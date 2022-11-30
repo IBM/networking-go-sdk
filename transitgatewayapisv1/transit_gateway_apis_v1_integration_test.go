@@ -18,9 +18,9 @@ package transitgatewayapisv1_test
 
 /*
 
-How to run this test:
+ How to run this test:
 
-go test -v ./transitgatewayapisv1
+ go test -v ./transitgatewayapisv1
 
 */
 
@@ -40,7 +40,6 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	Skip("test exceeds the 10 mins travis limit")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
@@ -48,8 +47,7 @@ func shouldSkipTest() {
 
 var _ = Describe(`TransitGatewayApisV1`, func() {
 	defer GinkgoRecover()
-	Skip("Skipping as API Key is missing")
-
+	Skip("Skipping")
 	err := godotenv.Load("../transit.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
@@ -101,7 +99,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				SetHeaders(header)
 
 			It(`Checking gateways`, func() {
-				// shouldSkipTest()
+				shouldSkipTest()
+
 				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
@@ -123,12 +122,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 								connID := *conn.ID
 								if !strings.Contains(*conn.Status, "delet") {
 									// Delete GRE Connections first.
-									if *conn.NetworkType == "gre_tunnel" {
+									if *conn.NetworkType == "gre_tunnel" || *conn.NetworkType == "unbound_gre_tunnel" {
 										deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, connID)
 										detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
 										Expect(err).To(BeNil())
 										Expect(detailedResponse.StatusCode).To(Equal(204))
-										isResourceAvailable(service, gatewayID, connID, "")
 										deleteCheckTest(service, gatewayID, connID, "", "")
 									} else {
 										connIDs = append(connIDs, connID)
@@ -229,7 +227,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 	Describe(`CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions)`, func() {
 		Context(`Success: POST Transit Gateway`, func() {
-
 			It(`Successfully created new gateway`, func() {
 				shouldSkipTest()
 
@@ -264,7 +261,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 		Context(`Failure: POST Transit gateway`, func() {
-
 			createTransitGatewayOptions := &transitgatewayapisv1.CreateTransitGatewayOptions{}
 			createTransitGatewayOptions.SetName("testString")
 			createTransitGatewayOptions.SetLocation("testString")
@@ -309,7 +305,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET gateway by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			getTransitGatewayOptions := &transitgatewayapisv1.GetTransitGatewayOptions{}
 			getTransitGatewayOptions.SetID(badinstanceID)
@@ -357,7 +352,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: UPDATE gateway by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			instanceName := "UPDATED-" + strconv.FormatInt(timestamp, 10)
 			updateTransitGatewayOptions := &transitgatewayapisv1.UpdateTransitGatewayOptions{}
@@ -597,8 +591,58 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 
-		Context(`Failure: POST gateway resource`, func() {
+		Context(`Success: POST Transit Gateway unbound GRE Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new unbound GRE Connection`, func() {
+				shouldSkipTest()
 
+				zoneStr := "us-south-1"
+				network_type := "unbound_gre_tunnel"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				zone := &transitgatewayapisv1.ZoneIdentity{Name: &zoneStr}
+
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetZone(zone).
+					SetHeaders(header).
+					SetName("unbound-gre-" + connectionName).
+					SetLocalTunnelIp("192.168.101.1").
+					SetLocalGatewayIp("192.168.100.1").
+					SetRemoteTunnelIp("192.168.101.2").
+					SetRemoteGatewayIp("10.242.63.12").
+					SetBaseNetworkType("classic").
+					SetBaseConnectionID(os.Getenv("CLASSIC_CONN_INSTANCE_ID"))
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				os.Setenv("GRE_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("UNBOUND_GRE_CONN_INSTANCE_NAME", *result.Name)
+
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("UNBOUND_GRE_CONN_INSTANCE_NAME")))
+				Expect(*result.BaseConnectionID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
+				Expect(*result.BaseNetworkType).To(Equal("classic"))
+			})
+
+			It("Successfully waits for GRE connection to report as attached", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("UNBOUND_GRE_CONN_INSTANCE_NAME")
+				isResourceAvailable(service, gatewayID, instanceID, "")
+			})
+		})
+
+		Context(`Failure: POST gateway resource`, func() {
 			createTransitGatewayConnectionOptions := &transitgatewayapisv1.CreateTransitGatewayConnectionOptions{}
 			createTransitGatewayConnectionOptions.SetName("testString")
 			createTransitGatewayConnectionOptions.SetTransitGatewayID("testString")
@@ -707,7 +751,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET connection by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			getTransitGatewayConnectionOptions := &transitgatewayapisv1.GetTransitGatewayConnectionOptions{}
 			getTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
@@ -837,7 +880,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: UPDATE connection by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			instanceName := "UPDATE-" + strconv.FormatInt(timestamp, 10)
 			updateTransitGatewayConnectionOptions := &transitgatewayapisv1.UpdateTransitGatewayConnectionOptions{}
@@ -965,7 +1007,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: POST new route report`, func() {
-
 			badinstanceID := "testString"
 			header := map[string]string{
 				"Content-type": "application/json",
@@ -1042,7 +1083,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: GET route report by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			getTransitGatewayRouteReportOptions := &transitgatewayapisv1.GetTransitGatewayRouteReportOptions{}
 			getTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
@@ -1126,7 +1166,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE route report by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			deleteTransitGatewayRouteReportOptions := &transitgatewayapisv1.DeleteTransitGatewayRouteReportOptions{}
 			deleteTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
@@ -1181,7 +1220,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: POST Gateway Connection Prefix Filter`, func() {
-
 			It(`Fail to create a new Gateway Connection Prefix Filter`, func() {
 				shouldSkipTest()
 
@@ -1333,7 +1371,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE prefix filter by FilterID`, func() {
-
 			It(`Successfully verify DELETE failure by FilterID`, func() {
 				shouldSkipTest()
 				badPfInstanceID := "abc123"
@@ -1451,7 +1488,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE connection by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			deleteTransitGatewayConnectionOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionOptions{}
 			deleteTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
@@ -1490,7 +1526,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 
 		Context(`Failure: DELETE gateway by instanceID`, func() {
-
 			badinstanceID := "abc123"
 			deleteTransitGatewayOptions := &transitgatewayapisv1.DeleteTransitGatewayOptions{}
 			deleteTransitGatewayOptions.SetID(badinstanceID)
