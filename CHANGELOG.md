@@ -1,3 +1,10 @@
+# [0.36.0](https://github.com/IBM/networking-go-sdk/compare/v0.35.0...v0.36.0) (2022-11-30)
+
+
+### Features
+
+* adding unbound GRE related changes ([#100](https://github.com/IBM/networking-go-sdk/issues/100)) ([06247f4](https://github.com/IBM/networking-go-sdk/commit/06247f4328b4b6b9e2d7cf792a6eeb5ed0dc39c2))
+
 # [0.35.0](https://github.com/IBM/networking-go-sdk/compare/v0.34.0...v0.35.0) (2022-11-18)
 
 
