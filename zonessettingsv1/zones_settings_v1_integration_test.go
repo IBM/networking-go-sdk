@@ -20,17 +20,13 @@ const configFile = "../cis.env"
 var configLoaded bool = true
 
 func shouldSkipTest() {
-	Skip("Authentication failing, skipping...")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
 }
 
 var _ = Describe(`zone_settings_v1_test`, func() {
-	BeforeEach(func() {
-		// Skip("Skipping Tests")
-	})
-
+	defer GinkgoRecover()
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -47,7 +43,6 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 	serviceURL := os.Getenv("API_ENDPOINT")
 	crn := os.Getenv("CRN")
 	zone_id := os.Getenv("ZONE_ID")
-	// url := os.Getenv("URL_MATCH")
 	globalOptions := &ZonesSettingsV1Options{
 		ServiceName:    "cis_services",
 		URL:            serviceURL,
@@ -342,7 +337,7 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				Expect(getResult).ToNot(BeNil())
 				Expect(*getResult.Success).Should(BeTrue())
 
-				valueOpt, err := service.NewSecurityHeaderSettingValueStrictTransportSecurity(true, 3600, true, true)
+				valueOpt, err := service.NewSecurityHeaderSettingValueStrictTransportSecurity(true, 3600, true, true, true)
 				Expect(err).To(BeNil())
 				securityOpt, err := service.NewSecurityHeaderSettingValue(valueOpt)
 				Expect(err).To(BeNil())
@@ -354,6 +349,7 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 					valueOpt.IncludeSubdomains = core.BoolPtr(false)
 					valueOpt.MaxAge = core.Int64Ptr(7200)
 					valueOpt.Nosniff = core.BoolPtr(false)
+					valueOpt.Preload = core.BoolPtr(false)
 					securityOpt.StrictTransportSecurity = valueOpt
 					updateOpt.SetValue(securityOpt)
 				}
@@ -365,6 +361,8 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 			})
 			It(`mobile redirect setting test`, func() {
 				shouldSkipTest()
+				Skip("Skip as subdomain does not exist!")
+
 				getOpt := service.NewGetMobileRedirectOptions()
 				getResult, getResp, getErr := service.GetMobileRedirect(getOpt)
 				Expect(getErr).To(BeNil())
