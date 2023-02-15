@@ -73,6 +73,7 @@ var _ = Describe(`FiltersV1`, func() {
 
 	Describe(`FiltersApiv1_test`, func() {
 		Context(`FiltersApiv1_all_filters`, func() {
+			defer GinkgoRecover()
 			BeforeEach(func() {
 				shouldSkipTest()
 				result, response, operationErr := testService.ListAllFilters(testService.NewListAllFiltersOptions(xAuthUserToken, crn, zoneId))

@@ -133,6 +133,7 @@ var _ = Describe(`firewallapiv1_test`, func() {
 
 	Describe(`firewallrulesv1_test`, func() {
 		Context(`firewallrulesv1_test`, func() {
+			defer GinkgoRecover()
 			BeforeEach(func() {
 				shouldSkipTest()
 				listAllFirewallRulesOptionsModel := service.NewListAllFirewallRulesOptions(xAuthUserToken, crn, zoneId)
