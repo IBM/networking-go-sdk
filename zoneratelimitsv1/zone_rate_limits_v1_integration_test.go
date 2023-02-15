@@ -64,6 +64,8 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 
 	Describe(`zoneratelimitsv1_test`, func() {
 		Context(`zoneratelimitsv1_test`, func() {
+			defer GinkgoRecover()
+
 			BeforeEach(func() {
 				shouldSkipTest()
 				listOpt := service.NewListAllZoneRateLimitsOptions()
