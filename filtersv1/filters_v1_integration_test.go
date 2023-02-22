@@ -30,6 +30,8 @@ var _ = Describe(`FiltersV1`, func() {
 		Skip("Skipping Tests")
 	})
 
+	defer GinkgoRecover()
+
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
