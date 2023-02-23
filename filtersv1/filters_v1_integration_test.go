@@ -54,7 +54,7 @@ var _ = Describe(`FiltersV1`, func() {
 	}
 	testService, testServiceErr := NewFiltersV1(globalOptions)
 	Expect(testServiceErr).To(BeNil())
-
+	defer GinkgoRecover()
 	expressions := [4]string{
 		"(ip.src eq 13.60.125.234)",
 		"(http.request.uri eq \"/test?number=1\")",
