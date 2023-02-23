@@ -54,7 +54,7 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 		Crn:            &crn,
 		ZoneIdentifier: &zone_id,
 	}
-	defer GinkgoRecover()
+	//jkdefer GinkgoRecover()
 
 	service, serviceErr := NewZoneRateLimitsV1(globalOptions)
 	if serviceErr != nil {
@@ -65,7 +65,7 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 
 	Describe(`zoneratelimitsv1_test`, func() {
 		Context(`zoneratelimitsv1_test`, func() {
-			//	defer GinkgoRecover()
+			defer GinkgoRecover()
 
 			BeforeEach(func() {
 				shouldSkipTest()
