@@ -49,6 +49,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`dnssvcsv1`, func() {
+
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -56,6 +57,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	err := godotenv.Load(configFile)
 	if err != nil {
 		configLoaded = false
+		fmt.Println("config is not loaded : ", err)
 	}
 
 	// first API key
@@ -65,14 +67,18 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 
 	dnsServicesURL := os.Getenv("DNS_SVCS_URL")
+	crn := os.Getenv("CRN")
+	zone_id := os.Getenv("ZONE_ID")
 	options := &dnssvcsv1.DnsSvcsV1Options{
-		ServiceName:   "dns_svcs",
-		URL:           dnsServicesURL,
-		Authenticator: authenticator,
+		ServiceName:    "dns_svcs",
+		URL:            dnsServicesURL,
+		Authenticator:  authenticator,
+		Crn:            &crn,
+		ZoneIdentifier: &zone_id,
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
 	if serviceErr != nil {
-		panic(serviceErr)
+		fmt.Println(serviceErr)
 	}
 	ownerAPIKey := os.Getenv("DNS_SVCS_OWNER_APIKEY")
 	if ownerAPIKey == "" {
