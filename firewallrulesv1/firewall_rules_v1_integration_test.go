@@ -100,9 +100,10 @@ var _ = Describe(`firewallapiv1_test`, func() {
 	}
 
 	authenticator := &core.IamAuthenticator{
-		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
-		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
+		ApiKey: os.Getenv("IAMAPIKEY"),
+		URL:    "https://iam.test.cloud.ibm.com/identity/token",
 	}
+
 	serviceURL := os.Getenv("API_ENDPOINT")
 	crn := os.Getenv("CRN")
 	zoneId := os.Getenv("ZONE_ID")
