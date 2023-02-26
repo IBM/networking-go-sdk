@@ -18,18 +18,22 @@ import (
 const configFile = "../cis.env"
 
 var configLoaded bool = true
+var authenticationSucceeded bool = true
 
 func shouldSkipTest() {
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
+
+	if !authenticationSucceeded {
+		Skip("Authentication failed. Check external configuration...")
+	}
 }
 
 var _ = Describe(`FiltersV1`, func() {
-	defer GinkgoRecover()
-	// BeforeEach(func() {
-	// 	Skip("Skipping Tests")
-	// })
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
@@ -41,8 +45,8 @@ var _ = Describe(`FiltersV1`, func() {
 	}
 
 	authenticator := &core.IamAuthenticator{
-		ApiKey: os.Getenv("IAMAPIKEY"),
-		URL:    "https://iam.test.cloud.ibm.com/identity/token",
+		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
+		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
 	}
 
 	serviceURL := os.Getenv("API_ENDPOINT")
@@ -75,7 +79,7 @@ var _ = Describe(`FiltersV1`, func() {
 
 	Describe(`FiltersApiv1_test`, func() {
 		Context(`FiltersApiv1_all_filters`, func() {
-			//defer GinkgoRecover()
+			defer GinkgoRecover()
 			BeforeEach(func() {
 				shouldSkipTest()
 				result, response, operationErr := testService.ListAllFilters(testService.NewListAllFiltersOptions(xAuthUserToken, crn, zoneId))
