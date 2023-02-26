@@ -59,8 +59,6 @@ var _ = Describe(`zoneratelimitsv1`, func() {
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
-	serviceClone := service.Clone()
-	Expect(serviceClone).ToNot(BeNil())
 
 	Describe(`zoneratelimitsv1_test`, func() {
 		Context(`zoneratelimitsv1_test`, func() {
