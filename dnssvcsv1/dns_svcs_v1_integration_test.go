@@ -20,7 +20,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -60,7 +59,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 
 	// first API key
-
 	authenticator := &core.IamAuthenticator{
 		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
 		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
@@ -87,17 +85,11 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 
 	// second API key
-	authenticatorOwnerDnsInstanceAccount, err := core.GetAuthenticatorFromEnvironment("dns_svcs")
-	if err != nil {
-		panic(err)
+	authenticatorOwnerDnsInstanceAccount := &core.IamAuthenticator{
+		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
+		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
 	}
-	authErr = authenticator.Authenticate(&http.Request{
-		Header: http.Header{},
-	})
-	if authErr != nil {
-		authenticationSucceeded = false
-		fmt.Println("Authentication error during setup: ", authErr)
-	}
+
 	optionsOwnerDnsInstanceAccount := &dnssvcsv1.DnsSvcsV1Options{
 		ServiceName:   "dns_svcs",
 		URL:           dnsServicesURL,
