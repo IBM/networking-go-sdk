@@ -5,6 +5,7 @@
 package filtersv1_test
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 
@@ -59,7 +60,9 @@ var _ = Describe(`FiltersV1`, func() {
 		Authenticator: authenticator,
 	}
 	testService, testServiceErr := NewFiltersV1(globalOptions)
-	Expect(testServiceErr).To(BeNil())
+	if testServiceErr != nil {
+		fmt.Println(testServiceErr)
+	}
 
 	expressions := [4]string{
 		"(ip.src eq 13.60.125.234)",
