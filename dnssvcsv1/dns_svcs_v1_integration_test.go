@@ -20,7 +20,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -66,13 +65,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 	if err != nil {
 		panic(err)
 	}
-	authErr := authenticator.Authenticate(&http.Request{
-		Header: http.Header{},
-	})
-	if authErr != nil {
-		authenticationSucceeded = false
-		fmt.Println("Authentication error during setup: ", authErr)
-	}
 
 	dnsServicesURL := os.Getenv("DNS_SVCS_URL")
 	options := &dnssvcsv1.DnsSvcsV1Options{
@@ -98,13 +90,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 	authenticatorOwnerDnsInstanceAccount, err := core.GetAuthenticatorFromEnvironment("dns_svcs")
 	if err != nil {
 		panic(err)
-	}
-	authErr = authenticator.Authenticate(&http.Request{
-		Header: http.Header{},
-	})
-	if authErr != nil {
-		authenticationSucceeded = false
-		fmt.Println("Authentication error during setup: ", authErr)
 	}
 
 	optionsOwnerDnsInstanceAccount := &dnssvcsv1.DnsSvcsV1Options{
