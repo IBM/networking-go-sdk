@@ -67,14 +67,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 
 	dnsServicesURL := os.Getenv("DNS_SVCS_URL")
-	crn := os.Getenv("CRN")
-	zone_id := os.Getenv("ZONE_ID")
 	options := &dnssvcsv1.DnsSvcsV1Options{
-		ServiceName:    "dns_svcs",
-		URL:            dnsServicesURL,
-		Authenticator:  authenticator,
-		Crn:            &crn,
-		ZoneIdentifier: &zone_id,
+		ServiceName:   "dns_svcs",
+		URL:           dnsServicesURL,
+		Authenticator: authenticator,
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
 	if serviceErr != nil {
