@@ -89,7 +89,7 @@ func createFilters(options *filterv1.FiltersV1Options, xAuthUserToken string, cr
 }
 
 var _ = Describe(`firewallapiv1_test`, func() {
-	defer GinkgoRecover()
+	//defer GinkgoRecover()
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -100,8 +100,8 @@ var _ = Describe(`firewallapiv1_test`, func() {
 	}
 
 	authenticator := &core.IamAuthenticator{
-		ApiKey: os.Getenv("IAMAPIKEY"),
-		URL:    "https://iam.test.cloud.ibm.com/identity/token",
+		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
+		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
 	}
 
 	serviceURL := os.Getenv("API_ENDPOINT")
@@ -134,7 +134,7 @@ var _ = Describe(`firewallapiv1_test`, func() {
 
 	Describe(`firewallrulesv1_test`, func() {
 		Context(`firewallrulesv1_test`, func() {
-
+			defer GinkgoRecover()
 			BeforeEach(func() {
 				shouldSkipTest()
 				listAllFirewallRulesOptionsModel := service.NewListAllFirewallRulesOptions(xAuthUserToken, crn, zoneId)
