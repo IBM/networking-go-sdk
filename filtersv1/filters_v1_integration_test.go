@@ -26,6 +26,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`FiltersV1`, func() {
+	defer GinkgoRecover()
 	// BeforeEach(func() {
 	// 	Skip("Skipping Tests")
 	// })
@@ -40,9 +41,10 @@ var _ = Describe(`FiltersV1`, func() {
 	}
 
 	authenticator := &core.IamAuthenticator{
-		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
-		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
+		ApiKey: os.Getenv("IAMAPIKEY"),
+		URL:    "https://iam.test.cloud.ibm.com/identity/token",
 	}
+
 	serviceURL := os.Getenv("API_ENDPOINT")
 	crn := os.Getenv("CRN")
 	zoneId := os.Getenv("ZONE_ID")
@@ -73,7 +75,7 @@ var _ = Describe(`FiltersV1`, func() {
 
 	Describe(`FiltersApiv1_test`, func() {
 		Context(`FiltersApiv1_all_filters`, func() {
-			defer GinkgoRecover()
+			//defer GinkgoRecover()
 			BeforeEach(func() {
 				shouldSkipTest()
 				result, response, operationErr := testService.ListAllFilters(testService.NewListAllFiltersOptions(xAuthUserToken, crn, zoneId))
