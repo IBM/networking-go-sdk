@@ -30,8 +30,6 @@ var _ = Describe(`FiltersV1`, func() {
 	// 	Skip("Skipping Tests")
 	// })
 
-	defer GinkgoRecover()
-
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -75,6 +73,7 @@ var _ = Describe(`FiltersV1`, func() {
 
 	Describe(`FiltersApiv1_test`, func() {
 		Context(`FiltersApiv1_all_filters`, func() {
+			defer GinkgoRecover()
 			BeforeEach(func() {
 				shouldSkipTest()
 				result, response, operationErr := testService.ListAllFilters(testService.NewListAllFiltersOptions(xAuthUserToken, crn, zoneId))
