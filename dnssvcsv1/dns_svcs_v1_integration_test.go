@@ -88,9 +88,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 
 	// second API key
-	authenticatorOwnerDnsInstanceAccount, err := core.GetAuthenticatorFromEnvironment("dns_svcs")
-	if err != nil {
-		panic(err)
+	authenticatorOwnerDnsInstanceAccount := &core.IamAuthenticator{
+		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
+		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
 	}
 
 	optionsOwnerDnsInstanceAccount := &dnssvcsv1.DnsSvcsV1Options{
@@ -100,7 +100,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	serviceOwnerDnsInstanceAccount, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(optionsOwnerDnsInstanceAccount)
 	if serviceErr != nil {
-		panic(err)
+		fmt.Println(serviceErr)
 	}
 
 	instanceID := os.Getenv("DNS_SVCS_INSTANCE_ID")
