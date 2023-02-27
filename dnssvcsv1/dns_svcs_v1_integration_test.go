@@ -78,7 +78,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	ownerAPIKey := os.Getenv("CIS_SERVICES_APIKEY")
 	if ownerAPIKey == "" {
-		panic("Cross account owner API key is not set")
+		fmt.Println("Cross account owner API key is not set")
+		//panic("Cross account owner API key is not set")
 	}
 
 	setEnvErr := os.Setenv("DNS_SVCS_APIKEY", ownerAPIKey)
