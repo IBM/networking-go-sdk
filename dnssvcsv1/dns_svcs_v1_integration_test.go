@@ -100,7 +100,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	serviceOwnerDnsInstanceAccount, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(optionsOwnerDnsInstanceAccount)
 	if serviceErr != nil {
-		fmt.Println(serviceErr)
+		//	fmt.Println(serviceErr)
+		panic(err)
 	}
 
 	instanceID := os.Getenv("DNS_SVCS_INSTANCE_ID")
