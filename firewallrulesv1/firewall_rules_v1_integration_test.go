@@ -118,6 +118,10 @@ var _ = Describe(`firewallapiv1_test`, func() {
 		Authenticator: authenticator,
 	}
 	service, serviceErr := NewFirewallRulesV1(globalOptions)
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}

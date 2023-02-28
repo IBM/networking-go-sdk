@@ -53,10 +53,15 @@ var _ = Describe(`FiltersV1`, func() {
 		URL:           serviceURL,
 		Authenticator: authenticator,
 	}
+<<<<<<< HEAD
 	testService, testServiceErr := NewFiltersV1(globalOptions)
 	if testServiceErr != nil {
 		fmt.Println(testServiceErr)
 	}
+=======
+	testService, _ := NewFiltersV1(globalOptions)
+
+>>>>>>> master
 	expressions := [4]string{
 		"(ip.src eq 13.60.125.234)",
 		"(http.request.uri eq \"/test?number=1\")",
@@ -162,6 +167,8 @@ var _ = Describe(`FiltersV1`, func() {
 	})
 	Describe(`Individual Filter`, func() {
 		Context(`Filter`, func() {
+			defer GinkgoRecover()
+
 			It(`List\Update\Delete a Filter`, func() {
 				shouldSkipTest()
 				//Create a Filter
