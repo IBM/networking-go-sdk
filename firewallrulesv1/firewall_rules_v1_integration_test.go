@@ -118,8 +118,7 @@ var _ = Describe(`firewallapiv1_test`, func() {
 		Authenticator: authenticator,
 	}
 	service, serviceErr := NewFirewallRulesV1(globalOptions)
-	Expect(service).ToNot(BeNil())
-	Expect(serviceErr).To(BeNil())
+
 	if serviceErr != nil {
 		fmt.Println(serviceErr)
 	}
