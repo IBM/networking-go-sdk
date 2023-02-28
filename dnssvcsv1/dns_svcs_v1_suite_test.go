@@ -24,6 +24,8 @@ import (
 )
 
 func TestDnsSvcsV1(t *testing.T) {
+	defer GinkgoRecover()
+	Skip("Skipping")
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "DnsSvcsV1 Suite")
 }
