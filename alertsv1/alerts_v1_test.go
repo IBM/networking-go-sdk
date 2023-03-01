@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2022, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -41,7 +40,7 @@ var _ = Describe(`AlertsV1`, func() {
 		It(`Instantiate service client`, func() {
 			alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			Expect(alertsService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -77,7 +76,7 @@ var _ = Describe(`AlertsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ALERTS_URL": "https://alertsv1/api",
+				"ALERTS_URL":       "https://alertsv1/api",
 				"ALERTS_AUTH_TYPE": "noauth",
 			}
 
@@ -135,7 +134,7 @@ var _ = Describe(`AlertsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ALERTS_URL": "https://alertsv1/api",
+				"ALERTS_URL":       "https://alertsv1/api",
 				"ALERTS_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -153,7 +152,7 @@ var _ = Describe(`AlertsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"ALERTS_AUTH_TYPE":   "NOAuth",
+				"ALERTS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -199,7 +198,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -250,7 +249,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -304,7 +303,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -330,7 +329,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -364,7 +363,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -406,7 +405,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -493,7 +492,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -583,7 +582,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -629,7 +628,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -683,7 +682,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -745,7 +744,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -797,7 +796,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -852,7 +851,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -879,7 +878,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -921,7 +920,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -964,7 +963,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1052,7 +1051,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1143,7 +1142,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1190,7 +1189,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1252,7 +1251,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1315,7 +1314,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1367,7 +1366,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1422,7 +1421,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1449,7 +1448,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1491,7 +1490,7 @@ var _ = Describe(`AlertsV1`, func() {
 				alertsService, serviceErr := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					Crn:           core.StringPtr(crn),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(alertsService).ToNot(BeNil())
@@ -1520,7 +1519,7 @@ var _ = Describe(`AlertsV1`, func() {
 			alertsService, _ := alertsv1.NewAlertsV1(&alertsv1.AlertsV1Options{
 				URL:           "http://alertsv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Crn:           core.StringPtr(crn),
 			})
 			It(`Invoke NewCreateAlertPolicyOptions successfully`, func() {
 				// Construct an instance of the CreateAlertPolicyInputMechanismsEmailItem model
@@ -1676,7 +1675,7 @@ func CreateMockUUID(mockData string) *strfmt.UUID {
 }
 
 func CreateMockReader(mockData string) io.ReadCloser {
-	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
+	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
 func CreateMockDate(mockData string) *strfmt.Date {
