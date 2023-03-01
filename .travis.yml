@@ -1,6 +1,7 @@
 language: go
 
-dist: bionic
+dist: focal
+group: beta
 
 go:
 - 1.16.x
