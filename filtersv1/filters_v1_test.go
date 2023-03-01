@@ -21,7 +21,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -67,14 +66,13 @@ var _ = Describe(`FiltersV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FILTERS_URL": "https://filtersv1/api",
+				"FILTERS_URL":       "https://filtersv1/api",
 				"FILTERS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				filtersService, serviceErr := filtersv1.NewFiltersV1UsingExternalConfig(&filtersv1.FiltersV1Options{
-				})
+				filtersService, serviceErr := filtersv1.NewFiltersV1UsingExternalConfig(&filtersv1.FiltersV1Options{})
 				Expect(filtersService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -103,8 +101,7 @@ var _ = Describe(`FiltersV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				filtersService, serviceErr := filtersv1.NewFiltersV1UsingExternalConfig(&filtersv1.FiltersV1Options{
-				})
+				filtersService, serviceErr := filtersv1.NewFiltersV1UsingExternalConfig(&filtersv1.FiltersV1Options{})
 				err := filtersService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(filtersService).ToNot(BeNil())
@@ -122,13 +119,12 @@ var _ = Describe(`FiltersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FILTERS_URL": "https://filtersv1/api",
+				"FILTERS_URL":       "https://filtersv1/api",
 				"FILTERS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			filtersService, serviceErr := filtersv1.NewFiltersV1UsingExternalConfig(&filtersv1.FiltersV1Options{
-			})
+			filtersService, serviceErr := filtersv1.NewFiltersV1UsingExternalConfig(&filtersv1.FiltersV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(filtersService).To(BeNil())
@@ -139,7 +135,7 @@ var _ = Describe(`FiltersV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"FILTERS_AUTH_TYPE":   "NOAuth",
+				"FILTERS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -2193,7 +2189,7 @@ func CreateMockUUID(mockData string) *strfmt.UUID {
 }
 
 func CreateMockReader(mockData string) io.ReadCloser {
-	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
+	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
 func CreateMockDate(mockData string) *strfmt.Date {
