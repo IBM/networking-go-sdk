@@ -1,3 +1,10 @@
+# [0.37.0](https://github.com/IBM/networking-go-sdk/compare/v0.36.0...v0.37.0) (2023-03-01)
+
+
+### Features
+
+* Zone Settings - added preload ([309fd1f](https://github.com/IBM/networking-go-sdk/commit/309fd1ffee4affe3398d1e36a873521b933cfa00))
+
 # [0.36.0](https://github.com/IBM/networking-go-sdk/compare/v0.35.0...v0.36.0) (2022-11-30)
 
 
