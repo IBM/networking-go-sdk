@@ -19,6 +19,12 @@ const configFile = "../cis.env"
 
 var configLoaded bool = true
 
+func shouldSkipTest() {
+	if !configLoaded {
+		Skip("External configuration is not available, skipping...")
+	}
+}
+
 var _ = Describe(`BotManagementV1`, func() {
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
@@ -52,10 +58,12 @@ var _ = Describe(`BotManagementV1`, func() {
 		Context(`botmanagementv1_test`, func() {
 			defer GinkgoRecover()
 			It(`Get | Update Bot Management Settings`, func() {
+				shouldSkipTest()
 
 				// Get Bot Management Settings
 				getOptions := service.NewGetBotManagementOptions()
 				getResult, getResp, getErr := service.GetBotManagement(getOptions)
+
 				Expect(getErr).To(BeNil())
 				Expect(getResp).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
