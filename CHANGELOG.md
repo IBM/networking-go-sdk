@@ -1,3 +1,10 @@
+# [0.38.0](https://github.com/IBM/networking-go-sdk/compare/v0.37.0...v0.38.0) (2023-03-02)
+
+
+### Features
+
+* bot management ([383dedb](https://github.com/IBM/networking-go-sdk/commit/383dedbcf97b628c61d6c769e05f419720b1ba7d))
+
 # [0.37.0](https://github.com/IBM/networking-go-sdk/compare/v0.36.0...v0.37.0) (2023-03-01)
 
 
