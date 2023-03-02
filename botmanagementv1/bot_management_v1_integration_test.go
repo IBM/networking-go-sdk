@@ -6,7 +6,6 @@ package botmanagementv1_test
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 
 	"github.com/IBM/go-sdk-core/v5/core"
@@ -19,7 +18,6 @@ import (
 const configFile = "../cis.env"
 
 var configLoaded bool = true
-var authenticationSucceeded bool = true
 
 var _ = Describe(`BotManagementV1`, func() {
 	if _, err := os.Stat(configFile); err != nil {
@@ -34,13 +32,6 @@ var _ = Describe(`BotManagementV1`, func() {
 	authenticator := &core.IamAuthenticator{
 		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
 		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
-	}
-	authErr := authenticator.Authenticate(&http.Request{
-		Header: http.Header{},
-	})
-	if authErr != nil {
-		authenticationSucceeded = false
-		fmt.Println("Authentication error during setup: ", authErr)
 	}
 	serviceURL := os.Getenv("API_ENDPOINT")
 	crn := os.Getenv("CRN")
