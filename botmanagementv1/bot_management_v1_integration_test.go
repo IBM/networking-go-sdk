@@ -50,6 +50,7 @@ var _ = Describe(`BotManagementV1`, func() {
 	}
 	Describe(`botmanagementv1_test`, func() {
 		Context(`botmanagementv1_test`, func() {
+			defer GinkgoRecover()
 			It(`Get | Update Bot Management Settings`, func() {
 
 				// Get Bot Management Settings
