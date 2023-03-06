@@ -24,7 +24,7 @@ package directlinkv1_test
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -1273,9 +1273,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It("Successfully call PUT completion notice", func() {
 				shouldSkipTest()
 
-				buffer, err := ioutil.ReadFile("completion_notice.pdf")
+				buffer, err := os.ReadFile("completion_notice.pdf")
 				Expect(err).To(BeNil())
-				r := ioutil.NopCloser(bytes.NewReader(buffer))
+				r := io.NopCloser(bytes.NewReader(buffer))
 
 				createCNOptions := service.NewCreateGatewayCompletionNoticeOptions(os.Getenv("GATEWAY_ID"))
 				createCNOptions.SetUpload(r)

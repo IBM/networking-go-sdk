@@ -18,7 +18,7 @@ package dnssvcsv1_test
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"strconv"
@@ -675,7 +675,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				importResourceRecordsOptions := service.NewImportResourceRecordsOptions(instanceID, *zoneInfo.ID)
 				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
 				f := strings.NewReader(zoneName + ` 1 IN AAAA 2001::888`)
-				importResourceRecordsOptions.SetFile(ioutil.NopCloser(f))
+				importResourceRecordsOptions.SetFile(io.NopCloser(f))
 				importResourceRecordsOptions.SetXCorrelationID("abc123")
 				importResourceRecordsOptions.SetFileContentType("application/json")
 				result, response, reqErr := service.ImportResourceRecords(importResourceRecordsOptions)

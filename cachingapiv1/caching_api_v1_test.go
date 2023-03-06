@@ -20,17 +20,17 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"time"
+
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/networking-go-sdk/cachingapiv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"io"
-	"io/ioutil"
-	"net/http"
-	"net/http/httptest"
-	"os"
-	"time"
 )
 
 var _ = Describe(`CachingApiV1`, func() {
@@ -41,16 +41,16 @@ var _ = Describe(`CachingApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(cachingApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 			Expect(cachingApiService).To(BeNil())
@@ -58,8 +58,8 @@ var _ = Describe(`CachingApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
-				URL: "https://cachingapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:    "https://cachingapiv1/api",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -81,14 +81,14 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CACHING_API_URL": "https://cachingapiv1/api",
+				"CACHING_API_URL":       "https://cachingapiv1/api",
 				"CACHING_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(cachingApiService).ToNot(BeNil())
@@ -104,8 +104,8 @@ var _ = Describe(`CachingApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:    "https://testService/api",
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(cachingApiService).ToNot(BeNil())
@@ -122,7 +122,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				err := cachingApiService.SetServiceURL("https://testService/api")
@@ -142,13 +142,13 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CACHING_API_URL": "https://cachingapiv1/api",
+				"CACHING_API_URL":       "https://cachingapiv1/api",
 				"CACHING_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -161,13 +161,13 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CACHING_API_AUTH_TYPE":   "NOAuth",
+				"CACHING_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -209,8 +209,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -263,8 +263,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -318,8 +318,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -345,8 +345,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -389,8 +389,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -460,8 +460,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -532,8 +532,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -560,8 +560,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -605,8 +605,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -676,8 +676,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -748,8 +748,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -776,8 +776,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -821,8 +821,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -892,8 +892,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -964,8 +964,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -992,8 +992,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1037,8 +1037,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1091,8 +1091,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1146,8 +1146,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1173,8 +1173,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1217,8 +1217,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1288,8 +1288,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1360,8 +1360,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1388,8 +1388,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1433,8 +1433,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1487,8 +1487,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1542,8 +1542,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1569,8 +1569,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1613,8 +1613,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1684,8 +1684,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1756,8 +1756,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1784,8 +1784,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1829,8 +1829,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1883,8 +1883,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1938,8 +1938,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -1965,8 +1965,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2009,8 +2009,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2080,8 +2080,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2152,8 +2152,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2180,8 +2180,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2225,8 +2225,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2279,8 +2279,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2334,8 +2334,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2361,8 +2361,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2405,8 +2405,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2476,8 +2476,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2548,8 +2548,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2576,8 +2576,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2606,16 +2606,16 @@ var _ = Describe(`CachingApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(cachingApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 			Expect(cachingApiService).To(BeNil())
@@ -2623,8 +2623,8 @@ var _ = Describe(`CachingApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
-				URL: "https://cachingapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:    "https://cachingapiv1/api",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -2646,14 +2646,14 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CACHING_API_URL": "https://cachingapiv1/api",
+				"CACHING_API_URL":       "https://cachingapiv1/api",
 				"CACHING_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2669,8 +2669,8 @@ var _ = Describe(`CachingApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:    "https://testService/api",
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2687,7 +2687,7 @@ var _ = Describe(`CachingApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:    core.StringPtr(crn),
 					ZoneID: core.StringPtr(zoneID),
 				})
 				err := cachingApiService.SetServiceURL("https://testService/api")
@@ -2707,13 +2707,13 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CACHING_API_URL": "https://cachingapiv1/api",
+				"CACHING_API_URL":       "https://cachingapiv1/api",
 				"CACHING_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -2726,13 +2726,13 @@ var _ = Describe(`CachingApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"CACHING_API_AUTH_TYPE":   "NOAuth",
+				"CACHING_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1UsingExternalConfig(&cachingapiv1.CachingApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:    "{BAD_URL_STRING",
+				Crn:    core.StringPtr(crn),
 				ZoneID: core.StringPtr(zoneID),
 			})
 
@@ -2774,8 +2774,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2828,8 +2828,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2883,8 +2883,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2910,8 +2910,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -2954,8 +2954,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -3025,8 +3025,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -3097,8 +3097,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -3125,8 +3125,8 @@ var _ = Describe(`CachingApiV1`, func() {
 				cachingApiService, serviceErr := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(cachingApiService).ToNot(BeNil())
@@ -3156,8 +3156,8 @@ var _ = Describe(`CachingApiV1`, func() {
 			cachingApiService, _ := cachingapiv1.NewCachingApiV1(&cachingapiv1.CachingApiV1Options{
 				URL:           "http://cachingapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			It(`Invoke NewGetBrowserCacheTtlOptions successfully`, func() {
 				// Construct an instance of the GetBrowserCacheTtlOptions model
@@ -3315,7 +3315,7 @@ func CreateMockUUID(mockData string) *strfmt.UUID {
 }
 
 func CreateMockReader(mockData string) io.ReadCloser {
-	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
+	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
 func CreateMockDate() *strfmt.Date {

@@ -21,7 +21,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -41,8 +40,8 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(authenticatedOriginPullApiService).ToNot(BeNil())
@@ -50,8 +49,8 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(authenticatedOriginPullApiService).To(BeNil())
@@ -59,8 +58,8 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-				URL: "https://authenticatedoriginpullapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:            "https://authenticatedoriginpullapiv1/api",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -82,14 +81,14 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"AUTHENTICATED_ORIGIN_PULL_API_URL": "https://authenticatedoriginpullapiv1/api",
+				"AUTHENTICATED_ORIGIN_PULL_API_URL":       "https://authenticatedoriginpullapiv1/api",
 				"AUTHENTICATED_ORIGIN_PULL_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1UsingExternalConfig(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(authenticatedOriginPullApiService).ToNot(BeNil())
@@ -105,8 +104,8 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1UsingExternalConfig(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:            "https://testService/api",
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(authenticatedOriginPullApiService).ToNot(BeNil())
@@ -123,7 +122,7 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1UsingExternalConfig(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := authenticatedOriginPullApiService.SetServiceURL("https://testService/api")
@@ -143,13 +142,13 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"AUTHENTICATED_ORIGIN_PULL_API_URL": "https://authenticatedoriginpullapiv1/api",
+				"AUTHENTICATED_ORIGIN_PULL_API_URL":       "https://authenticatedoriginpullapiv1/api",
 				"AUTHENTICATED_ORIGIN_PULL_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1UsingExternalConfig(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -162,13 +161,13 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"AUTHENTICATED_ORIGIN_PULL_API_AUTH_TYPE":   "NOAuth",
+				"AUTHENTICATED_ORIGIN_PULL_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1UsingExternalConfig(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:            "{BAD_URL_STRING",
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -210,9 +209,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullSettings with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -266,9 +265,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullSettings successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -324,9 +323,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -352,9 +351,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullSettings with error: Operation request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -388,9 +387,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -435,9 +434,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetZoneOriginPullSettings with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -508,9 +507,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetZoneOriginPullSettings successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -583,9 +582,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetZoneOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -612,9 +611,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetZoneOriginPullSettings with error: Operation request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -649,9 +648,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetZoneOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -697,9 +696,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke ListZoneOriginPullCertificates with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -753,9 +752,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke ListZoneOriginPullCertificates successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -811,9 +810,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke ListZoneOriginPullCertificates successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -839,9 +838,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke ListZoneOriginPullCertificates with error: Operation request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -875,9 +874,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke ListZoneOriginPullCertificates successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -922,9 +921,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadZoneOriginPullCertificate with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -996,9 +995,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadZoneOriginPullCertificate successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1072,9 +1071,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadZoneOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1102,9 +1101,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadZoneOriginPullCertificate with error: Operation request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1140,9 +1139,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadZoneOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1189,9 +1188,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullCertificate with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1246,9 +1245,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullCertificate successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1305,9 +1304,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1334,9 +1333,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullCertificate with error: Operation validation and request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1378,9 +1377,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetZoneOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1426,9 +1425,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteZoneOriginPullCertificate with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1483,9 +1482,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteZoneOriginPullCertificate successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1542,9 +1541,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteZoneOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1571,9 +1570,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteZoneOriginPullCertificate with error: Operation validation and request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1615,9 +1614,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteZoneOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1663,9 +1662,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetHostnameOriginPullSettings with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1742,9 +1741,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetHostnameOriginPullSettings successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1823,9 +1822,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetHostnameOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1858,9 +1857,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetHostnameOriginPullSettings with error: Operation request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1901,9 +1900,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke SetHostnameOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1955,9 +1954,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullSettings with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2012,9 +2011,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullSettings successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2071,9 +2070,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2100,9 +2099,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullSettings with error: Operation validation and request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2144,9 +2143,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullSettings successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2192,9 +2191,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadHostnameOriginPullCertificate with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2266,9 +2265,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadHostnameOriginPullCertificate successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2342,9 +2341,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadHostnameOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2372,9 +2371,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadHostnameOriginPullCertificate with error: Operation request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2410,9 +2409,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke UploadHostnameOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2459,9 +2458,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullCertificate with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2516,9 +2515,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullCertificate successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2575,9 +2574,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2604,9 +2603,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullCertificate with error: Operation validation and request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2648,9 +2647,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke GetHostnameOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2696,9 +2695,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteHostnameOriginPullCertificate with error: Operation response processing error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2753,9 +2752,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteHostnameOriginPullCertificate successfully with retries`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2812,9 +2811,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteHostnameOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2841,9 +2840,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteHostnameOriginPullCertificate with error: Operation validation and request error`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2885,9 +2884,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			})
 			It(`Invoke DeleteHostnameOriginPullCertificate successfully`, func() {
 				authenticatedOriginPullApiService, serviceErr := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2917,9 +2916,9 @@ var _ = Describe(`AuthenticatedOriginPullApiV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			authenticatedOriginPullApiService, _ := authenticatedoriginpullapiv1.NewAuthenticatedOriginPullApiV1(&authenticatedoriginpullapiv1.AuthenticatedOriginPullApiV1Options{
-				URL:           "http://authenticatedoriginpullapiv1modelgenerator.com",
-				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
+				URL:            "http://authenticatedoriginpullapiv1modelgenerator.com",
+				Authenticator:  &core.NoAuthAuthenticator{},
+				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewDeleteHostnameOriginPullCertificateOptions successfully`, func() {
@@ -3108,7 +3107,7 @@ func CreateMockUUID(mockData string) *strfmt.UUID {
 }
 
 func CreateMockReader(mockData string) io.ReadCloser {
-	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
+	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
 func CreateMockDate(mockData string) *strfmt.Date {
