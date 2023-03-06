@@ -1,3 +1,10 @@
+## [0.38.1](https://github.com/IBM/networking-go-sdk/compare/v0.38.0...v0.38.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* updating the golang.org-x-net version ([#119](https://github.com/IBM/networking-go-sdk/issues/119)) ([0fbf9d3](https://github.com/IBM/networking-go-sdk/commit/0fbf9d3ca1552021b5767778836aad30b286d966))
+
 # [0.38.0](https://github.com/IBM/networking-go-sdk/compare/v0.37.0...v0.38.0) (2023-03-02)
 
 
