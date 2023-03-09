@@ -27,12 +27,14 @@ func shouldSkipTest() {
 
 var _ = Describe(`BotManagementV1`, func() {
 	if _, err := os.Stat(configFile); err != nil {
+		fmt.Println("config file does not exist : ", err)
 		configLoaded = false
 	}
 
 	err := godotenv.Load(configFile)
 	if err != nil {
 		configLoaded = false
+		fmt.Println("config is not loaded : ", err)
 	}
 
 	authenticator := &core.IamAuthenticator{
