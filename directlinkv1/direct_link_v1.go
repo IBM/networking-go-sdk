@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -176,144 +176,6 @@ func (directLink *DirectLinkV1) DisableRetries() {
 	directLink.Service.DisableRetries()
 }
 
-// ListGatewayAsPrepends : List AS Prepends
-// Retrieve all AS Prepends for the specified Direct Link gateway.
-func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
-}
-
-// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
-func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ReplaceGatewayAsPrepends : Replace existing AS Prepends
-// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
-// AS Prepend item is unchanged.
-func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	return directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
-}
-
-// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
-func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-	if replaceGatewayAsPrependsOptions.IfMatch != nil {
-		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	body := make(map[string]interface{})
-	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
-		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
 // ListGatewayRouteReports : List route reports
 // Retrieve all route reports for the specified Direct Link gateway.
 func (directLink *DirectLinkV1) ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
@@ -380,8 +242,8 @@ func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.C
 // Request route report generation.  While report generation is in progress, additional requests to generate a report
 // are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
 // `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
-// `status` enters the `completed` status.  Call `get_gateway_route_report` with the pending route report's `id` to
-// check on the current status of the report.
+// `status` enters the `complete` status.  Call `get_gateway_route_report` with the pending route report's `id` to check
+// on the current status of the report.
 func (directLink *DirectLinkV1) CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	return directLink.CreateGatewayRouteReportWithContext(context.Background(), createGatewayRouteReportOptions)
 }
@@ -848,6 +710,12 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 	if updateGatewayOptions.ConnectionMode != nil {
 		body["connection_mode"] = updateGatewayOptions.ConnectionMode
 	}
+	if updateGatewayOptions.DefaultExportRouteFilter != nil {
+		body["default_export_route_filter"] = updateGatewayOptions.DefaultExportRouteFilter
+	}
+	if updateGatewayOptions.DefaultImportRouteFilter != nil {
+		body["default_import_route_filter"] = updateGatewayOptions.DefaultImportRouteFilter
+	}
 	if updateGatewayOptions.Global != nil {
 		body["global"] = updateGatewayOptions.Global
 	}
@@ -959,8 +827,20 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 	if createGatewayActionOptions.ConnectionMode != nil {
 		body["connection_mode"] = createGatewayActionOptions.ConnectionMode
 	}
+	if createGatewayActionOptions.DefaultExportRouteFilter != nil {
+		body["default_export_route_filter"] = createGatewayActionOptions.DefaultExportRouteFilter
+	}
+	if createGatewayActionOptions.DefaultImportRouteFilter != nil {
+		body["default_import_route_filter"] = createGatewayActionOptions.DefaultImportRouteFilter
+	}
+	if createGatewayActionOptions.ExportRouteFilters != nil {
+		body["export_route_filters"] = createGatewayActionOptions.ExportRouteFilters
+	}
 	if createGatewayActionOptions.Global != nil {
 		body["global"] = createGatewayActionOptions.Global
+	}
+	if createGatewayActionOptions.ImportRouteFilters != nil {
+		body["import_route_filters"] = createGatewayActionOptions.ImportRouteFilters
 	}
 	if createGatewayActionOptions.Metered != nil {
 		body["metered"] = createGatewayActionOptions.Metered
@@ -1287,40 +1167,47 @@ func (directLink *DirectLinkV1) GetGatewayStatusWithContext(ctx context.Context,
 	return
 }
 
-// ListOfferingTypeLocations : List available locations
-// Retrieve the list of valid locations for the specified Direct Link offering.
-func (directLink *DirectLinkV1) ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) (result *LocationCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListOfferingTypeLocationsWithContext(context.Background(), listOfferingTypeLocationsOptions)
+// ListGatewayExportRouteFilters : List export route filters
+// List all export route filters that influence the export routes advertised to the on premises network and learned from
+// attached virtual connections of the Direct Link gateway.
+//
+// The first export route filter an export route matches will determine whether the route is permitted or denied to be
+// advertised by the Direct Link gateway. Route filter order is determined by the filter's `before` field.
+//
+// If an export route does not match any of the export route filters, the route is subject to the
+// `default_export_route_filter` of the direct link.
+func (directLink *DirectLinkV1) ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayExportRouteFiltersWithContext(context.Background(), listGatewayExportRouteFiltersOptions)
 }
 
-// ListOfferingTypeLocationsWithContext is an alternate form of the ListOfferingTypeLocations method which supports a Context parameter
-func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context.Context, listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) (result *LocationCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listOfferingTypeLocationsOptions, "listOfferingTypeLocationsOptions cannot be nil")
+// ListGatewayExportRouteFiltersWithContext is an alternate form of the ListGatewayExportRouteFilters method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayExportRouteFiltersWithContext(ctx context.Context, listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayExportRouteFiltersOptions, "listGatewayExportRouteFiltersOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(listOfferingTypeLocationsOptions, "listOfferingTypeLocationsOptions")
+	err = core.ValidateStruct(listGatewayExportRouteFiltersOptions, "listGatewayExportRouteFiltersOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"offering_type": *listOfferingTypeLocationsOptions.OfferingType,
+		"gateway_id": *listGatewayExportRouteFiltersOptions.GatewayID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/locations`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters`, pathParamsMap)
 	if err != nil {
 		return
 	}
 
-	for headerName, headerValue := range listOfferingTypeLocationsOptions.Headers {
+	for headerName, headerValue := range listGatewayExportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocations")
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayExportRouteFilters")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -1339,7 +1226,7 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context
 		return
 	}
 	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocationCollection)
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalExportRouteFilterCollection)
 		if err != nil {
 			return
 		}
@@ -1349,47 +1236,78 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context
 	return
 }
 
-// ListOfferingTypeLocationCrossConnectRouters : List routers
-// Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
-func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) (result *LocationCrossConnectRouterCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListOfferingTypeLocationCrossConnectRoutersWithContext(context.Background(), listOfferingTypeLocationCrossConnectRoutersOptions)
+// CreateGatewayExportRouteFilter : Create an export route filter
+// Create a new export route filter to be configured on the Direct Link gateway.
+//
+// This call can result in an implicit update to another route filter's `before` field.
+//
+// If the request's route filter template does not contain a `before` field, the created filter will be added to the end
+// of of the list. The filter previously at the end of the list will have it's `before` field set to the created route
+// filter.
+//
+// If the request's route filter template contains a `before` field, the created filter will be added directly before
+// that specified route filter. If the specified route filter has a preceding route filter, that filter's `before` field
+// is updated to the created route filter.
+func (directLink *DirectLinkV1) CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptions *CreateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	return directLink.CreateGatewayExportRouteFilterWithContext(context.Background(), createGatewayExportRouteFilterOptions)
 }
 
-// ListOfferingTypeLocationCrossConnectRoutersWithContext is an alternate form of the ListOfferingTypeLocationCrossConnectRouters method which supports a Context parameter
-func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx context.Context, listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) (result *LocationCrossConnectRouterCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listOfferingTypeLocationCrossConnectRoutersOptions, "listOfferingTypeLocationCrossConnectRoutersOptions cannot be nil")
+// CreateGatewayExportRouteFilterWithContext is an alternate form of the CreateGatewayExportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) CreateGatewayExportRouteFilterWithContext(ctx context.Context, createGatewayExportRouteFilterOptions *CreateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createGatewayExportRouteFilterOptions, "createGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(listOfferingTypeLocationCrossConnectRoutersOptions, "listOfferingTypeLocationCrossConnectRoutersOptions")
+	err = core.ValidateStruct(createGatewayExportRouteFilterOptions, "createGatewayExportRouteFilterOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"offering_type": *listOfferingTypeLocationCrossConnectRoutersOptions.OfferingType,
-		"location_name": *listOfferingTypeLocationCrossConnectRoutersOptions.LocationName,
+		"gateway_id": *createGatewayExportRouteFilterOptions.GatewayID,
 	}
 
-	builder := core.NewRequestBuilder(core.GET)
+	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters`, pathParamsMap)
 	if err != nil {
 		return
 	}
 
-	for headerName, headerValue := range listOfferingTypeLocationCrossConnectRoutersOptions.Headers {
+	for headerName, headerValue := range createGatewayExportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocationCrossConnectRouters")
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayExportRouteFilter")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
 
 	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if createGatewayExportRouteFilterOptions.Action != nil {
+		body["action"] = createGatewayExportRouteFilterOptions.Action
+	}
+	if createGatewayExportRouteFilterOptions.Prefix != nil {
+		body["prefix"] = createGatewayExportRouteFilterOptions.Prefix
+	}
+	if createGatewayExportRouteFilterOptions.Before != nil {
+		body["before"] = createGatewayExportRouteFilterOptions.Before
+	}
+	if createGatewayExportRouteFilterOptions.Ge != nil {
+		body["ge"] = createGatewayExportRouteFilterOptions.Ge
+	}
+	if createGatewayExportRouteFilterOptions.Le != nil {
+		body["le"] = createGatewayExportRouteFilterOptions.Le
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1402,7 +1320,7 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithC
 		return
 	}
 	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocationCrossConnectRouterCollection)
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
 			return
 		}
@@ -1412,46 +1330,59 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithC
 	return
 }
 
-// ListOfferingTypeSpeeds : List speed options
-// List the available Direct Link speeds.
-func (directLink *DirectLinkV1) ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) (result *OfferingSpeedCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListOfferingTypeSpeedsWithContext(context.Background(), listOfferingTypeSpeedsOptions)
+// ReplaceGatewayExportRouteFilters : Replace existing export route filters
+// Replace all existing export route filters configured on the Direct Link gateway.
+func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptions *ReplaceGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	return directLink.ReplaceGatewayExportRouteFiltersWithContext(context.Background(), replaceGatewayExportRouteFiltersOptions)
 }
 
-// ListOfferingTypeSpeedsWithContext is an alternate form of the ListOfferingTypeSpeeds method which supports a Context parameter
-func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Context, listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) (result *OfferingSpeedCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listOfferingTypeSpeedsOptions, "listOfferingTypeSpeedsOptions cannot be nil")
+// ReplaceGatewayExportRouteFiltersWithContext is an alternate form of the ReplaceGatewayExportRouteFilters method which supports a Context parameter
+func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFiltersWithContext(ctx context.Context, replaceGatewayExportRouteFiltersOptions *ReplaceGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceGatewayExportRouteFiltersOptions, "replaceGatewayExportRouteFiltersOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(listOfferingTypeSpeedsOptions, "listOfferingTypeSpeedsOptions")
+	err = core.ValidateStruct(replaceGatewayExportRouteFiltersOptions, "replaceGatewayExportRouteFiltersOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"offering_type": *listOfferingTypeSpeedsOptions.OfferingType,
+		"gateway_id": *replaceGatewayExportRouteFiltersOptions.GatewayID,
 	}
 
-	builder := core.NewRequestBuilder(core.GET)
+	builder := core.NewRequestBuilder(core.PUT)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/speeds`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters`, pathParamsMap)
 	if err != nil {
 		return
 	}
 
-	for headerName, headerValue := range listOfferingTypeSpeedsOptions.Headers {
+	for headerName, headerValue := range replaceGatewayExportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeSpeeds")
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayExportRouteFilters")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if replaceGatewayExportRouteFiltersOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayExportRouteFiltersOptions.IfMatch))
+	}
 
 	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if replaceGatewayExportRouteFiltersOptions.ExportRouteFilters != nil {
+		body["export_route_filters"] = replaceGatewayExportRouteFiltersOptions.ExportRouteFilters
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1464,7 +1395,7 @@ func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Co
 		return
 	}
 	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalOfferingSpeedCollection)
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalExportRouteFilterCollection)
 		if err != nil {
 			return
 		}
@@ -1474,48 +1405,102 @@ func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Co
 	return
 }
 
-// ListPorts : List ports
-// Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
-// gateways.
-func (directLink *DirectLinkV1) ListPorts(listPortsOptions *ListPortsOptions) (result *PortCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListPortsWithContext(context.Background(), listPortsOptions)
+// DeleteGatewayExportRouteFilter : Remove export route filter from Direct Link gateway
+// Delete an export route filter.
+//
+// Deleting an export route filter will implicitly update the preceding filter's `before` field to the filter that
+// follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
+// following the deleted route filter.
+func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptions *DeleteGatewayExportRouteFilterOptions) (response *core.DetailedResponse, err error) {
+	return directLink.DeleteGatewayExportRouteFilterWithContext(context.Background(), deleteGatewayExportRouteFilterOptions)
 }
 
-// ListPortsWithContext is an alternate form of the ListPorts method which supports a Context parameter
-func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPortsOptions *ListPortsOptions) (result *PortCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateStruct(listPortsOptions, "listPortsOptions")
+// DeleteGatewayExportRouteFilterWithContext is an alternate form of the DeleteGatewayExportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx context.Context, deleteGatewayExportRouteFilterOptions *DeleteGatewayExportRouteFilterOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteGatewayExportRouteFilterOptions, "deleteGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
 		return
+	}
+	err = core.ValidateStruct(deleteGatewayExportRouteFilterOptions, "deleteGatewayExportRouteFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *deleteGatewayExportRouteFilterOptions.GatewayID,
+		"id": *deleteGatewayExportRouteFilterOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteGatewayExportRouteFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayExportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = directLink.Service.Request(request, nil)
+
+	return
+}
+
+// GetGatewayExportRouteFilter : Retrieves the specified Direct Link gateway export route filter
+// Retrieve an export route filter from the Direct Link gateway.
+func (directLink *DirectLinkV1) GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptions *GetGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	return directLink.GetGatewayExportRouteFilterWithContext(context.Background(), getGatewayExportRouteFilterOptions)
+}
+
+// GetGatewayExportRouteFilterWithContext is an alternate form of the GetGatewayExportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx context.Context, getGatewayExportRouteFilterOptions *GetGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getGatewayExportRouteFilterOptions, "getGatewayExportRouteFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getGatewayExportRouteFilterOptions, "getGatewayExportRouteFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *getGatewayExportRouteFilterOptions.GatewayID,
+		"id": *getGatewayExportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/ports`, nil)
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
 
-	for headerName, headerValue := range listPortsOptions.Headers {
+	for headerName, headerValue := range getGatewayExportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListPorts")
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayExportRouteFilter")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
 
 	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-	if listPortsOptions.Start != nil {
-		builder.AddQuery("start", fmt.Sprint(*listPortsOptions.Start))
-	}
-	if listPortsOptions.Limit != nil {
-		builder.AddQuery("limit", fmt.Sprint(*listPortsOptions.Limit))
-	}
-	if listPortsOptions.LocationName != nil {
-		builder.AddQuery("location_name", fmt.Sprint(*listPortsOptions.LocationName))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1528,7 +1513,7 @@ func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPo
 		return
 	}
 	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPortCollection)
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
 			return
 		}
@@ -1538,40 +1523,123 @@ func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPo
 	return
 }
 
-// GetPort : Get port
-// Retrieve Direct Link Connect provider port.
-func (directLink *DirectLinkV1) GetPort(getPortOptions *GetPortOptions) (result *Port, response *core.DetailedResponse, err error) {
-	return directLink.GetPortWithContext(context.Background(), getPortOptions)
+// UpdateGatewayExportRouteFilter : Updates the specified Direct Link gateway export route filter
+// Update an export route filter from the Direct Link gateway.
+//
+// Updating a route filter's `before` field will result in implicit updates to other route filters' `before` fields.
+//
+// Considering the updated filter prior to the update, the preceding route filter's `before` field will be set to the
+// filter following the updating route filter, if present. Otherwise it is set to empty.
+//
+// Considering the updated filter after the update, if the new filter following the updated filter has an existing
+// filter preceding it, that preceding filter's `before` field will be set to the updated filter.
+func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptions *UpdateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	return directLink.UpdateGatewayExportRouteFilterWithContext(context.Background(), updateGatewayExportRouteFilterOptions)
 }
 
-// GetPortWithContext is an alternate form of the GetPort method which supports a Context parameter
-func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortOptions *GetPortOptions) (result *Port, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getPortOptions, "getPortOptions cannot be nil")
+// UpdateGatewayExportRouteFilterWithContext is an alternate form of the UpdateGatewayExportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx context.Context, updateGatewayExportRouteFilterOptions *UpdateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateGatewayExportRouteFilterOptions, "updateGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getPortOptions, "getPortOptions")
+	err = core.ValidateStruct(updateGatewayExportRouteFilterOptions, "updateGatewayExportRouteFilterOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"id": *getPortOptions.ID,
+		"gateway_id": *updateGatewayExportRouteFilterOptions.GatewayID,
+		"id": *updateGatewayExportRouteFilterOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateGatewayExportRouteFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayExportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	_, err = builder.SetBodyContentJSON(updateGatewayExportRouteFilterOptions.UpdateRouteFilterTemplatePatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListGatewayImportRouteFilters : List import route filters
+// List all import route filters that influence the import routes learned from the on premises network.
+//
+// The first import route filter an import route matches will determine whether the route is permitted or denied to be
+// learned by the Direct Link gateway. Route filter order is determined by the filter's `before` field.
+//
+// If an import route does not match any of the import route filters, the route is subject to the
+// `default_import_route_filter` of the direct link.
+func (directLink *DirectLinkV1) ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptions *ListGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayImportRouteFiltersWithContext(context.Background(), listGatewayImportRouteFiltersOptions)
+}
+
+// ListGatewayImportRouteFiltersWithContext is an alternate form of the ListGatewayImportRouteFilters method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayImportRouteFiltersWithContext(ctx context.Context, listGatewayImportRouteFiltersOptions *ListGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayImportRouteFiltersOptions, "listGatewayImportRouteFiltersOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listGatewayImportRouteFiltersOptions, "listGatewayImportRouteFiltersOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *listGatewayImportRouteFiltersOptions.GatewayID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/ports/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters`, pathParamsMap)
 	if err != nil {
 		return
 	}
 
-	for headerName, headerValue := range getPortOptions.Headers {
+	for headerName, headerValue := range listGatewayImportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetPort")
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayImportRouteFilters")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -1590,7 +1658,371 @@ func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortO
 		return
 	}
 	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPort)
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalImportRouteFilterCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateGatewayImportRouteFilter : Create an import route filter
+// Create a new import route filter to be configured on the Direct Link gateway.
+//
+// This call can result in an implicit update to another route filter's `before` field.
+//
+// If the request's route filter template does not contain a `before` field, the created filter will be added to the end
+// of of the list. The filter previously at the end of the list will have it's `before` field set to the created route
+// filter.
+//
+// If the request's route filter template contains a `before` field, the created filter will be added directly before
+// that specified route filter. If the specified route filter has a preceding route filter, that filter's `before` field
+// is updated to the created route filter.
+func (directLink *DirectLinkV1) CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptions *CreateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	return directLink.CreateGatewayImportRouteFilterWithContext(context.Background(), createGatewayImportRouteFilterOptions)
+}
+
+// CreateGatewayImportRouteFilterWithContext is an alternate form of the CreateGatewayImportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) CreateGatewayImportRouteFilterWithContext(ctx context.Context, createGatewayImportRouteFilterOptions *CreateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createGatewayImportRouteFilterOptions, "createGatewayImportRouteFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createGatewayImportRouteFilterOptions, "createGatewayImportRouteFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *createGatewayImportRouteFilterOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createGatewayImportRouteFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if createGatewayImportRouteFilterOptions.Action != nil {
+		body["action"] = createGatewayImportRouteFilterOptions.Action
+	}
+	if createGatewayImportRouteFilterOptions.Prefix != nil {
+		body["prefix"] = createGatewayImportRouteFilterOptions.Prefix
+	}
+	if createGatewayImportRouteFilterOptions.Before != nil {
+		body["before"] = createGatewayImportRouteFilterOptions.Before
+	}
+	if createGatewayImportRouteFilterOptions.Ge != nil {
+		body["ge"] = createGatewayImportRouteFilterOptions.Ge
+	}
+	if createGatewayImportRouteFilterOptions.Le != nil {
+		body["le"] = createGatewayImportRouteFilterOptions.Le
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ReplaceGatewayImportRouteFilters : Replace existing import route filters
+// Replace all existing import route filters configured on the Direct Link gateway.
+func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptions *ReplaceGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	return directLink.ReplaceGatewayImportRouteFiltersWithContext(context.Background(), replaceGatewayImportRouteFiltersOptions)
+}
+
+// ReplaceGatewayImportRouteFiltersWithContext is an alternate form of the ReplaceGatewayImportRouteFilters method which supports a Context parameter
+func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFiltersWithContext(ctx context.Context, replaceGatewayImportRouteFiltersOptions *ReplaceGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceGatewayImportRouteFiltersOptions, "replaceGatewayImportRouteFiltersOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(replaceGatewayImportRouteFiltersOptions, "replaceGatewayImportRouteFiltersOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *replaceGatewayImportRouteFiltersOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range replaceGatewayImportRouteFiltersOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayImportRouteFilters")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if replaceGatewayImportRouteFiltersOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayImportRouteFiltersOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if replaceGatewayImportRouteFiltersOptions.ImportRouteFilters != nil {
+		body["import_route_filters"] = replaceGatewayImportRouteFiltersOptions.ImportRouteFilters
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalImportRouteFilterCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteGatewayImportRouteFilter : Remove import route filter from Direct Link gateway
+// Delete an import route filter.
+//
+// Deleting an import route filter will implicitly update the preceding filter's `before` field to the filter that
+// follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
+// following the deleted route filter.
+func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptions *DeleteGatewayImportRouteFilterOptions) (response *core.DetailedResponse, err error) {
+	return directLink.DeleteGatewayImportRouteFilterWithContext(context.Background(), deleteGatewayImportRouteFilterOptions)
+}
+
+// DeleteGatewayImportRouteFilterWithContext is an alternate form of the DeleteGatewayImportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx context.Context, deleteGatewayImportRouteFilterOptions *DeleteGatewayImportRouteFilterOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteGatewayImportRouteFilterOptions, "deleteGatewayImportRouteFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteGatewayImportRouteFilterOptions, "deleteGatewayImportRouteFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *deleteGatewayImportRouteFilterOptions.GatewayID,
+		"id": *deleteGatewayImportRouteFilterOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteGatewayImportRouteFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = directLink.Service.Request(request, nil)
+
+	return
+}
+
+// GetGatewayImportRouteFilter : Retrieves the specified Direct Link gateway import route filter
+// Retrieve an import route filter from the Direct Link gateway.
+func (directLink *DirectLinkV1) GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptions *GetGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	return directLink.GetGatewayImportRouteFilterWithContext(context.Background(), getGatewayImportRouteFilterOptions)
+}
+
+// GetGatewayImportRouteFilterWithContext is an alternate form of the GetGatewayImportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx context.Context, getGatewayImportRouteFilterOptions *GetGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getGatewayImportRouteFilterOptions, "getGatewayImportRouteFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getGatewayImportRouteFilterOptions, "getGatewayImportRouteFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *getGatewayImportRouteFilterOptions.GatewayID,
+		"id": *getGatewayImportRouteFilterOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getGatewayImportRouteFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateGatewayImportRouteFilter : Updates the specified Direct Link gateway import route filter
+// Update an import route filter from the Direct Link gateway.
+//
+// Updating a route filter's `before` field will result in implicit updates to other route filters' `before` fields.
+//
+// Considering the updated filter prior to the update, the preceding route filter's `before` field will be set to the
+// filter following the updating route filter, if present. Otherwise it is set to empty.
+//
+// Considering the updated filter after the update, if the new filter following the updated filter has an existing
+// filter preceding it, that preceding filter's `before` field will be set to the updated filter.
+func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptions *UpdateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	return directLink.UpdateGatewayImportRouteFilterWithContext(context.Background(), updateGatewayImportRouteFilterOptions)
+}
+
+// UpdateGatewayImportRouteFilterWithContext is an alternate form of the UpdateGatewayImportRouteFilter method which supports a Context parameter
+func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx context.Context, updateGatewayImportRouteFilterOptions *UpdateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateGatewayImportRouteFilterOptions, "updateGatewayImportRouteFilterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateGatewayImportRouteFilterOptions, "updateGatewayImportRouteFilterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *updateGatewayImportRouteFilterOptions.GatewayID,
+		"id": *updateGatewayImportRouteFilterOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateGatewayImportRouteFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	_, err = builder.SetBodyContentJSON(updateGatewayImportRouteFilterOptions.UpdateRouteFilterTemplatePatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
 			return
 		}
@@ -1931,252 +2363,316 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 	return
 }
 
-// AsPrepend : Gateway AS Prepend object.
-type AsPrepend struct {
-	// The date and time resource was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// The unique identifier for this AS Prepend.
-	ID *string `json:"id,omitempty"`
-
-	// Number of times the ASN to appended to the AS Path.
-	Length *int64 `json:"length,omitempty"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy,omitempty"`
-
-	// Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes.
-	Prefix *string `json:"prefix,omitempty"`
-
-	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
-	// prefixes.  Note that ordering is not significant and may differ from request order.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-
-	// The date and time resource was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+// ListOfferingTypeLocations : List available locations
+// Retrieve the list of valid locations for the specified Direct Link offering.
+func (directLink *DirectLinkV1) ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) (result *LocationCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListOfferingTypeLocationsWithContext(context.Background(), listOfferingTypeLocationsOptions)
 }
 
-// Constants associated with the AsPrepend.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrepend_Policy_Export = "export"
-	AsPrepend_Policy_Import = "import"
-)
+// ListOfferingTypeLocationsWithContext is an alternate form of the ListOfferingTypeLocations method which supports a Context parameter
+func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context.Context, listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) (result *LocationCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listOfferingTypeLocationsOptions, "listOfferingTypeLocationsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listOfferingTypeLocationsOptions, "listOfferingTypeLocationsOptions")
+	if err != nil {
+		return
+	}
 
-// UnmarshalAsPrepend unmarshals an instance of AsPrepend from the specified map of raw messages.
-func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrepend)
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	pathParamsMap := map[string]string{
+		"offering_type": *listOfferingTypeLocationsOptions.OfferingType,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/locations`, pathParamsMap)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+
+	for headerName, headerValue := range listOfferingTypeLocationsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocations")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocationCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+
 	return
 }
 
-// AsPrependCollection : array of AS Prepends.
-type AsPrependCollection struct {
-	// array of AS Prepend information.
-	AsPrepends []AsPrependEntry `json:"as_prepends,omitempty"`
+// ListOfferingTypeLocationCrossConnectRouters : List routers
+// Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
+func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) (result *LocationCrossConnectRouterCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListOfferingTypeLocationCrossConnectRoutersWithContext(context.Background(), listOfferingTypeLocationCrossConnectRoutersOptions)
 }
 
-// UnmarshalAsPrependCollection unmarshals an instance of AsPrependCollection from the specified map of raw messages.
-func UnmarshalAsPrependCollection(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependCollection)
-	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependEntry)
+// ListOfferingTypeLocationCrossConnectRoutersWithContext is an alternate form of the ListOfferingTypeLocationCrossConnectRouters method which supports a Context parameter
+func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx context.Context, listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) (result *LocationCrossConnectRouterCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listOfferingTypeLocationCrossConnectRoutersOptions, "listOfferingTypeLocationCrossConnectRoutersOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	err = core.ValidateStruct(listOfferingTypeLocationCrossConnectRoutersOptions, "listOfferingTypeLocationCrossConnectRoutersOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"offering_type": *listOfferingTypeLocationCrossConnectRoutersOptions.OfferingType,
+		"location_name": *listOfferingTypeLocationCrossConnectRoutersOptions.LocationName,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listOfferingTypeLocationCrossConnectRoutersOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocationCrossConnectRouters")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocationCrossConnectRouterCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
 	return
 }
 
-// AsPrependEntry : AS Prepends API object.
-type AsPrependEntry struct {
-	// The date and time resource was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// The unique identifier for this AS Prepend.
-	ID *string `json:"id,omitempty"`
-
-	// Number of times the ASN to appended to the AS Path.
-	Length *int64 `json:"length,omitempty"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy,omitempty"`
-
-	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
-	// prefixes.  Note that ordering is not significant and may differ from request order.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-
-	// The date and time resource was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+// ListOfferingTypeSpeeds : List speed options
+// List the available Direct Link speeds.
+func (directLink *DirectLinkV1) ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) (result *OfferingSpeedCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListOfferingTypeSpeedsWithContext(context.Background(), listOfferingTypeSpeedsOptions)
 }
 
-// Constants associated with the AsPrependEntry.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrependEntry_Policy_Export = "export"
-	AsPrependEntry_Policy_Import = "import"
-)
+// ListOfferingTypeSpeedsWithContext is an alternate form of the ListOfferingTypeSpeeds method which supports a Context parameter
+func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Context, listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) (result *OfferingSpeedCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listOfferingTypeSpeedsOptions, "listOfferingTypeSpeedsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listOfferingTypeSpeedsOptions, "listOfferingTypeSpeedsOptions")
+	if err != nil {
+		return
+	}
 
-// UnmarshalAsPrependEntry unmarshals an instance of AsPrependEntry from the specified map of raw messages.
-func UnmarshalAsPrependEntry(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependEntry)
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	pathParamsMap := map[string]string{
+		"offering_type": *listOfferingTypeSpeedsOptions.OfferingType,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/speeds`, pathParamsMap)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+
+	for headerName, headerValue := range listOfferingTypeSpeedsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeSpeeds")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalOfferingSpeedCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
 	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+
 	return
 }
 
-// AsPrependPrefixArrayTemplate : Create AS Prepend Configuration template.
-type AsPrependPrefixArrayTemplate struct {
-	// Number of times the ASN to be prepended to the AS Path.
-	Length *int64 `json:"length" validate:"required"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy" validate:"required"`
-
-	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
-	// Note that ordering is not significant and may differ from request order.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+// ListPorts : List ports
+// Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
+// gateways.
+func (directLink *DirectLinkV1) ListPorts(listPortsOptions *ListPortsOptions) (result *PortCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListPortsWithContext(context.Background(), listPortsOptions)
 }
 
-// Constants associated with the AsPrependPrefixArrayTemplate.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrependPrefixArrayTemplate_Policy_Export = "export"
-	AsPrependPrefixArrayTemplate_Policy_Import = "import"
-)
-
-// NewAsPrependPrefixArrayTemplate : Instantiate AsPrependPrefixArrayTemplate (Generic Model Constructor)
-func (*DirectLinkV1) NewAsPrependPrefixArrayTemplate(length int64, policy string) (_model *AsPrependPrefixArrayTemplate, err error) {
-	_model = &AsPrependPrefixArrayTemplate{
-		Length: core.Int64Ptr(length),
-		Policy: core.StringPtr(policy),
+// ListPortsWithContext is an alternate form of the ListPorts method which supports a Context parameter
+func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPortsOptions *ListPortsOptions) (result *PortCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(listPortsOptions, "listPortsOptions")
+	if err != nil {
+		return
 	}
-	err = core.ValidateStruct(_model, "required parameters")
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/ports`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listPortsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListPorts")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+	if listPortsOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listPortsOptions.Start))
+	}
+	if listPortsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listPortsOptions.Limit))
+	}
+	if listPortsOptions.LocationName != nil {
+		builder.AddQuery("location_name", fmt.Sprint(*listPortsOptions.LocationName))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPortCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
 	return
 }
 
-// UnmarshalAsPrependPrefixArrayTemplate unmarshals an instance of AsPrependPrefixArrayTemplate from the specified map of raw messages.
-func UnmarshalAsPrependPrefixArrayTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependPrefixArrayTemplate)
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
+// GetPort : Get port
+// Retrieve Direct Link Connect provider port.
+func (directLink *DirectLinkV1) GetPort(getPortOptions *GetPortOptions) (result *Port, response *core.DetailedResponse, err error) {
+	return directLink.GetPortWithContext(context.Background(), getPortOptions)
 }
 
-// AsPrependTemplate : Create AS Prepend Configuration template.
-type AsPrependTemplate struct {
-	// Number of times the ASN to be prepended to the AS Path.
-	Length *int64 `json:"length" validate:"required"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy" validate:"required"`
-
-	// Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
-	// Prepend applies to all prefixes.
-	Prefix *string `json:"prefix,omitempty"`
-
-	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-}
-
-// Constants associated with the AsPrependTemplate.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrependTemplate_Policy_Export = "export"
-	AsPrependTemplate_Policy_Import = "import"
-)
-
-// NewAsPrependTemplate : Instantiate AsPrependTemplate (Generic Model Constructor)
-func (*DirectLinkV1) NewAsPrependTemplate(length int64, policy string) (_model *AsPrependTemplate, err error) {
-	_model = &AsPrependTemplate{
-		Length: core.Int64Ptr(length),
-		Policy: core.StringPtr(policy),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-// UnmarshalAsPrependTemplate unmarshals an instance of AsPrependTemplate from the specified map of raw messages.
-func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependTemplate)
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+// GetPortWithContext is an alternate form of the GetPort method which supports a Context parameter
+func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortOptions *GetPortOptions) (result *Port, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getPortOptions, "getPortOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	err = core.ValidateStruct(getPortOptions, "getPortOptions")
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+
+	pathParamsMap := map[string]string{
+		"id": *getPortOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/ports/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+
+	for headerName, headerValue := range getPortOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetPort")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
 	if err != nil {
 		return
 	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPort)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
 	return
 }
 
@@ -2186,7 +2682,7 @@ type CreateGatewayActionOptions struct {
 	ID *string `json:"id" validate:"required,ne="`
 
 	// Action request.
-	Action *string `json:"action" validate:"required"`
+	Action *string `json:"action,omitempty"`
 
 	// Applicable for create_gateway_approve requests to create AS Prepends. Contains an array of AS Prepend configuration
 	// information.
@@ -2208,9 +2704,23 @@ type CreateGatewayActionOptions struct {
 	// tolerate unexpected values.
 	ConnectionMode *string `json:"connection_mode,omitempty"`
 
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultExportRouteFilter *string `json:"default_export_route_filter,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultImportRouteFilter *string `json:"default_import_route_filter,omitempty"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ExportRouteFilters []GatewayTemplateRouteFilter `json:"export_route_filters,omitempty"`
+
 	// Applicable for create_gateway_approve requests to select the gateway's routing option. Gateways with global routing
 	// (`true`) can connect to networks outside of their associated region.
 	Global *bool `json:"global,omitempty"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ImportRouteFilters []GatewayTemplateRouteFilter `json:"import_route_filters,omitempty"`
 
 	// Applicable for create_gateway_approve requests to select the gateway's metered billing option.  When `true` gateway
 	// usage is billed per gigabyte.  When `false` there is no per gigabyte usage charge, instead a flat rate is charged
@@ -2252,11 +2762,24 @@ const (
 	CreateGatewayActionOptions_ConnectionMode_Transit = "transit"
 )
 
+// Constants associated with the CreateGatewayActionOptions.DefaultExportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	CreateGatewayActionOptions_DefaultExportRouteFilter_Deny = "deny"
+	CreateGatewayActionOptions_DefaultExportRouteFilter_Permit = "permit"
+)
+
+// Constants associated with the CreateGatewayActionOptions.DefaultImportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	CreateGatewayActionOptions_DefaultImportRouteFilter_Deny = "deny"
+	CreateGatewayActionOptions_DefaultImportRouteFilter_Permit = "permit"
+)
+
 // NewCreateGatewayActionOptions : Instantiate CreateGatewayActionOptions
-func (*DirectLinkV1) NewCreateGatewayActionOptions(id string, action string) *CreateGatewayActionOptions {
+func (*DirectLinkV1) NewCreateGatewayActionOptions(id string) *CreateGatewayActionOptions {
 	return &CreateGatewayActionOptions{
 		ID: core.StringPtr(id),
-		Action: core.StringPtr(action),
 	}
 }
 
@@ -2296,9 +2819,33 @@ func (_options *CreateGatewayActionOptions) SetConnectionMode(connectionMode str
 	return _options
 }
 
+// SetDefaultExportRouteFilter : Allow user to set DefaultExportRouteFilter
+func (_options *CreateGatewayActionOptions) SetDefaultExportRouteFilter(defaultExportRouteFilter string) *CreateGatewayActionOptions {
+	_options.DefaultExportRouteFilter = core.StringPtr(defaultExportRouteFilter)
+	return _options
+}
+
+// SetDefaultImportRouteFilter : Allow user to set DefaultImportRouteFilter
+func (_options *CreateGatewayActionOptions) SetDefaultImportRouteFilter(defaultImportRouteFilter string) *CreateGatewayActionOptions {
+	_options.DefaultImportRouteFilter = core.StringPtr(defaultImportRouteFilter)
+	return _options
+}
+
+// SetExportRouteFilters : Allow user to set ExportRouteFilters
+func (_options *CreateGatewayActionOptions) SetExportRouteFilters(exportRouteFilters []GatewayTemplateRouteFilter) *CreateGatewayActionOptions {
+	_options.ExportRouteFilters = exportRouteFilters
+	return _options
+}
+
 // SetGlobal : Allow user to set Global
 func (_options *CreateGatewayActionOptions) SetGlobal(global bool) *CreateGatewayActionOptions {
 	_options.Global = core.BoolPtr(global)
+	return _options
+}
+
+// SetImportRouteFilters : Allow user to set ImportRouteFilters
+func (_options *CreateGatewayActionOptions) SetImportRouteFilters(importRouteFilters []GatewayTemplateRouteFilter) *CreateGatewayActionOptions {
+	_options.ImportRouteFilters = importRouteFilters
 	return _options
 }
 
@@ -2368,6 +2915,186 @@ func (_options *CreateGatewayCompletionNoticeOptions) SetUploadContentType(uploa
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateGatewayCompletionNoticeOptions) SetHeaders(param map[string]string) *CreateGatewayCompletionNoticeOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateGatewayExportRouteFilterOptions : The CreateGatewayExportRouteFilter options.
+type CreateGatewayExportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+	Action *string `json:"action" validate:"required"`
+
+	// IP prefix representing an address and mask length of the prefix-set.
+	Prefix *string `json:"prefix" validate:"required"`
+
+	// Identifier of the next route filter considered if a route does not match the current filter. This property builds
+	// the ordering among route filters and follows semantics:
+	// - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+	// attempt to match on the current filter before preceding to the filter referenced in this property.
+	// - When a filter is created with before that matches another filter in the same collection, the existing filter will
+	// take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+	// created filter will refer to the route filter identified by the provided before.
+	// - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+	// precedence will be updated to refer to the newly created filter.
+	Before *string `json:"before,omitempty"`
+
+	// The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+	Ge *int64 `json:"ge,omitempty"`
+
+	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+	Le *int64 `json:"le,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateGatewayExportRouteFilterOptions.Action property.
+// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+const (
+	CreateGatewayExportRouteFilterOptions_Action_Deny = "deny"
+	CreateGatewayExportRouteFilterOptions_Action_Permit = "permit"
+)
+
+// NewCreateGatewayExportRouteFilterOptions : Instantiate CreateGatewayExportRouteFilterOptions
+func (*DirectLinkV1) NewCreateGatewayExportRouteFilterOptions(gatewayID string, action string, prefix string) *CreateGatewayExportRouteFilterOptions {
+	return &CreateGatewayExportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		Action: core.StringPtr(action),
+		Prefix: core.StringPtr(prefix),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *CreateGatewayExportRouteFilterOptions) SetGatewayID(gatewayID string) *CreateGatewayExportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetAction : Allow user to set Action
+func (_options *CreateGatewayExportRouteFilterOptions) SetAction(action string) *CreateGatewayExportRouteFilterOptions {
+	_options.Action = core.StringPtr(action)
+	return _options
+}
+
+// SetPrefix : Allow user to set Prefix
+func (_options *CreateGatewayExportRouteFilterOptions) SetPrefix(prefix string) *CreateGatewayExportRouteFilterOptions {
+	_options.Prefix = core.StringPtr(prefix)
+	return _options
+}
+
+// SetBefore : Allow user to set Before
+func (_options *CreateGatewayExportRouteFilterOptions) SetBefore(before string) *CreateGatewayExportRouteFilterOptions {
+	_options.Before = core.StringPtr(before)
+	return _options
+}
+
+// SetGe : Allow user to set Ge
+func (_options *CreateGatewayExportRouteFilterOptions) SetGe(ge int64) *CreateGatewayExportRouteFilterOptions {
+	_options.Ge = core.Int64Ptr(ge)
+	return _options
+}
+
+// SetLe : Allow user to set Le
+func (_options *CreateGatewayExportRouteFilterOptions) SetLe(le int64) *CreateGatewayExportRouteFilterOptions {
+	_options.Le = core.Int64Ptr(le)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateGatewayExportRouteFilterOptions) SetHeaders(param map[string]string) *CreateGatewayExportRouteFilterOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateGatewayImportRouteFilterOptions : The CreateGatewayImportRouteFilter options.
+type CreateGatewayImportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+	Action *string `json:"action" validate:"required"`
+
+	// IP prefix representing an address and mask length of the prefix-set.
+	Prefix *string `json:"prefix" validate:"required"`
+
+	// Identifier of the next route filter considered if a route does not match the current filter. This property builds
+	// the ordering among route filters and follows semantics:
+	// - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+	// attempt to match on the current filter before preceding to the filter referenced in this property.
+	// - When a filter is created with before that matches another filter in the same collection, the existing filter will
+	// take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+	// created filter will refer to the route filter identified by the provided before.
+	// - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+	// precedence will be updated to refer to the newly created filter.
+	Before *string `json:"before,omitempty"`
+
+	// The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+	Ge *int64 `json:"ge,omitempty"`
+
+	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+	Le *int64 `json:"le,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateGatewayImportRouteFilterOptions.Action property.
+// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+const (
+	CreateGatewayImportRouteFilterOptions_Action_Deny = "deny"
+	CreateGatewayImportRouteFilterOptions_Action_Permit = "permit"
+)
+
+// NewCreateGatewayImportRouteFilterOptions : Instantiate CreateGatewayImportRouteFilterOptions
+func (*DirectLinkV1) NewCreateGatewayImportRouteFilterOptions(gatewayID string, action string, prefix string) *CreateGatewayImportRouteFilterOptions {
+	return &CreateGatewayImportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		Action: core.StringPtr(action),
+		Prefix: core.StringPtr(prefix),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *CreateGatewayImportRouteFilterOptions) SetGatewayID(gatewayID string) *CreateGatewayImportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetAction : Allow user to set Action
+func (_options *CreateGatewayImportRouteFilterOptions) SetAction(action string) *CreateGatewayImportRouteFilterOptions {
+	_options.Action = core.StringPtr(action)
+	return _options
+}
+
+// SetPrefix : Allow user to set Prefix
+func (_options *CreateGatewayImportRouteFilterOptions) SetPrefix(prefix string) *CreateGatewayImportRouteFilterOptions {
+	_options.Prefix = core.StringPtr(prefix)
+	return _options
+}
+
+// SetBefore : Allow user to set Before
+func (_options *CreateGatewayImportRouteFilterOptions) SetBefore(before string) *CreateGatewayImportRouteFilterOptions {
+	_options.Before = core.StringPtr(before)
+	return _options
+}
+
+// SetGe : Allow user to set Ge
+func (_options *CreateGatewayImportRouteFilterOptions) SetGe(ge int64) *CreateGatewayImportRouteFilterOptions {
+	_options.Ge = core.Int64Ptr(ge)
+	return _options
+}
+
+// SetLe : Allow user to set Le
+func (_options *CreateGatewayImportRouteFilterOptions) SetLe(le int64) *CreateGatewayImportRouteFilterOptions {
+	_options.Le = core.Int64Ptr(le)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateGatewayImportRouteFilterOptions) SetHeaders(param map[string]string) *CreateGatewayImportRouteFilterOptions {
 	options.Headers = param
 	return options
 }
@@ -2525,6 +3252,82 @@ func UnmarshalCrossConnectRouter(m map[string]json.RawMessage, result interface{
 	return
 }
 
+// DeleteGatewayExportRouteFilterOptions : The DeleteGatewayExportRouteFilter options.
+type DeleteGatewayExportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Identifier of an import route filter.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteGatewayExportRouteFilterOptions : Instantiate DeleteGatewayExportRouteFilterOptions
+func (*DirectLinkV1) NewDeleteGatewayExportRouteFilterOptions(gatewayID string, id string) *DeleteGatewayExportRouteFilterOptions {
+	return &DeleteGatewayExportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *DeleteGatewayExportRouteFilterOptions) SetGatewayID(gatewayID string) *DeleteGatewayExportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteGatewayExportRouteFilterOptions) SetID(id string) *DeleteGatewayExportRouteFilterOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteGatewayExportRouteFilterOptions) SetHeaders(param map[string]string) *DeleteGatewayExportRouteFilterOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteGatewayImportRouteFilterOptions : The DeleteGatewayImportRouteFilter options.
+type DeleteGatewayImportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Identifier of an import route filter.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteGatewayImportRouteFilterOptions : Instantiate DeleteGatewayImportRouteFilterOptions
+func (*DirectLinkV1) NewDeleteGatewayImportRouteFilterOptions(gatewayID string, id string) *DeleteGatewayImportRouteFilterOptions {
+	return &DeleteGatewayImportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *DeleteGatewayImportRouteFilterOptions) SetGatewayID(gatewayID string) *DeleteGatewayImportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteGatewayImportRouteFilterOptions) SetID(id string) *DeleteGatewayImportRouteFilterOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteGatewayImportRouteFilterOptions) SetHeaders(param map[string]string) *DeleteGatewayImportRouteFilterOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteGatewayOptions : The DeleteGateway options.
 type DeleteGatewayOptions struct {
 	// Direct Link gateway identifier.
@@ -2629,6 +3432,23 @@ func (options *DeleteGatewayVirtualConnectionOptions) SetHeaders(param map[strin
 	return options
 }
 
+// ExportRouteFilterCollection : Collection of export route filters.
+type ExportRouteFilterCollection struct {
+	// Array of export route filters.
+	ExportRouteFilters []RouteFilter `json:"export_route_filters" validate:"required"`
+}
+
+// UnmarshalExportRouteFilterCollection unmarshals an instance of ExportRouteFilterCollection from the specified map of raw messages.
+func UnmarshalExportRouteFilterCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ExportRouteFilterCollection)
+	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalRouteFilter)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // Gateway : gateway.
 type Gateway struct {
 	// array of AS Prepend information.
@@ -2694,6 +3514,12 @@ type Gateway struct {
 
 	// Customer name.  Only set for type=dedicated gateways.
 	CustomerName *string `json:"customer_name,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultExportRouteFilter *string `json:"default_export_route_filter" validate:"required"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultImportRouteFilter *string `json:"default_import_route_filter" validate:"required"`
 
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
@@ -2769,6 +3595,20 @@ const (
 const (
 	Gateway_ConnectionMode_Direct = "direct"
 	Gateway_ConnectionMode_Transit = "transit"
+)
+
+// Constants associated with the Gateway.DefaultExportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	Gateway_DefaultExportRouteFilter_Deny = "deny"
+	Gateway_DefaultExportRouteFilter_Permit = "permit"
+)
+
+// Constants associated with the Gateway.DefaultImportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	Gateway_DefaultImportRouteFilter_Deny = "deny"
+	Gateway_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the Gateway.LinkStatus property.
@@ -2878,6 +3718,14 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
 		return
 	}
@@ -3399,7 +4247,7 @@ func UnmarshalGatewayChangeRequestUpdatesItem(m map[string]json.RawMessage, resu
 	return
 }
 
-// GatewayCollection : GatewayCollection struct
+// GatewayCollection : List of gateways.
 type GatewayCollection struct {
 	// Collection of Direct Link gateways.
 	Gateways []Gateway `json:"gateways" validate:"required"`
@@ -4113,8 +4961,22 @@ type GatewayTemplate struct {
 	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 	ConnectionMode *string `json:"connection_mode,omitempty"`
 
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultExportRouteFilter *string `json:"default_export_route_filter,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultImportRouteFilter *string `json:"default_import_route_filter,omitempty"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ExportRouteFilters []GatewayTemplateRouteFilter `json:"export_route_filters,omitempty"`
+
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ImportRouteFilters []GatewayTemplateRouteFilter `json:"import_route_filters,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -4162,6 +5024,20 @@ type GatewayTemplate struct {
 const (
 	GatewayTemplate_ConnectionMode_Direct = "direct"
 	GatewayTemplate_ConnectionMode_Transit = "transit"
+)
+
+// Constants associated with the GatewayTemplate.DefaultExportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	GatewayTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayTemplate_DefaultExportRouteFilter_Permit = "permit"
+)
+
+// Constants associated with the GatewayTemplate.DefaultImportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	GatewayTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplate.Type property.
@@ -4213,7 +5089,23 @@ func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) 
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
 		return
 	}
@@ -4292,6 +5184,61 @@ func (*DirectLinkV1) NewGatewayTemplateAuthenticationKey(crn string) (_model *Ga
 func UnmarshalGatewayTemplateAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayTemplateAuthenticationKey)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayTemplateRouteFilter : The route filter create template within the Direct Link gateway create template.
+type GatewayTemplateRouteFilter struct {
+	// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+	Action *string `json:"action" validate:"required"`
+
+	// The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+	Ge *int64 `json:"ge,omitempty"`
+
+	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+	Le *int64 `json:"le,omitempty"`
+
+	// IP prefix representing an address and mask length of the prefix-set.
+	Prefix *string `json:"prefix" validate:"required"`
+}
+
+// Constants associated with the GatewayTemplateRouteFilter.Action property.
+// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+const (
+	GatewayTemplateRouteFilter_Action_Deny = "deny"
+	GatewayTemplateRouteFilter_Action_Permit = "permit"
+)
+
+// NewGatewayTemplateRouteFilter : Instantiate GatewayTemplateRouteFilter (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayTemplateRouteFilter(action string, prefix string) (_model *GatewayTemplateRouteFilter, err error) {
+	_model = &GatewayTemplateRouteFilter{
+		Action: core.StringPtr(action),
+		Prefix: core.StringPtr(prefix),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayTemplateRouteFilter unmarshals an instance of GatewayTemplateRouteFilter from the specified map of raw messages.
+func UnmarshalGatewayTemplateRouteFilter(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayTemplateRouteFilter)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
 		return
 	}
@@ -4409,6 +5356,82 @@ func UnmarshalGatewayVirtualConnectionCollection(m map[string]json.RawMessage, r
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// GetGatewayExportRouteFilterOptions : The GetGatewayExportRouteFilter options.
+type GetGatewayExportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Identifier of an import route filter.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetGatewayExportRouteFilterOptions : Instantiate GetGatewayExportRouteFilterOptions
+func (*DirectLinkV1) NewGetGatewayExportRouteFilterOptions(gatewayID string, id string) *GetGatewayExportRouteFilterOptions {
+	return &GetGatewayExportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *GetGatewayExportRouteFilterOptions) SetGatewayID(gatewayID string) *GetGatewayExportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetGatewayExportRouteFilterOptions) SetID(id string) *GetGatewayExportRouteFilterOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetGatewayExportRouteFilterOptions) SetHeaders(param map[string]string) *GetGatewayExportRouteFilterOptions {
+	options.Headers = param
+	return options
+}
+
+// GetGatewayImportRouteFilterOptions : The GetGatewayImportRouteFilter options.
+type GetGatewayImportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Identifier of an import route filter.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetGatewayImportRouteFilterOptions : Instantiate GetGatewayImportRouteFilterOptions
+func (*DirectLinkV1) NewGetGatewayImportRouteFilterOptions(gatewayID string, id string) *GetGatewayImportRouteFilterOptions {
+	return &GetGatewayImportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *GetGatewayImportRouteFilterOptions) SetGatewayID(gatewayID string) *GetGatewayImportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetGatewayImportRouteFilterOptions) SetID(id string) *GetGatewayImportRouteFilterOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetGatewayImportRouteFilterOptions) SetHeaders(param map[string]string) *GetGatewayImportRouteFilterOptions {
+	options.Headers = param
+	return options
 }
 
 // GetGatewayOptions : The GetGateway options.
@@ -4607,6 +5630,393 @@ func (options *GetGatewayVirtualConnectionOptions) SetHeaders(param map[string]s
 	return options
 }
 
+// ListGatewayAsPrepends : List AS Prepends
+// Retrieve all AS Prepends for the specified Direct Link gateway.
+func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
+}
+
+// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ReplaceGatewayAsPrepends : Replace existing AS Prepends
+// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
+// AS Prepend item is unchanged.
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
+}
+
+// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if replaceGatewayAsPrependsOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
+		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// AsPrepend : Gateway AS Prepend object.
+type AsPrepend struct {
+	// The date and time resource was created.
+	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+
+	// The unique identifier for this AS Prepend.
+	ID *string `json:"id,omitempty"`
+
+	// Number of times the ASN to appended to the AS Path.
+	Length *int64 `json:"length,omitempty"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy,omitempty"`
+
+	// Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes.
+	Prefix *string `json:"prefix,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+	// prefixes.  Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+
+	// The date and time resource was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+}
+
+// Constants associated with the AsPrepend.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrepend_Policy_Export = "export"
+	AsPrepend_Policy_Import = "import"
+)
+
+// UnmarshalAsPrepend unmarshals an instance of AsPrepend from the specified map of raw messages.
+func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrepend)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependCollection : array of AS Prepends.
+type AsPrependCollection struct {
+	// array of AS Prepend information.
+	AsPrepends []AsPrependEntry `json:"as_prepends,omitempty"`
+}
+
+// UnmarshalAsPrependCollection unmarshals an instance of AsPrependCollection from the specified map of raw messages.
+func UnmarshalAsPrependCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependCollection)
+	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependEntry)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependEntry : AS Prepends API object.
+type AsPrependEntry struct {
+	// The date and time resource was created.
+	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+
+	// The unique identifier for this AS Prepend.
+	ID *string `json:"id,omitempty"`
+
+	// Number of times the ASN to appended to the AS Path.
+	Length *int64 `json:"length,omitempty"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+	// prefixes.  Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+
+	// The date and time resource was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+}
+
+// Constants associated with the AsPrependEntry.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependEntry_Policy_Export = "export"
+	AsPrependEntry_Policy_Import = "import"
+)
+
+// UnmarshalAsPrependEntry unmarshals an instance of AsPrependEntry from the specified map of raw messages.
+func UnmarshalAsPrependEntry(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependEntry)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependPrefixArrayTemplate : Create AS Prepend Configuration template.
+type AsPrependPrefixArrayTemplate struct {
+	// Number of times the ASN to be prepended to the AS Path.
+	Length *int64 `json:"length" validate:"required"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy" validate:"required"`
+
+	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+	// Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+}
+
+// Constants associated with the AsPrependPrefixArrayTemplate.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependPrefixArrayTemplate_Policy_Export = "export"
+	AsPrependPrefixArrayTemplate_Policy_Import = "import"
+)
+
+// NewAsPrependPrefixArrayTemplate : Instantiate AsPrependPrefixArrayTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewAsPrependPrefixArrayTemplate(length int64, policy string) (_model *AsPrependPrefixArrayTemplate, err error) {
+	_model = &AsPrependPrefixArrayTemplate{
+		Length: core.Int64Ptr(length),
+		Policy: core.StringPtr(policy),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalAsPrependPrefixArrayTemplate unmarshals an instance of AsPrependPrefixArrayTemplate from the specified map of raw messages.
+func UnmarshalAsPrependPrefixArrayTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependPrefixArrayTemplate)
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependTemplate : Create AS Prepend Configuration template.
+type AsPrependTemplate struct {
+	// Number of times the ASN to be prepended to the AS Path.
+	Length *int64 `json:"length" validate:"required"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy" validate:"required"`
+
+	// Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
+	// Prepend applies to all prefixes.
+	Prefix *string `json:"prefix,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+}
+
+// Constants associated with the AsPrependTemplate.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependTemplate_Policy_Export = "export"
+	AsPrependTemplate_Policy_Import = "import"
+)
+
+// NewAsPrependTemplate : Instantiate AsPrependTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewAsPrependTemplate(length int64, policy string) (_model *AsPrependTemplate, err error) {
+	_model = &AsPrependTemplate{
+		Length: core.Int64Ptr(length),
+		Policy: core.StringPtr(policy),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalAsPrependTemplate unmarshals an instance of AsPrependTemplate from the specified map of raw messages.
+func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependTemplate)
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GetPortOptions : The GetPort options.
 type GetPortOptions struct {
 	// The port identifier.
@@ -4633,6 +6043,23 @@ func (_options *GetPortOptions) SetID(id string) *GetPortOptions {
 func (options *GetPortOptions) SetHeaders(param map[string]string) *GetPortOptions {
 	options.Headers = param
 	return options
+}
+
+// ImportRouteFilterCollection : Collection of import route filters.
+type ImportRouteFilterCollection struct {
+	// Array of import route filters.
+	ImportRouteFilters []RouteFilter `json:"import_route_filters" validate:"required"`
+}
+
+// UnmarshalImportRouteFilterCollection unmarshals an instance of ImportRouteFilterCollection from the specified map of raw messages.
+func UnmarshalImportRouteFilterCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ImportRouteFilterCollection)
+	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalRouteFilter)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // ListGatewayAsPrependsOptions : The ListGatewayAsPrepends options.
@@ -4687,6 +6114,62 @@ func (_options *ListGatewayCompletionNoticeOptions) SetID(id string) *ListGatewa
 
 // SetHeaders : Allow user to set Headers
 func (options *ListGatewayCompletionNoticeOptions) SetHeaders(param map[string]string) *ListGatewayCompletionNoticeOptions {
+	options.Headers = param
+	return options
+}
+
+// ListGatewayExportRouteFiltersOptions : The ListGatewayExportRouteFilters options.
+type ListGatewayExportRouteFiltersOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListGatewayExportRouteFiltersOptions : Instantiate ListGatewayExportRouteFiltersOptions
+func (*DirectLinkV1) NewListGatewayExportRouteFiltersOptions(gatewayID string) *ListGatewayExportRouteFiltersOptions {
+	return &ListGatewayExportRouteFiltersOptions{
+		GatewayID: core.StringPtr(gatewayID),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *ListGatewayExportRouteFiltersOptions) SetGatewayID(gatewayID string) *ListGatewayExportRouteFiltersOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListGatewayExportRouteFiltersOptions) SetHeaders(param map[string]string) *ListGatewayExportRouteFiltersOptions {
+	options.Headers = param
+	return options
+}
+
+// ListGatewayImportRouteFiltersOptions : The ListGatewayImportRouteFilters options.
+type ListGatewayImportRouteFiltersOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListGatewayImportRouteFiltersOptions : Instantiate ListGatewayImportRouteFiltersOptions
+func (*DirectLinkV1) NewListGatewayImportRouteFiltersOptions(gatewayID string) *ListGatewayImportRouteFiltersOptions {
+	return &ListGatewayImportRouteFiltersOptions{
+		GatewayID: core.StringPtr(gatewayID),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *ListGatewayImportRouteFiltersOptions) SetGatewayID(gatewayID string) *ListGatewayImportRouteFiltersOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListGatewayImportRouteFiltersOptions) SetHeaders(param map[string]string) *ListGatewayImportRouteFiltersOptions {
 	options.Headers = param
 	return options
 }
@@ -4795,7 +6278,7 @@ func (options *ListGatewaysOptions) SetHeaders(param map[string]string) *ListGat
 
 // ListOfferingTypeLocationCrossConnectRoutersOptions : The ListOfferingTypeLocationCrossConnectRouters options.
 type ListOfferingTypeLocationCrossConnectRoutersOptions struct {
-	// The Direct Link offering type.  Only value `"dedicated"` is supported for this API.
+	// The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 	OfferingType *string `json:"offering_type" validate:"required,ne="`
 
 	// The name of the Direct Link location.
@@ -4806,8 +6289,9 @@ type ListOfferingTypeLocationCrossConnectRoutersOptions struct {
 }
 
 // Constants associated with the ListOfferingTypeLocationCrossConnectRoutersOptions.OfferingType property.
-// The Direct Link offering type.  Only value `"dedicated"` is supported for this API.
+// The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 const (
+	ListOfferingTypeLocationCrossConnectRoutersOptions_OfferingType_Connect = "connect"
 	ListOfferingTypeLocationCrossConnectRoutersOptions_OfferingType_Dedicated = "dedicated"
 )
 
@@ -5112,7 +6596,7 @@ func UnmarshalOfferingSpeed(m map[string]json.RawMessage, result interface{}) (e
 	return
 }
 
-// OfferingSpeedCollection : OfferingSpeedCollection struct
+// OfferingSpeedCollection : List of speeds.
 type OfferingSpeedCollection struct {
 	// speed list.
 	Speeds []OfferingSpeed `json:"speeds" validate:"required"`
@@ -5329,6 +6813,102 @@ func (options *ReplaceGatewayAsPrependsOptions) SetHeaders(param map[string]stri
 	return options
 }
 
+// ReplaceGatewayExportRouteFiltersOptions : The ReplaceGatewayExportRouteFilters options.
+type ReplaceGatewayExportRouteFiltersOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ExportRouteFilters []GatewayTemplateRouteFilter `json:"export_route_filters,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewReplaceGatewayExportRouteFiltersOptions : Instantiate ReplaceGatewayExportRouteFiltersOptions
+func (*DirectLinkV1) NewReplaceGatewayExportRouteFiltersOptions(gatewayID string, ifMatch string) *ReplaceGatewayExportRouteFiltersOptions {
+	return &ReplaceGatewayExportRouteFiltersOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *ReplaceGatewayExportRouteFiltersOptions) SetGatewayID(gatewayID string) *ReplaceGatewayExportRouteFiltersOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *ReplaceGatewayExportRouteFiltersOptions) SetIfMatch(ifMatch string) *ReplaceGatewayExportRouteFiltersOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetExportRouteFilters : Allow user to set ExportRouteFilters
+func (_options *ReplaceGatewayExportRouteFiltersOptions) SetExportRouteFilters(exportRouteFilters []GatewayTemplateRouteFilter) *ReplaceGatewayExportRouteFiltersOptions {
+	_options.ExportRouteFilters = exportRouteFilters
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ReplaceGatewayExportRouteFiltersOptions) SetHeaders(param map[string]string) *ReplaceGatewayExportRouteFiltersOptions {
+	options.Headers = param
+	return options
+}
+
+// ReplaceGatewayImportRouteFiltersOptions : The ReplaceGatewayImportRouteFilters options.
+type ReplaceGatewayImportRouteFiltersOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ImportRouteFilters []GatewayTemplateRouteFilter `json:"import_route_filters,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewReplaceGatewayImportRouteFiltersOptions : Instantiate ReplaceGatewayImportRouteFiltersOptions
+func (*DirectLinkV1) NewReplaceGatewayImportRouteFiltersOptions(gatewayID string, ifMatch string) *ReplaceGatewayImportRouteFiltersOptions {
+	return &ReplaceGatewayImportRouteFiltersOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *ReplaceGatewayImportRouteFiltersOptions) SetGatewayID(gatewayID string) *ReplaceGatewayImportRouteFiltersOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *ReplaceGatewayImportRouteFiltersOptions) SetIfMatch(ifMatch string) *ReplaceGatewayImportRouteFiltersOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetImportRouteFilters : Allow user to set ImportRouteFilters
+func (_options *ReplaceGatewayImportRouteFiltersOptions) SetImportRouteFilters(importRouteFilters []GatewayTemplateRouteFilter) *ReplaceGatewayImportRouteFiltersOptions {
+	_options.ImportRouteFilters = importRouteFilters
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ReplaceGatewayImportRouteFiltersOptions) SetHeaders(param map[string]string) *ReplaceGatewayImportRouteFiltersOptions {
+	options.Headers = param
+	return options
+}
+
 // ResourceGroupIdentity : Resource group for this resource. If unspecified, the account's [default resource
 // group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 type ResourceGroupIdentity struct {
@@ -5366,6 +6946,87 @@ type ResourceGroupReference struct {
 func UnmarshalResourceGroupReference(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResourceGroupReference)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RouteFilter : Route filter.
+type RouteFilter struct {
+	// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+	Action *string `json:"action" validate:"required"`
+
+	// Identifier of the next route filter considered if a route does not match the current filter. This property builds
+	// the ordering among route filters and follows semantics:
+	// - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+	// attempt to match on the current filter before preceding to the filter referenced in this property.
+	// - When a filter is created with before that matches another filter in the same collection, the existing filter will
+	// take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+	// created filter will refer to the route filter identified by the provided before.
+	// - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+	// precedence will be updated to refer to the newly created filter.
+	Before *string `json:"before,omitempty"`
+
+	// The date and time the route filter was created in ISO 8601 format.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+	Ge *int64 `json:"ge,omitempty"`
+
+	// The identifier of a route filter.
+	ID *string `json:"id" validate:"required"`
+
+	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+	Le *int64 `json:"le,omitempty"`
+
+	// IP prefix representing an address and mask length of the prefix-set.
+	Prefix *string `json:"prefix" validate:"required"`
+
+	// The date and time the route filter was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
+}
+
+// Constants associated with the RouteFilter.Action property.
+// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+const (
+	RouteFilter_Action_Deny = "deny"
+	RouteFilter_Action_Permit = "permit"
+)
+
+// UnmarshalRouteFilter unmarshals an instance of RouteFilter from the specified map of raw messages.
+func UnmarshalRouteFilter(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteFilter)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
 		return
 	}
@@ -5608,6 +7269,102 @@ func UnmarshalRouteReportRoute(m map[string]json.RawMessage, result interface{})
 	return
 }
 
+// UpdateGatewayExportRouteFilterOptions : The UpdateGatewayExportRouteFilter options.
+type UpdateGatewayExportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Identifier of an import route filter.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The export route filter update template.
+	UpdateRouteFilterTemplatePatch map[string]interface{} `json:"UpdateRouteFilterTemplate_patch" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateGatewayExportRouteFilterOptions : Instantiate UpdateGatewayExportRouteFilterOptions
+func (*DirectLinkV1) NewUpdateGatewayExportRouteFilterOptions(gatewayID string, id string, updateRouteFilterTemplatePatch map[string]interface{}) *UpdateGatewayExportRouteFilterOptions {
+	return &UpdateGatewayExportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		ID: core.StringPtr(id),
+		UpdateRouteFilterTemplatePatch: updateRouteFilterTemplatePatch,
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *UpdateGatewayExportRouteFilterOptions) SetGatewayID(gatewayID string) *UpdateGatewayExportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateGatewayExportRouteFilterOptions) SetID(id string) *UpdateGatewayExportRouteFilterOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetUpdateRouteFilterTemplatePatch : Allow user to set UpdateRouteFilterTemplatePatch
+func (_options *UpdateGatewayExportRouteFilterOptions) SetUpdateRouteFilterTemplatePatch(updateRouteFilterTemplatePatch map[string]interface{}) *UpdateGatewayExportRouteFilterOptions {
+	_options.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplatePatch
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateGatewayExportRouteFilterOptions) SetHeaders(param map[string]string) *UpdateGatewayExportRouteFilterOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateGatewayImportRouteFilterOptions : The UpdateGatewayImportRouteFilter options.
+type UpdateGatewayImportRouteFilterOptions struct {
+	// Direct Link gateway identifier.
+	GatewayID *string `json:"gateway_id" validate:"required,ne="`
+
+	// Identifier of an import route filter.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The import route filter update template.
+	UpdateRouteFilterTemplatePatch map[string]interface{} `json:"UpdateRouteFilterTemplate_patch" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateGatewayImportRouteFilterOptions : Instantiate UpdateGatewayImportRouteFilterOptions
+func (*DirectLinkV1) NewUpdateGatewayImportRouteFilterOptions(gatewayID string, id string, updateRouteFilterTemplatePatch map[string]interface{}) *UpdateGatewayImportRouteFilterOptions {
+	return &UpdateGatewayImportRouteFilterOptions{
+		GatewayID: core.StringPtr(gatewayID),
+		ID: core.StringPtr(id),
+		UpdateRouteFilterTemplatePatch: updateRouteFilterTemplatePatch,
+	}
+}
+
+// SetGatewayID : Allow user to set GatewayID
+func (_options *UpdateGatewayImportRouteFilterOptions) SetGatewayID(gatewayID string) *UpdateGatewayImportRouteFilterOptions {
+	_options.GatewayID = core.StringPtr(gatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateGatewayImportRouteFilterOptions) SetID(id string) *UpdateGatewayImportRouteFilterOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetUpdateRouteFilterTemplatePatch : Allow user to set UpdateRouteFilterTemplatePatch
+func (_options *UpdateGatewayImportRouteFilterOptions) SetUpdateRouteFilterTemplatePatch(updateRouteFilterTemplatePatch map[string]interface{}) *UpdateGatewayImportRouteFilterOptions {
+	_options.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplatePatch
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateGatewayImportRouteFilterOptions) SetHeaders(param map[string]string) *UpdateGatewayImportRouteFilterOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateGatewayOptions : The UpdateGateway options.
 type UpdateGatewayOptions struct {
 	// Direct Link gateway identifier.
@@ -5648,6 +7405,12 @@ type UpdateGatewayOptions struct {
 	// Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 	ConnectionMode *string `json:"connection_mode,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultExportRouteFilter *string `json:"default_export_route_filter,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultImportRouteFilter *string `json:"default_import_route_filter,omitempty"`
 
 	// Gateways with global routing (`true`) can connect to networks outside of their associated region.
 	Global *bool `json:"global,omitempty"`
@@ -5695,6 +7458,20 @@ type UpdateGatewayOptions struct {
 const (
 	UpdateGatewayOptions_ConnectionMode_Direct = "direct"
 	UpdateGatewayOptions_ConnectionMode_Transit = "transit"
+)
+
+// Constants associated with the UpdateGatewayOptions.DefaultExportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	UpdateGatewayOptions_DefaultExportRouteFilter_Deny = "deny"
+	UpdateGatewayOptions_DefaultExportRouteFilter_Permit = "permit"
+)
+
+// Constants associated with the UpdateGatewayOptions.DefaultImportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	UpdateGatewayOptions_DefaultImportRouteFilter_Deny = "deny"
+	UpdateGatewayOptions_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the UpdateGatewayOptions.OperationalStatus property.
@@ -5755,6 +7532,18 @@ func (_options *UpdateGatewayOptions) SetBgpIbmCidr(bgpIbmCidr string) *UpdateGa
 // SetConnectionMode : Allow user to set ConnectionMode
 func (_options *UpdateGatewayOptions) SetConnectionMode(connectionMode string) *UpdateGatewayOptions {
 	_options.ConnectionMode = core.StringPtr(connectionMode)
+	return _options
+}
+
+// SetDefaultExportRouteFilter : Allow user to set DefaultExportRouteFilter
+func (_options *UpdateGatewayOptions) SetDefaultExportRouteFilter(defaultExportRouteFilter string) *UpdateGatewayOptions {
+	_options.DefaultExportRouteFilter = core.StringPtr(defaultExportRouteFilter)
+	return _options
+}
+
+// SetDefaultImportRouteFilter : Allow user to set DefaultImportRouteFilter
+func (_options *UpdateGatewayOptions) SetDefaultImportRouteFilter(defaultImportRouteFilter string) *UpdateGatewayOptions {
+	_options.DefaultImportRouteFilter = core.StringPtr(defaultImportRouteFilter)
 	return _options
 }
 
@@ -5878,6 +7667,80 @@ func (_options *UpdateGatewayVirtualConnectionOptions) SetStatus(status string) 
 func (options *UpdateGatewayVirtualConnectionOptions) SetHeaders(param map[string]string) *UpdateGatewayVirtualConnectionOptions {
 	options.Headers = param
 	return options
+}
+
+// UpdateRouteFilterTemplate : The route filter update template.
+type UpdateRouteFilterTemplate struct {
+	// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+	Action *string `json:"action,omitempty"`
+
+	// Identifier of the next route filter considered if a route does not match the current filter. This property builds
+	// the ordering among route filters and follows semantics:
+	// - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+	// attempt to match on the current filter before preceding to the filter referenced in this property.
+	// - When a filter is created with before that matches another filter in the same collection, the existing filter will
+	// take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+	// created filter will refer to the route filter identified by the provided before.
+	// - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+	// precedence will be updated to refer to the newly created filter.
+	Before *string `json:"before,omitempty"`
+
+	// The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+	//
+	// To clear the minimum matching length of the filter, patch the value to `0`.
+	Ge *int64 `json:"ge,omitempty"`
+
+	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+	//
+	// To clear the maximum matching length of the filter, patch the value to `0`.
+	Le *int64 `json:"le,omitempty"`
+
+	// IP prefix representing an address and mask length of the prefix-set.
+	Prefix *string `json:"prefix,omitempty"`
+}
+
+// Constants associated with the UpdateRouteFilterTemplate.Action property.
+// Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
+const (
+	UpdateRouteFilterTemplate_Action_Deny = "deny"
+	UpdateRouteFilterTemplate_Action_Permit = "permit"
+)
+
+// UnmarshalUpdateRouteFilterTemplate unmarshals an instance of UpdateRouteFilterTemplate from the specified map of raw messages.
+func UnmarshalUpdateRouteFilterTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateRouteFilterTemplate)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the UpdateRouteFilterTemplate
+func (updateRouteFilterTemplate *UpdateRouteFilterTemplate) AsPatch() (_patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(updateRouteFilterTemplate)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
+	}
+	return
 }
 
 // GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate : The autonomous system number (ASN) of Border Gateway Protocol
@@ -6501,8 +8364,22 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 	ConnectionMode *string `json:"connection_mode,omitempty"`
 
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultExportRouteFilter *string `json:"default_export_route_filter,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultImportRouteFilter *string `json:"default_import_route_filter,omitempty"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ExportRouteFilters []GatewayTemplateRouteFilter `json:"export_route_filters,omitempty"`
+
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ImportRouteFilters []GatewayTemplateRouteFilter `json:"import_route_filters,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -6533,6 +8410,20 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 const (
 	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Direct = "direct"
 	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Transit = "transit"
+)
+
+// Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.DefaultExportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	GatewayTemplateGatewayTypeConnectTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeConnectTemplate_DefaultExportRouteFilter_Permit = "permit"
+)
+
+// Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.DefaultImportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	GatewayTemplateGatewayTypeConnectTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeConnectTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.Type property.
@@ -6596,7 +8487,23 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
 		return
 	}
@@ -6678,8 +8585,22 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 	ConnectionMode *string `json:"connection_mode,omitempty"`
 
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultExportRouteFilter *string `json:"default_export_route_filter,omitempty"`
+
+	// The default directional route filter action that applies to routes that do not match any directional route filters.
+	DefaultImportRouteFilter *string `json:"default_import_route_filter,omitempty"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ExportRouteFilters []GatewayTemplateRouteFilter `json:"export_route_filters,omitempty"`
+
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
 	Global *bool `json:"global" validate:"required"`
+
+	// Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+	// filters, the order of the items in the array will set the ordering of the list of route filters.
+	ImportRouteFilters []GatewayTemplateRouteFilter `json:"import_route_filters,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -6722,6 +8643,20 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 const (
 	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Direct = "direct"
 	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Transit = "transit"
+)
+
+// Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.DefaultExportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultExportRouteFilter_Permit = "permit"
+)
+
+// Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.DefaultImportRouteFilter property.
+// The default directional route filter action that applies to routes that do not match any directional route filters.
+const (
+	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.Type property.
@@ -6788,7 +8723,23 @@ func UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(m map[string]json.RawM
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
 		return
 	}
@@ -6916,4 +8867,85 @@ func UnmarshalRouteReportOverlappingRouteForOthers(m map[string]json.RawMessage,
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+//
+// PortsPager can be used to simplify the use of the "ListPorts" method.
+//
+type PortsPager struct {
+	hasNext bool
+	options *ListPortsOptions
+	client  *DirectLinkV1
+	pageContext struct {
+		next *string
+	}
+}
+
+// NewPortsPager returns a new PortsPager instance.
+func (directLink *DirectLinkV1) NewPortsPager(options *ListPortsOptions) (pager *PortsPager, err error) {
+	if options.Start != nil && *options.Start != "" {
+		err = fmt.Errorf("the 'options.Start' field should not be set")
+		return
+	}
+
+	var optionsCopy ListPortsOptions = *options
+	pager = &PortsPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  directLink,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *PortsPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *PortsPager) GetNextWithContext(ctx context.Context) (page []Port, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Start = pager.pageContext.next
+
+	result, _, err := pager.client.ListPortsWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *string
+	if result.Next != nil {
+		next = result.Next.Start
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.Ports
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *PortsPager) GetAllWithContext(ctx context.Context) (allItems []Port, err error) {
+	for pager.HasNext() {
+		var nextPage []Port
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *PortsPager) GetNext() (page []Port, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *PortsPager) GetAll() (allItems []Port, err error) {
+	return pager.GetAllWithContext(context.Background())
 }

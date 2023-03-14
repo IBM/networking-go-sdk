@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,14 +40,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 		It(`Instantiate service client`, func() {
 			directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			Expect(directLinkService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(directLinkService).To(BeNil())
@@ -55,7 +55,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-				URL:     "https://directlinkv1/api",
+				URL: "https://directlinkv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -76,7 +76,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_URL": "https://directlinkv1/api",
 				"DIRECT_LINK_AUTH_TYPE": "noauth",
 			}
 
@@ -98,7 +98,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
-					URL:     "https://testService/api",
+					URL: "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(directLinkService).ToNot(BeNil())
@@ -134,7 +134,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_URL":       "https://directlinkv1/api",
+				"DIRECT_LINK_URL": "https://directlinkv1/api",
 				"DIRECT_LINK_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,12 +152,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_AUTH_TYPE": "NOAuth",
+				"DIRECT_LINK_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			directLinkService, serviceErr := directlinkv1.NewDirectLinkV1UsingExternalConfig(&directlinkv1.DirectLinkV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -178,1273 +178,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
-	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) - Operation response error`, func() {
-		version := "testString"
-		listGatewayAsPrependsPath := "/gateways/testString/as_prepends"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions)`, func() {
-		version := "testString"
-		listGatewayAsPrependsPath := "/gateways/testString/as_prepends"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ListGatewayAsPrepends with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ListGatewayAsPrependsOptions model with no property values
-				listGatewayAsPrependsOptionsModelNew := new(directlinkv1.ListGatewayAsPrependsOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) - Operation response error`, func() {
-		version := "testString"
-		replaceGatewayAsPrependsPath := "/gateways/testString/as_prepends"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("PUT"))
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions)`, func() {
-		version := "testString"
-		replaceGatewayAsPrependsPath := "/gateways/testString/as_prepends"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ReplaceGatewayAsPrepends with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ReplaceGatewayAsPrependsOptions model with no property values
-				replaceGatewayAsPrependsOptionsModelNew := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(201)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("testString")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) - Operation response error`, func() {
-		version := "testString"
-		listGatewayRouteReportsPath := "/gateways/testString/route_reports"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayRouteReportsPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ListGatewayRouteReports with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayRouteReportsOptions model
-				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
-				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions)`, func() {
-		version := "testString"
-		listGatewayRouteReportsPath := "/gateways/testString/route_reports"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayRouteReportsPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayRouteReports successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the ListGatewayRouteReportsOptions model
-				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
-				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListGatewayRouteReportsWithContext(ctx, listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListGatewayRouteReportsWithContext(ctx, listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayRouteReportsPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayRouteReports successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListGatewayRouteReports(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the ListGatewayRouteReportsOptions model
-				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
-				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ListGatewayRouteReports with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayRouteReportsOptions model
-				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
-				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ListGatewayRouteReportsOptions model with no property values
-				listGatewayRouteReportsOptionsModelNew := new(directlinkv1.ListGatewayRouteReportsOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke ListGatewayRouteReports successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayRouteReportsOptions model
-				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
-				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("testString")
-				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) - Operation response error`, func() {
-		version := "testString"
-		createGatewayRouteReportPath := "/gateways/testString/route_reports"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(createGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("POST"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(202)
-					fmt.Fprintf(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke CreateGatewayRouteReport with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the CreateGatewayRouteReportOptions model
-				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
-				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions)`, func() {
-		version := "testString"
-		createGatewayRouteReportPath := "/gateways/testString/route_reports"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(createGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("POST"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
-				}))
-			})
-			It(`Invoke CreateGatewayRouteReport successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the CreateGatewayRouteReportOptions model
-				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
-				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.CreateGatewayRouteReportWithContext(ctx, createGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.CreateGatewayRouteReportWithContext(ctx, createGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(createGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("POST"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
-				}))
-			})
-			It(`Invoke CreateGatewayRouteReport successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.CreateGatewayRouteReport(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the CreateGatewayRouteReportOptions model
-				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
-				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke CreateGatewayRouteReport with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the CreateGatewayRouteReportOptions model
-				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
-				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the CreateGatewayRouteReportOptions model with no property values
-				createGatewayRouteReportOptionsModelNew := new(directlinkv1.CreateGatewayRouteReportOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(202)
-				}))
-			})
-			It(`Invoke CreateGatewayRouteReport successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the CreateGatewayRouteReportOptions model
-				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
-				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`DeleteGatewayRouteReport(deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions)`, func() {
-		version := "testString"
-		deleteGatewayRouteReportPath := "/gateways/testString/route_reports/testString"
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(deleteGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("DELETE"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.WriteHeader(204)
-				}))
-			})
-			It(`Invoke DeleteGatewayRouteReport successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				response, operationErr := directLinkService.DeleteGatewayRouteReport(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-
-				// Construct an instance of the DeleteGatewayRouteReportOptions model
-				deleteGatewayRouteReportOptionsModel := new(directlinkv1.DeleteGatewayRouteReportOptions)
-				deleteGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				deleteGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				deleteGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				response, operationErr = directLinkService.DeleteGatewayRouteReport(deleteGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-			})
-			It(`Invoke DeleteGatewayRouteReport with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the DeleteGatewayRouteReportOptions model
-				deleteGatewayRouteReportOptionsModel := new(directlinkv1.DeleteGatewayRouteReportOptions)
-				deleteGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				deleteGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				deleteGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				response, operationErr := directLinkService.DeleteGatewayRouteReport(deleteGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				// Construct a second instance of the DeleteGatewayRouteReportOptions model with no property values
-				deleteGatewayRouteReportOptionsModelNew := new(directlinkv1.DeleteGatewayRouteReportOptions)
-				// Invoke operation with invalid model (negative test)
-				response, operationErr = directLinkService.DeleteGatewayRouteReport(deleteGatewayRouteReportOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions) - Operation response error`, func() {
-		version := "testString"
-		getGatewayRouteReportPath := "/gateways/testString/route_reports/testString"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke GetGatewayRouteReport with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayRouteReportOptions model
-				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
-				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions)`, func() {
-		version := "testString"
-		getGatewayRouteReportPath := "/gateways/testString/route_reports/testString"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
-				}))
-			})
-			It(`Invoke GetGatewayRouteReport successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the GetGatewayRouteReportOptions model
-				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
-				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.GetGatewayRouteReportWithContext(ctx, getGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.GetGatewayRouteReportWithContext(ctx, getGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayRouteReportPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
-				}))
-			})
-			It(`Invoke GetGatewayRouteReport successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.GetGatewayRouteReport(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the GetGatewayRouteReportOptions model
-				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
-				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke GetGatewayRouteReport with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayRouteReportOptions model
-				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
-				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the GetGatewayRouteReportOptions model with no property values
-				getGatewayRouteReportOptionsModelNew := new(directlinkv1.GetGatewayRouteReportOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke GetGatewayRouteReport successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayRouteReportOptions model
-				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
-				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.ID = core.StringPtr("testString")
-				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
 	Describe(`ListGateways(listGatewaysOptions *ListGatewaysOptions) - Operation response error`, func() {
 		version := "testString"
 		listGatewaysPath := "/gateways"
@@ -1459,14 +192,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListGateways with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1511,14 +244,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1566,14 +299,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1599,7 +332,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1633,7 +366,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1669,14 +402,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateGateway with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1696,6 +429,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
 				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -1726,7 +466,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
+				gatewayTemplateModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
 				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
@@ -1796,14 +540,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1824,6 +568,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
 				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -1854,7 +605,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
+				gatewayTemplateModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
 				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
@@ -1926,14 +681,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -1959,6 +714,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
 				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -1989,7 +751,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
+				gatewayTemplateModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
 				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
@@ -2018,7 +784,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2038,6 +804,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
 				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -2068,7 +841,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
+				gatewayTemplateModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
 				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
@@ -2118,7 +895,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2138,6 +915,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
 				gatewayBfdConfigTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -2168,7 +952,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
+				gatewayTemplateModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
 				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
@@ -2201,7 +989,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`DeleteGateway(deleteGatewayOptions *DeleteGatewayOptions)`, func() {
 		version := "testString"
-		deleteGatewayPath := "/gateways/testString"
+		deleteGatewayPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2219,7 +1007,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2231,7 +1019,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the DeleteGatewayOptions model
 				deleteGatewayOptionsModel := new(directlinkv1.DeleteGatewayOptions)
-				deleteGatewayOptionsModel.ID = core.StringPtr("testString")
+				deleteGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2243,14 +1031,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteGatewayOptions model
 				deleteGatewayOptionsModel := new(directlinkv1.DeleteGatewayOptions)
-				deleteGatewayOptionsModel.ID = core.StringPtr("testString")
+				deleteGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -2273,7 +1061,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGateway(getGatewayOptions *GetGatewayOptions) - Operation response error`, func() {
 		version := "testString"
-		getGatewayPath := "/gateways/testString"
+		getGatewayPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2285,21 +1073,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetGateway with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayOptions model
 				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
-				getGatewayOptionsModel.ID = core.StringPtr("testString")
+				getGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkService.GetGateway(getGatewayOptionsModel)
@@ -2321,7 +1109,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGateway(getGatewayOptions *GetGatewayOptions)`, func() {
 		version := "testString"
-		getGatewayPath := "/gateways/testString"
+		getGatewayPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2338,14 +1126,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2353,7 +1141,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayOptions model
 				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
-				getGatewayOptionsModel.ID = core.StringPtr("testString")
+				getGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2394,14 +1182,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2414,7 +1202,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayOptions model
 				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
-				getGatewayOptionsModel.ID = core.StringPtr("testString")
+				getGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2428,14 +1216,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayOptions model
 				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
-				getGatewayOptionsModel.ID = core.StringPtr("testString")
+				getGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -2470,14 +1258,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayOptions model
 				getGatewayOptionsModel := new(directlinkv1.GetGatewayOptions)
-				getGatewayOptionsModel.ID = core.StringPtr("testString")
+				getGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2495,7 +1283,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`UpdateGateway(updateGatewayOptions *UpdateGatewayOptions) - Operation response error`, func() {
 		version := "testString"
-		updateGatewayPath := "/gateways/testString"
+		updateGatewayPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2507,14 +1295,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateGateway with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2545,13 +1333,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
-				updateGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
 				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
 				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
+				updateGatewayOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				updateGatewayOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
@@ -2581,7 +1371,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`UpdateGateway(updateGatewayOptions *UpdateGatewayOptions)`, func() {
 		version := "testString"
-		updateGatewayPath := "/gateways/testString"
+		updateGatewayPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2614,14 +1404,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2653,13 +1443,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
-				updateGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
 				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
 				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
+				updateGatewayOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				updateGatewayOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
@@ -2724,14 +1516,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2768,13 +1560,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
-				updateGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
 				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
 				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
+				updateGatewayOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				updateGatewayOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
@@ -2796,7 +1590,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2827,13 +1621,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
-				updateGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
 				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
 				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
+				updateGatewayOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				updateGatewayOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
@@ -2876,7 +1672,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2907,13 +1703,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayOptions model
 				updateGatewayOptionsModel := new(directlinkv1.UpdateGatewayOptions)
-				updateGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayOptionsModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				updateGatewayOptionsModel.BfdConfig = gatewayBfdPatchTemplateModel
 				updateGatewayOptionsModel.BgpAsn = core.Int64Ptr(int64(64999))
 				updateGatewayOptionsModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				updateGatewayOptionsModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				updateGatewayOptionsModel.ConnectionMode = core.StringPtr("transit")
+				updateGatewayOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				updateGatewayOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				updateGatewayOptionsModel.Global = core.BoolPtr(true)
 				updateGatewayOptionsModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
 				updateGatewayOptionsModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
@@ -2939,7 +1737,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`CreateGatewayAction(createGatewayActionOptions *CreateGatewayActionOptions) - Operation response error`, func() {
 		version := "testString"
-		createGatewayActionPath := "/gateways/testString/actions"
+		createGatewayActionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2951,14 +1749,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -2979,6 +1777,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -2989,13 +1794,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayActionOptions model
 				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
-				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
+				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
+				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
+				createGatewayActionOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
@@ -3020,7 +1829,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`CreateGatewayAction(createGatewayActionOptions *CreateGatewayActionOptions)`, func() {
 		version := "testString"
-		createGatewayActionPath := "/gateways/testString/actions"
+		createGatewayActionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -3053,14 +1862,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3082,6 +1891,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -3092,13 +1908,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayActionOptions model
 				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
-				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
+				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
+				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
+				createGatewayActionOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
@@ -3158,14 +1978,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3192,6 +2012,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -3202,13 +2029,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayActionOptions model
 				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
-				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
+				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
+				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
+				createGatewayActionOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
@@ -3225,7 +2056,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3246,6 +2077,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -3256,13 +2094,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayActionOptions model
 				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
-				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
+				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
+				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
+				createGatewayActionOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
@@ -3300,7 +2142,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3321,6 +2163,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigActionTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdConfigActionTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
@@ -3331,13 +2180,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayActionOptions model
 				createGatewayActionOptionsModel := new(directlinkv1.CreateGatewayActionOptions)
-				createGatewayActionOptionsModel.ID = core.StringPtr("testString")
+				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
 				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
+				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				createGatewayActionOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Global = core.BoolPtr(true)
+				createGatewayActionOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				createGatewayActionOptionsModel.Metered = core.BoolPtr(false)
 				createGatewayActionOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createGatewayActionOptionsModel.Updates = []directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}
@@ -3358,7 +2211,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`ListGatewayCompletionNotice(listGatewayCompletionNoticeOptions *ListGatewayCompletionNoticeOptions)`, func() {
 		version := "testString"
-		listGatewayCompletionNoticePath := "/gateways/testString/completion_notice"
+		listGatewayCompletionNoticePath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -3382,7 +2235,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3390,7 +2243,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
 				listGatewayCompletionNoticeOptionsModel := new(directlinkv1.ListGatewayCompletionNoticeOptions)
-				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
+				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3438,7 +2291,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3451,7 +2304,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
 				listGatewayCompletionNoticeOptionsModel := new(directlinkv1.ListGatewayCompletionNoticeOptions)
-				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
+				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3465,14 +2318,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
 				listGatewayCompletionNoticeOptionsModel := new(directlinkv1.ListGatewayCompletionNoticeOptions)
-				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
+				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -3507,20 +2360,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
 				listGatewayCompletionNoticeOptionsModel := new(directlinkv1.ListGatewayCompletionNoticeOptions)
-				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
+				listGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
 				result, response, operationErr := directLinkService.ListGatewayCompletionNotice(listGatewayCompletionNoticeOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
+
 
 				// Verify empty byte buffer.
 				Expect(result).ToNot(BeNil())
@@ -3536,7 +2390,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`CreateGatewayCompletionNotice(createGatewayCompletionNoticeOptions *CreateGatewayCompletionNoticeOptions)`, func() {
 		version := "testString"
-		createGatewayCompletionNoticePath := "/gateways/testString/completion_notice"
+		createGatewayCompletionNoticePath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -3554,7 +2408,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3566,7 +2420,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayCompletionNoticeOptions model
 				createGatewayCompletionNoticeOptionsModel := new(directlinkv1.CreateGatewayCompletionNoticeOptions)
-				createGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
+				createGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayCompletionNoticeOptionsModel.Upload = CreateMockReader("This is a mock file.")
 				createGatewayCompletionNoticeOptionsModel.UploadContentType = core.StringPtr("testString")
 				createGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3578,9 +2432,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke CreateGatewayCompletionNotice with error: Param validation error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
+					URL:  testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3596,14 +2450,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayCompletionNoticeOptions model
 				createGatewayCompletionNoticeOptionsModel := new(directlinkv1.CreateGatewayCompletionNoticeOptions)
-				createGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("testString")
+				createGatewayCompletionNoticeOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayCompletionNoticeOptionsModel.Upload = CreateMockReader("This is a mock file.")
 				createGatewayCompletionNoticeOptionsModel.UploadContentType = core.StringPtr("testString")
 				createGatewayCompletionNoticeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3628,7 +2482,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`ListGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptions *ListGatewayLetterOfAuthorizationOptions)`, func() {
 		version := "testString"
-		listGatewayLetterOfAuthorizationPath := "/gateways/testString/letter_of_authorization"
+		listGatewayLetterOfAuthorizationPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/letter_of_authorization"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -3652,7 +2506,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3660,7 +2514,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
 				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
-				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("testString")
+				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3708,7 +2562,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3721,7 +2575,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
 				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
-				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("testString")
+				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3735,14 +2589,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
 				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
-				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("testString")
+				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -3777,20 +2631,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
 				listGatewayLetterOfAuthorizationOptionsModel := new(directlinkv1.ListGatewayLetterOfAuthorizationOptions)
-				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("testString")
+				listGatewayLetterOfAuthorizationOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayLetterOfAuthorizationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
 				result, response, operationErr := directLinkService.ListGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
+
 
 				// Verify empty byte buffer.
 				Expect(result).ToNot(BeNil())
@@ -3806,7 +2661,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions) - Operation response error`, func() {
 		version := "testString"
-		getGatewayStatisticsPath := "/gateways/testString/statistics"
+		getGatewayStatisticsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/statistics"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -3819,21 +2674,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetGatewayStatistics with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
-				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3856,7 +2711,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions)`, func() {
 		version := "testString"
-		getGatewayStatisticsPath := "/gateways/testString/statistics"
+		getGatewayStatisticsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/statistics"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -3881,7 +2736,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3889,7 +2744,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
-				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3939,7 +2794,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -3952,7 +2807,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
-				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3967,14 +2822,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
-				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4010,14 +2865,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayStatisticsOptions model
 				getGatewayStatisticsOptionsModel := new(directlinkv1.GetGatewayStatisticsOptions)
-				getGatewayStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatisticsOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatisticsOptionsModel.Type = core.StringPtr("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4036,7 +2891,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGatewayStatus(getGatewayStatusOptions *GetGatewayStatusOptions) - Operation response error`, func() {
 		version := "testString"
-		getGatewayStatusPath := "/gateways/testString/status"
+		getGatewayStatusPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/status"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -4049,21 +2904,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["type"]).To(Equal([]string{"bgp"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetGatewayStatus with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayStatusOptions model
 				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
-				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
 				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -4086,7 +2941,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGatewayStatus(getGatewayStatusOptions *GetGatewayStatusOptions)`, func() {
 		version := "testString"
-		getGatewayStatusPath := "/gateways/testString/status"
+		getGatewayStatusPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/status"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -4111,7 +2966,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -4119,7 +2974,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayStatusOptions model
 				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
-				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
 				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4169,7 +3024,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -4182,7 +3037,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayStatusOptions model
 				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
-				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
 				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4197,14 +3052,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayStatusOptions model
 				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
-				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
 				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4240,14 +3095,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayStatusOptions model
 				getGatewayStatusOptionsModel := new(directlinkv1.GetGatewayStatusOptions)
-				getGatewayStatusOptionsModel.ID = core.StringPtr("testString")
+				getGatewayStatusOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatusOptionsModel.Type = core.StringPtr("bgp")
 				getGatewayStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4264,45 +3119,45 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) - Operation response error`, func() {
+	Describe(`ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions) - Operation response error`, func() {
 		version := "testString"
-		listOfferingTypeLocationsPath := "/offering_types/dedicated/locations"
+		listGatewayExportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayExportRouteFiltersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocations with error: Operation response processing error`, func() {
+			It(`Invoke ListGatewayExportRouteFilters with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
-				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
+				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				result, response, operationErr := directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
 
 				// Enable retries and test again
 				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				result, response, operationErr = directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -4312,16 +3167,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions)`, func() {
+	Describe(`ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions)`, func() {
 		version := "testString"
-		listOfferingTypeLocationsPath := "/offering_types/dedicated/locations"
+		listGatewayExportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayExportRouteFiltersPath))
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
@@ -4331,34 +3186,34 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}`)
+					fmt.Fprintf(res, "%s", `{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocations successfully with retries`, func() {
+			It(`Invoke ListGatewayExportRouteFilters successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
-				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
+				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
 				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListOfferingTypeLocationsWithContext(ctx, listOfferingTypeLocationsOptionsModel)
+				_, _, operationErr := directLinkService.ListGatewayExportRouteFiltersWithContext(ctx, listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 
 				// Disable retries and test again
 				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				result, response, operationErr := directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -4366,7 +3221,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Re-test the timeout error with retries disabled
 				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListOfferingTypeLocationsWithContext(ctx, listOfferingTypeLocationsOptionsModel)
+				_, _, operationErr = directLinkService.ListGatewayExportRouteFiltersWithContext(ctx, listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 			})
@@ -4380,68 +3235,68 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayExportRouteFiltersPath))
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}`)
+					fmt.Fprintf(res, "%s", `{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocations successfully`, func() {
+			It(`Invoke ListGatewayExportRouteFilters successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListOfferingTypeLocations(nil)
+				result, response, operationErr := directLinkService.ListGatewayExportRouteFilters(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
-				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
+				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				result, response, operationErr = directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke ListOfferingTypeLocations with error: Operation validation and request error`, func() {
+			It(`Invoke ListGatewayExportRouteFilters with error: Operation validation and request error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
-				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
+				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				result, response, operationErr := directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the ListOfferingTypeLocationsOptions model with no property values
-				listOfferingTypeLocationsOptionsModelNew := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				// Construct a second instance of the ListGatewayExportRouteFiltersOptions model with no property values
+				listGatewayExportRouteFiltersOptionsModelNew := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModelNew)
+				result, response, operationErr = directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4459,22 +3314,22 @@ var _ = Describe(`DirectLinkV1`, func() {
 					res.WriteHeader(200)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocations successfully`, func() {
+			It(`Invoke ListGatewayExportRouteFilters successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationsOptions model
-				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
-				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
+				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
-				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				result, response, operationErr := directLinkService.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -4486,46 +3341,50 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) - Operation response error`, func() {
+	Describe(`CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptions *CreateGatewayExportRouteFilterOptions) - Operation response error`, func() {
 		version := "testString"
-		listOfferingTypeLocationCrossConnectRoutersPath := "/offering_types/dedicated/locations/testString/cross_connect_routers"
+		createGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocationCrossConnectRouters with error: Operation response processing error`, func() {
+			It(`Invoke CreateGatewayExportRouteFilter with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
+				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				result, response, operationErr := directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
 
 				// Enable retries and test again
 				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				result, response, operationErr = directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -4535,17 +3394,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions)`, func() {
+	Describe(`CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptions *CreateGatewayExportRouteFilterOptions)`, func() {
 		version := "testString"
-		listOfferingTypeLocationCrossConnectRoutersPath := "/offering_types/dedicated/locations/testString/cross_connect_routers"
+		createGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
@@ -4553,36 +3428,40 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"cross_connect_routers": [{"capabilities": ["Capabilities"], "router_name": "xcr01.dal03", "total_connections": 1}]}`)
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully with retries`, func() {
+			It(`Invoke CreateGatewayExportRouteFilter successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
+				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
 				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx, listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				_, _, operationErr := directLinkService.CreateGatewayExportRouteFilterWithContext(ctx, createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 
 				// Disable retries and test again
 				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				result, response, operationErr := directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -4590,7 +3469,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Re-test the timeout error with retries disabled
 				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx, listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				_, _, operationErr = directLinkService.CreateGatewayExportRouteFilterWithContext(ctx, createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 			})
@@ -4604,70 +3483,94 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"cross_connect_routers": [{"capabilities": ["Capabilities"], "router_name": "xcr01.dal03", "total_connections": 1}]}`)
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully`, func() {
+			It(`Invoke CreateGatewayExportRouteFilter successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(nil)
+				result, response, operationErr := directLinkService.CreateGatewayExportRouteFilter(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
+				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				result, response, operationErr = directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke ListOfferingTypeLocationCrossConnectRouters with error: Operation validation and request error`, func() {
+			It(`Invoke CreateGatewayExportRouteFilter with error: Operation validation and request error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
+				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				result, response, operationErr := directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model with no property values
-				listOfferingTypeLocationCrossConnectRoutersOptionsModelNew := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				// Construct a second instance of the CreateGatewayExportRouteFilterOptions model with no property values
+				createGatewayExportRouteFilterOptionsModelNew := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModelNew)
+				result, response, operationErr = directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4682,26 +3585,30 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Set success status code with no respoonse body
-					res.WriteHeader(200)
+					res.WriteHeader(201)
 				}))
 			})
-			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully`, func() {
+			It(`Invoke CreateGatewayExportRouteFilter successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
-				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
+				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
-				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				result, response, operationErr := directLinkService.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -4713,45 +3620,56 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) - Operation response error`, func() {
+	Describe(`ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptions *ReplaceGatewayExportRouteFiltersOptions) - Operation response error`, func() {
 		version := "testString"
-		listOfferingTypeSpeedsPath := "/offering_types/dedicated/speeds"
+		replaceGatewayExportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeSpeedsPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayExportRouteFiltersPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeSpeeds with error: Operation response processing error`, func() {
+			It(`Invoke ReplaceGatewayExportRouteFilters with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
-				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
+				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				result, response, operationErr := directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
 
 				// Enable retries and test again
 				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				result, response, operationErr = directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -4761,53 +3679,80 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions)`, func() {
+	Describe(`ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptions *ReplaceGatewayExportRouteFiltersOptions)`, func() {
 		version := "testString"
-		listOfferingTypeSpeedsPath := "/offering_types/dedicated/speeds"
+		replaceGatewayExportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeSpeedsPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayExportRouteFiltersPath))
+					Expect(req.Method).To(Equal("PUT"))
 
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"speeds": [{"capabilities": ["Capabilities"], "link_speed": 2000, "macsec_enabled": false}]}`)
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeSpeeds successfully with retries`, func() {
+			It(`Invoke ReplaceGatewayExportRouteFilters successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
-				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
+				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
 				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListOfferingTypeSpeedsWithContext(ctx, listOfferingTypeSpeedsOptionsModel)
+				_, _, operationErr := directLinkService.ReplaceGatewayExportRouteFiltersWithContext(ctx, replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 
 				// Disable retries and test again
 				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				result, response, operationErr := directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -4815,7 +3760,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Re-test the timeout error with retries disabled
 				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListOfferingTypeSpeedsWithContext(ctx, listOfferingTypeSpeedsOptionsModel)
+				_, _, operationErr = directLinkService.ReplaceGatewayExportRouteFiltersWithContext(ctx, replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 			})
@@ -4829,68 +3774,104 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeSpeedsPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayExportRouteFiltersPath))
+					Expect(req.Method).To(Equal("PUT"))
 
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"speeds": [{"capabilities": ["Capabilities"], "link_speed": 2000, "macsec_enabled": false}]}`)
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
 				}))
 			})
-			It(`Invoke ListOfferingTypeSpeeds successfully`, func() {
+			It(`Invoke ReplaceGatewayExportRouteFilters successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(nil)
+				result, response, operationErr := directLinkService.ReplaceGatewayExportRouteFilters(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
-				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
+				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				result, response, operationErr = directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke ListOfferingTypeSpeeds with error: Operation validation and request error`, func() {
+			It(`Invoke ReplaceGatewayExportRouteFilters with error: Operation validation and request error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
-				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
+				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				result, response, operationErr := directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the ListOfferingTypeSpeedsOptions model with no property values
-				listOfferingTypeSpeedsOptionsModelNew := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				// Construct a second instance of the ReplaceGatewayExportRouteFiltersOptions model with no property values
+				replaceGatewayExportRouteFiltersOptionsModelNew := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModelNew)
+				result, response, operationErr = directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -4905,25 +3886,34 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Set success status code with no respoonse body
-					res.WriteHeader(200)
+					res.WriteHeader(201)
 				}))
 			})
-			It(`Invoke ListOfferingTypeSpeeds successfully`, func() {
+			It(`Invoke ReplaceGatewayExportRouteFilters successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListOfferingTypeSpeedsOptions model
-				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
-				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
-				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
+				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
-				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				result, response, operationErr := directLinkService.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -4935,50 +3925,120 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListPorts(listPortsOptions *ListPortsOptions) - Operation response error`, func() {
+	Describe(`DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptions *DeleteGatewayExportRouteFilterOptions)`, func() {
 		version := "testString"
-		listPortsPath := "/ports"
+		deleteGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteGatewayExportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := directLinkService.DeleteGatewayExportRouteFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteGatewayExportRouteFilterOptions model
+				deleteGatewayExportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayExportRouteFilterOptions)
+				deleteGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = directLinkService.DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteGatewayExportRouteFilter with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteGatewayExportRouteFilterOptions model
+				deleteGatewayExportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayExportRouteFilterOptions)
+				deleteGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := directLinkService.DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteGatewayExportRouteFilterOptions model with no property values
+				deleteGatewayExportRouteFilterOptionsModelNew := new(directlinkv1.DeleteGatewayExportRouteFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = directLinkService.DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptions *GetGatewayExportRouteFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		getGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayExportRouteFilterPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
-					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke ListPorts with error: Operation response processing error`, func() {
+			It(`Invoke GetGatewayExportRouteFilter with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
-				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
-				listPortsOptionsModel.LocationName = core.StringPtr("testString")
-				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				result, response, operationErr := directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
 
 				// Enable retries and test again
 				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListPorts(listPortsOptionsModel)
+				result, response, operationErr = directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -4988,58 +4048,54 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListPorts(listPortsOptions *ListPortsOptions)`, func() {
+	Describe(`GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptions *GetGatewayExportRouteFilterOptions)`, func() {
 		version := "testString"
-		listPortsPath := "/ports"
+		getGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayExportRouteFilterPath))
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
-					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}]}`)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
-			It(`Invoke ListPorts successfully with retries`, func() {
+			It(`Invoke GetGatewayExportRouteFilter successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
-				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
-				listPortsOptionsModel.LocationName = core.StringPtr("testString")
-				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
 				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListPortsWithContext(ctx, listPortsOptionsModel)
+				_, _, operationErr := directLinkService.GetGatewayExportRouteFilterWithContext(ctx, getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 
 				// Disable retries and test again
 				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				result, response, operationErr := directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -5047,7 +4103,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Re-test the timeout error with retries disabled
 				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListPortsWithContext(ctx, listPortsOptionsModel)
+				_, _, operationErr = directLinkService.GetGatewayExportRouteFilterWithContext(ctx, getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 			})
@@ -5061,69 +4117,71 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayExportRouteFilterPath))
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
-					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}]}`)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
-			It(`Invoke ListPorts successfully`, func() {
+			It(`Invoke GetGatewayExportRouteFilter successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListPorts(nil)
+				result, response, operationErr := directLinkService.GetGatewayExportRouteFilter(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
-				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
-				listPortsOptionsModel.LocationName = core.StringPtr("testString")
-				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListPorts(listPortsOptionsModel)
+				result, response, operationErr = directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke ListPorts with error: Operation request error`, func() {
+			It(`Invoke GetGatewayExportRouteFilter with error: Operation validation and request error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
-				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
-				listPortsOptionsModel.LocationName = core.StringPtr("testString")
-				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				result, response, operationErr := directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetGatewayExportRouteFilterOptions model with no property values
+				getGatewayExportRouteFilterOptionsModelNew := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 			})
@@ -5140,24 +4198,23 @@ var _ = Describe(`DirectLinkV1`, func() {
 					res.WriteHeader(200)
 				}))
 			})
-			It(`Invoke ListPorts successfully`, func() {
+			It(`Invoke GetGatewayExportRouteFilter successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the ListPortsOptions model
-				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
-				listPortsOptionsModel.Start = core.StringPtr("testString")
-				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
-				listPortsOptionsModel.LocationName = core.StringPtr("testString")
-				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
-				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				result, response, operationErr := directLinkService.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -5168,65 +4225,58 @@ var _ = Describe(`DirectLinkV1`, func() {
 				testServer.Close()
 			})
 		})
-		Context(`Test pagination helper method on response`, func() {
-			It(`Invoke GetNextStart successfully`, func() {
-				responseObject := new(directlinkv1.PortCollection)
-				nextObject := new(directlinkv1.PortsPaginatedCollectionNext)
-				nextObject.Start = core.StringPtr("abc-123")
-				responseObject.Next = nextObject
-
-				value, err := responseObject.GetNextStart()
-				Expect(err).To(BeNil())
-				Expect(value).To(Equal(core.StringPtr("abc-123")))
-			})
-			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
-				responseObject := new(directlinkv1.PortCollection)
-
-				value, err := responseObject.GetNextStart()
-				Expect(err).To(BeNil())
-				Expect(value).To(BeNil())
-			})
-		})
 	})
-	Describe(`GetPort(getPortOptions *GetPortOptions) - Operation response error`, func() {
+	Describe(`UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptions *UpdateGatewayExportRouteFilterOptions) - Operation response error`, func() {
 		version := "testString"
-		getPortPath := "/ports/testString"
+		updateGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getPortPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke GetPort with error: Operation response processing error`, func() {
+			It(`Invoke UpdateGatewayExportRouteFilter with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkv1.GetPortOptions)
-				getPortOptionsModel.ID = core.StringPtr("testString")
-				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
+				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				result, response, operationErr := directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
 
 				// Enable retries and test again
 				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.GetPort(getPortOptionsModel)
+				result, response, operationErr = directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -5236,17 +4286,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`GetPort(getPortOptions *GetPortOptions)`, func() {
+	Describe(`UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptions *UpdateGatewayExportRouteFilterOptions)`, func() {
 		version := "testString"
-		getPortPath := "/ports/testString"
+		updateGatewayExportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getPortPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
@@ -5255,34 +4321,46 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}`)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
-			It(`Invoke GetPort successfully with retries`, func() {
+			It(`Invoke UpdateGatewayExportRouteFilter successfully with retries`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkv1.GetPortOptions)
-				getPortOptionsModel.ID = core.StringPtr("testString")
-				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
+				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
 				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc()
-				_, _, operationErr := directLinkService.GetPortWithContext(ctx, getPortOptionsModel)
+				_, _, operationErr := directLinkService.UpdateGatewayExportRouteFilterWithContext(ctx, updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 
 				// Disable retries and test again
 				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				result, response, operationErr := directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -5290,7 +4368,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Re-test the timeout error with retries disabled
 				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc2()
-				_, _, operationErr = directLinkService.GetPortWithContext(ctx, getPortOptionsModel)
+				_, _, operationErr = directLinkService.UpdateGatewayExportRouteFilterWithContext(ctx, updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 			})
@@ -5304,68 +4382,108 @@ var _ = Describe(`DirectLinkV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getPortPath))
-					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayExportRouteFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}`)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
-			It(`Invoke GetPort successfully`, func() {
+			It(`Invoke UpdateGatewayExportRouteFilter successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.GetPort(nil)
+				result, response, operationErr := directLinkService.UpdateGatewayExportRouteFilter(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkv1.GetPortOptions)
-				getPortOptionsModel.ID = core.StringPtr("testString")
-				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
+				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.GetPort(getPortOptionsModel)
+				result, response, operationErr = directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke GetPort with error: Operation validation and request error`, func() {
+			It(`Invoke UpdateGatewayExportRouteFilter with error: Operation validation and request error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkv1.GetPortOptions)
-				getPortOptionsModel.ID = core.StringPtr("testString")
-				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
+				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				result, response, operationErr := directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the GetPortOptions model with no property values
-				getPortOptionsModelNew := new(directlinkv1.GetPortOptions)
+				// Construct a second instance of the UpdateGatewayExportRouteFilterOptions model with no property values
+				updateGatewayExportRouteFilterOptionsModelNew := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.GetPort(getPortOptionsModelNew)
+				result, response, operationErr = directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -5383,22 +4501,2200 @@ var _ = Describe(`DirectLinkV1`, func() {
 					res.WriteHeader(200)
 				}))
 			})
-			It(`Invoke GetPort successfully`, func() {
+			It(`Invoke UpdateGatewayExportRouteFilter successfully`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the GetPortOptions model
-				getPortOptionsModel := new(directlinkv1.GetPortOptions)
-				getPortOptionsModel.ID = core.StringPtr("testString")
-				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
+				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
-				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				result, response, operationErr := directLinkService.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptions *ListGatewayImportRouteFiltersOptions) - Operation response error`, func() {
+		version := "testString"
+		listGatewayImportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayImportRouteFiltersPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListGatewayImportRouteFilters with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptions *ListGatewayImportRouteFiltersOptions)`, func() {
+		version := "testString"
+		listGatewayImportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayImportRouteFiltersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayImportRouteFilters successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListGatewayImportRouteFiltersWithContext(ctx, listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListGatewayImportRouteFiltersWithContext(ctx, listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayImportRouteFiltersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayImportRouteFilters successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListGatewayImportRouteFilters(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListGatewayImportRouteFilters with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListGatewayImportRouteFiltersOptions model with no property values
+				listGatewayImportRouteFiltersOptionsModelNew := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListGatewayImportRouteFilters successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptions *CreateGatewayImportRouteFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		createGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateGatewayImportRouteFilter with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptions *CreateGatewayImportRouteFilterOptions)`, func() {
+		version := "testString"
+		createGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+				}))
+			})
+			It(`Invoke CreateGatewayImportRouteFilter successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.CreateGatewayImportRouteFilterWithContext(ctx, createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.CreateGatewayImportRouteFilterWithContext(ctx, createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+				}))
+			})
+			It(`Invoke CreateGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.CreateGatewayImportRouteFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateGatewayImportRouteFilter with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateGatewayImportRouteFilterOptions model with no property values
+				createGatewayImportRouteFilterOptionsModelNew := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptions *ReplaceGatewayImportRouteFiltersOptions) - Operation response error`, func() {
+		version := "testString"
+		replaceGatewayImportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayImportRouteFiltersPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayImportRouteFilters with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptions *ReplaceGatewayImportRouteFiltersOptions)`, func() {
+		version := "testString"
+		replaceGatewayImportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayImportRouteFiltersPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayImportRouteFilters successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ReplaceGatewayImportRouteFiltersWithContext(ctx, replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ReplaceGatewayImportRouteFiltersWithContext(ctx, replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayImportRouteFiltersPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayImportRouteFilters successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ReplaceGatewayImportRouteFilters(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ReplaceGatewayImportRouteFilters with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ReplaceGatewayImportRouteFiltersOptions model with no property values
+				replaceGatewayImportRouteFiltersOptionsModelNew := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke ReplaceGatewayImportRouteFilters successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptions *DeleteGatewayImportRouteFilterOptions)`, func() {
+		version := "testString"
+		deleteGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := directLinkService.DeleteGatewayImportRouteFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteGatewayImportRouteFilterOptions model
+				deleteGatewayImportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayImportRouteFilterOptions)
+				deleteGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = directLinkService.DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteGatewayImportRouteFilter with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteGatewayImportRouteFilterOptions model
+				deleteGatewayImportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayImportRouteFilterOptions)
+				deleteGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := directLinkService.DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteGatewayImportRouteFilterOptions model with no property values
+				deleteGatewayImportRouteFilterOptionsModelNew := new(directlinkv1.DeleteGatewayImportRouteFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = directLinkService.DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptions *GetGatewayImportRouteFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		getGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetGatewayImportRouteFilter with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptions *GetGatewayImportRouteFilterOptions)`, func() {
+		version := "testString"
+		getGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+				}))
+			})
+			It(`Invoke GetGatewayImportRouteFilter successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.GetGatewayImportRouteFilterWithContext(ctx, getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.GetGatewayImportRouteFilterWithContext(ctx, getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+				}))
+			})
+			It(`Invoke GetGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.GetGatewayImportRouteFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetGatewayImportRouteFilter with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetGatewayImportRouteFilterOptions model with no property values
+				getGatewayImportRouteFilterOptionsModelNew := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptions *UpdateGatewayImportRouteFilterOptions) - Operation response error`, func() {
+		version := "testString"
+		updateGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateGatewayImportRouteFilter with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptions *UpdateGatewayImportRouteFilterOptions)`, func() {
+		version := "testString"
+		updateGatewayImportRouteFilterPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+				}))
+			})
+			It(`Invoke UpdateGatewayImportRouteFilter successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.UpdateGatewayImportRouteFilterWithContext(ctx, updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.UpdateGatewayImportRouteFilterWithContext(ctx, updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayImportRouteFilterPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+				}))
+			})
+			It(`Invoke UpdateGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.UpdateGatewayImportRouteFilter(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateGatewayImportRouteFilter with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateGatewayImportRouteFilterOptions model with no property values
+				updateGatewayImportRouteFilterOptionsModelNew := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateGatewayImportRouteFilter successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("permit")
+				updateRouteFilterTemplateModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				updateGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) - Operation response error`, func() {
+		version := "testString"
+		listGatewayRouteReportsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayRouteReportsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListGatewayRouteReports with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayRouteReportsOptions model
+				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
+				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions)`, func() {
+		version := "testString"
+		listGatewayRouteReportsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayRouteReportsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayRouteReports successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListGatewayRouteReportsOptions model
+				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
+				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListGatewayRouteReportsWithContext(ctx, listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListGatewayRouteReportsWithContext(ctx, listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayRouteReportsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayRouteReports successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListGatewayRouteReports(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListGatewayRouteReportsOptions model
+				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
+				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListGatewayRouteReports with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayRouteReportsOptions model
+				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
+				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListGatewayRouteReportsOptions model with no property values
+				listGatewayRouteReportsOptionsModelNew := new(directlinkv1.ListGatewayRouteReportsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListGatewayRouteReports successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayRouteReportsOptions model
+				listGatewayRouteReportsOptionsModel := new(directlinkv1.ListGatewayRouteReportsOptions)
+				listGatewayRouteReportsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayRouteReportsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListGatewayRouteReports(listGatewayRouteReportsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) - Operation response error`, func() {
+		version := "testString"
+		createGatewayRouteReportPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateGatewayRouteReport with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the CreateGatewayRouteReportOptions model
+				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
+				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions)`, func() {
+		version := "testString"
+		createGatewayRouteReportPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
+				}))
+			})
+			It(`Invoke CreateGatewayRouteReport successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateGatewayRouteReportOptions model
+				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
+				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.CreateGatewayRouteReportWithContext(ctx, createGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.CreateGatewayRouteReportWithContext(ctx, createGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
+				}))
+			})
+			It(`Invoke CreateGatewayRouteReport successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.CreateGatewayRouteReport(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateGatewayRouteReportOptions model
+				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
+				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateGatewayRouteReport with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the CreateGatewayRouteReportOptions model
+				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
+				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateGatewayRouteReportOptions model with no property values
+				createGatewayRouteReportOptionsModelNew := new(directlinkv1.CreateGatewayRouteReportOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(202)
+				}))
+			})
+			It(`Invoke CreateGatewayRouteReport successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the CreateGatewayRouteReportOptions model
+				createGatewayRouteReportOptionsModel := new(directlinkv1.CreateGatewayRouteReportOptions)
+				createGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.CreateGatewayRouteReport(createGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteGatewayRouteReport(deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions)`, func() {
+		version := "testString"
+		deleteGatewayRouteReportPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteGatewayRouteReport successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := directLinkService.DeleteGatewayRouteReport(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteGatewayRouteReportOptions model
+				deleteGatewayRouteReportOptionsModel := new(directlinkv1.DeleteGatewayRouteReportOptions)
+				deleteGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = directLinkService.DeleteGatewayRouteReport(deleteGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteGatewayRouteReport with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteGatewayRouteReportOptions model
+				deleteGatewayRouteReportOptionsModel := new(directlinkv1.DeleteGatewayRouteReportOptions)
+				deleteGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := directLinkService.DeleteGatewayRouteReport(deleteGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteGatewayRouteReportOptions model with no property values
+				deleteGatewayRouteReportOptionsModelNew := new(directlinkv1.DeleteGatewayRouteReportOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = directLinkService.DeleteGatewayRouteReport(deleteGatewayRouteReportOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions) - Operation response error`, func() {
+		version := "testString"
+		getGatewayRouteReportPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetGatewayRouteReport with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayRouteReportOptions model
+				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
+				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions)`, func() {
+		version := "testString"
+		getGatewayRouteReportPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
+				}))
+			})
+			It(`Invoke GetGatewayRouteReport successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetGatewayRouteReportOptions model
+				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
+				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.GetGatewayRouteReportWithContext(ctx, getGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.GetGatewayRouteReportWithContext(ctx, getGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getGatewayRouteReportPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}`)
+				}))
+			})
+			It(`Invoke GetGatewayRouteReport successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.GetGatewayRouteReport(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetGatewayRouteReportOptions model
+				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
+				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetGatewayRouteReport with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayRouteReportOptions model
+				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
+				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetGatewayRouteReportOptions model with no property values
+				getGatewayRouteReportOptionsModelNew := new(directlinkv1.GetGatewayRouteReportOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetGatewayRouteReport successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetGatewayRouteReportOptions model
+				getGatewayRouteReportOptionsModel := new(directlinkv1.GetGatewayRouteReportOptions)
+				getGatewayRouteReportOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.GetGatewayRouteReport(getGatewayRouteReportOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -5412,7 +6708,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptions *ListGatewayVirtualConnectionsOptions) - Operation response error`, func() {
 		version := "testString"
-		listGatewayVirtualConnectionsPath := "/gateways/testString/virtual_connections"
+		listGatewayVirtualConnectionsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -5424,21 +6720,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListGatewayVirtualConnections with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
 				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
-				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkService.ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptionsModel)
@@ -5460,7 +6756,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptions *ListGatewayVirtualConnectionsOptions)`, func() {
 		version := "testString"
-		listGatewayVirtualConnectionsPath := "/gateways/testString/virtual_connections"
+		listGatewayVirtualConnectionsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -5484,7 +6780,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -5492,7 +6788,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
 				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
-				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -5540,7 +6836,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -5553,7 +6849,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
 				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
-				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5567,14 +6863,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
 				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
-				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -5609,14 +6905,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
 				listGatewayVirtualConnectionsOptionsModel := new(directlinkv1.ListGatewayVirtualConnectionsOptions)
-				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("testString")
+				listGatewayVirtualConnectionsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayVirtualConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -5634,7 +6930,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptions *CreateGatewayVirtualConnectionOptions) - Operation response error`, func() {
 		version := "testString"
-		createGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections"
+		createGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -5646,21 +6942,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateGatewayVirtualConnection with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
-				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
+				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
 				createGatewayVirtualConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
@@ -5685,7 +6981,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptions *CreateGatewayVirtualConnectionOptions)`, func() {
 		version := "testString"
-		createGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections"
+		createGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -5725,7 +7021,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -5733,7 +7029,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
-				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
+				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
 				createGatewayVirtualConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
@@ -5800,7 +7096,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -5813,7 +7109,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
-				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
+				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
 				createGatewayVirtualConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
@@ -5830,14 +7126,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
-				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
+				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
 				createGatewayVirtualConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
@@ -5875,14 +7171,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 				createGatewayVirtualConnectionOptionsModel := new(directlinkv1.CreateGatewayVirtualConnectionOptions)
-				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
+				createGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newVC")
 				createGatewayVirtualConnectionOptionsModel.Type = core.StringPtr("vpc")
 				createGatewayVirtualConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
@@ -5903,7 +7199,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`DeleteGatewayVirtualConnection(deleteGatewayVirtualConnectionOptions *DeleteGatewayVirtualConnectionOptions)`, func() {
 		version := "testString"
-		deleteGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
+		deleteGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -5921,7 +7217,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -5933,8 +7229,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the DeleteGatewayVirtualConnectionOptions model
 				deleteGatewayVirtualConnectionOptionsModel := new(directlinkv1.DeleteGatewayVirtualConnectionOptions)
-				deleteGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				deleteGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				deleteGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5946,15 +7242,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the DeleteGatewayVirtualConnectionOptions model
 				deleteGatewayVirtualConnectionOptionsModel := new(directlinkv1.DeleteGatewayVirtualConnectionOptions)
-				deleteGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				deleteGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				deleteGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -5977,7 +7273,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGatewayVirtualConnection(getGatewayVirtualConnectionOptions *GetGatewayVirtualConnectionOptions) - Operation response error`, func() {
 		version := "testString"
-		getGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
+		getGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -5989,22 +7285,22 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetGatewayVirtualConnection with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
 				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
-				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkService.GetGatewayVirtualConnection(getGatewayVirtualConnectionOptionsModel)
@@ -6026,7 +7322,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`GetGatewayVirtualConnection(getGatewayVirtualConnectionOptions *GetGatewayVirtualConnectionOptions)`, func() {
 		version := "testString"
-		getGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
+		getGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -6050,7 +7346,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -6058,8 +7354,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
 				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
-				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -6107,7 +7403,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -6120,8 +7416,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
 				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
-				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6135,15 +7431,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
 				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
-				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -6178,15 +7474,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
 				getGatewayVirtualConnectionOptionsModel := new(directlinkv1.GetGatewayVirtualConnectionOptions)
-				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				getGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -6204,7 +7500,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptions *UpdateGatewayVirtualConnectionOptions) - Operation response error`, func() {
 		version := "testString"
-		updateGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
+		updateGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -6216,22 +7512,22 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateGatewayVirtualConnection with error: Operation response processing error`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
-				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6255,7 +7551,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 	Describe(`UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptions *UpdateGatewayVirtualConnectionOptions)`, func() {
 		version := "testString"
-		updateGatewayVirtualConnectionPath := "/gateways/testString/virtual_connections/testString"
+		updateGatewayVirtualConnectionPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -6295,7 +7591,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -6303,8 +7599,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
-				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6370,7 +7666,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
@@ -6383,8 +7679,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
-				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6400,15 +7696,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
-				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6445,15 +7741,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
-				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("testString")
-				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("testString")
+				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6471,13 +7767,1755 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
+	Describe(`ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) - Operation response error`, func() {
+		version := "testString"
+		listOfferingTypeLocationsPath := "/offering_types/dedicated/locations"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocations with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationsOptions model
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions)`, func() {
+		version := "testString"
+		listOfferingTypeLocationsPath := "/offering_types/dedicated/locations"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocations successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListOfferingTypeLocationsOptions model
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListOfferingTypeLocationsWithContext(ctx, listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListOfferingTypeLocationsWithContext(ctx, listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocations successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListOfferingTypeLocations(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationsOptions model
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListOfferingTypeLocations with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationsOptions model
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListOfferingTypeLocationsOptions model with no property values
+				listOfferingTypeLocationsOptionsModelNew := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocations successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationsOptions model
+				listOfferingTypeLocationsOptionsModel := new(directlinkv1.ListOfferingTypeLocationsOptions)
+				listOfferingTypeLocationsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListOfferingTypeLocations(listOfferingTypeLocationsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) - Operation response error`, func() {
+		version := "testString"
+		listOfferingTypeLocationCrossConnectRoutersPath := "/offering_types/dedicated/locations/testString/cross_connect_routers"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocationCrossConnectRouters with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions)`, func() {
+		version := "testString"
+		listOfferingTypeLocationCrossConnectRoutersPath := "/offering_types/dedicated/locations/testString/cross_connect_routers"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"cross_connect_routers": [{"capabilities": ["Capabilities"], "router_name": "xcr01.dal03", "total_connections": 1}]}`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx, listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx, listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeLocationCrossConnectRoutersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"cross_connect_routers": [{"capabilities": ["Capabilities"], "router_name": "xcr01.dal03", "total_connections": 1}]}`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListOfferingTypeLocationCrossConnectRouters with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model with no property values
+				listOfferingTypeLocationCrossConnectRoutersOptionsModelNew := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListOfferingTypeLocationCrossConnectRouters successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel := new(directlinkv1.ListOfferingTypeLocationCrossConnectRoutersOptions)
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.LocationName = core.StringPtr("testString")
+				listOfferingTypeLocationCrossConnectRoutersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) - Operation response error`, func() {
+		version := "testString"
+		listOfferingTypeSpeedsPath := "/offering_types/dedicated/speeds"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeSpeedsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeSpeeds with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeSpeedsOptions model
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions)`, func() {
+		version := "testString"
+		listOfferingTypeSpeedsPath := "/offering_types/dedicated/speeds"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeSpeedsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"speeds": [{"capabilities": ["Capabilities"], "link_speed": 2000, "macsec_enabled": false}]}`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeSpeeds successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListOfferingTypeSpeedsOptions model
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListOfferingTypeSpeedsWithContext(ctx, listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListOfferingTypeSpeedsWithContext(ctx, listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOfferingTypeSpeedsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"speeds": [{"capabilities": ["Capabilities"], "link_speed": 2000, "macsec_enabled": false}]}`)
+				}))
+			})
+			It(`Invoke ListOfferingTypeSpeeds successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListOfferingTypeSpeedsOptions model
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListOfferingTypeSpeeds with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeSpeedsOptions model
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListOfferingTypeSpeedsOptions model with no property values
+				listOfferingTypeSpeedsOptionsModelNew := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListOfferingTypeSpeeds successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListOfferingTypeSpeedsOptions model
+				listOfferingTypeSpeedsOptionsModel := new(directlinkv1.ListOfferingTypeSpeedsOptions)
+				listOfferingTypeSpeedsOptionsModel.OfferingType = core.StringPtr("dedicated")
+				listOfferingTypeSpeedsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListPorts(listPortsOptions *ListPortsOptions) - Operation response error`, func() {
+		version := "testString"
+		listPortsPath := "/ports"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListPorts with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListPortsOptions model
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
+				listPortsOptionsModel.Start = core.StringPtr("testString")
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listPortsOptionsModel.LocationName = core.StringPtr("testString")
+				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListPorts(listPortsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListPorts(listPortsOptions *ListPortsOptions)`, func() {
+		version := "testString"
+		listPortsPath := "/ports"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}]}`)
+				}))
+			})
+			It(`Invoke ListPorts successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListPortsOptions model
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
+				listPortsOptionsModel.Start = core.StringPtr("testString")
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listPortsOptionsModel.LocationName = core.StringPtr("testString")
+				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListPortsWithContext(ctx, listPortsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListPortsWithContext(ctx, listPortsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["location_name"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}]}`)
+				}))
+			})
+			It(`Invoke ListPorts successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListPorts(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListPortsOptions model
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
+				listPortsOptionsModel.Start = core.StringPtr("testString")
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listPortsOptionsModel.LocationName = core.StringPtr("testString")
+				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListPorts(listPortsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListPorts with error: Operation request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListPortsOptions model
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
+				listPortsOptionsModel.Start = core.StringPtr("testString")
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listPortsOptionsModel.LocationName = core.StringPtr("testString")
+				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListPorts successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListPortsOptions model
+				listPortsOptionsModel := new(directlinkv1.ListPortsOptions)
+				listPortsOptionsModel.Start = core.StringPtr("testString")
+				listPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listPortsOptionsModel.LocationName = core.StringPtr("testString")
+				listPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListPorts(listPortsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextStart successfully`, func() {
+				responseObject := new(directlinkv1.PortCollection)
+				nextObject := new(directlinkv1.PortsPaginatedCollectionNext)
+				nextObject.Start = core.StringPtr("abc-123")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.StringPtr("abc-123")))
+			})
+			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
+				responseObject := new(directlinkv1.PortCollection)
+	
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listPortsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[19]}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[19]}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use PortsPager.GetNext successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				listPortsOptionsModel := &directlinkv1.ListPortsOptions{
+					Limit: core.Int64Ptr(int64(10)),
+					LocationName: core.StringPtr("testString"),
+				}
+
+				pager, err := directLinkService.NewPortsPager(listPortsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []directlinkv1.Port
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use PortsPager.GetAll successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				listPortsOptionsModel := &directlinkv1.ListPortsOptions{
+					Limit: core.Int64Ptr(int64(10)),
+					LocationName: core.StringPtr("testString"),
+				}
+
+				pager, err := directLinkService.NewPortsPager(listPortsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
+			})
+		})
+	})
+	Describe(`GetPort(getPortOptions *GetPortOptions) - Operation response error`, func() {
+		version := "testString"
+		getPortPath := "/ports/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getPortPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetPort with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetPortOptions model
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
+				getPortOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.GetPort(getPortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetPort(getPortOptions *GetPortOptions)`, func() {
+		version := "testString"
+		getPortPath := "/ports/0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getPortPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}`)
+				}))
+			})
+			It(`Invoke GetPort successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetPortOptions model
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
+				getPortOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.GetPortWithContext(ctx, getPortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.GetPortWithContext(ctx, getPortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getPortPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [19]}`)
+				}))
+			})
+			It(`Invoke GetPort successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.GetPort(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetPortOptions model
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
+				getPortOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.GetPort(getPortOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetPort with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetPortOptions model
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
+				getPortOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetPortOptions model with no property values
+				getPortOptionsModelNew := new(directlinkv1.GetPortOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.GetPort(getPortOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetPort successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the GetPortOptions model
+				getPortOptionsModel := new(directlinkv1.GetPortOptions)
+				getPortOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getPortOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.GetPort(getPortOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) - Operation response error`, func() {
+		version := "testString"
+		listGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions)`, func() {
+		version := "testString"
+		listGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListGatewayAsPrepends with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListGatewayAsPrependsOptions model with no property values
+				listGatewayAsPrependsOptionsModelNew := new(directlinkv1.ListGatewayAsPrependsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) - Operation response error`, func() {
+		version := "testString"
+		replaceGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions)`, func() {
+		version := "testString"
+		replaceGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ReplaceGatewayAsPrepends with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ReplaceGatewayAsPrependsOptions model with no property values
+				replaceGatewayAsPrependsOptionsModelNew := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			version := "testString"
 			directLinkService, _ := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				URL:           "http://directlinkv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			It(`Invoke NewAsPrependPrefixArrayTemplate successfully`, func() {
 				length := int64(4)
@@ -6520,6 +9558,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayBfdConfigActionTemplateModel.Interval).To(Equal(core.Int64Ptr(int64(2000))))
 				Expect(gatewayBfdConfigActionTemplateModel.Multiplier).To(Equal(core.Int64Ptr(int64(10))))
 
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				Expect(gatewayTemplateRouteFilterModel).ToNot(BeNil())
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+				Expect(gatewayTemplateRouteFilterModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(gatewayTemplateRouteFilterModel.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(gatewayTemplateRouteFilterModel.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(gatewayTemplateRouteFilterModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
@@ -6533,28 +9583,35 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayActionTemplateUpdatesItemModel.SpeedMbps).To(Equal(core.Int64Ptr(int64(500))))
 
 				// Construct an instance of the CreateGatewayActionOptions model
-				id := "testString"
-				createGatewayActionOptionsAction := "create_gateway_approve"
-				createGatewayActionOptionsModel := directLinkService.NewCreateGatewayActionOptions(id, createGatewayActionOptionsAction)
-				createGatewayActionOptionsModel.SetID("testString")
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				createGatewayActionOptionsModel := directLinkService.NewCreateGatewayActionOptions(id)
+				createGatewayActionOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.SetAction("create_gateway_approve")
 				createGatewayActionOptionsModel.SetAsPrepends([]directlinkv1.AsPrependTemplate{*asPrependTemplateModel})
 				createGatewayActionOptionsModel.SetAuthenticationKey(gatewayActionTemplateAuthenticationKeyModel)
 				createGatewayActionOptionsModel.SetBfdConfig(gatewayBfdConfigActionTemplateModel)
 				createGatewayActionOptionsModel.SetConnectionMode("transit")
+				createGatewayActionOptionsModel.SetDefaultExportRouteFilter("permit")
+				createGatewayActionOptionsModel.SetDefaultImportRouteFilter("permit")
+				createGatewayActionOptionsModel.SetExportRouteFilters([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel})
 				createGatewayActionOptionsModel.SetGlobal(true)
+				createGatewayActionOptionsModel.SetImportRouteFilters([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel})
 				createGatewayActionOptionsModel.SetMetered(false)
 				createGatewayActionOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createGatewayActionOptionsModel.SetUpdates([]directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel})
 				createGatewayActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createGatewayActionOptionsModel).ToNot(BeNil())
-				Expect(createGatewayActionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(createGatewayActionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(createGatewayActionOptionsModel.Action).To(Equal(core.StringPtr("create_gateway_approve")))
 				Expect(createGatewayActionOptionsModel.AsPrepends).To(Equal([]directlinkv1.AsPrependTemplate{*asPrependTemplateModel}))
 				Expect(createGatewayActionOptionsModel.AuthenticationKey).To(Equal(gatewayActionTemplateAuthenticationKeyModel))
 				Expect(createGatewayActionOptionsModel.BfdConfig).To(Equal(gatewayBfdConfigActionTemplateModel))
 				Expect(createGatewayActionOptionsModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
+				Expect(createGatewayActionOptionsModel.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(createGatewayActionOptionsModel.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(createGatewayActionOptionsModel.ExportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
 				Expect(createGatewayActionOptionsModel.Global).To(Equal(core.BoolPtr(true)))
+				Expect(createGatewayActionOptionsModel.ImportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
 				Expect(createGatewayActionOptionsModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(createGatewayActionOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createGatewayActionOptionsModel.Updates).To(Equal([]directlinkv1.GatewayActionTemplateUpdatesItemIntf{gatewayActionTemplateUpdatesItemModel}))
@@ -6562,17 +9619,61 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewCreateGatewayCompletionNoticeOptions successfully`, func() {
 				// Construct an instance of the CreateGatewayCompletionNoticeOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				createGatewayCompletionNoticeOptionsModel := directLinkService.NewCreateGatewayCompletionNoticeOptions(id)
-				createGatewayCompletionNoticeOptionsModel.SetID("testString")
+				createGatewayCompletionNoticeOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayCompletionNoticeOptionsModel.SetUpload(CreateMockReader("This is a mock file."))
 				createGatewayCompletionNoticeOptionsModel.SetUploadContentType("testString")
 				createGatewayCompletionNoticeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createGatewayCompletionNoticeOptionsModel).ToNot(BeNil())
-				Expect(createGatewayCompletionNoticeOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(createGatewayCompletionNoticeOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(createGatewayCompletionNoticeOptionsModel.Upload).To(Equal(CreateMockReader("This is a mock file.")))
 				Expect(createGatewayCompletionNoticeOptionsModel.UploadContentType).To(Equal(core.StringPtr("testString")))
 				Expect(createGatewayCompletionNoticeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateGatewayExportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				createGatewayExportRouteFilterOptionsAction := "permit"
+				createGatewayExportRouteFilterOptionsPrefix := "192.168.100.0/24"
+				createGatewayExportRouteFilterOptionsModel := directLinkService.NewCreateGatewayExportRouteFilterOptions(gatewayID, createGatewayExportRouteFilterOptionsAction, createGatewayExportRouteFilterOptionsPrefix)
+				createGatewayExportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayExportRouteFilterOptionsModel.SetAction("permit")
+				createGatewayExportRouteFilterOptionsModel.SetPrefix("192.168.100.0/24")
+				createGatewayExportRouteFilterOptionsModel.SetBefore("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.SetGe(int64(25))
+				createGatewayExportRouteFilterOptionsModel.SetLe(int64(30))
+				createGatewayExportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createGatewayExportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(createGatewayExportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(createGatewayExportRouteFilterOptionsModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(createGatewayExportRouteFilterOptionsModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(createGatewayExportRouteFilterOptionsModel.Before).To(Equal(core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")))
+				Expect(createGatewayExportRouteFilterOptionsModel.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(createGatewayExportRouteFilterOptionsModel.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(createGatewayExportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateGatewayImportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				createGatewayImportRouteFilterOptionsAction := "permit"
+				createGatewayImportRouteFilterOptionsPrefix := "192.168.100.0/24"
+				createGatewayImportRouteFilterOptionsModel := directLinkService.NewCreateGatewayImportRouteFilterOptions(gatewayID, createGatewayImportRouteFilterOptionsAction, createGatewayImportRouteFilterOptionsPrefix)
+				createGatewayImportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				createGatewayImportRouteFilterOptionsModel.SetAction("permit")
+				createGatewayImportRouteFilterOptionsModel.SetPrefix("192.168.100.0/24")
+				createGatewayImportRouteFilterOptionsModel.SetBefore("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.SetGe(int64(25))
+				createGatewayImportRouteFilterOptionsModel.SetLe(int64(30))
+				createGatewayImportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createGatewayImportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(createGatewayImportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(createGatewayImportRouteFilterOptionsModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(createGatewayImportRouteFilterOptionsModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(createGatewayImportRouteFilterOptionsModel.Before).To(Equal(core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")))
+				Expect(createGatewayImportRouteFilterOptionsModel.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(createGatewayImportRouteFilterOptionsModel.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(createGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateGatewayOptions successfully`, func() {
 				// Construct an instance of the AsPrependTemplate model
@@ -6600,6 +9701,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayBfdConfigTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 				Expect(gatewayBfdConfigTemplateModel.Interval).To(Equal(core.Int64Ptr(int64(2000))))
 				Expect(gatewayBfdConfigTemplateModel.Multiplier).To(Equal(core.Int64Ptr(int64(10))))
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				Expect(gatewayTemplateRouteFilterModel).ToNot(BeNil())
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+				Expect(gatewayTemplateRouteFilterModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(gatewayTemplateRouteFilterModel.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(gatewayTemplateRouteFilterModel.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(gatewayTemplateRouteFilterModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
 
 				// Construct an instance of the ResourceGroupIdentity model
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
@@ -6642,7 +9755,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
 				gatewayTemplateModel.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
 				gatewayTemplateModel.ConnectionMode = core.StringPtr("transit")
+				gatewayTemplateModel.DefaultExportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
+				gatewayTemplateModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Global = core.BoolPtr(true)
+				gatewayTemplateModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				gatewayTemplateModel.Metered = core.BoolPtr(false)
 				gatewayTemplateModel.Name = core.StringPtr("myGateway")
 				gatewayTemplateModel.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
@@ -6662,7 +9779,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayTemplateModel.BgpCerCidr).To(Equal(core.StringPtr("169.254.0.10/30")))
 				Expect(gatewayTemplateModel.BgpIbmCidr).To(Equal(core.StringPtr("169.254.0.9/30")))
 				Expect(gatewayTemplateModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
+				Expect(gatewayTemplateModel.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(gatewayTemplateModel.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(gatewayTemplateModel.ExportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
 				Expect(gatewayTemplateModel.Global).To(Equal(core.BoolPtr(true)))
+				Expect(gatewayTemplateModel.ImportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
 				Expect(gatewayTemplateModel.Metered).To(Equal(core.BoolPtr(false)))
 				Expect(gatewayTemplateModel.Name).To(Equal(core.StringPtr("myGateway")))
 				Expect(gatewayTemplateModel.PatchPanelCompletionNotice).To(Equal(core.StringPtr("patch panel configuration details")))
@@ -6686,66 +9807,92 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewCreateGatewayRouteReportOptions successfully`, func() {
 				// Construct an instance of the CreateGatewayRouteReportOptions model
-				gatewayID := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				createGatewayRouteReportOptionsModel := directLinkService.NewCreateGatewayRouteReportOptions(gatewayID)
-				createGatewayRouteReportOptionsModel.SetGatewayID("testString")
+				createGatewayRouteReportOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayRouteReportOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createGatewayRouteReportOptionsModel).ToNot(BeNil())
-				Expect(createGatewayRouteReportOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(createGatewayRouteReportOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(createGatewayRouteReportOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateGatewayVirtualConnectionOptions successfully`, func() {
 				// Construct an instance of the CreateGatewayVirtualConnectionOptions model
-				gatewayID := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				createGatewayVirtualConnectionOptionsName := "newVC"
 				createGatewayVirtualConnectionOptionsType := "vpc"
 				createGatewayVirtualConnectionOptionsModel := directLinkService.NewCreateGatewayVirtualConnectionOptions(gatewayID, createGatewayVirtualConnectionOptionsName, createGatewayVirtualConnectionOptionsType)
-				createGatewayVirtualConnectionOptionsModel.SetGatewayID("testString")
+				createGatewayVirtualConnectionOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayVirtualConnectionOptionsModel.SetName("newVC")
 				createGatewayVirtualConnectionOptionsModel.SetType("vpc")
 				createGatewayVirtualConnectionOptionsModel.SetNetworkID("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
 				createGatewayVirtualConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createGatewayVirtualConnectionOptionsModel).ToNot(BeNil())
-				Expect(createGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(createGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(createGatewayVirtualConnectionOptionsModel.Name).To(Equal(core.StringPtr("newVC")))
 				Expect(createGatewayVirtualConnectionOptionsModel.Type).To(Equal(core.StringPtr("vpc")))
 				Expect(createGatewayVirtualConnectionOptionsModel.NetworkID).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")))
 				Expect(createGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewDeleteGatewayExportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the DeleteGatewayExportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				deleteGatewayExportRouteFilterOptionsModel := directLinkService.NewDeleteGatewayExportRouteFilterOptions(gatewayID, id)
+				deleteGatewayExportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayExportRouteFilterOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayExportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteGatewayExportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(deleteGatewayExportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(deleteGatewayExportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(deleteGatewayExportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteGatewayImportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the DeleteGatewayImportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				deleteGatewayImportRouteFilterOptionsModel := directLinkService.NewDeleteGatewayImportRouteFilterOptions(gatewayID, id)
+				deleteGatewayImportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayImportRouteFilterOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayImportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteGatewayImportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(deleteGatewayImportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(deleteGatewayImportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(deleteGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteGatewayOptions successfully`, func() {
 				// Construct an instance of the DeleteGatewayOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				deleteGatewayOptionsModel := directLinkService.NewDeleteGatewayOptions(id)
-				deleteGatewayOptionsModel.SetID("testString")
+				deleteGatewayOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteGatewayOptionsModel).ToNot(BeNil())
-				Expect(deleteGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteGatewayOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(deleteGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteGatewayRouteReportOptions successfully`, func() {
 				// Construct an instance of the DeleteGatewayRouteReportOptions model
-				gatewayID := "testString"
-				id := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				deleteGatewayRouteReportOptionsModel := directLinkService.NewDeleteGatewayRouteReportOptions(gatewayID, id)
-				deleteGatewayRouteReportOptionsModel.SetGatewayID("testString")
-				deleteGatewayRouteReportOptionsModel.SetID("testString")
+				deleteGatewayRouteReportOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayRouteReportOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayRouteReportOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteGatewayRouteReportOptionsModel).ToNot(BeNil())
-				Expect(deleteGatewayRouteReportOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(deleteGatewayRouteReportOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteGatewayRouteReportOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(deleteGatewayRouteReportOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(deleteGatewayRouteReportOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteGatewayVirtualConnectionOptions successfully`, func() {
 				// Construct an instance of the DeleteGatewayVirtualConnectionOptions model
-				gatewayID := "testString"
-				id := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				deleteGatewayVirtualConnectionOptionsModel := directLinkService.NewDeleteGatewayVirtualConnectionOptions(gatewayID, id)
-				deleteGatewayVirtualConnectionOptionsModel.SetGatewayID("testString")
-				deleteGatewayVirtualConnectionOptionsModel.SetID("testString")
+				deleteGatewayVirtualConnectionOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				deleteGatewayVirtualConnectionOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				deleteGatewayVirtualConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteGatewayVirtualConnectionOptionsModel).ToNot(BeNil())
-				Expect(deleteGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(deleteGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(deleteGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(deleteGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGatewayActionTemplateAuthenticationKey successfully`, func() {
@@ -6814,125 +9961,178 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewGatewayTemplateRouteFilter successfully`, func() {
+				action := "permit"
+				prefix := "192.168.100.0/24"
+				_model, err := directLinkService.NewGatewayTemplateRouteFilter(action, prefix)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGetGatewayExportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				getGatewayExportRouteFilterOptionsModel := directLinkService.NewGetGatewayExportRouteFilterOptions(gatewayID, id)
+				getGatewayExportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayExportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getGatewayExportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(getGatewayExportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(getGatewayExportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(getGatewayExportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetGatewayImportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				getGatewayImportRouteFilterOptionsModel := directLinkService.NewGetGatewayImportRouteFilterOptions(gatewayID, id)
+				getGatewayImportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayImportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getGatewayImportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(getGatewayImportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(getGatewayImportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(getGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetGatewayOptions successfully`, func() {
 				// Construct an instance of the GetGatewayOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				getGatewayOptionsModel := directLinkService.NewGetGatewayOptions(id)
-				getGatewayOptionsModel.SetID("testString")
+				getGatewayOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getGatewayOptionsModel).ToNot(BeNil())
-				Expect(getGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayRouteReportOptions successfully`, func() {
 				// Construct an instance of the GetGatewayRouteReportOptions model
-				gatewayID := "testString"
-				id := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				getGatewayRouteReportOptionsModel := directLinkService.NewGetGatewayRouteReportOptions(gatewayID, id)
-				getGatewayRouteReportOptionsModel.SetGatewayID("testString")
-				getGatewayRouteReportOptionsModel.SetID("testString")
+				getGatewayRouteReportOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayRouteReportOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayRouteReportOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getGatewayRouteReportOptionsModel).ToNot(BeNil())
-				Expect(getGatewayRouteReportOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(getGatewayRouteReportOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayRouteReportOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(getGatewayRouteReportOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayRouteReportOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayStatisticsOptions successfully`, func() {
 				// Construct an instance of the GetGatewayStatisticsOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				typeVar := "macsec_mka_session"
 				getGatewayStatisticsOptionsModel := directLinkService.NewGetGatewayStatisticsOptions(id, typeVar)
-				getGatewayStatisticsOptionsModel.SetID("testString")
+				getGatewayStatisticsOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatisticsOptionsModel.SetType("macsec_mka_session")
 				getGatewayStatisticsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getGatewayStatisticsOptionsModel).ToNot(BeNil())
-				Expect(getGatewayStatisticsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayStatisticsOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayStatisticsOptionsModel.Type).To(Equal(core.StringPtr("macsec_mka_session")))
 				Expect(getGatewayStatisticsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayStatusOptions successfully`, func() {
 				// Construct an instance of the GetGatewayStatusOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				getGatewayStatusOptionsModel := directLinkService.NewGetGatewayStatusOptions(id)
-				getGatewayStatusOptionsModel.SetID("testString")
+				getGatewayStatusOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayStatusOptionsModel.SetType("bgp")
 				getGatewayStatusOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getGatewayStatusOptionsModel).ToNot(BeNil())
-				Expect(getGatewayStatusOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayStatusOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayStatusOptionsModel.Type).To(Equal(core.StringPtr("bgp")))
 				Expect(getGatewayStatusOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayVirtualConnectionOptions successfully`, func() {
 				// Construct an instance of the GetGatewayVirtualConnectionOptions model
-				gatewayID := "testString"
-				id := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				getGatewayVirtualConnectionOptionsModel := directLinkService.NewGetGatewayVirtualConnectionOptions(gatewayID, id)
-				getGatewayVirtualConnectionOptionsModel.SetGatewayID("testString")
-				getGatewayVirtualConnectionOptionsModel.SetID("testString")
+				getGatewayVirtualConnectionOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				getGatewayVirtualConnectionOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getGatewayVirtualConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getGatewayVirtualConnectionOptionsModel).ToNot(BeNil())
-				Expect(getGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(getGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(getGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetPortOptions successfully`, func() {
 				// Construct an instance of the GetPortOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				getPortOptionsModel := directLinkService.NewGetPortOptions(id)
-				getPortOptionsModel.SetID("testString")
+				getPortOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				getPortOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getPortOptionsModel).ToNot(BeNil())
-				Expect(getPortOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getPortOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getPortOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayAsPrependsOptions successfully`, func() {
 				// Construct an instance of the ListGatewayAsPrependsOptions model
-				gatewayID := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				listGatewayAsPrependsOptionsModel := directLinkService.NewListGatewayAsPrependsOptions(gatewayID)
-				listGatewayAsPrependsOptionsModel.SetGatewayID("testString")
+				listGatewayAsPrependsOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayAsPrependsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listGatewayAsPrependsOptionsModel).ToNot(BeNil())
-				Expect(listGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(listGatewayAsPrependsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayCompletionNoticeOptions successfully`, func() {
 				// Construct an instance of the ListGatewayCompletionNoticeOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				listGatewayCompletionNoticeOptionsModel := directLinkService.NewListGatewayCompletionNoticeOptions(id)
-				listGatewayCompletionNoticeOptionsModel.SetID("testString")
+				listGatewayCompletionNoticeOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayCompletionNoticeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listGatewayCompletionNoticeOptionsModel).ToNot(BeNil())
-				Expect(listGatewayCompletionNoticeOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listGatewayCompletionNoticeOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(listGatewayCompletionNoticeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListGatewayExportRouteFiltersOptions successfully`, func() {
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				listGatewayExportRouteFiltersOptionsModel := directLinkService.NewListGatewayExportRouteFiltersOptions(gatewayID)
+				listGatewayExportRouteFiltersOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayExportRouteFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listGatewayExportRouteFiltersOptionsModel).ToNot(BeNil())
+				Expect(listGatewayExportRouteFiltersOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(listGatewayExportRouteFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListGatewayImportRouteFiltersOptions successfully`, func() {
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				listGatewayImportRouteFiltersOptionsModel := directLinkService.NewListGatewayImportRouteFiltersOptions(gatewayID)
+				listGatewayImportRouteFiltersOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayImportRouteFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listGatewayImportRouteFiltersOptionsModel).ToNot(BeNil())
+				Expect(listGatewayImportRouteFiltersOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(listGatewayImportRouteFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayLetterOfAuthorizationOptions successfully`, func() {
 				// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				listGatewayLetterOfAuthorizationOptionsModel := directLinkService.NewListGatewayLetterOfAuthorizationOptions(id)
-				listGatewayLetterOfAuthorizationOptionsModel.SetID("testString")
+				listGatewayLetterOfAuthorizationOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayLetterOfAuthorizationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listGatewayLetterOfAuthorizationOptionsModel).ToNot(BeNil())
-				Expect(listGatewayLetterOfAuthorizationOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listGatewayLetterOfAuthorizationOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(listGatewayLetterOfAuthorizationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayRouteReportsOptions successfully`, func() {
 				// Construct an instance of the ListGatewayRouteReportsOptions model
-				gatewayID := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				listGatewayRouteReportsOptionsModel := directLinkService.NewListGatewayRouteReportsOptions(gatewayID)
-				listGatewayRouteReportsOptionsModel.SetGatewayID("testString")
+				listGatewayRouteReportsOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayRouteReportsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listGatewayRouteReportsOptionsModel).ToNot(BeNil())
-				Expect(listGatewayRouteReportsOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listGatewayRouteReportsOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(listGatewayRouteReportsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayVirtualConnectionsOptions successfully`, func() {
 				// Construct an instance of the ListGatewayVirtualConnectionsOptions model
-				gatewayID := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				listGatewayVirtualConnectionsOptionsModel := directLinkService.NewListGatewayVirtualConnectionsOptions(gatewayID)
-				listGatewayVirtualConnectionsOptionsModel.SetGatewayID("testString")
+				listGatewayVirtualConnectionsOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				listGatewayVirtualConnectionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listGatewayVirtualConnectionsOptionsModel).ToNot(BeNil())
-				Expect(listGatewayVirtualConnectionsOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listGatewayVirtualConnectionsOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(listGatewayVirtualConnectionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewaysOptions successfully`, func() {
@@ -7000,24 +10200,110 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(asPrependPrefixArrayTemplateModel.SpecificPrefixes).To(Equal([]string{"192.168.3.0/24"}))
 
 				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				gatewayID := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
 				replaceGatewayAsPrependsOptionsModel := directLinkService.NewReplaceGatewayAsPrependsOptions(gatewayID, ifMatch)
-				replaceGatewayAsPrependsOptionsModel.SetGatewayID("testString")
+				replaceGatewayAsPrependsOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				replaceGatewayAsPrependsOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayAsPrependsOptionsModel.SetAsPrepends([]directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel})
 				replaceGatewayAsPrependsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(replaceGatewayAsPrependsOptionsModel).ToNot(BeNil())
-				Expect(replaceGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(replaceGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(replaceGatewayAsPrependsOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 				Expect(replaceGatewayAsPrependsOptionsModel.AsPrepends).To(Equal([]directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}))
 				Expect(replaceGatewayAsPrependsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewReplaceGatewayExportRouteFiltersOptions successfully`, func() {
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				Expect(gatewayTemplateRouteFilterModel).ToNot(BeNil())
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+				Expect(gatewayTemplateRouteFilterModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(gatewayTemplateRouteFilterModel.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(gatewayTemplateRouteFilterModel.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(gatewayTemplateRouteFilterModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
+				replaceGatewayExportRouteFiltersOptionsModel := directLinkService.NewReplaceGatewayExportRouteFiltersOptions(gatewayID, ifMatch)
+				replaceGatewayExportRouteFiltersOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayExportRouteFiltersOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayExportRouteFiltersOptionsModel.SetExportRouteFilters([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel})
+				replaceGatewayExportRouteFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(replaceGatewayExportRouteFiltersOptionsModel).ToNot(BeNil())
+				Expect(replaceGatewayExportRouteFiltersOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(replaceGatewayExportRouteFiltersOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+				Expect(replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
+				Expect(replaceGatewayExportRouteFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewReplaceGatewayImportRouteFiltersOptions successfully`, func() {
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				Expect(gatewayTemplateRouteFilterModel).ToNot(BeNil())
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+				Expect(gatewayTemplateRouteFilterModel.Action).To(Equal(core.StringPtr("permit")))
+				Expect(gatewayTemplateRouteFilterModel.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(gatewayTemplateRouteFilterModel.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(gatewayTemplateRouteFilterModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
+				replaceGatewayImportRouteFiltersOptionsModel := directLinkService.NewReplaceGatewayImportRouteFiltersOptions(gatewayID, ifMatch)
+				replaceGatewayImportRouteFiltersOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayImportRouteFiltersOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayImportRouteFiltersOptionsModel.SetImportRouteFilters([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel})
+				replaceGatewayImportRouteFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(replaceGatewayImportRouteFiltersOptionsModel).ToNot(BeNil())
+				Expect(replaceGatewayImportRouteFiltersOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(replaceGatewayImportRouteFiltersOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+				Expect(replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
+				Expect(replaceGatewayImportRouteFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewResourceGroupIdentity successfully`, func() {
 				id := "56969d6043e9465c883cb9f7363e78e8"
 				_model, err := directLinkService.NewResourceGroupIdentity(id)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewUpdateGatewayExportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				updateRouteFilterTemplatePatch := map[string]interface{}{"anyKey": "anyValue"}
+				updateGatewayExportRouteFilterOptionsModel := directLinkService.NewUpdateGatewayExportRouteFilterOptions(gatewayID, id, updateRouteFilterTemplatePatch)
+				updateGatewayExportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayExportRouteFilterOptionsModel.SetUpdateRouteFilterTemplatePatch(map[string]interface{}{"anyKey": "anyValue"})
+				updateGatewayExportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateGatewayExportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(updateGatewayExportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(updateGatewayExportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(updateGatewayExportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateGatewayImportRouteFilterOptions successfully`, func() {
+				// Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				updateRouteFilterTemplatePatch := map[string]interface{}{"anyKey": "anyValue"}
+				updateGatewayImportRouteFilterOptionsModel := directLinkService.NewUpdateGatewayImportRouteFilterOptions(gatewayID, id, updateRouteFilterTemplatePatch)
+				updateGatewayImportRouteFilterOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayImportRouteFilterOptionsModel.SetUpdateRouteFilterTemplatePatch(map[string]interface{}{"anyKey": "anyValue"})
+				updateGatewayImportRouteFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateGatewayImportRouteFilterOptionsModel).ToNot(BeNil())
+				Expect(updateGatewayImportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(updateGatewayImportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(updateGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateGatewayOptions successfully`, func() {
 				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
@@ -7059,15 +10345,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayMacsecConfigPatchTemplateModel.WindowSize).To(Equal(core.Int64Ptr(int64(512))))
 
 				// Construct an instance of the UpdateGatewayOptions model
-				id := "testString"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				updateGatewayOptionsModel := directLinkService.NewUpdateGatewayOptions(id)
-				updateGatewayOptionsModel.SetID("testString")
+				updateGatewayOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayOptionsModel.SetAuthenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
 				updateGatewayOptionsModel.SetBfdConfig(gatewayBfdPatchTemplateModel)
 				updateGatewayOptionsModel.SetBgpAsn(int64(64999))
 				updateGatewayOptionsModel.SetBgpCerCidr("169.254.0.10/30")
 				updateGatewayOptionsModel.SetBgpIbmCidr("169.254.0.9/30")
 				updateGatewayOptionsModel.SetConnectionMode("transit")
+				updateGatewayOptionsModel.SetDefaultExportRouteFilter("permit")
+				updateGatewayOptionsModel.SetDefaultImportRouteFilter("permit")
 				updateGatewayOptionsModel.SetGlobal(true)
 				updateGatewayOptionsModel.SetLoaRejectReason("The port mentioned was incorrect")
 				updateGatewayOptionsModel.SetMacsecConfig(gatewayMacsecConfigPatchTemplateModel)
@@ -7078,13 +10366,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 				updateGatewayOptionsModel.SetSpeedMbps(int64(1000))
 				updateGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateGatewayOptionsModel).ToNot(BeNil())
-				Expect(updateGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateGatewayOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(updateGatewayOptionsModel.AuthenticationKey).To(Equal(gatewayPatchTemplateAuthenticationKeyModel))
 				Expect(updateGatewayOptionsModel.BfdConfig).To(Equal(gatewayBfdPatchTemplateModel))
 				Expect(updateGatewayOptionsModel.BgpAsn).To(Equal(core.Int64Ptr(int64(64999))))
 				Expect(updateGatewayOptionsModel.BgpCerCidr).To(Equal(core.StringPtr("169.254.0.10/30")))
 				Expect(updateGatewayOptionsModel.BgpIbmCidr).To(Equal(core.StringPtr("169.254.0.9/30")))
 				Expect(updateGatewayOptionsModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
+				Expect(updateGatewayOptionsModel.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(updateGatewayOptionsModel.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
 				Expect(updateGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(updateGatewayOptionsModel.LoaRejectReason).To(Equal(core.StringPtr("The port mentioned was incorrect")))
 				Expect(updateGatewayOptionsModel.MacsecConfig).To(Equal(gatewayMacsecConfigPatchTemplateModel))
@@ -7097,17 +10387,17 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 			It(`Invoke NewUpdateGatewayVirtualConnectionOptions successfully`, func() {
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
-				gatewayID := "testString"
-				id := "testString"
+				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
+				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				updateGatewayVirtualConnectionOptionsModel := directLinkService.NewUpdateGatewayVirtualConnectionOptions(gatewayID, id)
-				updateGatewayVirtualConnectionOptionsModel.SetGatewayID("testString")
-				updateGatewayVirtualConnectionOptionsModel.SetID("testString")
+				updateGatewayVirtualConnectionOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				updateGatewayVirtualConnectionOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.SetName("newConnectionName")
 				updateGatewayVirtualConnectionOptionsModel.SetStatus("attached")
 				updateGatewayVirtualConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateGatewayVirtualConnectionOptionsModel).ToNot(BeNil())
-				Expect(updateGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(updateGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
+				Expect(updateGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(updateGatewayVirtualConnectionOptionsModel.Name).To(Equal(core.StringPtr("newConnectionName")))
 				Expect(updateGatewayVirtualConnectionOptionsModel.Status).To(Equal(core.StringPtr("attached")))
 				Expect(updateGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
