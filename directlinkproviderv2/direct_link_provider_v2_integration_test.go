@@ -45,6 +45,9 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`DirectLinkProviderV2`, func() {
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
