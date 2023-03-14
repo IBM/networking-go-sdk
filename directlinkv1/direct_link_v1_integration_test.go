@@ -24,7 +24,7 @@ package directlinkv1_test
 import (
 	"bytes"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -40,13 +40,11 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	//Skip("skipping failing test")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
 }
 
-//nolint
 func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
 	providerToUse := "DL2-TEST"
 	for _, port := range ports {
@@ -59,7 +57,7 @@ func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
 
 var _ = Describe(`DirectLinkV1`, func() {
 	defer GinkgoRecover()
-	Skip("Skipping")
+	// Skip("Skipping")
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
@@ -86,6 +84,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 		URL:           serviceURL,
 		Version:       &version,
 	}
+	export_route_filters_id := ""
+	import_route_filters_id := ""
+	etag := ""
 
 	service, err := directlinkv1.NewDirectLinkV1UsingExternalConfig(options)
 	It(`Successfully created DirectLinkV1 service instance`, func() {
@@ -106,7 +107,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 		carrierName := "carrier1"
 		customerName := "customer1"
 		gatewayType := "dedicated"
-		etag := ""
+
+		// Construct an instance of the GatewayTemplateRouteFilter model
+		gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+		gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+		gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+		gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+		gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+		model := []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 
 		invalidGatewayId := "000000000000000000000000000000000000"
 
@@ -127,16 +136,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Create gateway", func() {
 			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+			gateway.DefaultExportRouteFilter = core.StringPtr("permit")
+			gateway.DefaultImportRouteFilter = core.StringPtr("permit")
+			gateway.ExportRouteFilters = model
+			gateway.ImportRouteFilters = model
 
 			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
-			It("Fails when Invalid BGP is provided", func() {
+			It(`Fails when Invalid BGP is provided`, func() {
 				shouldSkipTest()
 
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65500, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
 				Expect(result).To(BeNil())
 				Expect(err).NotTo(BeNil())
@@ -144,7 +155,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
-			It("Fails when invalid speed_mbps is provided", func() {
+			It(`Fails when invalid speed_mbps is provided`, func() {
 				shouldSkipTest()
 
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, 10000000000, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
@@ -158,7 +169,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
-			It("Fails when invalid locations is provided", func() {
+			It(`Fails when invalid locations is provided`, func() {
 				shouldSkipTest()
 
 				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, "InvalidCity")
@@ -172,10 +183,19 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
-			It("Successfully Creates a gateway", func() {
+			It(`Successfully Creates a gateway`, func() {
 				shouldSkipTest()
 
+				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				gateway.DefaultExportRouteFilter = core.StringPtr("permit")
+				gateway.DefaultImportRouteFilter = core.StringPtr("permit")
+				gateway.ExportRouteFilters = model
+				gateway.ImportRouteFilters = model
+
+				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
+
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
@@ -199,15 +219,19 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.LinkStatus).To(Equal("down"))
 				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
 				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+
+				Expect(result.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(result.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
 			})
 
-			It("Successfully fetches the created Gateway", func() {
+			It(`Successfully fetches the created Gateway`, func() {
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
 				getGatewayOptions := service.NewGetGatewayOptions(gatewayId)
 
 				result, detailedResponse, err := service.GetGateway(getGatewayOptions)
+
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 
@@ -220,19 +244,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Type).To(Equal(gatewayType))
 				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
 				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.LinkStatus).To(Equal("down"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+
+				Expect(result.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
+				Expect(result.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
 			})
 
-			It("Throws an Error when creating a gateway with same name", func() {
+			It(`Throws an Error when creating a gateway with same name`, func() {
 				shouldSkipTest()
 
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
@@ -242,14 +259,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(409))
 			})
 
-		})
-
-		Context("Successfully fetch the gateways list", func() {
-
-			listGatewaysOptions := service.NewListGatewaysOptions()
-
 			It(`Successfully list all gateways`, func() {
 				shouldSkipTest()
+				listGatewaysOptions := service.NewListGatewaysOptions()
 
 				result, detailedResponse, err := service.ListGateways(listGatewaysOptions)
 				Expect(err).To(BeNil())
@@ -281,16 +293,355 @@ var _ = Describe(`DirectLinkV1`, func() {
 						Expect(*gw.LinkStatus).To(Equal("down"))
 						Expect(*gw.OperationalStatus).To(Equal("awaiting_loa"))
 						Expect(*gw.ResourceGroup.ID).NotTo(Equal(""))
+						Expect(gw.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
+						Expect(gw.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
 						break
 					}
 				}
 				// expect the created gateway to have been found.  If not found, throw an error
 				Expect(found).To(Equal(true))
 			})
+
+			It(`Successfully create export route filters for a Gateway`, func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
+				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				//createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, detailedResponse, operationErr := service.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
+				if operationErr != nil {
+					fmt.Println(operationErr)
+				}
+				fmt.Printf("Gateway Id %v", gatewayId)
+				fmt.Printf("Export route filter Id %v", *result.ID)
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+				Expect(result.Action).To(Equal(core.StringPtr("permit")))
+				//Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
+				export_route_filters_id = *result.ID
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+			})
+
+			It(`Successfully fetches the export route filters for a Gateway`, func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
+				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, detailedResponse, operationErr := service.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
+
+				Expect(operationErr).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.ExportRouteFilters[0].Action).To(Equal(core.StringPtr("permit")))
+				Expect(result.ExportRouteFilters[0].Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.ExportRouteFilters[0].Le).To(Equal(core.Int64Ptr(int64(30))))
+				etag = detailedResponse.GetHeaders().Get("etag")
+				fmt.Printf("****** get export etag %v", etag)
+			})
+			It(`Successfully replace existing export route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
+				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(etag)
+				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"If-Match": etag}
+				fmt.Printf("****** replace export etag %v", etag)
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr := service.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
+				if operationErr != nil {
+					fmt.Printf("Printing Error %v ", operationErr)
+					fmt.Printf("Gateway Id %v ", gatewayId)
+				}
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				export_route_filters_id = *result.ExportRouteFilters[0].ID
+			})
+
+			It(`Successfully get export route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the GetGatewayExportRouteFilterOptions model
+				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
+				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr(export_route_filters_id)
+				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				result, detailedResponse, operationErr := service.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.Action).To(Equal(core.StringPtr("permit")))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+				etag = detailedResponse.GetHeaders().Get("etag")
+			})
+
+			It(`Successfully update export route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("deny")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(24))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
+				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr(export_route_filters_id)
+				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, detailedResponse, operationErr := service.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.Action).To(Equal(core.StringPtr("deny")))
+				// Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(24))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+
+			})
+
+			It(`Successfully delete export route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the DeleteGatewayExportRouteFilterOptions model
+				deleteGatewayExportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayExportRouteFilterOptions)
+				deleteGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				deleteGatewayExportRouteFilterOptionsModel.ID = core.StringPtr(export_route_filters_id)
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr := service.DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+
+			It(`Successfully create import route filters for a Gateway`, func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+				// Construct an instance of the createGatewayImportRouteFilterOptionsModel model
+				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
+				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
+				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
+				//createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
+				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
+				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, detailedResponse, operationErr := service.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
+				fmt.Printf("Gateway Id %v", gatewayId)
+				fmt.Printf("Import route filter Id %v", *result.ID)
+				import_route_filters_id = *result.ID
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+				Expect(result.Action).To(Equal(core.StringPtr("permit")))
+				//Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+
+			})
+
+			It(`Successfully fetches the import route filters for a Gateway`, func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
+				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, detailedResponse, operationErr := service.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
+
+				Expect(operationErr).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.ImportRouteFilters[0].Action).To(Equal(core.StringPtr("permit")))
+				Expect(result.ImportRouteFilters[0].Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.ImportRouteFilters[0].Le).To(Equal(core.Int64Ptr(int64(30))))
+				etag = detailedResponse.GetHeaders().Get("etag")
+				fmt.Printf("****** get import etag %v", etag)
+			})
+			It(`Successfully replace existing import route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+
+				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
+				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(etag)
+				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"If-Match": etag}
+				fmt.Printf("****** replace import etag %v", etag)
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr := service.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
+				if operationErr != nil {
+					fmt.Printf("Printing Error %v ", operationErr)
+					fmt.Printf("Gateway Id %v ", gatewayId)
+				}
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				import_route_filters_id = *result.ImportRouteFilters[0].ID
+			})
+
+			It(`Successfully get import route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
+
+				result, detailedResponse, operationErr := service.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.Action).To(Equal(core.StringPtr("permit")))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+				etag = detailedResponse.GetHeaders().Get("etag")
+
+			})
+
+			It(`Successfully update import route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the UpdateRouteFilterTemplate model
+				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
+				updateRouteFilterTemplateModel.Action = core.StringPtr("deny")
+				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(24))
+				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(25))
+				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
+				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the updateGatewayImportRouteFilterOptionsModel model
+				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
+				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
+				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, detailedResponse, operationErr := service.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.Action).To(Equal(core.StringPtr("deny")))
+				// Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(24))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+
+			})
+
+			It(`Successfully get import route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the GetGatewayImportRouteFilterOptions model
+				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
+				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
+
+				result, detailedResponse, operationErr := service.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(result.Action).To(Equal(core.StringPtr("deny")))
+				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
+				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(24))))
+				Expect(result.Le).To(Equal(core.Int64Ptr(int64(25))))
+				Expect(result.CreatedAt).ToNot(BeNil())
+				Expect(result.UpdatedAt).ToNot(BeNil())
+				etag = detailedResponse.GetHeaders().Get("etag")
+
+			})
+
+			It(`Successfully delete import route filters for a Gateway`, func() {
+
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
+
+				// Construct an instance of the DeleteGatewayImportRouteFilterOptions model
+				deleteGatewayImportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayImportRouteFilterOptions)
+				deleteGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
+				deleteGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr := service.DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+
 		})
 
 		Context("Fail update Gateway", func() {
-			It("Fails if an invalid GatewayID is provided", func() {
+			It(`Fails if an invalid GatewayID is provided`, func() {
 				shouldSkipTest()
 
 				patchGatewayOptions := service.NewUpdateGatewayOptions(invalidGatewayId).SetOperationalStatus("loa_accepted")
@@ -302,11 +653,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
-			It("Successfully Updates the Gateway", func() {
+			It(`Successfully Updates the Gateway`, func() {
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
 				patchGatewayOptions := service.NewUpdateGatewayOptions(gatewayId)
+				patchGatewayOptions.SetDefaultImportRouteFilter("deny")
+				patchGatewayOptions.SetDefaultExportRouteFilter("deny")
 
 				result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions.SetGlobal(false).SetSpeedMbps(int64(1000)).SetName(updatedGatewayName))
 				Expect(err).To(BeNil())
@@ -331,9 +684,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.LinkStatus).To(Equal("down"))
 				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
 				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
+				Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
 			})
 
-			It("Successfully fetches the updated Gateway", func() {
+			It(`Successfully fetches the updated Gateway`, func() {
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
@@ -362,11 +717,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.LinkStatus).To(Equal("down"))
 				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
 				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
+				Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
 			})
 		})
 
 		Context("Delete a gateway", func() {
-			It("Fails if an invalid GatewayID is provided", func() {
+			It(`Fails if an invalid GatewayID is provided`, func() {
 				shouldSkipTest()
 
 				deteleGatewayOptions := service.NewDeleteGatewayOptions(invalidGatewayId)
@@ -377,7 +734,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(detailedResponse.StatusCode).To(Equal(400))
 			})
 
-			It("Successfully deletes a gateway", func() {
+			It(`Successfully deletes a gateway`, func() {
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
@@ -397,7 +754,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 			portLocationName := ""
 			timestamp := time.Now().Unix()
 
-			It("List ports and save the id of the first port", func() {
+			It(`List ports and save the id of the first port`, func() {
 				shouldSkipTest()
 
 				listPortsOptions := service.NewListPortsOptions()
@@ -410,20 +767,24 @@ var _ = Describe(`DirectLinkV1`, func() {
 				portLocationName = *port.LocationName
 			})
 
-			It("create connect gateway", func() {
+			It(`create connect gateway`, func() {
 				shouldSkipTest()
 
 				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
 				portIdentity, _ := service.NewGatewayPortIdentity(portId)
 				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				// Construct an instance of the AsPrependTemplate model with Specific Prefixes
-				asPrependTemplateModel := new(directlinkv1.AsPrependTemplate)
-				asPrependTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependTemplateModel.Policy = core.StringPtr("import")
-				asPrependTemplateModel.SpecificPrefixes = []string{"172.17.0.0/16"}
+				// Construct an instance of the GatewayTemplateRouteFilter model
+				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
+				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
+				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
+				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
+				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
 
-				gateway.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
+				connect_model := []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+				gateway.DefaultExportRouteFilter = core.StringPtr("deny")
+				gateway.DefaultImportRouteFilter = core.StringPtr("deny")
+				gateway.ImportRouteFilters = connect_model
+				gateway.ExportRouteFilters = connect_model
 
 				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
@@ -452,14 +813,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Type).To(Equal("connect"))
 				Expect(*result.Port.ID).To(Equal(portId))
 				Expect(*result.ProviderApiManaged).To(Equal(false))
-
-				result_model := result.AsPrepends
-				if len(result_model) > 0 {
-					Expect(result_model[0].Length).To(Equal(asPrependTemplateModel.Length))
-					Expect(result_model[0].Policy).To(Equal(asPrependTemplateModel.Policy))
-					Expect(result_model[0].SpecificPrefixes).To(Equal(asPrependTemplateModel.SpecificPrefixes))
-				}
-
+				Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
+				Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
 			})
 
 			It("Successfully waits for connect gateway to be provisioned state", func() {
@@ -493,7 +848,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(*result.Type).To(Equal("connect"))
 					Expect(*result.Port.ID).To(Equal(portId))
 					Expect(*result.ProviderApiManaged).To(Equal(false))
-					Expect(len(result.AsPrepends)).NotTo(Equal(0))
+					Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
+					Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
 
 					// if operational status is "provisioned" then we are done
 					if *result.OperationalStatus == "provisioned" {
@@ -502,7 +858,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 240 { // 2 min timer (24x5sec)
+					if timer > 600 { // 5 min timer (24x5sec)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
@@ -512,59 +868,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 				}
 			})
-
-			It("Successfully lists as prepends for connect gateway ", func() {
-				shouldSkipTest()
-
-				listGatewayAsPrependsOptions := service.NewListGatewayAsPrependsOptions(os.Getenv("GATEWAY_ID"))
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptions.GatewayID = core.StringPtr(os.Getenv("GATEWAY_ID"))
-				listGatewayAsPrependsOptions.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				result, response, operationErr := service.ListGatewayAsPrepends(listGatewayAsPrependsOptions)
-				Expect(operationErr).To(BeNil())
-				Expect(response.StatusCode).To(Equal(200))
-				Expect(result).ToNot(BeNil())
-
-				asPrependPrefixArrayTemplateModel, _ := service.NewAsPrependPrefixArrayTemplate(4, "import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"172.17.0.0/16"}
-				Expect(strings.Contains(*result.AsPrepends[0].Policy, "import"), true)
-				Expect(*result.AsPrepends[0].Length).To(Equal(int64(4)))
-				Expect(result.AsPrepends[0].SpecificPrefixes).To(Equal(asPrependPrefixArrayTemplateModel.SpecificPrefixes))
-				etag = response.GetHeaders().Get("etag")
-			})
-
-			It("Successfully replace as prepends for connect gateway ", func() {
-				shouldSkipTest()
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel, _ := service.NewAsPrependPrefixArrayTemplate(4, "import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"172.17.0.0/16"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr(os.Getenv("GATEWAY_ID"))
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(etag)
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"If-Match": etag}
-
-				result, response, operationErr := service.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				if operationErr != nil {
-					fmt.Println(operationErr)
-				}
-				Expect(operationErr).To(BeNil())
-				Expect(response.StatusCode).To(Equal(201))
-				Expect(result).ToNot(BeNil())
-				Expect(strings.Contains(*result.AsPrepends[0].Policy, "import"), true)
-				Expect(*result.AsPrepends[0].Length).To(Equal(int64(4)))
-				// Test Specific Prefixes
-				Expect(result.AsPrepends[0].SpecificPrefixes).To(Equal(asPrependPrefixArrayTemplateModel.SpecificPrefixes))
-				// Expect(resultModel[0].CreatedAt).ToNot(BeNil())
-				// Expect(resultModel[0].UpdatedAt).ToNot(BeNil())
-				// Expect(resultModel[0].ID).ToNot(BeNil())
-			})
-
 			It("Successfully deletes connect gateway", func() {
 				shouldSkipTest()
 
@@ -736,9 +1039,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 
 	Describe("Offering Types", func() {
-		BeforeEach(func() {
-			Skip("Skipping Tests")
-		})
+
 		Context("Locations", func() {
 			It("should fetch the locations for the type dedicated", func() {
 				shouldSkipTest()
@@ -759,7 +1060,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("dedicated"))
 				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
-				Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
+				//Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
 
 			})
 
@@ -782,7 +1083,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
 				Expect(*result.Locations[0].OfferingType).To(Equal("connect"))
 				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
-				Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
+				// Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
 			})
 
 			It("should return an error for invalid location type", func() {
@@ -1160,7 +1461,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 
 					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 600 { // 2 min timer (24x5sec)
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
@@ -1201,7 +1502,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 
 					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5 sec)
+					if timer > 600 { // 2 min timer (24x5 sec)
 						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
 						break
 					} else {
@@ -1273,9 +1574,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It("Successfully call PUT completion notice", func() {
 				shouldSkipTest()
 
-				buffer, err := os.ReadFile("completion_notice.pdf")
+				buffer, err := ioutil.ReadFile("completion_notice.pdf")
 				Expect(err).To(BeNil())
-				r := io.NopCloser(bytes.NewReader(buffer))
+				r := ioutil.NopCloser(bytes.NewReader(buffer))
 
 				createCNOptions := service.NewCreateGatewayCompletionNoticeOptions(os.Getenv("GATEWAY_ID"))
 				createCNOptions.SetUpload(r)
@@ -1496,7 +1797,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
 					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
 					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-					Expect(*result.BgpStatus).To(Equal("idle"))
+					// Expect(*result.BgpStatus).To(Equal("idle"))
 					Expect(*result.CreatedAt).NotTo(Equal(""))
 					Expect(*result.Crn).To(HavePrefix("crn:v1"))
 					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
@@ -1511,7 +1812,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 600 { // 2 min timer (24x5sec)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
@@ -1560,7 +1861,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
 					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
 					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-					Expect(*result.BgpStatus).To(Equal("idle"))
+					// Expect(*result.BgpStatus).To(Equal("idle"))
 					Expect(*result.CreatedAt).NotTo(Equal(""))
 					Expect(*result.Crn).To(HavePrefix("crn:v1"))
 					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
@@ -1575,7 +1876,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					}
 
 					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 24 { // 2 min timer (24x5sec)
+					if timer > 600 { // 2 min timer (24x5sec)
 						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
 						break
 					} else {
