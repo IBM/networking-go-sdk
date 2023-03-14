@@ -367,8 +367,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It(`Successfully approve gateway create using client account`, func() {
 				shouldSkipTest()
 
-				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					"create_gateway_approve")
+				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 				createGatewayActionOptions.SetMetered(false)
 				createGatewayActionOptions.SetGlobal(false)
 
@@ -517,8 +516,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It(`Successfully approve gateway speed change using client account`, func() {
 				shouldSkipTest()
 
-				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					directlinkv1.CreateGatewayActionOptions_Action_UpdateAttributesApprove)
+				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 
 				gatewayActionTemplateUpdatesItem := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 				gatewayActionTemplateUpdatesItem.SpeedMbps = core.Int64Ptr(updatedSpeedMbps)
@@ -597,8 +595,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It(`Successfully reject gateway delete using client account`, func() {
 				shouldSkipTest()
 
-				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayReject)
+				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 				// Get the current status for the gateway
 				_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 				Expect(detailedResponse.StatusCode).To(Equal(200))
@@ -663,8 +660,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It(`Successfully approve gateway delete using client account`, func() {
 				shouldSkipTest()
 
-				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-					directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+				createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 				// Get the current status for the gateway
 				_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 				Expect(detailedResponse.StatusCode).To(Equal(204))
@@ -716,8 +712,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve the provider created gateway with connection mode set as transit`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				"create_gateway_approve")
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			createGatewayActionOptions.SetMetered(false)
 			createGatewayActionOptions.SetGlobal(false)
 			createGatewayActionOptions.SetConnectionMode("transit")
@@ -812,8 +807,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve gateway delete using client account`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			// Get the current status for the gateway
 			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 			Expect(detailedResponse.StatusCode).To(Equal(204))
@@ -864,8 +858,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve the provider created gateway`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				"create_gateway_approve")
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			createGatewayActionOptions.SetMetered(false)
 			createGatewayActionOptions.SetGlobal(false)
 
@@ -960,8 +953,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			var updateAttributes []directlinkv1.GatewayActionTemplateUpdatesItemIntf
 			updateAttributes = append(updateAttributes, bgpAsnUpdate, bgpIPUpdate)
 
-			updateGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				directlinkv1.CreateGatewayActionOptions_Action_UpdateAttributesApprove)
+			updateGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			updateGatewayActionOptions.SetUpdates(updateAttributes)
 
 			// Get the current status for the gateway
@@ -1025,8 +1017,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve gateway delete using client account`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			// Get the current status for the gateway
 			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 			Expect(detailedResponse.StatusCode).To(Equal(204))
@@ -1079,8 +1070,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve the provider created gateway`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				"create_gateway_approve")
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			createGatewayActionOptions.SetMetered(false)
 			createGatewayActionOptions.SetGlobal(false)
 
@@ -1167,8 +1157,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			var updateAttributes []directlinkv1.GatewayActionTemplateUpdatesItemIntf
 			updateAttributes = append(updateAttributes, vlanUpdate)
 
-			updateGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				directlinkv1.CreateGatewayActionOptions_Action_UpdateAttributesApprove)
+			updateGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			updateGatewayActionOptions.SetUpdates(updateAttributes)
 
 			// Get the current status for the gateway
@@ -1231,8 +1220,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve gateway delete using client account`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			// Get the current status for the gateway
 			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 			Expect(detailedResponse.StatusCode).To(Equal(204))
@@ -1289,8 +1277,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			bfdConfigTemplate.Interval = &bfdInterval
 			bfdConfigTemplate.Multiplier = &bfdMultiplier
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				"create_gateway_approve")
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			createGatewayActionOptions.SetMetered(false)
 			createGatewayActionOptions.SetGlobal(false)
 			createGatewayActionOptions.SetBfdConfig(bfdConfigTemplate)
@@ -1362,8 +1349,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve gateway delete using client account`, func() {
 			shouldSkipTest()
 
-			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"),
-				directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
+			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(os.Getenv("GATEWAY_ID"))
 			// Get the current status for the gateway
 			_, detailedResponse, _ := serviceV1.CreateGatewayAction(createGatewayActionOptions)
 			Expect(detailedResponse.StatusCode).To(Equal(204))
