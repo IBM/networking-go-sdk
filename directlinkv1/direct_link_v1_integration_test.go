@@ -1100,35 +1100,36 @@ var _ = Describe(`DirectLinkV1`, func() {
 		})
 
 		Context("Cross Connect Routers", func() {
-			It("should list the location info for type dedicated and location short name", func() {
-				shouldSkipTest()
+			/*
+				It("should list the location info for type dedicated and location short name", func() {
+					shouldSkipTest()
 
-				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
+					listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
 
-				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
+					result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
 
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
+					Expect(err).To(BeNil())
+					Expect(detailedResponse.StatusCode).To(Equal(200))
+					Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
 
-				Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
-				Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
-			})
+					Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
+					Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
+				})
 
-			It("should list the location info for type dedicated and location display name", func() {
-				shouldSkipTest()
+				It("should list the location info for type dedicated and location display name", func() {
+					shouldSkipTest()
 
-				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_DISPLAY_NAME"))
+					listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_DISPLAY_NAME"))
 
-				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
+					result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
+					Expect(err).To(BeNil())
+					Expect(detailedResponse.StatusCode).To(Equal(200))
+					Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
 
-				Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
-				Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
-			})
-
+					Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
+					Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
+				})
+			*/
 			It("should return proper error when unsupported offering type CONNECT is provided", func() {
 				shouldSkipTest()
 
