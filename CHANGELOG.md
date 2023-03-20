@@ -1,3 +1,11 @@
+# [0.39.0](https://github.com/IBM/networking-go-sdk/compare/v0.38.1...v0.39.0) (2023-03-20)
+
+
+### Features
+
+* Direct Link BGP Route Filtering feature ([8fefb7d](https://github.com/IBM/networking-go-sdk/commit/8fefb7d21b5cdf503269df0d73981c9abf606a41))
+* Direct Link BGP Route Filtering feature ([2352ef9](https://github.com/IBM/networking-go-sdk/commit/2352ef99550def50cf0e48102ea27c7788ce38e2))
+
 ## [0.38.1](https://github.com/IBM/networking-go-sdk/compare/v0.38.0...v0.38.1) (2023-03-06)
 
 
