@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,13 +66,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_SVCS_URL":       "https://dnssvcsv1/api",
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
 				"DNS_SVCS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{})
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
 				Expect(dnsSvcsService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -101,7 +102,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{})
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
 				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
@@ -119,12 +121,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_SVCS_URL":       "https://dnssvcsv1/api",
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
 				"DNS_SVCS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{})
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(dnsSvcsService).To(BeNil())
@@ -135,7 +138,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_SVCS_AUTH_TYPE": "NOAuth",
+				"DNS_SVCS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -174,6 +177,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					Expect(req.URL.Query()["vpc_id"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -193,6 +197,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszonesOptionsModel.VpcID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListDnszones(listDnszonesOptionsModel)
@@ -227,13 +232,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					Expect(req.URL.Query()["vpc_id"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListDnszones successfully with retries`, func() {
@@ -251,6 +257,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszonesOptionsModel.VpcID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -291,10 +298,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					Expect(req.URL.Query()["vpc_id"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"dnszones": [{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListDnszones successfully`, func() {
@@ -317,6 +325,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszonesOptionsModel.VpcID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -340,6 +349,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszonesOptionsModel.VpcID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -384,6 +394,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listDnszonesOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listDnszonesOptionsModel.VpcID = core.StringPtr("testString")
 				listDnszonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -404,14 +415,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.ListDnszones)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -421,7 +432,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -431,10 +442,86 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"dnszones":[{"id":"2d0f862b-67cc-41f3-b6a2-59860d0aa90e","created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z","instance_id":"1407a753-a93f-4bb0-9784-bcfc269ee1b3","name":"example.com","description":"The DNS zone is used for VPCs in us-east region","state":"pending_network_add","label":"us-east"}],"total_count":2,"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"dnszones":[{"id":"2d0f862b-67cc-41f3-b6a2-59860d0aa90e","created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z","instance_id":"1407a753-a93f-4bb0-9784-bcfc269ee1b3","name":"example.com","description":"The DNS zone is used for VPCs in us-east region","state":"pending_network_add","label":"us-east"}],"total_count":2,"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use DnszonesPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listDnszonesOptionsModel := &dnssvcsv1.ListDnszonesOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+					VpcID: core.StringPtr("testString"),
+				}
+
+				pager, err := dnsSvcsService.NewDnszonesPager(listDnszonesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.Dnszone
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use DnszonesPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listDnszonesOptionsModel := &dnssvcsv1.ListDnszonesOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+					VpcID: core.StringPtr("testString"),
+				}
+
+				pager, err := dnsSvcsService.NewDnszonesPager(listDnszonesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -524,7 +611,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke CreateDnszone successfully with retries`, func() {
@@ -600,7 +687,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke CreateDnszone successfully`, func() {
@@ -850,7 +937,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke GetDnszone successfully with retries`, func() {
@@ -908,7 +995,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke GetDnszone successfully`, func() {
@@ -1096,7 +1183,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszone successfully with retries`, func() {
@@ -1172,7 +1259,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
+					fmt.Fprintf(res, "%s", `{"id": "2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszone successfully`, func() {
@@ -1294,6 +1381,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"A"}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"www.example.com"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -1314,6 +1403,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listResourceRecordsOptionsModel.Type = core.StringPtr("A")
+				listResourceRecordsOptionsModel.Name = core.StringPtr("www.example.com")
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListResourceRecords(listResourceRecordsOptionsModel)
@@ -1348,13 +1439,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"A"}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"www.example.com"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListResourceRecords successfully with retries`, func() {
@@ -1373,6 +1466,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listResourceRecordsOptionsModel.Type = core.StringPtr("A")
+				listResourceRecordsOptionsModel.Name = core.StringPtr("www.example.com")
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1413,10 +1508,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"A"}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"www.example.com"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListResourceRecords successfully`, func() {
@@ -1440,6 +1537,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listResourceRecordsOptionsModel.Type = core.StringPtr("A")
+				listResourceRecordsOptionsModel.Name = core.StringPtr("www.example.com")
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1464,6 +1563,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listResourceRecordsOptionsModel.Type = core.StringPtr("A")
+				listResourceRecordsOptionsModel.Name = core.StringPtr("www.example.com")
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -1509,6 +1610,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listResourceRecordsOptionsModel.Offset = core.Int64Ptr(int64(38))
 				listResourceRecordsOptionsModel.Limit = core.Int64Ptr(int64(200))
+				listResourceRecordsOptionsModel.Type = core.StringPtr("A")
+				listResourceRecordsOptionsModel.Name = core.StringPtr("www.example.com")
 				listResourceRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1529,14 +1632,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.ListResourceRecords)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -1546,7 +1649,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -1556,10 +1659,90 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listResourceRecordsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"resource_records":[{"id":"SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370","created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z","name":"_sip._udp.test.example.com","type":"SRV","ttl":120,"rdata":{"anyKey":"anyValue"},"service":"_sip","protocol":"udp"}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"resource_records":[{"id":"SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370","created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z","name":"_sip._udp.test.example.com","type":"SRV","ttl":120,"rdata":{"anyKey":"anyValue"},"service":"_sip","protocol":"udp"}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use ResourceRecordsPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listResourceRecordsOptionsModel := &dnssvcsv1.ListResourceRecordsOptions{
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+					Type: core.StringPtr("A"),
+					Name: core.StringPtr("www.example.com"),
+				}
+
+				pager, err := dnsSvcsService.NewResourceRecordsPager(listResourceRecordsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.ResourceRecord
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use ResourceRecordsPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listResourceRecordsOptionsModel := &dnssvcsv1.ListResourceRecordsOptions{
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+					Type: core.StringPtr("A"),
+					Name: core.StringPtr("www.example.com"),
+				}
+
+				pager, err := dnsSvcsService.NewResourceRecordsPager(listResourceRecordsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -1657,7 +1840,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke CreateResourceRecord successfully with retries`, func() {
@@ -1741,7 +1924,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke CreateResourceRecord successfully`, func() {
@@ -2018,7 +2201,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke GetResourceRecord successfully with retries`, func() {
@@ -2077,7 +2260,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke GetResourceRecord successfully`, func() {
@@ -2276,7 +2459,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke UpdateResourceRecord successfully with retries`, func() {
@@ -2360,7 +2543,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
+					fmt.Fprintf(res, "%s", `{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}`)
 				}))
 			})
 			It(`Invoke UpdateResourceRecord successfully`, func() {
@@ -2663,6 +2846,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
+
 				// Verify empty byte buffer.
 				Expect(result).ToNot(BeNil())
 				buffer, operationErr := io.ReadAll(result)
@@ -2840,7 +3024,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Invoke ImportResourceRecords with error: Param validation error`, func() {
 				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
-					URL:           testServer.URL,
+					URL:  testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2941,6 +3125,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["accounts"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -2958,6 +3143,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
+				listPermittedNetworksOptionsModel.Accounts = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -2991,13 +3177,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["accounts"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}]}`)
 				}))
 			})
 			It(`Invoke ListPermittedNetworks successfully with retries`, func() {
@@ -3013,6 +3200,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
+				listPermittedNetworksOptionsModel.Accounts = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3052,10 +3240,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["accounts"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}]}`)
 				}))
 			})
 			It(`Invoke ListPermittedNetworks successfully`, func() {
@@ -3076,6 +3265,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
+				listPermittedNetworksOptionsModel.Accounts = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3098,6 +3288,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
+				listPermittedNetworksOptionsModel.Accounts = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3141,6 +3332,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel := new(dnssvcsv1.ListPermittedNetworksOptions)
 				listPermittedNetworksOptionsModel.InstanceID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.DnszoneID = core.StringPtr("testString")
+				listPermittedNetworksOptionsModel.Accounts = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.XCorrelationID = core.StringPtr("testString")
 				listPermittedNetworksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3169,6 +3361,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["accounts"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -3192,6 +3385,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createPermittedNetworkOptionsModel.Accounts = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3241,13 +3435,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["accounts"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke CreatePermittedNetwork successfully with retries`, func() {
@@ -3269,6 +3464,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createPermittedNetworkOptionsModel.Accounts = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3324,10 +3520,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["accounts"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke CreatePermittedNetwork successfully`, func() {
@@ -3354,6 +3551,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createPermittedNetworkOptionsModel.Accounts = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3382,6 +3580,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createPermittedNetworkOptionsModel.Accounts = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3431,6 +3630,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.DnszoneID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Type = core.StringPtr("vpc")
 				createPermittedNetworkOptionsModel.PermittedNetwork = permittedNetworkVpcModel
+				createPermittedNetworkOptionsModel.Accounts = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createPermittedNetworkOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3516,7 +3716,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke DeletePermittedNetwork successfully with retries`, func() {
@@ -3575,7 +3775,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke DeletePermittedNetwork successfully`, func() {
@@ -3749,7 +3949,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke GetPermittedNetwork successfully with retries`, func() {
@@ -3808,7 +4008,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke GetPermittedNetwork successfully`, func() {
@@ -3987,7 +4187,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully with retries`, func() {
@@ -4049,7 +4249,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully`, func() {
@@ -4162,14 +4362,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.ListLoadBalancers)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -4179,7 +4379,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -4189,10 +4389,86 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"load_balancers":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","name":"glb.example.com","description":"Load balancer for glb.example.com.","enabled":true,"ttl":120,"health":"DEGRADED","fallback_pool":"24ccf79a-4ae0-4769-b4c8-17f8f230072e","default_pools":["DefaultPools"],"az_pools":[{"availability_zone":"us-south-1","pools":["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}],"created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z"}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"load_balancers":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","name":"glb.example.com","description":"Load balancer for glb.example.com.","enabled":true,"ttl":120,"health":"DEGRADED","fallback_pool":"24ccf79a-4ae0-4769-b4c8-17f8f230072e","default_pools":["DefaultPools"],"az_pools":[{"availability_zone":"us-south-1","pools":["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}],"created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z"}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use LoadBalancersPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listLoadBalancersOptionsModel := &dnssvcsv1.ListLoadBalancersOptions{
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewLoadBalancersPager(listLoadBalancersOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.LoadBalancer
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use LoadBalancersPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listLoadBalancersOptionsModel := &dnssvcsv1.ListLoadBalancersOptions{
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewLoadBalancersPager(listLoadBalancersOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -4292,7 +4568,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer successfully with retries`, func() {
@@ -4378,7 +4654,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer successfully`, func() {
@@ -4661,7 +4937,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer successfully with retries`, func() {
@@ -4720,7 +4996,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer successfully`, func() {
@@ -4922,7 +5198,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer successfully with retries`, func() {
@@ -5009,7 +5285,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["DefaultPools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer successfully`, func() {
@@ -5223,7 +5499,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListPools successfully with retries`, func() {
@@ -5284,7 +5560,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListPools successfully`, func() {
@@ -5394,14 +5670,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.ListPools)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -5411,7 +5687,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -5421,10 +5697,84 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listPoolsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"pools":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","name":"dal10-az-pool","description":"Load balancer pool for dal10 availability zone.","enabled":true,"healthy_origins_threshold":1,"origins":[{"name":"app-server-1","description":"description of the origin server","address":"10.10.16.8","enabled":true,"health":true,"health_failure_reason":"HealthFailureReason"}],"monitor":"7dd6841c-264e-11ea-88df-062967242a6a","notification_channel":"https://mywebsite.com/dns/webhook","health":"HEALTHY","healthcheck_region":"us-south","healthcheck_subnets":["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"],"healthcheck_vsis":[{"subnet":"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04","ipv4_address":"10.10.16.8","ipv4_cidr_block":"10.10.16.0/24","vpc":"crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}],"created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z"}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"pools":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","name":"dal10-az-pool","description":"Load balancer pool for dal10 availability zone.","enabled":true,"healthy_origins_threshold":1,"origins":[{"name":"app-server-1","description":"description of the origin server","address":"10.10.16.8","enabled":true,"health":true,"health_failure_reason":"HealthFailureReason"}],"monitor":"7dd6841c-264e-11ea-88df-062967242a6a","notification_channel":"https://mywebsite.com/dns/webhook","health":"HEALTHY","healthcheck_region":"us-south","healthcheck_subnets":["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"],"healthcheck_vsis":[{"subnet":"crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04","ipv4_address":"10.10.16.8","ipv4_cidr_block":"10.10.16.0/24","vpc":"crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}],"created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z"}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use PoolsPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listPoolsOptionsModel := &dnssvcsv1.ListPoolsOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewPoolsPager(listPoolsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.Pool
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use PoolsPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listPoolsOptionsModel := &dnssvcsv1.ListPoolsOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewPoolsPager(listPoolsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -5527,7 +5877,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreatePool successfully with retries`, func() {
@@ -5616,7 +5966,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreatePool successfully`, func() {
@@ -5905,7 +6255,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetPool successfully with retries`, func() {
@@ -5963,7 +6313,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetPool successfully`, func() {
@@ -6165,7 +6515,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdatePool successfully with retries`, func() {
@@ -6255,7 +6605,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "HealthFailureReason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdatePool successfully`, func() {
@@ -6478,7 +6828,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListMonitors successfully with retries`, func() {
@@ -6539,7 +6889,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListMonitors successfully`, func() {
@@ -6649,14 +6999,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.ListMonitors)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -6666,7 +7016,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -6676,10 +7026,84 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listMonitorsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"monitors":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","name":"healthcheck-monitor","description":"Load balancer monitor for glb.example.com.","type":"HTTPS","port":8080,"interval":60,"retries":2,"timeout":5,"method":"GET","path":"/health","headers":[{"name":"Host","value":["origin.example.com"]}],"allow_insecure":false,"expected_codes":"200","expected_body":"alive","created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z"}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"monitors":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","name":"healthcheck-monitor","description":"Load balancer monitor for glb.example.com.","type":"HTTPS","port":8080,"interval":60,"retries":2,"timeout":5,"method":"GET","path":"/health","headers":[{"name":"Host","value":["origin.example.com"]}],"allow_insecure":false,"expected_codes":"200","expected_body":"alive","created_on":"2019-01-01T05:20:00.000Z","modified_on":"2019-01-01T05:20:00.000Z"}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use MonitorsPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listMonitorsOptionsModel := &dnssvcsv1.ListMonitorsOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewMonitorsPager(listMonitorsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.Monitor
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use MonitorsPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listMonitorsOptionsModel := &dnssvcsv1.ListMonitorsOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewMonitorsPager(listMonitorsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -6784,7 +7208,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateMonitor successfully with retries`, func() {
@@ -6875,7 +7299,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateMonitor successfully`, func() {
@@ -7170,7 +7594,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetMonitor successfully with retries`, func() {
@@ -7228,7 +7652,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetMonitor successfully`, func() {
@@ -7432,7 +7856,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateMonitor successfully with retries`, func() {
@@ -7524,7 +7948,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateMonitor successfully`, func() {
@@ -7747,7 +8171,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers successfully with retries`, func() {
@@ -7804,7 +8228,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers successfully`, func() {
@@ -7994,7 +8418,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver successfully with retries`, func() {
@@ -8075,7 +8499,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver successfully`, func() {
@@ -8340,7 +8764,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetCustomResolver successfully with retries`, func() {
@@ -8398,7 +8822,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetCustomResolver successfully`, func() {
@@ -8587,7 +9011,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver successfully with retries`, func() {
@@ -8664,7 +9088,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver successfully`, func() {
@@ -8860,7 +9284,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCrLocationsOrder successfully with retries`, func() {
@@ -8935,7 +9359,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCrLocationsOrder successfully`, func() {
@@ -9673,6 +10097,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -9691,6 +10117,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listForwardingRulesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := dnsSvcsService.ListForwardingRules(listForwardingRulesOptionsModel)
@@ -9723,13 +10151,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListForwardingRules successfully with retries`, func() {
@@ -9746,6 +10176,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listForwardingRulesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -9784,10 +10216,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(200))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListForwardingRules successfully`, func() {
@@ -9809,6 +10243,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listForwardingRulesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -9831,6 +10267,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listForwardingRulesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := dnsSvcsService.SetServiceURL("")
@@ -9874,6 +10312,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listForwardingRulesOptionsModel.InstanceID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.ResolverID = core.StringPtr("testString")
 				listForwardingRulesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listForwardingRulesOptionsModel.Offset = core.Int64Ptr(int64(38))
+				listForwardingRulesOptionsModel.Limit = core.Int64Ptr(int64(200))
 				listForwardingRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -9886,6 +10326,121 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(dnssvcsv1.ForwardingRuleList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(dnssvcsv1.ForwardingRuleList)
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ForwardingRuleList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(dnssvcsv1.ForwardingRuleList)
+				nextObject := new(dnssvcsv1.PaginationRef)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listForwardingRulesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"forwarding_rules":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","description":"forwarding rule","type":"zone","match":"example.com","forward_to":["161.26.0.7"],"created_on":"2021-04-21T08:18:25.000Z","modified_on":"2021-04-21T08:18:25.000Z"}],"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"forwarding_rules":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","description":"forwarding rule","type":"zone","match":"example.com","forward_to":["161.26.0.7"],"created_on":"2021-04-21T08:18:25.000Z","modified_on":"2021-04-21T08:18:25.000Z"}],"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use ForwardingRulesPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listForwardingRulesOptionsModel := &dnssvcsv1.ListForwardingRulesOptions{
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewForwardingRulesPager(listForwardingRulesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.ForwardingRule
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use ForwardingRulesPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listForwardingRulesOptionsModel := &dnssvcsv1.ListForwardingRulesOptions{
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewForwardingRulesPager(listForwardingRulesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -9977,7 +10532,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule successfully with retries`, func() {
@@ -10055,7 +10610,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule successfully`, func() {
@@ -10314,7 +10869,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetForwardingRule successfully with retries`, func() {
@@ -10373,7 +10928,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetForwardingRule successfully`, func() {
@@ -10566,7 +11121,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule successfully with retries`, func() {
@@ -10644,7 +11199,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule successfully`, func() {
@@ -10846,7 +11401,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateSecondaryZone successfully with retries`, func() {
@@ -10924,7 +11479,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateSecondaryZone successfully`, func() {
@@ -11112,7 +11667,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListSecondaryZones successfully with retries`, func() {
@@ -11174,7 +11729,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListSecondaryZones successfully`, func() {
@@ -11287,14 +11842,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.SecondaryZoneList)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -11304,7 +11859,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -11314,10 +11869,86 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSecondaryZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"secondary_zones":[{"id":"f97ef698-d5fa-4f91-bc5a-33f17d143b7d","description":"secondary zone","zone":"example.com","enabled":false,"transfer_from":["10.0.0.7:53"],"created_on":"2022-03-16T08:18:25.000Z","modified_on":"2022-03-16T08:18:25.000Z"}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"secondary_zones":[{"id":"f97ef698-d5fa-4f91-bc5a-33f17d143b7d","description":"secondary zone","zone":"example.com","enabled":false,"transfer_from":["10.0.0.7:53"],"created_on":"2022-03-16T08:18:25.000Z","modified_on":"2022-03-16T08:18:25.000Z"}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use SecondaryZonesPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listSecondaryZonesOptionsModel := &dnssvcsv1.ListSecondaryZonesOptions{
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewSecondaryZonesPager(listSecondaryZonesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.SecondaryZone
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use SecondaryZonesPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listSecondaryZonesOptionsModel := &dnssvcsv1.ListSecondaryZonesOptions{
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewSecondaryZonesPager(listSecondaryZonesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -11390,7 +12021,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetSecondaryZone successfully with retries`, func() {
@@ -11449,7 +12080,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetSecondaryZone successfully`, func() {
@@ -11642,7 +12273,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateSecondaryZone successfully with retries`, func() {
@@ -11720,7 +12351,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25.000Z", "modified_on": "2022-03-16T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateSecondaryZone successfully`, func() {
@@ -11983,7 +12614,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListLinkedZones successfully with retries`, func() {
@@ -12044,7 +12675,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListLinkedZones successfully`, func() {
@@ -12154,14 +12785,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.LinkedDnszonesList)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -12171,7 +12802,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -12181,10 +12812,84 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listLinkedZonesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"linked_dnszones":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","instance_id":"5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85","name":"example.com","description":"linked zone example","linked_to":{"instance_crn":"crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::","zone_id":"05855abe-3908-4cdc-bf0d-063e0b1c296d"},"state":"PENDING_APPROVAL","label":"dev","approval_required_before":"2022-03-16T07:23:25.000Z","created_on":"2022-03-09T07:23:25.000Z","modified_on":"2022-03-09T07:23:25.000Z"}],"total_count":2,"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"linked_dnszones":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","instance_id":"5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85","name":"example.com","description":"linked zone example","linked_to":{"instance_crn":"crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::","zone_id":"05855abe-3908-4cdc-bf0d-063e0b1c296d"},"state":"PENDING_APPROVAL","label":"dev","approval_required_before":"2022-03-16T07:23:25.000Z","created_on":"2022-03-09T07:23:25.000Z","modified_on":"2022-03-09T07:23:25.000Z"}],"total_count":2,"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use LinkedZonesPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listLinkedZonesOptionsModel := &dnssvcsv1.ListLinkedZonesOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewLinkedZonesPager(listLinkedZonesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.LinkedDnszone
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use LinkedZonesPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listLinkedZonesOptionsModel := &dnssvcsv1.ListLinkedZonesOptions{
+					InstanceID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewLinkedZonesPager(listLinkedZonesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -12275,7 +12980,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateLinkedZone successfully with retries`, func() {
@@ -12352,7 +13057,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateLinkedZone successfully`, func() {
@@ -12531,7 +13236,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetLinkedZone successfully with retries`, func() {
@@ -12589,7 +13294,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetLinkedZone successfully`, func() {
@@ -12777,7 +13482,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateLinkedZone successfully with retries`, func() {
@@ -12853,7 +13558,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateLinkedZone successfully`, func() {
@@ -13109,7 +13814,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListDnszoneAccessRequests successfully with retries`, func() {
@@ -13171,7 +13876,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListDnszoneAccessRequests successfully`, func() {
@@ -13284,14 +13989,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(dnssvcsv1.AccessRequestsList)
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -13301,7 +14006,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -13311,10 +14016,86 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				nextObject := new(dnssvcsv1.PaginationRef)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDnszoneAccessRequestsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"access_requests":[{"id":"9a234ede-c2b6-4c39-bc27-d39ec139ecdb","requestor":{"account_id":"01652b251c3ae2787110a995d8db0135","instance_id":"9a234ede-c2b6-4c39-bc27-d39ec139ecdb","linked_zone_id":"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"},"zone_id":"05855abe-3908-4cdc-bf0d-063e0b1c296d","zone_name":"example.com","state":"PENDING","pending_expires_at":"2022-03-16T07:23:25.000Z","created_on":"2022-03-09T07:23:25.000Z","modified_on":"2022-03-09T07:23:25.000Z"}],"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"access_requests":[{"id":"9a234ede-c2b6-4c39-bc27-d39ec139ecdb","requestor":{"account_id":"01652b251c3ae2787110a995d8db0135","instance_id":"9a234ede-c2b6-4c39-bc27-d39ec139ecdb","linked_zone_id":"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"},"zone_id":"05855abe-3908-4cdc-bf0d-063e0b1c296d","zone_name":"example.com","state":"PENDING","pending_expires_at":"2022-03-16T07:23:25.000Z","created_on":"2022-03-09T07:23:25.000Z","modified_on":"2022-03-09T07:23:25.000Z"}],"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use DnszoneAccessRequestsPager.GetNext successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listDnszoneAccessRequestsOptionsModel := &dnssvcsv1.ListDnszoneAccessRequestsOptions{
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewDnszoneAccessRequestsPager(listDnszoneAccessRequestsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []dnssvcsv1.AccessRequest
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use DnszoneAccessRequestsPager.GetAll successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				listDnszoneAccessRequestsOptionsModel := &dnssvcsv1.ListDnszoneAccessRequestsOptions{
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
+					XCorrelationID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+				}
+
+				pager, err := dnsSvcsService.NewDnszoneAccessRequestsPager(listDnszoneAccessRequestsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -13387,7 +14168,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetDnszoneAccessRequest successfully with retries`, func() {
@@ -13446,7 +14227,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetDnszoneAccessRequest successfully`, func() {
@@ -13637,7 +14418,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszoneAccessRequest successfully with retries`, func() {
@@ -13713,7 +14494,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25.000Z", "created_on": "2022-03-09T07:23:25.000Z", "modified_on": "2022-03-09T07:23:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateDnszoneAccessRequest successfully`, func() {
@@ -13889,7 +14670,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}]}`)
 				}))
 			})
 			It(`Invoke ListLinkedPermittedNetworks successfully with retries`, func() {
@@ -13947,7 +14728,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}`)
+					fmt.Fprintf(res, "%s", `{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}]}`)
 				}))
 			})
 			It(`Invoke ListLinkedPermittedNetworks successfully`, func() {
@@ -14139,7 +14920,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke CreateLzPermittedNetwork successfully with retries`, func() {
@@ -14219,7 +15000,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke CreateLzPermittedNetwork successfully`, func() {
@@ -14408,7 +15189,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke DeleteLzPermittedNetwork successfully with retries`, func() {
@@ -14467,7 +15248,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke DeleteLzPermittedNetwork successfully`, func() {
@@ -14641,7 +15422,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke GetLinkedPermittedNetwork successfully with retries`, func() {
@@ -14700,7 +15481,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}`)
+					fmt.Fprintf(res, "%s", `{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.000Z", "modified_on": "2019-01-01T05:20:00.000Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE", "linked_zone_id": "8b3454fa-349b-4294-bfc8-04d37d5d6708"}`)
 				}))
 			})
 			It(`Invoke GetLinkedPermittedNetwork successfully`, func() {
@@ -15040,6 +15821,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPermittedNetworkOptionsModel.SetDnszoneID("testString")
 				createPermittedNetworkOptionsModel.SetType("vpc")
 				createPermittedNetworkOptionsModel.SetPermittedNetwork(permittedNetworkVpcModel)
+				createPermittedNetworkOptionsModel.SetAccounts("testString")
 				createPermittedNetworkOptionsModel.SetXCorrelationID("testString")
 				createPermittedNetworkOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createPermittedNetworkOptionsModel).ToNot(BeNil())
@@ -15047,6 +15829,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createPermittedNetworkOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
 				Expect(createPermittedNetworkOptionsModel.Type).To(Equal(core.StringPtr("vpc")))
 				Expect(createPermittedNetworkOptionsModel.PermittedNetwork).To(Equal(permittedNetworkVpcModel))
+				Expect(createPermittedNetworkOptionsModel.Accounts).To(Equal(core.StringPtr("testString")))
 				Expect(createPermittedNetworkOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createPermittedNetworkOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -15623,12 +16406,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listDnszonesOptionsModel.SetXCorrelationID("testString")
 				listDnszonesOptionsModel.SetOffset(int64(38))
 				listDnszonesOptionsModel.SetLimit(int64(200))
+				listDnszonesOptionsModel.SetVpcID("testString")
 				listDnszonesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listDnszonesOptionsModel).ToNot(BeNil())
 				Expect(listDnszonesOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listDnszonesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(listDnszonesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listDnszonesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
+				Expect(listDnszonesOptionsModel.VpcID).To(Equal(core.StringPtr("testString")))
 				Expect(listDnszonesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListForwardingRulesOptions successfully`, func() {
@@ -15639,11 +16424,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listForwardingRulesOptionsModel.SetInstanceID("testString")
 				listForwardingRulesOptionsModel.SetResolverID("testString")
 				listForwardingRulesOptionsModel.SetXCorrelationID("testString")
+				listForwardingRulesOptionsModel.SetOffset(int64(38))
+				listForwardingRulesOptionsModel.SetLimit(int64(200))
 				listForwardingRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listForwardingRulesOptionsModel).ToNot(BeNil())
 				Expect(listForwardingRulesOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listForwardingRulesOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
 				Expect(listForwardingRulesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listForwardingRulesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listForwardingRulesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
 				Expect(listForwardingRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListLinkedPermittedNetworksOptions successfully`, func() {
@@ -15719,11 +16508,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listPermittedNetworksOptionsModel := dnsSvcsService.NewListPermittedNetworksOptions(instanceID, dnszoneID)
 				listPermittedNetworksOptionsModel.SetInstanceID("testString")
 				listPermittedNetworksOptionsModel.SetDnszoneID("testString")
+				listPermittedNetworksOptionsModel.SetAccounts("testString")
 				listPermittedNetworksOptionsModel.SetXCorrelationID("testString")
 				listPermittedNetworksOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPermittedNetworksOptionsModel).ToNot(BeNil())
 				Expect(listPermittedNetworksOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listPermittedNetworksOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
+				Expect(listPermittedNetworksOptionsModel.Accounts).To(Equal(core.StringPtr("testString")))
 				Expect(listPermittedNetworksOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(listPermittedNetworksOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -15753,6 +16544,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				listResourceRecordsOptionsModel.SetXCorrelationID("testString")
 				listResourceRecordsOptionsModel.SetOffset(int64(38))
 				listResourceRecordsOptionsModel.SetLimit(int64(200))
+				listResourceRecordsOptionsModel.SetType("A")
+				listResourceRecordsOptionsModel.SetName("www.example.com")
 				listResourceRecordsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listResourceRecordsOptionsModel).ToNot(BeNil())
 				Expect(listResourceRecordsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
@@ -15760,6 +16553,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(listResourceRecordsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(listResourceRecordsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listResourceRecordsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(200))))
+				Expect(listResourceRecordsOptionsModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(listResourceRecordsOptionsModel.Name).To(Equal(core.StringPtr("www.example.com")))
 				Expect(listResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListSecondaryZonesOptions successfully`, func() {
