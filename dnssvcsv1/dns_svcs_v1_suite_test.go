@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,6 @@ import (
 )
 
 func TestDnsSvcsV1(t *testing.T) {
-	defer GinkgoRecover()
-	// TODO : remove skipping test cases
-	Skip("Skipping")
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "DnsSvcsV1 Suite")
 }

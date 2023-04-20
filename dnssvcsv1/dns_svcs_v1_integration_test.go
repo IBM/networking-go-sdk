@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2020.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,11 @@
 
 package dnssvcsv1_test
 
+// package go_build_test
+
 import (
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -26,11 +28,11 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
-	dnssvcsv1 "github.com/IBM/networking-go-sdk/dnssvcsv1"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	dnssvcsv1 "github.ibm.com/ibmcloud/networking-go-sdk/dnssvcsv1"
 )
 
 const configFile = "../dns.env"
@@ -44,6 +46,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`dnssvcsv1`, func() {
+	defer GinkgoRecover()
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -58,7 +61,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 	if err != nil {
 		panic(err)
 	}
-
 	dnsServicesURL := os.Getenv("DNS_SVCS_URL")
 	options := &dnssvcsv1.DnsSvcsV1Options{
 		ServiceName:   "dns_svcs",
@@ -67,7 +69,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
 	if serviceErr != nil {
-		panic(serviceErr)
+		panic(err)
 	}
 	ownerAPIKey := os.Getenv("DNS_SVCS_OWNER_APIKEY")
 	if ownerAPIKey == "" {
@@ -84,7 +86,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 	if err != nil {
 		panic(err)
 	}
-
 	optionsOwnerDnsInstanceAccount := &dnssvcsv1.DnsSvcsV1Options{
 		ServiceName:   "dns_svcs",
 		URL:           dnsServicesURL,
@@ -207,7 +208,19 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
 				for _, zone := range listResult.Dnszones {
 					if strings.Contains(*zone.Name, "test-example") {
-						// delete all dns zones
+
+						// First delete PTR record to avoid any record linking issue
+						listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+						listOptions2.SetType("PTR")
+						listResult2, _, listErr2 := service.ListResourceRecords(listOptions2)
+						Expect(listErr2).To(BeNil())
+						for _, ptrRecord := range listResult2.ResourceRecords {
+							deleteOpt := service.NewDeleteResourceRecordOptions(instanceID, *zone.ID, *ptrRecord.ID)
+							deleteResponse, deleteErr := service.DeleteResourceRecord(deleteOpt)
+							Expect(deleteErr).To(BeNil())
+							Expect(deleteResponse).ToNot(BeNil())
+						}
+						// Delete remaining records
 						listOptions := service.NewListResourceRecordsOptions(instanceID, *zone.ID)
 						listResult, listResp, listErr := service.ListResourceRecords(listOptions)
 						Expect(listErr).To(BeNil())
@@ -227,7 +240,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 						Expect(err).To(BeNil())
 						Expect(response).ToNot(BeNil())
 						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+
 					}
+
 				}
 
 				// Create DNS Zone
@@ -254,9 +269,23 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(listResp).ToNot(BeNil())
 				Expect(listResult).ToNot(BeNil())
 				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+
 				for _, zone := range listResult.Dnszones {
 					if strings.Contains(*zone.Name, "test-example") {
-						// delete all dns zones
+
+						// First delete PTR record to avoid any record linking issue
+						listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+						listOptions2.SetType("PTR")
+						listResult2, _, listErr2 := service.ListResourceRecords(listOptions2)
+						Expect(listErr2).To(BeNil())
+
+						for _, ptrRecord := range listResult2.ResourceRecords {
+							deleteOpt := service.NewDeleteResourceRecordOptions(instanceID, *zone.ID, *ptrRecord.ID)
+							deleteResponse, deleteErr := service.DeleteResourceRecord(deleteOpt)
+							Expect(deleteErr).To(BeNil())
+							Expect(deleteResponse).ToNot(BeNil())
+						}
+						// Delete remaining records now
 						listOptions := service.NewListResourceRecordsOptions(instanceID, *zone.ID)
 						listResult, listResp, listErr := service.ListResourceRecords(listOptions)
 						Expect(listErr).To(BeNil())
@@ -277,6 +306,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 						Expect(response).ToNot(BeNil())
 						Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
 					}
+
 				}
 			})
 
@@ -316,6 +346,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				getOpt := service.NewGetResourceRecordOptions(instanceID, *zoneInfo.ID, *result.ID)
 				getOpt.SetXCorrelationID("abc123")
 				getResult, getResponse, getErr := service.GetResourceRecord(getOpt)
+
 				Expect(getErr).To(BeNil())
 				Expect(getResponse).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
@@ -331,7 +362,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 
 			It(`create/update/delete/get pdns PTR records`, func() {
-				Skip("ptr records")
 				shouldSkipTest()
 
 				// create resource record
@@ -368,6 +398,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				getOpt := service.NewGetResourceRecordOptions(instanceID, *zoneInfo.ID, *ptrResult.ID)
 				getOpt.SetXCorrelationID("abc123")
 				getResult, getResponse, getErr := service.GetResourceRecord(getOpt)
+
 				Expect(getErr).To(BeNil())
 				Expect(getResponse).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
@@ -426,6 +457,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				getOpt := service.NewGetResourceRecordOptions(instanceID, *zoneInfo.ID, *result.ID)
 				getOpt.SetXCorrelationID("abc123")
 				getResult, getResponse, getErr := service.GetResourceRecord(getOpt)
+
 				Expect(getErr).To(BeNil())
 				Expect(getResponse).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
@@ -675,7 +707,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				importResourceRecordsOptions := service.NewImportResourceRecordsOptions(instanceID, *zoneInfo.ID)
 				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
 				f := strings.NewReader(zoneName + ` 1 IN AAAA 2001::888`)
-				importResourceRecordsOptions.SetFile(io.NopCloser(f))
+				importResourceRecordsOptions.SetFile(ioutil.NopCloser(f))
 				importResourceRecordsOptions.SetXCorrelationID("abc123")
 				importResourceRecordsOptions.SetFileContentType("application/json")
 				result, response, reqErr := service.ImportResourceRecords(importResourceRecordsOptions)
@@ -712,6 +744,267 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+			})
+		})
+		Context(`resourcerecordsv1 - list`, func() {
+			var zoneInfo *dnssvcsv1.Dnszone
+			BeforeEach(func() {
+				shouldSkipTest()
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+
+				if len(listResult.Dnszones) != 0 {
+					zone := listResult.Dnszones[0]
+					// First delete PTR record to avoid any record linking issue
+					listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions2.SetType("PTR")
+					listResult2, _, listErr2 := service.ListResourceRecords(listOptions2)
+					Expect(listErr2).To(BeNil())
+
+					for _, ptrRecord := range listResult2.ResourceRecords {
+						deleteOpt := service.NewDeleteResourceRecordOptions(instanceID, *zone.ID, *ptrRecord.ID)
+						deleteResponse, deleteErr := service.DeleteResourceRecord(deleteOpt)
+						Expect(deleteErr).To(BeNil())
+						Expect(deleteResponse).ToNot(BeNil())
+					}
+
+					// Now iterate again and delete remaining records
+					listOptions := service.NewListResourceRecordsOptions(instanceID, *zone.ID)
+					listResult, listResp, listErr := service.ListResourceRecords(listOptions)
+					Expect(listErr).To(BeNil())
+					Expect(listResp).ToNot(BeNil())
+					Expect(listResult).ToNot(BeNil())
+
+					for _, record := range listResult.ResourceRecords {
+						deleteOpt := service.NewDeleteResourceRecordOptions(instanceID, *zone.ID, *record.ID)
+						deleteResponse, deleteErr := service.DeleteResourceRecord(deleteOpt)
+						Expect(deleteErr).To(BeNil())
+						Expect(deleteResponse).ToNot(BeNil())
+					}
+
+					// delete zone
+					option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+					response, err := service.DeleteDnszone(option)
+					Expect(err).To(BeNil())
+					Expect(response).ToNot(BeNil())
+					Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+				}
+
+				// Create DNS Zone
+				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
+				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions.SetDescription("testString")
+				createDnszoneOptions.SetLabel("testString")
+				createDnszoneOptions.SetXCorrelationID("abc123")
+				result, response, reqErr := service.CreateDnszone(createDnszoneOptions)
+				Expect(reqErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+				zoneInfo = result
+
+				// Create records for list operation validation by name, type and name+type.
+				createResourceRecordOptions1 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions1.SetName("atest")
+				createResourceRecordOptions1.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
+				createResourceRecordOptions1.SetTTL(120)
+				rdataARecord, err1 := service.NewResourceRecordInputRdataRdataARecord("1.1.1.1")
+				Expect(err1).To(BeNil())
+				createResourceRecordOptions1.SetRdata(rdataARecord)
+				createResourceRecordOptions1.SetXCorrelationID("abc123")
+				result1, response1, reqErr1 := service.CreateResourceRecord(createResourceRecordOptions1)
+
+				Expect(reqErr1).To(BeNil())
+				Expect(response1).ToNot(BeNil())
+				Expect(result1).ToNot(BeNil())
+				Expect(response1.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*result1.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
+
+				// create resource record PTR
+				createResourceRecordOptions2 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions2.SetName("atest")
+				createResourceRecordOptions2.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
+				createResourceRecordOptions2.SetTTL(120)
+				rdataARecord2, err2 := service.NewResourceRecordInputRdataRdataARecord("1.1.1.2")
+				Expect(err2).To(BeNil())
+				createResourceRecordOptions2.SetRdata(rdataARecord2)
+				createResourceRecordOptions2.SetXCorrelationID("abc123")
+				result2, response2, reqErr2 := service.CreateResourceRecord(createResourceRecordOptions2)
+				Expect(reqErr2).To(BeNil())
+				Expect(response2).ToNot(BeNil())
+				Expect(result2).ToNot(BeNil())
+				Expect(response2.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*result2.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
+
+				createResourcePtrRecordOptions2 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourcePtrRecordOptions2.SetName("1.1.1.2")
+				createResourcePtrRecordOptions2.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Ptr)
+				createResourcePtrRecordOptions2.SetTTL(120)
+				rdataPtrRecord, err3 := service.NewResourceRecordInputRdataRdataPtrRecord("atest." + *zoneInfo.Name)
+				Expect(err3).To(BeNil())
+				createResourcePtrRecordOptions2.SetRdata(rdataPtrRecord)
+				createResourcePtrRecordOptions2.SetXCorrelationID("abc123")
+				ptrResult, ptrResponse, ptrErr := service.CreateResourceRecord(createResourcePtrRecordOptions2)
+				Expect(ptrErr).To(BeNil())
+				Expect(ptrResponse).ToNot(BeNil())
+				Expect(ptrResult).ToNot(BeNil())
+				Expect(ptrResponse.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*ptrResult.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_Ptr))
+
+				// Test Create Resource Record AAAA
+				header := map[string]string{
+					"test": "teststring",
+				}
+				createResourceRecordOptions3 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions3.SetName("testaaaa")
+				createResourceRecordOptions3.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Aaaa)
+				createResourceRecordOptions3.SetTTL(120)
+				rdataAaaaRecord, err4 := service.NewResourceRecordInputRdataRdataAaaaRecord("2001::8888")
+				Expect(err4).To(BeNil())
+				createResourceRecordOptions3.SetRdata(rdataAaaaRecord)
+				createResourceRecordOptions3.SetXCorrelationID("abc123")
+				createResourceRecordOptions3.SetHeaders(header)
+				result3, response3, reqErr3 := service.CreateResourceRecord(createResourceRecordOptions3)
+				Expect(reqErr3).To(BeNil())
+				Expect(response3).ToNot(BeNil())
+				Expect(result3).ToNot(BeNil())
+				Expect(response3.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(*result3.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_Aaaa))
+			})
+
+			AfterEach(func() {
+				shouldSkipTest()
+				// delete all dns zones
+				listOptions := service.NewListDnszonesOptions(instanceID)
+				listResult, listResp, listErr := service.ListDnszones(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				if len(listResult.Dnszones) != 0 {
+					zone := listResult.Dnszones[0]
+					// First delete PTR record to avoid any record linking issue
+					listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions2.SetType("PTR")
+					listResult2, _, listErr2 := service.ListResourceRecords(listOptions2)
+					Expect(listErr2).To(BeNil())
+
+					for _, ptrRecord := range listResult2.ResourceRecords {
+						deleteOpt := service.NewDeleteResourceRecordOptions(instanceID, *zone.ID, *ptrRecord.ID)
+						deleteResponse, deleteErr := service.DeleteResourceRecord(deleteOpt)
+						Expect(deleteErr).To(BeNil())
+						Expect(deleteResponse).ToNot(BeNil())
+					}
+					// Delete remaining records now
+					listOptions := service.NewListResourceRecordsOptions(instanceID, *zone.ID)
+					listResult, listResp, listErr := service.ListResourceRecords(listOptions)
+					Expect(listErr).To(BeNil())
+					Expect(listResp).ToNot(BeNil())
+					Expect(listResult).ToNot(BeNil())
+					for _, record := range listResult.ResourceRecords {
+						deleteOpt := service.NewDeleteResourceRecordOptions(instanceID, *zone.ID, *record.ID)
+						deleteResponse, deleteErr := service.DeleteResourceRecord(deleteOpt)
+						Expect(deleteErr).To(BeNil())
+						Expect(deleteResponse).ToNot(BeNil())
+					}
+
+					// delete zone
+					option := service.NewDeleteDnszoneOptions(instanceID, *zone.ID)
+					response, err := service.DeleteDnszone(option)
+					Expect(err).To(BeNil())
+					Expect(response).ToNot(BeNil())
+					Expect(response.GetStatusCode()).To(BeEquivalentTo(204))
+
+				}
+			})
+			Context(`resourcerecordsv1 - list`, func() {
+				It(`resourcerecordsv1 - list record by name`, func() {
+					// Query 1 by name
+					aRecordName := fmt.Sprintf("atest.%s", *zoneInfo.Name)
+					listOptions1 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions1.SetName(aRecordName)
+					listResult1, _, _ := service.ListResourceRecords(listOptions1)
+					Expect(*listResult1.ResourceRecords[0].Name).To(BeEquivalentTo(aRecordName))
+					Expect(len(listResult1.ResourceRecords)).To(BeEquivalentTo(2))
+
+					// Query 2 by name
+					ptrRecordName := "1.1.1.2"
+					listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions2.SetName(ptrRecordName)
+					listResult3, _, _ := service.ListResourceRecords(listOptions2)
+					Expect(*listResult3.ResourceRecords[0].Name).To(BeEquivalentTo(ptrRecordName))
+					Expect(len(listResult3.ResourceRecords)).To(BeEquivalentTo(1))
+
+					// Query 3 by name
+					aaaRecordName := fmt.Sprintf("testaaaa.%s", *zoneInfo.Name)
+					listOptions3 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions3.SetName(aaaRecordName)
+					listResult5, _, _ := service.ListResourceRecords(listOptions3)
+					Expect(*listResult5.ResourceRecords[0].Name).To(BeEquivalentTo(aaaRecordName))
+					Expect(len(listResult5.ResourceRecords)).To(BeEquivalentTo(1))
+				})
+
+				It(`resourcerecordsv1 - list record by type`, func() {
+					// Query 1 by type
+					aRecordName := fmt.Sprintf("atest.%s", *zoneInfo.Name)
+					listOptions1 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions1.SetType("A")
+					listResult2, _, _ := service.ListResourceRecords(listOptions1)
+					Expect(*listResult2.ResourceRecords[0].Name).To(BeEquivalentTo(aRecordName))
+					Expect(len(listResult2.ResourceRecords)).To(BeEquivalentTo(2))
+
+					// Query 2 by type
+					ptrRecordName := "1.1.1.2"
+					listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions2.SetType("PTR")
+					listResult4, _, _ := service.ListResourceRecords(listOptions2)
+					Expect(*listResult4.ResourceRecords[0].Name).To(BeEquivalentTo(ptrRecordName))
+					Expect(len(listResult4.ResourceRecords)).To(BeEquivalentTo(1))
+
+					// Query 3 by type
+					aaaRecordName := fmt.Sprintf("testaaaa.%s", *zoneInfo.Name)
+					listOptions3 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions3.SetType("AAAA")
+					listResult6, _, _ := service.ListResourceRecords(listOptions3)
+					Expect(*listResult6.ResourceRecords[0].Name).To(BeEquivalentTo(aaaRecordName))
+					Expect(len(listResult6.ResourceRecords)).To(BeEquivalentTo(1))
+
+				})
+
+				It(`resourcerecordsv1 - list record by name and type`, func() {
+					// Query 1 by type and name
+					aRecordName := fmt.Sprintf("atest.%s", *zoneInfo.Name)
+					listOptions1 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions1.SetName(aRecordName)
+					listOptions1.SetType("A")
+					listResult2, _, _ := service.ListResourceRecords(listOptions1)
+					Expect(*listResult2.ResourceRecords[0].Name).To(BeEquivalentTo(aRecordName))
+					Expect(len(listResult2.ResourceRecords)).To(BeEquivalentTo(2))
+
+					// Query 1 by type and name
+					ptrRecordName := "1.1.1.2"
+					listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions2.SetName(ptrRecordName)
+					listOptions2.SetType("PTR")
+					listResult4, _, _ := service.ListResourceRecords(listOptions2)
+					Expect(*listResult4.ResourceRecords[0].Name).To(BeEquivalentTo(ptrRecordName))
+					Expect(len(listResult4.ResourceRecords)).To(BeEquivalentTo(1))
+
+					// Query 1 by type and name
+					aaaRecordName := fmt.Sprintf("testaaaa.%s", *zoneInfo.Name)
+					listOptions3 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+					listOptions3.SetName(aaaRecordName)
+					listOptions3.SetType("AAAA")
+					listResult6, _, _ := service.ListResourceRecords(listOptions3)
+					Expect(*listResult6.ResourceRecords[0].Name).To(BeEquivalentTo(aaaRecordName))
+					Expect(len(listResult6.ResourceRecords)).To(BeEquivalentTo(1))
+
+				})
 			})
 		})
 	})
@@ -906,7 +1199,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 			It(`create/update/get/delete PDNS GLB monitor,pool and load balancer`, func() {
 				shouldSkipTest()
-				Skip("pools")
 
 				// create Load Balancer Monitor
 				createMonitorOptions := service.NewCreateMonitorOptions(instanceID)
@@ -1117,7 +1409,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 			var zoneInfo *dnssvcsv1.Dnszone
 			BeforeEach(func() {
 				shouldSkipTest()
-				Skip("permitted network")
 				// delete all dns zones
 				listOptions := service.NewListDnszonesOptions(instanceID)
 				listResult, listResp, listErr := service.ListDnszones(listOptions)
@@ -1231,7 +1522,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 			})
 			It(`create/update/delete/get permitted networks`, func() {
 				shouldSkipTest()
-				Skip("permitted network")
 				header := map[string]string{
 					"test": "teststring",
 				}
@@ -1324,7 +1614,6 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(resultList).ToNot(BeNil())
 
 				for i := range resultList.CustomResolvers {
-
 					deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
 					deleteCustomResolverOptionsModel.SetXCorrelationID("abc12387")
 					Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
@@ -1364,11 +1653,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
 				createCustomResolverOptions.SetName("test-resolver1")
 				createCustomResolverOptions.SetDescription("Integration test resolver")
-				createCustomResolverOptions.SetXCorrelationID("abc123")
+				createCustomResolverOptions.SetXCorrelationID("abc12387")
 				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
 
 				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
-
 				locationId := result.Locations[0].ID
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -1429,7 +1717,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				addCustomResolverLocationOptionsModel := service.NewAddCustomResolverLocationOptions(instanceID, customResolverIDs[0])
 				addCustomResolverLocationOptionsModel.SetSubnetCrn(subnetCrn)
 				addCustomResolverLocationOptionsModel.SetEnabled(false)
-				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
+				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc12387")
 				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
 
 				resAdd, responseAdd, errAdd := service.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
@@ -1444,7 +1732,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				addCustomResolverLocationOptionsModel = service.NewAddCustomResolverLocationOptions(instanceID, customResolverIDs[0])
 				addCustomResolverLocationOptionsModel.SetSubnetCrn(customCrn)
 				addCustomResolverLocationOptionsModel.SetEnabled(false)
-				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc123")
+				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc12387")
 				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
 
 				resAdd, responseAdd, errAdd = service.AddCustomResolverLocation(addCustomResolverLocationOptionsModel)
@@ -1555,8 +1843,210 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
 			})
 		})
-	})
+		Context(`customresolverv1 pagination params`, func() {
+			var customResolverID string
+			var forwardingRulesID [3]*string
+			BeforeEach(func() {
+				shouldSkipTest()
+				// delete all custom resolvers
+				listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+				listCustomResolverOptions.SetXCorrelationID("abc1234")
+				Expect(listCustomResolverOptions).ToNot(BeNil())
+				resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(resultList).ToNot(BeNil())
+				for i := range resultList.CustomResolvers {
+					deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+					deleteCustomResolverOptionsModel.SetXCorrelationID("abc12387")
+					Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+					responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+					Expect(errDel).To(BeNil())
+					Expect(responseDel).ToNot(BeNil())
+					Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+				}
+				// Create a CR
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
+				locationInputModel.Enabled = core.BoolPtr(false)
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
+				createCustomResolverOptions.SetName("test-resolver")
+				createCustomResolverOptions.SetDescription("Integration test resolver")
+				createCustomResolverOptions.SetXCorrelationID("abc12387")
+				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
 
+				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+				customResolverID = *result.ID
+				// Create forwarding rules
+				for i := 1; i <= 3; i++ {
+					createForwardingRuleOptionsModel := service.NewCreateForwardingRuleOptions(instanceID, customResolverID)
+					createForwardingRuleOptionsModel.SetDescription("test forwarding rule " + strconv.Itoa(i))
+					createForwardingRuleOptionsModel.SetType(dnssvcsv1.CreateForwardingRuleOptions_Type_Zone)
+					createForwardingRuleOptionsModel.SetMatch(strconv.Itoa(i) + "example.com")
+					createForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+					createForwardingRuleOptionsModel.SetXCorrelationID("abc12387")
+					Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
+					resultCreate, responseCreate, errCreate := service.CreateForwardingRule(createForwardingRuleOptionsModel)
+					Expect(errCreate).To(BeNil())
+					Expect(responseCreate).ToNot(BeNil())
+					Expect(resultCreate).ToNot(BeNil())
+					Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
+					Expect(resultCreate.ID).ToNot(BeNil())
+					forwardingRulesID[i-1] = resultCreate.ID
+
+				}
+
+			})
+			AfterEach(func() {
+				shouldSkipTest()
+				// delete all custom resolvers
+				listCustomResolverOptions := service.NewListCustomResolversOptions(instanceID)
+				listCustomResolverOptions.SetXCorrelationID("abc12387")
+				Expect(listCustomResolverOptions).ToNot(BeNil())
+				resultList, responseList, errList := service.ListCustomResolvers(listCustomResolverOptions)
+				Expect(errList).To(BeNil())
+				Expect(responseList).ToNot(BeNil())
+				Expect(resultList).ToNot(BeNil())
+
+				// Delete forwarding rules
+				for i := 0; i <= 2; i++ {
+					deleteForwardingRuleOptionsModel := service.NewDeleteForwardingRuleOptions(instanceID, customResolverID, *forwardingRulesID[i])
+					deleteForwardingRuleOptionsModel.SetXCorrelationID("testString")
+					Expect(deleteForwardingRuleOptionsModel).ToNot(BeNil())
+					responseFRDelete, errFRDelete := service.DeleteForwardingRule(deleteForwardingRuleOptionsModel)
+					Expect(errFRDelete).To(BeNil())
+					Expect(responseFRDelete).ToNot(BeNil())
+					Expect(responseFRDelete.StatusCode).To(BeEquivalentTo(204))
+				}
+
+				for i := range resultList.CustomResolvers {
+					deleteCustomResolverOptionsModel := service.NewDeleteCustomResolverOptions(instanceID, *resultList.CustomResolvers[i].ID)
+					deleteCustomResolverOptionsModel.SetXCorrelationID("abc12387")
+					Expect(deleteCustomResolverOptionsModel).ToNot(BeNil())
+					responseDel, errDel := service.DeleteCustomResolver(deleteCustomResolverOptionsModel)
+					Expect(errDel).To(BeNil())
+					Expect(responseDel).ToNot(BeNil())
+					Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
+				}
+			})
+			Context(`customresolverv1 pagination params`, func() {
+				It(`customresolverv1 pagination offset`, func() {
+					// Test offset(skip) for forwarding rules
+					listForwardingRulesOptionsNew := service.NewListForwardingRulesOptions(instanceID, customResolverID)
+					Expect(listForwardingRulesOptionsNew).ToNot(BeNil())
+					listForwardingRulesOptionsNew.SetXCorrelationID("abc12387")
+					listForwardingRulesOptionsNew.SetOffset(2)
+					resultFRList1, responseFRList1, errFRList1 := service.ListForwardingRules(listForwardingRulesOptionsNew)
+					Expect(errFRList1).To(BeNil())
+					Expect(responseFRList1).ToNot(BeNil())
+					Expect(resultFRList1).ToNot(BeNil())
+					Expect(len(resultFRList1.ForwardingRules)).To(BeEquivalentTo(2))
+					Expect(*resultFRList1.Count).To(BeEquivalentTo(2))
+					Expect(*resultFRList1.TotalCount).To(BeEquivalentTo(4))
+					Expect(*resultFRList1.Limit).To(BeEquivalentTo(200))
+					Expect(*resultFRList1.Offset).To(BeEquivalentTo(2))
+					href1 := fmt.Sprintf("/%s/forwarding_rules?offset=0&limit=200", customResolverID)
+					Expect(strings.Contains(*resultFRList1.First.Href, href1)).To(BeTrue())
+					Expect(strings.Contains(*resultFRList1.Last.Href, href1)).To(BeTrue())
+					Expect(resultFRList1.Next).To(BeNil())
+
+					// Skip 2 rules
+					listForwardingRulesOptionsNew1 := service.NewListForwardingRulesOptions(instanceID, customResolverID)
+					listForwardingRulesOptionsNew1.SetXCorrelationID("abc12387")
+					listForwardingRulesOptionsNew1.SetOffset(3)
+					Expect(listForwardingRulesOptionsNew1).ToNot(BeNil())
+					resultFRList2, responseFRList2, errFRList2 := service.ListForwardingRules(listForwardingRulesOptionsNew1)
+					Expect(errFRList2).To(BeNil())
+					Expect(responseFRList2).ToNot(BeNil())
+					Expect(resultFRList2).ToNot(BeNil())
+					Expect(len(resultFRList2.ForwardingRules)).To(BeEquivalentTo(1))
+					Expect(*resultFRList2.Count).To(BeEquivalentTo(1))
+					Expect(*resultFRList2.TotalCount).To(BeEquivalentTo(4))
+					Expect(*resultFRList2.Limit).To(BeEquivalentTo(200))
+					Expect(*resultFRList2.Offset).To(BeEquivalentTo(3))
+					href2 := fmt.Sprintf("/%s/forwarding_rules?offset=0&limit=200", customResolverID)
+					Expect(strings.Contains(*resultFRList2.First.Href, href2)).To(BeTrue())
+					Expect(strings.Contains(*resultFRList2.Last.Href, href2)).To(BeTrue())
+					Expect(resultFRList2.Next).To(BeNil())
+
+				})
+				It(`customresolverv1 pagination limit`, func() {
+					// Set limit 1
+					listForwardingRulesOptionsNew2 := service.NewListForwardingRulesOptions(instanceID, customResolverID)
+					Expect(listForwardingRulesOptionsNew2).ToNot(BeNil())
+					listForwardingRulesOptionsNew2.SetXCorrelationID("abc12387")
+					listForwardingRulesOptionsNew2.SetLimit(1)
+					resultFRList3, responseFRList3, errFRList3 := service.ListForwardingRules(listForwardingRulesOptionsNew2)
+					Expect(errFRList3).To(BeNil())
+					Expect(responseFRList3).ToNot(BeNil())
+					Expect(resultFRList3).ToNot(BeNil())
+					Expect(len(resultFRList3.ForwardingRules)).To(BeEquivalentTo(1))
+					// Set limit 3
+					listForwardingRulesOptionsNew3 := service.NewListForwardingRulesOptions(instanceID, customResolverID)
+					listForwardingRulesOptionsNew3.SetXCorrelationID("abc12387")
+					listForwardingRulesOptionsNew3.SetLimit(3)
+					Expect(listForwardingRulesOptionsNew3).ToNot(BeNil())
+					resultFRList4, responseFRList4, errFRList4 := service.ListForwardingRules(listForwardingRulesOptionsNew3)
+					Expect(errFRList4).To(BeNil())
+					Expect(responseFRList4).ToNot(BeNil())
+					Expect(resultFRList4).ToNot(BeNil())
+					Expect(len(resultFRList4.ForwardingRules)).To(BeEquivalentTo(3))
+					Expect(*resultFRList4.Count).To(BeEquivalentTo(3))
+					Expect(*resultFRList4.TotalCount).To(BeEquivalentTo(4))
+					Expect(*resultFRList4.Limit).To(BeEquivalentTo(3))
+					Expect(*resultFRList4.Offset).To(BeEquivalentTo(0))
+					// Case where we have last page which is different than first page
+					href4 := fmt.Sprintf("/%s/forwarding_rules?offset=0&limit=3", customResolverID)
+					href41 := fmt.Sprintf("/%s/forwarding_rules?offset=1&limit=3", customResolverID)
+					Expect(strings.Contains(*resultFRList4.First.Href, href4)).To(BeTrue())
+					Expect(strings.Contains(*resultFRList4.Last.Href, href41)).To(BeTrue())
+					// We should have next page here
+					href5 := fmt.Sprintf("/%s/forwarding_rules?offset=3&limit=3", customResolverID)
+					Expect(strings.Contains(*resultFRList4.Next.Href, href5)).To(BeTrue())
+				})
+				It(`customresolverv1 pagination limit & offset`, func() {
+					// Set limit 3 and offset 3
+					listForwardingRulesOptionsNew2 := service.NewListForwardingRulesOptions(instanceID, customResolverID)
+					Expect(listForwardingRulesOptionsNew2).ToNot(BeNil())
+					listForwardingRulesOptionsNew2.SetXCorrelationID("abc12387")
+					listForwardingRulesOptionsNew2.SetLimit(3)
+					listForwardingRulesOptionsNew2.SetOffset(3)
+					resultFRList3, responseFRList3, errFRList3 := service.ListForwardingRules(listForwardingRulesOptionsNew2)
+					Expect(errFRList3).To(BeNil())
+					Expect(responseFRList3).ToNot(BeNil())
+					Expect(resultFRList3).ToNot(BeNil())
+					Expect(len(resultFRList3.ForwardingRules)).To(BeEquivalentTo(1))
+
+					// Set limit and offset
+					listForwardingRulesOptionsNew3 := service.NewListForwardingRulesOptions(instanceID, customResolverID)
+					listForwardingRulesOptionsNew3.SetXCorrelationID("abc12387")
+					listForwardingRulesOptionsNew3.SetLimit(2)
+					listForwardingRulesOptionsNew3.SetOffset(1)
+					Expect(listForwardingRulesOptionsNew3).ToNot(BeNil())
+					resultFRList4, responseFRList4, errFRList4 := service.ListForwardingRules(listForwardingRulesOptionsNew3)
+					Expect(errFRList4).To(BeNil())
+					Expect(responseFRList4).ToNot(BeNil())
+					Expect(resultFRList4).ToNot(BeNil())
+					Expect(len(resultFRList4.ForwardingRules)).To(BeEquivalentTo(2))
+					Expect(*resultFRList4.Count).To(BeEquivalentTo(2))
+					Expect(*resultFRList4.TotalCount).To(BeEquivalentTo(4))
+					Expect(*resultFRList4.Limit).To(BeEquivalentTo(2))
+					Expect(*resultFRList4.Offset).To(BeEquivalentTo(1))
+					href5 := fmt.Sprintf("/%s/forwarding_rules?offset=0&limit=2", customResolverID)
+					href51 := fmt.Sprintf("/%s/forwarding_rules?offset=2&limit=2", customResolverID)
+					Expect(strings.Contains(*resultFRList4.First.Href, href5)).To(BeTrue())
+					Expect(strings.Contains(*resultFRList4.Last.Href, href51)).To(BeTrue())
+					// We should have next page here
+					href6 := fmt.Sprintf("/%s/forwarding_rules?offset=3&limit=2", customResolverID)
+					Expect(strings.Contains(*resultFRList4.Next.Href, href6)).To(BeTrue())
+				})
+			})
+		})
+	})
 	Describe(`secondaryzonev1`, func() {
 		Context(`secondaryzonev1`, func() {
 			var testCustomResolver *dnssvcsv1.CustomResolver
@@ -1650,7 +2140,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 			It(`create/list/update/delete/get secondary zone`, func() {
 				shouldSkipTest()
 
-				// create secondary zone
+				// create custom resolver
 				createSecondaryZoneOptions := service.NewCreateSecondaryZoneOptions(
 					instanceID,
 					*testCustomResolver.ID,
@@ -1831,8 +2321,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				}
 			})
 			It(`create/list/update/delete/get cross accounts (linked zones, access requests, and permitted networks)`, func() {
-				Skip("Skipping")
 				// Create Linked Zone
+
 				createLinkedZoneOptions := service.NewCreateLinkedZoneOptions(instanceID)
 				createLinkedZoneOptions.SetXCorrelationID("create-linkedZone123")
 				createLinkedZoneOptions.SetOwnerInstanceID(ownerInstanceID)
