@@ -69,7 +69,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
 	if serviceErr != nil {
-		panic(err)
+		panic(serviceErr)
 	}
 	ownerAPIKey := os.Getenv("DNS_SVCS_OWNER_APIKEY")
 	if ownerAPIKey == "" {
