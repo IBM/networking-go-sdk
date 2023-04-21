@@ -15,6 +15,7 @@
  */
 
 package dnssvcsv1_test
+
 // package go_build_test
 
 import (
@@ -27,11 +28,11 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	dnssvcsv1 "github.com/IBM/networking-go-sdk/dnssvcsv1"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	dnssvcsv1 "github.ibm.com/ibmcloud/networking-go-sdk/dnssvcsv1"
 )
 
 const configFile = "../dns.env"
