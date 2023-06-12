@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// pDNS integration test file.
 package dnssvcsv1_test
 
 // package go_build_test
