@@ -59,8 +59,6 @@ var _ = Describe(`BotAnalyticsV1`, func() {
 	}
 	Describe(`botanalyticsv1_test`, func() {
 		Context(`botanalyticsv1_test`, func() {
-			defer GinkgoRecover()
-
 			It(`Get Bot Analytics Settings`, func() {
 
 				since := CreateMockDateTime("2023-06-12T00:00:00Z")
@@ -72,6 +70,9 @@ var _ = Describe(`BotAnalyticsV1`, func() {
 				getBotScoreOptionsModel.Until = until
 
 				getResult, getResp, getErr := service.GetBotScore(getBotScoreOptionsModel)
+				if getErr != nil {
+					panic("GetBotScore failed")
+				}
 				Expect(getErr).To(BeNil())
 				Expect(getResp).ToNot(BeNil())
 				Expect(getResult).ToNot(BeNil())
