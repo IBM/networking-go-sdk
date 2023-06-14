@@ -1,3 +1,15 @@
+# [0.41.0](https://github.com/IBM/networking-go-sdk/compare/v0.40.0...v0.41.0) (2023-06-14)
+
+
+### Bug Fixes
+
+* **test-dns.env:** encrypt dns.env ([1f31a90](https://github.com/IBM/networking-go-sdk/commit/1f31a90b691afffe284a1461e6d3905764b8148e))
+
+
+### Features
+
+* pDNS pagination feature ([495a424](https://github.com/IBM/networking-go-sdk/commit/495a42475c93c12b1320508c0821c954f228d581))
+
 # [0.40.0](https://github.com/IBM/networking-go-sdk/compare/v0.39.0...v0.40.0) (2023-03-20)
 
 
