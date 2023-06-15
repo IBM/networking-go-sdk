@@ -62,8 +62,8 @@ var _ = Describe(`BotAnalyticsV1`, func() {
 			It(`Get Bot Analytics Settings`, func() {
 				Skip("Skipping as CF needs to update API")
 
-				since := CreateMockDateTime("2023-06-12T00:00:00Z")
-				until := CreateMockDateTime("2023-06-13T00:00:00Z")
+				since := CreateMockDateTime("2023-06-13T00:00:00Z")
+				until := CreateMockDateTime("2023-06-14T00:00:00Z")
 
 				// Get Bot Analytics Score Source
 				getBotScoreOptionsModel := new(GetBotScoreOptions)
