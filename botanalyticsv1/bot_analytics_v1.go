@@ -27,6 +27,7 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
@@ -120,8 +121,8 @@ func NewBotAnalyticsV1(options *BotAnalyticsV1Options) (service *BotAnalyticsV1,
 	}
 
 	service = &BotAnalyticsV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -198,7 +199,7 @@ func (botAnalytics *BotAnalyticsV1) GetBotScoreWithContext(ctx context.Context, 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *botAnalytics.Crn,
+		"crn":             *botAnalytics.Crn,
 		"zone_identifier": *botAnalytics.ZoneIdentifier,
 	}
 
@@ -220,8 +221,11 @@ func (botAnalytics *BotAnalyticsV1) GetBotScoreWithContext(ctx context.Context, 
 	}
 	builder.AddHeader("Accept", "application/json")
 
-	builder.AddQuery("since", fmt.Sprint(*getBotScoreOptions.Since))
-	builder.AddQuery("until", fmt.Sprint(*getBotScoreOptions.Until))
+	sinceVal := strings.Split(fmt.Sprint(*getBotScoreOptions.Since), ".")
+	untilVal := strings.Split(fmt.Sprint(*getBotScoreOptions.Until), ".")
+
+	builder.AddQuery("since", sinceVal[0]+"Z")
+	builder.AddQuery("until", untilVal[0]+"Z")
 
 	request, err := builder.Build()
 	if err != nil {
@@ -262,7 +266,7 @@ func (botAnalytics *BotAnalyticsV1) GetBotTimeseriesWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *botAnalytics.Crn,
+		"crn":             *botAnalytics.Crn,
 		"zone_identifier": *botAnalytics.ZoneIdentifier,
 	}
 
@@ -284,8 +288,11 @@ func (botAnalytics *BotAnalyticsV1) GetBotTimeseriesWithContext(ctx context.Cont
 	}
 	builder.AddHeader("Accept", "application/json")
 
-	builder.AddQuery("since", fmt.Sprint(*getBotTimeseriesOptions.Since))
-	builder.AddQuery("until", fmt.Sprint(*getBotTimeseriesOptions.Until))
+	sinceVal := strings.Split(fmt.Sprint(*getBotTimeseriesOptions.Since), ".")
+	untilVal := strings.Split(fmt.Sprint(*getBotTimeseriesOptions.Until), ".")
+
+	builder.AddQuery("since", sinceVal[0]+"Z")
+	builder.AddQuery("until", untilVal[0]+"Z")
 
 	request, err := builder.Build()
 	if err != nil {
@@ -327,7 +334,7 @@ func (botAnalytics *BotAnalyticsV1) GetBotTopnsWithContext(ctx context.Context, 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *botAnalytics.Crn,
+		"crn":             *botAnalytics.Crn,
 		"zone_identifier": *botAnalytics.ZoneIdentifier,
 	}
 
@@ -349,8 +356,11 @@ func (botAnalytics *BotAnalyticsV1) GetBotTopnsWithContext(ctx context.Context, 
 	}
 	builder.AddHeader("Accept", "application/json")
 
-	builder.AddQuery("since", fmt.Sprint(*getBotTopnsOptions.Since))
-	builder.AddQuery("until", fmt.Sprint(*getBotTopnsOptions.Until))
+	sinceVal := strings.Split(fmt.Sprint(*getBotTopnsOptions.Since), ".")
+	untilVal := strings.Split(fmt.Sprint(*getBotTopnsOptions.Until), ".")
+
+	builder.AddQuery("since", sinceVal[0]+"Z")
+	builder.AddQuery("until", untilVal[0]+"Z")
 
 	request, err := builder.Build()
 	if err != nil {
@@ -629,7 +639,7 @@ type BotTimeseriesResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 
 	// Container for response information.
-	Result []BotTimeseriesRespResultItem `json:"result" validate:"required"`
+	Result []map[string]interface{} `json:"result" validate:"required"`
 }
 
 // UnmarshalBotTimeseriesResp unmarshals an instance of BotTimeseriesResp from the specified map of raw messages.
@@ -647,7 +657,7 @@ func UnmarshalBotTimeseriesResp(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalBotTimeseriesRespResultItem)
+	err = core.UnmarshalPrimitive(m, "result", &obj.Result)
 	if err != nil {
 		return
 	}

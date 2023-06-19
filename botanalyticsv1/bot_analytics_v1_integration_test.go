@@ -60,7 +60,6 @@ var _ = Describe(`BotAnalyticsV1`, func() {
 	Describe(`botanalyticsv1_test`, func() {
 		Context(`botanalyticsv1_test`, func() {
 			It(`Get Bot Analytics Settings`, func() {
-				Skip("Skipping as CF needs to update API")
 
 				since := CreateMockDateTime("2023-06-13T00:00:00Z")
 				until := CreateMockDateTime("2023-06-14T00:00:00Z")
