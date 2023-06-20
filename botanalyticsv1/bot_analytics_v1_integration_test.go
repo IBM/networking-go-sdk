@@ -62,6 +62,7 @@ var _ = Describe(`BotAnalyticsV1`, func() {
 			It(`Get Bot Analytics Settings`, func() {
 				Skip("Skipping as CF APIs are failing")
 
+				// Date Format is to be strictly followed
 				since := CreateMockDateTime("2023-06-13T00:00:00Z")
 				until := CreateMockDateTime("2023-06-14T00:00:00Z")
 
