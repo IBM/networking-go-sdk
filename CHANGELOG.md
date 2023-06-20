@@ -1,3 +1,10 @@
+# [0.42.0](https://github.com/IBM/networking-go-sdk/compare/v0.41.0...v0.42.0) (2023-06-15)
+
+
+### Features
+
+* Bot Analytics ([3e4e6e8](https://github.com/IBM/networking-go-sdk/commit/3e4e6e85ff26d1776970a5569eff94e145dbf514))
+
 # [0.41.0](https://github.com/IBM/networking-go-sdk/compare/v0.40.0...v0.41.0) (2023-06-14)
 
 
