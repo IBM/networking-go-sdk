@@ -59,7 +59,7 @@ var _ = Describe(`BotAnalyticsV1`, func() {
 	}
 	Describe(`botanalyticsv1_test`, func() {
 		Context(`botanalyticsv1_test`, func() {
-			It(`Get Bot Analytics Settings`, func() {
+			It(`Get Bot Analytics Option and Settings`, func() {
 				Skip("Skipping as CF APIs are failing")
 
 				// Date Format is to be strictly followed
