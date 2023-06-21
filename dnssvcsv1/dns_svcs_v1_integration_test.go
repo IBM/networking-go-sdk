@@ -210,7 +210,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 					if strings.Contains(*zone.Name, "test-example") {
 
 						// First delete PTR record to avoid any record linking issue
-						listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+						listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zone.ID)
 						listOptions2.SetType("PTR")
 						listResult2, _, listErr2 := service.ListResourceRecords(listOptions2)
 						Expect(listErr2).To(BeNil())
@@ -274,7 +274,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 					if strings.Contains(*zone.Name, "test-example") {
 
 						// First delete PTR record to avoid any record linking issue
-						listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zoneInfo.ID)
+						listOptions2 := service.NewListResourceRecordsOptions(instanceID, *zone.ID)
 						listOptions2.SetType("PTR")
 						listResult2, _, listErr2 := service.ListResourceRecords(listOptions2)
 						Expect(listErr2).To(BeNil())
