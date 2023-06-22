@@ -1,3 +1,14 @@
+## [0.42.1](https://github.com/IBM/networking-go-sdk/compare/v0.42.0...v0.42.1) (2023-06-22)
+
+
+### Bug Fixes
+
+* Added comment ([563e667](https://github.com/IBM/networking-go-sdk/commit/563e667be92d0e7371f143955ef555893c54d55d))
+* added comments ([b525d5d](https://github.com/IBM/networking-go-sdk/commit/b525d5d1d1c20746cecd7943b1f451411a085176))
+* parameter encoding fixed ([8843366](https://github.com/IBM/networking-go-sdk/commit/88433664e7c7f71054d65f0862ad061969c4ef7a))
+* updated cis env ([761603c](https://github.com/IBM/networking-go-sdk/commit/761603c30641b82428a19708cbdf18ffe2eb10f6))
+* **zoneInfo-not-set-bug:** use for loop zone ([5ad141f](https://github.com/IBM/networking-go-sdk/commit/5ad141f56e919081a0f799b967ddb8860f0f13c8))
+
 # [0.42.0](https://github.com/IBM/networking-go-sdk/compare/v0.41.0...v0.42.0) (2023-06-15)
 
 
