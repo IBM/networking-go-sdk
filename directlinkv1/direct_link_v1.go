@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.58.0-ac124633-20221004-152309
+ * IBM OpenAPI SDK Code Generator Version: 3.69.0-370d6400-20230329-174648
  */
 
 // Package directlinkv1 : Operations and models for the DirectLinkV1 service
@@ -174,248 +174,6 @@ func (directLink *DirectLinkV1) EnableRetries(maxRetries int, maxRetryInterval t
 // DisableRetries disables automatic retries for requests invoked for this service instance.
 func (directLink *DirectLinkV1) DisableRetries() {
 	directLink.Service.DisableRetries()
-}
-
-// ListGatewayRouteReports : List route reports
-// Retrieve all route reports for the specified Direct Link gateway.
-func (directLink *DirectLinkV1) ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListGatewayRouteReportsWithContext(context.Background(), listGatewayRouteReportsOptions)
-}
-
-// ListGatewayRouteReportsWithContext is an alternate form of the ListGatewayRouteReports method which supports a Context parameter
-func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.Context, listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listGatewayRouteReportsOptions, "listGatewayRouteReportsOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(listGatewayRouteReportsOptions, "listGatewayRouteReportsOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *listGatewayRouteReportsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range listGatewayRouteReportsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayRouteReports")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReportCollection)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// CreateGatewayRouteReport : Request a route report
-// Request route report generation.  While report generation is in progress, additional requests to generate a report
-// are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
-// `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
-// `status` enters the `complete` status.  Call `get_gateway_route_report` with the pending route report's `id` to check
-// on the current status of the report.
-func (directLink *DirectLinkV1) CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	return directLink.CreateGatewayRouteReportWithContext(context.Background(), createGatewayRouteReportOptions)
-}
-
-// CreateGatewayRouteReportWithContext is an alternate form of the CreateGatewayRouteReport method which supports a Context parameter
-func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.Context, createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(createGatewayRouteReportOptions, "createGatewayRouteReportOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(createGatewayRouteReportOptions, "createGatewayRouteReportOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *createGatewayRouteReportOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.POST)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range createGatewayRouteReportOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayRouteReport")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// DeleteGatewayRouteReport : Delete route report
-// Delete a route report.
-func (directLink *DirectLinkV1) DeleteGatewayRouteReport(deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
-	return directLink.DeleteGatewayRouteReportWithContext(context.Background(), deleteGatewayRouteReportOptions)
-}
-
-// DeleteGatewayRouteReportWithContext is an alternate form of the DeleteGatewayRouteReport method which supports a Context parameter
-func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.Context, deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(deleteGatewayRouteReportOptions, "deleteGatewayRouteReportOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(deleteGatewayRouteReportOptions, "deleteGatewayRouteReportOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *deleteGatewayRouteReportOptions.GatewayID,
-		"id": *deleteGatewayRouteReportOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.DELETE)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports/{id}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range deleteGatewayRouteReportOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayRouteReport")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	response, err = directLink.Service.Request(request, nil)
-
-	return
-}
-
-// GetGatewayRouteReport : Retrieve route report
-// Retrieve a route report.
-func (directLink *DirectLinkV1) GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	return directLink.GetGatewayRouteReportWithContext(context.Background(), getGatewayRouteReportOptions)
-}
-
-// GetGatewayRouteReportWithContext is an alternate form of the GetGatewayRouteReport method which supports a Context parameter
-func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Context, getGatewayRouteReportOptions *GetGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getGatewayRouteReportOptions, "getGatewayRouteReportOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(getGatewayRouteReportOptions, "getGatewayRouteReportOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *getGatewayRouteReportOptions.GatewayID,
-		"id": *getGatewayRouteReportOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports/{id}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range getGatewayRouteReportOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayRouteReport")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
 }
 
 // ListGateways : List gateways
@@ -945,7 +703,7 @@ func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx con
 		return
 	}
 	if (createGatewayCompletionNoticeOptions.Upload == nil) {
-		err = fmt.Errorf("at least one of  or upload must be supplied")
+		err = fmt.Errorf("upload must be supplied")
 		return
 	}
 
@@ -2032,6 +1790,248 @@ func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx co
 	return
 }
 
+// ListGatewayRouteReports : List route reports
+// Retrieve all route reports for the specified Direct Link gateway.
+func (directLink *DirectLinkV1) ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayRouteReportsWithContext(context.Background(), listGatewayRouteReportsOptions)
+}
+
+// ListGatewayRouteReportsWithContext is an alternate form of the ListGatewayRouteReports method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.Context, listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayRouteReportsOptions, "listGatewayRouteReportsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listGatewayRouteReportsOptions, "listGatewayRouteReportsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *listGatewayRouteReportsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listGatewayRouteReportsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayRouteReports")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReportCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateGatewayRouteReport : Request a route report
+// Request route report generation.  While report generation is in progress, additional requests to generate a report
+// are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
+// `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
+// `status` enters the `complete` status.  Call `get_gateway_route_report` with the pending route report's `id` to check
+// on the current status of the report.
+func (directLink *DirectLinkV1) CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
+	return directLink.CreateGatewayRouteReportWithContext(context.Background(), createGatewayRouteReportOptions)
+}
+
+// CreateGatewayRouteReportWithContext is an alternate form of the CreateGatewayRouteReport method which supports a Context parameter
+func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.Context, createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createGatewayRouteReportOptions, "createGatewayRouteReportOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createGatewayRouteReportOptions, "createGatewayRouteReportOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *createGatewayRouteReportOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createGatewayRouteReportOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayRouteReport")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteGatewayRouteReport : Delete route report
+// Delete a route report.
+func (directLink *DirectLinkV1) DeleteGatewayRouteReport(deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
+	return directLink.DeleteGatewayRouteReportWithContext(context.Background(), deleteGatewayRouteReportOptions)
+}
+
+// DeleteGatewayRouteReportWithContext is an alternate form of the DeleteGatewayRouteReport method which supports a Context parameter
+func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.Context, deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteGatewayRouteReportOptions, "deleteGatewayRouteReportOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteGatewayRouteReportOptions, "deleteGatewayRouteReportOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *deleteGatewayRouteReportOptions.GatewayID,
+		"id": *deleteGatewayRouteReportOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteGatewayRouteReportOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayRouteReport")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = directLink.Service.Request(request, nil)
+
+	return
+}
+
+// GetGatewayRouteReport : Retrieve route report
+// Retrieve a route report.
+func (directLink *DirectLinkV1) GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
+	return directLink.GetGatewayRouteReportWithContext(context.Background(), getGatewayRouteReportOptions)
+}
+
+// GetGatewayRouteReportWithContext is an alternate form of the GetGatewayRouteReport method which supports a Context parameter
+func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Context, getGatewayRouteReportOptions *GetGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getGatewayRouteReportOptions, "getGatewayRouteReportOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getGatewayRouteReportOptions, "getGatewayRouteReportOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *getGatewayRouteReportOptions.GatewayID,
+		"id": *getGatewayRouteReportOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getGatewayRouteReportOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayRouteReport")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ListGatewayVirtualConnections : List virtual connections
 // List a gateway's virtual connections.   For gateway in other account with virtual connections that connect to network
 // in this account.  Only virtual connections that connect to this account are returned.
@@ -2673,6 +2673,395 @@ func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortO
 		response.Result = result
 	}
 
+	return
+}
+
+// ListGatewayAsPrepends : List AS Prepends
+// Retrieve all AS Prepends for the specified Direct Link gateway.
+func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
+}
+
+// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ReplaceGatewayAsPrepends : Replace existing AS Prepends
+// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
+// AS Prepend item is unchanged.
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
+}
+
+// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if replaceGatewayAsPrependsOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
+		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// AsPrepend : Gateway AS Prepend object.
+type AsPrepend struct {
+	// The date and time resource was created.
+	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+
+	// The unique identifier for this AS Prepend.
+	ID *string `json:"id,omitempty"`
+
+	// Number of times the ASN to appended to the AS Path.
+	Length *int64 `json:"length,omitempty"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy,omitempty"`
+
+	// Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes.
+	// Deprecated: this field is deprecated and may be removed in a future release.
+	Prefix *string `json:"prefix,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+	// prefixes.  Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+
+	// The date and time resource was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+}
+
+// Constants associated with the AsPrepend.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrepend_Policy_Export = "export"
+	AsPrepend_Policy_Import = "import"
+)
+
+// UnmarshalAsPrepend unmarshals an instance of AsPrepend from the specified map of raw messages.
+func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrepend)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependCollection : array of AS Prepends.
+type AsPrependCollection struct {
+	// array of AS Prepend information.
+	AsPrepends []AsPrependEntry `json:"as_prepends,omitempty"`
+}
+
+// UnmarshalAsPrependCollection unmarshals an instance of AsPrependCollection from the specified map of raw messages.
+func UnmarshalAsPrependCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependCollection)
+	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependEntry)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependEntry : AS Prepends API object.
+type AsPrependEntry struct {
+	// The date and time resource was created.
+	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+
+	// The unique identifier for this AS Prepend.
+	ID *string `json:"id,omitempty"`
+
+	// Number of times the ASN to appended to the AS Path.
+	Length *int64 `json:"length,omitempty"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+	// prefixes.  Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+
+	// The date and time resource was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+}
+
+// Constants associated with the AsPrependEntry.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependEntry_Policy_Export = "export"
+	AsPrependEntry_Policy_Import = "import"
+)
+
+// UnmarshalAsPrependEntry unmarshals an instance of AsPrependEntry from the specified map of raw messages.
+func UnmarshalAsPrependEntry(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependEntry)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependPrefixArrayTemplate : Create AS Prepend Configuration template.
+type AsPrependPrefixArrayTemplate struct {
+	// Number of times the ASN to be prepended to the AS Path.
+	Length *int64 `json:"length" validate:"required"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy" validate:"required"`
+
+	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+	// Note that ordering is not significant and may differ from request order.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+}
+
+// Constants associated with the AsPrependPrefixArrayTemplate.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependPrefixArrayTemplate_Policy_Export = "export"
+	AsPrependPrefixArrayTemplate_Policy_Import = "import"
+)
+
+// NewAsPrependPrefixArrayTemplate : Instantiate AsPrependPrefixArrayTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewAsPrependPrefixArrayTemplate(length int64, policy string) (_model *AsPrependPrefixArrayTemplate, err error) {
+	_model = &AsPrependPrefixArrayTemplate{
+		Length: core.Int64Ptr(length),
+		Policy: core.StringPtr(policy),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalAsPrependPrefixArrayTemplate unmarshals an instance of AsPrependPrefixArrayTemplate from the specified map of raw messages.
+func UnmarshalAsPrependPrefixArrayTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependPrefixArrayTemplate)
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPrependTemplate : Create AS Prepend Configuration template.
+type AsPrependTemplate struct {
+	// Number of times the ASN to be prepended to the AS Path.
+	Length *int64 `json:"length" validate:"required"`
+
+	// Route type this AS Prepend applies to.
+	Policy *string `json:"policy" validate:"required"`
+
+	// Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
+	// Prepend applies to all prefixes.
+	// Deprecated: this field is deprecated and may be removed in a future release.
+	Prefix *string `json:"prefix,omitempty"`
+
+	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
+}
+
+// Constants associated with the AsPrependTemplate.Policy property.
+// Route type this AS Prepend applies to.
+const (
+	AsPrependTemplate_Policy_Export = "export"
+	AsPrependTemplate_Policy_Import = "import"
+)
+
+// NewAsPrependTemplate : Instantiate AsPrependTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewAsPrependTemplate(length int64, policy string) (_model *AsPrependTemplate, err error) {
+	_model = &AsPrependTemplate{
+		Length: core.Int64Ptr(length),
+		Policy: core.StringPtr(policy),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalAsPrependTemplate unmarshals an instance of AsPrependTemplate from the specified map of raw messages.
+func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AsPrependTemplate)
+	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
@@ -5630,393 +6019,6 @@ func (options *GetGatewayVirtualConnectionOptions) SetHeaders(param map[string]s
 	return options
 }
 
-// ListGatewayAsPrepends : List AS Prepends
-// Retrieve all AS Prepends for the specified Direct Link gateway.
-func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	return directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
-}
-
-// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
-func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ReplaceGatewayAsPrepends : Replace existing AS Prepends
-// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
-// AS Prepend item is unchanged.
-func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	return directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
-}
-
-// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
-func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-	if replaceGatewayAsPrependsOptions.IfMatch != nil {
-		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	body := make(map[string]interface{})
-	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
-		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// AsPrepend : Gateway AS Prepend object.
-type AsPrepend struct {
-	// The date and time resource was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// The unique identifier for this AS Prepend.
-	ID *string `json:"id,omitempty"`
-
-	// Number of times the ASN to appended to the AS Path.
-	Length *int64 `json:"length,omitempty"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy,omitempty"`
-
-	// Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes.
-	Prefix *string `json:"prefix,omitempty"`
-
-	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
-	// prefixes.  Note that ordering is not significant and may differ from request order.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-
-	// The date and time resource was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-}
-
-// Constants associated with the AsPrepend.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrepend_Policy_Export = "export"
-	AsPrepend_Policy_Import = "import"
-)
-
-// UnmarshalAsPrepend unmarshals an instance of AsPrepend from the specified map of raw messages.
-func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrepend)
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AsPrependCollection : array of AS Prepends.
-type AsPrependCollection struct {
-	// array of AS Prepend information.
-	AsPrepends []AsPrependEntry `json:"as_prepends,omitempty"`
-}
-
-// UnmarshalAsPrependCollection unmarshals an instance of AsPrependCollection from the specified map of raw messages.
-func UnmarshalAsPrependCollection(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependCollection)
-	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependEntry)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AsPrependEntry : AS Prepends API object.
-type AsPrependEntry struct {
-	// The date and time resource was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// The unique identifier for this AS Prepend.
-	ID *string `json:"id,omitempty"`
-
-	// Number of times the ASN to appended to the AS Path.
-	Length *int64 `json:"length,omitempty"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy,omitempty"`
-
-	// Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
-	// prefixes.  Note that ordering is not significant and may differ from request order.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-
-	// The date and time resource was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-}
-
-// Constants associated with the AsPrependEntry.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrependEntry_Policy_Export = "export"
-	AsPrependEntry_Policy_Import = "import"
-)
-
-// UnmarshalAsPrependEntry unmarshals an instance of AsPrependEntry from the specified map of raw messages.
-func UnmarshalAsPrependEntry(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependEntry)
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AsPrependPrefixArrayTemplate : Create AS Prepend Configuration template.
-type AsPrependPrefixArrayTemplate struct {
-	// Number of times the ASN to be prepended to the AS Path.
-	Length *int64 `json:"length" validate:"required"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy" validate:"required"`
-
-	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
-	// Note that ordering is not significant and may differ from request order.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-}
-
-// Constants associated with the AsPrependPrefixArrayTemplate.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrependPrefixArrayTemplate_Policy_Export = "export"
-	AsPrependPrefixArrayTemplate_Policy_Import = "import"
-)
-
-// NewAsPrependPrefixArrayTemplate : Instantiate AsPrependPrefixArrayTemplate (Generic Model Constructor)
-func (*DirectLinkV1) NewAsPrependPrefixArrayTemplate(length int64, policy string) (_model *AsPrependPrefixArrayTemplate, err error) {
-	_model = &AsPrependPrefixArrayTemplate{
-		Length: core.Int64Ptr(length),
-		Policy: core.StringPtr(policy),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-// UnmarshalAsPrependPrefixArrayTemplate unmarshals an instance of AsPrependPrefixArrayTemplate from the specified map of raw messages.
-func UnmarshalAsPrependPrefixArrayTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependPrefixArrayTemplate)
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AsPrependTemplate : Create AS Prepend Configuration template.
-type AsPrependTemplate struct {
-	// Number of times the ASN to be prepended to the AS Path.
-	Length *int64 `json:"length" validate:"required"`
-
-	// Route type this AS Prepend applies to.
-	Policy *string `json:"policy" validate:"required"`
-
-	// Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
-	// Prepend applies to all prefixes.
-	Prefix *string `json:"prefix,omitempty"`
-
-	// Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
-	SpecificPrefixes []string `json:"specific_prefixes,omitempty"`
-}
-
-// Constants associated with the AsPrependTemplate.Policy property.
-// Route type this AS Prepend applies to.
-const (
-	AsPrependTemplate_Policy_Export = "export"
-	AsPrependTemplate_Policy_Import = "import"
-)
-
-// NewAsPrependTemplate : Instantiate AsPrependTemplate (Generic Model Constructor)
-func (*DirectLinkV1) NewAsPrependTemplate(length int64, policy string) (_model *AsPrependTemplate, err error) {
-	_model = &AsPrependTemplate{
-		Length: core.Int64Ptr(length),
-		Policy: core.StringPtr(policy),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-// UnmarshalAsPrependTemplate unmarshals an instance of AsPrependTemplate from the specified map of raw messages.
-func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AsPrependTemplate)
-	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // GetPortOptions : The GetPort options.
 type GetPortOptions struct {
 	// The port identifier.
@@ -7036,6 +7038,10 @@ func UnmarshalRouteFilter(m map[string]json.RawMessage, result interface{}) (err
 
 // RouteReport : route report.
 type RouteReport struct {
+	// Array of connection prefixes advertised to the on-prem network. This parameter is not returned when the route report
+	// was generated prior to inclusion of this parameter.
+	AdvertisedRoutes []RouteReportAdvertisedRoute `json:"advertised_routes,omitempty"`
+
 	// Date and time route report was requested.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -7073,6 +7079,10 @@ const (
 // UnmarshalRouteReport unmarshals an instance of RouteReport from the specified map of raw messages.
 func UnmarshalRouteReport(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RouteReport)
+	err = core.UnmarshalModel(m, "advertised_routes", &obj.AdvertisedRoutes, UnmarshalRouteReportAdvertisedRoute)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
@@ -7109,6 +7119,30 @@ func UnmarshalRouteReport(m map[string]json.RawMessage, result interface{}) (err
 	return
 }
 
+// RouteReportAdvertisedRoute : Route advertised to the on-prem network.
+type RouteReportAdvertisedRoute struct {
+	// The BGP AS path of the route.
+	AsPath *string `json:"as_path" validate:"required"`
+
+	// prefix.
+	Prefix *string `json:"prefix" validate:"required"`
+}
+
+// UnmarshalRouteReportAdvertisedRoute unmarshals an instance of RouteReportAdvertisedRoute from the specified map of raw messages.
+func UnmarshalRouteReportAdvertisedRoute(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteReportAdvertisedRoute)
+	err = core.UnmarshalPrimitive(m, "as_path", &obj.AsPath)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // RouteReportCollection : route reports.
 type RouteReportCollection struct {
 	// Array of route reports.
@@ -7129,7 +7163,7 @@ func UnmarshalRouteReportCollection(m map[string]json.RawMessage, result interfa
 // RouteReportConnection : Routes of a virtual connection.
 type RouteReportConnection struct {
 	// Array of virtual connection's routes.
-	Routes []RouteReportRoute `json:"routes" validate:"required"`
+	Routes []RouteReportVirtualConnectionRoute `json:"routes" validate:"required"`
 
 	// ID of virtual connection.
 	VirtualConnectionID *string `json:"virtual_connection_id,omitempty"`
@@ -7144,7 +7178,7 @@ type RouteReportConnection struct {
 // UnmarshalRouteReportConnection unmarshals an instance of RouteReportConnection from the specified map of raw messages.
 func UnmarshalRouteReportConnection(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RouteReportConnection)
-	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportRoute)
+	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportVirtualConnectionRoute)
 	if err != nil {
 		return
 	}
@@ -7166,6 +7200,9 @@ func UnmarshalRouteReportConnection(m map[string]json.RawMessage, result interfa
 
 // RouteReportOnPremRoute : on-prem route.
 type RouteReportOnPremRoute struct {
+	// The BGP AS path of the route.
+	AsPath *string `json:"as_path,omitempty"`
+
 	// Next hop address.
 	NextHop *string `json:"next_hop,omitempty"`
 
@@ -7176,6 +7213,10 @@ type RouteReportOnPremRoute struct {
 // UnmarshalRouteReportOnPremRoute unmarshals an instance of RouteReportOnPremRoute from the specified map of raw messages.
 func UnmarshalRouteReportOnPremRoute(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RouteReportOnPremRoute)
+	err = core.UnmarshalPrimitive(m, "as_path", &obj.AsPath)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "next_hop", &obj.NextHop)
 	if err != nil {
 		return
@@ -7261,6 +7302,37 @@ type RouteReportRoute struct {
 // UnmarshalRouteReportRoute unmarshals an instance of RouteReportRoute from the specified map of raw messages.
 func UnmarshalRouteReportRoute(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RouteReportRoute)
+	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RouteReportVirtualConnectionRoute : A route originating from an attached virtual connection.
+type RouteReportVirtualConnectionRoute struct {
+	// Indicates whether the route is the preferred path of the prefix.
+	Active *bool `json:"active,omitempty"`
+
+	// The local preference of the route. This attribute can manipulate the chosen path on routes.
+	LocalPreference *string `json:"local_preference,omitempty"`
+
+	// prefix.
+	Prefix *string `json:"prefix" validate:"required"`
+}
+
+// UnmarshalRouteReportVirtualConnectionRoute unmarshals an instance of RouteReportVirtualConnectionRoute from the specified map of raw messages.
+func UnmarshalRouteReportVirtualConnectionRoute(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteReportVirtualConnectionRoute)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_preference", &obj.LocalPreference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
 		return
