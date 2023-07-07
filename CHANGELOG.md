@@ -1,3 +1,10 @@
+## [0.42.2](https://github.com/IBM/networking-go-sdk/compare/v0.42.1...v0.42.2) (2023-07-07)
+
+
+### Bug Fixes
+
+* update DL Route Report ([#133](https://github.com/IBM/networking-go-sdk/issues/133)) ([9ee283d](https://github.com/IBM/networking-go-sdk/commit/9ee283d8277c66ab3ce6b9a4854351d345acdfdf))
+
 ## [0.42.1](https://github.com/IBM/networking-go-sdk/compare/v0.42.0...v0.42.1) (2023-06-22)
 
 
