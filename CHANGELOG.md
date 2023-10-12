@@ -1,3 +1,10 @@
+# [0.43.0](https://github.com/IBM/networking-go-sdk/compare/v0.42.2...v0.43.0) (2023-10-12)
+
+
+### Features
+
+* updating .secrets.baseline to suppress [secure] positives ([#150](https://github.com/IBM/networking-go-sdk/issues/150)) ([9d1ba7d](https://github.com/IBM/networking-go-sdk/commit/9d1ba7d5eb78ebbfad4f6a826c394990238e8e03))
+
 ## [0.42.2](https://github.com/IBM/networking-go-sdk/compare/v0.42.1...v0.42.2) (2023-07-07)
 
 
