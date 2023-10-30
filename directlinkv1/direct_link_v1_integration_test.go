@@ -55,7 +55,7 @@ func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
 	return nil
 }
 
-var _ = Describe(`DirectLinkV1`, func() {
+var _ = Describe("DirectLinkV1", func() {
 	defer GinkgoRecover()
 	// Skip("Skipping")
 	err := godotenv.Load("../directlink.env")
