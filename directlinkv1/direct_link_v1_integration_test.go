@@ -1353,11 +1353,13 @@ var _ = Describe("DirectLinkV1", func() {
 				shouldSkipTest()
 
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
+				fmt.Println("batman1 ---GATEWAY_ID ", os.Getenv("GATEWAY_ID"))
+				fmt.Println("batman2 ---GEN2_VPC_VC_ID ", os.Getenv("GEN2_VPC_VC_ID"))
 				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
+				Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID"))) //jkDtroubled area
 				Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
 				Expect(*result.Status).To(Equal("pending"))
