@@ -1336,9 +1336,18 @@ var _ = Describe("DirectLinkV1", func() {
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
 				createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
+
+				// ====
+
+				// createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
+				// result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
+
+				// ===
+
 				fmt.Println("batman6 ---*result.ID ", err)
 				fmt.Println("batman7 ---*result.ID ", detailedResponse)
 				fmt.Println("batman8 ---*result.ID ", result)
+				fmt.Println("batman9 ---*result.ID ", os.Getenv("GATEWAY_ID"))
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
