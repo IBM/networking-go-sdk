@@ -1583,7 +1583,8 @@ var _ = Describe("DirectLinkV1", func() {
 				listLOAOptions := service.NewListGatewayLetterOfAuthorizationOptions(os.Getenv("GATEWAY_ID"))
 				result, detailedResponse, err := service.ListGatewayLetterOfAuthorization(listLOAOptions)
 				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists."))
+				fmt.Println("======err", err)
+				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists"))
 				Expect(detailedResponse.StatusCode).To(Equal(404))
 				Expect(result).To(BeNil())
 			})
@@ -1612,6 +1613,7 @@ var _ = Describe("DirectLinkV1", func() {
 				result, detailedResponse, err := service.ListGatewayCompletionNotice(listCNOptions)
 
 				Expect(err).NotTo(BeNil())
+				fmt.Println("======err", err)
 				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists."))
 				Expect(detailedResponse.StatusCode).To(Equal(404))
 				Expect(result).To(BeNil())
