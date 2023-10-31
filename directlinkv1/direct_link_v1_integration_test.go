@@ -1340,7 +1340,7 @@ var _ = Describe("DirectLinkV1", func() {
 
 				// save the id so it can be deleted later
 				os.Setenv("GEN2_VPC_VC_ID", *result.ID)
-
+				fmt.Println("batman4 ---*result.ID ", *result.ID)
 				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.Name).To(Equal(vcName))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
@@ -1355,6 +1355,7 @@ var _ = Describe("DirectLinkV1", func() {
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
 				fmt.Println("batman1 ---GATEWAY_ID ", os.Getenv("GATEWAY_ID"))
 				fmt.Println("batman2 ---GEN2_VPC_VC_ID ", os.Getenv("GEN2_VPC_VC_ID"))
+
 				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
