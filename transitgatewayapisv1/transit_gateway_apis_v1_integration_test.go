@@ -18,9 +18,9 @@ package transitgatewayapisv1_test
 
 /*
 
- How to run this test:
+  How to run this test:
 
- go test -v ./transitgatewayapisv1
+  go test -v ./transitgatewayapisv1
 
 */
 

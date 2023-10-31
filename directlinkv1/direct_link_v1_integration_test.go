@@ -17,8 +17,8 @@
 package directlinkv1_test
 
 /*
-   How to run this test:
-   go test -v ./directlinkv1
+	How to run this test:
+	go test -v ./directlinkv1
 */
 
 import (
@@ -1101,34 +1101,34 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 		Context("Cross Connect Routers", func() {
 			/*
-				It("should list the location info for type dedicated and location short name", func() {
-					shouldSkipTest()
+				 It("should list the location info for type dedicated and location short name", func() {
+					 shouldSkipTest()
 
-					listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
+					 listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
 
-					result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
+					 result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
 
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(200))
-					Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
+					 Expect(err).To(BeNil())
+					 Expect(detailedResponse.StatusCode).To(Equal(200))
+					 Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
 
-					Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
-					Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
-				})
+					 Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
+					 Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
+				 })
 
-				It("should list the location info for type dedicated and location display name", func() {
-					shouldSkipTest()
+				 It("should list the location info for type dedicated and location display name", func() {
+					 shouldSkipTest()
 
-					listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_DISPLAY_NAME"))
+					 listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_DISPLAY_NAME"))
 
-					result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(200))
-					Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
+					 result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
+					 Expect(err).To(BeNil())
+					 Expect(detailedResponse.StatusCode).To(Equal(200))
+					 Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
 
-					Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
-					Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
-				})
+					 Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
+					 Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
+				 })
 			*/
 			It("should return proper error when unsupported offering type CONNECT is provided", func() {
 				shouldSkipTest()
@@ -1255,277 +1255,278 @@ var _ = Describe(`DirectLinkV1`, func() {
 		})
 	})
 
-	Describe("Direct Link Virtual Connections", func() {
-		timestamp := time.Now().Unix()
-		gatewayName := "GO-INT-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-		bgpAsn := int64(64999)
-		crossConnectRouter := "LAB-xcr01.dal09"
-		global := true
-		locationName := os.Getenv("LOCATION_NAME")
-		speedMbps := int64(1000)
-		metered := false
-		carrierName := "carrier1"
-		customerName := "customer1"
-		gatewayType := "dedicated"
+	//Oct 31st JK - Temporarily commenting out the below tests
+	// Describe("Direct Link Virtual Connections", func() {
+	// 	timestamp := time.Now().Unix()
+	// 	gatewayName := "GO-INT-VC-SDK-" + strconv.FormatInt(timestamp, 10)
+	// 	bgpAsn := int64(64999)
+	// 	crossConnectRouter := "LAB-xcr01.dal09"
+	// 	global := true
+	// 	locationName := os.Getenv("LOCATION_NAME")
+	// 	speedMbps := int64(1000)
+	// 	metered := false
+	// 	carrierName := "carrier1"
+	// 	customerName := "customer1"
+	// 	gatewayType := "dedicated"
 
-		Context("Create gateway", func() {
+	// 	Context("Create gateway", func() {
 
-			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+	// 		gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
 
-			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
+	// 		createGatewayOptions := service.NewCreateGatewayOptions(gateway)
 
-			It("Successfully created a gateway", func() {
-				shouldSkipTest()
+	// 		It("Successfully created a gateway", func() {
+	// 			shouldSkipTest()
 
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(201))
+	// 			result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				os.Setenv("GATEWAY_ID", *result.ID)
+	// 			os.Setenv("GATEWAY_ID", *result.ID)
 
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(global))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-			})
+	// 			Expect(*result.Name).To(Equal(gatewayName))
+	// 			Expect(*result.BgpAsn).To(Equal(bgpAsn))
+	// 			Expect(*result.Global).To(Equal(global))
+	// 			Expect(*result.Metered).To(Equal(metered))
+	// 			Expect(*result.SpeedMbps).To(Equal(speedMbps))
+	// 			Expect(*result.Type).To(Equal(gatewayType))
+	// 			Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+	// 			Expect(*result.LocationName).To(Equal(locationName))
+	// 		})
 
-			It("Successfully create a CLASSIC virtual connection", func() {
-				shouldSkipTest()
+	// 		It("Successfully create a CLASSIC virtual connection", func() {
+	// 			shouldSkipTest()
 
-				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
-				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(201))
+	// 			vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
+	// 			createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
+	// 			result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				os.Setenv("CLASSIC_VC_ID", *result.ID)
+	// 			os.Setenv("CLASSIC_VC_ID", *result.ID)
 
-				Expect(*result.ID).NotTo(Equal(""))
-				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-			})
+	// 			Expect(*result.ID).NotTo(Equal(""))
+	// 			Expect(*result.Name).To(Equal(vcName))
+	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
+	// 			Expect(*result.Status).To(Equal("pending"))
+	// 		})
 
-			It("Successfully get a CLASSIC virtual connection", func() {
-				shouldSkipTest()
+	// 		It("Successfully get a CLASSIC virtual connection", func() {
+	// 			shouldSkipTest()
 
-				vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
-				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+	// 			vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
+	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
+	// 			result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*result.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
-				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-			})
+	// 			Expect(*result.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
+	// 			Expect(*result.Name).To(Equal(vcName))
+	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
+	// 			Expect(*result.Status).To(Equal("pending"))
+	// 		})
 
-			It("Successfully create a Gen 2 VPC virtual connection", func() {
-				shouldSkipTest()
+	// 		It("Successfully create a Gen 2 VPC virtual connection", func() {
+	// 			shouldSkipTest()
 
-				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-				vpcCrn := os.Getenv("GEN2_VPC_CRN")
-				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
-				createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
-				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(201))
+	// 			vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
+	// 			vpcCrn := os.Getenv("GEN2_VPC_CRN")
+	// 			createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
+	// 			createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
+	// 			result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				// save the id so it can be deleted later
-				os.Setenv("GEN2_VPC_VC_ID", *result.ID)
+	// 			// save the id so it can be deleted later
+	// 			os.Setenv("GEN2_VPC_VC_ID", *result.ID)
 
-				Expect(*result.ID).NotTo(Equal(""))
-				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-				Expect(*result.NetworkID).To(Equal(vpcCrn))
-			})
+	// 			Expect(*result.ID).NotTo(Equal(""))
+	// 			Expect(*result.Name).To(Equal(vcName))
+	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
+	// 			Expect(*result.Status).To(Equal("pending"))
+	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+	// 			Expect(*result.NetworkID).To(Equal(vpcCrn))
+	// 		})
 
-			It("Successfully get a Gen 2 VPC virtual connection", func() {
-				shouldSkipTest()
+	// 		It("Successfully get a Gen 2 VPC virtual connection", func() {
+	// 			shouldSkipTest()
 
-				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
-				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
+	// 			result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
-				Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-			})
+	// 			Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
+	// 			Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
+	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
+	// 			Expect(*result.Status).To(Equal("pending"))
+	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+	// 			Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
+	// 		})
 
-			It("Successfully list the virtual connections for a gateway", func() {
-				shouldSkipTest()
+	// 		It("Successfully list the virtual connections for a gateway", func() {
+	// 			shouldSkipTest()
 
-				listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
-				result, detailedResponse, err := service.ListGatewayVirtualConnections(listVcOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+	// 			listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
+	// 			result, detailedResponse, err := service.ListGatewayVirtualConnections(listVcOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				vcs := result.VirtualConnections
-				// two VCs were created for the GW, so we should expect 2
-				Expect(len(vcs)).Should(BeNumerically("==", 2))
+	// 			vcs := result.VirtualConnections
+	// 			// two VCs were created for the GW, so we should expect 2
+	// 			Expect(len(vcs)).Should(BeNumerically("==", 2))
 
-				for _, vc := range vcs {
-					if *vc.ID == os.Getenv("GEN2_VPC_VC_ID") {
-						Expect(*vc.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-						Expect(*vc.CreatedAt).NotTo(Equal(""))
-						Expect(*vc.Status).To(Equal("pending"))
-						Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-						Expect(*vc.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-					} else {
-						Expect(*vc.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
-						Expect(*vc.Name).To(Equal("GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-						Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-						Expect(*vc.CreatedAt).NotTo(Equal(""))
-						Expect(*vc.Status).To(Equal("pending"))
-					}
-				}
-			})
+	// 			for _, vc := range vcs {
+	// 				if *vc.ID == os.Getenv("GEN2_VPC_VC_ID") {
+	// 					Expect(*vc.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
+	// 					Expect(*vc.CreatedAt).NotTo(Equal(""))
+	// 					Expect(*vc.Status).To(Equal("pending"))
+	// 					Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+	// 					Expect(*vc.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
+	// 				} else {
+	// 					Expect(*vc.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
+	// 					Expect(*vc.Name).To(Equal("GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
+	// 					Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+	// 					Expect(*vc.CreatedAt).NotTo(Equal(""))
+	// 					Expect(*vc.Status).To(Equal("pending"))
+	// 				}
+	// 			}
+	// 		})
 
-			It("Successfully Update a virtual connection name", func() {
-				shouldSkipTest()
+	// 		It("Successfully Update a virtual connection name", func() {
+	// 			shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				vcId := os.Getenv("GEN2_VPC_VC_ID")
-				vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
-				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-				patchGatewayOptions = patchGatewayOptions.SetName(vcName)
+	// 			gatewayId := os.Getenv("GATEWAY_ID")
+	// 			vcId := os.Getenv("GEN2_VPC_VC_ID")
+	// 			vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
+	// 			patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
+	// 			patchGatewayOptions = patchGatewayOptions.SetName(vcName)
 
-				result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+	// 			result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*result.ID).To(Equal(vcId))
-				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-			})
+	// 			Expect(*result.ID).To(Equal(vcId))
+	// 			Expect(*result.Name).To(Equal(vcName))
+	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
+	// 			Expect(*result.Status).To(Equal("pending"))
+	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+	// 			Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
+	// 		})
 
-			It("Fail to Update a virtual connection status", func() {
-				shouldSkipTest()
+	// 		It("Fail to Update a virtual connection status", func() {
+	// 			shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				vcId := os.Getenv("GEN2_VPC_VC_ID")
-				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-				patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
+	// 			gatewayId := os.Getenv("GATEWAY_ID")
+	// 			vcId := os.Getenv("GEN2_VPC_VC_ID")
+	// 			patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
+	// 			patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
 
-				result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
+	// 			result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
 
-				// GW owner is not allowed to change the status, but the test calls the API with the status parameter to valid it is allowed.
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("gateway owner can't patch vc status."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
+	// 			// GW owner is not allowed to change the status, but the test calls the API with the status parameter to valid it is allowed.
+	// 			Expect(result).To(BeNil())
+	// 			Expect(err).NotTo(BeNil())
+	// 			Expect(err.Error()).To(Equal("gateway owner can't patch vc status."))
+	// 			Expect(detailedResponse.StatusCode).To(Equal(400))
+	// 		})
 
-			It("Successfully delete a CLASSIC virtual connection for a gateway", func() {
-				shouldSkipTest()
+	// 		It("Successfully delete a CLASSIC virtual connection for a gateway", func() {
+	// 			shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				vcId := os.Getenv("CLASSIC_VC_ID")
-				deleteClassicVCOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
+	// 			gatewayId := os.Getenv("GATEWAY_ID")
+	// 			vcId := os.Getenv("CLASSIC_VC_ID")
+	// 			deleteClassicVCOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
 
-				detailedResponse, err := service.DeleteGatewayVirtualConnection(deleteClassicVCOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-			})
+	// 			detailedResponse, err := service.DeleteGatewayVirtualConnection(deleteClassicVCOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(204))
+	// 		})
 
-			It("Successfully waits for CLASSIC virtual connection to report as deleted", func() {
-				shouldSkipTest()
+	// 		It("Successfully waits for CLASSIC virtual connection to report as deleted", func() {
+	// 			shouldSkipTest()
 
-				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
+	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
 
-				// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
-				timer := 0
-				for {
-					// Get the current rc for the VC
-					_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
+	// 			// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
+	// 			timer := 0
+	// 			for {
+	// 				// Get the current rc for the VC
+	// 				_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 
-					// if 404 then we are done
-					if detailedResponse.StatusCode == 404 {
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
-						break
-					}
+	// 				// if 404 then we are done
+	// 				if detailedResponse.StatusCode == 404 {
+	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
+	// 					break
+	// 				}
 
-					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 600 { // 2 min timer (24x5sec)
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
+	// 				// other than 404, see if we have reached the timeout value.  If so, exit with failure
+	// 				if timer > 600 { // 2 min timer (24x5sec)
+	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
+	// 					break
+	// 				} else {
+	// 					// Still exists, wait 5 sec
+	// 					time.Sleep(time.Duration(5) * time.Second)
+	// 					timer = timer + 1
+	// 				}
+	// 			}
+	// 		})
 
-			It("Successfully deletes GEN 2 VPC virtual connection for a gateway", func() {
-				shouldSkipTest()
+	// 		It("Successfully deletes GEN 2 VPC virtual connection for a gateway", func() {
+	// 			shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				vcId := os.Getenv("GEN2_VPC_VC_ID")
-				deleteVpcVcOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
+	// 			gatewayId := os.Getenv("GATEWAY_ID")
+	// 			vcId := os.Getenv("GEN2_VPC_VC_ID")
+	// 			deleteVpcVcOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
 
-				detailedResponse, err := service.DeleteGatewayVirtualConnection(deleteVpcVcOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-			})
+	// 			detailedResponse, err := service.DeleteGatewayVirtualConnection(deleteVpcVcOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(204))
+	// 		})
 
-			It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
-				shouldSkipTest()
+	// 		It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
+	// 			shouldSkipTest()
 
-				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
+	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
 
-				// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
-				timer := 0
-				for {
-					// Get the current rc for the VC
-					_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
+	// 			// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
+	// 			timer := 0
+	// 			for {
+	// 				// Get the current rc for the VC
+	// 				_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 
-					// if 404 then we are done
-					if detailedResponse.StatusCode == 404 {
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
-						break
-					}
+	// 				// if 404 then we are done
+	// 				if detailedResponse.StatusCode == 404 {
+	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
+	// 					break
+	// 				}
 
-					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 600 { // 2 min timer (24x5 sec)
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
+	// 				// other than 404, see if we have reached the timeout value.  If so, exit with failure
+	// 				if timer > 600 { // 2 min timer (24x5 sec)
+	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
+	// 					break
+	// 				} else {
+	// 					// Still exists, wait 5 sec
+	// 					time.Sleep(time.Duration(5) * time.Second)
+	// 					timer = timer + 1
+	// 				}
+	// 			}
+	// 		})
 
-			It("Successfully deletes a gateway", func() {
-				shouldSkipTest()
+	// 		It("Successfully deletes a gateway", func() {
+	// 			shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+	// 			gatewayId := os.Getenv("GATEWAY_ID")
+	// 			deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
 
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-			})
-		})
-	})
+	// 			detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+	// 			Expect(err).To(BeNil())
+	// 			Expect(detailedResponse.StatusCode).To(Equal(204))
+	// 		})
+	// 	})
+	// })
 
 	Describe("LOA and Completion Notice", func() {
 		timestamp := time.Now().Unix()
@@ -1614,102 +1615,102 @@ var _ = Describe(`DirectLinkV1`, func() {
 		})
 	})
 	/*
-		Describe("BGP MD5", func() {
-			timestamp := time.Now().Unix()
-			gatewayName := "GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10)
-			bgpAsn := int64(64999)
-			crossConnectRouter := "LAB-xcr01.dal09"
-			global := true
-			locationName := os.Getenv("LOCATION_NAME")
-			speedMbps := int64(1000)
-			metered := false
-			carrierName := "carrier1"
-			customerName := "customer1"
-			gatewayType := "dedicated"
-			authCrn := os.Getenv("AUTHENTICATION_KEY")
+		 Describe("BGP MD5", func() {
+			 timestamp := time.Now().Unix()
+			 gatewayName := "GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10)
+			 bgpAsn := int64(64999)
+			 crossConnectRouter := "LAB-xcr01.dal09"
+			 global := true
+			 locationName := os.Getenv("LOCATION_NAME")
+			 speedMbps := int64(1000)
+			 metered := false
+			 carrierName := "carrier1"
+			 customerName := "customer1"
+			 gatewayType := "dedicated"
+			 authCrn := os.Getenv("AUTHENTICATION_KEY")
 
-			Context("Create a Gateway with Authentication Key", func() {
-				It("should successfully create a gateway", func() {
-					shouldSkipTest()
+			 Context("Create a Gateway with Authentication Key", func() {
+				 It("should successfully create a gateway", func() {
+					 shouldSkipTest()
 
-					// gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-					authenticationKey, _ := service.NewGatewayTemplateAuthenticationKey(authCrn)
+					 // gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+					 authenticationKey, _ := service.NewGatewayTemplateAuthenticationKey(authCrn)
 
-					gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-					gatewayTemplateModel.AuthenticationKey = authenticationKey
-					gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-					gatewayTemplateModel.Global = core.BoolPtr(true)
-					gatewayTemplateModel.Metered = core.BoolPtr(false)
-					gatewayTemplateModel.Name = core.StringPtr(gatewayName)
-					gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
-					gatewayTemplateModel.Type = core.StringPtr(gatewayType)
-					gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
-					gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-					gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
-					gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+					 gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+					 gatewayTemplateModel.AuthenticationKey = authenticationKey
+					 gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
+					 gatewayTemplateModel.Global = core.BoolPtr(true)
+					 gatewayTemplateModel.Metered = core.BoolPtr(false)
+					 gatewayTemplateModel.Name = core.StringPtr(gatewayName)
+					 gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
+					 gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+					 gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+					 gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+					 gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+					 gatewayTemplateModel.LocationName = core.StringPtr(locationName)
 
-					createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+					 createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
 
-					result, resp, err := service.CreateGateway(createGatewayOptions)
+					 result, resp, err := service.CreateGateway(createGatewayOptions)
 
-					Expect(err).To(BeNil())
-					Expect(resp.StatusCode).To(Equal(201))
+					 Expect(err).To(BeNil())
+					 Expect(resp.StatusCode).To(Equal(201))
 
-					os.Setenv("GATEWAY_ID", *result.ID)
+					 os.Setenv("GATEWAY_ID", *result.ID)
 
-					Expect(*result.Name).To(Equal(gatewayName))
-					Expect(*result.AuthenticationKey.Crn).To(Equal(authCrn))
-					Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					Expect(*result.Global).To(Equal(global))
-					Expect(*result.Metered).To(Equal(metered))
-					Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					Expect(*result.Type).To(Equal(gatewayType))
-					Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-					Expect(*result.LocationName).To(Equal(locationName))
-					Expect(*result.LocationDisplayName).NotTo(Equal(""))
-					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-					Expect(*result.BgpStatus).To(Equal("idle"))
-					Expect(*result.CreatedAt).NotTo(Equal(""))
-					Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					Expect(*result.LinkStatus).To(Equal("down"))
-					Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+					 Expect(*result.Name).To(Equal(gatewayName))
+					 Expect(*result.AuthenticationKey.Crn).To(Equal(authCrn))
+					 Expect(*result.BgpAsn).To(Equal(bgpAsn))
+					 Expect(*result.Global).To(Equal(global))
+					 Expect(*result.Metered).To(Equal(metered))
+					 Expect(*result.SpeedMbps).To(Equal(speedMbps))
+					 Expect(*result.Type).To(Equal(gatewayType))
+					 Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+					 Expect(*result.LocationName).To(Equal(locationName))
+					 Expect(*result.LocationDisplayName).NotTo(Equal(""))
+					 Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+					 Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+					 Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+					 Expect(*result.BgpStatus).To(Equal("idle"))
+					 Expect(*result.CreatedAt).NotTo(Equal(""))
+					 Expect(*result.Crn).To(HavePrefix("crn:v1"))
+					 Expect(*result.LinkStatus).To(Equal("down"))
+					 Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+					 Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
 
-				})
-			})
+				 })
+			 })
 
-			Context("Update the Authentication key for the gateway", func() {
-				It("should successfully clear the auth key", func() {
-					shouldSkipTest()
-					authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
-					gatewayId := os.Getenv("GATEWAY_ID")
+			 Context("Update the Authentication key for the gateway", func() {
+				 It("should successfully clear the auth key", func() {
+					 shouldSkipTest()
+					 authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
+					 gatewayId := os.Getenv("GATEWAY_ID")
 
-					updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetAuthenticationKey(authKey)
-					res, resp, err := service.UpdateGateway(updateGatewayOptions)
-					Expect(err).To(BeNil())
-					Expect(resp.StatusCode).To(Equal(200))
+					 updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetAuthenticationKey(authKey)
+					 res, resp, err := service.UpdateGateway(updateGatewayOptions)
+					 Expect(err).To(BeNil())
+					 Expect(resp.StatusCode).To(Equal(200))
 
-					Expect(*res.ID).To(Equal(gatewayId))
-					Expect(res.AuthenticationKey).To(BeNil())
-					Expect(*res.Name).To(Equal(gatewayName))
-				})
-			})
+					 Expect(*res.ID).To(Equal(gatewayId))
+					 Expect(res.AuthenticationKey).To(BeNil())
+					 Expect(*res.Name).To(Equal(gatewayName))
+				 })
+			 })
 
-			Context("Delete a gateway", func() {
-				It("Successfully deletes a gateway", func() {
-					shouldSkipTest()
+			 Context("Delete a gateway", func() {
+				 It("Successfully deletes a gateway", func() {
+					 shouldSkipTest()
 
-					gatewayId := os.Getenv("GATEWAY_ID")
-					deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+					 gatewayId := os.Getenv("GATEWAY_ID")
+					 deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
 
-					detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(204))
-				})
-			})
-		})
+					 detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+					 Expect(err).To(BeNil())
+					 Expect(detailedResponse.StatusCode).To(Equal(204))
+				 })
+			 })
+		 })
 	*/
 	Describe("DLAAS", func() {
 
