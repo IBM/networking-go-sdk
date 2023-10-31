@@ -1,3 +1,10 @@
+## [0.43.1](https://github.com/IBM/networking-go-sdk/compare/v0.43.0...v0.43.1) (2023-10-31)
+
+
+### Bug Fixes
+
+* updating dependencies to latest to fix vulnerability alerts ([#155](https://github.com/IBM/networking-go-sdk/issues/155)) ([e762531](https://github.com/IBM/networking-go-sdk/commit/e7625317077d37639fc835c8e19722633a1084cf))
+
 # [0.43.0](https://github.com/IBM/networking-go-sdk/compare/v0.42.2...v0.43.0) (2023-10-12)
 
 
