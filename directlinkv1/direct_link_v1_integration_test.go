@@ -1332,16 +1332,14 @@ var _ = Describe("DirectLinkV1", func() {
 
 				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				vpcCrn := os.Getenv("GEN2_VPC_CRN")
-				fmt.Println("batman5 ---*result.ID ", vpcCrn)
+				fmt.Println("batman5 ---vpcCrn ", vpcCrn)
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
 				createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
 
 				// ====
-
 				// createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
 				// result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
-
 				// ===
 
 				fmt.Println("batman6 ---*result.ID ", err)
@@ -1584,7 +1582,7 @@ var _ = Describe("DirectLinkV1", func() {
 				result, detailedResponse, err := service.ListGatewayLetterOfAuthorization(listLOAOptions)
 				Expect(err).NotTo(BeNil())
 				fmt.Println("======err", err)
-				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists"))
+				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists 2"))
 				Expect(detailedResponse.StatusCode).To(Equal(404))
 				Expect(result).To(BeNil())
 			})
@@ -1614,7 +1612,7 @@ var _ = Describe("DirectLinkV1", func() {
 
 				Expect(err).NotTo(BeNil())
 				fmt.Println("======err", err)
-				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists."))
+				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists. 3"))
 				Expect(detailedResponse.StatusCode).To(Equal(404))
 				Expect(result).To(BeNil())
 			})
