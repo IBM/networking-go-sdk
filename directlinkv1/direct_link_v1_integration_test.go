@@ -1332,9 +1332,13 @@ var _ = Describe("DirectLinkV1", func() {
 
 				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
 				vpcCrn := os.Getenv("GEN2_VPC_CRN")
+				fmt.Println("batman5 ---*result.ID ", vpcCrn)
 				createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
 				createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
 				result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
+				fmt.Println("batman6 ---*result.ID ", err)
+				fmt.Println("batman7 ---*result.ID ", detailedResponse)
+				fmt.Println("batman8 ---*result.ID ", result)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
