@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2020,2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package directlinkv1_test
+package transitgatewayapisv1_test
 
 /*
-	How to run this test:
-	go test -v ./directlinkv1
+
+  How to run this test:
+
+  go test -v ./transitgatewayapisv1
+
 */
 
 import (
-	"bytes"
-	"fmt"
-	"io"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
-	"github.com/IBM/networking-go-sdk/directlinkv1"
+	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -45,20 +45,10 @@ func shouldSkipTest() {
 	}
 }
 
-func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
-	providerToUse := "DL2-TEST"
-	for _, port := range ports {
-		if port.ProviderName != nil && strings.Contains(*port.ProviderName, providerToUse) {
-			return &port
-		}
-	}
-	return nil
-}
-
-var _ = Describe(`DirectLinkV1`, func() {
+var _ = Describe(`TransitGatewayApisV1`, func() {
 	defer GinkgoRecover()
-	// Skip("Skipping")
-	err := godotenv.Load("../directlink.env")
+	Skip("Skipping")
+	err := godotenv.Load("../transit.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
 			serviceURL := os.Getenv("SERVICE_URL")
@@ -78,2124 +68,1583 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 	version := time.Now().Format("2006-01-02")
 	serviceURL := os.Getenv("SERVICE_URL")
-	options := &directlinkv1.DirectLinkV1Options{
-		ServiceName:   "DirectLinkV1_Mocking",
+	options := &transitgatewayapisv1.TransitGatewayApisV1Options{
+		ServiceName:   "TransitGatewayApisV1_Mocking",
 		Authenticator: authenticator,
 		URL:           serviceURL,
 		Version:       &version,
 	}
-	export_route_filters_id := ""
-	import_route_filters_id := ""
-	etag := ""
 
-	service, err := directlinkv1.NewDirectLinkV1UsingExternalConfig(options)
-	It(`Successfully created DirectLinkV1 service instance`, func() {
+	service, err := transitgatewayapisv1.NewTransitGatewayApisV1UsingExternalConfig(options)
+	It(`Successfully created TransitGatewayApisV1 service instance`, func() {
 		shouldSkipTest()
 		Expect(err).To(BeNil())
 	})
 
-	Describe("Direct Link Gateways", func() {
-		timestamp := time.Now().Unix()
-		gatewayName := "GO-INT-SDK-" + strconv.FormatInt(timestamp, 10)
-		updatedGatewayName := "GO-INT-SDK-PATCH-" + strconv.FormatInt(timestamp, 10)
-		bgpAsn := int64(64999)
-		crossConnectRouter := "LAB-xcr01.dal09"
-		global := true
-		locationName := os.Getenv("LOCATION_NAME")
-		speedMbps := int64(1000)
-		metered := false
-		carrierName := "carrier1"
-		customerName := "customer1"
-		gatewayType := "dedicated"
+	// Test fixed variables:
+	timestamp := time.Now().Unix()
+	gatewayName := "SDK-GO-TEST-Gateway_" + strconv.FormatInt(timestamp, 10)
+	connectionName := "SDK-GO-TEST-Connection_" + strconv.FormatInt(timestamp, 10)
 
-		// Construct an instance of the GatewayTemplateRouteFilter model
-		gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
-		gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
-		gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
-		gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
-		gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
+	///////////////////////////////////////////////////////////////////////////////
+	//                              Pre-Test Cleanup                             //
+	///////////////////////////////////////////////////////////////////////////////
 
-		model := []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
+	Describe(`PreTest cleanup`, func() {
+		Context(`Successfully clean test environment`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			listTransitGatewaysOptions := service.NewListTransitGatewaysOptions().
+				SetHeaders(header)
 
-		invalidGatewayId := "000000000000000000000000000000000000"
-
-		Context("Get non existing gateway", func() {
-
-			getGatewayOptions := service.NewGetGatewayOptions(invalidGatewayId)
-
-			It(`Returns the http response with error code 404`, func() {
+			It(`Checking gateways`, func() {
 				shouldSkipTest()
-				result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Cannot find Gateway"))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
 
+				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				for _, gw := range result.TransitGateways {
+					if strings.HasPrefix(*gw.Name, "SDK-GO-TEST") {
+						gatewayID := *gw.ID
+						listTransitGatewayConnectionsOptions := service.NewListTransitGatewayConnectionsOptions(gatewayID).
+							SetTransitGatewayID(gatewayID).
+							SetHeaders(header)
+
+						result, detailedResponse, err := service.ListTransitGatewayConnections(listTransitGatewayConnectionsOptions)
+						Expect(err).To(BeNil())
+						Expect(detailedResponse.StatusCode).To(Equal(200))
+
+						if len(result.Connections) > 0 {
+							connIDs := []string{}
+							for _, conn := range result.Connections {
+								connID := *conn.ID
+								if !strings.Contains(*conn.Status, "delet") {
+									// Delete GRE Connections first.
+									if *conn.NetworkType == "gre_tunnel" || *conn.NetworkType == "unbound_gre_tunnel" {
+										deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, connID)
+										detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+										Expect(err).To(BeNil())
+										Expect(detailedResponse.StatusCode).To(Equal(204))
+										deleteCheckTest(service, gatewayID, connID, "", "")
+									} else {
+										connIDs = append(connIDs, connID)
+									}
+								}
+							}
+							// Delete Connections from other types.
+							for _, curConn := range connIDs {
+								deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, curConn)
+								detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+								Expect(err).To(BeNil())
+								Expect(detailedResponse.StatusCode).To(Equal(204))
+								deleteCheckTest(service, gatewayID, curConn, "", "")
+							}
+						}
+						// Remove empty gateways
+						if !strings.Contains(*gw.Status, "delet") {
+							deleteTransitGatewayOptions := service.NewDeleteTransitGatewayOptions(gatewayID)
+							detailedResponse, err = service.DeleteTransitGateway(deleteTransitGatewayOptions)
+							Expect(err).To(BeNil())
+							Expect(detailedResponse.StatusCode).To(Equal(204))
+						}
+					}
+				}
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//                          Transit Locations Tests                          //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`ListGatewayLocations(listGatewayLocationsOptions *ListGatewayLocationsOptions)`, func() {
+		Context(`Success: LIST Transit Locations`, func() {
+			It(`Successfully list all transit locations`, func() {
+				shouldSkipTest()
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				listGatewayLocationsOptions := service.NewListGatewayLocationsOptions().
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.ListGatewayLocations(listGatewayLocationsOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(len(result.Locations)).Should(BeNumerically(">", 0))
+
+				firstResource := result.Locations[0]
+				Expect(*firstResource.Name).ToNot(BeNil())
+				Expect(*firstResource.BillingLocation).ToNot(BeNil())
+				Expect(*firstResource.Type).ToNot(BeNil())
+			})
+		})
+	})
+
+	Describe(`GetGatewayLocation(getGatewayLocationOptions *GetGatewayLocationOptions)`, func() {
+		Context(`Success: GET Transit location by ID`, func() {
+			It(`Successfully get location by instanceID`, func() {
+				shouldSkipTest()
+
+				instanceID := "us-south"
+				getGatewayLocationOptions := service.NewGetGatewayLocationOptions(instanceID)
+
+				result, detailedResponse, err := service.GetGatewayLocation(getGatewayLocationOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.Name).To(Equal(instanceID))
+				Expect(*result.BillingLocation).ToNot(BeNil())
+				Expect(*result.Type).ToNot(BeNil())
+				Expect(len(result.LocalConnectionLocations)).Should(BeNumerically(">", 0))
 			})
 		})
 
-		Context("Create gateway", func() {
-			gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-			gateway.DefaultExportRouteFilter = core.StringPtr("permit")
-			gateway.DefaultImportRouteFilter = core.StringPtr("permit")
-			gateway.ExportRouteFilters = model
-			gateway.ImportRouteFilters = model
+		Context(`Failure: GET location by instanceID`, func() {
+			badinstanceID := "abc123"
+			getGatewayLocationOptions := &transitgatewayapisv1.GetGatewayLocationOptions{}
+			getGatewayLocationOptions.SetName(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			getGatewayLocationOptions.SetHeaders(header)
 
-			createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-			It(`Fails when Invalid BGP is provided`, func() {
+			It(`Failed to get location by instanceID`, func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(65500, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+				result, detailedResponse, err := service.GetGatewayLocation(getGatewayLocationOptions)
 				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("BGP AS Number is invalid."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
 			})
+		})
+	})
 
-			It(`Fails when invalid speed_mbps is provided`, func() {
+	///////////////////////////////////////////////////////////////////////////////
+	//                           Transit Gateway Tests                           //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions)`, func() {
+		Context(`Success: POST Transit Gateway`, func() {
+			It(`Successfully created new gateway`, func() {
 				shouldSkipTest()
 
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, 10000000000, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				location := os.Getenv("LOCATION")
+				createTransitGatewayOptions := service.NewCreateTransitGatewayOptions(location, gatewayName).
+					SetHeaders(header)
 
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Cannot find Location with provided 'linkSpeed' and 'OfferingType'."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
-
-			It(`Fails when invalid locations is provided`, func() {
-				shouldSkipTest()
-
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, "InvalidCity")
-
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Cannot find Location with provided 'linkSpeed' and 'OfferingType'."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
-
-			It(`Successfully Creates a gateway`, func() {
-				shouldSkipTest()
-
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-				gateway.DefaultExportRouteFilter = core.StringPtr("permit")
-				gateway.DefaultImportRouteFilter = core.StringPtr("permit")
-				gateway.ExportRouteFilters = model
-				gateway.ImportRouteFilters = model
-
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-
+				result, detailedResponse, err := service.CreateTransitGateway(createTransitGatewayOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				os.Setenv("GATEWAY_ID", *result.ID)
-
+				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(global))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.Crn).NotTo(Equal(""))
+				Expect(*result.Global).NotTo(BeNil())
 				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.LinkStatus).To(Equal("down"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
 				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.Location).To(Equal(os.Getenv("LOCATION")))
 
-				Expect(result.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
-				Expect(result.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
+				os.Setenv("GATEWAY_INSTANCE_ID", *result.ID)
 			})
-
-			It(`Successfully fetches the created Gateway`, func() {
+			It("Successfully waits for gateway to report as available", func() {
 				shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				getGatewayOptions := service.NewGetGatewayOptions(gatewayId)
-
-				result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-
-				Expect(*result.ID).To(Equal(gatewayId))
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(global))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-
-				Expect(result.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
-				Expect(result.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, "", "")
 			})
+		})
+		Context(`Failure: POST Transit gateway`, func() {
+			createTransitGatewayOptions := &transitgatewayapisv1.CreateTransitGatewayOptions{}
+			createTransitGatewayOptions.SetName("testString")
+			createTransitGatewayOptions.SetLocation("testString")
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			createTransitGatewayOptions.SetHeaders(header)
 
-			It(`Throws an Error when creating a gateway with same name`, func() {
+			It(`Fail to create new gateway`, func() {
 				shouldSkipTest()
 
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+				result, detailedResponse, err := service.CreateTransitGateway(createTransitGatewayOptions)
 				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("A gateway with the same name already exists"))
-				Expect(detailedResponse.StatusCode).To(Equal(409))
+				Expect(detailedResponse.StatusCode).ToNot(Equal(200))
+				Expect(err).Should(HaveOccurred())
 			})
+		})
+	})
 
-			It(`Successfully list all gateways`, func() {
+	Describe(`GetTransitGateway(getTransitGatewayOptions *GetTransitGatewayOptions)`, func() {
+		Context(`Success: GET Transit Gateway by instanceID`, func() {
+			It(`Successfully get gateway by instanceID`, func() {
 				shouldSkipTest()
-				listGatewaysOptions := service.NewListGatewaysOptions()
 
-				result, detailedResponse, err := service.ListGateways(listGatewaysOptions)
+				gateway_id := os.Getenv("GATEWAY_INSTANCE_ID")
+				getTransitGatewayOptions := service.NewGetTransitGatewayOptions(gateway_id)
+
+				result, detailedResponse, err := service.GetTransitGateway(getTransitGatewayOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				gateways := result.Gateways
-				Expect(len(gateways)).Should(BeNumerically(">", 0))
+				Expect(*result.Name).To(Equal(gatewayName))
+				Expect(*result.Crn).NotTo(Equal(""))
+				Expect(*result.Global).NotTo(BeNil())
+				Expect(*result.ID).To(Equal(gateway_id))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("available"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.Location).To(Equal(os.Getenv("LOCATION")))
+			})
+		})
+
+		Context(`Failure: GET gateway by instanceID`, func() {
+			badinstanceID := "abc123"
+			getTransitGatewayOptions := &transitgatewayapisv1.GetTransitGatewayOptions{}
+			getTransitGatewayOptions.SetID(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			getTransitGatewayOptions.SetHeaders(header)
+
+			It(`Failed to get gateway by instanceID`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.GetTransitGateway(getTransitGatewayOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`UpdateTransitGateway(updateTransitGatewayOptions *UpdateTransitGatewayOptions)`, func() {
+		Context(`Success: UPDATE Transit Gateway by instanceID`, func() {
+			It(`Successfully update gateway by instanceID`, func() {
+				shouldSkipTest()
+
+				gateway_id := os.Getenv("GATEWAY_INSTANCE_ID")
+				updateName := "UPDATED-" + gatewayName
+				updateTransitGatewayOptions := service.NewUpdateTransitGatewayOptions(gateway_id).
+					SetName(updateName)
+
+				result, detailedResponse, err := service.UpdateTransitGateway(updateTransitGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.Crn).NotTo(Equal(""))
+				Expect(*result.Global).NotTo(BeNil())
+				Expect(*result.ID).To(Equal(gateway_id))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Name).To(Equal(updateName))
+				Expect(*result.Status).To(Equal("available"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.Location).To(Equal(os.Getenv("LOCATION")))
+				gatewayName = *result.Name // Update gateway name global variable.
+			})
+		})
+
+		Context(`Failure: UPDATE gateway by instanceID`, func() {
+			badinstanceID := "abc123"
+			instanceName := "UPDATED-" + strconv.FormatInt(timestamp, 10)
+			updateTransitGatewayOptions := &transitgatewayapisv1.UpdateTransitGatewayOptions{}
+			updateTransitGatewayOptions.SetID(badinstanceID)
+			updateTransitGatewayOptions.SetName(instanceName)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			updateTransitGatewayOptions.SetHeaders(header)
+
+			It(`Failed to update gateway by instanceID`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.UpdateTransitGateway(updateTransitGatewayOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`ListTransitGateways(listTransitGatewaysOptions *ListTransitGatewaysOptions)`, func() {
+		Context(`Success: LIST Transit Gateways`, func() {
+			It(`Successfully list all transit gateways`, func() {
+				shouldSkipTest()
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				listTransitGatewaysOptions := service.NewListTransitGatewaysOptions().
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.ListTransitGateways(listTransitGatewaysOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(len(result.TransitGateways)).Should(BeNumerically(">", 0))
+
 				found := false
-				// find the created gateway and verify the attributes
-				gatewayId := os.Getenv("GATEWAY_ID")
-				for _, gw := range gateways {
-					if *gw.ID == gatewayId {
-						found = true
+				for _, gw := range result.TransitGateways {
+					if *gw.ID == os.Getenv("GATEWAY_INSTANCE_ID") {
 						Expect(*gw.Name).To(Equal(gatewayName))
-						Expect(*gw.BgpAsn).To(Equal(bgpAsn))
-						Expect(*gw.Global).To(Equal(global))
-						Expect(*gw.Metered).To(Equal(metered))
-						Expect(*gw.SpeedMbps).To(Equal(speedMbps))
-						Expect(*gw.Type).To(Equal(gatewayType))
-						Expect(*gw.CrossConnectRouter).To(Equal(crossConnectRouter))
-						Expect(*gw.LocationName).To(Equal(locationName))
-						Expect(*gw.LocationDisplayName).NotTo(Equal(""))
-						Expect(*gw.BgpCerCidr).NotTo(BeEmpty())
-						Expect(*gw.BgpIbmCidr).NotTo(Equal(""))
-						Expect(*gw.BgpIbmAsn).NotTo(Equal(""))
-						Expect(*gw.BgpStatus).To(Equal("idle"))
+						Expect(*gw.Crn).NotTo(Equal(""))
+						Expect(*gw.Global).NotTo(BeNil())
 						Expect(*gw.CreatedAt).NotTo(Equal(""))
-						Expect(*gw.Crn).To(HavePrefix("crn:v1"))
-						Expect(*gw.LinkStatus).To(Equal("down"))
-						Expect(*gw.OperationalStatus).To(Equal("awaiting_loa"))
+						Expect(*gw.UpdatedAt).NotTo(Equal(""))
+						Expect(*gw.Status).To(Equal("available"))
 						Expect(*gw.ResourceGroup.ID).NotTo(Equal(""))
-						Expect(gw.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
-						Expect(gw.DefaultImportRouteFilter).To(Equal(core.StringPtr("permit")))
+						Expect(*gw.Location).To(Equal(os.Getenv("LOCATION")))
+
+						found = true
 						break
 					}
 				}
-				// expect the created gateway to have been found.  If not found, throw an error
 				Expect(found).To(Equal(true))
 			})
-
-			It(`Successfully create export route filters for a Gateway`, func() {
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
-				createGatewayExportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayExportRouteFilterOptions)
-				createGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				createGatewayExportRouteFilterOptionsModel.Action = core.StringPtr("permit")
-				createGatewayExportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
-				//createGatewayExportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
-				createGatewayExportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
-				createGatewayExportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
-				createGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, detailedResponse, operationErr := service.CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel)
-				if operationErr != nil {
-					fmt.Println(operationErr)
-				}
-				fmt.Printf("Gateway Id %v", gatewayId)
-				fmt.Printf("Export route filter Id %v", *result.ID)
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(201))
-				Expect(result.Action).To(Equal(core.StringPtr("permit")))
-				//Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
-				export_route_filters_id = *result.ID
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-			})
-
-			It(`Successfully fetches the export route filters for a Gateway`, func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the ListGatewayExportRouteFiltersOptions model
-				listGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayExportRouteFiltersOptions)
-				listGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, detailedResponse, operationErr := service.ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel)
-
-				Expect(operationErr).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.ExportRouteFilters[0].Action).To(Equal(core.StringPtr("permit")))
-				Expect(result.ExportRouteFilters[0].Ge).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.ExportRouteFilters[0].Le).To(Equal(core.Int64Ptr(int64(30))))
-				etag = detailedResponse.GetHeaders().Get("etag")
-				fmt.Printf("****** get export etag %v", etag)
-			})
-			It(`Successfully replace existing export route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the GatewayTemplateRouteFilter model
-				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
-				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
-				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
-				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
-				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
-				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
-				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
-				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(etag)
-				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"If-Match": etag}
-				fmt.Printf("****** replace export etag %v", etag)
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr := service.ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel)
-				if operationErr != nil {
-					fmt.Printf("Printing Error %v ", operationErr)
-					fmt.Printf("Gateway Id %v ", gatewayId)
-				}
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-				export_route_filters_id = *result.ExportRouteFilters[0].ID
-			})
-
-			It(`Successfully get export route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the GetGatewayExportRouteFilterOptions model
-				getGatewayExportRouteFilterOptionsModel := new(directlinkv1.GetGatewayExportRouteFilterOptions)
-				getGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				getGatewayExportRouteFilterOptionsModel.ID = core.StringPtr(export_route_filters_id)
-				getGatewayExportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				result, detailedResponse, operationErr := service.GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.Action).To(Equal(core.StringPtr("permit")))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-				etag = detailedResponse.GetHeaders().Get("etag")
-			})
-
-			It(`Successfully update export route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the UpdateRouteFilterTemplate model
-				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
-				updateRouteFilterTemplateModel.Action = core.StringPtr("deny")
-				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(24))
-				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(30))
-				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
-				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the CreateGatewayExportRouteFilterOptions model
-				updateGatewayExportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayExportRouteFilterOptions)
-				updateGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				updateGatewayExportRouteFilterOptionsModel.ID = core.StringPtr(export_route_filters_id)
-				updateGatewayExportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, detailedResponse, operationErr := service.UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.Action).To(Equal(core.StringPtr("deny")))
-				// Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(24))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-
-			})
-
-			It(`Successfully delete export route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the DeleteGatewayExportRouteFilterOptions model
-				deleteGatewayExportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayExportRouteFilterOptions)
-				deleteGatewayExportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				deleteGatewayExportRouteFilterOptionsModel.ID = core.StringPtr(export_route_filters_id)
-
-				// Invoke operation with valid options model (positive test)
-				response, operationErr := service.DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-			})
-
-			It(`Successfully create import route filters for a Gateway`, func() {
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-				// Construct an instance of the createGatewayImportRouteFilterOptionsModel model
-				createGatewayImportRouteFilterOptionsModel := new(directlinkv1.CreateGatewayImportRouteFilterOptions)
-				createGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				createGatewayImportRouteFilterOptionsModel.Action = core.StringPtr("permit")
-				createGatewayImportRouteFilterOptionsModel.Prefix = core.StringPtr("192.168.100.0/24")
-				//createGatewayImportRouteFilterOptionsModel.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
-				createGatewayImportRouteFilterOptionsModel.Ge = core.Int64Ptr(int64(25))
-				createGatewayImportRouteFilterOptionsModel.Le = core.Int64Ptr(int64(30))
-				createGatewayImportRouteFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, detailedResponse, operationErr := service.CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel)
-				fmt.Printf("Gateway Id %v", gatewayId)
-				fmt.Printf("Import route filter Id %v", *result.ID)
-				import_route_filters_id = *result.ID
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(201))
-				Expect(result.Action).To(Equal(core.StringPtr("permit")))
-				//Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-
-			})
-
-			It(`Successfully fetches the import route filters for a Gateway`, func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the ListGatewayImportRouteFiltersOptions model
-				listGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ListGatewayImportRouteFiltersOptions)
-				listGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, detailedResponse, operationErr := service.ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel)
-
-				Expect(operationErr).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.ImportRouteFilters[0].Action).To(Equal(core.StringPtr("permit")))
-				Expect(result.ImportRouteFilters[0].Ge).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.ImportRouteFilters[0].Le).To(Equal(core.Int64Ptr(int64(30))))
-				etag = detailedResponse.GetHeaders().Get("etag")
-				fmt.Printf("****** get import etag %v", etag)
-			})
-			It(`Successfully replace existing import route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the GatewayTemplateRouteFilter model
-				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
-				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
-				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
-				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
-				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
-				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
-				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
-				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(etag)
-				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"If-Match": etag}
-				fmt.Printf("****** replace import etag %v", etag)
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr := service.ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel)
-				if operationErr != nil {
-					fmt.Printf("Printing Error %v ", operationErr)
-					fmt.Printf("Gateway Id %v ", gatewayId)
-				}
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-				import_route_filters_id = *result.ImportRouteFilters[0].ID
-			})
-
-			It(`Successfully get import route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the GetGatewayImportRouteFilterOptions model
-				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
-				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
-
-				result, detailedResponse, operationErr := service.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.Action).To(Equal(core.StringPtr("permit")))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(30))))
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-				etag = detailedResponse.GetHeaders().Get("etag")
-
-			})
-
-			It(`Successfully update import route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the UpdateRouteFilterTemplate model
-				updateRouteFilterTemplateModel := new(directlinkv1.UpdateRouteFilterTemplate)
-				updateRouteFilterTemplateModel.Action = core.StringPtr("deny")
-				updateRouteFilterTemplateModel.Ge = core.Int64Ptr(int64(24))
-				updateRouteFilterTemplateModel.Le = core.Int64Ptr(int64(25))
-				updateRouteFilterTemplateModel.Prefix = core.StringPtr("192.168.100.0/24")
-				updateRouteFilterTemplateModelAsPatch, asPatchErr := updateRouteFilterTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the updateGatewayImportRouteFilterOptionsModel model
-				updateGatewayImportRouteFilterOptionsModel := new(directlinkv1.UpdateGatewayImportRouteFilterOptions)
-				updateGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				updateGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
-				updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch = updateRouteFilterTemplateModelAsPatch
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, detailedResponse, operationErr := service.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.Action).To(Equal(core.StringPtr("deny")))
-				// Expect(result.Before).To(Equal("1a15dcab-7e40-45e1-b7c5-bc690eaa9782"))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(24))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-
-			})
-
-			It(`Successfully get import route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the GetGatewayImportRouteFilterOptions model
-				getGatewayImportRouteFilterOptionsModel := new(directlinkv1.GetGatewayImportRouteFilterOptions)
-				getGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				getGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
-
-				result, detailedResponse, operationErr := service.GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(result).ToNot(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(result.Action).To(Equal(core.StringPtr("deny")))
-				Expect(result.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-				Expect(result.Ge).To(Equal(core.Int64Ptr(int64(24))))
-				Expect(result.Le).To(Equal(core.Int64Ptr(int64(25))))
-				Expect(result.CreatedAt).ToNot(BeNil())
-				Expect(result.UpdatedAt).ToNot(BeNil())
-				etag = detailedResponse.GetHeaders().Get("etag")
-
-			})
-
-			It(`Successfully delete import route filters for a Gateway`, func() {
-
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				// Construct an instance of the DeleteGatewayImportRouteFilterOptions model
-				deleteGatewayImportRouteFilterOptionsModel := new(directlinkv1.DeleteGatewayImportRouteFilterOptions)
-				deleteGatewayImportRouteFilterOptionsModel.GatewayID = core.StringPtr(gatewayId)
-				deleteGatewayImportRouteFilterOptionsModel.ID = core.StringPtr(import_route_filters_id)
-
-				// Invoke operation with valid options model (positive test)
-				response, operationErr := service.DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-			})
-
 		})
+	})
 
-		Context("Fail update Gateway", func() {
-			It(`Fails if an invalid GatewayID is provided`, func() {
+	///////////////////////////////////////////////////////////////////////////////
+	//                    Transit Gateway Connections Tests                      //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`CreateTransitGatewayConnection(createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions)`, func() {
+		Context(`Success: POST Transit Gateway CLASSIC Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new CLASSIC Connection`, func() {
 				shouldSkipTest()
 
-				patchGatewayOptions := service.NewUpdateGatewayOptions(invalidGatewayId).SetOperationalStatus("loa_accepted")
+				network_type := "classic"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 
-				result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions)
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Invalid Gateway Id."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetHeaders(header).
+					SetName("CLASSIC-" + connectionName)
 
-			It(`Successfully Updates the Gateway`, func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-				patchGatewayOptions := service.NewUpdateGatewayOptions(gatewayId)
-				patchGatewayOptions.SetDefaultImportRouteFilter("deny")
-				patchGatewayOptions.SetDefaultExportRouteFilter("deny")
-
-				result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions.SetGlobal(false).SetSpeedMbps(int64(1000)).SetName(updatedGatewayName))
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-
-				Expect(*result.ID).To(Equal(gatewayId))
-				Expect(*result.Name).To(Equal(updatedGatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(false))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.LinkStatus).To(Equal("down"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-				Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
-				Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
-			})
-
-			It(`Successfully fetches the updated Gateway`, func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-				getGatewayOptions := service.NewGetGatewayOptions(gatewayId)
-
-				result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-
-				Expect(*result.ID).To(Equal(gatewayId))
-				Expect(*result.Name).To(Equal(updatedGatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(false))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.LinkStatus).To(Equal("down"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-				Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
-				Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
-			})
-		})
-
-		Context("Delete a gateway", func() {
-			It(`Fails if an invalid GatewayID is provided`, func() {
-				shouldSkipTest()
-
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(invalidGatewayId)
-
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Invalid Gateway Id."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
-
-			It(`Successfully deletes a gateway`, func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
-			})
-		})
-
-		Context("DirectLink connect gateway", func() {
-
-			// to create a connect gateway, we need to have a port.  List the ports and save the id of the 1st one found
-			portId := ""
-			portLocationDisplayName := ""
-			portLocationName := ""
-			timestamp := time.Now().Unix()
-
-			It(`List ports and save the id of the first port`, func() {
-				shouldSkipTest()
-
-				listPortsOptions := service.NewListPortsOptions()
-				result, detailedResponse, err := service.ListPorts(listPortsOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				port := getPortIdForConnect(result.Ports)
-				portId = *port.ID
-				portLocationDisplayName = *port.LocationDisplayName
-				portLocationName = *port.LocationName
-			})
-
-			It(`create connect gateway`, func() {
-				shouldSkipTest()
-
-				gatewayName = "GO-INT-SDK-CONNECT-" + strconv.FormatInt(timestamp, 10)
-				portIdentity, _ := service.NewGatewayPortIdentity(portId)
-				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
-				// Construct an instance of the GatewayTemplateRouteFilter model
-				gatewayTemplateRouteFilterModel := new(directlinkv1.GatewayTemplateRouteFilter)
-				gatewayTemplateRouteFilterModel.Action = core.StringPtr("permit")
-				gatewayTemplateRouteFilterModel.Ge = core.Int64Ptr(int64(25))
-				gatewayTemplateRouteFilterModel.Le = core.Int64Ptr(int64(30))
-				gatewayTemplateRouteFilterModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				connect_model := []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
-				gateway.DefaultExportRouteFilter = core.StringPtr("deny")
-				gateway.DefaultImportRouteFilter = core.StringPtr("deny")
-				gateway.ImportRouteFilters = connect_model
-				gateway.ExportRouteFilters = connect_model
-
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				// Save the gateway id for deletion
-				os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("CLASSIC_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("CLASSIC_CONN_INSTANCE_NAME", *result.Name)
 
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(true))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.LocationName).To(Equal(portLocationName))
-				Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.OperationalStatus).To(Equal("create_pending"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-				Expect(*result.Type).To(Equal("connect"))
-				Expect(*result.Port.ID).To(Equal(portId))
-				Expect(*result.ProviderApiManaged).To(Equal(false))
-				Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
-				Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_NAME")))
 			})
 
-			It("Successfully waits for connect gateway to be provisioned state", func() {
+			It("Successfully waits for CLASSIC connection to report as attached", func() {
 				shouldSkipTest()
 
-				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
-
-				// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
-				// the new gateway to go to provisioned so we can delete it.
-				timer := 0
-				for {
-					// Get the current status for the gateway
-					result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(200))
-
-					Expect(*result.Name).To(Equal(gatewayName))
-					Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					Expect(*result.Global).To(Equal(true))
-					Expect(*result.Metered).To(Equal(metered))
-					Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					Expect(*result.LocationName).To(Equal(portLocationName))
-					Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-					Expect(*result.BgpStatus).To(Equal("idle"))
-					Expect(*result.CreatedAt).NotTo(Equal(""))
-					Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-					Expect(*result.Type).To(Equal("connect"))
-					Expect(*result.Port.ID).To(Equal(portId))
-					Expect(*result.ProviderApiManaged).To(Equal(false))
-					Expect(*result.DefaultExportRouteFilter).To(Equal("deny"))
-					Expect(*result.DefaultImportRouteFilter).To(Equal("deny"))
-
-					// if operational status is "provisioned" then we are done
-					if *result.OperationalStatus == "provisioned" {
-						Expect(*result.OperationalStatus).To(Equal("provisioned"))
-						break
-					}
-
-					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 600 { // 5 min timer (24x5sec)
-						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
-			It("Successfully deletes connect gateway", func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, instanceID, "")
 			})
 		})
 
-		// Context("DirectLink MACsec Enabled Gateway", func() {
-		// 	timestamp := time.Now().Unix()
-		// 	gatewayName := "GO-INT-SDK-MACSEC" + strconv.FormatInt(timestamp, 10)
-		// 	updatedGatewayName := "GO-INT-SDK-MACSEC-PATCH-" + strconv.FormatInt(timestamp, 10)
-		// 	bgpAsn := int64(64999)
-		// 	crossConnectRouter := "LAB-xcr01.dal09"
-		// 	global := true
-		// 	locationName := os.Getenv("LOCATION_NAME")
-		// 	speedMbps := int64(1000)
-		// 	metered := false
-		// 	carrierName := "carrier1"
-		// 	customerName := "customer1"
-		// 	gatewayType := "dedicated"
-		// 	macsecCak := os.Getenv("MACSEC_CAK")
-		// 	macsecSakExpiryTime := int64(86400)
-		// 	macsecWindowSize := int64(64)
-
-		// 	It("Create a macsec enabled dedicated gateway", func() {
-		// 		shouldSkipTest()
-
-		// 		// Construct an instance of the GatewayMacsecCak model
-		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
-		// 		gatewayMacsecCak.Crn = core.StringPtr(macsecCak)
-
-		// 		// Construct an instance of the GatewayMacsecConfigTemplate model
-		// 		gatewayMacsecConfigTemplate := new(directlinkv1.GatewayMacsecConfigTemplate)
-		// 		gatewayMacsecConfigTemplate.Active = core.BoolPtr(true)
-		// 		gatewayMacsecConfigTemplate.PrimaryCak = gatewayMacsecCak
-		// 		gatewayMacsecConfigTemplate.WindowSize = core.Int64Ptr(macsecWindowSize)
-
-		// 		gatewayTemplate := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-		// 		gatewayTemplate.BgpAsn = core.Int64Ptr(bgpAsn)
-		// 		gatewayTemplate.Global = core.BoolPtr(global)
-		// 		gatewayTemplate.Metered = core.BoolPtr(metered)
-		// 		gatewayTemplate.Name = core.StringPtr(gatewayName)
-		// 		gatewayTemplate.SpeedMbps = core.Int64Ptr(int64(1000))
-		// 		gatewayTemplate.Type = core.StringPtr(gatewayType)
-		// 		gatewayTemplate.CarrierName = core.StringPtr(carrierName)
-		// 		gatewayTemplate.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-		// 		gatewayTemplate.CustomerName = core.StringPtr(customerName)
-		// 		gatewayTemplate.LocationName = core.StringPtr(locationName)
-		// 		gatewayTemplate.MacsecConfig = gatewayMacsecConfigTemplate
-
-		// 		createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplate)
-		// 		result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-		// 		Expect(err).To(BeNil())
-		// 		Expect(detailedResponse.StatusCode).To(Equal(201))
-
-		// 		os.Setenv("GATEWAY_ID", *result.ID)
-
-		// 		Expect(*result.Name).To(Equal(gatewayName))
-		// 		Expect(*result.BgpAsn).To(Equal(bgpAsn))
-		// 		Expect(*result.Global).To(Equal(global))
-		// 		Expect(*result.Metered).To(Equal(metered))
-		// 		Expect(*result.SpeedMbps).To(Equal(speedMbps))
-		// 		Expect(*result.Type).To(Equal(gatewayType))
-		// 		Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-		// 		Expect(*result.LocationName).To(Equal(locationName))
-		// 		Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-		// 		Expect(*result.MacsecConfig.Active).To(Equal(true))
-		// 		Expect(*result.MacsecConfig.PrimaryCak.Crn).To(Equal(macsecCak))
-		// 		Expect(*result.MacsecConfig.SakExpiryTime).To(Equal(macsecSakExpiryTime))
-		// 		Expect(*result.MacsecConfig.WindowSize).To(Equal(macsecWindowSize))
-		// 	})
-
-		// 	It("Should successfully update the macsec enabled gateway", func() {
-		// 		shouldSkipTest()
-
-		// 		// Construct an instance of the GatewayMacsecCak model
-		// 		gatewayMacsecCak := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
-		// 		gatewayMacsecCak.Crn = core.StringPtr(macsecCak)
-
-		// 		// Construct an instance of the GatewayMacsecConfigTemplate model
-		// 		gatewayMacsecConfigPatchTemplate := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
-		// 		gatewayMacsecConfigPatchTemplate.FallbackCak = gatewayMacsecCak
-
-		// 		gatewayId := os.Getenv("GATEWAY_ID")
-		// 		patchGatewayOptions := service.NewUpdateGatewayOptions(gatewayId)
-
-		// 		result, detailedResponse, err := service.UpdateGateway(patchGatewayOptions.SetName(updatedGatewayName).SetMacsecConfig(gatewayMacsecConfigPatchTemplate))
-		// 		Expect(err).To(BeNil())
-		// 		Expect(detailedResponse.StatusCode).To(Equal(200))
-
-		// 		Expect(*result.ID).To(Equal(gatewayId))
-		// 		Expect(*result.Name).To(Equal(updatedGatewayName))
-		// 		Expect(*result.MacsecConfig.Active).To(Equal(true))
-		// 		Expect(*result.MacsecConfig.PrimaryCak.Crn).To(Equal(macsecCak))
-		// 		Expect(*result.MacsecConfig.FallbackCak.Crn).To(Equal(macsecCak))
-		// 		Expect(*result.MacsecConfig.SakExpiryTime).To(Equal(macsecSakExpiryTime))
-		// 		Expect(*result.MacsecConfig.WindowSize).To(Equal(macsecWindowSize))
-
-		// 	})
-
-		// 	It("Successfully waits for macsec enabled gateway to be provisioned state", func() {
-		// 		shouldSkipTest()
-
-		// 		getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
-
-		// 		// before a dedicated gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
-		// 		// the new gateway to go to provisioned so we can delete it.
-		// 		timer := 0
-		// 		for {
-		// 			// Get the current status for the gateway
-		// 			result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-		// 			Expect(err).To(BeNil())
-		// 			Expect(detailedResponse.StatusCode).To(Equal(200))
-
-		// 			Expect(*result.Name).To(Equal(updatedGatewayName))
-		// 			Expect(*result.BgpAsn).To(Equal(bgpAsn))
-		// 			Expect(*result.Global).To(Equal(true))
-		// 			Expect(*result.Metered).To(Equal(metered))
-		// 			Expect(*result.SpeedMbps).To(Equal(speedMbps))
-		// 			Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-		// 			Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-		// 			Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-		// 			Expect(*result.BgpStatus).To(Equal("idle"))
-		// 			Expect(*result.CreatedAt).NotTo(Equal(""))
-		// 			Expect(*result.Crn).To(HavePrefix("crn:v1"))
-		// 			Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-		// 			Expect(*result.Type).To(Equal("dedicated"))
-		// 			Expect(*result.ProviderApiManaged).To(Equal(false))
-		// 			Expect(*result.MacsecConfig.Active).To(Equal(true))
-		// 			Expect(*result.MacsecConfig.PrimaryCak.Crn).To(Equal(macsecCak))
-		// 			Expect(*result.MacsecConfig.FallbackCak.Crn).To(Equal(macsecCak))
-		// 			Expect(*result.MacsecConfig.SakExpiryTime).To(Equal(macsecSakExpiryTime))
-		// 			Expect(*result.MacsecConfig.WindowSize).To(Equal(macsecWindowSize))
-
-		// 			// if operational status is "provisioned" then we are done
-		// 			if *result.OperationalStatus == "provisioned" {
-		// 				Expect(*result.OperationalStatus).To(Equal("provisioned"))
-		// 				break
-		// 			}
-
-		// 			// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-		// 			if timer > 24 { // 2 min timer (24x5sec)
-		// 				Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
-		// 				break
-		// 			} else {
-		// 				// Still exists, wait 5 sec
-		// 				time.Sleep(time.Duration(5) * time.Second)
-		// 				timer = timer + 1
-		// 			}
-		// 		}
-		// 	})
-
-		// 	It("Successfully deletes macsec enabled gateway gateway", func() {
-		// 		shouldSkipTest()
-
-		// 		gatewayId := os.Getenv("GATEWAY_ID")
-		// 		deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-		// 		detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-
-		// 		Expect(err).To(BeNil())
-		// 		Expect(detailedResponse.StatusCode).To(Equal(204))
-		// 	})
-		// })
-	})
-
-	Describe("Offering Types", func() {
-
-		Context("Locations", func() {
-			It("should fetch the locations for the type dedicated", func() {
+		Context(`Success: POST Transit Gateway VPC Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new VPC Connection`, func() {
 				shouldSkipTest()
 
-				listOfferingTypeLocationsOptions := service.NewListOfferingTypeLocationsOptions("dedicated")
-				result, detailedResponse, err := service.ListOfferingTypeLocations(listOfferingTypeLocationsOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(len(result.Locations)).Should(BeNumerically(">", 0))
-				os.Setenv("OT_DEDICATED_LOCATION_DISPLAY_NAME", *result.Locations[0].DisplayName)
-				os.Setenv("OT_DEDICATED_LOCATION_NAME", *result.Locations[0].Name)
-
-				Expect(*result.Locations[0].BillingLocation).NotTo(Equal(""))
-				Expect(*result.Locations[0].BuildingColocationOwner).NotTo(Equal(""))
-				Expect(*result.Locations[0].LocationType).NotTo(Equal(""))
-				// Expect(*result.Locations[0].Market).NotTo(Equal(""))
-				Expect(*result.Locations[0].MarketGeography).NotTo(Equal(""))
-				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
-				Expect(*result.Locations[0].OfferingType).To(Equal("dedicated"))
-				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
-				//Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
-
-			})
-
-			It("should fetch the locations for the type connect", func() {
-				shouldSkipTest()
-
-				listOfferingTypeLocationsOptions := service.NewListOfferingTypeLocationsOptions("connect")
-
-				result, detailedResponse, err := service.ListOfferingTypeLocations(listOfferingTypeLocationsOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(len(result.Locations)).Should(BeNumerically(">", 0))
-				os.Setenv("OT_CONNECT_LOCATION_DISPLAY_NAME", *result.Locations[0].DisplayName)
-				os.Setenv("OT_CONNECT_LOCATION_NAME", *result.Locations[0].Name)
-
-				Expect(*result.Locations[0].BillingLocation).NotTo(Equal(""))
-				Expect(*result.Locations[0].LocationType).NotTo(Equal(""))
-				// Expect(*result.Locations[0].Market).NotTo(Equal(""))
-				Expect(*result.Locations[0].MarketGeography).NotTo(Equal(""))
-				Expect(*result.Locations[0].Mzr).NotTo(Equal(""))
-				Expect(*result.Locations[0].OfferingType).To(Equal("connect"))
-				Expect(*result.Locations[0].ProvisionEnabled).NotTo(BeNil())
-				// Expect(*result.Locations[0].VpcRegion).NotTo(Equal(""))
-			})
-
-			It("should return an error for invalid location type", func() {
-				shouldSkipTest()
-
-				listOfferingTypeLocationsOptions := service.NewListOfferingTypeLocationsOptions("RANDOM")
-
-				result, detailedResponse, err := service.ListOfferingTypeLocations(listOfferingTypeLocationsOptions)
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("offering_type_location: RANDOM"))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
-				Expect(result).To(BeNil())
-			})
-		})
-
-		Context("Cross Connect Routers", func() {
-			/*
-				 It("should list the location info for type dedicated and location short name", func() {
-					 shouldSkipTest()
-
-					 listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_NAME"))
-
-					 result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-
-					 Expect(err).To(BeNil())
-					 Expect(detailedResponse.StatusCode).To(Equal(200))
-					 Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
-
-					 Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
-					 Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
-				 })
-
-				 It("should list the location info for type dedicated and location display name", func() {
-					 shouldSkipTest()
-
-					 listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", os.Getenv("OT_DEDICATED_LOCATION_DISPLAY_NAME"))
-
-					 result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-					 Expect(err).To(BeNil())
-					 Expect(detailedResponse.StatusCode).To(Equal(200))
-					 Expect(len(result.CrossConnectRouters)).Should(BeNumerically(">", 0))
-
-					 Expect(*result.CrossConnectRouters[0].RouterName).NotTo(Equal(""))
-					 Expect(*result.CrossConnectRouters[0].TotalConnections).Should(BeNumerically(">=", 0))
-				 })
-			*/
-			It("should return proper error when unsupported offering type CONNECT is provided", func() {
-				shouldSkipTest()
-
-				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("connect", os.Getenv("OT_CONNECT_LOCATION_NAME"))
-
-				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("The supplied OfferingType is not supported for this call"))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-				Expect(result).To(BeNil())
-			})
-
-			It("should return proper error when incorrect offering type is provided", func() {
-				shouldSkipTest()
-
-				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("random", os.Getenv("OT_CONNECT_LOCATION_DISPLAY_NAME"))
-
-				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Invalid Direct Link Offering Type."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-				Expect(result).To(BeNil())
-			})
-
-			It("should return proper error when incorrect location is provided", func() {
-				shouldSkipTest()
-
-				listOfferingTypeLocationCrossConnectRoutersOptions := service.NewListOfferingTypeLocationCrossConnectRoutersOptions("dedicated", "florida")
-
-				result, detailedResponse, err := service.ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions)
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Classic Location not found: florida"))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
-				Expect(result).To(BeNil())
-			})
-		})
-
-		Context("Offering Speeds", func() {
-			It("should fetch the offering speeds for the type dedicated", func() {
-				shouldSkipTest()
-
-				listOfferingTypeSpeedsOptions := service.NewListOfferingTypeSpeedsOptions("dedicated")
-
-				result, detailedResponse, err := service.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(len(result.Speeds)).Should(BeNumerically(">", 0))
-			})
-
-			It("should fetch the offering speeds for the type connect", func() {
-				shouldSkipTest()
-
-				listOfferingTypeSpeedsOptions := service.NewListOfferingTypeSpeedsOptions("connect")
-
-				result, detailedResponse, err := service.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				Expect(len(result.Speeds)).Should(BeNumerically(">", 0))
-			})
-
-			It("should proper error for invalid offering type", func() {
-				shouldSkipTest()
-
-				listOfferingTypeSpeedsOptions := service.NewListOfferingTypeSpeedsOptions("random")
-
-				result, detailedResponse, err := service.ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions)
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Cannot find OfferingType"))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
-				Expect(result).To(BeNil())
-			})
-		})
-	})
-
-	Describe("Ports", func() {
-		It("should fetch the ports", func() {
-			shouldSkipTest()
-
-			listPortsOptions := service.NewListPortsOptions()
-
-			result, detailedResponse, err := service.ListPorts(listPortsOptions)
-			Expect(err).To(BeNil())
-			Expect(detailedResponse.StatusCode).To(Equal(200))
-			Expect(len(result.Ports)).Should(BeNumerically(">", 0))
-
-			Expect(*result.Ports[0].ID).NotTo(Equal(""))
-			Expect(*result.Ports[0].DirectLinkCount).Should(BeNumerically(">=", 0))
-			Expect(*result.Ports[0].Label).NotTo(Equal(""))
-			Expect(*result.Ports[0].LocationDisplayName).NotTo(Equal(""))
-			Expect(*result.Ports[0].LocationName).NotTo(Equal(""))
-			Expect(*result.Ports[0].ProviderName).NotTo(Equal(""))
-			Expect(len(result.Ports[0].SupportedLinkSpeeds)).Should(BeNumerically(">=", 0))
-
-			port := getPortIdForConnect(result.Ports)
-			os.Setenv("PORT_ID", *port.ID)
-			os.Setenv("PORT_LOCATION_DISPLAY_NAME", *port.LocationDisplayName)
-			os.Setenv("PORT_LOCATION_NAME", *port.LocationName)
-			os.Setenv("PORT_LABEL", *port.Label)
-
-		})
-
-		It("should fetch the port by ID", func() {
-			shouldSkipTest()
-
-			portId := os.Getenv("PORT_ID")
-			locationDisplayName := os.Getenv("PORT_LOCATION_DISPLAY_NAME")
-			locationName := os.Getenv("PORT_LOCATION_NAME")
-			label := os.Getenv("PORT_LABEL")
-			getPortOptions := service.NewGetPortOptions(portId)
-
-			result, detailedResponse, err := service.GetPort(getPortOptions)
-			Expect(err).To(BeNil())
-			Expect(detailedResponse.StatusCode).To(Equal(200))
-
-			Expect(*result.ID).To(Equal(portId))
-			Expect(*result.LocationDisplayName).To(Equal(locationDisplayName))
-			Expect(*result.LocationName).To(Equal(locationName))
-			Expect(*result.Label).To(Equal(label))
-			Expect(*result.DirectLinkCount).Should(BeNumerically(">=", 0))
-			Expect(*result.ProviderName).NotTo(Equal(""))
-			Expect(len(result.SupportedLinkSpeeds)).Should(BeNumerically(">=", 0))
-		})
-	})
-	// Oct 31st - temporarily commneting out the below tests
-	// Describe("Direct Link Virtual Connections", func() {
-	// 	timestamp := time.Now().Unix()
-	// 	gatewayName := "GO-INT-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-	// 	bgpAsn := int64(64999)
-	// 	crossConnectRouter := "LAB-xcr01.dal09"
-	// 	global := true
-	// 	locationName := os.Getenv("LOCATION_NAME")
-	// 	speedMbps := int64(1000)
-	// 	metered := false
-	// 	carrierName := "carrier1"
-	// 	customerName := "customer1"
-	// 	gatewayType := "dedicated"
-
-	// 	Context("Create gateway", func() {
-
-	// 		gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-
-	// 		createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-	// 		It("Successfully created a gateway", func() {
-	// 			shouldSkipTest()
-
-	// 			result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(201))
-
-	// 			os.Setenv("GATEWAY_ID", *result.ID)
-
-	// 			Expect(*result.Name).To(Equal(gatewayName))
-	// 			Expect(*result.BgpAsn).To(Equal(bgpAsn))
-	// 			Expect(*result.Global).To(Equal(global))
-	// 			Expect(*result.Metered).To(Equal(metered))
-	// 			Expect(*result.SpeedMbps).To(Equal(speedMbps))
-	// 			Expect(*result.Type).To(Equal(gatewayType))
-	// 			Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-	// 			Expect(*result.LocationName).To(Equal(locationName))
-	// 		})
-
-	// 		It("Successfully create a CLASSIC virtual connection", func() {
-	// 			shouldSkipTest()
-
-	// 			vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-	// 			createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic)
-	// 			result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(201))
-
-	// 			os.Setenv("CLASSIC_VC_ID", *result.ID)
-
-	// 			Expect(*result.ID).NotTo(Equal(""))
-	// 			Expect(*result.Name).To(Equal(vcName))
-	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
-	// 			Expect(*result.Status).To(Equal("pending"))
-	// 		})
-
-	// 		It("Successfully get a CLASSIC virtual connection", func() {
-	// 			shouldSkipTest()
-
-	// 			vcName := "GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
-	// 			result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
-
-	// 			Expect(*result.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
-	// 			Expect(*result.Name).To(Equal(vcName))
-	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
-	// 			Expect(*result.Status).To(Equal("pending"))
-	// 		})
-
-	// 		It("Successfully create a Gen 2 VPC virtual connection", func() {
-	// 			shouldSkipTest()
-
-	// 			vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
-	// 			vpcCrn := os.Getenv("GEN2_VPC_CRN")
-	// 			createGatewayVCOptions := service.NewCreateGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), vcName, directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc)
-	// 			createGatewayVCOptionsWithNetworkID := createGatewayVCOptions.SetNetworkID(vpcCrn)
-	// 			result, detailedResponse, err := service.CreateGatewayVirtualConnection(createGatewayVCOptionsWithNetworkID)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(201))
-
-	// 			// save the id so it can be deleted later
-	// 			os.Setenv("GEN2_VPC_VC_ID", *result.ID)
-
-	// 			Expect(*result.ID).NotTo(Equal(""))
-	// 			Expect(*result.Name).To(Equal(vcName))
-	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
-	// 			Expect(*result.Status).To(Equal("pending"))
-	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-	// 			Expect(*result.NetworkID).To(Equal(vpcCrn))
-	// 		})
-
-	// 		It("Successfully get a Gen 2 VPC virtual connection", func() {
-	// 			shouldSkipTest()
-
-	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
-	// 			result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
-
-	// 			Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
-	// 			Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
-	// 			Expect(*result.Status).To(Equal("pending"))
-	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-	// 			Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-	// 		})
-
-	// 		It("Successfully list the virtual connections for a gateway", func() {
-	// 			shouldSkipTest()
-
-	// 			listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
-	// 			result, detailedResponse, err := service.ListGatewayVirtualConnections(listVcOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
-
-	// 			vcs := result.VirtualConnections
-	// 			// two VCs were created for the GW, so we should expect 2
-	// 			Expect(len(vcs)).Should(BeNumerically("==", 2))
-
-	// 			for _, vc := range vcs {
-	// 				if *vc.ID == os.Getenv("GEN2_VPC_VC_ID") {
-	// 					Expect(*vc.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-	// 					Expect(*vc.CreatedAt).NotTo(Equal(""))
-	// 					Expect(*vc.Status).To(Equal("pending"))
-	// 					Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-	// 					Expect(*vc.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-	// 				} else {
-	// 					Expect(*vc.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
-	// 					Expect(*vc.Name).To(Equal("GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-	// 					Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-	// 					Expect(*vc.CreatedAt).NotTo(Equal(""))
-	// 					Expect(*vc.Status).To(Equal("pending"))
-	// 				}
-	// 			}
-	// 		})
-
-	// 		It("Successfully Update a virtual connection name", func() {
-	// 			shouldSkipTest()
-
-	// 			gatewayId := os.Getenv("GATEWAY_ID")
-	// 			vcId := os.Getenv("GEN2_VPC_VC_ID")
-	// 			vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
-	// 			patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-	// 			patchGatewayOptions = patchGatewayOptions.SetName(vcName)
-
-	// 			result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(200))
-
-	// 			Expect(*result.ID).To(Equal(vcId))
-	// 			Expect(*result.Name).To(Equal(vcName))
-	// 			Expect(*result.CreatedAt).NotTo(Equal(""))
-	// 			Expect(*result.Status).To(Equal("pending"))
-	// 			Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-	// 			Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-	// 		})
-
-	// 		It("Fail to Update a virtual connection status", func() {
-	// 			shouldSkipTest()
-
-	// 			gatewayId := os.Getenv("GATEWAY_ID")
-	// 			vcId := os.Getenv("GEN2_VPC_VC_ID")
-	// 			patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-	// 			patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
-
-	// 			result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
-
-	// 			// GW owner is not allowed to change the status, but the test calls the API with the status parameter to valid it is allowed.
-	// 			Expect(result).To(BeNil())
-	// 			Expect(err).NotTo(BeNil())
-	// 			Expect(err.Error()).To(Equal("gateway owner can't patch vc status."))
-	// 			Expect(detailedResponse.StatusCode).To(Equal(400))
-	// 		})
-
-	// 		It("Successfully delete a CLASSIC virtual connection for a gateway", func() {
-	// 			shouldSkipTest()
-
-	// 			gatewayId := os.Getenv("GATEWAY_ID")
-	// 			vcId := os.Getenv("CLASSIC_VC_ID")
-	// 			deleteClassicVCOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
-
-	// 			detailedResponse, err := service.DeleteGatewayVirtualConnection(deleteClassicVCOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(204))
-	// 		})
-
-	// 		It("Successfully waits for CLASSIC virtual connection to report as deleted", func() {
-	// 			shouldSkipTest()
-
-	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("CLASSIC_VC_ID"))
-
-	// 			// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
-	// 			timer := 0
-	// 			for {
-	// 				// Get the current rc for the VC
-	// 				_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-
-	// 				// if 404 then we are done
-	// 				if detailedResponse.StatusCode == 404 {
-	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
-	// 					break
-	// 				}
-
-	// 				// other than 404, see if we have reached the timeout value.  If so, exit with failure
-	// 				if timer > 600 { // 2 min timer (24x5sec)
-	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
-	// 					break
-	// 				} else {
-	// 					// Still exists, wait 5 sec
-	// 					time.Sleep(time.Duration(5) * time.Second)
-	// 					timer = timer + 1
-	// 				}
-	// 			}
-	// 		})
-
-	// 		It("Successfully deletes GEN 2 VPC virtual connection for a gateway", func() {
-	// 			shouldSkipTest()
-
-	// 			gatewayId := os.Getenv("GATEWAY_ID")
-	// 			vcId := os.Getenv("GEN2_VPC_VC_ID")
-	// 			deleteVpcVcOptions := service.NewDeleteGatewayVirtualConnectionOptions(gatewayId, vcId)
-
-	// 			detailedResponse, err := service.DeleteGatewayVirtualConnection(deleteVpcVcOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(204))
-	// 		})
-
-	// 		It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
-	// 			shouldSkipTest()
-
-	// 			getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
-
-	// 			// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
-	// 			timer := 0
-	// 			for {
-	// 				// Get the current rc for the VC
-	// 				_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-
-	// 				// if 404 then we are done
-	// 				if detailedResponse.StatusCode == 404 {
-	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
-	// 					break
-	// 				}
-
-	// 				// other than 404, see if we have reached the timeout value.  If so, exit with failure
-	// 				if timer > 600 { // 2 min timer (24x5 sec)
-	// 					Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
-	// 					break
-	// 				} else {
-	// 					// Still exists, wait 5 sec
-	// 					time.Sleep(time.Duration(5) * time.Second)
-	// 					timer = timer + 1
-	// 				}
-	// 			}
-	// 		})
-
-	// 		It("Successfully deletes a gateway", func() {
-	// 			shouldSkipTest()
-
-	// 			gatewayId := os.Getenv("GATEWAY_ID")
-	// 			deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-
-	// 			detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-	// 			Expect(err).To(BeNil())
-	// 			Expect(detailedResponse.StatusCode).To(Equal(204))
-	// 		})
-	// 	})
-	// })
-
-	Describe("LOA and Completion Notice", func() {
-		timestamp := time.Now().Unix()
-		gatewayName := "GO-INT-LOA-SDK-" + strconv.FormatInt(timestamp, 10)
-		bgpAsn := int64(64999)
-		crossConnectRouter := "LAB-xcr01.dal09"
-		global := true
-		locationName := os.Getenv("LOCATION_NAME")
-		speedMbps := int64(1000)
-		metered := false
-		carrierName := "carrier1"
-		customerName := "customer1"
-		gatewayType := "dedicated"
-
-		// notes about LOA and CN testing.  When a GW is created, a github issue is also created by dl-rest.  The issue is used for managing the LOA and CN.  In normal operation,
-		// an LOA is added to the issue via manual GH interaction.  After that occurs and the GH label changed, then CN upload is allowed.  Since we do not have the ability to
-		// do the manual steps for integration testing, the test will only do the following
-		//	- Issue GET LOA for a gateway.  It will expect a 404 error since no one has added the LOA to the GH issue
-		//  - PUT a completion notice to the gw.  It will fail with a 412 error because the GH issue and GW status are in the wrong state due to no manual interaction
-		//  - GET CN for a gw.  It will expect a 404 since the CN could not be uploaded
-		//
-		Context("Create gateway", func() {
-			It("Successfully created a gateway", func() {
-				shouldSkipTest()
-
-				gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
+				network_type := "vpc"
+				crn := os.Getenv("VPC_CRN")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetHeaders(header).
+					SetName("VPC-" + connectionName).
+					SetNetworkID(crn)
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("VPC_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("VPC_CONN_INSTANCE_NAME", *result.Name)
+
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.NetworkID).To(Equal(crn))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("VPC_CONN_INSTANCE_NAME")))
 			})
 
-			It("Successfully call loa", func() {
+			It("Successfully waits for VPC connection to report as attached", func() {
 				shouldSkipTest()
 
-				listLOAOptions := service.NewListGatewayLetterOfAuthorizationOptions(os.Getenv("GATEWAY_ID"))
-				result, detailedResponse, err := service.ListGatewayLetterOfAuthorization(listLOAOptions)
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists."))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
-				Expect(result).To(BeNil())
-			})
-
-			It("Successfully call PUT completion notice", func() {
-				shouldSkipTest()
-
-				buffer, err := os.ReadFile("completion_notice.pdf")
-				Expect(err).To(BeNil())
-				r := io.NopCloser(bytes.NewReader(buffer))
-
-				createCNOptions := service.NewCreateGatewayCompletionNoticeOptions(os.Getenv("GATEWAY_ID"))
-				createCNOptions.SetUpload(r)
-
-				detailedResponse, err := service.CreateGatewayCompletionNotice(createCNOptions)
-
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Invalid gateway status to upload completion notice."))
-				Expect(detailedResponse.StatusCode).To(Equal(412))
-			})
-
-			It("Successfully call completion notice", func() {
-				shouldSkipTest()
-
-				listCNOptions := service.NewListGatewayCompletionNoticeOptions(os.Getenv("GATEWAY_ID"))
-				result, detailedResponse, err := service.ListGatewayCompletionNotice(listCNOptions)
-
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("Please check whether the resource you are requesting exists."))
-				Expect(detailedResponse.StatusCode).To(Equal(404))
-				Expect(result).To(BeNil())
-			})
-
-			It("Successfully deletes a gateway", func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPC_CONN_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, instanceID, "")
 			})
 		})
-	})
-	/*
-		 Describe("BGP MD5", func() {
-			 timestamp := time.Now().Unix()
-			 gatewayName := "GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10)
-			 bgpAsn := int64(64999)
-			 crossConnectRouter := "LAB-xcr01.dal09"
-			 global := true
-			 locationName := os.Getenv("LOCATION_NAME")
-			 speedMbps := int64(1000)
-			 metered := false
-			 carrierName := "carrier1"
-			 customerName := "customer1"
-			 gatewayType := "dedicated"
-			 authCrn := os.Getenv("AUTHENTICATION_KEY")
 
-			 Context("Create a Gateway with Authentication Key", func() {
-				 It("should successfully create a gateway", func() {
-					 shouldSkipTest()
-
-					 // gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-					 authenticationKey, _ := service.NewGatewayTemplateAuthenticationKey(authCrn)
-
-					 gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-					 gatewayTemplateModel.AuthenticationKey = authenticationKey
-					 gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-					 gatewayTemplateModel.Global = core.BoolPtr(true)
-					 gatewayTemplateModel.Metered = core.BoolPtr(false)
-					 gatewayTemplateModel.Name = core.StringPtr(gatewayName)
-					 gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
-					 gatewayTemplateModel.Type = core.StringPtr(gatewayType)
-					 gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
-					 gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-					 gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
-					 gatewayTemplateModel.LocationName = core.StringPtr(locationName)
-
-					 createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
-
-					 result, resp, err := service.CreateGateway(createGatewayOptions)
-
-					 Expect(err).To(BeNil())
-					 Expect(resp.StatusCode).To(Equal(201))
-
-					 os.Setenv("GATEWAY_ID", *result.ID)
-
-					 Expect(*result.Name).To(Equal(gatewayName))
-					 Expect(*result.AuthenticationKey.Crn).To(Equal(authCrn))
-					 Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					 Expect(*result.Global).To(Equal(global))
-					 Expect(*result.Metered).To(Equal(metered))
-					 Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					 Expect(*result.Type).To(Equal(gatewayType))
-					 Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-					 Expect(*result.LocationName).To(Equal(locationName))
-					 Expect(*result.LocationDisplayName).NotTo(Equal(""))
-					 Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					 Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					 Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-					 Expect(*result.BgpStatus).To(Equal("idle"))
-					 Expect(*result.CreatedAt).NotTo(Equal(""))
-					 Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					 Expect(*result.LinkStatus).To(Equal("down"))
-					 Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-					 Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-
-				 })
-			 })
-
-			 Context("Update the Authentication key for the gateway", func() {
-				 It("should successfully clear the auth key", func() {
-					 shouldSkipTest()
-					 authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
-					 gatewayId := os.Getenv("GATEWAY_ID")
-
-					 updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetAuthenticationKey(authKey)
-					 res, resp, err := service.UpdateGateway(updateGatewayOptions)
-					 Expect(err).To(BeNil())
-					 Expect(resp.StatusCode).To(Equal(200))
-
-					 Expect(*res.ID).To(Equal(gatewayId))
-					 Expect(res.AuthenticationKey).To(BeNil())
-					 Expect(*res.Name).To(Equal(gatewayName))
-				 })
-			 })
-
-			 Context("Delete a gateway", func() {
-				 It("Successfully deletes a gateway", func() {
-					 shouldSkipTest()
-
-					 gatewayId := os.Getenv("GATEWAY_ID")
-					 deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-
-					 detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-					 Expect(err).To(BeNil())
-					 Expect(detailedResponse.StatusCode).To(Equal(204))
-				 })
-			 })
-		 })
-	*/
-	Describe("DLAAS", func() {
-
-		Describe("Create/Verify/update a connect gateway", func() {
-			timestamp := time.Now().Unix()
-			gatewayName := "GO-INT-SDK-Connect-DLAAS-" + strconv.FormatInt(timestamp, 10)
-			bgpAsn := int64(64999)
-			global := true
-			speedMbps := int64(1000)
-			metered := false
-			// to create a connect gateway, we need to have a port.  List the ports and save the id of the 1st one found
-			portId := ""
-			portLocationDisplayName := ""
-			portLocationName := ""
-
-			It("List ports and save the id of the first port", func() {
+		Context(`Success: POST Transit Gateway DL Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new DL Connection`, func() {
 				shouldSkipTest()
 
-				listPortsOptions := service.NewListPortsOptions()
-				result, detailedResponse, err := service.ListPorts(listPortsOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
-				port := getPortIdForConnect(result.Ports)
-				portId = *port.ID
-				portLocationDisplayName = *port.LocationDisplayName
-				portLocationName = *port.LocationName
-			})
+				crn := os.Getenv("DL_CRN")
+				network_type := "directlink"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 
-			It("create connect gateway with connection_mode as transit", func() {
-				shouldSkipTest()
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetHeaders(header).
+					SetName("DL-" + connectionName).
+					SetNetworkID(crn)
 
-				portIdentity, _ := service.NewGatewayPortIdentity(portId)
-				gateway, _ := service.NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn, global, metered, gatewayName, speedMbps, "connect", portIdentity)
-				gateway.ConnectionMode = core.StringPtr("transit")
-				createGatewayOptions := service.NewCreateGatewayOptions(gateway)
-				result, detailedResponse, err := service.CreateGateway(createGatewayOptions)
-
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				// Save the gateway id for deletion
-				os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("DL_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("DL_CONN_INSTANCE_NAME", *result.Name)
 
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(true))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.LocationName).To(Equal(portLocationName))
-				Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.NetworkID).To(Equal(crn))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.OperationalStatus).To(Equal("create_pending"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-				Expect(*result.Type).To(Equal("connect"))
-				Expect(*result.Port.ID).To(Equal(portId))
-				Expect(*result.ProviderApiManaged).To(Equal(false))
-				Expect(*result.ConnectionMode).To(Equal("transit"))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("DL_CONN_INSTANCE_NAME")))
+
 			})
 
-			It("Successfully waits for gateway to be provisioned state", func() {
+			It("Successfully waits for DL connection to report as attached", func() {
 				shouldSkipTest()
 
-				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
-
-				// before connection_mode can be updated on a gateway, it needs to have operational_status of provisioned.  We need to wait for
-				// the new gateway to go to provisioned so we can delete it.
-				timer := 0
-				for {
-					// Get the current status for the gateway
-					result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(200))
-
-					Expect(*result.Name).To(Equal(gatewayName))
-					Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					Expect(*result.Global).To(Equal(true))
-					Expect(*result.Metered).To(Equal(metered))
-					Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					Expect(*result.LocationName).To(Equal(portLocationName))
-					Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-					// Expect(*result.BgpStatus).To(Equal("idle"))
-					Expect(*result.CreatedAt).NotTo(Equal(""))
-					Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-					Expect(*result.Type).To(Equal("connect"))
-					Expect(*result.Port.ID).To(Equal(portId))
-					Expect(*result.ProviderApiManaged).To(Equal(false))
-
-					// if operational status is "provisioned" then we are done
-					if *result.OperationalStatus == "provisioned" {
-						Expect(*result.OperationalStatus).To(Equal("provisioned"))
-						break
-					}
-
-					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 600 { // 2 min timer (24x5sec)
-						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
-
-			It("should successfully switch the connection mode to direct", func() {
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-
-				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetConnectionMode("direct")
-				res, resp, err := service.UpdateGateway(updateGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(200))
-
-				Expect(*res.ID).To(Equal(gatewayId))
-				Expect(*res.ConnectionMode).To(Equal("direct"))
-				Expect(*res.Name).To(Equal(gatewayName))
-			})
-
-			It("Successfully waits for gateway to be provisioned state", func() {
-				shouldSkipTest()
-
-				getGatewayOptions := service.NewGetGatewayOptions(os.Getenv("GATEWAY_ID"))
-
-				// before connection_mode can be updated on a gateway, it needs to have operational_status of provisioned.  We need to wait for
-				// the new gateway to go to provisioned so we can delete it.
-				timer := 0
-				for {
-					// Get the current status for the gateway
-					result, detailedResponse, err := service.GetGateway(getGatewayOptions)
-					Expect(err).To(BeNil())
-					Expect(detailedResponse.StatusCode).To(Equal(200))
-
-					Expect(*result.Name).To(Equal(gatewayName))
-					Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					Expect(*result.Global).To(Equal(true))
-					Expect(*result.Metered).To(Equal(metered))
-					Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					Expect(*result.LocationName).To(Equal(portLocationName))
-					Expect(*result.LocationDisplayName).To(Equal(portLocationDisplayName))
-					Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					Expect(*result.BgpIbmAsn).NotTo(Equal(0))
-					// Expect(*result.BgpStatus).To(Equal("idle"))
-					Expect(*result.CreatedAt).NotTo(Equal(""))
-					Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-					Expect(*result.Type).To(Equal("connect"))
-					Expect(*result.Port.ID).To(Equal(portId))
-					Expect(*result.ProviderApiManaged).To(Equal(false))
-
-					// if operational status is "provisioned" then we are done
-					if *result.OperationalStatus == "provisioned" {
-						Expect(*result.OperationalStatus).To(Equal("provisioned"))
-						break
-					}
-
-					// not provisioned yet, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 600 { // 2 min timer (24x5sec)
-						Expect(*result.OperationalStatus).To(Equal("provisioned")) // timed out fail if status is not provisioned
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
-
-			It("Successfully deletes connect gateway", func() {
-				shouldSkipTest()
-
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, instanceID, "")
 			})
 		})
 
-		Describe("Create/verify/update a dedicated gateway", func() {
-			timestamp := time.Now().Unix()
-			gatewayName := "GO-INT-SDK-Dedicated-DLAAS-" + strconv.FormatInt(timestamp, 10)
-			bgpAsn := int64(64999)
-			crossConnectRouter := "LAB-xcr01.dal09"
-			global := true
-			locationName := os.Getenv("LOCATION_NAME")
-			speedMbps := int64(1000)
-			metered := false
-			carrierName := "carrier1"
-			customerName := "customer1"
-			gatewayType := "dedicated"
-			connectionMode := "direct"
-
-			It("should successfully create a dedicated gateway with connection mode as direct", func() {
+		Context(`Success: POST Transit Gateway GRE Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new GRE Connection`, func() {
 				shouldSkipTest()
 
-				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-				gatewayTemplateModel.Global = core.BoolPtr(true)
-				gatewayTemplateModel.Metered = core.BoolPtr(false)
-				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
-				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
-				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
-				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
-				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
-				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
-				gatewayTemplateModel.ConnectionMode = core.StringPtr(connectionMode)
+				zoneStr := "us-south-1"
+				network_type := "gre_tunnel"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				zone := &transitgatewayapisv1.ZoneIdentity{Name: &zoneStr}
 
-				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetZone(zone).
+					SetHeaders(header).
+					SetName("GRE-" + connectionName).
+					SetLocalTunnelIp("192.168.101.1").
+					SetLocalGatewayIp("192.168.100.1").
+					SetRemoteTunnelIp("192.168.101.2").
+					SetRemoteGatewayIp("10.242.63.12").
+					SetBaseConnectionID(os.Getenv("CLASSIC_CONN_INSTANCE_ID"))
 
-				result, resp, err := service.CreateGateway(createGatewayOptions)
-
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(201))
+				Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("GRE_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("GRE_CONN_INSTANCE_NAME", *result.Name)
 
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(global))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.ID).NotTo(Equal(""))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.LinkStatus).To(Equal("down"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-				Expect(*result.ConnectionMode).To(Equal("direct"))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("GRE_CONN_INSTANCE_NAME")))
+				Expect(*result.BaseConnectionID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
 			})
 
-			It("should successfully switch the connection mode to transit", func() {
+			It("Successfully waits for GRE connection to report as attached", func() {
 				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
 
-				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetConnectionMode("transit")
-				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("GRE_CONN_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, instanceID, "")
+			})
+		})
+
+		Context(`Success: POST Transit Gateway unbound GRE Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully create new unbound GRE Connection`, func() {
+				shouldSkipTest()
+
+				zoneStr := "us-south-1"
+				network_type := "unbound_gre_tunnel"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				zone := &transitgatewayapisv1.ZoneIdentity{Name: &zoneStr}
+
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetZone(zone).
+					SetHeaders(header).
+					SetName("unbound-gre-" + connectionName).
+					SetLocalTunnelIp("192.168.101.1").
+					SetLocalGatewayIp("192.168.100.1").
+					SetRemoteTunnelIp("192.168.101.2").
+					SetRemoteGatewayIp("10.242.63.12").
+					SetBaseNetworkType("classic").
+					SetBaseConnectionID(os.Getenv("CLASSIC_CONN_INSTANCE_ID"))
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(200))
+				Expect(detailedResponse.StatusCode).To(Equal(201))
 
-				Expect(*res.ID).To(Equal(gatewayId))
-				Expect(*res.ConnectionMode).To(Equal("transit"))
-				Expect(*res.Name).To(Equal(gatewayName))
+				os.Setenv("GRE_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("UNBOUND_GRE_CONN_INSTANCE_NAME", *result.Name)
+
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("UNBOUND_GRE_CONN_INSTANCE_NAME")))
+				Expect(*result.BaseConnectionID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
+				Expect(*result.BaseNetworkType).To(Equal("classic"))
 			})
 
-			It("Successfully deletes a gateway", func() {
+			It("Successfully waits for GRE connection to report as attached", func() {
 				shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("UNBOUND_GRE_CONN_INSTANCE_NAME")
+				isResourceAvailable(service, gatewayID, instanceID, "")
+			})
+		})
 
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
+		Context(`Failure: POST gateway resource`, func() {
+			createTransitGatewayConnectionOptions := &transitgatewayapisv1.CreateTransitGatewayConnectionOptions{}
+			createTransitGatewayConnectionOptions.SetName("testString")
+			createTransitGatewayConnectionOptions.SetTransitGatewayID("testString")
+			createTransitGatewayConnectionOptions.SetNetworkType("testString")
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			createTransitGatewayConnectionOptions.SetHeaders(header)
+
+			It(`Fail to create new gateway resource`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).ToNot(Equal(200))
+				Expect(err).Should(HaveOccurred())
 			})
 		})
 	})
 
-	Describe("BGP IP Update", func() {
-		timestamp := time.Now().Unix()
-		gatewayName := "GO-INT-BGP-IP-SDK-" + strconv.FormatInt(timestamp, 10)
-		bgpAsn := int64(64999)
-		crossConnectRouter := "LAB-xcr01.dal09"
-		global := true
-		locationName := os.Getenv("LOCATION_NAME")
-		speedMbps := int64(1000)
-		metered := false
-		carrierName := "carrier1"
-		customerName := "customer1"
-		gatewayType := "dedicated"
-
-		Context("Create a Gateway", func() {
-			It("should successfully create a gateway", func() {
+	Describe(`GetTransitGatewayConnection(getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions)`, func() {
+		Context(`Success: GET Transit Gateway VPC Connection`, func() {
+			It(`Successfully get VPC Connection`, func() {
 				shouldSkipTest()
 
-				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-				gatewayTemplateModel.Global = core.BoolPtr(true)
-				gatewayTemplateModel.Metered = core.BoolPtr(false)
-				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
-				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
-				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
-				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
-				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
-				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPC_CONN_INSTANCE_ID")
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, instanceID)
 
-				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
-
-				result, resp, err := service.CreateGateway(createGatewayOptions)
-
+				result, detailedResponse, err := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(201))
+				Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				os.Setenv("GATEWAY_ID", *result.ID)
-				os.Setenv("BGP_IP_CER", *result.BgpCerCidr)
-				os.Setenv("BGP_IP_IBM", *result.BgpIbmCidr)
-
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.BgpAsn).To(Equal(bgpAsn))
-				Expect(*result.Global).To(Equal(global))
-				Expect(*result.Metered).To(Equal(metered))
-				Expect(*result.SpeedMbps).To(Equal(speedMbps))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
+				Expect(*result.ID).To(Equal(instanceID))
+				Expect(*result.NetworkType).To(Equal("vpc"))
 				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Crn).To(HavePrefix("crn:v1"))
-				Expect(*result.LinkStatus).To(Equal("down"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
-
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("VPC_CRN")))
+				Expect(*result.Name).To(Equal(os.Getenv("VPC_CONN_INSTANCE_NAME")))
 			})
 		})
 
-		Context("Update the BGP ASN for the gateway", func() {
-			It("should successfully update the bgp asn", func() {
+		Context(`Success: GET Transit Gateway CLASSIC Connection`, func() {
+			It(`Successfully get CLASSIC Connection`, func() {
 				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
 
-				bgpAsn := int64(63999)
-				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBgpAsn(bgpAsn)
-				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				result, detailedResponse, err := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(200))
-
-				Expect(*res.ID).To(Equal(gatewayId))
-				Expect(*res.BgpAsn).To(Equal(bgpAsn))
-				Expect(*res.Name).To(Equal(gatewayName))
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.ID).To(Equal(instanceID))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("classic"))
+				Expect(*result.Name).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_NAME")))
 			})
 		})
 
-		Context("Update the BGP IP for the gateway", func() {
-			It("should either successfully update the BGP IP CER and IBM CIDR", func() {
-				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
-				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBgpCerCidr("172.17.252.2/29").SetBgpIbmCidr("172.17.252.1/29")
-				res, resp, err := service.UpdateGateway(updateGatewayOptions)
-				if err != nil {
-					Expect(err.Error()).To(Equal("Please make sure localIP and remoteIP are not in use"))
-				} else {
-					Expect(err).To(BeNil())
-					Expect(resp.StatusCode).To(Equal(200))
-
-					Expect(*res.ID).To(Equal(gatewayId))
-					Expect(*res.Name).To(Equal(gatewayName))
-				}
-
-			})
-		})
-
-		Context("Delete a gateway", func() {
-			It("Successfully deletes a gateway", func() {
+		Context(`Success: GET Transit Gateway DL Connection`, func() {
+			It(`Successfully get DL Connection`, func() {
 				shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, instanceID)
 
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				result, detailedResponse, err := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(204))
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.ID).To(Equal(instanceID))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("directlink"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("DL_CRN")))
+				Expect(*result.Name).To(Equal(os.Getenv("DL_CONN_INSTANCE_NAME")))
+			})
+		})
+
+		Context(`Success: GET Transit Gateway GRE Connection`, func() {
+			It(`Successfully get GRE Connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("GRE_CONN_INSTANCE_ID")
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				result, detailedResponse, err := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.ID).To(Equal(instanceID))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("gre_tunnel"))
+				Expect(*result.Name).To(Equal(os.Getenv("GRE_CONN_INSTANCE_NAME")))
+				Expect(*result.BaseConnectionID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
+			})
+		})
+
+		Context(`Failure: GET connection by instanceID`, func() {
+			badinstanceID := "abc123"
+			getTransitGatewayConnectionOptions := &transitgatewayapisv1.GetTransitGatewayConnectionOptions{}
+			getTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
+			getTransitGatewayConnectionOptions.SetID(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			getTransitGatewayConnectionOptions.SetHeaders(header)
+
+			It(`Failed to get resource by instanceID`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
 			})
 		})
 	})
 
-	Describe("BFD Config", func() {
-		timestamp := time.Now().Unix()
-		gatewayName := "GO-INT-BFD-SDK-" + strconv.FormatInt(timestamp, 10)
-		bgpAsn := int64(64999)
-		crossConnectRouter := "LAB-xcr01.dal09"
-		locationName := os.Getenv("LOCATION_NAME")
-		speedMbps := int64(1000)
-		carrierName := "carrier1"
-		customerName := "customer1"
-		gatewayType := "dedicated"
-		bfdInterval := int64(1000)
-		bfdMultiplier := int64(10)
-
-		Context("Create a Gateway", func() {
-			It("should successfully create a gateway", func() {
+	Describe(`UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions)`, func() {
+		Context(`Success: UPDATE Transit Gateway CLASSIC Connection`, func() {
+			It(`Successfully update CLASSIC Connection`, func() {
 				shouldSkipTest()
 
-				// Create a template for BFD Config
-				bfdTemplate := new(directlinkv1.GatewayBfdConfigTemplate)
-				bfdTemplate.Interval = &bfdInterval
-				bfdTemplate.Multiplier = &bfdMultiplier
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				updateConnectionName := "UPDATED-" + os.Getenv("CLASSIC_CONN_INSTANCE_NAME")
+				updateTransitGatewayConnectionOptions := service.NewUpdateTransitGatewayConnectionOptions(
+					gatewayID, instanceID).
+					SetName(updateConnectionName)
 
-				// Create a template for Gateway model
-				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-				gatewayTemplateModel.BgpAsn = core.Int64Ptr(bgpAsn)
-				gatewayTemplateModel.Global = core.BoolPtr(true)
-				gatewayTemplateModel.Metered = core.BoolPtr(false)
-				gatewayTemplateModel.Name = core.StringPtr(gatewayName)
-				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(speedMbps)
-				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
-				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
-				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
-				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
-				gatewayTemplateModel.BfdConfig = bfdTemplate
-
-				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
-
-				result, resp, err := service.CreateGateway(createGatewayOptions)
-
+				result, detailedResponse, err := service.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(201))
+				Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				os.Setenv("GATEWAY_ID", *result.ID)
+				Expect(*result.Name).To(Equal(updateConnectionName))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("classic"))
+				Expect(*result.ID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
 
-				Expect(*result.Name).To(Equal(gatewayName))
-				Expect(*result.Type).To(Equal(gatewayType))
-				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-				Expect(*result.LocationName).To(Equal(locationName))
-				Expect(*result.LocationDisplayName).NotTo(Equal(""))
-				Expect(*result.BgpStatus).To(Equal("idle"))
-				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-				Expect(result.BfdConfig).NotTo(BeNil())
-				Expect(result.BfdConfig.BfdStatus).NotTo(BeNil())
-				Expect(*result.BfdConfig.Interval).To(Equal(bfdInterval))
-				Expect(*result.BfdConfig.Multiplier).To(Equal(bfdMultiplier))
+				os.Setenv("CLASSIC_CONN_INSTANCE_NAME", *result.Name)
 			})
 		})
 
-		Context("Update the BFD Config for the gateway", func() {
-			It("should successfully update the bfd config", func() {
+		Context(`Success: UPDATE Transit Gateway VPC Connection`, func() {
+			It(`Successfully update VPC Connection`, func() {
 				shouldSkipTest()
-				gatewayId := os.Getenv("GATEWAY_ID")
 
-				updatedBfdInterval := int64(400)
-				updatedBfdMultiplier := int64(200)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPC_CONN_INSTANCE_ID")
+				updateConnectionName := "UPDATED-" + os.Getenv("VPC_CONN_INSTANCE_NAME")
+				updateTransitGatewayConnectionOptions := service.NewUpdateTransitGatewayConnectionOptions(
+					gatewayID, instanceID).
+					SetName(updateConnectionName)
 
-				// Create a template for BFD Config
-				bfdPatchTemplate := new(directlinkv1.GatewayBfdPatchTemplate)
-				bfdPatchTemplate.Interval = &updatedBfdInterval
-				bfdPatchTemplate.Multiplier = &updatedBfdMultiplier
-
-				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetBfdConfig(bfdPatchTemplate)
-				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				result, detailedResponse, err := service.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
-				Expect(resp.StatusCode).To(Equal(200))
+				Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*res.ID).To(Equal(gatewayId))
-				Expect(*res.Name).To(Equal(gatewayName))
-				Expect(res.BfdConfig).NotTo(BeNil())
-				Expect(res.BfdConfig.BfdStatus).NotTo(BeNil())
-				Expect(*res.BfdConfig.Interval).To(Equal(updatedBfdInterval))
-				Expect(*res.BfdConfig.Multiplier).To(Equal(updatedBfdMultiplier))
+				Expect(*result.Name).To(Equal(updateConnectionName))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.NetworkType).To(Equal("vpc"))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("VPC_CRN")))
+				Expect(*result.ID).To(Equal(os.Getenv("VPC_CONN_INSTANCE_ID")))
+
+				os.Setenv("VPC_CONN_INSTANCE_NAME", *result.Name)
 			})
 		})
 
-		Context("Delete a gateway", func() {
-			It("Successfully deletes a gateway", func() {
+		Context(`Success: UPDATE Transit Gateway DL Connection`, func() {
+			It(`Successfully update DL Connection`, func() {
 				shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
+				updateConnectionName := "UPDATED-" + os.Getenv("DL_CONN_INSTANCE_NAME")
+				updateTransitGatewayConnectionOptions := service.NewUpdateTransitGatewayConnectionOptions(
+					gatewayID, instanceID).
+					SetName(updateConnectionName)
 
-				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				result, detailedResponse, err := service.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.Name).To(Equal(updateConnectionName))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("directlink"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("DL_CRN")))
+				Expect(*result.ID).To(Equal(os.Getenv("DL_CONN_INSTANCE_ID")))
+
+				os.Setenv("DL_CONN_INSTANCE_NAME", *result.Name)
+			})
+		})
+
+		Context(`Success: UPDATE Transit Gateway GRE Connection`, func() {
+			It(`Successfully update GRE Connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("GRE_CONN_INSTANCE_ID")
+				updateConnectionName := "UPDATED-" + os.Getenv("GRE_CONN_INSTANCE_NAME")
+				updateTransitGatewayConnectionOptions := service.NewUpdateTransitGatewayConnectionOptions(
+					gatewayID, instanceID).
+					SetName(updateConnectionName)
+
+				result, detailedResponse, err := service.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.Name).To(Equal(updateConnectionName))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("gre_tunnel"))
+				Expect(*result.ID).To(Equal(os.Getenv("GRE_CONN_INSTANCE_ID")))
+				Expect(*result.BaseConnectionID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
+
+				os.Setenv("GRE_CONN_INSTANCE_NAME", *result.Name)
+			})
+		})
+
+		Context(`Failure: UPDATE connection by instanceID`, func() {
+			badinstanceID := "abc123"
+			instanceName := "UPDATE-" + strconv.FormatInt(timestamp, 10)
+			updateTransitGatewayConnectionOptions := &transitgatewayapisv1.UpdateTransitGatewayConnectionOptions{}
+			updateTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
+			updateTransitGatewayConnectionOptions.SetID(badinstanceID)
+			updateTransitGatewayConnectionOptions.SetName(instanceName)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			updateTransitGatewayConnectionOptions.SetHeaders(header)
+
+			It(`Failed to update gateway by instanceID`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`ListTransitGatewayConnections(listTransitGatewayConnectionsOptions *ListTransitGatewayConnectionsOptions)`, func() {
+		Context(`Success: LIST Transit Gateway Connections`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			It(`Successfully list all gateway connections`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				listTransitGatewayConnectionsOptions := service.NewListTransitGatewayConnectionsOptions(gatewayID).
+					SetTransitGatewayID(gatewayID).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.ListTransitGatewayConnections(listTransitGatewayConnectionsOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(len(result.Connections)).Should(BeNumerically(">", 0))
+
+				dl_found := false
+				vpc_found := false
+				gre_found := false
+				classic_found := false
+				for _, conn := range result.Connections {
+					if *conn.ID == os.Getenv("VPC_CONN_INSTANCE_ID") {
+						Expect(*conn.CreatedAt).NotTo(Equal(""))
+						Expect(*conn.UpdatedAt).NotTo(Equal(""))
+						Expect(*conn.NetworkType).To(Equal("vpc"))
+						Expect(*conn.Status).To(Equal("attached"))
+						Expect(*conn.NetworkID).To(Equal(os.Getenv("VPC_CRN")))
+						Expect(*conn.Name).To(Equal(os.Getenv("VPC_CONN_INSTANCE_NAME")))
+						vpc_found = true
+
+					} else if *conn.ID == os.Getenv("DL_CONN_INSTANCE_ID") {
+						Expect(*conn.CreatedAt).NotTo(Equal(""))
+						Expect(*conn.UpdatedAt).NotTo(Equal(""))
+						Expect(*conn.Status).To(Equal("attached"))
+						Expect(*conn.NetworkType).To(Equal("directlink"))
+						Expect(*conn.NetworkID).To(Equal(os.Getenv("DL_CRN")))
+						Expect(*conn.Name).To(Equal(os.Getenv("DL_CONN_INSTANCE_NAME")))
+						dl_found = true
+
+					} else if *conn.ID == os.Getenv("GRE_CONN_INSTANCE_ID") {
+						Expect(*conn.CreatedAt).NotTo(Equal(""))
+						Expect(*conn.UpdatedAt).NotTo(Equal(""))
+						Expect(*conn.Status).To(Equal("attached"))
+						Expect(*conn.NetworkType).To(Equal("gre_tunnel"))
+						Expect(*conn.Name).To(Equal(os.Getenv("GRE_CONN_INSTANCE_NAME")))
+						Expect(*conn.BaseConnectionID).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_ID")))
+						gre_found = true
+
+					} else if *conn.ID == os.Getenv("CLASSIC_CONN_INSTANCE_ID") {
+						Expect(*conn.CreatedAt).NotTo(Equal(""))
+						Expect(*conn.UpdatedAt).NotTo(Equal(""))
+						Expect(*conn.Status).To(Equal("attached"))
+						Expect(*conn.NetworkType).To(Equal("classic"))
+						Expect(*conn.Name).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_NAME")))
+						classic_found = true
+					}
+				}
+				Expect(dl_found).To(Equal(true))
+				Expect(vpc_found).To(Equal(true))
+				Expect(gre_found).To(Equal(true))
+				Expect(classic_found).To(Equal(true))
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//                  Transit Gateway Route Reports Tests                      //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions)`, func() {
+		Context(`Success: POST Gateway Route Report`, func() {
+			It(`Successfully create Gateway Route Report`, func() {
+				shouldSkipTest()
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				createTransitGatewayRouteReportOptions := service.NewCreateTransitGatewayRouteReportOptions(gatewayID).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(202))
+
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.Status).NotTo(Equal(""))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+
+				os.Setenv("RR_INSTANCE_ID", *result.ID)
+			})
+
+			It("Successfully waits for RR to report as complete", func() {
+				shouldSkipTest()
+
+				instanceID := os.Getenv("RR_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, "", instanceID)
+			})
+		})
+
+		Context(`Failure: POST new route report`, func() {
+			badinstanceID := "testString"
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+
+			createTransitGatewayRouteReportOptions := &transitgatewayapisv1.CreateTransitGatewayRouteReportOptions{}
+			createTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
+			createTransitGatewayRouteReportOptions.SetHeaders(header)
+
+			It(`Fail to create new route report`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).ToNot(Equal(200))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions)`, func() {
+		Context(`Success: GET Gateway Route Report`, func() {
+			It(`Successfully get Route Report by instanceID`, func() {
+				shouldSkipTest()
+
+				instanceID := os.Getenv("RR_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				getTransitGatewayRouteReportOptions := service.NewGetTransitGatewayRouteReportOptions(gatewayID, instanceID)
+
+				result, detailedResponse, err := service.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(&result.Connections).NotTo(BeNil())
+				Expect(*result.Status).To(Equal("complete"))
+				Expect(*result.ID).To(Equal(os.Getenv("RR_INSTANCE_ID")))
+				Expect(len(result.Connections)).Should(BeNumerically(">", 0))
+
+				dl_found := false
+				vpc_found := false
+				gre_found := false
+				classic_found := false
+
+				for _, conn := range result.Connections {
+					if *conn.ID == os.Getenv("VPC_CONN_INSTANCE_ID") {
+						Expect(*conn.Type).To(Equal("vpc"))
+						Expect(*conn.Name).To(Equal(os.Getenv("VPC_CONN_INSTANCE_NAME")))
+						vpc_found = true
+
+					} else if *conn.ID == os.Getenv("DL_CONN_INSTANCE_ID") {
+						Expect(*conn.Type).To(Equal("directlink"))
+						Expect(*conn.Name).To(Equal(os.Getenv("DL_CONN_INSTANCE_NAME")))
+						dl_found = true
+
+					} else if *conn.ID == os.Getenv("GRE_CONN_INSTANCE_ID") {
+						Expect(*conn.Type).To(Equal("gre_tunnel"))
+						Expect(*conn.Name).To(Equal(os.Getenv("GRE_CONN_INSTANCE_NAME")))
+						gre_found = true
+
+					} else if *conn.ID == os.Getenv("CLASSIC_CONN_INSTANCE_ID") {
+						Expect(*conn.Type).To(Equal("classic"))
+						Expect(*conn.Name).To(Equal(os.Getenv("CLASSIC_CONN_INSTANCE_NAME")))
+						classic_found = true
+					}
+				}
+
+				Expect(dl_found).To(Equal(true))
+				Expect(vpc_found).To(Equal(true))
+				Expect(gre_found).To(Equal(true))
+				Expect(classic_found).To(Equal(true))
+			})
+		})
+
+		Context(`Failure: GET route report by instanceID`, func() {
+			badinstanceID := "abc123"
+			getTransitGatewayRouteReportOptions := &transitgatewayapisv1.GetTransitGatewayRouteReportOptions{}
+			getTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
+			getTransitGatewayRouteReportOptions.SetID(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			getTransitGatewayRouteReportOptions.SetHeaders(header)
+
+			It(`Failed to get route report by instanceID`, func() {
+				shouldSkipTest()
+
+				result, detailedResponse, err := service.GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions)`, func() {
+		Context(`Success: LIST Gateway Route Reports`, func() {
+			It(`Successfully list all gateway route reports`, func() {
+				shouldSkipTest()
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				listTransitGatewayRouteReportsOptions := service.NewListTransitGatewayRouteReportsOptions(gatewayID).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(len(result.RouteReports)).Should(BeNumerically(">", 0))
+
+				found := false
+				for _, rr := range result.RouteReports {
+					if *rr.ID == os.Getenv("RR_INSTANCE_ID") {
+						Expect(*rr.CreatedAt).NotTo(Equal(""))
+						Expect(*rr.UpdatedAt).NotTo(Equal(""))
+						Expect(&rr.Connections).NotTo(BeNil())
+						Expect(*rr.Status).To(Equal("complete"))
+						Expect(len(rr.Connections)).Should(BeNumerically(">", 0))
+
+						found = true
+						break
+					}
+				}
+				Expect(found).To(Equal(true))
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//                   DELETE Transit Gateway Route Report                     //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions *DeleteTransitGatewayRouteReportOptions)`, func() {
+		Context(`Success: DELETE Gateway Route Report`, func() {
+			It(`Successfully delete Route Report by instanceID`, func() {
+				shouldSkipTest()
+
+				instanceID := os.Getenv("RR_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				deleteTransitGatewayRouteReportOptions := service.NewDeleteTransitGatewayRouteReportOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for Gateway Route Report to report as deleted", func() {
+				shouldSkipTest()
+
+				instanceID := os.Getenv("RR_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, "", instanceID, "")
+			})
+		})
+
+		Context(`Failure: DELETE route report by instanceID`, func() {
+			badinstanceID := "abc123"
+			deleteTransitGatewayRouteReportOptions := &transitgatewayapisv1.DeleteTransitGatewayRouteReportOptions{}
+			deleteTransitGatewayRouteReportOptions.SetTransitGatewayID(badinstanceID)
+			deleteTransitGatewayRouteReportOptions.SetID(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			deleteTransitGatewayRouteReportOptions.SetHeaders(header)
+
+			It(`Failed to delete route report by instanceID`, func() {
+				shouldSkipTest()
+
+				detailedResponse, err := service.DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions)
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//              Transit Gateway Connection Prefix Filter Tests               //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`CreateTransitGatewayConnectionPrefixFilter(reateTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: POST Gateway Connection Prefix Filter`, func() {
+			It(`Successfully create Gateway Connection Prefix Filter`, func() {
+				shouldSkipTest()
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				action := "permit"
+				prefix := "192.168.100.0/24"
+
+				createTransitGatewayConnectionPrefixFilterOptions := service.NewCreateTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, action, prefix).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				Expect(*result.ID).NotTo(Equal(""))
+				os.Setenv("PF_INSTANCE_ID", *result.ID)
+
+				Expect(*result.Prefix).To(Equal(prefix))
+				Expect(*result.Action).To(Equal(action))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+			})
+		})
+
+		Context(`Failure: POST Gateway Connection Prefix Filter`, func() {
+			It(`Fail to create a new Gateway Connection Prefix Filter`, func() {
+				shouldSkipTest()
+
+				createTransitGatewayConnectionPrefixFilterOptions := &transitgatewayapisv1.CreateTransitGatewayConnectionPrefixFilterOptions{}
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+
+				createTransitGatewayConnectionPrefixFilterOptions.SetTransitGatewayID(gatewayID)
+				createTransitGatewayConnectionPrefixFilterOptions.SetID(classicConnID)
+				createTransitGatewayConnectionPrefixFilterOptions.SetAction("testString")
+				createTransitGatewayConnectionPrefixFilterOptions.SetPrefix("testString")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				createTransitGatewayConnectionPrefixFilterOptions.SetHeaders(header)
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions)
+				Expect(result).To(BeNil())
+				Expect(detailedResponse.StatusCode).ToNot(Equal(200))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	Describe(`ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions)`, func() {
+		Context(`Success: LIST Transit Gateway Connection Prefix Filters`, func() {
+			It(`Successfully list all transit gateway connection prefix filters`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				pfID := os.Getenv("PF_INSTANCE_ID")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				listTransitGatewayConnectionPrefixFiltersOptions := service.NewListTransitGatewayConnectionPrefixFiltersOptions(gatewayID, classicConnID).
+					SetHeaders(header)
+
+				result, detailedResponse, err := service.ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(len(result.PrefixFilters)).Should(BeNumerically(">", 0))
+
+				found := false
+				for _, pf := range result.PrefixFilters {
+					if *pf.ID == pfID {
+						Expect(*pf.Action).To(Equal("permit"))
+						Expect(*pf.Prefix).To(Equal("192.168.100.0/24"))
+						Expect(*pf.CreatedAt).NotTo(Equal(""))
+						Expect(*pf.UpdatedAt).NotTo(Equal(""))
+
+						found = true
+						break
+					}
+				}
+				Expect(found).To(Equal(true))
+			})
+		})
+	})
+
+	Describe(`UpdateTransitGatewayConnectionPrefixFilter(lupdateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: UPDATE (PATCH) Transit Gateway Connection Prefix Filter`, func() {
+			It(`Successfully update transit gateway connection prefix filter`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				pfID := os.Getenv("PF_INSTANCE_ID")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+
+				newAction := "deny"
+
+				updateTransitGatewayConnectionPrefixFiltersOptions := service.NewUpdateTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, pfID)
+
+				updateTransitGatewayConnectionPrefixFiltersOptions.SetHeaders(header)
+				updateTransitGatewayConnectionPrefixFiltersOptions.SetAction(newAction)
+
+				result, detailedResponse, err := service.UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFiltersOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.ID).To(Equal(pfID))
+				Expect(*result.Prefix).To(Equal("192.168.100.0/24"))
+				Expect(*result.Action).To(Equal(newAction))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+			})
+		})
+	})
+
+	Describe(`GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: GET Transit Gateway Connection Prefix Filter`, func() {
+			It(`Successfully get transit gateway connection prefix filter`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				pfID := os.Getenv("PF_INSTANCE_ID")
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+
+				getTransitGatewayConnectionPrefixFiltersOptions := service.NewGetTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, pfID).SetHeaders(header)
+
+				result, detailedResponse, err := service.GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFiltersOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.ID).To(Equal(pfID))
+				Expect(*result.Prefix).To(Equal("192.168.100.0/24"))
+				Expect(*result.Action).To(Equal("deny"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//             DELETE Transit Gateway Connection Prefix Filters              //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions)`, func() {
+		Context(`Success: DELETE Gateway Connection Prefix Filter`, func() {
+			It(`Successfully delete gateway connection prefix filter by instanceID`, func() {
+				shouldSkipTest()
+
+				pfID := os.Getenv("PF_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionPrefixFilterOptions := service.NewDeleteTransitGatewayConnectionPrefixFilterOptions(gatewayID, classicConnID, pfID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for Gateway Connection Prefix Filter to report as deleted", func() {
+				shouldSkipTest()
+
+				pfID := os.Getenv("PF_INSTANCE_ID")
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, classicConnID, "", pfID)
+			})
+		})
+
+		Context(`Failure: DELETE prefix filter by FilterID`, func() {
+			It(`Successfully verify DELETE failure by FilterID`, func() {
+				shouldSkipTest()
+				badPfInstanceID := "abc123"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				classicConnID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+
+				deleteTransitGatewayConnectionPrefixFilterOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionPrefixFilterOptions{}
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetTransitGatewayID(gatewayID)
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetID(classicConnID)
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetFilterID(badPfInstanceID)
+
+				header := map[string]string{
+					"Content-type": "application/json",
+				}
+				deleteTransitGatewayConnectionPrefixFilterOptions.SetHeaders(header)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions)
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//                    DELETE Transit Gateway Connections                     //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions *DeleteTransitGatewayConnectionOptions)`, func() {
+		Context(`Success: DELETE Transit GRE connection by instanceID`, func() {
+			It(`Successfully delete GRE connection by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("GRE_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for GRE connection to report as deleted", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("GRE_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
+			})
+		})
+
+		Context(`Success: DELETE Transit VPC connection by instanceID`, func() {
+			It(`Successfully delete VPC connection by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPC_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for VPC connection to report as deleted", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPC_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
+			})
+		})
+
+		Context(`Success: DELETE Transit DL connection by instanceID`, func() {
+			It(`Successfully delete DL connection by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for DL connection to report as deleted", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
+			})
+		})
+
+		Context(`Success: DELETE Transit CLASSIC connection by instanceID`, func() {
+			It(`Successfully delete CLASSIC connection by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for CLASSIC connection to report as deleted", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("CLASSIC_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
+			})
+		})
+
+		Context(`Failure: DELETE connection by instanceID`, func() {
+			badinstanceID := "abc123"
+			deleteTransitGatewayConnectionOptions := &transitgatewayapisv1.DeleteTransitGatewayConnectionOptions{}
+			deleteTransitGatewayConnectionOptions.SetTransitGatewayID(badinstanceID)
+			deleteTransitGatewayConnectionOptions.SetID(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			deleteTransitGatewayConnectionOptions.SetHeaders(header)
+
+			It(`Failed to delete resource by instanceID`, func() {
+				shouldSkipTest()
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+
+	///////////////////////////////////////////////////////////////////////////////
+	//                           DELETE Transit Gateway                          //
+	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`DeleteTransitGateway(deleteTransitGatewayOptions *DeleteTransitGatewayOptions)`, func() {
+		Context(`Success: DELETE delete gateway by instanceID`, func() {
+			It(`Successfully delete gateway by instanceID`, func() {
+				shouldSkipTest()
+
+				instanceID := os.Getenv("GATEWAY_INSTANCE_ID")
+				deleteTransitGatewayOptions := service.NewDeleteTransitGatewayOptions(instanceID)
+
+				detailedResponse, err := service.DeleteTransitGateway(deleteTransitGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+
+		Context(`Failure: DELETE gateway by instanceID`, func() {
+			badinstanceID := "abc123"
+			deleteTransitGatewayOptions := &transitgatewayapisv1.DeleteTransitGatewayOptions{}
+			deleteTransitGatewayOptions.SetID(badinstanceID)
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+			deleteTransitGatewayOptions.SetHeaders(header)
+
+			It(`Failed to delete gateway by instanceID`, func() {
+				shouldSkipTest()
+
+				detailedResponse, err := service.DeleteTransitGateway(deleteTransitGatewayOptions)
+				Expect(detailedResponse.StatusCode).To(Equal(404))
+				Expect(err).Should(HaveOccurred())
 			})
 		})
 	})
 })
+
+///////////////////////////////////////////////////////////////////////////////
+//                           Test Helper Methods                             //
+///////////////////////////////////////////////////////////////////////////////
+
+// deleteResourceTest deletes a Transit Resource: Resource delete might not be
+// instantaneous.  Poll the Resource looking for a not found. Fail after 4 min
+func deleteCheckTest(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID, pfID string) {
+	timer := 0
+	statusCode := 0
+
+	for {
+		if connID != "" && rrID == "" && pfID == "" {
+			getTransitResourceOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, connID)
+			_, detailedResponse, _ := service.GetTransitGatewayConnection(getTransitResourceOptions)
+			statusCode = detailedResponse.StatusCode
+		} else if pfID != "" {
+			getTransitResourceOptions := service.NewGetTransitGatewayConnectionPrefixFilterOptions(gatewayID, connID, pfID)
+			_, detailedResponse, _ := service.GetTransitGatewayConnectionPrefixFilter(getTransitResourceOptions)
+			statusCode = detailedResponse.StatusCode
+		} else if connID == "" && rrID != "" {
+			getTransitResourceOptions := service.NewGetTransitGatewayRouteReportOptions(gatewayID, rrID)
+			_, detailedResponse, _ := service.GetTransitGatewayRouteReport(getTransitResourceOptions)
+			statusCode = detailedResponse.StatusCode
+		} else {
+			getTransitResourceOptions := service.NewGetTransitGatewayOptions(gatewayID)
+			_, detailedResponse, _ := service.GetTransitGateway(getTransitResourceOptions)
+			statusCode = detailedResponse.StatusCode
+		}
+		// Break loop if a 404 code is found
+		if statusCode == 404 {
+			Expect(statusCode).To(Equal(404))
+			break
+		}
+
+		// Other than 404: See if the timeout value has been reached.
+		// If so, exit with failure: 4 min timer (24x10sec).
+		if timer > 24 {
+			Expect(statusCode).To(Equal(404))
+			break
+		} else {
+			// Still exists, wait 5 sec
+			time.Sleep(time.Duration(10) * time.Second)
+			timer = timer + 1
+		}
+	}
+}
+
+// isResourceAvailable checks until the resource status is available/attached/complete. Fail after 2 min.
+func isResourceAvailable(service *transitgatewayapisv1.TransitGatewayApisV1, gatewayID, connID, rrID string) {
+	timer := 0
+	delay := 5
+	resourceStatus := "available"
+
+	for {
+		breaker := 0
+		if connID == "" && rrID != "" {
+			getTransitResourceOptions := service.NewGetTransitGatewayRouteReportOptions(gatewayID, rrID)
+			response, _, _ := service.GetTransitGatewayRouteReport(getTransitResourceOptions)
+			delay = 10
+			if *response.Status == "complete" {
+				Expect(*response.ID).To(Equal(rrID))
+				Expect(&response.Connections).NotTo(BeNil())
+				Expect(*response.Status).To(Equal("complete"))
+				breaker = 1
+			}
+		} else if connID != "" && rrID == "" {
+			getTransitResourceOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, connID)
+			response, _, _ := service.GetTransitGatewayConnection(getTransitResourceOptions)
+			if *response.Status == "attached" {
+				Expect(*response.ID).To(Equal(connID))
+				Expect(*response.NetworkType).NotTo(Equal(""))
+				Expect(*response.Status).To(Equal("attached"))
+				breaker = 1
+			}
+		} else {
+			getTransitResourceOptions := service.NewGetTransitGatewayOptions(gatewayID)
+			response, _, _ := service.GetTransitGateway(getTransitResourceOptions)
+			if *response.Status == "available" {
+				Expect(*response.Crn).NotTo(Equal(""))
+				Expect(*response.ID).To(Equal(gatewayID))
+				Expect(*response.Status).To(Equal("available"))
+				breaker = 1
+			}
+		}
+		// Break loop if resourse is available!
+		if breaker != 0 {
+			Expect(breaker).NotTo(Equal(0))
+			break
+		}
+
+		// Other than available/attached/complete status: See if we the timeout
+		// value has been reached. If so, exit with failure after 2 min timer (24x5sec).
+		if timer > 24 {
+			// timed out fail if resourse is not available.
+			Expect(resourceStatus).To(Equal("non-available"))
+			break
+		} else {
+			// Still exists, wait 5 or 10 secs
+			time.Sleep(time.Duration(delay) * time.Second)
+			timer = timer + 1
+		}
+	}
+}
