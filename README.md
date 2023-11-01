@@ -88,7 +88,7 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 
 ## Installation
 
-The current version of this SDK: 0.43.0
+The current version of this SDK: 0.43.1
 
 There are a few different ways to download and install the Networking Go SDK project for use by your
 Go application:
