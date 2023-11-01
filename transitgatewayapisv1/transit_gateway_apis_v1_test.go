@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
-	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.ibm.com/IBM/networking-go-sdk/transitgatewayapisv1"
 )
 
 var _ = Describe(`TransitGatewayApisV1`, func() {
@@ -40,14 +40,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		It(`Instantiate service client`, func() {
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			Expect(transitGatewayApisService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(transitGatewayApisService).To(BeNil())
@@ -55,7 +55,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-				URL:     "https://transitgatewayapisv1/api",
+				URL: "https://transitgatewayapisv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -76,7 +76,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"TRANSIT_GATEWAY_APIS_URL":       "https://transitgatewayapisv1/api",
+				"TRANSIT_GATEWAY_APIS_URL": "https://transitgatewayapisv1/api",
 				"TRANSIT_GATEWAY_APIS_AUTH_TYPE": "noauth",
 			}
 
@@ -98,7 +98,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1UsingExternalConfig(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:     "https://testService/api",
+					URL: "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -134,7 +134,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"TRANSIT_GATEWAY_APIS_URL":       "https://transitgatewayapisv1/api",
+				"TRANSIT_GATEWAY_APIS_URL": "https://transitgatewayapisv1/api",
 				"TRANSIT_GATEWAY_APIS_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,12 +152,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"TRANSIT_GATEWAY_APIS_AUTH_TYPE": "NOAuth",
+				"TRANSIT_GATEWAY_APIS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1UsingExternalConfig(&transitgatewayapisv1.TransitGatewayApisV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -190,25 +190,25 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListTransitGateways with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Construct an instance of the ListTransitGatewaysOptions model
 				listTransitGatewaysOptionsModel := new(transitgatewayapisv1.ListTransitGatewaysOptions)
-				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listTransitGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listTransitGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -242,7 +242,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
@@ -257,7 +257,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -265,7 +265,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				// Construct an instance of the ListTransitGatewaysOptions model
 				listTransitGatewaysOptionsModel := new(transitgatewayapisv1.ListTransitGatewaysOptions)
-				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listTransitGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listTransitGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -304,7 +304,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -316,7 +316,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -329,7 +329,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				// Construct an instance of the ListTransitGatewaysOptions model
 				listTransitGatewaysOptionsModel := new(transitgatewayapisv1.ListTransitGatewaysOptions)
-				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listTransitGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listTransitGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -344,14 +344,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Construct an instance of the ListTransitGatewaysOptions model
 				listTransitGatewaysOptionsModel := new(transitgatewayapisv1.ListTransitGatewaysOptions)
-				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listTransitGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listTransitGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -380,14 +380,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Construct an instance of the ListTransitGatewaysOptions model
 				listTransitGatewaysOptionsModel := new(transitgatewayapisv1.ListTransitGatewaysOptions)
-				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listTransitGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listTransitGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listTransitGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -406,20 +406,92 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Test pagination helper method on response`, func() {
 			It(`Invoke GetNextStart successfully`, func() {
 				responseObject := new(transitgatewayapisv1.TransitGatewayCollection)
-				nextObject := new(transitgatewayapisv1.TransitGatewayCollectionNext)
+				nextObject := new(transitgatewayapisv1.PaginationNextTG)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitGatewayCollection)
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewaysPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"id":"56969d6043e9465c883cb9f7363e78e8","href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"id":"56969d6043e9465c883cb9f7363e78e8","href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use TransitGatewaysPager.GetNext successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				listTransitGatewaysOptionsModel := &transitgatewayapisv1.ListTransitGatewaysOptions{
+					Limit: core.Int64Ptr(int64(10)),
+				}
+
+				pager, err := transitGatewayApisService.NewTransitGatewaysPager(listTransitGatewaysOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []transitgatewayapisv1.TransitGateway
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use TransitGatewaysPager.GetAll successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				listTransitGatewaysOptionsModel := &transitgatewayapisv1.ListTransitGatewaysOptions{
+					Limit: core.Int64Ptr(int64(10)),
+				}
+
+				pager, err := transitGatewayApisService.NewTransitGatewaysPager(listTransitGatewaysOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -437,14 +509,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateTransitGateway with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -520,7 +592,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -599,7 +671,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -633,7 +705,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -682,7 +754,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -732,7 +804,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -756,7 +828,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -798,14 +870,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetTransitGateway with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -858,7 +930,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -914,7 +986,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -941,7 +1013,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -983,7 +1055,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1020,14 +1092,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateTransitGateway with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1098,7 +1170,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1172,7 +1244,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1201,7 +1273,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1245,7 +1317,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1282,26 +1354,26 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["network_id"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListConnections with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := new(transitgatewayapisv1.ListConnectionsOptions)
-				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1336,7 +1408,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["network_id"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
@@ -1345,14 +1417,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully with retries`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1360,7 +1432,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := new(transitgatewayapisv1.ListConnectionsOptions)
-				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1400,20 +1472,20 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["network_id"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1426,7 +1498,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := new(transitgatewayapisv1.ListConnectionsOptions)
-				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1442,14 +1514,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := new(transitgatewayapisv1.ListConnectionsOptions)
-				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1479,14 +1551,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := new(transitgatewayapisv1.ListConnectionsOptions)
-				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1506,20 +1578,94 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Test pagination helper method on response`, func() {
 			It(`Invoke GetNextStart successfully`, func() {
 				responseObject := new(transitgatewayapisv1.TransitConnectionCollection)
-				nextObject := new(transitgatewayapisv1.TransitConnectionCollectionNext)
+				nextObject := new(transitgatewayapisv1.PaginationNextConnection)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitConnectionCollection)
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listConnectionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use ConnectionsPager.GetNext successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				listConnectionsOptionsModel := &transitgatewayapisv1.ListConnectionsOptions{
+					Limit: core.Int64Ptr(int64(10)),
+					NetworkID: core.StringPtr("testString"),
+				}
+
+				pager, err := transitGatewayApisService.NewConnectionsPager(listConnectionsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []transitgatewayapisv1.TransitConnection
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use ConnectionsPager.GetAll successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				listConnectionsOptionsModel := &transitgatewayapisv1.ListConnectionsOptions{
+					Limit: core.Int64Ptr(int64(10)),
+					NetworkID: core.StringPtr("testString"),
+				}
+
+				pager, err := transitGatewayApisService.NewConnectionsPager(listConnectionsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -1535,16 +1681,19 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1552,6 +1701,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the ListTransitGatewayConnectionsOptions model
 				listTransitGatewayConnectionsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionsOptions)
 				listTransitGatewayConnectionsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Start = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listTransitGatewayConnectionsOptionsModel.Name = core.StringPtr("testString")
 				listTransitGatewayConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := transitGatewayApisService.ListTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel)
@@ -1584,20 +1736,23 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully with retries`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1606,6 +1761,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the ListTransitGatewayConnectionsOptions model
 				listTransitGatewayConnectionsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionsOptions)
 				listTransitGatewayConnectionsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Start = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listTransitGatewayConnectionsOptionsModel.Name = core.StringPtr("testString")
 				listTransitGatewayConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1643,17 +1801,20 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1667,6 +1828,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the ListTransitGatewayConnectionsOptions model
 				listTransitGatewayConnectionsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionsOptions)
 				listTransitGatewayConnectionsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Start = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listTransitGatewayConnectionsOptionsModel.Name = core.StringPtr("testString")
 				listTransitGatewayConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1680,7 +1844,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1688,6 +1852,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the ListTransitGatewayConnectionsOptions model
 				listTransitGatewayConnectionsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionsOptions)
 				listTransitGatewayConnectionsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Start = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listTransitGatewayConnectionsOptionsModel.Name = core.StringPtr("testString")
 				listTransitGatewayConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
@@ -1722,7 +1889,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1730,6 +1897,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the ListTransitGatewayConnectionsOptions model
 				listTransitGatewayConnectionsOptionsModel := new(transitgatewayapisv1.ListTransitGatewayConnectionsOptions)
 				listTransitGatewayConnectionsOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Start = core.StringPtr("testString")
+				listTransitGatewayConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listTransitGatewayConnectionsOptionsModel.Name = core.StringPtr("testString")
 				listTransitGatewayConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1742,6 +1912,101 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 			AfterEach(func() {
 				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextStart successfully`, func() {
+				responseObject := new(transitgatewayapisv1.TransitGatewayConnectionCollection)
+				nextObject := new(transitgatewayapisv1.PaginationNextTGWConnection)
+				nextObject.Start = core.StringPtr("abc-123")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.StringPtr("abc-123")))
+			})
+			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
+				responseObject := new(transitgatewayapisv1.TransitGatewayConnectionCollection)
+	
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayConnectionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"28e4d90ac7504be694471ee66e70d0d5","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"28e4d90ac7504be694471ee66e70d0d5","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use TransitGatewayConnectionsPager.GetNext successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				listTransitGatewayConnectionsOptionsModel := &transitgatewayapisv1.ListTransitGatewayConnectionsOptions{
+					TransitGatewayID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("testString"),
+				}
+
+				pager, err := transitGatewayApisService.NewTransitGatewayConnectionsPager(listTransitGatewayConnectionsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []transitgatewayapisv1.TransitGatewayConnectionCust
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use TransitGatewayConnectionsPager.GetAll successfully`, func() {
+				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(transitGatewayApisService).ToNot(BeNil())
+
+				listTransitGatewayConnectionsOptionsModel := &transitgatewayapisv1.ListTransitGatewayConnectionsOptions{
+					TransitGatewayID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("testString"),
+				}
+
+				pager, err := transitGatewayApisService.NewTransitGatewayConnectionsPager(listTransitGatewayConnectionsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
 			})
 		})
 	})
@@ -1759,14 +2024,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1860,7 +2125,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1957,7 +2222,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2009,7 +2274,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2076,7 +2341,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2144,7 +2409,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2169,7 +2434,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2212,14 +2477,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2273,7 +2538,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2330,7 +2595,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2358,7 +2623,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2401,7 +2666,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2439,14 +2704,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2518,7 +2783,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2593,7 +2858,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2623,7 +2888,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2668,7 +2933,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2730,7 +2995,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2756,7 +3021,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2800,14 +3065,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListGatewayLocations with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2859,7 +3124,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2914,7 +3179,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2940,7 +3205,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2974,7 +3239,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3010,14 +3275,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetGatewayLocation with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3070,7 +3335,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3126,7 +3391,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3153,7 +3418,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3195,7 +3460,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3232,14 +3497,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnectionPrefixFilters with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3293,7 +3558,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3350,7 +3615,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3378,7 +3643,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3421,7 +3686,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3459,14 +3724,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3541,7 +3806,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3619,7 +3884,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3652,7 +3917,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3700,7 +3965,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3743,14 +4008,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ReplaceTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3828,7 +4093,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3909,7 +4174,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3945,7 +4210,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3996,7 +4261,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4048,7 +4313,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4074,7 +4339,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4118,14 +4383,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4180,7 +4445,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4238,7 +4503,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4267,7 +4532,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4311,7 +4576,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4350,14 +4615,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4433,7 +4698,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4512,7 +4777,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4546,7 +4811,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4595,7 +4860,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4639,14 +4904,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayRouteReports with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4699,7 +4964,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4755,7 +5020,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4782,7 +5047,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4824,7 +5089,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4861,14 +5126,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayRouteReport with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4921,7 +5186,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4977,7 +5242,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5004,7 +5269,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5046,7 +5311,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5089,7 +5354,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5114,7 +5379,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5157,14 +5422,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayRouteReport with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5218,7 +5483,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5275,7 +5540,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5303,7 +5568,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5346,7 +5611,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5376,7 +5641,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			transitGatewayApisService, _ := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 				URL:           "http://transitgatewayapisv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			It(`Invoke NewCreateTransitGatewayConnectionActionsOptions successfully`, func() {
 				// Construct an instance of the CreateTransitGatewayConnectionActionsOptions model
@@ -5626,12 +5891,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			It(`Invoke NewListConnectionsOptions successfully`, func() {
 				// Construct an instance of the ListConnectionsOptions model
 				listConnectionsOptionsModel := transitGatewayApisService.NewListConnectionsOptions()
-				listConnectionsOptionsModel.SetLimit(int64(1))
+				listConnectionsOptionsModel.SetLimit(int64(10))
 				listConnectionsOptionsModel.SetStart("testString")
 				listConnectionsOptionsModel.SetNetworkID("testString")
 				listConnectionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listConnectionsOptionsModel).ToNot(BeNil())
-				Expect(listConnectionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listConnectionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listConnectionsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
 				Expect(listConnectionsOptionsModel.NetworkID).To(Equal(core.StringPtr("testString")))
 				Expect(listConnectionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -5661,9 +5926,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayID := "testString"
 				listTransitGatewayConnectionsOptionsModel := transitGatewayApisService.NewListTransitGatewayConnectionsOptions(transitGatewayID)
 				listTransitGatewayConnectionsOptionsModel.SetTransitGatewayID("testString")
+				listTransitGatewayConnectionsOptionsModel.SetStart("testString")
+				listTransitGatewayConnectionsOptionsModel.SetLimit(int64(10))
+				listTransitGatewayConnectionsOptionsModel.SetName("testString")
 				listTransitGatewayConnectionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listTransitGatewayConnectionsOptionsModel).ToNot(BeNil())
 				Expect(listTransitGatewayConnectionsOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayConnectionsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayConnectionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
+				Expect(listTransitGatewayConnectionsOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listTransitGatewayConnectionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListTransitGatewayRouteReportsOptions successfully`, func() {
@@ -5679,11 +5950,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			It(`Invoke NewListTransitGatewaysOptions successfully`, func() {
 				// Construct an instance of the ListTransitGatewaysOptions model
 				listTransitGatewaysOptionsModel := transitGatewayApisService.NewListTransitGatewaysOptions()
-				listTransitGatewaysOptionsModel.SetLimit(int64(1))
+				listTransitGatewaysOptionsModel.SetLimit(int64(10))
 				listTransitGatewaysOptionsModel.SetStart("testString")
 				listTransitGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listTransitGatewaysOptionsModel).ToNot(BeNil())
-				Expect(listTransitGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listTransitGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listTransitGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
 				Expect(listTransitGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
