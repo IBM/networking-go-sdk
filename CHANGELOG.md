@@ -1,3 +1,10 @@
+# [0.44.0](https://github.com/IBM/networking-go-sdk/compare/v0.43.1...v0.44.0) (2023-11-03)
+
+
+### Features
+
+* Updating the list of reserved ASN numbers ([#157](https://github.com/IBM/networking-go-sdk/issues/157)) ([0f1348b](https://github.com/IBM/networking-go-sdk/commit/0f1348b26f996ecf71ca1ea89953acc203ff48a1))
+
 ## [0.43.1](https://github.com/IBM/networking-go-sdk/compare/v0.43.0...v0.43.1) (2023-10-31)
 
 
