@@ -1485,34 +1485,34 @@ var _ = Describe(`DirectLinkV1`, func() {
 			// 	Expect(detailedResponse.StatusCode).To(Equal(204))
 			// })
 
-			It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
-				shouldSkipTest()
+			// It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
+			// 	shouldSkipTest()
 
-				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
+			// 	getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
 
-				// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
-				timer := 0
-				for {
-					// Get the current rc for the VC
-					_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
+			// 	// VC delete might not be instantaneous.  Poll the VC looking for a not found.  Fail after 2 min
+			// 	timer := 0
+			// 	for {
+			// 		// Get the current rc for the VC
+			// 		_, detailedResponse, _ := service.GetGatewayVirtualConnection(getGatewayVCOptions)
 
-					// if 404 then we are done
-					if detailedResponse.StatusCode == 404 {
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
-						break
-					}
+			// 		// if 404 then we are done
+			// 		if detailedResponse.StatusCode == 404 {
+			// 			Expect(detailedResponse.StatusCode).To(Equal(404)) // response is 404, exit success
+			// 			break
+			// 		}
 
-					// other than 404, see if we have reached the timeout value.  If so, exit with failure
-					if timer > 600 { // 2 min timer (24x5 sec)
-						Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
-						break
-					} else {
-						// Still exists, wait 5 sec
-						time.Sleep(time.Duration(5) * time.Second)
-						timer = timer + 1
-					}
-				}
-			})
+			// 		// other than 404, see if we have reached the timeout value.  If so, exit with failure
+			// 		if timer > 600 { // 2 min timer (24x5 sec)
+			// 			Expect(detailedResponse.StatusCode).To(Equal(404)) // timed out fail if code is not 404
+			// 			break
+			// 		} else {
+			// 			// Still exists, wait 5 sec
+			// 			time.Sleep(time.Duration(5) * time.Second)
+			// 			timer = timer + 1
+			// 		}
+			// 	}
+			// })
 
 			It("Successfully deletes a gateway", func() {
 				shouldSkipTest()
