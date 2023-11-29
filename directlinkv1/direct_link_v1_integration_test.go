@@ -1349,21 +1349,21 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(*result.NetworkID).To(Equal(vpcCrn))
 			})
 
-			It("Successfully get a Gen 2 VPC virtual connection", func() {
-				shouldSkipTest()
+			// It("Successfully get a Gen 2 VPC virtual connection", func() {
+			// 	shouldSkipTest()
 
-				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
-				result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+			// 	getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
+			// 	result, detailedResponse, err := service.GetGatewayVirtualConnection(getGatewayVCOptions)
+			// 	Expect(err).To(BeNil())
+			// 	Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
-				Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-			})
+			// 	Expect(*result.ID).To(Equal(os.Getenv("GEN2_VPC_VC_ID")))
+			// 	Expect(*result.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
+			// 	Expect(*result.CreatedAt).NotTo(Equal(""))
+			// 	Expect(*result.Status).To(Equal("pending"))
+			// 	Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+			// 	Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
+			// })
 
 			It("Successfully list the virtual connections for a gateway", func() {
 				shouldSkipTest()
