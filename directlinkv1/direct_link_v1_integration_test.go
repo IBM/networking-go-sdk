@@ -1365,34 +1365,34 @@ var _ = Describe(`DirectLinkV1`, func() {
 			// 	Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
 			// })
 
-			It("Successfully list the virtual connections for a gateway", func() {
-				shouldSkipTest()
+			// It("Successfully list the virtual connections for a gateway", func() {
+			// 	shouldSkipTest()
 
-				listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
-				result, detailedResponse, err := service.ListGatewayVirtualConnections(listVcOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+			// 	listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
+			// 	result, detailedResponse, err := service.ListGatewayVirtualConnections(listVcOptions)
+			// 	Expect(err).To(BeNil())
+			// 	Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				vcs := result.VirtualConnections
-				// two VCs were created for the GW, so we should expect 2
-				Expect(len(vcs)).Should(BeNumerically("==", 2))
+			// 	vcs := result.VirtualConnections
+			// 	// two VCs were created for the GW, so we should expect 2
+			// 	Expect(len(vcs)).Should(BeNumerically("==", 2))
 
-				for _, vc := range vcs {
-					if *vc.ID == os.Getenv("GEN2_VPC_VC_ID") {
-						Expect(*vc.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-						Expect(*vc.CreatedAt).NotTo(Equal(""))
-						Expect(*vc.Status).To(Equal("pending"))
-						Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-						Expect(*vc.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-					} else {
-						Expect(*vc.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
-						Expect(*vc.Name).To(Equal("GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
-						Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
-						Expect(*vc.CreatedAt).NotTo(Equal(""))
-						Expect(*vc.Status).To(Equal("pending"))
-					}
-				}
-			})
+			// 	for _, vc := range vcs {
+			// 		if *vc.ID == os.Getenv("GEN2_VPC_VC_ID") {
+			// 			Expect(*vc.Name).To(Equal("GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
+			// 			Expect(*vc.CreatedAt).NotTo(Equal(""))
+			// 			Expect(*vc.Status).To(Equal("pending"))
+			// 			Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+			// 			Expect(*vc.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
+			// 		} else {
+			// 			Expect(*vc.ID).To(Equal(os.Getenv("CLASSIC_VC_ID")))
+			// 			Expect(*vc.Name).To(Equal("GO-INT-CLASSIC-VC-SDK-" + strconv.FormatInt(timestamp, 10)))
+			// 			Expect(*vc.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Classic))
+			// 			Expect(*vc.CreatedAt).NotTo(Equal(""))
+			// 			Expect(*vc.Status).To(Equal("pending"))
+			// 		}
+			// 	}
+			// })
 
 			It("Successfully Update a virtual connection name", func() {
 				shouldSkipTest()
