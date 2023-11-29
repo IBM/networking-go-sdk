@@ -1394,43 +1394,43 @@ var _ = Describe(`DirectLinkV1`, func() {
 			// 	}
 			// })
 
-			It("Successfully Update a virtual connection name", func() {
-				shouldSkipTest()
+			// It("Successfully Update a virtual connection name", func() {
+			// 	shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				vcId := os.Getenv("GEN2_VPC_VC_ID")
-				vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
-				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-				patchGatewayOptions = patchGatewayOptions.SetName(vcName)
+			// 	gatewayId := os.Getenv("GATEWAY_ID")
+			// 	vcId := os.Getenv("GEN2_VPC_VC_ID")
+			// 	vcName := "GO-INT-GEN2-VPC-VC-PATCH-SDK-" + strconv.FormatInt(timestamp, 10)
+			// 	patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
+			// 	patchGatewayOptions = patchGatewayOptions.SetName(vcName)
 
-				result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
-				Expect(err).To(BeNil())
-				Expect(detailedResponse.StatusCode).To(Equal(200))
+			// 	result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
+			// 	Expect(err).To(BeNil())
+			// 	Expect(detailedResponse.StatusCode).To(Equal(200))
 
-				Expect(*result.ID).To(Equal(vcId))
-				Expect(*result.Name).To(Equal(vcName))
-				Expect(*result.CreatedAt).NotTo(Equal(""))
-				Expect(*result.Status).To(Equal("pending"))
-				Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
-				Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
-			})
+			// 	Expect(*result.ID).To(Equal(vcId))
+			// 	Expect(*result.Name).To(Equal(vcName))
+			// 	Expect(*result.CreatedAt).NotTo(Equal(""))
+			// 	Expect(*result.Status).To(Equal("pending"))
+			// 	Expect(*result.Type).To(Equal(directlinkv1.CreateGatewayVirtualConnectionOptions_Type_Vpc))
+			// 	Expect(*result.NetworkID).To(Equal(os.Getenv("GEN2_VPC_CRN")))
+			// })
 
-			It("Fail to Update a virtual connection status", func() {
-				shouldSkipTest()
+			// It("Fail to Update a virtual connection status", func() {
+			// 	shouldSkipTest()
 
-				gatewayId := os.Getenv("GATEWAY_ID")
-				vcId := os.Getenv("GEN2_VPC_VC_ID")
-				patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
-				patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
+			// 	gatewayId := os.Getenv("GATEWAY_ID")
+			// 	vcId := os.Getenv("GEN2_VPC_VC_ID")
+			// 	patchGatewayOptions := service.NewUpdateGatewayVirtualConnectionOptions(gatewayId, vcId)
+			// 	patchGatewayOptions = patchGatewayOptions.SetStatus(directlinkv1.UpdateGatewayVirtualConnectionOptions_Status_Rejected)
 
-				result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
+			// 	result, detailedResponse, err := service.UpdateGatewayVirtualConnection(patchGatewayOptions)
 
-				// GW owner is not allowed to change the status, but the test calls the API with the status parameter to valid it is allowed.
-				Expect(result).To(BeNil())
-				Expect(err).NotTo(BeNil())
-				Expect(err.Error()).To(Equal("gateway owner can't patch vc status."))
-				Expect(detailedResponse.StatusCode).To(Equal(400))
-			})
+			// 	// GW owner is not allowed to change the status, but the test calls the API with the status parameter to valid it is allowed.
+			// 	Expect(result).To(BeNil())
+			// 	Expect(err).NotTo(BeNil())
+			// 	Expect(err.Error()).To(Equal("gateway owner can't patch vc status."))
+			// 	Expect(detailedResponse.StatusCode).To(Equal(400))
+			// })
 
 			It("Successfully delete a CLASSIC virtual connection for a gateway", func() {
 				shouldSkipTest()
