@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,14 +40,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Instantiate service client`, func() {
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			Expect(directLinkProviderService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(directLinkProviderService).To(BeNil())
@@ -55,7 +55,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
-				URL:     "https://directlinkproviderv2/api",
+				URL: "https://directlinkproviderv2/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -76,7 +76,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_PROVIDER_URL":       "https://directlinkproviderv2/api",
+				"DIRECT_LINK_PROVIDER_URL": "https://directlinkproviderv2/api",
 				"DIRECT_LINK_PROVIDER_AUTH_TYPE": "noauth",
 			}
 
@@ -98,7 +98,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2UsingExternalConfig(&directlinkproviderv2.DirectLinkProviderV2Options{
-					URL:     "https://testService/api",
+					URL: "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -134,7 +134,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_PROVIDER_URL":       "https://directlinkproviderv2/api",
+				"DIRECT_LINK_PROVIDER_URL": "https://directlinkproviderv2/api",
 				"DIRECT_LINK_PROVIDER_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,12 +152,12 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_PROVIDER_AUTH_TYPE": "NOAuth",
+				"DIRECT_LINK_PROVIDER_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2UsingExternalConfig(&directlinkproviderv2.DirectLinkProviderV2Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -191,17 +191,17 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListProviderGateways with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -209,7 +209,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderGatewaysOptions model
 				listProviderGatewaysOptionsModel := new(directlinkproviderv2.ListProviderGatewaysOptions)
 				listProviderGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkProviderService.ListProviderGateways(listProviderGatewaysOptionsModel)
@@ -243,7 +243,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -257,7 +257,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -266,7 +266,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderGatewaysOptions model
 				listProviderGatewaysOptionsModel := new(directlinkproviderv2.ListProviderGatewaysOptions)
 				listProviderGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -305,7 +305,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -316,7 +316,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -330,7 +330,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderGatewaysOptions model
 				listProviderGatewaysOptionsModel := new(directlinkproviderv2.ListProviderGatewaysOptions)
 				listProviderGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -344,7 +344,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -352,7 +352,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderGatewaysOptions model
 				listProviderGatewaysOptionsModel := new(directlinkproviderv2.ListProviderGatewaysOptions)
 				listProviderGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkProviderService.SetServiceURL("")
@@ -380,7 +380,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -388,7 +388,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderGatewaysOptions model
 				listProviderGatewaysOptionsModel := new(directlinkproviderv2.ListProviderGatewaysOptions)
 				listProviderGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderGatewaysOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -422,6 +422,78 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				Expect(value).To(BeNil())
 			})
 		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listProviderGatewaysPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use ProviderGatewaysPager.GetNext successfully`, func() {
+				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkProviderService).ToNot(BeNil())
+
+				listProviderGatewaysOptionsModel := &directlinkproviderv2.ListProviderGatewaysOptions{
+					Limit: core.Int64Ptr(int64(10)),
+				}
+
+				pager, err := directLinkProviderService.NewProviderGatewaysPager(listProviderGatewaysOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []directlinkproviderv2.ProviderGateway
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use ProviderGatewaysPager.GetAll successfully`, func() {
+				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkProviderService).ToNot(BeNil())
+
+				listProviderGatewaysOptionsModel := &directlinkproviderv2.ListProviderGatewaysOptions{
+					Limit: core.Int64Ptr(int64(10)),
+				}
+
+				pager, err := directLinkProviderService.NewProviderGatewaysPager(listProviderGatewaysOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
+			})
+		})
 	})
 	Describe(`CreateProviderGateway(createProviderGatewayOptions *CreateProviderGatewayOptions) - Operation response error`, func() {
 		version := "testString"
@@ -438,14 +510,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.URL.Query()["check_only"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateProviderGateway with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -527,7 +599,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -612,7 +684,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -651,7 +723,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -705,7 +777,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -754,14 +826,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke DeleteProviderGateway with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -814,7 +886,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -870,7 +942,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -897,7 +969,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -939,7 +1011,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -976,14 +1048,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetProviderGateway with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1036,7 +1108,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1092,7 +1164,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1119,7 +1191,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1161,7 +1233,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1198,14 +1270,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateProviderGateway with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1280,7 +1352,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1358,7 +1430,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1391,7 +1463,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1439,7 +1511,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1481,17 +1553,17 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListProviderPorts with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1499,7 +1571,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderPortsOptions model
 				listProviderPortsOptionsModel := new(directlinkproviderv2.ListProviderPortsOptions)
 				listProviderPortsOptionsModel.Start = core.StringPtr("testString")
-				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkProviderService.ListProviderPorts(listProviderPortsOptionsModel)
@@ -1533,7 +1605,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -1547,7 +1619,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1556,7 +1628,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderPortsOptions model
 				listProviderPortsOptionsModel := new(directlinkproviderv2.ListProviderPortsOptions)
 				listProviderPortsOptionsModel.Start = core.StringPtr("testString")
-				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1595,7 +1667,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1606,7 +1678,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1620,7 +1692,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderPortsOptions model
 				listProviderPortsOptionsModel := new(directlinkproviderv2.ListProviderPortsOptions)
 				listProviderPortsOptionsModel.Start = core.StringPtr("testString")
-				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1634,7 +1706,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1642,7 +1714,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderPortsOptions model
 				listProviderPortsOptionsModel := new(directlinkproviderv2.ListProviderPortsOptions)
 				listProviderPortsOptionsModel.Start = core.StringPtr("testString")
-				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkProviderService.SetServiceURL("")
@@ -1670,7 +1742,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1678,7 +1750,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderPortsOptions model
 				listProviderPortsOptionsModel := new(directlinkproviderv2.ListProviderPortsOptions)
 				listProviderPortsOptionsModel.Start = core.StringPtr("testString")
-				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listProviderPortsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listProviderPortsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1712,6 +1784,78 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				Expect(value).To(BeNil())
 			})
 		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listProviderPortsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[19]}]}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[19]}]}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use ProviderPortsPager.GetNext successfully`, func() {
+				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkProviderService).ToNot(BeNil())
+
+				listProviderPortsOptionsModel := &directlinkproviderv2.ListProviderPortsOptions{
+					Limit: core.Int64Ptr(int64(10)),
+				}
+
+				pager, err := directLinkProviderService.NewProviderPortsPager(listProviderPortsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []directlinkproviderv2.ProviderPort
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use ProviderPortsPager.GetAll successfully`, func() {
+				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkProviderService).ToNot(BeNil())
+
+				listProviderPortsOptionsModel := &directlinkproviderv2.ListProviderPortsOptions{
+					Limit: core.Int64Ptr(int64(10)),
+				}
+
+				pager, err := directLinkProviderService.NewProviderPortsPager(listProviderPortsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
+			})
+		})
 	})
 	Describe(`GetProviderPort(getProviderPortOptions *GetProviderPortOptions) - Operation response error`, func() {
 		version := "testString"
@@ -1727,14 +1871,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetProviderPort with error: Operation response processing error`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1787,7 +1931,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1843,7 +1987,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1870,7 +2014,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1912,7 +2056,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1941,7 +2085,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			directLinkProviderService, _ := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 				URL:           "http://directlinkproviderv2modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			It(`Invoke NewCreateProviderGatewayOptions successfully`, func() {
 				// Construct an instance of the ProviderGatewayPortIdentity model
@@ -2013,22 +2157,22 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				// Construct an instance of the ListProviderGatewaysOptions model
 				listProviderGatewaysOptionsModel := directLinkProviderService.NewListProviderGatewaysOptions()
 				listProviderGatewaysOptionsModel.SetStart("testString")
-				listProviderGatewaysOptionsModel.SetLimit(int64(1))
+				listProviderGatewaysOptionsModel.SetLimit(int64(10))
 				listProviderGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listProviderGatewaysOptionsModel).ToNot(BeNil())
 				Expect(listProviderGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listProviderGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listProviderGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listProviderGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListProviderPortsOptions successfully`, func() {
 				// Construct an instance of the ListProviderPortsOptions model
 				listProviderPortsOptionsModel := directLinkProviderService.NewListProviderPortsOptions()
 				listProviderPortsOptionsModel.SetStart("testString")
-				listProviderPortsOptionsModel.SetLimit(int64(1))
+				listProviderPortsOptionsModel.SetLimit(int64(10))
 				listProviderPortsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listProviderPortsOptionsModel).ToNot(BeNil())
 				Expect(listProviderPortsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listProviderPortsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listProviderPortsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listProviderPortsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewProviderGatewayPortIdentity successfully`, func() {
