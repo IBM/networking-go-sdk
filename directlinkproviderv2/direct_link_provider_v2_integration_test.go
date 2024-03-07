@@ -23,6 +23,7 @@ package directlinkproviderv2_test
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -38,16 +39,15 @@ import (
 var configLoaded = false
 
 func shouldSkipTest() {
-	Skip("skipping failing test")
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
 }
 
 var _ = Describe(`DirectLinkProviderV2`, func() {
-	BeforeEach(func() {
-		Skip("Skipping Tests")
-	})
+	defer GinkgoRecover()
+	//Skip("Skipping")
+	fmt.Println("Entered here ")
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
@@ -1226,7 +1226,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			shouldSkipTest()
 			gatewayId := os.Getenv("GATEWAY_ID")
 			getGatewayOptions := serviceV1.NewGetGatewayOptions(gatewayId)
-			fmt.Printf("gateway id to delete %v", gatewayId)
 
 			// before a connect gateway can be deleted, it needs to have operational_status of provisioned.  We need to wait for
 			// the new gateway to go to provisioned so we can delete it.
