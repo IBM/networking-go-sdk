@@ -23,7 +23,6 @@ package directlinkproviderv2_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -47,7 +46,6 @@ func shouldSkipTest() {
 var _ = Describe(`DirectLinkProviderV2`, func() {
 	defer GinkgoRecover()
 	//Skip("Skipping")
-	fmt.Println("Entered here ")
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
@@ -1265,8 +1263,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Successfully approve gateway delete using client account`, func() {
 			shouldSkipTest()
 			gatewayId := os.Getenv("GATEWAY_ID")
-
-			fmt.Printf("gateway id to approve delete %v", gatewayId)
 
 			createGatewayActionOptions := serviceV1.NewCreateGatewayActionOptions(gatewayId)
 			createGatewayActionOptions.SetAction(directlinkv1.CreateGatewayActionOptions_Action_DeleteGatewayApprove)
