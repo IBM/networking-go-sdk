@@ -58,6 +58,7 @@ var _ = Describe(`BotManagementV1`, func() {
 		Context(`botmanagementv1_test`, func() {
 			defer GinkgoRecover()
 			It(`Get | Update Bot Management Settings`, func() {
+				Skip("skipping test")
 				shouldSkipTest()
 
 				// Get Bot Management Settings

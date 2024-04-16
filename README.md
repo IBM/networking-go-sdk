@@ -60,6 +60,7 @@ The IBM Cloud Networking Go SDK allows developers to programmatically interact w
 | [CIS: Page Rules](https://cloud.ibm.com/apidocs/cis?code=go#get-page-rule)                                           | pageruleapiv1                  |
 | [CIS: Range Application](https://cloud.ibm.com/apidocs/cis?code=go#list-range-applications)                          | rangeapplicationsv1            |
 | [CIS: Routing](https://cloud.ibm.com/apidocs/cis?code=go#get-routing-feature-smart-routing-setting)                  | routingv1                      |
+| [CIS: Rulesets]()		| rulesetsv1		|
 | [CIS: Security Events](https://cloud.ibm.com/apidocs/cis?code=go#logs-of-the-mitigations-performed-by-firewall-feat) | securityeventsapiv1            |
 | [CIS: SSL/TLS](https://cloud.ibm.com/apidocs/cis?code=go#list-all-certificates)                                      | sslcertificateapiv1            |
 | [CIS: User Agent Blocking Rules](https://cloud.ibm.com/apidocs/cis?code=go#list-all-user-agent-blocking-rules)       | useragentblockingrulesv1       |
@@ -126,6 +127,7 @@ import (
   "github.com/IBM/networking-go-sdk/pageruleapiv1"
   "github.com/IBM/networking-go-sdk/rangeapplicationsv1"
   "github.com/IBM/networking-go-sdk/routingv1"
+  "github.com/IBM/networking-go-sdk/rulestsv1"
   "github.com/IBM/networking-go-sdk/securityeventsapiv1"
   "github.com/IBM/networking-go-sdk/sslcertificateapiv1"
   "github.com/IBM/networking-go-sdk/useragentblockingrulesv1"

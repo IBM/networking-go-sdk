@@ -29,6 +29,8 @@ func shouldSkipTest() {
 
 var _ = Describe(`zonesv1_test`, func() {
 	defer GinkgoRecover()
+	Skip("Skipping test cases to avoid resource usage.")
+
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
