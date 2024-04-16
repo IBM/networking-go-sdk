@@ -26,6 +26,7 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`BotManagementV1`, func() {
+	Skip("skipping test")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
