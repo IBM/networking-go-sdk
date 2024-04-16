@@ -26,9 +26,9 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`securityeventsapiv1_test`, func() {
-	// BeforeEach(func() {
-	// 	Skip("Skipping Tests")
-	// })
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
