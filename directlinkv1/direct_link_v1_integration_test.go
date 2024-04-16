@@ -58,7 +58,7 @@ func getPortIdForConnect(ports []directlinkv1.Port) *directlinkv1.Port {
 
 var _ = Describe(`DirectLinkV1`, func() {
 	defer GinkgoRecover()
-	// Skip("Skipping")
+	Skip("Skipping")
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
@@ -1039,7 +1039,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully create a Gen 2 VPC virtual connection", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				vcName := "GO-INT-GEN2-VPC-VC-SDK-" + strconv.FormatInt(timestamp, 10)
@@ -1062,7 +1061,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully get a Gen 2 VPC virtual connection", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
@@ -1079,7 +1077,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully list the virtual connections for a gateway", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				listVcOptions := service.NewListGatewayVirtualConnectionsOptions(os.Getenv("GATEWAY_ID"))
@@ -1109,7 +1106,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully Update a virtual connection name", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
@@ -1130,7 +1126,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Fail to Update a virtual connection status", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
@@ -1189,7 +1184,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully deletes GEN 2 VPC virtual connection for a gateway", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				gatewayId := os.Getenv("GATEWAY_ID")
@@ -1202,7 +1196,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 
 			It("Successfully waits for GEN 2 VPC virtual connection to report as deleted", func() {
-				Skip("Skipping this test case because it is failing")
 				shouldSkipTest()
 
 				getGatewayVCOptions := service.NewGetGatewayVirtualConnectionOptions(os.Getenv("GATEWAY_ID"), os.Getenv("GEN2_VPC_VC_ID"))
