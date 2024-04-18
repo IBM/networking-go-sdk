@@ -1,11 +1,12 @@
 language: go
 
-dist: focal
+dist: jammy
 group: beta
 
 go:
-- 1.19.x
 - 1.20.x
+- 1.21.x
+- 1.22.x
 
 notifications:
   email: true
@@ -46,5 +47,5 @@ deploy:
     script: npx semantic-release
     skip_cleanup: true
     on:
-      go: '1.19.x'
+      go: '1.22.x'
       branch: master
