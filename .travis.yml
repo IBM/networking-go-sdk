@@ -4,7 +4,6 @@ dist: jammy
 group: beta
 
 go:
-- 1.20.x
 - 1.21.x
 - 1.22.x
 
@@ -47,5 +46,5 @@ deploy:
     script: npx semantic-release
     skip_cleanup: true
     on:
-      go: '1.22.x'
+      go: '1.23.x'
       branch: master
