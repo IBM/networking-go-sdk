@@ -33,6 +33,7 @@ var authenticationSucceeded bool = true
 
 func shouldSkipTest() {
 	Skip("Skipping...")
+
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
