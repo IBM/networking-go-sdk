@@ -16,7 +16,8 @@ env:
 
 before_install:
 - sudo apt-get update
-- pyenv global 3.8
+- eval "$(pyenv init - --no-rehash)"
+- python -V
 - >-
   [ -z "${TRAVIS_TAG}" ] &&  [ "${TRAVIS_PULL_REQUEST}" == "false" ]
   && openssl aes-256-cbc -K $encrypted_d4a185972ecc_key -iv $encrypted_d4a185972ecc_iv -in pdns.env.enc -out pdns.env -d || true
