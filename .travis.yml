@@ -16,6 +16,7 @@ env:
 
 before_install:
 - sudo apt-get update
+- eval "$(pyenv init - --no-rehash)"
 - python -V
 - >-
   [ -z "${TRAVIS_TAG}" ] &&  [ "${TRAVIS_PULL_REQUEST}" == "false" ]
