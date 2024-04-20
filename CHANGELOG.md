@@ -1,3 +1,12 @@
+# [0.45.0](https://github.com/IBM/networking-go-sdk/compare/v0.44.0...v0.45.0) (2023-11-03)
+
+
+### Features
+
+* bump golang.org/x/crypto from 0.14.0 to 0.17.0 ([#159](https://github.com/IBM/networking-go-sdk/issues/159))
+* Direct Link Changes for VLAN Mapping Dedicated Feature ([#161](https://github.com/IBM/networking-go-sdk/issues/161))
+* feat: Provider changes for VLAN ([#162](https://github.com/IBM/networking-go-sdk/issues/162))
+
 # [0.44.0](https://github.com/IBM/networking-go-sdk/compare/v0.43.1...v0.44.0) (2023-11-03)
 
 
