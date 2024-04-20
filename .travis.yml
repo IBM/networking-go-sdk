@@ -1,7 +1,6 @@
 language: go
 
 dist: jammy
-group: beta
 
 go:
 - 1.21.x
@@ -16,7 +15,7 @@ env:
 
 before_install:
 - sudo apt-get update
-- eval "$(pyenv init - --no-rehash)"
+- eval "$(pyenv init -)"
 - python -V
 - >-
   [ -z "${TRAVIS_TAG}" ] &&  [ "${TRAVIS_PULL_REQUEST}" == "false" ]
