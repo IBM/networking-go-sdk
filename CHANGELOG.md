@@ -1,3 +1,24 @@
+# [0.46.0](https://github.com/IBM/networking-go-sdk/compare/v0.45.0...v0.46.0) (2024-04-20)
+
+
+### Bug Fixes
+
+* update versions ([5d2cf98](https://github.com/IBM/networking-go-sdk/commit/5d2cf98c2832e4395498bf4234b8bba88c7f1b36))
+* update versions ([3a1ada5](https://github.com/IBM/networking-go-sdk/commit/3a1ada583e3f1ae74194d67715717c27509192a0))
+* update versions ([3703328](https://github.com/IBM/networking-go-sdk/commit/37033282872feb8385d8d12804d2c0795363cfc1))
+* update versions ([b3edd10](https://github.com/IBM/networking-go-sdk/commit/b3edd10d7c610dbb701ed9e880f2054368f071ec))
+* update versions ([9fc645b](https://github.com/IBM/networking-go-sdk/commit/9fc645bbe87640c79756f79da5869e1de833d260))
+* update versions ([aac6114](https://github.com/IBM/networking-go-sdk/commit/aac611463d6482a31a38a13a8f925728e288a48a))
+* update versions ([08f60fb](https://github.com/IBM/networking-go-sdk/commit/08f60fbf4625623527d6dd7045e4bec4515b2617))
+* yaml update ([95c63af](https://github.com/IBM/networking-go-sdk/commit/95c63af53b2e46fdd5675b3df2907e7c9c9b57cf))
+* yaml update ([00c20da](https://github.com/IBM/networking-go-sdk/commit/00c20da88f7aeb705e4cf523d29185e374e09a6e))
+* yaml update ([bf9f71b](https://github.com/IBM/networking-go-sdk/commit/bf9f71b0ea04967b8fd10270649ebe1f6f462536))
+
+
+### Features
+
+* release managed rulesets ([4f88c26](https://github.com/IBM/networking-go-sdk/commit/4f88c264c072ced7b9c4317d522e0c0019f12197))
+
 # [0.45.0](https://github.com/IBM/networking-go-sdk/compare/v0.44.0...v0.45.0) (2023-11-03)
 
 
