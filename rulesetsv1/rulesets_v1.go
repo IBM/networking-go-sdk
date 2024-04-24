@@ -119,8 +119,8 @@ func NewRulesetsV1(options *RulesetsV1Options) (service *RulesetsV1, err error) 
 	}
 
 	service = &RulesetsV1{
-		Service:        baseService,
-		Crn:            options.Crn,
+		Service: baseService,
+		Crn: options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -178,15 +178,15 @@ func (rulesets *RulesetsV1) DisableRetries() {
 	rulesets.Service.DisableRetries()
 }
 
-// GetAccountRulesets : List account rulesets
-// List all rulesets at the account level.
-func (rulesets *RulesetsV1) GetAccountRulesets(getAccountRulesetsOptions *GetAccountRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountRulesetsWithContext(context.Background(), getAccountRulesetsOptions)
+// GetInstanceRulesets : List Instance rulesets
+// List all rulesets at the instance level.
+func (rulesets *RulesetsV1) GetInstanceRulesets(getInstanceRulesetsOptions *GetInstanceRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceRulesetsWithContext(context.Background(), getInstanceRulesetsOptions)
 }
 
-// GetAccountRulesetsWithContext is an alternate form of the GetAccountRulesets method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountRulesetsWithContext(ctx context.Context, getAccountRulesetsOptions *GetAccountRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateStruct(getAccountRulesetsOptions, "getAccountRulesetsOptions")
+// GetInstanceRulesetsWithContext is an alternate form of the GetInstanceRulesets method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceRulesetsWithContext(ctx context.Context, getInstanceRulesetsOptions *GetInstanceRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getInstanceRulesetsOptions, "getInstanceRulesetsOptions")
 	if err != nil {
 		return
 	}
@@ -203,11 +203,11 @@ func (rulesets *RulesetsV1) GetAccountRulesetsWithContext(ctx context.Context, g
 		return
 	}
 
-	for headerName, headerValue := range getAccountRulesetsOptions.Headers {
+	for headerName, headerValue := range getInstanceRulesetsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountRulesets")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesets")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -234,26 +234,26 @@ func (rulesets *RulesetsV1) GetAccountRulesetsWithContext(ctx context.Context, g
 	return
 }
 
-// GetAccountRuleset : Get an account ruleset
-// View a specific account ruleset.
-func (rulesets *RulesetsV1) GetAccountRuleset(getAccountRulesetOptions *GetAccountRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountRulesetWithContext(context.Background(), getAccountRulesetOptions)
+// GetInstanceRuleset : Get an instance ruleset
+// View a specific instance ruleset.
+func (rulesets *RulesetsV1) GetInstanceRuleset(getInstanceRulesetOptions *GetInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceRulesetWithContext(context.Background(), getInstanceRulesetOptions)
 }
 
-// GetAccountRulesetWithContext is an alternate form of the GetAccountRuleset method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountRulesetWithContext(ctx context.Context, getAccountRulesetOptions *GetAccountRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountRulesetOptions, "getAccountRulesetOptions cannot be nil")
+// GetInstanceRulesetWithContext is an alternate form of the GetInstanceRuleset method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, getInstanceRulesetOptions *GetInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceRulesetOptions, "getInstanceRulesetOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountRulesetOptions, "getAccountRulesetOptions")
+	err = core.ValidateStruct(getInstanceRulesetOptions, "getInstanceRulesetOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *getAccountRulesetOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *getInstanceRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -264,11 +264,11 @@ func (rulesets *RulesetsV1) GetAccountRulesetWithContext(ctx context.Context, ge
 		return
 	}
 
-	for headerName, headerValue := range getAccountRulesetOptions.Headers {
+	for headerName, headerValue := range getInstanceRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountRuleset")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRuleset")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -295,26 +295,26 @@ func (rulesets *RulesetsV1) GetAccountRulesetWithContext(ctx context.Context, ge
 	return
 }
 
-// UpdateAccountRuleset : Update an account ruleset
-// Update a specific account ruleset.
-func (rulesets *RulesetsV1) UpdateAccountRuleset(updateAccountRulesetOptions *UpdateAccountRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateAccountRulesetWithContext(context.Background(), updateAccountRulesetOptions)
+// UpdateInstanceRuleset : Update an instance ruleset
+// Update a specific instance ruleset.
+func (rulesets *RulesetsV1) UpdateInstanceRuleset(updateInstanceRulesetOptions *UpdateInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.UpdateInstanceRulesetWithContext(context.Background(), updateInstanceRulesetOptions)
 }
 
-// UpdateAccountRulesetWithContext is an alternate form of the UpdateAccountRuleset method which supports a Context parameter
-func (rulesets *RulesetsV1) UpdateAccountRulesetWithContext(ctx context.Context, updateAccountRulesetOptions *UpdateAccountRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateAccountRulesetOptions, "updateAccountRulesetOptions cannot be nil")
+// UpdateInstanceRulesetWithContext is an alternate form of the UpdateInstanceRuleset method which supports a Context parameter
+func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context, updateInstanceRulesetOptions *UpdateInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateInstanceRulesetOptions, "updateInstanceRulesetOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(updateAccountRulesetOptions, "updateAccountRulesetOptions")
+	err = core.ValidateStruct(updateInstanceRulesetOptions, "updateInstanceRulesetOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *updateAccountRulesetOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *updateInstanceRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -325,11 +325,11 @@ func (rulesets *RulesetsV1) UpdateAccountRulesetWithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range updateAccountRulesetOptions.Headers {
+	for headerName, headerValue := range updateInstanceRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateAccountRuleset")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceRuleset")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -337,20 +337,20 @@ func (rulesets *RulesetsV1) UpdateAccountRulesetWithContext(ctx context.Context,
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
-	if updateAccountRulesetOptions.Description != nil {
-		body["description"] = updateAccountRulesetOptions.Description
+	if updateInstanceRulesetOptions.Description != nil {
+		body["description"] = updateInstanceRulesetOptions.Description
 	}
-	if updateAccountRulesetOptions.Kind != nil {
-		body["kind"] = updateAccountRulesetOptions.Kind
+	if updateInstanceRulesetOptions.Kind != nil {
+		body["kind"] = updateInstanceRulesetOptions.Kind
 	}
-	if updateAccountRulesetOptions.Name != nil {
-		body["name"] = updateAccountRulesetOptions.Name
+	if updateInstanceRulesetOptions.Name != nil {
+		body["name"] = updateInstanceRulesetOptions.Name
 	}
-	if updateAccountRulesetOptions.Phase != nil {
-		body["phase"] = updateAccountRulesetOptions.Phase
+	if updateInstanceRulesetOptions.Phase != nil {
+		body["phase"] = updateInstanceRulesetOptions.Phase
 	}
-	if updateAccountRulesetOptions.Rules != nil {
-		body["rules"] = updateAccountRulesetOptions.Rules
+	if updateInstanceRulesetOptions.Rules != nil {
+		body["rules"] = updateInstanceRulesetOptions.Rules
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -378,26 +378,26 @@ func (rulesets *RulesetsV1) UpdateAccountRulesetWithContext(ctx context.Context,
 	return
 }
 
-// DeleteAccountRuleset : Delete an account ruleset
-// Delete a specific account ruleset.
-func (rulesets *RulesetsV1) DeleteAccountRuleset(deleteAccountRulesetOptions *DeleteAccountRulesetOptions) (response *core.DetailedResponse, err error) {
-	return rulesets.DeleteAccountRulesetWithContext(context.Background(), deleteAccountRulesetOptions)
+// DeleteInstanceRuleset : Delete an instance ruleset
+// Delete a specific instance ruleset.
+func (rulesets *RulesetsV1) DeleteInstanceRuleset(deleteInstanceRulesetOptions *DeleteInstanceRulesetOptions) (response *core.DetailedResponse, err error) {
+	return rulesets.DeleteInstanceRulesetWithContext(context.Background(), deleteInstanceRulesetOptions)
 }
 
-// DeleteAccountRulesetWithContext is an alternate form of the DeleteAccountRuleset method which supports a Context parameter
-func (rulesets *RulesetsV1) DeleteAccountRulesetWithContext(ctx context.Context, deleteAccountRulesetOptions *DeleteAccountRulesetOptions) (response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(deleteAccountRulesetOptions, "deleteAccountRulesetOptions cannot be nil")
+// DeleteInstanceRulesetWithContext is an alternate form of the DeleteInstanceRuleset method which supports a Context parameter
+func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context, deleteInstanceRulesetOptions *DeleteInstanceRulesetOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteInstanceRulesetOptions, "deleteInstanceRulesetOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(deleteAccountRulesetOptions, "deleteAccountRulesetOptions")
+	err = core.ValidateStruct(deleteInstanceRulesetOptions, "deleteInstanceRulesetOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *deleteAccountRulesetOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *deleteInstanceRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -408,11 +408,11 @@ func (rulesets *RulesetsV1) DeleteAccountRulesetWithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range deleteAccountRulesetOptions.Headers {
+	for headerName, headerValue := range deleteInstanceRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteAccountRuleset")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRuleset")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -427,26 +427,26 @@ func (rulesets *RulesetsV1) DeleteAccountRulesetWithContext(ctx context.Context,
 	return
 }
 
-// GetAccountRulesetVersions : List version of an account ruleset
-// List all versions of a specific account ruleset.
-func (rulesets *RulesetsV1) GetAccountRulesetVersions(getAccountRulesetVersionsOptions *GetAccountRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountRulesetVersionsWithContext(context.Background(), getAccountRulesetVersionsOptions)
+// GetInstanceRulesetVersions : List version of an instance ruleset
+// List all versions of a specific instance ruleset.
+func (rulesets *RulesetsV1) GetInstanceRulesetVersions(getInstanceRulesetVersionsOptions *GetInstanceRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceRulesetVersionsWithContext(context.Background(), getInstanceRulesetVersionsOptions)
 }
 
-// GetAccountRulesetVersionsWithContext is an alternate form of the GetAccountRulesetVersions method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountRulesetVersionsWithContext(ctx context.Context, getAccountRulesetVersionsOptions *GetAccountRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountRulesetVersionsOptions, "getAccountRulesetVersionsOptions cannot be nil")
+// GetInstanceRulesetVersionsWithContext is an alternate form of the GetInstanceRulesetVersions method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Context, getInstanceRulesetVersionsOptions *GetInstanceRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceRulesetVersionsOptions, "getInstanceRulesetVersionsOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountRulesetVersionsOptions, "getAccountRulesetVersionsOptions")
+	err = core.ValidateStruct(getInstanceRulesetVersionsOptions, "getInstanceRulesetVersionsOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *getAccountRulesetVersionsOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *getInstanceRulesetVersionsOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -457,11 +457,11 @@ func (rulesets *RulesetsV1) GetAccountRulesetVersionsWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getAccountRulesetVersionsOptions.Headers {
+	for headerName, headerValue := range getInstanceRulesetVersionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountRulesetVersions")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersions")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -488,27 +488,27 @@ func (rulesets *RulesetsV1) GetAccountRulesetVersionsWithContext(ctx context.Con
 	return
 }
 
-// GetAccountRulesetVersion : Get a specific version of an account ruleset
-// View a specific version of a specific account ruleset.
-func (rulesets *RulesetsV1) GetAccountRulesetVersion(getAccountRulesetVersionOptions *GetAccountRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountRulesetVersionWithContext(context.Background(), getAccountRulesetVersionOptions)
+// GetInstanceRulesetVersion : Get a specific version of an instance ruleset
+// View a specific version of a specific instance ruleset.
+func (rulesets *RulesetsV1) GetInstanceRulesetVersion(getInstanceRulesetVersionOptions *GetInstanceRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceRulesetVersionWithContext(context.Background(), getInstanceRulesetVersionOptions)
 }
 
-// GetAccountRulesetVersionWithContext is an alternate form of the GetAccountRulesetVersion method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountRulesetVersionWithContext(ctx context.Context, getAccountRulesetVersionOptions *GetAccountRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountRulesetVersionOptions, "getAccountRulesetVersionOptions cannot be nil")
+// GetInstanceRulesetVersionWithContext is an alternate form of the GetInstanceRulesetVersion method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Context, getInstanceRulesetVersionOptions *GetInstanceRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceRulesetVersionOptions, "getInstanceRulesetVersionOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountRulesetVersionOptions, "getAccountRulesetVersionOptions")
+	err = core.ValidateStruct(getInstanceRulesetVersionOptions, "getInstanceRulesetVersionOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_id":      *getAccountRulesetVersionOptions.RulesetID,
-		"ruleset_version": *getAccountRulesetVersionOptions.RulesetVersion,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *getInstanceRulesetVersionOptions.RulesetID,
+		"ruleset_version": *getInstanceRulesetVersionOptions.RulesetVersion,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -519,11 +519,11 @@ func (rulesets *RulesetsV1) GetAccountRulesetVersionWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range getAccountRulesetVersionOptions.Headers {
+	for headerName, headerValue := range getInstanceRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountRulesetVersion")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersion")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -550,27 +550,27 @@ func (rulesets *RulesetsV1) GetAccountRulesetVersionWithContext(ctx context.Cont
 	return
 }
 
-// DeleteAccountRulesetVersion : Delete a specific version of an account ruleset
-// Delete a specific version of a specific account ruleset.
-func (rulesets *RulesetsV1) DeleteAccountRulesetVersion(deleteAccountRulesetVersionOptions *DeleteAccountRulesetVersionOptions) (response *core.DetailedResponse, err error) {
-	return rulesets.DeleteAccountRulesetVersionWithContext(context.Background(), deleteAccountRulesetVersionOptions)
+// DeleteInstanceRulesetVersion : Delete a specific version of an instance ruleset
+// Delete a specific version of a specific instance ruleset.
+func (rulesets *RulesetsV1) DeleteInstanceRulesetVersion(deleteInstanceRulesetVersionOptions *DeleteInstanceRulesetVersionOptions) (response *core.DetailedResponse, err error) {
+	return rulesets.DeleteInstanceRulesetVersionWithContext(context.Background(), deleteInstanceRulesetVersionOptions)
 }
 
-// DeleteAccountRulesetVersionWithContext is an alternate form of the DeleteAccountRulesetVersion method which supports a Context parameter
-func (rulesets *RulesetsV1) DeleteAccountRulesetVersionWithContext(ctx context.Context, deleteAccountRulesetVersionOptions *DeleteAccountRulesetVersionOptions) (response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(deleteAccountRulesetVersionOptions, "deleteAccountRulesetVersionOptions cannot be nil")
+// DeleteInstanceRulesetVersionWithContext is an alternate form of the DeleteInstanceRulesetVersion method which supports a Context parameter
+func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.Context, deleteInstanceRulesetVersionOptions *DeleteInstanceRulesetVersionOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteInstanceRulesetVersionOptions, "deleteInstanceRulesetVersionOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(deleteAccountRulesetVersionOptions, "deleteAccountRulesetVersionOptions")
+	err = core.ValidateStruct(deleteInstanceRulesetVersionOptions, "deleteInstanceRulesetVersionOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_id":      *deleteAccountRulesetVersionOptions.RulesetID,
-		"ruleset_version": *deleteAccountRulesetVersionOptions.RulesetVersion,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *deleteInstanceRulesetVersionOptions.RulesetID,
+		"ruleset_version": *deleteInstanceRulesetVersionOptions.RulesetVersion,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -581,11 +581,11 @@ func (rulesets *RulesetsV1) DeleteAccountRulesetVersionWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range deleteAccountRulesetVersionOptions.Headers {
+	for headerName, headerValue := range deleteInstanceRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteAccountRulesetVersion")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRulesetVersion")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -600,26 +600,26 @@ func (rulesets *RulesetsV1) DeleteAccountRulesetVersionWithContext(ctx context.C
 	return
 }
 
-// GetAccountEntrypointRuleset : Get an account entrypoint ruleset
-// Get the account ruleset for the given phase's entrypoint.
-func (rulesets *RulesetsV1) GetAccountEntrypointRuleset(getAccountEntrypointRulesetOptions *GetAccountEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountEntrypointRulesetWithContext(context.Background(), getAccountEntrypointRulesetOptions)
+// GetInstanceEntrypointRuleset : Get an instance entrypoint ruleset
+// Get the instance ruleset for the given phase's entrypoint.
+func (rulesets *RulesetsV1) GetInstanceEntrypointRuleset(getInstanceEntrypointRulesetOptions *GetInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceEntrypointRulesetWithContext(context.Background(), getInstanceEntrypointRulesetOptions)
 }
 
-// GetAccountEntrypointRulesetWithContext is an alternate form of the GetAccountEntrypointRuleset method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountEntrypointRulesetWithContext(ctx context.Context, getAccountEntrypointRulesetOptions *GetAccountEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountEntrypointRulesetOptions, "getAccountEntrypointRulesetOptions cannot be nil")
+// GetInstanceEntrypointRulesetWithContext is an alternate form of the GetInstanceEntrypointRuleset method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.Context, getInstanceEntrypointRulesetOptions *GetInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceEntrypointRulesetOptions, "getInstanceEntrypointRulesetOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountEntrypointRulesetOptions, "getAccountEntrypointRulesetOptions")
+	err = core.ValidateStruct(getInstanceEntrypointRulesetOptions, "getInstanceEntrypointRulesetOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":           *rulesets.Crn,
-		"ruleset_phase": *getAccountEntrypointRulesetOptions.RulesetPhase,
+		"crn": *rulesets.Crn,
+		"ruleset_phase": *getInstanceEntrypointRulesetOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -630,11 +630,11 @@ func (rulesets *RulesetsV1) GetAccountEntrypointRulesetWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range getAccountEntrypointRulesetOptions.Headers {
+	for headerName, headerValue := range getInstanceEntrypointRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountEntrypointRuleset")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntrypointRuleset")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -661,26 +661,26 @@ func (rulesets *RulesetsV1) GetAccountEntrypointRulesetWithContext(ctx context.C
 	return
 }
 
-// UpdateAccountEntrypointRuleset : Update an account entrypoint ruleset
-// Updates the account ruleset for the given phase's entry point.
-func (rulesets *RulesetsV1) UpdateAccountEntrypointRuleset(updateAccountEntrypointRulesetOptions *UpdateAccountEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateAccountEntrypointRulesetWithContext(context.Background(), updateAccountEntrypointRulesetOptions)
+// UpdateInstanceEntrypointRuleset : Update an instance entrypoint ruleset
+// Updates the instance ruleset for the given phase's entry point.
+func (rulesets *RulesetsV1) UpdateInstanceEntrypointRuleset(updateInstanceEntrypointRulesetOptions *UpdateInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.UpdateInstanceEntrypointRulesetWithContext(context.Background(), updateInstanceEntrypointRulesetOptions)
 }
 
-// UpdateAccountEntrypointRulesetWithContext is an alternate form of the UpdateAccountEntrypointRuleset method which supports a Context parameter
-func (rulesets *RulesetsV1) UpdateAccountEntrypointRulesetWithContext(ctx context.Context, updateAccountEntrypointRulesetOptions *UpdateAccountEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateAccountEntrypointRulesetOptions, "updateAccountEntrypointRulesetOptions cannot be nil")
+// UpdateInstanceEntrypointRulesetWithContext is an alternate form of the UpdateInstanceEntrypointRuleset method which supports a Context parameter
+func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx context.Context, updateInstanceEntrypointRulesetOptions *UpdateInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateInstanceEntrypointRulesetOptions, "updateInstanceEntrypointRulesetOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(updateAccountEntrypointRulesetOptions, "updateAccountEntrypointRulesetOptions")
+	err = core.ValidateStruct(updateInstanceEntrypointRulesetOptions, "updateInstanceEntrypointRulesetOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":           *rulesets.Crn,
-		"ruleset_phase": *updateAccountEntrypointRulesetOptions.RulesetPhase,
+		"crn": *rulesets.Crn,
+		"ruleset_phase": *updateInstanceEntrypointRulesetOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -691,11 +691,11 @@ func (rulesets *RulesetsV1) UpdateAccountEntrypointRulesetWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range updateAccountEntrypointRulesetOptions.Headers {
+	for headerName, headerValue := range updateInstanceEntrypointRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateAccountEntrypointRuleset")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceEntrypointRuleset")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -703,20 +703,20 @@ func (rulesets *RulesetsV1) UpdateAccountEntrypointRulesetWithContext(ctx contex
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
-	if updateAccountEntrypointRulesetOptions.Description != nil {
-		body["description"] = updateAccountEntrypointRulesetOptions.Description
+	if updateInstanceEntrypointRulesetOptions.Description != nil {
+		body["description"] = updateInstanceEntrypointRulesetOptions.Description
 	}
-	if updateAccountEntrypointRulesetOptions.Kind != nil {
-		body["kind"] = updateAccountEntrypointRulesetOptions.Kind
+	if updateInstanceEntrypointRulesetOptions.Kind != nil {
+		body["kind"] = updateInstanceEntrypointRulesetOptions.Kind
 	}
-	if updateAccountEntrypointRulesetOptions.Name != nil {
-		body["name"] = updateAccountEntrypointRulesetOptions.Name
+	if updateInstanceEntrypointRulesetOptions.Name != nil {
+		body["name"] = updateInstanceEntrypointRulesetOptions.Name
 	}
-	if updateAccountEntrypointRulesetOptions.Phase != nil {
-		body["phase"] = updateAccountEntrypointRulesetOptions.Phase
+	if updateInstanceEntrypointRulesetOptions.Phase != nil {
+		body["phase"] = updateInstanceEntrypointRulesetOptions.Phase
 	}
-	if updateAccountEntrypointRulesetOptions.Rules != nil {
-		body["rules"] = updateAccountEntrypointRulesetOptions.Rules
+	if updateInstanceEntrypointRulesetOptions.Rules != nil {
+		body["rules"] = updateInstanceEntrypointRulesetOptions.Rules
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -744,26 +744,26 @@ func (rulesets *RulesetsV1) UpdateAccountEntrypointRulesetWithContext(ctx contex
 	return
 }
 
-// GetAccountEntryPointRulesetVersions : List an account entry point ruleset's versions
-// Lists the account ruleset versions for the given phase's entry point.
-func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersions(getAccountEntryPointRulesetVersionsOptions *GetAccountEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountEntryPointRulesetVersionsWithContext(context.Background(), getAccountEntryPointRulesetVersionsOptions)
+// GetInstanceEntryPointRulesetVersions : List an instance entry point ruleset's versions
+// Lists the instance ruleset versions for the given phase's entry point.
+func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersions(getInstanceEntryPointRulesetVersionsOptions *GetInstanceEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceEntryPointRulesetVersionsWithContext(context.Background(), getInstanceEntryPointRulesetVersionsOptions)
 }
 
-// GetAccountEntryPointRulesetVersionsWithContext is an alternate form of the GetAccountEntryPointRulesetVersions method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersionsWithContext(ctx context.Context, getAccountEntryPointRulesetVersionsOptions *GetAccountEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountEntryPointRulesetVersionsOptions, "getAccountEntryPointRulesetVersionsOptions cannot be nil")
+// GetInstanceEntryPointRulesetVersionsWithContext is an alternate form of the GetInstanceEntryPointRulesetVersions method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx context.Context, getInstanceEntryPointRulesetVersionsOptions *GetInstanceEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceEntryPointRulesetVersionsOptions, "getInstanceEntryPointRulesetVersionsOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountEntryPointRulesetVersionsOptions, "getAccountEntryPointRulesetVersionsOptions")
+	err = core.ValidateStruct(getInstanceEntryPointRulesetVersionsOptions, "getInstanceEntryPointRulesetVersionsOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":           *rulesets.Crn,
-		"ruleset_phase": *getAccountEntryPointRulesetVersionsOptions.RulesetPhase,
+		"crn": *rulesets.Crn,
+		"ruleset_phase": *getInstanceEntryPointRulesetVersionsOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -774,11 +774,11 @@ func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersionsWithContext(ctx c
 		return
 	}
 
-	for headerName, headerValue := range getAccountEntryPointRulesetVersionsOptions.Headers {
+	for headerName, headerValue := range getInstanceEntryPointRulesetVersionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountEntryPointRulesetVersions")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntryPointRulesetVersions")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -805,27 +805,27 @@ func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersionsWithContext(ctx c
 	return
 }
 
-// GetAccountEntryPointRulesetVersion : Get an account entry point ruleset version
-// Fetches a specific version of an account entry point ruleset.
-func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersion(getAccountEntryPointRulesetVersionOptions *GetAccountEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountEntryPointRulesetVersionWithContext(context.Background(), getAccountEntryPointRulesetVersionOptions)
+// GetInstanceEntryPointRulesetVersion : Get an instance entry point ruleset version
+// Fetches a specific version of an instance entry point ruleset.
+func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersion(getInstanceEntryPointRulesetVersionOptions *GetInstanceEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceEntryPointRulesetVersionWithContext(context.Background(), getInstanceEntryPointRulesetVersionOptions)
 }
 
-// GetAccountEntryPointRulesetVersionWithContext is an alternate form of the GetAccountEntryPointRulesetVersion method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersionWithContext(ctx context.Context, getAccountEntryPointRulesetVersionOptions *GetAccountEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountEntryPointRulesetVersionOptions, "getAccountEntryPointRulesetVersionOptions cannot be nil")
+// GetInstanceEntryPointRulesetVersionWithContext is an alternate form of the GetInstanceEntryPointRulesetVersion method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx context.Context, getInstanceEntryPointRulesetVersionOptions *GetInstanceEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceEntryPointRulesetVersionOptions, "getInstanceEntryPointRulesetVersionOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountEntryPointRulesetVersionOptions, "getAccountEntryPointRulesetVersionOptions")
+	err = core.ValidateStruct(getInstanceEntryPointRulesetVersionOptions, "getInstanceEntryPointRulesetVersionOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_phase":   *getAccountEntryPointRulesetVersionOptions.RulesetPhase,
-		"ruleset_version": *getAccountEntryPointRulesetVersionOptions.RulesetVersion,
+		"crn": *rulesets.Crn,
+		"ruleset_phase": *getInstanceEntryPointRulesetVersionOptions.RulesetPhase,
+		"ruleset_version": *getInstanceEntryPointRulesetVersionOptions.RulesetVersion,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -836,11 +836,11 @@ func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersionWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range getAccountEntryPointRulesetVersionOptions.Headers {
+	for headerName, headerValue := range getInstanceEntryPointRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountEntryPointRulesetVersion")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntryPointRulesetVersion")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -867,26 +867,26 @@ func (rulesets *RulesetsV1) GetAccountEntryPointRulesetVersionWithContext(ctx co
 	return
 }
 
-// CreateAccountRulesetRule : Create an account ruleset rule
-// Create an account ruleset rule.
-func (rulesets *RulesetsV1) CreateAccountRulesetRule(createAccountRulesetRuleOptions *CreateAccountRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	return rulesets.CreateAccountRulesetRuleWithContext(context.Background(), createAccountRulesetRuleOptions)
+// CreateInstanceRulesetRule : Create an instance ruleset rule
+// Create an instance ruleset rule.
+func (rulesets *RulesetsV1) CreateInstanceRulesetRule(createInstanceRulesetRuleOptions *CreateInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
+	return rulesets.CreateInstanceRulesetRuleWithContext(context.Background(), createInstanceRulesetRuleOptions)
 }
 
-// CreateAccountRulesetRuleWithContext is an alternate form of the CreateAccountRulesetRule method which supports a Context parameter
-func (rulesets *RulesetsV1) CreateAccountRulesetRuleWithContext(ctx context.Context, createAccountRulesetRuleOptions *CreateAccountRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(createAccountRulesetRuleOptions, "createAccountRulesetRuleOptions cannot be nil")
+// CreateInstanceRulesetRuleWithContext is an alternate form of the CreateInstanceRulesetRule method which supports a Context parameter
+func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Context, createInstanceRulesetRuleOptions *CreateInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createInstanceRulesetRuleOptions, "createInstanceRulesetRuleOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(createAccountRulesetRuleOptions, "createAccountRulesetRuleOptions")
+	err = core.ValidateStruct(createInstanceRulesetRuleOptions, "createInstanceRulesetRuleOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *createAccountRulesetRuleOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *createInstanceRulesetRuleOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -897,11 +897,11 @@ func (rulesets *RulesetsV1) CreateAccountRulesetRuleWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range createAccountRulesetRuleOptions.Headers {
+	for headerName, headerValue := range createInstanceRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "CreateAccountRulesetRule")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "CreateInstanceRulesetRule")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -909,32 +909,32 @@ func (rulesets *RulesetsV1) CreateAccountRulesetRuleWithContext(ctx context.Cont
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
-	if createAccountRulesetRuleOptions.Action != nil {
-		body["action"] = createAccountRulesetRuleOptions.Action
+	if createInstanceRulesetRuleOptions.Action != nil {
+		body["action"] = createInstanceRulesetRuleOptions.Action
 	}
-	if createAccountRulesetRuleOptions.ActionParameters != nil {
-		body["action_parameters"] = createAccountRulesetRuleOptions.ActionParameters
+	if createInstanceRulesetRuleOptions.ActionParameters != nil {
+		body["action_parameters"] = createInstanceRulesetRuleOptions.ActionParameters
 	}
-	if createAccountRulesetRuleOptions.Description != nil {
-		body["description"] = createAccountRulesetRuleOptions.Description
+	if createInstanceRulesetRuleOptions.Description != nil {
+		body["description"] = createInstanceRulesetRuleOptions.Description
 	}
-	if createAccountRulesetRuleOptions.Enabled != nil {
-		body["enabled"] = createAccountRulesetRuleOptions.Enabled
+	if createInstanceRulesetRuleOptions.Enabled != nil {
+		body["enabled"] = createInstanceRulesetRuleOptions.Enabled
 	}
-	if createAccountRulesetRuleOptions.Expression != nil {
-		body["expression"] = createAccountRulesetRuleOptions.Expression
+	if createInstanceRulesetRuleOptions.Expression != nil {
+		body["expression"] = createInstanceRulesetRuleOptions.Expression
 	}
-	if createAccountRulesetRuleOptions.ID != nil {
-		body["id"] = createAccountRulesetRuleOptions.ID
+	if createInstanceRulesetRuleOptions.ID != nil {
+		body["id"] = createInstanceRulesetRuleOptions.ID
 	}
-	if createAccountRulesetRuleOptions.Logging != nil {
-		body["logging"] = createAccountRulesetRuleOptions.Logging
+	if createInstanceRulesetRuleOptions.Logging != nil {
+		body["logging"] = createInstanceRulesetRuleOptions.Logging
 	}
-	if createAccountRulesetRuleOptions.Ref != nil {
-		body["ref"] = createAccountRulesetRuleOptions.Ref
+	if createInstanceRulesetRuleOptions.Ref != nil {
+		body["ref"] = createInstanceRulesetRuleOptions.Ref
 	}
-	if createAccountRulesetRuleOptions.Position != nil {
-		body["position"] = createAccountRulesetRuleOptions.Position
+	if createInstanceRulesetRuleOptions.Position != nil {
+		body["position"] = createInstanceRulesetRuleOptions.Position
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -962,27 +962,27 @@ func (rulesets *RulesetsV1) CreateAccountRulesetRuleWithContext(ctx context.Cont
 	return
 }
 
-// UpdateAccountRulesetRule : Update an account ruleset rule
-// Update an account ruleset rule.
-func (rulesets *RulesetsV1) UpdateAccountRulesetRule(updateAccountRulesetRuleOptions *UpdateAccountRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateAccountRulesetRuleWithContext(context.Background(), updateAccountRulesetRuleOptions)
+// UpdateInstanceRulesetRule : Update an instance ruleset rule
+// Update an instance ruleset rule.
+func (rulesets *RulesetsV1) UpdateInstanceRulesetRule(updateInstanceRulesetRuleOptions *UpdateInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
+	return rulesets.UpdateInstanceRulesetRuleWithContext(context.Background(), updateInstanceRulesetRuleOptions)
 }
 
-// UpdateAccountRulesetRuleWithContext is an alternate form of the UpdateAccountRulesetRule method which supports a Context parameter
-func (rulesets *RulesetsV1) UpdateAccountRulesetRuleWithContext(ctx context.Context, updateAccountRulesetRuleOptions *UpdateAccountRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateAccountRulesetRuleOptions, "updateAccountRulesetRuleOptions cannot be nil")
+// UpdateInstanceRulesetRuleWithContext is an alternate form of the UpdateInstanceRulesetRule method which supports a Context parameter
+func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Context, updateInstanceRulesetRuleOptions *UpdateInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateInstanceRulesetRuleOptions, "updateInstanceRulesetRuleOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(updateAccountRulesetRuleOptions, "updateAccountRulesetRuleOptions")
+	err = core.ValidateStruct(updateInstanceRulesetRuleOptions, "updateInstanceRulesetRuleOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *updateAccountRulesetRuleOptions.RulesetID,
-		"rule_id":    *updateAccountRulesetRuleOptions.RuleID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *updateInstanceRulesetRuleOptions.RulesetID,
+		"rule_id": *updateInstanceRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -993,11 +993,11 @@ func (rulesets *RulesetsV1) UpdateAccountRulesetRuleWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range updateAccountRulesetRuleOptions.Headers {
+	for headerName, headerValue := range updateInstanceRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateAccountRulesetRule")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceRulesetRule")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -1005,32 +1005,32 @@ func (rulesets *RulesetsV1) UpdateAccountRulesetRuleWithContext(ctx context.Cont
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
-	if updateAccountRulesetRuleOptions.Action != nil {
-		body["action"] = updateAccountRulesetRuleOptions.Action
+	if updateInstanceRulesetRuleOptions.Action != nil {
+		body["action"] = updateInstanceRulesetRuleOptions.Action
 	}
-	if updateAccountRulesetRuleOptions.ActionParameters != nil {
-		body["action_parameters"] = updateAccountRulesetRuleOptions.ActionParameters
+	if updateInstanceRulesetRuleOptions.ActionParameters != nil {
+		body["action_parameters"] = updateInstanceRulesetRuleOptions.ActionParameters
 	}
-	if updateAccountRulesetRuleOptions.Description != nil {
-		body["description"] = updateAccountRulesetRuleOptions.Description
+	if updateInstanceRulesetRuleOptions.Description != nil {
+		body["description"] = updateInstanceRulesetRuleOptions.Description
 	}
-	if updateAccountRulesetRuleOptions.Enabled != nil {
-		body["enabled"] = updateAccountRulesetRuleOptions.Enabled
+	if updateInstanceRulesetRuleOptions.Enabled != nil {
+		body["enabled"] = updateInstanceRulesetRuleOptions.Enabled
 	}
-	if updateAccountRulesetRuleOptions.Expression != nil {
-		body["expression"] = updateAccountRulesetRuleOptions.Expression
+	if updateInstanceRulesetRuleOptions.Expression != nil {
+		body["expression"] = updateInstanceRulesetRuleOptions.Expression
 	}
-	if updateAccountRulesetRuleOptions.ID != nil {
-		body["id"] = updateAccountRulesetRuleOptions.ID
+	if updateInstanceRulesetRuleOptions.ID != nil {
+		body["id"] = updateInstanceRulesetRuleOptions.ID
 	}
-	if updateAccountRulesetRuleOptions.Logging != nil {
-		body["logging"] = updateAccountRulesetRuleOptions.Logging
+	if updateInstanceRulesetRuleOptions.Logging != nil {
+		body["logging"] = updateInstanceRulesetRuleOptions.Logging
 	}
-	if updateAccountRulesetRuleOptions.Ref != nil {
-		body["ref"] = updateAccountRulesetRuleOptions.Ref
+	if updateInstanceRulesetRuleOptions.Ref != nil {
+		body["ref"] = updateInstanceRulesetRuleOptions.Ref
 	}
-	if updateAccountRulesetRuleOptions.Position != nil {
-		body["position"] = updateAccountRulesetRuleOptions.Position
+	if updateInstanceRulesetRuleOptions.Position != nil {
+		body["position"] = updateInstanceRulesetRuleOptions.Position
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -1058,27 +1058,27 @@ func (rulesets *RulesetsV1) UpdateAccountRulesetRuleWithContext(ctx context.Cont
 	return
 }
 
-// DeleteAccountRulesetRule : Delete an account ruleset rule
-// Delete an account ruleset rule.
-func (rulesets *RulesetsV1) DeleteAccountRulesetRule(deleteAccountRulesetRuleOptions *DeleteAccountRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	return rulesets.DeleteAccountRulesetRuleWithContext(context.Background(), deleteAccountRulesetRuleOptions)
+// DeleteInstanceRulesetRule : Delete an instance ruleset rule
+// Delete an instance ruleset rule.
+func (rulesets *RulesetsV1) DeleteInstanceRulesetRule(deleteInstanceRulesetRuleOptions *DeleteInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
+	return rulesets.DeleteInstanceRulesetRuleWithContext(context.Background(), deleteInstanceRulesetRuleOptions)
 }
 
-// DeleteAccountRulesetRuleWithContext is an alternate form of the DeleteAccountRulesetRule method which supports a Context parameter
-func (rulesets *RulesetsV1) DeleteAccountRulesetRuleWithContext(ctx context.Context, deleteAccountRulesetRuleOptions *DeleteAccountRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(deleteAccountRulesetRuleOptions, "deleteAccountRulesetRuleOptions cannot be nil")
+// DeleteInstanceRulesetRuleWithContext is an alternate form of the DeleteInstanceRulesetRule method which supports a Context parameter
+func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Context, deleteInstanceRulesetRuleOptions *DeleteInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteInstanceRulesetRuleOptions, "deleteInstanceRulesetRuleOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(deleteAccountRulesetRuleOptions, "deleteAccountRulesetRuleOptions")
+	err = core.ValidateStruct(deleteInstanceRulesetRuleOptions, "deleteInstanceRulesetRuleOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
-		"ruleset_id": *deleteAccountRulesetRuleOptions.RulesetID,
-		"rule_id":    *deleteAccountRulesetRuleOptions.RuleID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *deleteInstanceRulesetRuleOptions.RulesetID,
+		"rule_id": *deleteInstanceRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1089,11 +1089,11 @@ func (rulesets *RulesetsV1) DeleteAccountRulesetRuleWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range deleteAccountRulesetRuleOptions.Headers {
+	for headerName, headerValue := range deleteInstanceRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteAccountRulesetRule")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRulesetRule")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -1120,28 +1120,28 @@ func (rulesets *RulesetsV1) DeleteAccountRulesetRuleWithContext(ctx context.Cont
 	return
 }
 
-// GetAccountRulesetVersionByTag : List an account ruleset verion's rules by tag
-// Lists rules by tag for a specific version of an account ruleset.
-func (rulesets *RulesetsV1) GetAccountRulesetVersionByTag(getAccountRulesetVersionByTagOptions *GetAccountRulesetVersionByTagOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetAccountRulesetVersionByTagWithContext(context.Background(), getAccountRulesetVersionByTagOptions)
+// GetInstanceRulesetVersionByTag : List an instance ruleset verion's rules by tag
+// Lists rules by tag for a specific version of an instance ruleset.
+func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTag(getInstanceRulesetVersionByTagOptions *GetInstanceRulesetVersionByTagOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	return rulesets.GetInstanceRulesetVersionByTagWithContext(context.Background(), getInstanceRulesetVersionByTagOptions)
 }
 
-// GetAccountRulesetVersionByTagWithContext is an alternate form of the GetAccountRulesetVersionByTag method which supports a Context parameter
-func (rulesets *RulesetsV1) GetAccountRulesetVersionByTagWithContext(ctx context.Context, getAccountRulesetVersionByTagOptions *GetAccountRulesetVersionByTagOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getAccountRulesetVersionByTagOptions, "getAccountRulesetVersionByTagOptions cannot be nil")
+// GetInstanceRulesetVersionByTagWithContext is an alternate form of the GetInstanceRulesetVersionByTag method which supports a Context parameter
+func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx context.Context, getInstanceRulesetVersionByTagOptions *GetInstanceRulesetVersionByTagOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceRulesetVersionByTagOptions, "getInstanceRulesetVersionByTagOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getAccountRulesetVersionByTagOptions, "getAccountRulesetVersionByTagOptions")
+	err = core.ValidateStruct(getInstanceRulesetVersionByTagOptions, "getInstanceRulesetVersionByTagOptions")
 	if err != nil {
 		return
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_id":      *getAccountRulesetVersionByTagOptions.RulesetID,
-		"ruleset_version": *getAccountRulesetVersionByTagOptions.RulesetVersion,
-		"rule_tag":        *getAccountRulesetVersionByTagOptions.RuleTag,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *getInstanceRulesetVersionByTagOptions.RulesetID,
+		"ruleset_version": *getInstanceRulesetVersionByTagOptions.RulesetVersion,
+		"rule_tag": *getInstanceRulesetVersionByTagOptions.RuleTag,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1152,11 +1152,11 @@ func (rulesets *RulesetsV1) GetAccountRulesetVersionByTagWithContext(ctx context
 		return
 	}
 
-	for headerName, headerValue := range getAccountRulesetVersionByTagOptions.Headers {
+	for headerName, headerValue := range getInstanceRulesetVersionByTagOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetAccountRulesetVersionByTag")
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersionByTag")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
@@ -1197,7 +1197,7 @@ func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZ
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
 	}
 
@@ -1258,9 +1258,9 @@ func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZo
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *getZoneRulesetOptions.RulesetID,
+		"ruleset_id": *getZoneRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1320,9 +1320,9 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, up
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *updateZoneRulesetOptions.RulesetID,
+		"ruleset_id": *updateZoneRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1404,9 +1404,9 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, de
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *deleteZoneRulesetOptions.RulesetID,
+		"ruleset_id": *deleteZoneRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1454,9 +1454,9 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *getZoneRulesetVersionsOptions.RulesetID,
+		"ruleset_id": *getZoneRulesetVersionsOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1516,9 +1516,9 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *getZoneRulesetVersionOptions.RulesetID,
+		"ruleset_id": *getZoneRulesetVersionOptions.RulesetID,
 		"ruleset_version": *getZoneRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -1579,9 +1579,9 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *deleteZoneRulesetVersionOptions.RulesetID,
+		"ruleset_id": *deleteZoneRulesetVersionOptions.RulesetID,
 		"ruleset_version": *deleteZoneRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -1630,9 +1630,9 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *getZoneEntrypointRulesetOptions.RulesetPhase,
+		"ruleset_phase": *getZoneEntrypointRulesetOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1675,7 +1675,7 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 }
 
 // UpdateZoneEntrypointRuleset : Update a zone entrypoint ruleset
-// Updates the account ruleset for the given phase's entry point.
+// Updates the instance ruleset for the given phase's entry point.
 func (rulesets *RulesetsV1) UpdateZoneEntrypointRuleset(updateZoneEntrypointRulesetOptions *UpdateZoneEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	return rulesets.UpdateZoneEntrypointRulesetWithContext(context.Background(), updateZoneEntrypointRulesetOptions)
 }
@@ -1692,9 +1692,9 @@ func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *updateZoneEntrypointRulesetOptions.RulesetPhase,
+		"ruleset_phase": *updateZoneEntrypointRulesetOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1776,9 +1776,9 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *getZoneEntryPointRulesetVersionsOptions.RulesetPhase,
+		"ruleset_phase": *getZoneEntryPointRulesetVersionsOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1838,9 +1838,9 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *getZoneEntryPointRulesetVersionOptions.RulesetPhase,
+		"ruleset_phase": *getZoneEntryPointRulesetVersionOptions.RulesetPhase,
 		"ruleset_version": *getZoneEntryPointRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -1901,9 +1901,9 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *createZoneRulesetRuleOptions.RulesetID,
+		"ruleset_id": *createZoneRulesetRuleOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1997,10 +1997,10 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *updateZoneRulesetRuleOptions.RulesetID,
-		"rule_id":         *updateZoneRulesetRuleOptions.RuleID,
+		"ruleset_id": *updateZoneRulesetRuleOptions.RulesetID,
+		"rule_id": *updateZoneRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -2077,7 +2077,7 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 }
 
 // DeleteZoneRulesetRule : Delete a zone ruleset rule
-// Delete an account ruleset rule.
+// Delete an instance ruleset rule.
 func (rulesets *RulesetsV1) DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions *DeleteZoneRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
 	return rulesets.DeleteZoneRulesetRuleWithContext(context.Background(), deleteZoneRulesetRuleOptions)
 }
@@ -2094,10 +2094,10 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetRuleWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *deleteZoneRulesetRuleOptions.RulesetID,
-		"rule_id":         *deleteZoneRulesetRuleOptions.RuleID,
+		"ruleset_id": *deleteZoneRulesetRuleOptions.RulesetID,
+		"rule_id": *deleteZoneRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2153,9 +2153,9 @@ type ActionParametersResponse struct {
 // NewActionParametersResponse : Instantiate ActionParametersResponse (Generic Model Constructor)
 func (*RulesetsV1) NewActionParametersResponse(content string, contentType string, statusCode int64) (_model *ActionParametersResponse, err error) {
 	_model = &ActionParametersResponse{
-		Content:     core.StringPtr(content),
+		Content: core.StringPtr(content),
 		ContentType: core.StringPtr(contentType),
-		StatusCode:  core.Int64Ptr(statusCode),
+		StatusCode: core.Int64Ptr(statusCode),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -2180,8 +2180,8 @@ func UnmarshalActionParametersResponse(m map[string]json.RawMessage, result inte
 	return
 }
 
-// CreateAccountRulesetRuleOptions : The CreateAccountRulesetRule options.
-type CreateAccountRulesetRuleOptions struct {
+// CreateInstanceRulesetRuleOptions : The CreateInstanceRulesetRule options.
+type CreateInstanceRulesetRuleOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2210,75 +2210,75 @@ type CreateAccountRulesetRuleOptions struct {
 	Headers map[string]string
 }
 
-// NewCreateAccountRulesetRuleOptions : Instantiate CreateAccountRulesetRuleOptions
-func (*RulesetsV1) NewCreateAccountRulesetRuleOptions(rulesetID string) *CreateAccountRulesetRuleOptions {
-	return &CreateAccountRulesetRuleOptions{
+// NewCreateInstanceRulesetRuleOptions : Instantiate CreateInstanceRulesetRuleOptions
+func (*RulesetsV1) NewCreateInstanceRulesetRuleOptions(rulesetID string) *CreateInstanceRulesetRuleOptions {
+	return &CreateInstanceRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *CreateAccountRulesetRuleOptions) SetRulesetID(rulesetID string) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetRulesetID(rulesetID string) *CreateInstanceRulesetRuleOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetAction : Allow user to set Action
-func (_options *CreateAccountRulesetRuleOptions) SetAction(action string) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetAction(action string) *CreateInstanceRulesetRuleOptions {
 	_options.Action = core.StringPtr(action)
 	return _options
 }
 
 // SetActionParameters : Allow user to set ActionParameters
-func (_options *CreateAccountRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *CreateInstanceRulesetRuleOptions {
 	_options.ActionParameters = actionParameters
 	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (_options *CreateAccountRulesetRuleOptions) SetDescription(description string) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetDescription(description string) *CreateInstanceRulesetRuleOptions {
 	_options.Description = core.StringPtr(description)
 	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (_options *CreateAccountRulesetRuleOptions) SetEnabled(enabled bool) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetEnabled(enabled bool) *CreateInstanceRulesetRuleOptions {
 	_options.Enabled = core.BoolPtr(enabled)
 	return _options
 }
 
 // SetExpression : Allow user to set Expression
-func (_options *CreateAccountRulesetRuleOptions) SetExpression(expression string) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetExpression(expression string) *CreateInstanceRulesetRuleOptions {
 	_options.Expression = core.StringPtr(expression)
 	return _options
 }
 
 // SetID : Allow user to set ID
-func (_options *CreateAccountRulesetRuleOptions) SetID(id string) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetID(id string) *CreateInstanceRulesetRuleOptions {
 	_options.ID = core.StringPtr(id)
 	return _options
 }
 
 // SetLogging : Allow user to set Logging
-func (_options *CreateAccountRulesetRuleOptions) SetLogging(logging *Logging) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetLogging(logging *Logging) *CreateInstanceRulesetRuleOptions {
 	_options.Logging = logging
 	return _options
 }
 
 // SetRef : Allow user to set Ref
-func (_options *CreateAccountRulesetRuleOptions) SetRef(ref string) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetRef(ref string) *CreateInstanceRulesetRuleOptions {
 	_options.Ref = core.StringPtr(ref)
 	return _options
 }
 
 // SetPosition : Allow user to set Position
-func (_options *CreateAccountRulesetRuleOptions) SetPosition(position *Position) *CreateAccountRulesetRuleOptions {
+func (_options *CreateInstanceRulesetRuleOptions) SetPosition(position *Position) *CreateInstanceRulesetRuleOptions {
 	_options.Position = position
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *CreateAccountRulesetRuleOptions) SetHeaders(param map[string]string) *CreateAccountRulesetRuleOptions {
+func (options *CreateInstanceRulesetRuleOptions) SetHeaders(param map[string]string) *CreateInstanceRulesetRuleOptions {
 	options.Headers = param
 	return options
 }
@@ -2386,8 +2386,8 @@ func (options *CreateZoneRulesetRuleOptions) SetHeaders(param map[string]string)
 	return options
 }
 
-// DeleteAccountRulesetOptions : The DeleteAccountRuleset options.
-type DeleteAccountRulesetOptions struct {
+// DeleteInstanceRulesetOptions : The DeleteInstanceRuleset options.
+type DeleteInstanceRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2395,27 +2395,27 @@ type DeleteAccountRulesetOptions struct {
 	Headers map[string]string
 }
 
-// NewDeleteAccountRulesetOptions : Instantiate DeleteAccountRulesetOptions
-func (*RulesetsV1) NewDeleteAccountRulesetOptions(rulesetID string) *DeleteAccountRulesetOptions {
-	return &DeleteAccountRulesetOptions{
+// NewDeleteInstanceRulesetOptions : Instantiate DeleteInstanceRulesetOptions
+func (*RulesetsV1) NewDeleteInstanceRulesetOptions(rulesetID string) *DeleteInstanceRulesetOptions {
+	return &DeleteInstanceRulesetOptions{
 		RulesetID: core.StringPtr(rulesetID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *DeleteAccountRulesetOptions) SetRulesetID(rulesetID string) *DeleteAccountRulesetOptions {
+func (_options *DeleteInstanceRulesetOptions) SetRulesetID(rulesetID string) *DeleteInstanceRulesetOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *DeleteAccountRulesetOptions) SetHeaders(param map[string]string) *DeleteAccountRulesetOptions {
+func (options *DeleteInstanceRulesetOptions) SetHeaders(param map[string]string) *DeleteInstanceRulesetOptions {
 	options.Headers = param
 	return options
 }
 
-// DeleteAccountRulesetRuleOptions : The DeleteAccountRulesetRule options.
-type DeleteAccountRulesetRuleOptions struct {
+// DeleteInstanceRulesetRuleOptions : The DeleteInstanceRulesetRule options.
+type DeleteInstanceRulesetRuleOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2426,34 +2426,34 @@ type DeleteAccountRulesetRuleOptions struct {
 	Headers map[string]string
 }
 
-// NewDeleteAccountRulesetRuleOptions : Instantiate DeleteAccountRulesetRuleOptions
-func (*RulesetsV1) NewDeleteAccountRulesetRuleOptions(rulesetID string, ruleID string) *DeleteAccountRulesetRuleOptions {
-	return &DeleteAccountRulesetRuleOptions{
+// NewDeleteInstanceRulesetRuleOptions : Instantiate DeleteInstanceRulesetRuleOptions
+func (*RulesetsV1) NewDeleteInstanceRulesetRuleOptions(rulesetID string, ruleID string) *DeleteInstanceRulesetRuleOptions {
+	return &DeleteInstanceRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *DeleteAccountRulesetRuleOptions) SetRulesetID(rulesetID string) *DeleteAccountRulesetRuleOptions {
+func (_options *DeleteInstanceRulesetRuleOptions) SetRulesetID(rulesetID string) *DeleteInstanceRulesetRuleOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetRuleID : Allow user to set RuleID
-func (_options *DeleteAccountRulesetRuleOptions) SetRuleID(ruleID string) *DeleteAccountRulesetRuleOptions {
+func (_options *DeleteInstanceRulesetRuleOptions) SetRuleID(ruleID string) *DeleteInstanceRulesetRuleOptions {
 	_options.RuleID = core.StringPtr(ruleID)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *DeleteAccountRulesetRuleOptions) SetHeaders(param map[string]string) *DeleteAccountRulesetRuleOptions {
+func (options *DeleteInstanceRulesetRuleOptions) SetHeaders(param map[string]string) *DeleteInstanceRulesetRuleOptions {
 	options.Headers = param
 	return options
 }
 
-// DeleteAccountRulesetVersionOptions : The DeleteAccountRulesetVersion options.
-type DeleteAccountRulesetVersionOptions struct {
+// DeleteInstanceRulesetVersionOptions : The DeleteInstanceRulesetVersion options.
+type DeleteInstanceRulesetVersionOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2464,28 +2464,28 @@ type DeleteAccountRulesetVersionOptions struct {
 	Headers map[string]string
 }
 
-// NewDeleteAccountRulesetVersionOptions : Instantiate DeleteAccountRulesetVersionOptions
-func (*RulesetsV1) NewDeleteAccountRulesetVersionOptions(rulesetID string, rulesetVersion string) *DeleteAccountRulesetVersionOptions {
-	return &DeleteAccountRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+// NewDeleteInstanceRulesetVersionOptions : Instantiate DeleteInstanceRulesetVersionOptions
+func (*RulesetsV1) NewDeleteInstanceRulesetVersionOptions(rulesetID string, rulesetVersion string) *DeleteInstanceRulesetVersionOptions {
+	return &DeleteInstanceRulesetVersionOptions{
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *DeleteAccountRulesetVersionOptions) SetRulesetID(rulesetID string) *DeleteAccountRulesetVersionOptions {
+func (_options *DeleteInstanceRulesetVersionOptions) SetRulesetID(rulesetID string) *DeleteInstanceRulesetVersionOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetRulesetVersion : Allow user to set RulesetVersion
-func (_options *DeleteAccountRulesetVersionOptions) SetRulesetVersion(rulesetVersion string) *DeleteAccountRulesetVersionOptions {
+func (_options *DeleteInstanceRulesetVersionOptions) SetRulesetVersion(rulesetVersion string) *DeleteInstanceRulesetVersionOptions {
 	_options.RulesetVersion = core.StringPtr(rulesetVersion)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *DeleteAccountRulesetVersionOptions) SetHeaders(param map[string]string) *DeleteAccountRulesetVersionOptions {
+func (options *DeleteInstanceRulesetVersionOptions) SetHeaders(param map[string]string) *DeleteInstanceRulesetVersionOptions {
 	options.Headers = param
 	return options
 }
@@ -2534,7 +2534,7 @@ type DeleteZoneRulesetRuleOptions struct {
 func (*RulesetsV1) NewDeleteZoneRulesetRuleOptions(rulesetID string, ruleID string) *DeleteZoneRulesetRuleOptions {
 	return &DeleteZoneRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
@@ -2571,7 +2571,7 @@ type DeleteZoneRulesetVersionOptions struct {
 // NewDeleteZoneRulesetVersionOptions : Instantiate DeleteZoneRulesetVersionOptions
 func (*RulesetsV1) NewDeleteZoneRulesetVersionOptions(rulesetID string, rulesetVersion string) *DeleteZoneRulesetVersionOptions {
 	return &DeleteZoneRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -2594,8 +2594,8 @@ func (options *DeleteZoneRulesetVersionOptions) SetHeaders(param map[string]stri
 	return options
 }
 
-// GetAccountEntryPointRulesetVersionOptions : The GetAccountEntryPointRulesetVersion options.
-type GetAccountEntryPointRulesetVersionOptions struct {
+// GetInstanceEntryPointRulesetVersionOptions : The GetInstanceEntryPointRulesetVersion options.
+type GetInstanceEntryPointRulesetVersionOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
@@ -2606,59 +2606,59 @@ type GetAccountEntryPointRulesetVersionOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the GetAccountEntryPointRulesetVersionOptions.RulesetPhase property.
+// Constants associated with the GetInstanceEntryPointRulesetVersionOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetAccountEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
-// NewGetAccountEntryPointRulesetVersionOptions : Instantiate GetAccountEntryPointRulesetVersionOptions
-func (*RulesetsV1) NewGetAccountEntryPointRulesetVersionOptions(rulesetPhase string, rulesetVersion string) *GetAccountEntryPointRulesetVersionOptions {
-	return &GetAccountEntryPointRulesetVersionOptions{
-		RulesetPhase:   core.StringPtr(rulesetPhase),
+// NewGetInstanceEntryPointRulesetVersionOptions : Instantiate GetInstanceEntryPointRulesetVersionOptions
+func (*RulesetsV1) NewGetInstanceEntryPointRulesetVersionOptions(rulesetPhase string, rulesetVersion string) *GetInstanceEntryPointRulesetVersionOptions {
+	return &GetInstanceEntryPointRulesetVersionOptions{
+		RulesetPhase: core.StringPtr(rulesetPhase),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
 
 // SetRulesetPhase : Allow user to set RulesetPhase
-func (_options *GetAccountEntryPointRulesetVersionOptions) SetRulesetPhase(rulesetPhase string) *GetAccountEntryPointRulesetVersionOptions {
+func (_options *GetInstanceEntryPointRulesetVersionOptions) SetRulesetPhase(rulesetPhase string) *GetInstanceEntryPointRulesetVersionOptions {
 	_options.RulesetPhase = core.StringPtr(rulesetPhase)
 	return _options
 }
 
 // SetRulesetVersion : Allow user to set RulesetVersion
-func (_options *GetAccountEntryPointRulesetVersionOptions) SetRulesetVersion(rulesetVersion string) *GetAccountEntryPointRulesetVersionOptions {
+func (_options *GetInstanceEntryPointRulesetVersionOptions) SetRulesetVersion(rulesetVersion string) *GetInstanceEntryPointRulesetVersionOptions {
 	_options.RulesetVersion = core.StringPtr(rulesetVersion)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountEntryPointRulesetVersionOptions) SetHeaders(param map[string]string) *GetAccountEntryPointRulesetVersionOptions {
+func (options *GetInstanceEntryPointRulesetVersionOptions) SetHeaders(param map[string]string) *GetInstanceEntryPointRulesetVersionOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountEntryPointRulesetVersionsOptions : The GetAccountEntryPointRulesetVersions options.
-type GetAccountEntryPointRulesetVersionsOptions struct {
+// GetInstanceEntryPointRulesetVersionsOptions : The GetInstanceEntryPointRulesetVersions options.
+type GetInstanceEntryPointRulesetVersionsOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
@@ -2666,52 +2666,52 @@ type GetAccountEntryPointRulesetVersionsOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the GetAccountEntryPointRulesetVersionsOptions.RulesetPhase property.
+// Constants associated with the GetInstanceEntryPointRulesetVersionsOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetAccountEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
-// NewGetAccountEntryPointRulesetVersionsOptions : Instantiate GetAccountEntryPointRulesetVersionsOptions
-func (*RulesetsV1) NewGetAccountEntryPointRulesetVersionsOptions(rulesetPhase string) *GetAccountEntryPointRulesetVersionsOptions {
-	return &GetAccountEntryPointRulesetVersionsOptions{
+// NewGetInstanceEntryPointRulesetVersionsOptions : Instantiate GetInstanceEntryPointRulesetVersionsOptions
+func (*RulesetsV1) NewGetInstanceEntryPointRulesetVersionsOptions(rulesetPhase string) *GetInstanceEntryPointRulesetVersionsOptions {
+	return &GetInstanceEntryPointRulesetVersionsOptions{
 		RulesetPhase: core.StringPtr(rulesetPhase),
 	}
 }
 
 // SetRulesetPhase : Allow user to set RulesetPhase
-func (_options *GetAccountEntryPointRulesetVersionsOptions) SetRulesetPhase(rulesetPhase string) *GetAccountEntryPointRulesetVersionsOptions {
+func (_options *GetInstanceEntryPointRulesetVersionsOptions) SetRulesetPhase(rulesetPhase string) *GetInstanceEntryPointRulesetVersionsOptions {
 	_options.RulesetPhase = core.StringPtr(rulesetPhase)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountEntryPointRulesetVersionsOptions) SetHeaders(param map[string]string) *GetAccountEntryPointRulesetVersionsOptions {
+func (options *GetInstanceEntryPointRulesetVersionsOptions) SetHeaders(param map[string]string) *GetInstanceEntryPointRulesetVersionsOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountEntrypointRulesetOptions : The GetAccountEntrypointRuleset options.
-type GetAccountEntrypointRulesetOptions struct {
+// GetInstanceEntrypointRulesetOptions : The GetInstanceEntrypointRuleset options.
+type GetInstanceEntrypointRulesetOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
@@ -2719,52 +2719,52 @@ type GetAccountEntrypointRulesetOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the GetAccountEntrypointRulesetOptions.RulesetPhase property.
+// Constants associated with the GetInstanceEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetAccountEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetAccountEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
-// NewGetAccountEntrypointRulesetOptions : Instantiate GetAccountEntrypointRulesetOptions
-func (*RulesetsV1) NewGetAccountEntrypointRulesetOptions(rulesetPhase string) *GetAccountEntrypointRulesetOptions {
-	return &GetAccountEntrypointRulesetOptions{
+// NewGetInstanceEntrypointRulesetOptions : Instantiate GetInstanceEntrypointRulesetOptions
+func (*RulesetsV1) NewGetInstanceEntrypointRulesetOptions(rulesetPhase string) *GetInstanceEntrypointRulesetOptions {
+	return &GetInstanceEntrypointRulesetOptions{
 		RulesetPhase: core.StringPtr(rulesetPhase),
 	}
 }
 
 // SetRulesetPhase : Allow user to set RulesetPhase
-func (_options *GetAccountEntrypointRulesetOptions) SetRulesetPhase(rulesetPhase string) *GetAccountEntrypointRulesetOptions {
+func (_options *GetInstanceEntrypointRulesetOptions) SetRulesetPhase(rulesetPhase string) *GetInstanceEntrypointRulesetOptions {
 	_options.RulesetPhase = core.StringPtr(rulesetPhase)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountEntrypointRulesetOptions) SetHeaders(param map[string]string) *GetAccountEntrypointRulesetOptions {
+func (options *GetInstanceEntrypointRulesetOptions) SetHeaders(param map[string]string) *GetInstanceEntrypointRulesetOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountRulesetOptions : The GetAccountRuleset options.
-type GetAccountRulesetOptions struct {
+// GetInstanceRulesetOptions : The GetInstanceRuleset options.
+type GetInstanceRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2772,27 +2772,27 @@ type GetAccountRulesetOptions struct {
 	Headers map[string]string
 }
 
-// NewGetAccountRulesetOptions : Instantiate GetAccountRulesetOptions
-func (*RulesetsV1) NewGetAccountRulesetOptions(rulesetID string) *GetAccountRulesetOptions {
-	return &GetAccountRulesetOptions{
+// NewGetInstanceRulesetOptions : Instantiate GetInstanceRulesetOptions
+func (*RulesetsV1) NewGetInstanceRulesetOptions(rulesetID string) *GetInstanceRulesetOptions {
+	return &GetInstanceRulesetOptions{
 		RulesetID: core.StringPtr(rulesetID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *GetAccountRulesetOptions) SetRulesetID(rulesetID string) *GetAccountRulesetOptions {
+func (_options *GetInstanceRulesetOptions) SetRulesetID(rulesetID string) *GetInstanceRulesetOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountRulesetOptions) SetHeaders(param map[string]string) *GetAccountRulesetOptions {
+func (options *GetInstanceRulesetOptions) SetHeaders(param map[string]string) *GetInstanceRulesetOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountRulesetVersionByTagOptions : The GetAccountRulesetVersionByTag options.
-type GetAccountRulesetVersionByTagOptions struct {
+// GetInstanceRulesetVersionByTagOptions : The GetInstanceRulesetVersionByTag options.
+type GetInstanceRulesetVersionByTagOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2806,41 +2806,41 @@ type GetAccountRulesetVersionByTagOptions struct {
 	Headers map[string]string
 }
 
-// NewGetAccountRulesetVersionByTagOptions : Instantiate GetAccountRulesetVersionByTagOptions
-func (*RulesetsV1) NewGetAccountRulesetVersionByTagOptions(rulesetID string, rulesetVersion string, ruleTag string) *GetAccountRulesetVersionByTagOptions {
-	return &GetAccountRulesetVersionByTagOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+// NewGetInstanceRulesetVersionByTagOptions : Instantiate GetInstanceRulesetVersionByTagOptions
+func (*RulesetsV1) NewGetInstanceRulesetVersionByTagOptions(rulesetID string, rulesetVersion string, ruleTag string) *GetInstanceRulesetVersionByTagOptions {
+	return &GetInstanceRulesetVersionByTagOptions{
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
-		RuleTag:        core.StringPtr(ruleTag),
+		RuleTag: core.StringPtr(ruleTag),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *GetAccountRulesetVersionByTagOptions) SetRulesetID(rulesetID string) *GetAccountRulesetVersionByTagOptions {
+func (_options *GetInstanceRulesetVersionByTagOptions) SetRulesetID(rulesetID string) *GetInstanceRulesetVersionByTagOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetRulesetVersion : Allow user to set RulesetVersion
-func (_options *GetAccountRulesetVersionByTagOptions) SetRulesetVersion(rulesetVersion string) *GetAccountRulesetVersionByTagOptions {
+func (_options *GetInstanceRulesetVersionByTagOptions) SetRulesetVersion(rulesetVersion string) *GetInstanceRulesetVersionByTagOptions {
 	_options.RulesetVersion = core.StringPtr(rulesetVersion)
 	return _options
 }
 
 // SetRuleTag : Allow user to set RuleTag
-func (_options *GetAccountRulesetVersionByTagOptions) SetRuleTag(ruleTag string) *GetAccountRulesetVersionByTagOptions {
+func (_options *GetInstanceRulesetVersionByTagOptions) SetRuleTag(ruleTag string) *GetInstanceRulesetVersionByTagOptions {
 	_options.RuleTag = core.StringPtr(ruleTag)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountRulesetVersionByTagOptions) SetHeaders(param map[string]string) *GetAccountRulesetVersionByTagOptions {
+func (options *GetInstanceRulesetVersionByTagOptions) SetHeaders(param map[string]string) *GetInstanceRulesetVersionByTagOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountRulesetVersionOptions : The GetAccountRulesetVersion options.
-type GetAccountRulesetVersionOptions struct {
+// GetInstanceRulesetVersionOptions : The GetInstanceRulesetVersion options.
+type GetInstanceRulesetVersionOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2851,34 +2851,34 @@ type GetAccountRulesetVersionOptions struct {
 	Headers map[string]string
 }
 
-// NewGetAccountRulesetVersionOptions : Instantiate GetAccountRulesetVersionOptions
-func (*RulesetsV1) NewGetAccountRulesetVersionOptions(rulesetID string, rulesetVersion string) *GetAccountRulesetVersionOptions {
-	return &GetAccountRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+// NewGetInstanceRulesetVersionOptions : Instantiate GetInstanceRulesetVersionOptions
+func (*RulesetsV1) NewGetInstanceRulesetVersionOptions(rulesetID string, rulesetVersion string) *GetInstanceRulesetVersionOptions {
+	return &GetInstanceRulesetVersionOptions{
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *GetAccountRulesetVersionOptions) SetRulesetID(rulesetID string) *GetAccountRulesetVersionOptions {
+func (_options *GetInstanceRulesetVersionOptions) SetRulesetID(rulesetID string) *GetInstanceRulesetVersionOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetRulesetVersion : Allow user to set RulesetVersion
-func (_options *GetAccountRulesetVersionOptions) SetRulesetVersion(rulesetVersion string) *GetAccountRulesetVersionOptions {
+func (_options *GetInstanceRulesetVersionOptions) SetRulesetVersion(rulesetVersion string) *GetInstanceRulesetVersionOptions {
 	_options.RulesetVersion = core.StringPtr(rulesetVersion)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountRulesetVersionOptions) SetHeaders(param map[string]string) *GetAccountRulesetVersionOptions {
+func (options *GetInstanceRulesetVersionOptions) SetHeaders(param map[string]string) *GetInstanceRulesetVersionOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountRulesetVersionsOptions : The GetAccountRulesetVersions options.
-type GetAccountRulesetVersionsOptions struct {
+// GetInstanceRulesetVersionsOptions : The GetInstanceRulesetVersions options.
+type GetInstanceRulesetVersionsOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -2886,39 +2886,39 @@ type GetAccountRulesetVersionsOptions struct {
 	Headers map[string]string
 }
 
-// NewGetAccountRulesetVersionsOptions : Instantiate GetAccountRulesetVersionsOptions
-func (*RulesetsV1) NewGetAccountRulesetVersionsOptions(rulesetID string) *GetAccountRulesetVersionsOptions {
-	return &GetAccountRulesetVersionsOptions{
+// NewGetInstanceRulesetVersionsOptions : Instantiate GetInstanceRulesetVersionsOptions
+func (*RulesetsV1) NewGetInstanceRulesetVersionsOptions(rulesetID string) *GetInstanceRulesetVersionsOptions {
+	return &GetInstanceRulesetVersionsOptions{
 		RulesetID: core.StringPtr(rulesetID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *GetAccountRulesetVersionsOptions) SetRulesetID(rulesetID string) *GetAccountRulesetVersionsOptions {
+func (_options *GetInstanceRulesetVersionsOptions) SetRulesetID(rulesetID string) *GetInstanceRulesetVersionsOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountRulesetVersionsOptions) SetHeaders(param map[string]string) *GetAccountRulesetVersionsOptions {
+func (options *GetInstanceRulesetVersionsOptions) SetHeaders(param map[string]string) *GetInstanceRulesetVersionsOptions {
 	options.Headers = param
 	return options
 }
 
-// GetAccountRulesetsOptions : The GetAccountRulesets options.
-type GetAccountRulesetsOptions struct {
+// GetInstanceRulesetsOptions : The GetInstanceRulesets options.
+type GetInstanceRulesetsOptions struct {
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
-// NewGetAccountRulesetsOptions : Instantiate GetAccountRulesetsOptions
-func (*RulesetsV1) NewGetAccountRulesetsOptions() *GetAccountRulesetsOptions {
-	return &GetAccountRulesetsOptions{}
+// NewGetInstanceRulesetsOptions : Instantiate GetInstanceRulesetsOptions
+func (*RulesetsV1) NewGetInstanceRulesetsOptions() *GetInstanceRulesetsOptions {
+	return &GetInstanceRulesetsOptions{}
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *GetAccountRulesetsOptions) SetHeaders(param map[string]string) *GetAccountRulesetsOptions {
+func (options *GetInstanceRulesetsOptions) SetHeaders(param map[string]string) *GetInstanceRulesetsOptions {
 	options.Headers = param
 	return options
 }
@@ -2938,32 +2938,32 @@ type GetZoneEntryPointRulesetVersionOptions struct {
 // Constants associated with the GetZoneEntryPointRulesetVersionOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetZoneEntryPointRulesetVersionOptions : Instantiate GetZoneEntryPointRulesetVersionOptions
 func (*RulesetsV1) NewGetZoneEntryPointRulesetVersionOptions(rulesetPhase string, rulesetVersion string) *GetZoneEntryPointRulesetVersionOptions {
 	return &GetZoneEntryPointRulesetVersionOptions{
-		RulesetPhase:   core.StringPtr(rulesetPhase),
+		RulesetPhase: core.StringPtr(rulesetPhase),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -2998,26 +2998,26 @@ type GetZoneEntryPointRulesetVersionsOptions struct {
 // Constants associated with the GetZoneEntryPointRulesetVersionsOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetZoneEntryPointRulesetVersionsOptions : Instantiate GetZoneEntryPointRulesetVersionsOptions
@@ -3051,26 +3051,26 @@ type GetZoneEntrypointRulesetOptions struct {
 // Constants associated with the GetZoneEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetZoneEntrypointRulesetOptions : Instantiate GetZoneEntrypointRulesetOptions
@@ -3135,7 +3135,7 @@ type GetZoneRulesetVersionOptions struct {
 // NewGetZoneRulesetVersionOptions : Instantiate GetZoneRulesetVersionOptions
 func (*RulesetsV1) NewGetZoneRulesetVersionOptions(rulesetID string, rulesetVersion string) *GetZoneRulesetVersionOptions {
 	return &GetZoneRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -3221,8 +3221,8 @@ func UnmarshalMessageSource(m map[string]json.RawMessage, result interface{}) (e
 	return
 }
 
-// UpdateAccountEntrypointRulesetOptions : The UpdateAccountEntrypointRuleset options.
-type UpdateAccountEntrypointRulesetOptions struct {
+// UpdateInstanceEntrypointRulesetOptions : The UpdateInstanceEntrypointRuleset options.
+type UpdateInstanceEntrypointRulesetOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
@@ -3243,115 +3243,115 @@ type UpdateAccountEntrypointRulesetOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the UpdateAccountEntrypointRulesetOptions.RulesetPhase property.
+// Constants associated with the UpdateInstanceEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateAccountEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
-// Constants associated with the UpdateAccountEntrypointRulesetOptions.Kind property.
+// Constants associated with the UpdateInstanceEntrypointRulesetOptions.Kind property.
 const (
-	UpdateAccountEntrypointRulesetOptions_Kind_Custom  = "custom"
-	UpdateAccountEntrypointRulesetOptions_Kind_Managed = "managed"
-	UpdateAccountEntrypointRulesetOptions_Kind_Root    = "root"
-	UpdateAccountEntrypointRulesetOptions_Kind_Zone    = "zone"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Custom = "custom"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Managed = "managed"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Root = "root"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Zone = "zone"
 )
 
-// Constants associated with the UpdateAccountEntrypointRulesetOptions.Phase property.
+// Constants associated with the UpdateInstanceEntrypointRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateAccountEntrypointRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateAccountEntrypointRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateAccountEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateInstanceEntrypointRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateInstanceEntrypointRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
-// NewUpdateAccountEntrypointRulesetOptions : Instantiate UpdateAccountEntrypointRulesetOptions
-func (*RulesetsV1) NewUpdateAccountEntrypointRulesetOptions(rulesetPhase string) *UpdateAccountEntrypointRulesetOptions {
-	return &UpdateAccountEntrypointRulesetOptions{
+// NewUpdateInstanceEntrypointRulesetOptions : Instantiate UpdateInstanceEntrypointRulesetOptions
+func (*RulesetsV1) NewUpdateInstanceEntrypointRulesetOptions(rulesetPhase string) *UpdateInstanceEntrypointRulesetOptions {
+	return &UpdateInstanceEntrypointRulesetOptions{
 		RulesetPhase: core.StringPtr(rulesetPhase),
 	}
 }
 
 // SetRulesetPhase : Allow user to set RulesetPhase
-func (_options *UpdateAccountEntrypointRulesetOptions) SetRulesetPhase(rulesetPhase string) *UpdateAccountEntrypointRulesetOptions {
+func (_options *UpdateInstanceEntrypointRulesetOptions) SetRulesetPhase(rulesetPhase string) *UpdateInstanceEntrypointRulesetOptions {
 	_options.RulesetPhase = core.StringPtr(rulesetPhase)
 	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (_options *UpdateAccountEntrypointRulesetOptions) SetDescription(description string) *UpdateAccountEntrypointRulesetOptions {
+func (_options *UpdateInstanceEntrypointRulesetOptions) SetDescription(description string) *UpdateInstanceEntrypointRulesetOptions {
 	_options.Description = core.StringPtr(description)
 	return _options
 }
 
 // SetKind : Allow user to set Kind
-func (_options *UpdateAccountEntrypointRulesetOptions) SetKind(kind string) *UpdateAccountEntrypointRulesetOptions {
+func (_options *UpdateInstanceEntrypointRulesetOptions) SetKind(kind string) *UpdateInstanceEntrypointRulesetOptions {
 	_options.Kind = core.StringPtr(kind)
 	return _options
 }
 
 // SetName : Allow user to set Name
-func (_options *UpdateAccountEntrypointRulesetOptions) SetName(name string) *UpdateAccountEntrypointRulesetOptions {
+func (_options *UpdateInstanceEntrypointRulesetOptions) SetName(name string) *UpdateInstanceEntrypointRulesetOptions {
 	_options.Name = core.StringPtr(name)
 	return _options
 }
 
 // SetPhase : Allow user to set Phase
-func (_options *UpdateAccountEntrypointRulesetOptions) SetPhase(phase string) *UpdateAccountEntrypointRulesetOptions {
+func (_options *UpdateInstanceEntrypointRulesetOptions) SetPhase(phase string) *UpdateInstanceEntrypointRulesetOptions {
 	_options.Phase = core.StringPtr(phase)
 	return _options
 }
 
 // SetRules : Allow user to set Rules
-func (_options *UpdateAccountEntrypointRulesetOptions) SetRules(rules []RuleCreate) *UpdateAccountEntrypointRulesetOptions {
+func (_options *UpdateInstanceEntrypointRulesetOptions) SetRules(rules []RuleCreate) *UpdateInstanceEntrypointRulesetOptions {
 	_options.Rules = rules
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *UpdateAccountEntrypointRulesetOptions) SetHeaders(param map[string]string) *UpdateAccountEntrypointRulesetOptions {
+func (options *UpdateInstanceEntrypointRulesetOptions) SetHeaders(param map[string]string) *UpdateInstanceEntrypointRulesetOptions {
 	options.Headers = param
 	return options
 }
 
-// UpdateAccountRulesetOptions : The UpdateAccountRuleset options.
-type UpdateAccountRulesetOptions struct {
+// UpdateInstanceRulesetOptions : The UpdateInstanceRuleset options.
+type UpdateInstanceRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -3372,90 +3372,90 @@ type UpdateAccountRulesetOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the UpdateAccountRulesetOptions.Kind property.
+// Constants associated with the UpdateInstanceRulesetOptions.Kind property.
 const (
-	UpdateAccountRulesetOptions_Kind_Custom  = "custom"
-	UpdateAccountRulesetOptions_Kind_Managed = "managed"
-	UpdateAccountRulesetOptions_Kind_Root    = "root"
-	UpdateAccountRulesetOptions_Kind_Zone    = "zone"
+	UpdateInstanceRulesetOptions_Kind_Custom = "custom"
+	UpdateInstanceRulesetOptions_Kind_Managed = "managed"
+	UpdateInstanceRulesetOptions_Kind_Root = "root"
+	UpdateInstanceRulesetOptions_Kind_Zone = "zone"
 )
 
-// Constants associated with the UpdateAccountRulesetOptions.Phase property.
+// Constants associated with the UpdateInstanceRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateAccountRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateAccountRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateAccountRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateAccountRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateAccountRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateAccountRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateAccountRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateAccountRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateAccountRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateAccountRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateAccountRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateAccountRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateAccountRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateAccountRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateAccountRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
-	UpdateAccountRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateAccountRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateAccountRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateAccountRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateAccountRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateInstanceRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateInstanceRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateInstanceRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateInstanceRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateInstanceRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateInstanceRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateInstanceRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateInstanceRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateInstanceRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
-// NewUpdateAccountRulesetOptions : Instantiate UpdateAccountRulesetOptions
-func (*RulesetsV1) NewUpdateAccountRulesetOptions(rulesetID string) *UpdateAccountRulesetOptions {
-	return &UpdateAccountRulesetOptions{
+// NewUpdateInstanceRulesetOptions : Instantiate UpdateInstanceRulesetOptions
+func (*RulesetsV1) NewUpdateInstanceRulesetOptions(rulesetID string) *UpdateInstanceRulesetOptions {
+	return &UpdateInstanceRulesetOptions{
 		RulesetID: core.StringPtr(rulesetID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *UpdateAccountRulesetOptions) SetRulesetID(rulesetID string) *UpdateAccountRulesetOptions {
+func (_options *UpdateInstanceRulesetOptions) SetRulesetID(rulesetID string) *UpdateInstanceRulesetOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (_options *UpdateAccountRulesetOptions) SetDescription(description string) *UpdateAccountRulesetOptions {
+func (_options *UpdateInstanceRulesetOptions) SetDescription(description string) *UpdateInstanceRulesetOptions {
 	_options.Description = core.StringPtr(description)
 	return _options
 }
 
 // SetKind : Allow user to set Kind
-func (_options *UpdateAccountRulesetOptions) SetKind(kind string) *UpdateAccountRulesetOptions {
+func (_options *UpdateInstanceRulesetOptions) SetKind(kind string) *UpdateInstanceRulesetOptions {
 	_options.Kind = core.StringPtr(kind)
 	return _options
 }
 
 // SetName : Allow user to set Name
-func (_options *UpdateAccountRulesetOptions) SetName(name string) *UpdateAccountRulesetOptions {
+func (_options *UpdateInstanceRulesetOptions) SetName(name string) *UpdateInstanceRulesetOptions {
 	_options.Name = core.StringPtr(name)
 	return _options
 }
 
 // SetPhase : Allow user to set Phase
-func (_options *UpdateAccountRulesetOptions) SetPhase(phase string) *UpdateAccountRulesetOptions {
+func (_options *UpdateInstanceRulesetOptions) SetPhase(phase string) *UpdateInstanceRulesetOptions {
 	_options.Phase = core.StringPtr(phase)
 	return _options
 }
 
 // SetRules : Allow user to set Rules
-func (_options *UpdateAccountRulesetOptions) SetRules(rules []RuleCreate) *UpdateAccountRulesetOptions {
+func (_options *UpdateInstanceRulesetOptions) SetRules(rules []RuleCreate) *UpdateInstanceRulesetOptions {
 	_options.Rules = rules
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *UpdateAccountRulesetOptions) SetHeaders(param map[string]string) *UpdateAccountRulesetOptions {
+func (options *UpdateInstanceRulesetOptions) SetHeaders(param map[string]string) *UpdateInstanceRulesetOptions {
 	options.Headers = param
 	return options
 }
 
-// UpdateAccountRulesetRuleOptions : The UpdateAccountRulesetRule options.
-type UpdateAccountRulesetRuleOptions struct {
+// UpdateInstanceRulesetRuleOptions : The UpdateInstanceRulesetRule options.
+type UpdateInstanceRulesetRuleOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
@@ -3487,82 +3487,82 @@ type UpdateAccountRulesetRuleOptions struct {
 	Headers map[string]string
 }
 
-// NewUpdateAccountRulesetRuleOptions : Instantiate UpdateAccountRulesetRuleOptions
-func (*RulesetsV1) NewUpdateAccountRulesetRuleOptions(rulesetID string, ruleID string) *UpdateAccountRulesetRuleOptions {
-	return &UpdateAccountRulesetRuleOptions{
+// NewUpdateInstanceRulesetRuleOptions : Instantiate UpdateInstanceRulesetRuleOptions
+func (*RulesetsV1) NewUpdateInstanceRulesetRuleOptions(rulesetID string, ruleID string) *UpdateInstanceRulesetRuleOptions {
+	return &UpdateInstanceRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
 // SetRulesetID : Allow user to set RulesetID
-func (_options *UpdateAccountRulesetRuleOptions) SetRulesetID(rulesetID string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetRulesetID(rulesetID string) *UpdateInstanceRulesetRuleOptions {
 	_options.RulesetID = core.StringPtr(rulesetID)
 	return _options
 }
 
 // SetRuleID : Allow user to set RuleID
-func (_options *UpdateAccountRulesetRuleOptions) SetRuleID(ruleID string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetRuleID(ruleID string) *UpdateInstanceRulesetRuleOptions {
 	_options.RuleID = core.StringPtr(ruleID)
 	return _options
 }
 
 // SetAction : Allow user to set Action
-func (_options *UpdateAccountRulesetRuleOptions) SetAction(action string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetAction(action string) *UpdateInstanceRulesetRuleOptions {
 	_options.Action = core.StringPtr(action)
 	return _options
 }
 
 // SetActionParameters : Allow user to set ActionParameters
-func (_options *UpdateAccountRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *UpdateInstanceRulesetRuleOptions {
 	_options.ActionParameters = actionParameters
 	return _options
 }
 
 // SetDescription : Allow user to set Description
-func (_options *UpdateAccountRulesetRuleOptions) SetDescription(description string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetDescription(description string) *UpdateInstanceRulesetRuleOptions {
 	_options.Description = core.StringPtr(description)
 	return _options
 }
 
 // SetEnabled : Allow user to set Enabled
-func (_options *UpdateAccountRulesetRuleOptions) SetEnabled(enabled bool) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetEnabled(enabled bool) *UpdateInstanceRulesetRuleOptions {
 	_options.Enabled = core.BoolPtr(enabled)
 	return _options
 }
 
 // SetExpression : Allow user to set Expression
-func (_options *UpdateAccountRulesetRuleOptions) SetExpression(expression string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetExpression(expression string) *UpdateInstanceRulesetRuleOptions {
 	_options.Expression = core.StringPtr(expression)
 	return _options
 }
 
 // SetID : Allow user to set ID
-func (_options *UpdateAccountRulesetRuleOptions) SetID(id string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetID(id string) *UpdateInstanceRulesetRuleOptions {
 	_options.ID = core.StringPtr(id)
 	return _options
 }
 
 // SetLogging : Allow user to set Logging
-func (_options *UpdateAccountRulesetRuleOptions) SetLogging(logging *Logging) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetLogging(logging *Logging) *UpdateInstanceRulesetRuleOptions {
 	_options.Logging = logging
 	return _options
 }
 
 // SetRef : Allow user to set Ref
-func (_options *UpdateAccountRulesetRuleOptions) SetRef(ref string) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetRef(ref string) *UpdateInstanceRulesetRuleOptions {
 	_options.Ref = core.StringPtr(ref)
 	return _options
 }
 
 // SetPosition : Allow user to set Position
-func (_options *UpdateAccountRulesetRuleOptions) SetPosition(position *Position) *UpdateAccountRulesetRuleOptions {
+func (_options *UpdateInstanceRulesetRuleOptions) SetPosition(position *Position) *UpdateInstanceRulesetRuleOptions {
 	_options.Position = position
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *UpdateAccountRulesetRuleOptions) SetHeaders(param map[string]string) *UpdateAccountRulesetRuleOptions {
+func (options *UpdateInstanceRulesetRuleOptions) SetHeaders(param map[string]string) *UpdateInstanceRulesetRuleOptions {
 	options.Headers = param
 	return options
 }
@@ -3592,59 +3592,59 @@ type UpdateZoneEntrypointRulesetOptions struct {
 // Constants associated with the UpdateZoneEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // Constants associated with the UpdateZoneEntrypointRulesetOptions.Kind property.
 const (
-	UpdateZoneEntrypointRulesetOptions_Kind_Custom  = "custom"
+	UpdateZoneEntrypointRulesetOptions_Kind_Custom = "custom"
 	UpdateZoneEntrypointRulesetOptions_Kind_Managed = "managed"
-	UpdateZoneEntrypointRulesetOptions_Kind_Root    = "root"
-	UpdateZoneEntrypointRulesetOptions_Kind_Zone    = "zone"
+	UpdateZoneEntrypointRulesetOptions_Kind_Root = "root"
+	UpdateZoneEntrypointRulesetOptions_Kind_Zone = "zone"
 )
 
 // Constants associated with the UpdateZoneEntrypointRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateZoneEntrypointRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateZoneEntrypointRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateZoneEntrypointRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateZoneEntrypointRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewUpdateZoneEntrypointRulesetOptions : Instantiate UpdateZoneEntrypointRulesetOptions
@@ -3720,35 +3720,35 @@ type UpdateZoneRulesetOptions struct {
 
 // Constants associated with the UpdateZoneRulesetOptions.Kind property.
 const (
-	UpdateZoneRulesetOptions_Kind_Custom  = "custom"
+	UpdateZoneRulesetOptions_Kind_Custom = "custom"
 	UpdateZoneRulesetOptions_Kind_Managed = "managed"
-	UpdateZoneRulesetOptions_Kind_Root    = "root"
-	UpdateZoneRulesetOptions_Kind_Zone    = "zone"
+	UpdateZoneRulesetOptions_Kind_Root = "root"
+	UpdateZoneRulesetOptions_Kind_Zone = "zone"
 )
 
 // Constants associated with the UpdateZoneRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateZoneRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateZoneRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateZoneRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateZoneRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateZoneRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateZoneRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateZoneRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateZoneRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateZoneRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateZoneRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateZoneRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateZoneRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateZoneRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateZoneRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateZoneRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateZoneRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateZoneRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateZoneRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateZoneRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateZoneRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateZoneRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateZoneRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateZoneRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateZoneRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateZoneRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateZoneRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateZoneRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateZoneRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateZoneRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateZoneRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateZoneRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateZoneRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateZoneRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateZoneRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateZoneRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewUpdateZoneRulesetOptions : Instantiate UpdateZoneRulesetOptions
@@ -3837,7 +3837,7 @@ type UpdateZoneRulesetRuleOptions struct {
 func (*RulesetsV1) NewUpdateZoneRulesetRuleOptions(rulesetID string, ruleID string) *UpdateZoneRulesetRuleOptions {
 	return &UpdateZoneRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
@@ -4056,35 +4056,35 @@ type ListedRuleset struct {
 
 // Constants associated with the ListedRuleset.Kind property.
 const (
-	ListedRuleset_Kind_Custom  = "custom"
+	ListedRuleset_Kind_Custom = "custom"
 	ListedRuleset_Kind_Managed = "managed"
-	ListedRuleset_Kind_Root    = "root"
-	ListedRuleset_Kind_Zone    = "zone"
+	ListedRuleset_Kind_Root = "root"
+	ListedRuleset_Kind_Zone = "zone"
 )
 
 // Constants associated with the ListedRuleset.Phase property.
 // The phase of the ruleset.
 const (
-	ListedRuleset_Phase_DdosL4                         = "ddos_l4"
-	ListedRuleset_Phase_DdosL7                         = "ddos_l7"
-	ListedRuleset_Phase_HttpConfigSettings             = "http_config_settings"
-	ListedRuleset_Phase_HttpCustomErrors               = "http_custom_errors"
-	ListedRuleset_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	ListedRuleset_Phase_HttpRatelimit                  = "http_ratelimit"
-	ListedRuleset_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	ListedRuleset_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	ListedRuleset_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	ListedRuleset_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	ListedRuleset_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	ListedRuleset_Phase_HttpRequestOrigin              = "http_request_origin"
-	ListedRuleset_Phase_HttpRequestRedirect            = "http_request_redirect"
-	ListedRuleset_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	ListedRuleset_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	ListedRuleset_Phase_DdosL4 = "ddos_l4"
+	ListedRuleset_Phase_DdosL7 = "ddos_l7"
+	ListedRuleset_Phase_HttpConfigSettings = "http_config_settings"
+	ListedRuleset_Phase_HttpCustomErrors = "http_custom_errors"
+	ListedRuleset_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	ListedRuleset_Phase_HttpRatelimit = "http_ratelimit"
+	ListedRuleset_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	ListedRuleset_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	ListedRuleset_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	ListedRuleset_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	ListedRuleset_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	ListedRuleset_Phase_HttpRequestOrigin = "http_request_origin"
+	ListedRuleset_Phase_HttpRequestRedirect = "http_request_redirect"
+	ListedRuleset_Phase_HttpRequestSanitize = "http_request_sanitize"
+	ListedRuleset_Phase_HttpRequestSbfm = "http_request_sbfm"
 	ListedRuleset_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	ListedRuleset_Phase_HttpRequestTransform           = "http_request_transform"
-	ListedRuleset_Phase_HttpResponseCompression        = "http_response_compression"
-	ListedRuleset_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	ListedRuleset_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	ListedRuleset_Phase_HttpRequestTransform = "http_request_transform"
+	ListedRuleset_Phase_HttpResponseCompression = "http_response_compression"
+	ListedRuleset_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	ListedRuleset_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // UnmarshalListedRuleset unmarshals an instance of ListedRuleset from the specified map of raw messages.
@@ -4196,8 +4196,8 @@ type Overrides struct {
 // Constants associated with the Overrides.SensitivityLevel property.
 // The sensitivity level of the rule.
 const (
-	Overrides_SensitivityLevel_High   = "high"
-	Overrides_SensitivityLevel_Low    = "low"
+	Overrides_SensitivityLevel_High = "high"
+	Overrides_SensitivityLevel_Low = "low"
 	Overrides_SensitivityLevel_Medium = "medium"
 )
 
@@ -4286,7 +4286,7 @@ type RuleCreate struct {
 // NewRuleCreate : Instantiate RuleCreate (Generic Model Constructor)
 func (*RulesetsV1) NewRuleCreate(action string, expression string) (_model *RuleCreate, err error) {
 	_model = &RuleCreate{
-		Action:     core.StringPtr(action),
+		Action: core.StringPtr(action),
 		Expression: core.StringPtr(expression),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -4342,15 +4342,24 @@ type RuleDetails struct {
 	ID *string `json:"id" validate:"required"`
 
 	// The version of the rule.
-	Version *string `json:"version" validate:"required"`
+	Version *string `json:"version,omitempty"`
 
 	// What happens when theres a match for the rule expression.
-	Action *string `json:"action" validate:"required"`
+	Action *string `json:"action,omitempty"`
 
 	ActionParameters *ActionParameters `json:"action_parameters,omitempty"`
 
+	// List of categories for the rule.
+	Categories []string `json:"categories,omitempty"`
+
+	// Is the rule enabled.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// description of the rule.
+	Description *string `json:"description,omitempty"`
+
 	// The expression defining which traffic will match the rule.
-	Expression *string `json:"expression" validate:"required"`
+	Expression *string `json:"expression,omitempty"`
 
 	// The reference of the rule (the rule ID by default).
 	Ref *string `json:"ref,omitempty"`
@@ -4358,7 +4367,7 @@ type RuleDetails struct {
 	Logging *Logging `json:"logging,omitempty"`
 
 	// The timestamp of when the resource was last modified.
-	LastUpdated *string `json:"last_updated" validate:"required"`
+	LastUpdated *string `json:"last_updated,omitempty"`
 }
 
 // UnmarshalRuleDetails unmarshals an instance of RuleDetails from the specified map of raw messages.
@@ -4377,6 +4386,18 @@ func UnmarshalRuleDetails(m map[string]json.RawMessage, result interface{}) (err
 		return
 	}
 	err = core.UnmarshalModel(m, "action_parameters", &obj.ActionParameters, UnmarshalActionParameters)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "categories", &obj.Categories)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
 		return
 	}
@@ -4453,8 +4474,8 @@ type RulesOverride struct {
 // Constants associated with the RulesOverride.SensitivityLevel property.
 // The sensitivity level of the rule.
 const (
-	RulesOverride_SensitivityLevel_High   = "high"
-	RulesOverride_SensitivityLevel_Low    = "low"
+	RulesOverride_SensitivityLevel_High = "high"
+	RulesOverride_SensitivityLevel_Low = "low"
 	RulesOverride_SensitivityLevel_Medium = "medium"
 )
 
@@ -4508,35 +4529,35 @@ type RulesetDetails struct {
 
 // Constants associated with the RulesetDetails.Kind property.
 const (
-	RulesetDetails_Kind_Custom  = "custom"
+	RulesetDetails_Kind_Custom = "custom"
 	RulesetDetails_Kind_Managed = "managed"
-	RulesetDetails_Kind_Root    = "root"
-	RulesetDetails_Kind_Zone    = "zone"
+	RulesetDetails_Kind_Root = "root"
+	RulesetDetails_Kind_Zone = "zone"
 )
 
 // Constants associated with the RulesetDetails.Phase property.
 // The phase of the ruleset.
 const (
-	RulesetDetails_Phase_DdosL4                         = "ddos_l4"
-	RulesetDetails_Phase_DdosL7                         = "ddos_l7"
-	RulesetDetails_Phase_HttpConfigSettings             = "http_config_settings"
-	RulesetDetails_Phase_HttpCustomErrors               = "http_custom_errors"
-	RulesetDetails_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	RulesetDetails_Phase_HttpRatelimit                  = "http_ratelimit"
-	RulesetDetails_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	RulesetDetails_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	RulesetDetails_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	RulesetDetails_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	RulesetDetails_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	RulesetDetails_Phase_HttpRequestOrigin              = "http_request_origin"
-	RulesetDetails_Phase_HttpRequestRedirect            = "http_request_redirect"
-	RulesetDetails_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	RulesetDetails_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	RulesetDetails_Phase_DdosL4 = "ddos_l4"
+	RulesetDetails_Phase_DdosL7 = "ddos_l7"
+	RulesetDetails_Phase_HttpConfigSettings = "http_config_settings"
+	RulesetDetails_Phase_HttpCustomErrors = "http_custom_errors"
+	RulesetDetails_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	RulesetDetails_Phase_HttpRatelimit = "http_ratelimit"
+	RulesetDetails_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	RulesetDetails_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	RulesetDetails_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	RulesetDetails_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	RulesetDetails_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	RulesetDetails_Phase_HttpRequestOrigin = "http_request_origin"
+	RulesetDetails_Phase_HttpRequestRedirect = "http_request_redirect"
+	RulesetDetails_Phase_HttpRequestSanitize = "http_request_sanitize"
+	RulesetDetails_Phase_HttpRequestSbfm = "http_request_sbfm"
 	RulesetDetails_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	RulesetDetails_Phase_HttpRequestTransform           = "http_request_transform"
-	RulesetDetails_Phase_HttpResponseCompression        = "http_response_compression"
-	RulesetDetails_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	RulesetDetails_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	RulesetDetails_Phase_HttpRequestTransform = "http_request_transform"
+	RulesetDetails_Phase_HttpResponseCompression = "http_response_compression"
+	RulesetDetails_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	RulesetDetails_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // UnmarshalRulesetDetails unmarshals an instance of RulesetDetails from the specified map of raw messages.
