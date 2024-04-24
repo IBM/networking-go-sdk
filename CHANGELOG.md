@@ -1,3 +1,10 @@
+## [0.46.1](https://github.com/IBM/networking-go-sdk/compare/v0.46.0...v0.46.1) (2024-04-24)
+
+
+### Bug Fixes
+
+* managed rulesets changes ([4598d23](https://github.com/IBM/networking-go-sdk/commit/4598d23a375ed23197554f539317b43898dc0408))
+
 # [0.46.0](https://github.com/IBM/networking-go-sdk/compare/v0.45.0...v0.46.0) (2024-04-20)
 
 
