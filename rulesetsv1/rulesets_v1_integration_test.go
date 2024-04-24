@@ -98,26 +98,26 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 		})
 	})
 
-	//--------------ACCOUNT RULESETS INTEGRATION TEST-----------------
+	//--------------INSTANCE RULESETS INTEGRATION TEST-----------------
 
-	Describe("account rulesets", func() {
+	Describe("Instance rulesets", func() {
 		BeforeEach(func() {
 			shouldSkipTest()
 		})
-		It("List/Get account ruleset", func() {
-			getAccountRulesetsOptions := &rulesetsv1.GetAccountRulesetsOptions{}
+		It("List/Get Instance ruleset", func() {
+			getInstanceRulesetsOptions := &rulesetsv1.GetInstanceRulesetsOptions{}
 
-			listRulesetsResp, response, err := rulesetsService.GetAccountRulesets(getAccountRulesetsOptions)
+			listRulesetsResp, response, err := rulesetsService.GetInstanceRulesets(getInstanceRulesetsOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(listRulesetsResp).ToNot(BeNil())
 
 			rulesetToDeployId = listRulesetsResp.Result[0].ID
-			getAccountRulesetOptions := &rulesetsv1.GetAccountRulesetOptions{
+			getInstanceRulesetOptions := &rulesetsv1.GetInstanceRulesetOptions{
 				RulesetID: rulesetToDeployId,
 			}
 
-			rulesetResp, response, err := rulesetsService.GetAccountRuleset(getAccountRulesetOptions)
+			rulesetResp, response, err := rulesetsService.GetInstanceRuleset(getInstanceRulesetOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
@@ -127,7 +127,7 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 
 		})
 
-		It("Update Account Entrypoint Ruleset", func() {
+		It("Update Instance Entrypoint Ruleset", func() {
 
 			// if there is no ep this API will create and ep ruleset.
 			// here we are creating a rule which will deploy a managed ruleset
@@ -170,13 +170,13 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				Position:         positionModel,
 			}
 
-			updateAccountEntrypointRulesetOptions := &rulesetsv1.UpdateAccountEntrypointRulesetOptions{
+			updateInstanceEntrypointRulesetOptions := &rulesetsv1.UpdateInstanceEntrypointRulesetOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
 				Description:  core.StringPtr("creating/updating entrypoint ruleset"),
 				Rules:        []rulesetsv1.RuleCreate{*ruleCreateModel},
 			}
 
-			rulesetResp, response, err := rulesetsService.UpdateAccountEntrypointRuleset(updateAccountEntrypointRulesetOptions)
+			rulesetResp, response, err := rulesetsService.UpdateInstanceEntrypointRuleset(updateInstanceEntrypointRulesetOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
@@ -184,14 +184,14 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			rulsetForTestingId = rulesetResp.Result.ID
 		})
 
-		It("Update Account Ruleset", func() {
+		It("Update Instance Ruleset", func() {
 
 			// to get the ruleset id
 
-			getAccountEntrypointRulesetOptions := &rulesetsv1.GetAccountEntrypointRulesetOptions{
+			getInstanceEntrypointRulesetOptions := &rulesetsv1.GetInstanceEntrypointRulesetOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
 			}
-			rulesetResp, _, _ := rulesetsService.GetAccountEntrypointRuleset(getAccountEntrypointRulesetOptions)
+			rulesetResp, _, _ := rulesetsService.GetInstanceEntrypointRuleset(getInstanceEntrypointRulesetOptions)
 			ruleset2UpdateId := *rulesetResp.Result.ID
 
 			rulesOverrideModel := &rulesetsv1.RulesOverride{
@@ -232,90 +232,90 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				Position:         positionModel,
 			}
 
-			updateAccountRulesetOptions := &rulesetsv1.UpdateAccountRulesetOptions{
+			updateInstanceRulesetOptions := &rulesetsv1.UpdateInstanceRulesetOptions{
 				RulesetID:   core.StringPtr(ruleset2UpdateId),
-				Description: core.StringPtr("updating account ruleset"),
+				Description: core.StringPtr("updating Instance ruleset"),
 				Rules:       []rulesetsv1.RuleCreate{*ruleCreateModel},
 			}
 
-			rulesetResp, response, err := rulesetsService.UpdateAccountRuleset(updateAccountRulesetOptions)
+			rulesetResp, response, err := rulesetsService.UpdateInstanceRuleset(updateInstanceRulesetOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
 		})
 
-		It("Get Account Entrypoint Ruleset", func() {
-			getAccountEntrypointRulesetOptions := &rulesetsv1.GetAccountEntrypointRulesetOptions{
+		It("Get Instance Entrypoint Ruleset", func() {
+			getInstanceEntrypointRulesetOptions := &rulesetsv1.GetInstanceEntrypointRulesetOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
 			}
 
-			rulesetResp, response, err := rulesetsService.GetAccountEntrypointRuleset(getAccountEntrypointRulesetOptions)
+			rulesetResp, response, err := rulesetsService.GetInstanceEntrypointRuleset(getInstanceEntrypointRulesetOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
 		})
 
-		It("List/Get Account Entry Point Ruleset Version", func() {
-			getAccountEntryPointRulesetVersionsOptions := &rulesetsv1.GetAccountEntryPointRulesetVersionsOptions{
+		It("List/Get Instance Entry Point Ruleset Version", func() {
+			getInstanceEntryPointRulesetVersionsOptions := &rulesetsv1.GetInstanceEntryPointRulesetVersionsOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
 			}
 
-			listRulesetsResp, response, err := rulesetsService.GetAccountEntryPointRulesetVersions(getAccountEntryPointRulesetVersionsOptions)
+			listRulesetsResp, response, err := rulesetsService.GetInstanceEntryPointRulesetVersions(getInstanceEntryPointRulesetVersionsOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(listRulesetsResp).ToNot(BeNil())
 
 			version := *listRulesetsResp.Result[1].Version
 
-			getAccountEntryPointRulesetVersionOptions := &rulesetsv1.GetAccountEntryPointRulesetVersionOptions{
+			getInstanceEntryPointRulesetVersionOptions := &rulesetsv1.GetInstanceEntryPointRulesetVersionOptions{
 				RulesetPhase:   core.StringPtr("http_request_firewall_managed"),
 				RulesetVersion: core.StringPtr(version),
 			}
 
-			rulesetResp, response, err := rulesetsService.GetAccountEntryPointRulesetVersion(getAccountEntryPointRulesetVersionOptions)
+			rulesetResp, response, err := rulesetsService.GetInstanceEntryPointRulesetVersion(getInstanceEntryPointRulesetVersionOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
 		})
 
-		It("List/Get/Delete Account Ruleset Version", func() {
-			getAccountRulesetVersionsOptions := &rulesetsv1.GetAccountRulesetVersionsOptions{
+		It("List/Get/Delete Instance Ruleset Version", func() {
+			getInstanceRulesetVersionsOptions := &rulesetsv1.GetInstanceRulesetVersionsOptions{
 				RulesetID: rulsetForTestingId,
 			}
 
-			listRulesetsResp, response, err := rulesetsService.GetAccountRulesetVersions(getAccountRulesetVersionsOptions)
+			listRulesetsResp, response, err := rulesetsService.GetInstanceRulesetVersions(getInstanceRulesetVersionsOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(listRulesetsResp).ToNot(BeNil())
 
 			version := *listRulesetsResp.Result[1].Version // gives the second last version
 
-			getAccountRulesetVersionOptions := &rulesetsv1.GetAccountRulesetVersionOptions{
+			getInstanceRulesetVersionOptions := &rulesetsv1.GetInstanceRulesetVersionOptions{
 				RulesetID:      rulsetForTestingId,
 				RulesetVersion: core.StringPtr(version),
 			}
 
-			rulesetResp, response, err := rulesetsService.GetAccountRulesetVersion(getAccountRulesetVersionOptions)
+			rulesetResp, response, err := rulesetsService.GetInstanceRulesetVersion(getInstanceRulesetVersionOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
 
-			deleteAccountRulesetVersionOptions := &rulesetsv1.DeleteAccountRulesetVersionOptions{
+			deleteInstanceRulesetVersionOptions := &rulesetsv1.DeleteInstanceRulesetVersionOptions{
 				RulesetID:      rulsetForTestingId,
 				RulesetVersion: core.StringPtr(version),
 			}
 
-			response, err = rulesetsService.DeleteAccountRulesetVersion(deleteAccountRulesetVersionOptions)
+			response, err = rulesetsService.DeleteInstanceRulesetVersion(deleteInstanceRulesetVersionOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 		})
 
-		It("Create Account Ruleset Rule", func() {
+		It("Create Instance Ruleset Rule", func() {
 
-			getAccountEntrypointRulesetOptions := &rulesetsv1.GetAccountEntrypointRulesetOptions{
+			getInstanceEntrypointRulesetOptions := &rulesetsv1.GetInstanceEntrypointRulesetOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
 			}
-			rulesetResp, _, _ := rulesetsService.GetAccountEntrypointRuleset(getAccountEntrypointRulesetOptions)
+			rulesetResp, _, _ := rulesetsService.GetInstanceEntrypointRuleset(getInstanceEntrypointRulesetOptions)
 			ruleset2UpdateId := *rulesetResp.Result.ID
 
 			rulesOverrideModel := &rulesetsv1.RulesOverride{
@@ -345,7 +345,7 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				Index: core.Int64Ptr(int64(1)),
 			}
 
-			createAccountRulesetRuleOptions := &rulesetsv1.CreateAccountRulesetRuleOptions{
+			createInstanceRulesetRuleOptions := &rulesetsv1.CreateInstanceRulesetRuleOptions{
 				RulesetID:        core.StringPtr(ruleset2UpdateId),
 				Action:           core.StringPtr("execute"),
 				ActionParameters: actionParametersModel,
@@ -356,18 +356,18 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				Position:         positionModel,
 			}
 
-			ruleResp, response, err := rulesetsService.CreateAccountRulesetRule(createAccountRulesetRuleOptions)
+			ruleResp, response, err := rulesetsService.CreateInstanceRulesetRule(createInstanceRulesetRuleOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(ruleResp).ToNot(BeNil())
 		})
 
-		It("Update/Delete Account Ruleset Rule", func() {
+		It("Update/Delete Instance Ruleset Rule", func() {
 
-			getAccountEntrypointRulesetOptions := &rulesetsv1.GetAccountEntrypointRulesetOptions{
+			getInstanceEntrypointRulesetOptions := &rulesetsv1.GetInstanceEntrypointRulesetOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
 			}
-			rulesetResp, _, _ := rulesetsService.GetAccountEntrypointRuleset(getAccountEntrypointRulesetOptions)
+			rulesetResp, _, _ := rulesetsService.GetInstanceEntrypointRuleset(getInstanceEntrypointRulesetOptions)
 			ruleset2UpdateId := *rulesetResp.Result.ID
 			rule2UpdateId := *rulesetResp.Result.Rules[0].ID
 
@@ -395,7 +395,7 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				Overrides: overridesModel,
 			}
 
-			updateAccountRulesetRuleOptions := &rulesetsv1.UpdateAccountRulesetRuleOptions{
+			updateInstanceRulesetRuleOptions := &rulesetsv1.UpdateInstanceRulesetRuleOptions{
 				RulesetID:        core.StringPtr(ruleset2UpdateId),
 				RuleID:           core.StringPtr(rule2UpdateId),
 				Action:           core.StringPtr("execute"),
@@ -405,40 +405,40 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				Expression:       core.StringPtr("(ip.src ne 1.1.1.3) and cf.zone.plan eq \"ENT\""),
 			}
 
-			ruleResp, response, err := rulesetsService.UpdateAccountRulesetRule(updateAccountRulesetRuleOptions)
+			ruleResp, response, err := rulesetsService.UpdateInstanceRulesetRule(updateInstanceRulesetRuleOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(ruleResp).ToNot(BeNil())
 
-			deleteAccountRulesetRuleOptions := &rulesetsv1.DeleteAccountRulesetRuleOptions{
+			deleteInstanceRulesetRuleOptions := &rulesetsv1.DeleteInstanceRulesetRuleOptions{
 				RulesetID: core.StringPtr(ruleset2UpdateId),
 				RuleID:    core.StringPtr(rule2UpdateId),
 			}
 
-			ruleResp, response, err = rulesetsService.DeleteAccountRulesetRule(deleteAccountRulesetRuleOptions)
+			ruleResp, response, err = rulesetsService.DeleteInstanceRulesetRule(deleteInstanceRulesetRuleOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(ruleResp).ToNot(BeNil())
 		})
 
-		It("Delete Account Ruleset", func() {
-			deleteAccountRulesetOptions := &rulesetsv1.DeleteAccountRulesetOptions{
+		It("Delete Instance Ruleset", func() {
+			deleteInstanceRulesetOptions := &rulesetsv1.DeleteInstanceRulesetOptions{
 				RulesetID: rulsetForTestingId,
 			}
 
-			response, err := rulesetsService.DeleteAccountRuleset(deleteAccountRulesetOptions)
+			response, err := rulesetsService.DeleteInstanceRuleset(deleteInstanceRulesetOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 		})
 
-		It("Get Account Ruleset Version By Tag", func() {
-			getAccountRulesetVersionByTagOptions := &rulesetsv1.GetAccountRulesetVersionByTagOptions{
+		It("Get Instance Ruleset Version By Tag", func() {
+			getInstanceRulesetVersionByTagOptions := &rulesetsv1.GetInstanceRulesetVersionByTagOptions{
 				RulesetID:      rulesetToDeployId,
 				RulesetVersion: core.StringPtr("56"),
 				RuleTag:        core.StringPtr("wordpress"),
 			}
 
-			rulesetResp, response, err := rulesetsService.GetAccountRulesetVersionByTag(getAccountRulesetVersionByTagOptions)
+			rulesetResp, response, err := rulesetsService.GetInstanceRulesetVersionByTag(getInstanceRulesetVersionByTagOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
