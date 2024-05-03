@@ -636,12 +636,12 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionsWit
 
 // CreateTransitGatewayConnection : Add connection to a Transit Gateway
 // Add a connection to Transit Gateway.
-func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnection(createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result TransitGatewayConnectionCustIntf, response *core.DetailedResponse, err error) {
+func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnection(createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	return transitGatewayApis.CreateTransitGatewayConnectionWithContext(context.Background(), createTransitGatewayConnectionOptions)
 }
 
 // CreateTransitGatewayConnectionWithContext is an alternate form of the CreateTransitGatewayConnection method which supports a Context parameter
-func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWithContext(ctx context.Context, createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result TransitGatewayConnectionCustIntf, response *core.DetailedResponse, err error) {
+func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWithContext(ctx context.Context, createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionOptions, "createTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -676,7 +676,53 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWi
 
 	builder.AddQuery("version", fmt.Sprint(*transitGatewayApis.Version))
 
-	_, err = builder.SetBodyContentJSON(createTransitGatewayConnectionOptions.TransitGatewayConnectionTemplate)
+	body := make(map[string]interface{})
+	if createTransitGatewayConnectionOptions.NetworkType != nil {
+		body["network_type"] = createTransitGatewayConnectionOptions.NetworkType
+	}
+	if createTransitGatewayConnectionOptions.BaseConnectionID != nil {
+		body["base_connection_id"] = createTransitGatewayConnectionOptions.BaseConnectionID
+	}
+	if createTransitGatewayConnectionOptions.BaseNetworkType != nil {
+		body["base_network_type"] = createTransitGatewayConnectionOptions.BaseNetworkType
+	}
+	if createTransitGatewayConnectionOptions.LocalGatewayIp != nil {
+		body["local_gateway_ip"] = createTransitGatewayConnectionOptions.LocalGatewayIp
+	}
+	if createTransitGatewayConnectionOptions.LocalTunnelIp != nil {
+		body["local_tunnel_ip"] = createTransitGatewayConnectionOptions.LocalTunnelIp
+	}
+	if createTransitGatewayConnectionOptions.Name != nil {
+		body["name"] = createTransitGatewayConnectionOptions.Name
+	}
+	if createTransitGatewayConnectionOptions.NetworkAccountID != nil {
+		body["network_account_id"] = createTransitGatewayConnectionOptions.NetworkAccountID
+	}
+	if createTransitGatewayConnectionOptions.NetworkID != nil {
+		body["network_id"] = createTransitGatewayConnectionOptions.NetworkID
+	}
+	if createTransitGatewayConnectionOptions.PrefixFilters != nil {
+		body["prefix_filters"] = createTransitGatewayConnectionOptions.PrefixFilters
+	}
+	if createTransitGatewayConnectionOptions.PrefixFiltersDefault != nil {
+		body["prefix_filters_default"] = createTransitGatewayConnectionOptions.PrefixFiltersDefault
+	}
+	if createTransitGatewayConnectionOptions.RemoteBgpAsn != nil {
+		body["remote_bgp_asn"] = createTransitGatewayConnectionOptions.RemoteBgpAsn
+	}
+	if createTransitGatewayConnectionOptions.RemoteGatewayIp != nil {
+		body["remote_gateway_ip"] = createTransitGatewayConnectionOptions.RemoteGatewayIp
+	}
+	if createTransitGatewayConnectionOptions.RemoteTunnelIp != nil {
+		body["remote_tunnel_ip"] = createTransitGatewayConnectionOptions.RemoteTunnelIp
+	}
+	if createTransitGatewayConnectionOptions.Tunnels != nil {
+		body["tunnels"] = createTransitGatewayConnectionOptions.Tunnels
+	}
+	if createTransitGatewayConnectionOptions.Zone != nil {
+		body["zone"] = createTransitGatewayConnectionOptions.Zone
+	}
+	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
 	}
@@ -756,12 +802,12 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWi
 
 // GetTransitGatewayConnection : Retrieves specified Transit Gateway connection
 // This request retrieves a connection from the Transit Gateway.
-func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnection(getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result TransitGatewayConnectionCustIntf, response *core.DetailedResponse, err error) {
+func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnection(getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	return transitGatewayApis.GetTransitGatewayConnectionWithContext(context.Background(), getTransitGatewayConnectionOptions)
 }
 
 // GetTransitGatewayConnectionWithContext is an alternate form of the GetTransitGatewayConnection method which supports a Context parameter
-func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithContext(ctx context.Context, getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result TransitGatewayConnectionCustIntf, response *core.DetailedResponse, err error) {
+func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithContext(ctx context.Context, getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionOptions, "getTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -819,12 +865,12 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithC
 
 // UpdateTransitGatewayConnection : Updates specified Transit Gateway connection
 // Update the name of a connection to a Transit Gateway.
-func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result TransitGatewayConnectionCustIntf, response *core.DetailedResponse, err error) {
+func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	return transitGatewayApis.UpdateTransitGatewayConnectionWithContext(context.Background(), updateTransitGatewayConnectionOptions)
 }
 
 // UpdateTransitGatewayConnectionWithContext is an alternate form of the UpdateTransitGatewayConnection method which supports a Context parameter
-func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWithContext(ctx context.Context, updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result TransitGatewayConnectionCustIntf, response *core.DetailedResponse, err error) {
+func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWithContext(ctx context.Context, updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionOptions, "updateTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -2137,18 +2183,150 @@ type CreateTransitGatewayConnectionOptions struct {
 	// The Transit Gateway identifier.
 	TransitGatewayID *string `json:"transit_gateway_id" validate:"required,ne="`
 
-	// The connection template.
-	TransitGatewayConnectionTemplate TransitGatewayConnectionTemplateIntf `json:"TransitGatewayConnectionTemplate" validate:"required"`
+	// Defines what type of network is connected via this connection.
+	NetworkType *string `json:"network_type" validate:"required"`
+
+	// network_type 'gre_tunnel' connections must be created over an existing network_type 'classic' connection. This field
+	// must specify the ID of an active transit gateway network_type 'classic' connection in the same transit gateway.
+	//
+	// This field is required for network type 'gre_tunnel' connections.
+	//
+	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+	// 'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+	// Deprecated: this field is deprecated and may be removed in a future release.
+	BaseConnectionID *string `json:"base_connection_id,omitempty"`
+
+	// The type of network the Unbound GRE tunnel is targeting. This field is required for network type
+	// 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required and
+	// can be either VPC or Classic. This field is required to be unspecified for network type 'classic', 'directlink',
+	// 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+	BaseNetworkType *string `json:"base_network_type,omitempty"`
+
+	// Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
+	// 'redundant_gre' connections.
+	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
+
+	// Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network. Neither
+	// can be the network nor broadcast addresses.
+	//
+	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	//
+	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
+	// 'redundant_gre' connections.
+	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
+
+	// The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to the name
+	// of the VPC.  Network type 'classic' connections are named 'Classic'.
+	//
+	// This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+	//
+	// This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
+	Name *string `json:"name,omitempty"`
+
+	// The ID of the account which owns the network that is being connected. Generally only used if the network is in a
+	// different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
+	// associated_network_type is 'classic' or network_type is 'redundant_gre' and the GRE tunnel is in a different account
+	// than the gateway.
+	NetworkAccountID *string `json:"network_account_id,omitempty"`
+
+	// The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server' and
+	// 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required for
+	// network type 'vpc', 'power_virtual_server' and 'directlink' connections.  It is also required for 'redundant_gre'
+	// connections when the base_network_type is set to VPC. This field is required to be unspecified for network type
+	// 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	NetworkID *string `json:"network_id,omitempty"`
+
+	// Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
+	// 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel'
+	// connections. This is order dependent with those first in the array being applied first, and those at the end of the
+	// array being applied last, or just before applying the default. This field is optional for network type 'classic',
+	// 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network
+	// type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+	PrefixFilters []TransitGatewayConnectionPrefixFilter `json:"prefix_filters,omitempty"`
+
+	// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
+	// optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
+	// required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
+
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or
+	// unbound_gre_tunnel connection create requests IBM will assign an ASN.
+	//
+	// This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	//
+	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
+	// 'gre_tunnel' connections.
+	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
+
+	// Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
+	// connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+	// 'power_virtual_server' and 'redundant_gre' connections.
+	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
+
+	// Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
+	// Neither can be the network nor broadcast addresses.
+	//
+	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	//
+	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',  'power_virtual_server'
+	// and 'redundant_gre' connections.
+	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
+
+	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.  This field is required for
+	// 'redundant_gre' connections.
+	Tunnels []TransitGatewayRedundantGRETunnelTemplate `json:"tunnels,omitempty"`
+
+	// Specify the connection's location.  The specified availability zone must reside in the gateway's region.
+	// Use the IBM Cloud global catalog to list zones within the desired region.
+	//
+	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	//
+	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
+	// 'redundant_gre' connections.
+	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
+// Constants associated with the CreateTransitGatewayConnectionOptions.NetworkType property.
+// Defines what type of network is connected via this connection.
+const (
+	CreateTransitGatewayConnectionOptions_NetworkType_Classic = "classic"
+	CreateTransitGatewayConnectionOptions_NetworkType_Directlink = "directlink"
+	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel = "gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_PowerVirtualServer = "power_virtual_server"
+	CreateTransitGatewayConnectionOptions_NetworkType_RedundantGre = "redundant_gre"
+	CreateTransitGatewayConnectionOptions_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_Vpc = "vpc"
+)
+
+// Constants associated with the CreateTransitGatewayConnectionOptions.BaseNetworkType property.
+// The type of network the Unbound GRE tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'
+// and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required and can be either VPC or
+// Classic. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+// 'power_virtual_server' and 'gre_tunnel' connections.
+const (
+	CreateTransitGatewayConnectionOptions_BaseNetworkType_Classic = "classic"
+	CreateTransitGatewayConnectionOptions_BaseNetworkType_Vpc = "vpc"
+)
+
+// Constants associated with the CreateTransitGatewayConnectionOptions.PrefixFiltersDefault property.
+// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
+// optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
+// required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+const (
+	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny = "deny"
+	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Permit = "permit"
+)
+
 // NewCreateTransitGatewayConnectionOptions : Instantiate CreateTransitGatewayConnectionOptions
-func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionOptions(transitGatewayID string, transitGatewayConnectionTemplate TransitGatewayConnectionTemplateIntf) *CreateTransitGatewayConnectionOptions {
+func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionOptions(transitGatewayID string, networkType string) *CreateTransitGatewayConnectionOptions {
 	return &CreateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		TransitGatewayConnectionTemplate: transitGatewayConnectionTemplate,
+		NetworkType: core.StringPtr(networkType),
 	}
 }
 
@@ -2158,9 +2336,94 @@ func (_options *CreateTransitGatewayConnectionOptions) SetTransitGatewayID(trans
 	return _options
 }
 
-// SetTransitGatewayConnectionTemplate : Allow user to set TransitGatewayConnectionTemplate
-func (_options *CreateTransitGatewayConnectionOptions) SetTransitGatewayConnectionTemplate(transitGatewayConnectionTemplate TransitGatewayConnectionTemplateIntf) *CreateTransitGatewayConnectionOptions {
-	_options.TransitGatewayConnectionTemplate = transitGatewayConnectionTemplate
+// SetNetworkType : Allow user to set NetworkType
+func (_options *CreateTransitGatewayConnectionOptions) SetNetworkType(networkType string) *CreateTransitGatewayConnectionOptions {
+	_options.NetworkType = core.StringPtr(networkType)
+	return _options
+}
+
+// SetBaseConnectionID : Allow user to set BaseConnectionID
+// Deprecated: this method is deprecated and may be removed in a future release.
+func (_options *CreateTransitGatewayConnectionOptions) SetBaseConnectionID(baseConnectionID string) *CreateTransitGatewayConnectionOptions {
+	_options.BaseConnectionID = core.StringPtr(baseConnectionID)
+	return _options
+}
+
+// SetBaseNetworkType : Allow user to set BaseNetworkType
+func (_options *CreateTransitGatewayConnectionOptions) SetBaseNetworkType(baseNetworkType string) *CreateTransitGatewayConnectionOptions {
+	_options.BaseNetworkType = core.StringPtr(baseNetworkType)
+	return _options
+}
+
+// SetLocalGatewayIp : Allow user to set LocalGatewayIp
+func (_options *CreateTransitGatewayConnectionOptions) SetLocalGatewayIp(localGatewayIp string) *CreateTransitGatewayConnectionOptions {
+	_options.LocalGatewayIp = core.StringPtr(localGatewayIp)
+	return _options
+}
+
+// SetLocalTunnelIp : Allow user to set LocalTunnelIp
+func (_options *CreateTransitGatewayConnectionOptions) SetLocalTunnelIp(localTunnelIp string) *CreateTransitGatewayConnectionOptions {
+	_options.LocalTunnelIp = core.StringPtr(localTunnelIp)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *CreateTransitGatewayConnectionOptions) SetName(name string) *CreateTransitGatewayConnectionOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetNetworkAccountID : Allow user to set NetworkAccountID
+func (_options *CreateTransitGatewayConnectionOptions) SetNetworkAccountID(networkAccountID string) *CreateTransitGatewayConnectionOptions {
+	_options.NetworkAccountID = core.StringPtr(networkAccountID)
+	return _options
+}
+
+// SetNetworkID : Allow user to set NetworkID
+func (_options *CreateTransitGatewayConnectionOptions) SetNetworkID(networkID string) *CreateTransitGatewayConnectionOptions {
+	_options.NetworkID = core.StringPtr(networkID)
+	return _options
+}
+
+// SetPrefixFilters : Allow user to set PrefixFilters
+func (_options *CreateTransitGatewayConnectionOptions) SetPrefixFilters(prefixFilters []TransitGatewayConnectionPrefixFilter) *CreateTransitGatewayConnectionOptions {
+	_options.PrefixFilters = prefixFilters
+	return _options
+}
+
+// SetPrefixFiltersDefault : Allow user to set PrefixFiltersDefault
+func (_options *CreateTransitGatewayConnectionOptions) SetPrefixFiltersDefault(prefixFiltersDefault string) *CreateTransitGatewayConnectionOptions {
+	_options.PrefixFiltersDefault = core.StringPtr(prefixFiltersDefault)
+	return _options
+}
+
+// SetRemoteBgpAsn : Allow user to set RemoteBgpAsn
+func (_options *CreateTransitGatewayConnectionOptions) SetRemoteBgpAsn(remoteBgpAsn int64) *CreateTransitGatewayConnectionOptions {
+	_options.RemoteBgpAsn = core.Int64Ptr(remoteBgpAsn)
+	return _options
+}
+
+// SetRemoteGatewayIp : Allow user to set RemoteGatewayIp
+func (_options *CreateTransitGatewayConnectionOptions) SetRemoteGatewayIp(remoteGatewayIp string) *CreateTransitGatewayConnectionOptions {
+	_options.RemoteGatewayIp = core.StringPtr(remoteGatewayIp)
+	return _options
+}
+
+// SetRemoteTunnelIp : Allow user to set RemoteTunnelIp
+func (_options *CreateTransitGatewayConnectionOptions) SetRemoteTunnelIp(remoteTunnelIp string) *CreateTransitGatewayConnectionOptions {
+	_options.RemoteTunnelIp = core.StringPtr(remoteTunnelIp)
+	return _options
+}
+
+// SetTunnels : Allow user to set Tunnels
+func (_options *CreateTransitGatewayConnectionOptions) SetTunnels(tunnels []TransitGatewayRedundantGRETunnelTemplate) *CreateTransitGatewayConnectionOptions {
+	_options.Tunnels = tunnels
+	return _options
+}
+
+// SetZone : Allow user to set Zone
+func (_options *CreateTransitGatewayConnectionOptions) SetZone(zone ZoneIdentityIntf) *CreateTransitGatewayConnectionOptions {
+	_options.Zone = zone
 	return _options
 }
 
@@ -4127,206 +4390,181 @@ func UnmarshalTSLocationBasic(m map[string]json.RawMessage, result interface{}) 
 	return
 }
 
-// TransitConnectionCollection : Transit gateway connections.
-type TransitConnectionCollection struct {
-	// Array of transit gateway connections.
-	Connections []TransitConnectionCollectionConnectionsItemIntf `json:"connections" validate:"required"`
+// TransitConnection : Connection included in transit gateway.
+type TransitConnection struct {
+	// The type of network the GRE tunnel is targeting.
+	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
-	// A reference to the first page of resources.
-	First *PaginationFirstConnection `json:"first" validate:"required"`
+	// The user-defined name for this transit gateway connection.
+	Name *string `json:"name" validate:"required"`
 
-	// The maximum number of connections returned on one request.
-	Limit *int64 `json:"limit" validate:"required"`
+	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
+	// 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+	// 'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway respectively.
+	NetworkID *string `json:"network_id,omitempty"`
 
-	// A reference to the next page of resources; this reference is included for all pages except the last page.
-	Next *PaginationNextConnection `json:"next,omitempty"`
-}
+	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
+	// expand in the future. Code and processes using this field must tolerate unexpected values.
+	NetworkType *string `json:"network_type" validate:"required"`
 
-// UnmarshalTransitConnectionCollection unmarshals an instance of TransitConnectionCollection from the specified map of raw messages.
-func UnmarshalTransitConnectionCollection(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitConnectionCollection)
-	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitConnectionCollectionConnectionsItem)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstConnection)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextConnection)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
+	// The unique identifier for this Transit Gateway Connection.
+	ID *string `json:"id" validate:"required"`
 
-// Retrieve the value to be passed to a request to access the next page of results
-func (resp *TransitConnectionCollection) GetNextStart() (*string, error) {
-	if core.IsNil(resp.Next) {
-		return nil, nil
-	}
-	return resp.Next.Start, nil
-}
-
-// TransitConnectionCollectionConnectionsItem : TransitConnectionCollectionConnectionsItem struct
-// Models which "extend" this model:
-// - TransitConnectionCollectionConnectionsItemTransitConnection
-// - TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE
-type TransitConnectionCollectionConnectionsItem struct {
-	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the id of a network_type 'classic'
+	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
 	// connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be in
 	// an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it are deleted.
 	// This field only applies to and is required for network type 'gre_tunnel' connections.
+	// Deprecated: this field is deprecated and may be removed in a future release.
 	BaseConnectionID *string `json:"base_connection_id,omitempty"`
 
 	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The unique identifier for this connection.
-	ID *string `json:"id,omitempty"`
-
-	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' connections.
+	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	LocalBgpAsn *int64 `json:"local_bgp_asn,omitempty"`
 
-	// Local gateway IP address.  This field only applies to network type 'gre_tunnel' connections.
+	// Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+	// connections.
 	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
 
-	// Local tunnel IP address.  This field only applies to network type 'gre_tunnel' connections.
+	// Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
 
-	// GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' connections.
+	// GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	Mtu *int64 `json:"mtu,omitempty"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name,omitempty"`
 
 	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
 	// Cloud account than the gateway.
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-	// 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is the
-	// CRN of the VPC / PowerVS / Direct Link gateway respectively.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type,omitempty"`
+	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
+	// array being applied first, and those at the end of the array is applied last, or just before the default.
+	//
+	// This field does not apply to the 'redundant_gre' network type.
+	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
 
 	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+	//
+	// This field does not apply to the 'redundant_gre' network type.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
-	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections.
+	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
-	// Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections.
+	// Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+	// connections.
 	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
 
-	// Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' connections.
+	// Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+	// connections.
 	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
 
 	// Only visible for cross account connections, this field represents the status of a connection request between IBM
 	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status,omitempty"`
+	RequestStatus *string `json:"request_status" validate:"required"`
 
-	// Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	Status *string `json:"status,omitempty"`
+	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
+	// Code and processes using this field must tolerate unexpected values.
+	Status *string `json:"status" validate:"required"`
 
-	// Reference to the transit gateway that contains this connection.
-	TransitGateway *TransitGatewayReference `json:"transit_gateway,omitempty"`
+	// Transit gateway reference.
+	TransitGateway *TransitGatewayReference `json:"transit_gateway" validate:"required"`
+
+	// Collection of all tunnels for 'redundant_gre' connection.
+	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
 	Zone *GreTunnelZoneReference `json:"zone,omitempty"`
-
-	// The type of network the redundant GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type,omitempty"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels,omitempty"`
 }
 
-// Constants associated with the TransitConnectionCollectionConnectionsItem.NetworkType property.
+// Constants associated with the TransitConnection.BaseNetworkType property.
+// The type of network the GRE tunnel is targeting.
+const (
+	TransitConnection_BaseNetworkType_Classic = "classic"
+	TransitConnection_BaseNetworkType_Vpc = "vpc"
+)
+
+// Constants associated with the TransitConnection.NetworkType property.
 // Defines what type of network is connected via this connection. The list of enumerated values for this property may
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnectionCollectionConnectionsItem_NetworkType_Classic = "classic"
-	TransitConnectionCollectionConnectionsItem_NetworkType_Directlink = "directlink"
-	TransitConnectionCollectionConnectionsItem_NetworkType_GreTunnel = "gre_tunnel"
-	TransitConnectionCollectionConnectionsItem_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitConnectionCollectionConnectionsItem_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitConnectionCollectionConnectionsItem_NetworkType_Vpc = "vpc"
+	TransitConnection_NetworkType_Classic = "classic"
+	TransitConnection_NetworkType_Directlink = "directlink"
+	TransitConnection_NetworkType_GreTunnel = "gre_tunnel"
+	TransitConnection_NetworkType_PowerVirtualServer = "power_virtual_server"
+	TransitConnection_NetworkType_RedundantGre = "redundant_gre"
+	TransitConnection_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	TransitConnection_NetworkType_Vpc = "vpc"
 )
 
-// Constants associated with the TransitConnectionCollectionConnectionsItem.PrefixFiltersDefault property.
+// Constants associated with the TransitConnection.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter.
+//
+// This field does not apply to the 'redundant_gre' network type.
 const (
-	TransitConnectionCollectionConnectionsItem_PrefixFiltersDefault_Deny = "deny"
-	TransitConnectionCollectionConnectionsItem_PrefixFiltersDefault_Permit = "permit"
+	TransitConnection_PrefixFiltersDefault_Deny = "deny"
+	TransitConnection_PrefixFiltersDefault_Permit = "permit"
 )
 
-// Constants associated with the TransitConnectionCollectionConnectionsItem.RequestStatus property.
+// Constants associated with the TransitConnection.RequestStatus property.
 // Only visible for cross account connections, this field represents the status of a connection request between IBM
 // Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field must tolerate unexpected values.
 const (
-	TransitConnectionCollectionConnectionsItem_RequestStatus_Approved = "approved"
-	TransitConnectionCollectionConnectionsItem_RequestStatus_Detached = "detached"
-	TransitConnectionCollectionConnectionsItem_RequestStatus_Expired = "expired"
-	TransitConnectionCollectionConnectionsItem_RequestStatus_Pending = "pending"
-	TransitConnectionCollectionConnectionsItem_RequestStatus_Rejected = "rejected"
+	TransitConnection_RequestStatus_Approved = "approved"
+	TransitConnection_RequestStatus_Detached = "detached"
+	TransitConnection_RequestStatus_Expired = "expired"
+	TransitConnection_RequestStatus_Pending = "pending"
+	TransitConnection_RequestStatus_Rejected = "rejected"
 )
 
-// Constants associated with the TransitConnectionCollectionConnectionsItem.Status property.
-// Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
+// Constants associated with the TransitConnection.Status property.
+// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
+// Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnectionCollectionConnectionsItem_Status_Attached = "attached"
-	TransitConnectionCollectionConnectionsItem_Status_Deleting = "deleting"
-	TransitConnectionCollectionConnectionsItem_Status_Detached = "detached"
-	TransitConnectionCollectionConnectionsItem_Status_Detaching = "detaching"
-	TransitConnectionCollectionConnectionsItem_Status_Failed = "failed"
-	TransitConnectionCollectionConnectionsItem_Status_NetworkPending = "network_pending"
-	TransitConnectionCollectionConnectionsItem_Status_Pending = "pending"
-	TransitConnectionCollectionConnectionsItem_Status_Suspended = "suspended"
-	TransitConnectionCollectionConnectionsItem_Status_Suspending = "suspending"
+	TransitConnection_Status_Attached = "attached"
+	TransitConnection_Status_Deleting = "deleting"
+	TransitConnection_Status_Detached = "detached"
+	TransitConnection_Status_Detaching = "detaching"
+	TransitConnection_Status_Failed = "failed"
+	TransitConnection_Status_NetworkPending = "network_pending"
+	TransitConnection_Status_Pending = "pending"
+	TransitConnection_Status_Suspended = "suspended"
+	TransitConnection_Status_Suspending = "suspending"
 )
 
-// Constants associated with the TransitConnectionCollectionConnectionsItem.BaseNetworkType property.
-// The type of network the redundant GRE tunnel is targeting.
-const (
-	TransitConnectionCollectionConnectionsItem_BaseNetworkType_Classic = "classic"
-	TransitConnectionCollectionConnectionsItem_BaseNetworkType_Vpc = "vpc"
-)
-func (*TransitConnectionCollectionConnectionsItem) isaTransitConnectionCollectionConnectionsItem() bool {
-	return true
-}
-
-type TransitConnectionCollectionConnectionsItemIntf interface {
-	isaTransitConnectionCollectionConnectionsItem() bool
-}
-
-// UnmarshalTransitConnectionCollectionConnectionsItem unmarshals an instance of TransitConnectionCollectionConnectionsItem from the specified map of raw messages.
-func UnmarshalTransitConnectionCollectionConnectionsItem(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitConnectionCollectionConnectionsItem)
+// UnmarshalTransitConnection unmarshals an instance of TransitConnection from the specified map of raw messages.
+func UnmarshalTransitConnection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TransitConnection)
+	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
 	}
@@ -4346,19 +4584,11 @@ func UnmarshalTransitConnectionCollectionConnectionsItem(m map[string]json.RawMe
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
+	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
 	if err != nil {
 		return
 	}
@@ -4390,6 +4620,10 @@ func UnmarshalTransitConnectionCollectionConnectionsItem(m map[string]json.RawMe
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
 		return
@@ -4398,16 +4632,54 @@ func UnmarshalTransitConnectionCollectionConnectionsItem(m map[string]json.RawMe
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TransitConnectionCollection : Transit gateway connections.
+type TransitConnectionCollection struct {
+	// Array of transit gateway connections.
+	Connections []TransitConnection `json:"connections" validate:"required"`
+
+	// A reference to the first page of resources.
+	First *PaginationFirstConnection `json:"first" validate:"required"`
+
+	// The maximum number of connections returned on one request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A reference to the next page of resources; this reference is included for all pages except the last page.
+	Next *PaginationNextConnection `json:"next,omitempty"`
+}
+
+// UnmarshalTransitConnectionCollection unmarshals an instance of TransitConnectionCollection from the specified map of raw messages.
+func UnmarshalTransitConnectionCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TransitConnectionCollection)
+	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitConnection)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstConnection)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextConnection)
 	if err != nil {
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *TransitConnectionCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	return resp.Next.Start, nil
 }
 
 // TransitGateway : Details of a Transit Gateway.
@@ -4543,83 +4815,25 @@ func (resp *TransitGatewayCollection) GetNextStart() (*string, error) {
 	return resp.Next.Start, nil
 }
 
-// TransitGatewayConnectionCollection : A set of Transit Gateway network connections.
-type TransitGatewayConnectionCollection struct {
-	// Array of transit gateways network Connections.
-	Connections []TransitGatewayConnectionCollectionConnectionsItemIntf `json:"connections" validate:"required"`
-
-	// A reference to the first page of resources.
-	// This will be returned when number of connections in response are greater than max page limit.
-	First *PaginationFirstTGWConnection `json:"first" validate:"required"`
-
-	// The maximum number of connections returned on one request. This will be returned when number of connections in
-	// response are greater than max page limit.
-	Limit *int64 `json:"limit" validate:"required"`
-
-	// A reference to the next page of resources; this reference is included for all pages except the last page.
-	Next *PaginationNextTGWConnection `json:"next,omitempty"`
-
-	// total number of resources across all pages (considering the supplied query parameter filters).
-	TotalCount *int64 `json:"total_count" validate:"required"`
-}
-
-// UnmarshalTransitGatewayConnectionCollection unmarshals an instance of TransitGatewayConnectionCollection from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionCollection(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionCollection)
-	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitGatewayConnectionCollectionConnectionsItem)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstTGWConnection)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextTGWConnection)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// Retrieve the value to be passed to a request to access the next page of results
-func (resp *TransitGatewayConnectionCollection) GetNextStart() (*string, error) {
-	if core.IsNil(resp.Next) {
-		return nil, nil
-	}
-	return resp.Next.Start, nil
-}
-
-// TransitGatewayConnectionCollectionConnectionsItem : TransitGatewayConnectionCollectionConnectionsItem struct
-// Models which "extend" this model:
-// - TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel
-// - TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel
-type TransitGatewayConnectionCollectionConnectionsItem struct {
+// TransitGatewayConnection : Connection included in transit gateway.
+type TransitGatewayConnection struct {
 	// The type of network the GRE tunnel is targeting.
 	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
 	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name" validate:"required"`
 
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-	// 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is the
-	// CRN of the VPC / PowerVS / Direct Link gateway respectively.
+	// 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+	// 'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway respectively.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
 	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type,omitempty"`
+	NetworkType *string `json:"network_type" validate:"required"`
 
 	// The unique identifier for this Transit Gateway Connection.
-	ID *string `json:"id,omitempty"`
+	ID *string `json:"id" validate:"required"`
 
 	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
 	// connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be in
@@ -4629,7 +4843,7 @@ type TransitGatewayConnectionCollectionConnectionsItem struct {
 	BaseConnectionID *string `json:"base_connection_id,omitempty"`
 
 	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	LocalBgpAsn *int64 `json:"local_bgp_asn,omitempty"`
@@ -4649,10 +4863,12 @@ type TransitGatewayConnectionCollectionConnectionsItem struct {
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
 	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-	// array being applied first, and those at the end of the array is applied last, or just before the default.
+	// array being applied first, and those at the end of the array is applied last, or just before the default. This field
+	// does not apply to the 'redundant_gre' network type.
 	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
 
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+	// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
+	// not apply to the 'redundant_gre' network type.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
 	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
@@ -4669,84 +4885,80 @@ type TransitGatewayConnectionCollectionConnectionsItem struct {
 	// Only visible for cross account connections, this field represents the status of a connection request between IBM
 	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status,omitempty"`
+	RequestStatus *string `json:"request_status" validate:"required"`
 
 	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 	// Code and processes using this field must tolerate unexpected values.
-	Status *string `json:"status,omitempty"`
+	Status *string `json:"status" validate:"required"`
+
+	// Collection of all tunnels for 'redundant_gre' connection.
+	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
 	Zone *GreTunnelZoneReference `json:"zone,omitempty"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels,omitempty"`
 }
 
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItem.BaseNetworkType property.
+// Constants associated with the TransitGatewayConnection.BaseNetworkType property.
 // The type of network the GRE tunnel is targeting.
 const (
-	TransitGatewayConnectionCollectionConnectionsItem_BaseNetworkType_Classic = "classic"
+	TransitGatewayConnection_BaseNetworkType_Classic = "classic"
+	TransitGatewayConnection_BaseNetworkType_Vpc = "vpc"
 )
 
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItem.NetworkType property.
+// Constants associated with the TransitGatewayConnection.NetworkType property.
 // Defines what type of network is connected via this connection. The list of enumerated values for this property may
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCollectionConnectionsItem_NetworkType_Classic = "classic"
-	TransitGatewayConnectionCollectionConnectionsItem_NetworkType_Directlink = "directlink"
-	TransitGatewayConnectionCollectionConnectionsItem_NetworkType_GreTunnel = "gre_tunnel"
-	TransitGatewayConnectionCollectionConnectionsItem_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionCollectionConnectionsItem_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitGatewayConnectionCollectionConnectionsItem_NetworkType_Vpc = "vpc"
+	TransitGatewayConnection_NetworkType_Classic = "classic"
+	TransitGatewayConnection_NetworkType_Directlink = "directlink"
+	TransitGatewayConnection_NetworkType_GreTunnel = "gre_tunnel"
+	TransitGatewayConnection_NetworkType_PowerVirtualServer = "power_virtual_server"
+	TransitGatewayConnection_NetworkType_RedundantGre = "redundant_gre"
+	TransitGatewayConnection_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	TransitGatewayConnection_NetworkType_Vpc = "vpc"
 )
 
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItem.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+// Constants associated with the TransitGatewayConnection.PrefixFiltersDefault property.
+// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
+// not apply to the 'redundant_gre' network type.
 const (
-	TransitGatewayConnectionCollectionConnectionsItem_PrefixFiltersDefault_Deny = "deny"
-	TransitGatewayConnectionCollectionConnectionsItem_PrefixFiltersDefault_Permit = "permit"
+	TransitGatewayConnection_PrefixFiltersDefault_Deny = "deny"
+	TransitGatewayConnection_PrefixFiltersDefault_Permit = "permit"
 )
 
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItem.RequestStatus property.
+// Constants associated with the TransitGatewayConnection.RequestStatus property.
 // Only visible for cross account connections, this field represents the status of a connection request between IBM
 // Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCollectionConnectionsItem_RequestStatus_Approved = "approved"
-	TransitGatewayConnectionCollectionConnectionsItem_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCollectionConnectionsItem_RequestStatus_Expired = "expired"
-	TransitGatewayConnectionCollectionConnectionsItem_RequestStatus_Pending = "pending"
-	TransitGatewayConnectionCollectionConnectionsItem_RequestStatus_Rejected = "rejected"
+	TransitGatewayConnection_RequestStatus_Approved = "approved"
+	TransitGatewayConnection_RequestStatus_Detached = "detached"
+	TransitGatewayConnection_RequestStatus_Expired = "expired"
+	TransitGatewayConnection_RequestStatus_Pending = "pending"
+	TransitGatewayConnection_RequestStatus_Rejected = "rejected"
 )
 
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItem.Status property.
+// Constants associated with the TransitGatewayConnection.Status property.
 // Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 // Code and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Attached = "attached"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Deleting = "deleting"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Detached = "detached"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Detaching = "detaching"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Failed = "failed"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Pending = "pending"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Suspended = "suspended"
-	TransitGatewayConnectionCollectionConnectionsItem_Status_Suspending = "suspending"
+	TransitGatewayConnection_Status_Attached = "attached"
+	TransitGatewayConnection_Status_Deleting = "deleting"
+	TransitGatewayConnection_Status_Detached = "detached"
+	TransitGatewayConnection_Status_Detaching = "detaching"
+	TransitGatewayConnection_Status_Failed = "failed"
+	TransitGatewayConnection_Status_NetworkPending = "network_pending"
+	TransitGatewayConnection_Status_Pending = "pending"
+	TransitGatewayConnection_Status_Suspended = "suspended"
+	TransitGatewayConnection_Status_Suspending = "suspending"
 )
-func (*TransitGatewayConnectionCollectionConnectionsItem) isaTransitGatewayConnectionCollectionConnectionsItem() bool {
-	return true
-}
 
-type TransitGatewayConnectionCollectionConnectionsItemIntf interface {
-	isaTransitGatewayConnectionCollectionConnectionsItem() bool
-}
-
-// UnmarshalTransitGatewayConnectionCollectionConnectionsItem unmarshals an instance of TransitGatewayConnectionCollectionConnectionsItem from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionCollectionConnectionsItem(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionCollectionConnectionsItem)
+// UnmarshalTransitGatewayConnection unmarshals an instance of TransitGatewayConnection from the specified map of raw messages.
+func UnmarshalTransitGatewayConnection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TransitGatewayConnection)
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
 		return
@@ -4823,6 +5035,10 @@ func UnmarshalTransitGatewayConnectionCollectionConnectionsItem(m map[string]jso
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
 		return
@@ -4831,7 +5047,50 @@ func UnmarshalTransitGatewayConnectionCollectionConnectionsItem(m map[string]jso
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TransitGatewayConnectionCollection : A set of Transit Gateway network connections.
+type TransitGatewayConnectionCollection struct {
+	// Array of transit gateways network Connections.
+	Connections []TransitGatewayConnection `json:"connections" validate:"required"`
+
+	// A reference to the first page of resources.
+	// This will be returned when number of connections in response are greater than max page limit.
+	First *PaginationFirstTGWConnection `json:"first" validate:"required"`
+
+	// The maximum number of connections returned on one request. This will be returned when number of connections in
+	// response are greater than max page limit.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A reference to the next page of resources; this reference is included for all pages except the last page.
+	Next *PaginationNextTGWConnection `json:"next,omitempty"`
+
+	// total number of resources across all pages (considering the supplied query parameter filters).
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalTransitGatewayConnectionCollection unmarshals an instance of TransitGatewayConnectionCollection from the specified map of raw messages.
+func UnmarshalTransitGatewayConnectionCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TransitGatewayConnectionCollection)
+	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitGatewayConnection)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstTGWConnection)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextTGWConnection)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
 		return
 	}
@@ -4839,28 +5098,33 @@ func UnmarshalTransitGatewayConnectionCollectionConnectionsItem(m map[string]jso
 	return
 }
 
-// TransitGatewayConnectionCust : TransitGatewayConnectionCust struct
-// Models which "extend" this model:
-// - TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel
-// - TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *TransitGatewayConnectionCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	return resp.Next.Start, nil
+}
+
+// TransitGatewayConnectionCust : Connection included in transit gateway.
 type TransitGatewayConnectionCust struct {
 	// The type of network the GRE tunnel is targeting.
 	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
 	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name" validate:"required"`
 
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-	// 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is the
-	// CRN of the VPC / PowerVS / Direct Link gateway respectively.
+	// 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+	// 'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway respectively.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
 	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type,omitempty"`
+	NetworkType *string `json:"network_type" validate:"required"`
 
 	// The unique identifier for this Transit Gateway Connection.
-	ID *string `json:"id,omitempty"`
+	ID *string `json:"id" validate:"required"`
 
 	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
 	// connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be in
@@ -4870,7 +5134,7 @@ type TransitGatewayConnectionCust struct {
 	BaseConnectionID *string `json:"base_connection_id,omitempty"`
 
 	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	LocalBgpAsn *int64 `json:"local_bgp_asn,omitempty"`
@@ -4890,10 +5154,12 @@ type TransitGatewayConnectionCust struct {
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
 	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-	// array being applied first, and those at the end of the array is applied last, or just before the default.
+	// array being applied first, and those at the end of the array is applied last, or just before the default. This field
+	// does not apply to the 'redundant_gre' network type.
 	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
 
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+	// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
+	// not apply to the 'redundant_gre' network type.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
 	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
@@ -4910,26 +5176,27 @@ type TransitGatewayConnectionCust struct {
 	// Only visible for cross account connections, this field represents the status of a connection request between IBM
 	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status,omitempty"`
+	RequestStatus *string `json:"request_status" validate:"required"`
 
 	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 	// Code and processes using this field must tolerate unexpected values.
-	Status *string `json:"status,omitempty"`
+	Status *string `json:"status" validate:"required"`
+
+	// Collection of all tunnels for 'redundant_gre' connection.
+	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
 	Zone *GreTunnelZoneReference `json:"zone,omitempty"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels,omitempty"`
 }
 
 // Constants associated with the TransitGatewayConnectionCust.BaseNetworkType property.
 // The type of network the GRE tunnel is targeting.
 const (
 	TransitGatewayConnectionCust_BaseNetworkType_Classic = "classic"
+	TransitGatewayConnectionCust_BaseNetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.NetworkType property.
@@ -4940,12 +5207,14 @@ const (
 	TransitGatewayConnectionCust_NetworkType_Directlink = "directlink"
 	TransitGatewayConnectionCust_NetworkType_GreTunnel = "gre_tunnel"
 	TransitGatewayConnectionCust_NetworkType_PowerVirtualServer = "power_virtual_server"
+	TransitGatewayConnectionCust_NetworkType_RedundantGre = "redundant_gre"
 	TransitGatewayConnectionCust_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
 	TransitGatewayConnectionCust_NetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
+// not apply to the 'redundant_gre' network type.
 const (
 	TransitGatewayConnectionCust_PrefixFiltersDefault_Deny = "deny"
 	TransitGatewayConnectionCust_PrefixFiltersDefault_Permit = "permit"
@@ -4977,13 +5246,6 @@ const (
 	TransitGatewayConnectionCust_Status_Suspended = "suspended"
 	TransitGatewayConnectionCust_Status_Suspending = "suspending"
 )
-func (*TransitGatewayConnectionCust) isaTransitGatewayConnectionCust() bool {
-	return true
-}
-
-type TransitGatewayConnectionCustIntf interface {
-	isaTransitGatewayConnectionCust() bool
-}
 
 // UnmarshalTransitGatewayConnectionCust unmarshals an instance of TransitGatewayConnectionCust from the specified map of raw messages.
 func UnmarshalTransitGatewayConnectionCust(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5064,15 +5326,15 @@ func UnmarshalTransitGatewayConnectionCust(m map[string]json.RawMessage, result 
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalGreTunnelZoneReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
 	if err != nil {
 		return
 	}
@@ -5216,214 +5478,6 @@ func UnmarshalTransitGatewayConnectionPrefixFilterReference(m map[string]json.Ra
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionTemplate : TransitGatewayConnectionTemplate struct
-// Models which "extend" this model:
-// - TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate
-// - TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate
-type TransitGatewayConnectionTemplate struct {
-	// network_type 'gre_tunnel' connections must be created over an existing network_type 'classic' connection. This field
-	// must specify the ID of an active transit gateway network_type 'classic' connection in the same transit gateway.
-	//
-	// This field is required for network type 'gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
-	// 'unbound_gre_tunnel' connections.
-	// Deprecated: this field is deprecated and may be removed in a future release.
-	BaseConnectionID *string `json:"base_connection_id,omitempty"`
-
-	// The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-	// 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type 'classic', 'directlink',
-	// 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
-	BaseNetworkType *string `json:"base_network_type,omitempty"`
-
-	// Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
-
-	// Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network. Neither
-	// can be the network nor broadcast addresses.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
-
-	// The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to the name
-	// of the VPC.  Network type 'classic' connections are named 'Classic'.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
-	Name *string `json:"name,omitempty"`
-
-	// The ID of the account which owns the network that is being connected. Generally only used if the network is in a
-	// different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
-	// associated_network_type is 'classic' and the GRE tunnel is in a different account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server' and
-	// 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required for
-	// network type 'vpc', 'power_virtual_server' and 'directlink' connections. This field is required to be unspecified
-	// for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection.
-	NetworkType *string `json:"network_type,omitempty"`
-
-	// Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
-	// 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel'
-	// connections. This is order dependent with those first in the array being applied first, and those at the end of the
-	// array being applied last, or just before applying the default. This field is optional for network type 'classic',
-	// 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network
-	// type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	PrefixFilters []TransitGatewayConnectionPrefixFilter `json:"prefix_filters,omitempty"`
-
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-	// optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-	// required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
-
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or
-	// unbound_gre_tunnel connection create requests IBM will assign an ASN.
-	//
-	// This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
-
-	// Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-	// 'power_virtual_server' connections.
-	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
-
-	// Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-	// Neither can be the network nor broadcast addresses.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
-
-	// Specify the connection's location.  The specified availability zone must reside in the gateway's region.
-	// Use the IBM Cloud global catalog to list zones within the desired region.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	Zone ZoneIdentityIntf `json:"zone,omitempty"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelTemplate `json:"tunnels,omitempty"`
-}
-
-// Constants associated with the TransitGatewayConnectionTemplate.BaseNetworkType property.
-// The type of network the Unbound GRE tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'
-// connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-// 'power_virtual_server' and 'gre_tunnel' connections.
-const (
-	TransitGatewayConnectionTemplate_BaseNetworkType_Classic = "classic"
-)
-
-// Constants associated with the TransitGatewayConnectionTemplate.NetworkType property.
-// Defines what type of network is connected via this connection.
-const (
-	TransitGatewayConnectionTemplate_NetworkType_Classic = "classic"
-	TransitGatewayConnectionTemplate_NetworkType_Directlink = "directlink"
-	TransitGatewayConnectionTemplate_NetworkType_GreTunnel = "gre_tunnel"
-	TransitGatewayConnectionTemplate_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionTemplate_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitGatewayConnectionTemplate_NetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionTemplate.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-// optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-// required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-const (
-	TransitGatewayConnectionTemplate_PrefixFiltersDefault_Deny = "deny"
-	TransitGatewayConnectionTemplate_PrefixFiltersDefault_Permit = "permit"
-)
-func (*TransitGatewayConnectionTemplate) isaTransitGatewayConnectionTemplate() bool {
-	return true
-}
-
-type TransitGatewayConnectionTemplateIntf interface {
-	isaTransitGatewayConnectionTemplate() bool
-}
-
-// UnmarshalTransitGatewayConnectionTemplate unmarshals an instance of TransitGatewayConnectionTemplate from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionTemplate)
-	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilter)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelTemplate)
 	if err != nil {
 		return
 	}
@@ -6005,1390 +6059,6 @@ func UnmarshalZoneReferenceCollection(m map[string]json.RawMessage, result inter
 	return
 }
 
-// TransitConnectionCollectionConnectionsItemTransitConnection : Transit gateway connection.
-// This model "extends" TransitConnectionCollectionConnectionsItem
-type TransitConnectionCollectionConnectionsItemTransitConnection struct {
-	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the id of a network_type 'classic'
-	// connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be in
-	// an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it are deleted.
-	// This field only applies to and is required for network type 'gre_tunnel' connections.
-	BaseConnectionID *string `json:"base_connection_id,omitempty"`
-
-	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The unique identifier for this connection.
-	ID *string `json:"id" validate:"required"`
-
-	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' connections.
-	LocalBgpAsn *int64 `json:"local_bgp_asn,omitempty"`
-
-	// Local gateway IP address.  This field only applies to network type 'gre_tunnel' connections.
-	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
-
-	// Local tunnel IP address.  This field only applies to network type 'gre_tunnel' connections.
-	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
-
-	// GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' connections.
-	Mtu *int64 `json:"mtu,omitempty"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
-	// Cloud account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-	// 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is the
-	// CRN of the VPC / PowerVS / Direct Link gateway respectively.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-	PrefixFiltersDefault *string `json:"prefix_filters_default" validate:"required"`
-
-	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections.
-	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
-
-	// Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections.
-	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
-
-	// Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' connections.
-	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
-
-	// Only visible for cross account connections, this field represents the status of a connection request between IBM
-	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status,omitempty"`
-
-	// Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	Status *string `json:"status" validate:"required"`
-
-	// Reference to the transit gateway that contains this connection.
-	TransitGateway *TransitGatewayReference `json:"transit_gateway" validate:"required"`
-
-	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
-	Zone *GreTunnelZoneReference `json:"zone,omitempty"`
-}
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnection.NetworkType property.
-// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-// expand in the future. Code and processes using this field must tolerate unexpected values.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnection_NetworkType_Classic = "classic"
-	TransitConnectionCollectionConnectionsItemTransitConnection_NetworkType_Directlink = "directlink"
-	TransitConnectionCollectionConnectionsItemTransitConnection_NetworkType_GreTunnel = "gre_tunnel"
-	TransitConnectionCollectionConnectionsItemTransitConnection_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitConnectionCollectionConnectionsItemTransitConnection_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitConnectionCollectionConnectionsItemTransitConnection_NetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnection.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnection_PrefixFiltersDefault_Deny = "deny"
-	TransitConnectionCollectionConnectionsItemTransitConnection_PrefixFiltersDefault_Permit = "permit"
-)
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnection.RequestStatus property.
-// Only visible for cross account connections, this field represents the status of a connection request between IBM
-// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnection_RequestStatus_Approved = "approved"
-	TransitConnectionCollectionConnectionsItemTransitConnection_RequestStatus_Detached = "detached"
-	TransitConnectionCollectionConnectionsItemTransitConnection_RequestStatus_Expired = "expired"
-	TransitConnectionCollectionConnectionsItemTransitConnection_RequestStatus_Pending = "pending"
-	TransitConnectionCollectionConnectionsItemTransitConnection_RequestStatus_Rejected = "rejected"
-)
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnection.Status property.
-// Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Attached = "attached"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Deleting = "deleting"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Detached = "detached"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Detaching = "detaching"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Failed = "failed"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_NetworkPending = "network_pending"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Pending = "pending"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Suspended = "suspended"
-	TransitConnectionCollectionConnectionsItemTransitConnection_Status_Suspending = "suspending"
-)
-
-func (*TransitConnectionCollectionConnectionsItemTransitConnection) isaTransitConnectionCollectionConnectionsItem() bool {
-	return true
-}
-
-// UnmarshalTransitConnectionCollectionConnectionsItemTransitConnection unmarshals an instance of TransitConnectionCollectionConnectionsItemTransitConnection from the specified map of raw messages.
-func UnmarshalTransitConnectionCollectionConnectionsItemTransitConnection(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitConnectionCollectionConnectionsItemTransitConnection)
-	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "transit_gateway", &obj.TransitGateway, UnmarshalTransitGatewayReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalGreTunnelZoneReference)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE : Transit gateway connection for redundant GRE.
-// This model "extends" TransitConnectionCollectionConnectionsItem
-type TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE struct {
-	// The type of network the redundant GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type" validate:"required"`
-
-	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The unique identifier for this connection.
-	ID *string `json:"id" validate:"required"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
-	// Cloud account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network being connected via this connection. This field is required for type 'vpc' and is the CRN of
-	// the VPC.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// Only visible for cross account connections, this field represents the status of a connection request between IBM
-	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status" validate:"required"`
-
-	// Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	Status *string `json:"status" validate:"required"`
-
-	// Reference to the transit gateway that contains this connection.
-	TransitGateway *TransitGatewayReference `json:"transit_gateway" validate:"required"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels" validate:"required"`
-
-	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
-}
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE.BaseNetworkType property.
-// The type of network the redundant GRE tunnel is targeting.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_BaseNetworkType_Classic = "classic"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_BaseNetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE.NetworkType property.
-// Defines what type of network is connected via this connection.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_NetworkType_RedundantGre = "redundant_gre"
-)
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE.RequestStatus property.
-// Only visible for cross account connections, this field represents the status of a connection request between IBM
-// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_RequestStatus_Approved = "approved"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_RequestStatus_Detached = "detached"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_RequestStatus_Expired = "expired"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_RequestStatus_Partial = "partial"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_RequestStatus_Pending = "pending"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_RequestStatus_Rejected = "rejected"
-)
-
-// Constants associated with the TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE.Status property.
-// Connection state. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Attached = "attached"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Deleting = "deleting"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Detached = "detached"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Detaching = "detaching"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Failed = "failed"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_NetworkPending = "network_pending"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Pending = "pending"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Suspended = "suspended"
-	TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE_Status_Suspending = "suspending"
-)
-
-func (*TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE) isaTransitConnectionCollectionConnectionsItem() bool {
-	return true
-}
-
-// UnmarshalTransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE unmarshals an instance of TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE from the specified map of raw messages.
-func UnmarshalTransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE)
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "transit_gateway", &obj.TransitGateway, UnmarshalTransitGatewayReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel : Connection included in transit gateway.
-// This model "extends" TransitGatewayConnectionCollectionConnectionsItem
-type TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel struct {
-	// The type of network the GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type,omitempty"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-	// 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is the
-	// CRN of the VPC / PowerVS / Direct Link gateway respectively.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// The unique identifier for this Transit Gateway Connection.
-	ID *string `json:"id" validate:"required"`
-
-	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
-	// connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be in
-	// an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it are deleted.
-	// This field only applies to and is required for network type 'gre_tunnel' connections.
-	// Deprecated: this field is deprecated and may be removed in a future release.
-	BaseConnectionID *string `json:"base_connection_id,omitempty"`
-
-	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	LocalBgpAsn *int64 `json:"local_bgp_asn,omitempty"`
-
-	// Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections.
-	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
-
-	// Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
-
-	// GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	Mtu *int64 `json:"mtu,omitempty"`
-
-	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
-	// Cloud account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-	// array being applied first, and those at the end of the array is applied last, or just before the default.
-	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
-
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-	PrefixFiltersDefault *string `json:"prefix_filters_default" validate:"required"`
-
-	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
-
-	// Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections.
-	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
-
-	// Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections.
-	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
-
-	// Only visible for cross account connections, this field represents the status of a connection request between IBM
-	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status,omitempty"`
-
-	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-	// Code and processes using this field must tolerate unexpected values.
-	Status *string `json:"status,omitempty"`
-
-	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
-	Zone *GreTunnelZoneReference `json:"zone,omitempty"`
-}
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel.BaseNetworkType property.
-// The type of network the GRE tunnel is targeting.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_BaseNetworkType_Classic = "classic"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel.NetworkType property.
-// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-// expand in the future. Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_Classic = "classic"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_Directlink = "directlink"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_GreTunnel = "gre_tunnel"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_PrefixFiltersDefault_Deny = "deny"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_PrefixFiltersDefault_Permit = "permit"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel.RequestStatus property.
-// Only visible for cross account connections, this field represents the status of a connection request between IBM
-// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Approved = "approved"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Expired = "expired"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Pending = "pending"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Rejected = "rejected"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel.Status property.
-// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-// Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Attached = "attached"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Deleting = "deleting"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Detached = "detached"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Detaching = "detaching"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Failed = "failed"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Pending = "pending"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Suspended = "suspended"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel_Status_Suspending = "suspending"
-)
-
-func (*TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel) isaTransitGatewayConnectionCollectionConnectionsItem() bool {
-	return true
-}
-
-// UnmarshalTransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel unmarshals an instance of TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel)
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalGreTunnelZoneReference)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel : Redundant GRE tunnel connection included in transit gateway.
-// This model "extends" TransitGatewayConnectionCollectionConnectionsItem
-type TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel struct {
-	// The unique identifier for this Transit Gateway redundant tunnel connection.
-	ID *string `json:"id" validate:"required"`
-
-	// The type of network the GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type" validate:"required"`
-
-	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
-	// Cloud account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network VPC being connected via this connection.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// Only visible for cross account connections, this field represents the status of a connection request between IBM
-	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status" validate:"required"`
-
-	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-	// Code and processes using this field must tolerate unexpected values.
-	Status *string `json:"status" validate:"required"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels" validate:"required"`
-
-	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
-}
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel.BaseNetworkType property.
-// The type of network the GRE tunnel is targeting.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_BaseNetworkType_Classic = "classic"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_BaseNetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel.NetworkType property.
-// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-// expand in the future. Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_NetworkType_RedundantGre = "redundant_gre"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel.RequestStatus property.
-// Only visible for cross account connections, this field represents the status of a connection request between IBM
-// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Approved = "approved"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Expired = "expired"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Partial = "partial"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Pending = "pending"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Rejected = "rejected"
-)
-
-// Constants associated with the TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel.Status property.
-// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-// Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Attached = "attached"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Deleting = "deleting"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Detached = "detached"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Detaching = "detaching"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Failed = "failed"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Pending = "pending"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Suspended = "suspended"
-	TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel_Status_Suspending = "suspending"
-)
-
-func (*TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel) isaTransitGatewayConnectionCollectionConnectionsItem() bool {
-	return true
-}
-
-// UnmarshalTransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel unmarshals an instance of TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel : Connection included in transit gateway.
-// This model "extends" TransitGatewayConnectionCust
-type TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel struct {
-	// The type of network the GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type,omitempty"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-	// 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is the
-	// CRN of the VPC / PowerVS / Direct Link gateway respectively.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// The unique identifier for this Transit Gateway Connection.
-	ID *string `json:"id" validate:"required"`
-
-	// network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
-	// connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be in
-	// an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it are deleted.
-	// This field only applies to and is required for network type 'gre_tunnel' connections.
-	// Deprecated: this field is deprecated and may be removed in a future release.
-	BaseConnectionID *string `json:"base_connection_id,omitempty"`
-
-	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	LocalBgpAsn *int64 `json:"local_bgp_asn,omitempty"`
-
-	// Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections.
-	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
-
-	// Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
-
-	// GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	Mtu *int64 `json:"mtu,omitempty"`
-
-	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
-	// Cloud account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-	// array being applied first, and those at the end of the array is applied last, or just before the default.
-	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
-
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-	PrefixFiltersDefault *string `json:"prefix_filters_default" validate:"required"`
-
-	// Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
-
-	// Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections.
-	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
-
-	// Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections.
-	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
-
-	// Only visible for cross account connections, this field represents the status of a connection request between IBM
-	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status,omitempty"`
-
-	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-	// Code and processes using this field must tolerate unexpected values.
-	Status *string `json:"status,omitempty"`
-
-	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
-	Zone *GreTunnelZoneReference `json:"zone,omitempty"`
-}
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel.BaseNetworkType property.
-// The type of network the GRE tunnel is targeting.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_BaseNetworkType_Classic = "classic"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel.NetworkType property.
-// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-// expand in the future. Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_Classic = "classic"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_Directlink = "directlink"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_GreTunnel = "gre_tunnel"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_NetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_PrefixFiltersDefault_Deny = "deny"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_PrefixFiltersDefault_Permit = "permit"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel.RequestStatus property.
-// Only visible for cross account connections, this field represents the status of a connection request between IBM
-// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Approved = "approved"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Expired = "expired"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Pending = "pending"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_RequestStatus_Rejected = "rejected"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel.Status property.
-// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-// Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Attached = "attached"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Deleting = "deleting"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Detached = "detached"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Detaching = "detaching"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Failed = "failed"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Pending = "pending"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Suspended = "suspended"
-	TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel_Status_Suspending = "suspending"
-)
-
-func (*TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel) isaTransitGatewayConnectionCust() bool {
-	return true
-}
-
-// UnmarshalTransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel unmarshals an instance of TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel)
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalGreTunnelZoneReference)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel : Redundant GRE tunnel connection included in transit gateway.
-// This model "extends" TransitGatewayConnectionCust
-type TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel struct {
-	// The unique identifier for this Transit Gateway redundant tunnel connection.
-	ID *string `json:"id" validate:"required"`
-
-	// The type of network the GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type" validate:"required"`
-
-	// The date and time that this connection was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The user-defined name for this transit gateway connection.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the account which owns the connected network. Generally only used if the network is in a different IBM
-	// Cloud account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network VPC being connected via this connection.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-	// expand in the future. Code and processes using this field must tolerate unexpected values.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// Only visible for cross account connections, this field represents the status of a connection request between IBM
-	// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-	// this field must tolerate unexpected values.
-	RequestStatus *string `json:"request_status" validate:"required"`
-
-	// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-	// Code and processes using this field must tolerate unexpected values.
-	Status *string `json:"status" validate:"required"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelReference `json:"tunnels" validate:"required"`
-
-	// The date and time that this connection was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
-}
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel.BaseNetworkType property.
-// The type of network the GRE tunnel is targeting.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_BaseNetworkType_Classic = "classic"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_BaseNetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel.NetworkType property.
-// Defines what type of network is connected via this connection. The list of enumerated values for this property may
-// expand in the future. Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_NetworkType_RedundantGre = "redundant_gre"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel.RequestStatus property.
-// Only visible for cross account connections, this field represents the status of a connection request between IBM
-// Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using
-// this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Approved = "approved"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Expired = "expired"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Partial = "partial"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Pending = "pending"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_RequestStatus_Rejected = "rejected"
-)
-
-// Constants associated with the TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel.Status property.
-// Connection's current configuration state. The list of enumerated values for this property may expand in the future.
-// Code and processes using this field must tolerate unexpected values.
-const (
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Attached = "attached"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Deleting = "deleting"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Detached = "detached"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Detaching = "detaching"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Failed = "failed"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Pending = "pending"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Suspended = "suspended"
-	TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel_Status_Suspending = "suspending"
-)
-
-func (*TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel) isaTransitGatewayConnectionCust() bool {
-	return true
-}
-
-// UnmarshalTransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel unmarshals an instance of TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate : A create template for a Transit Gateway connection.
-// This model "extends" TransitGatewayConnectionTemplate
-type TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate struct {
-	// network_type 'gre_tunnel' connections must be created over an existing network_type 'classic' connection. This field
-	// must specify the ID of an active transit gateway network_type 'classic' connection in the same transit gateway.
-	//
-	// This field is required for network type 'gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
-	// 'unbound_gre_tunnel' connections.
-	// Deprecated: this field is deprecated and may be removed in a future release.
-	BaseConnectionID *string `json:"base_connection_id,omitempty"`
-
-	// The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-	// 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type 'classic', 'directlink',
-	// 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
-	BaseNetworkType *string `json:"base_network_type,omitempty"`
-
-	// Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
-
-	// Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network. Neither
-	// can be the network nor broadcast addresses.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
-
-	// The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to the name
-	// of the VPC.  Network type 'classic' connections are named 'Classic'.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
-	Name *string `json:"name,omitempty"`
-
-	// The ID of the account which owns the network that is being connected. Generally only used if the network is in a
-	// different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
-	// associated_network_type is 'classic' and the GRE tunnel is in a different account than the gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server' and
-	// 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required for
-	// network type 'vpc', 'power_virtual_server' and 'directlink' connections. This field is required to be unspecified
-	// for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
-	// 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel'
-	// connections. This is order dependent with those first in the array being applied first, and those at the end of the
-	// array being applied last, or just before applying the default. This field is optional for network type 'classic',
-	// 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network
-	// type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	PrefixFilters []TransitGatewayConnectionPrefixFilter `json:"prefix_filters,omitempty"`
-
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-	// optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-	// required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
-
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or
-	// unbound_gre_tunnel connection create requests IBM will assign an ASN.
-	//
-	// This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
-
-	// Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-	// connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-	// 'power_virtual_server' connections.
-	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
-
-	// Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-	// Neither can be the network nor broadcast addresses.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
-
-	// Specify the connection's location.  The specified availability zone must reside in the gateway's region.
-	// Use the IBM Cloud global catalog to list zones within the desired region.
-	//
-	// This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-	//
-	// This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-	// connections.
-	Zone ZoneIdentityIntf `json:"zone,omitempty"`
-}
-
-// Constants associated with the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate.BaseNetworkType property.
-// The type of network the Unbound GRE tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'
-// connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-// 'power_virtual_server' and 'gre_tunnel' connections.
-const (
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_BaseNetworkType_Classic = "classic"
-)
-
-// Constants associated with the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate.NetworkType property.
-// Defines what type of network is connected via this connection.
-const (
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_NetworkType_Classic = "classic"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_NetworkType_Directlink = "directlink"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_NetworkType_GreTunnel = "gre_tunnel"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_NetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-// optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-// required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-const (
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_PrefixFiltersDefault_Deny = "deny"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate_PrefixFiltersDefault_Permit = "permit"
-)
-
-// NewTransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate : Instantiate TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate (Generic Model Constructor)
-func (*TransitGatewayApisV1) NewTransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate(networkType string) (_model *TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate, err error) {
-	_model = &TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate{
-		NetworkType: core.StringPtr(networkType),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate) isaTransitGatewayConnectionTemplate() bool {
-	return true
-}
-
-// UnmarshalTransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate unmarshals an instance of TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilter)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate : A create template for a Transit Gateway connection redundant GRE tunnel object.
-// This model "extends" TransitGatewayConnectionTemplate
-type TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate struct {
-	// The type of network the GRE tunnel is targeting.
-	BaseNetworkType *string `json:"base_network_type" validate:"required"`
-
-	// The user-defined name for this redundant gre transit gateway connection. Network type 'vpc'  connections are
-	// defaulted to the name of the VPC.  Network type 'classic' connections are named 'Classic'.
-	Name *string `json:"name" validate:"required"`
-
-	// The ID of the account which owns the network that is being connected. Generally only used if the network is in a
-	// different account than the gateway. This field is required when the GRE tunnel is in a different account than the
-	// gateway.
-	NetworkAccountID *string `json:"network_account_id,omitempty"`
-
-	// The ID of the network being connected via this connection. For base network type, 'vpc', this is the CRN of the VPC.
-	// This field is required for base network type 'vpc'. This field is required to be unspecified for base network type
-	// 'classic' connections.
-	NetworkID *string `json:"network_id,omitempty"`
-
-	// Defines what type of network is connected via this connection.
-	NetworkType *string `json:"network_type" validate:"required"`
-
-	// Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-	Tunnels []TransitGatewayRedundantGRETunnelTemplate `json:"tunnels" validate:"required"`
-}
-
-// Constants associated with the TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate.BaseNetworkType property.
-// The type of network the GRE tunnel is targeting.
-const (
-	TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate_BaseNetworkType_Classic = "classic"
-	TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate_BaseNetworkType_Vpc = "vpc"
-)
-
-// Constants associated with the TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate.NetworkType property.
-// Defines what type of network is connected via this connection.
-const (
-	TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate_NetworkType_RedundantGre = "redundant_gre"
-)
-
-// NewTransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate : Instantiate TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate (Generic Model Constructor)
-func (*TransitGatewayApisV1) NewTransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate(baseNetworkType string, name string, networkType string, tunnels []TransitGatewayRedundantGRETunnelTemplate) (_model *TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate, err error) {
-	_model = &TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate{
-		BaseNetworkType: core.StringPtr(baseNetworkType),
-		Name: core.StringPtr(name),
-		NetworkType: core.StringPtr(networkType),
-		Tunnels: tunnels,
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate) isaTransitGatewayConnectionTemplate() bool {
-	return true
-}
-
-// UnmarshalTransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate unmarshals an instance of TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate from the specified map of raw messages.
-func UnmarshalTransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate)
-	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayRedundantGRETunnelTemplate)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // ZoneIdentityByName : Availability zone.
 // This model "extends" ZoneIdentity
 type ZoneIdentityByName struct {
@@ -7526,7 +6196,7 @@ func (pager *ConnectionsPager) HasNext() bool {
 }
 
 // GetNextWithContext returns the next page of results using the specified Context.
-func (pager *ConnectionsPager) GetNextWithContext(ctx context.Context) (page []TransitConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *ConnectionsPager) GetNextWithContext(ctx context.Context) (page []TransitConnection, err error) {
 	if !pager.HasNext() {
 		return nil, fmt.Errorf("no more results available")
 	}
@@ -7551,9 +6221,9 @@ func (pager *ConnectionsPager) GetNextWithContext(ctx context.Context) (page []T
 
 // GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
 // until all pages of results have been retrieved.
-func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems []TransitConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems []TransitConnection, err error) {
 	for pager.HasNext() {
-		var nextPage []TransitConnectionCollectionConnectionsItemIntf
+		var nextPage []TransitConnection
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
 			return
@@ -7564,12 +6234,12 @@ func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems 
 }
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
-func (pager *ConnectionsPager) GetNext() (page []TransitConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *ConnectionsPager) GetNext() (page []TransitConnection, err error) {
 	return pager.GetNextWithContext(context.Background())
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
-func (pager *ConnectionsPager) GetAll() (allItems []TransitConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *ConnectionsPager) GetAll() (allItems []TransitConnection, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
@@ -7607,7 +6277,7 @@ func (pager *TransitGatewayConnectionsPager) HasNext() bool {
 }
 
 // GetNextWithContext returns the next page of results using the specified Context.
-func (pager *TransitGatewayConnectionsPager) GetNextWithContext(ctx context.Context) (page []TransitGatewayConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *TransitGatewayConnectionsPager) GetNextWithContext(ctx context.Context) (page []TransitGatewayConnection, err error) {
 	if !pager.HasNext() {
 		return nil, fmt.Errorf("no more results available")
 	}
@@ -7632,9 +6302,9 @@ func (pager *TransitGatewayConnectionsPager) GetNextWithContext(ctx context.Cont
 
 // GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
 // until all pages of results have been retrieved.
-func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Context) (allItems []TransitGatewayConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Context) (allItems []TransitGatewayConnection, err error) {
 	for pager.HasNext() {
-		var nextPage []TransitGatewayConnectionCollectionConnectionsItemIntf
+		var nextPage []TransitGatewayConnection
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
 			return
@@ -7645,11 +6315,11 @@ func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Conte
 }
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
-func (pager *TransitGatewayConnectionsPager) GetNext() (page []TransitGatewayConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *TransitGatewayConnectionsPager) GetNext() (page []TransitGatewayConnection, err error) {
 	return pager.GetNextWithContext(context.Background())
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
-func (pager *TransitGatewayConnectionsPager) GetAll() (allItems []TransitGatewayConnectionCollectionConnectionsItemIntf, err error) {
+func (pager *TransitGatewayConnectionsPager) GetAll() (allItems []TransitGatewayConnection, err error) {
 	return pager.GetAllWithContext(context.Background())
 }

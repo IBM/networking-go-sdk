@@ -1417,7 +1417,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully with retries`, func() {
@@ -1478,7 +1478,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully`, func() {
@@ -1609,9 +1609,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -1635,7 +1635,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(err).To(BeNil())
 				Expect(pager).ToNot(BeNil())
 
-				var allResults []transitgatewayapisv1.TransitConnectionCollectionConnectionsItemIntf
+				var allResults []transitgatewayapisv1.TransitConnection
 				for pager.HasNext() {
 					nextPage, err := pager.GetNext()
 					Expect(err).To(BeNil())
@@ -1745,7 +1745,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully with retries`, func() {
@@ -1807,7 +1807,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully`, func() {
@@ -1948,9 +1948,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -1975,7 +1975,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(err).To(BeNil())
 				Expect(pager).ToNot(BeNil())
 
-				var allResults []transitgatewayapisv1.TransitGatewayConnectionCollectionConnectionsItemIntf
+				var allResults []transitgatewayapisv1.TransitGatewayConnection
 				for pager.HasNext() {
 					nextPage, err := pager.GetNext()
 					Expect(err).To(BeNil())
@@ -2047,27 +2047,34 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate model
-				transitGatewayConnectionTemplateModel := new(transitgatewayapisv1.TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-				transitGatewayConnectionTemplateModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
-				transitGatewayConnectionTemplateModel.BaseNetworkType = core.StringPtr("classic")
-				transitGatewayConnectionTemplateModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
-				transitGatewayConnectionTemplateModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
-				transitGatewayConnectionTemplateModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				transitGatewayConnectionTemplateModel.NetworkAccountID = core.StringPtr("testString")
-				transitGatewayConnectionTemplateModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-				transitGatewayConnectionTemplateModel.NetworkType = core.StringPtr("vpc")
-				transitGatewayConnectionTemplateModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
-				transitGatewayConnectionTemplateModel.PrefixFiltersDefault = core.StringPtr("permit")
-				transitGatewayConnectionTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayConnectionTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayConnectionTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayConnectionTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
+				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
+				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
 				createTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				createTransitGatewayConnectionOptionsModel.TransitGatewayConnectionTemplate = transitGatewayConnectionTemplateModel
+				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
+				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
+				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
+				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
+				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
+				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
+				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := transitGatewayApisService.CreateTransitGatewayConnection(createTransitGatewayConnectionOptionsModel)
@@ -2122,7 +2129,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection successfully with retries`, func() {
@@ -2146,27 +2153,34 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate model
-				transitGatewayConnectionTemplateModel := new(transitgatewayapisv1.TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-				transitGatewayConnectionTemplateModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
-				transitGatewayConnectionTemplateModel.BaseNetworkType = core.StringPtr("classic")
-				transitGatewayConnectionTemplateModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
-				transitGatewayConnectionTemplateModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
-				transitGatewayConnectionTemplateModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				transitGatewayConnectionTemplateModel.NetworkAccountID = core.StringPtr("testString")
-				transitGatewayConnectionTemplateModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-				transitGatewayConnectionTemplateModel.NetworkType = core.StringPtr("vpc")
-				transitGatewayConnectionTemplateModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
-				transitGatewayConnectionTemplateModel.PrefixFiltersDefault = core.StringPtr("permit")
-				transitGatewayConnectionTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayConnectionTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayConnectionTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayConnectionTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
+				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
+				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
 				createTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				createTransitGatewayConnectionOptionsModel.TransitGatewayConnectionTemplate = transitGatewayConnectionTemplateModel
+				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
+				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
+				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
+				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
+				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
+				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
+				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2223,7 +2237,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection successfully`, func() {
@@ -2252,27 +2266,34 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate model
-				transitGatewayConnectionTemplateModel := new(transitgatewayapisv1.TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-				transitGatewayConnectionTemplateModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
-				transitGatewayConnectionTemplateModel.BaseNetworkType = core.StringPtr("classic")
-				transitGatewayConnectionTemplateModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
-				transitGatewayConnectionTemplateModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
-				transitGatewayConnectionTemplateModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				transitGatewayConnectionTemplateModel.NetworkAccountID = core.StringPtr("testString")
-				transitGatewayConnectionTemplateModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-				transitGatewayConnectionTemplateModel.NetworkType = core.StringPtr("vpc")
-				transitGatewayConnectionTemplateModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
-				transitGatewayConnectionTemplateModel.PrefixFiltersDefault = core.StringPtr("permit")
-				transitGatewayConnectionTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayConnectionTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayConnectionTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayConnectionTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
+				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
+				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
 				createTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				createTransitGatewayConnectionOptionsModel.TransitGatewayConnectionTemplate = transitGatewayConnectionTemplateModel
+				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
+				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
+				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
+				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
+				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
+				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
+				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2302,27 +2323,34 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate model
-				transitGatewayConnectionTemplateModel := new(transitgatewayapisv1.TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-				transitGatewayConnectionTemplateModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
-				transitGatewayConnectionTemplateModel.BaseNetworkType = core.StringPtr("classic")
-				transitGatewayConnectionTemplateModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
-				transitGatewayConnectionTemplateModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
-				transitGatewayConnectionTemplateModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				transitGatewayConnectionTemplateModel.NetworkAccountID = core.StringPtr("testString")
-				transitGatewayConnectionTemplateModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-				transitGatewayConnectionTemplateModel.NetworkType = core.StringPtr("vpc")
-				transitGatewayConnectionTemplateModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
-				transitGatewayConnectionTemplateModel.PrefixFiltersDefault = core.StringPtr("permit")
-				transitGatewayConnectionTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayConnectionTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayConnectionTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayConnectionTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
+				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
+				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
 				createTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				createTransitGatewayConnectionOptionsModel.TransitGatewayConnectionTemplate = transitGatewayConnectionTemplateModel
+				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
+				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
+				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
+				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
+				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
+				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
+				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
@@ -2373,27 +2401,34 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate model
-				transitGatewayConnectionTemplateModel := new(transitgatewayapisv1.TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-				transitGatewayConnectionTemplateModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
-				transitGatewayConnectionTemplateModel.BaseNetworkType = core.StringPtr("classic")
-				transitGatewayConnectionTemplateModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
-				transitGatewayConnectionTemplateModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
-				transitGatewayConnectionTemplateModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				transitGatewayConnectionTemplateModel.NetworkAccountID = core.StringPtr("testString")
-				transitGatewayConnectionTemplateModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-				transitGatewayConnectionTemplateModel.NetworkType = core.StringPtr("vpc")
-				transitGatewayConnectionTemplateModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
-				transitGatewayConnectionTemplateModel.PrefixFiltersDefault = core.StringPtr("permit")
-				transitGatewayConnectionTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayConnectionTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayConnectionTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayConnectionTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
+				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
+				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
 				createTransitGatewayConnectionOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				createTransitGatewayConnectionOptionsModel.TransitGatewayConnectionTemplate = transitGatewayConnectionTemplateModel
+				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
+				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
+				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
+				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
+				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
+				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
+				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
+				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2551,7 +2586,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection successfully with retries`, func() {
@@ -2608,7 +2643,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection successfully`, func() {
@@ -2796,7 +2831,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection successfully with retries`, func() {
@@ -2871,7 +2906,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection successfully`, func() {
@@ -6816,48 +6851,62 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
 
-				// Construct an instance of the TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate model
-				transitGatewayConnectionTemplateModel := new(transitgatewayapisv1.TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate)
-				Expect(transitGatewayConnectionTemplateModel).ToNot(BeNil())
-				transitGatewayConnectionTemplateModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
-				transitGatewayConnectionTemplateModel.BaseNetworkType = core.StringPtr("classic")
-				transitGatewayConnectionTemplateModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
-				transitGatewayConnectionTemplateModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
-				transitGatewayConnectionTemplateModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				transitGatewayConnectionTemplateModel.NetworkAccountID = core.StringPtr("testString")
-				transitGatewayConnectionTemplateModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-				transitGatewayConnectionTemplateModel.NetworkType = core.StringPtr("vpc")
-				transitGatewayConnectionTemplateModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
-				transitGatewayConnectionTemplateModel.PrefixFiltersDefault = core.StringPtr("permit")
-				transitGatewayConnectionTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayConnectionTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayConnectionTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayConnectionTemplateModel.Zone = zoneIdentityModel
-				Expect(transitGatewayConnectionTemplateModel.BaseConnectionID).To(Equal(core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")))
-				Expect(transitGatewayConnectionTemplateModel.BaseNetworkType).To(Equal(core.StringPtr("classic")))
-				Expect(transitGatewayConnectionTemplateModel.LocalGatewayIp).To(Equal(core.StringPtr("192.168.100.1")))
-				Expect(transitGatewayConnectionTemplateModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.129.2")))
-				Expect(transitGatewayConnectionTemplateModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
-				Expect(transitGatewayConnectionTemplateModel.NetworkAccountID).To(Equal(core.StringPtr("testString")))
-				Expect(transitGatewayConnectionTemplateModel.NetworkID).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")))
-				Expect(transitGatewayConnectionTemplateModel.NetworkType).To(Equal(core.StringPtr("vpc")))
-				Expect(transitGatewayConnectionTemplateModel.PrefixFilters).To(Equal([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}))
-				Expect(transitGatewayConnectionTemplateModel.PrefixFiltersDefault).To(Equal(core.StringPtr("permit")))
-				Expect(transitGatewayConnectionTemplateModel.RemoteBgpAsn).To(Equal(core.Int64Ptr(int64(65010))))
-				Expect(transitGatewayConnectionTemplateModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
-				Expect(transitGatewayConnectionTemplateModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
-				Expect(transitGatewayConnectionTemplateModel.Zone).To(Equal(zoneIdentityModel))
+				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
+				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
+				Expect(transitGatewayRedundantGreTunnelTemplateModel).ToNot(BeNil())
+				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.100.20")))
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.Name).To(Equal(core.StringPtr("gre1")))
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn).To(Equal(core.Int64Ptr(int64(65010))))
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.33.22")))
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
+				Expect(transitGatewayRedundantGreTunnelTemplateModel.Zone).To(Equal(zoneIdentityModel))
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				transitGatewayID := "testString"
-				var transitGatewayConnectionTemplate transitgatewayapisv1.TransitGatewayConnectionTemplateIntf = nil
-				createTransitGatewayConnectionOptionsModel := transitGatewayApisService.NewCreateTransitGatewayConnectionOptions(transitGatewayID, transitGatewayConnectionTemplate)
+				createTransitGatewayConnectionOptionsNetworkType := "vpc"
+				createTransitGatewayConnectionOptionsModel := transitGatewayApisService.NewCreateTransitGatewayConnectionOptions(transitGatewayID, createTransitGatewayConnectionOptionsNetworkType)
 				createTransitGatewayConnectionOptionsModel.SetTransitGatewayID("testString")
-				createTransitGatewayConnectionOptionsModel.SetTransitGatewayConnectionTemplate(transitGatewayConnectionTemplateModel)
+				createTransitGatewayConnectionOptionsModel.SetNetworkType("vpc")
+				createTransitGatewayConnectionOptionsModel.SetBaseConnectionID("975f58c1-afe7-469a-9727-7f3d720f2d32")
+				createTransitGatewayConnectionOptionsModel.SetBaseNetworkType("classic")
+				createTransitGatewayConnectionOptionsModel.SetLocalGatewayIp("192.168.100.1")
+				createTransitGatewayConnectionOptionsModel.SetLocalTunnelIp("192.168.129.2")
+				createTransitGatewayConnectionOptionsModel.SetName("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayConnectionOptionsModel.SetNetworkAccountID("testString")
+				createTransitGatewayConnectionOptionsModel.SetNetworkID("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				createTransitGatewayConnectionOptionsModel.SetPrefixFilters([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel})
+				createTransitGatewayConnectionOptionsModel.SetPrefixFiltersDefault("permit")
+				createTransitGatewayConnectionOptionsModel.SetRemoteBgpAsn(int64(65010))
+				createTransitGatewayConnectionOptionsModel.SetRemoteGatewayIp("10.242.63.12")
+				createTransitGatewayConnectionOptionsModel.SetRemoteTunnelIp("192.168.129.1")
+				createTransitGatewayConnectionOptionsModel.SetTunnels([]transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel})
+				createTransitGatewayConnectionOptionsModel.SetZone(zoneIdentityModel)
 				createTransitGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createTransitGatewayConnectionOptionsModel).ToNot(BeNil())
 				Expect(createTransitGatewayConnectionOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(createTransitGatewayConnectionOptionsModel.TransitGatewayConnectionTemplate).To(Equal(transitGatewayConnectionTemplateModel))
+				Expect(createTransitGatewayConnectionOptionsModel.NetworkType).To(Equal(core.StringPtr("vpc")))
+				Expect(createTransitGatewayConnectionOptionsModel.BaseConnectionID).To(Equal(core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")))
+				Expect(createTransitGatewayConnectionOptionsModel.BaseNetworkType).To(Equal(core.StringPtr("classic")))
+				Expect(createTransitGatewayConnectionOptionsModel.LocalGatewayIp).To(Equal(core.StringPtr("192.168.100.1")))
+				Expect(createTransitGatewayConnectionOptionsModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.129.2")))
+				Expect(createTransitGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
+				Expect(createTransitGatewayConnectionOptionsModel.NetworkAccountID).To(Equal(core.StringPtr("testString")))
+				Expect(createTransitGatewayConnectionOptionsModel.NetworkID).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")))
+				Expect(createTransitGatewayConnectionOptionsModel.PrefixFilters).To(Equal([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}))
+				Expect(createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault).To(Equal(core.StringPtr("permit")))
+				Expect(createTransitGatewayConnectionOptionsModel.RemoteBgpAsn).To(Equal(core.Int64Ptr(int64(65010))))
+				Expect(createTransitGatewayConnectionOptionsModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
+				Expect(createTransitGatewayConnectionOptionsModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
+				Expect(createTransitGatewayConnectionOptionsModel.Tunnels).To(Equal([]transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}))
+				Expect(createTransitGatewayConnectionOptionsModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(createTransitGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateTransitGatewayConnectionPrefixFilterOptions successfully`, func() {
@@ -7318,21 +7367,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(updateTransitGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(updateTransitGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-transit-gateway")))
 				Expect(updateTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewTransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate successfully`, func() {
-				networkType := "vpc"
-				_model, err := transitGatewayApisService.NewTransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate(networkType)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewTransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate successfully`, func() {
-				baseNetworkType := "vpc"
-				name := "Transit_Service_BWTN_SJ_DL"
-				networkType := "redundant_gre"
-				tunnels := []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{}
-				_model, err := transitGatewayApisService.NewTransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate(baseNetworkType, name, networkType, tunnels)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
 			})
 		})
 	})
