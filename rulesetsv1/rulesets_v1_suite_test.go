@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
- package rulesetsv1_test
+package rulesetsv1_test
 
- import (
-	 "testing"
- 
-	 . "github.com/onsi/ginkgo"
-	 . "github.com/onsi/gomega"
- )
- 
- func TestRulesetsV1(t *testing.T) {
-	 RegisterFailHandler(Fail)
-	 RunSpecs(t, "RulesetsV1 Suite")
- }
- 
+import (
+	"testing"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+)
+
+func TestRulesetsV1(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "RulesetsV1 Suite")
+}
