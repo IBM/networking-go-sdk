@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.90.0-5aad763d-20240506-203857
+ * IBM OpenAPI SDK Code Generator Version: 3.84.1-55f6d880-20240110-194020
  */
 
 // Package transitgatewayapiv1 : Operations and models for the TransitGatewayApiV1 service
@@ -72,26 +72,22 @@ func NewTransitGatewayApiV1UsingExternalConfig(options *TransitGatewayApiV1Optio
 	if options.Authenticator == nil {
 		options.Authenticator, err = core.GetAuthenticatorFromEnvironment(options.ServiceName)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "env-auth-error", common.GetComponentInfo())
 			return
 		}
 	}
 
 	transitGatewayApi, err = NewTransitGatewayApiV1(options)
-	err = core.RepurposeSDKProblem(err, "new-client-error")
 	if err != nil {
 		return
 	}
 
 	err = transitGatewayApi.Service.ConfigureService(options.ServiceName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "client-config-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = transitGatewayApi.Service.SetServiceURL(options.URL)
-		err = core.RepurposeSDKProblem(err, "url-set-error")
 	}
 	return
 }
@@ -105,20 +101,17 @@ func NewTransitGatewayApiV1(options *TransitGatewayApiV1Options) (service *Trans
 
 	err = core.ValidateStruct(options, "options")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "invalid-global-options", common.GetComponentInfo())
 		return
 	}
 
 	baseService, err := core.NewBaseService(serviceOptions)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "new-base-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = baseService.SetServiceURL(options.URL)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "set-url-error", common.GetComponentInfo())
 			return
 		}
 	}
@@ -133,7 +126,7 @@ func NewTransitGatewayApiV1(options *TransitGatewayApiV1Options) (service *Trans
 
 // GetServiceURLForRegion returns the service URL to be used for the specified region
 func GetServiceURLForRegion(region string) (string, error) {
-	return "", core.SDKErrorf(nil, "service does not support regional URLs", "no-regional-support", common.GetComponentInfo())
+	return "", fmt.Errorf("service does not support regional URLs")
 }
 
 // Clone makes a copy of "transitGatewayApi" suitable for processing requests.
@@ -148,11 +141,7 @@ func (transitGatewayApi *TransitGatewayApiV1) Clone() *TransitGatewayApiV1 {
 
 // SetServiceURL sets the service URL
 func (transitGatewayApi *TransitGatewayApiV1) SetServiceURL(url string) error {
-	err := transitGatewayApi.Service.SetServiceURL(url)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-set-error", common.GetComponentInfo())
-	}
-	return err
+	return transitGatewayApi.Service.SetServiceURL(url)
 }
 
 // GetServiceURL returns the service URL
@@ -189,16 +178,13 @@ func (transitGatewayApi *TransitGatewayApiV1) DisableRetries() {
 // ListTransitGateways : Retrieves all Transit Gateways
 // List all Transit Gateways in account the caller is authorized to view.
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGateways(listTransitGatewaysOptions *ListTransitGatewaysOptions) (result *TransitGatewayCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListTransitGatewaysWithContext(context.Background(), listTransitGatewaysOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListTransitGatewaysWithContext(context.Background(), listTransitGatewaysOptions)
 }
 
 // ListTransitGatewaysWithContext is an alternate form of the ListTransitGateways method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewaysWithContext(ctx context.Context, listTransitGatewaysOptions *ListTransitGatewaysOptions) (result *TransitGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listTransitGatewaysOptions, "listTransitGatewaysOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -207,7 +193,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewaysWithContext(ctx
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -231,21 +216,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewaysWithContext(ctx
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_transit_gateways", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -257,21 +238,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewaysWithContext(ctx
 // CreateTransitGateway : Creates a Transit Gateway
 // Create a Transit Gateway based on the supplied input template.
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.CreateTransitGatewayWithContext(context.Background(), createTransitGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.CreateTransitGatewayWithContext(context.Background(), createTransitGatewayOptions)
 }
 
 // CreateTransitGatewayWithContext is an alternate form of the CreateTransitGateway method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayWithContext(ctx context.Context, createTransitGatewayOptions *CreateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayOptions, "createTransitGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayOptions, "createTransitGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -280,7 +257,6 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayWithContext(ct
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -312,27 +288,22 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayWithContext(ct
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_transit_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGateway)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -345,21 +316,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayWithContext(ct
 // This request deletes a Transit Gateway. This operation cannot be reversed. For this request to succeed, the Transit
 // Gateway must not contain connections.
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGateway(deleteTransitGatewayOptions *DeleteTransitGatewayOptions) (response *core.DetailedResponse, err error) {
-	response, err = transitGatewayApi.DeleteTransitGatewayWithContext(context.Background(), deleteTransitGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.DeleteTransitGatewayWithContext(context.Background(), deleteTransitGatewayOptions)
 }
 
 // DeleteTransitGatewayWithContext is an alternate form of the DeleteTransitGateway method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayWithContext(ctx context.Context, deleteTransitGatewayOptions *DeleteTransitGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayOptions, "deleteTransitGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayOptions, "deleteTransitGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -372,7 +339,6 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayWithContext(ct
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -389,16 +355,10 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayWithContext(ct
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApi.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_transit_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -406,21 +366,17 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayWithContext(ct
 // GetTransitGateway : Retrieves specified Transit Gateway
 // This request retrieves a single Transit Gateway specified by the identifier in the URL.
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGateway(getTransitGatewayOptions *GetTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.GetTransitGatewayWithContext(context.Background(), getTransitGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.GetTransitGatewayWithContext(context.Background(), getTransitGatewayOptions)
 }
 
 // GetTransitGatewayWithContext is an alternate form of the GetTransitGateway method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayWithContext(ctx context.Context, getTransitGatewayOptions *GetTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayOptions, "getTransitGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayOptions, "getTransitGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -433,7 +389,6 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayWithContext(ctx c
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -451,21 +406,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayWithContext(ctx c
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_transit_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGateway)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -477,21 +428,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayWithContext(ctx c
 // UpdateTransitGateway : Updates specified Transit Gateway
 // This request updates a Transit Gateway's name and/or global flag.
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGateway(updateTransitGatewayOptions *UpdateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.UpdateTransitGatewayWithContext(context.Background(), updateTransitGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.UpdateTransitGatewayWithContext(context.Background(), updateTransitGatewayOptions)
 }
 
 // UpdateTransitGatewayWithContext is an alternate form of the UpdateTransitGateway method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayWithContext(ctx context.Context, updateTransitGatewayOptions *UpdateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayOptions, "updateTransitGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayOptions, "updateTransitGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -504,7 +451,6 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayWithContext(ct
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -530,27 +476,22 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayWithContext(ct
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_transit_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGateway)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -562,16 +503,13 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayWithContext(ct
 // ListConnections : Retrieves all connections
 // List all transit gateway connections associated with this account.
 func (transitGatewayApi *TransitGatewayApiV1) ListConnections(listConnectionsOptions *ListConnectionsOptions) (result *TransitConnectionCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListConnectionsWithContext(context.Background(), listConnectionsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListConnectionsWithContext(context.Background(), listConnectionsOptions)
 }
 
 // ListConnectionsWithContext is an alternate form of the ListConnections method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListConnectionsWithContext(ctx context.Context, listConnectionsOptions *ListConnectionsOptions) (result *TransitConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listConnectionsOptions, "listConnectionsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -580,7 +518,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListConnectionsWithContext(ctx con
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/connections`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -607,21 +544,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListConnectionsWithContext(ctx con
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_connections", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitConnectionCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -633,21 +566,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListConnectionsWithContext(ctx con
 // ListTransitGatewayConnections : Retrieves all connections in a Transit Gateway
 // This request retrieves all connections in a Transit Gateway.
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnections(listTransitGatewayConnectionsOptions *ListTransitGatewayConnectionsOptions) (result *TransitGatewayConnectionCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListTransitGatewayConnectionsWithContext(context.Background(), listTransitGatewayConnectionsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListTransitGatewayConnectionsWithContext(context.Background(), listTransitGatewayConnectionsOptions)
 }
 
 // ListTransitGatewayConnectionsWithContext is an alternate form of the ListTransitGatewayConnections method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionsWithContext(ctx context.Context, listTransitGatewayConnectionsOptions *ListTransitGatewayConnectionsOptions) (result *TransitGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayConnectionsOptions, "listTransitGatewayConnectionsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayConnectionsOptions, "listTransitGatewayConnectionsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -660,7 +589,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionsWithC
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -687,21 +615,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionsWithC
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_transit_gateway_connections", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -713,21 +637,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionsWithC
 // CreateTransitGatewayConnection : Adds a connection to a Transit Gateway
 // Add a connection to Transit Gateway.
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnection(createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.CreateTransitGatewayConnectionWithContext(context.Background(), createTransitGatewayConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.CreateTransitGatewayConnectionWithContext(context.Background(), createTransitGatewayConnectionOptions)
 }
 
 // CreateTransitGatewayConnectionWithContext is an alternate form of the CreateTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionWithContext(ctx context.Context, createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionOptions, "createTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayConnectionOptions, "createTransitGatewayConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -740,7 +660,6 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionWith
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -805,27 +724,22 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionWith
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_transit_gateway_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCust)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -838,21 +752,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionWith
 // After the specified connection is detached, entities still within the Transit Gateway will no longer be able to
 // communicate directly to it through the IBM Cloud private backbone.
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions *DeleteTransitGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
-	response, err = transitGatewayApi.DeleteTransitGatewayConnectionWithContext(context.Background(), deleteTransitGatewayConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.DeleteTransitGatewayConnectionWithContext(context.Background(), deleteTransitGatewayConnectionOptions)
 }
 
 // DeleteTransitGatewayConnectionWithContext is an alternate form of the DeleteTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionWithContext(ctx context.Context, deleteTransitGatewayConnectionOptions *DeleteTransitGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayConnectionOptions, "deleteTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayConnectionOptions, "deleteTransitGatewayConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -866,7 +776,6 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionWith
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -883,16 +792,10 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionWith
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApi.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_transit_gateway_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -900,21 +803,17 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionWith
 // GetTransitGatewayConnection : Retrieves specified Transit Gateway connection
 // This request retrieves a connection from the Transit Gateway.
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnection(getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.GetTransitGatewayConnectionWithContext(context.Background(), getTransitGatewayConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.GetTransitGatewayConnectionWithContext(context.Background(), getTransitGatewayConnectionOptions)
 }
 
 // GetTransitGatewayConnectionWithContext is an alternate form of the GetTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionWithContext(ctx context.Context, getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionOptions, "getTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayConnectionOptions, "getTransitGatewayConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -928,7 +827,6 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionWithCon
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -946,21 +844,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionWithCon
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_transit_gateway_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCust)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -972,21 +866,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionWithCon
 // UpdateTransitGatewayConnection : Updates specified Transit Gateway connection
 // Update the name of a connection to a Transit Gateway.
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.UpdateTransitGatewayConnectionWithContext(context.Background(), updateTransitGatewayConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.UpdateTransitGatewayConnectionWithContext(context.Background(), updateTransitGatewayConnectionOptions)
 }
 
 // UpdateTransitGatewayConnectionWithContext is an alternate form of the UpdateTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionWithContext(ctx context.Context, updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionOptions, "updateTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayConnectionOptions, "updateTransitGatewayConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1000,7 +890,6 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionWith
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1026,27 +915,22 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionWith
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_transit_gateway_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCust)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1058,21 +942,17 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionWith
 // CreateTransitGatewayConnectionActions : Performs actions on a connection for a Transit Gateway
 // Allow a network owner to approve or reject a cross-account connection request.
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionActions(createTransitGatewayConnectionActionsOptions *CreateTransitGatewayConnectionActionsOptions) (response *core.DetailedResponse, err error) {
-	response, err = transitGatewayApi.CreateTransitGatewayConnectionActionsWithContext(context.Background(), createTransitGatewayConnectionActionsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.CreateTransitGatewayConnectionActionsWithContext(context.Background(), createTransitGatewayConnectionActionsOptions)
 }
 
 // CreateTransitGatewayConnectionActionsWithContext is an alternate form of the CreateTransitGatewayConnectionActions method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionActionsWithContext(ctx context.Context, createTransitGatewayConnectionActionsOptions *CreateTransitGatewayConnectionActionsOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionActionsOptions, "createTransitGatewayConnectionActionsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayConnectionActionsOptions, "createTransitGatewayConnectionActionsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1086,7 +966,6 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionActi
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/actions`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1108,22 +987,15 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionActi
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApi.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "create_transit_gateway_connection_actions", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -1131,21 +1003,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionActi
 // ListTransitGatewayGreTunnel : Retrieves specified Transit Gateway redundant gre connection tunnels
 // This request retrieves a list of all the tunnels for the redundant gre connection.
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptions *ListTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnelCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListTransitGatewayGreTunnelWithContext(context.Background(), listTransitGatewayGreTunnelOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListTransitGatewayGreTunnelWithContext(context.Background(), listTransitGatewayGreTunnelOptions)
 }
 
 // ListTransitGatewayGreTunnelWithContext is an alternate form of the ListTransitGatewayGreTunnel method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayGreTunnelWithContext(ctx context.Context, listTransitGatewayGreTunnelOptions *ListTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnelCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayGreTunnelOptions, "listTransitGatewayGreTunnelOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayGreTunnelOptions, "listTransitGatewayGreTunnelOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1159,7 +1027,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayGreTunnelWithCon
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1177,21 +1044,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayGreTunnelWithCon
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_transit_gateway_gre_tunnel", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnelCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1203,21 +1066,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayGreTunnelWithCon
 // CreateTransitGatewayGreTunnel : Creates a Transit Gateway redundant GRE tunnel
 // Add a tunnel to an existing Redundant GRE connection.
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayGreTunnel(createTransitGatewayGreTunnelOptions *CreateTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.CreateTransitGatewayGreTunnelWithContext(context.Background(), createTransitGatewayGreTunnelOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.CreateTransitGatewayGreTunnelWithContext(context.Background(), createTransitGatewayGreTunnelOptions)
 }
 
 // CreateTransitGatewayGreTunnelWithContext is an alternate form of the CreateTransitGatewayGreTunnel method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayGreTunnelWithContext(ctx context.Context, createTransitGatewayGreTunnelOptions *CreateTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayGreTunnelOptions, "createTransitGatewayGreTunnelOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayGreTunnelOptions, "createTransitGatewayGreTunnelOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1231,7 +1090,6 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayGreTunnelWithC
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1272,27 +1130,22 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayGreTunnelWithC
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_transit_gateway_gre_tunnel", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnel)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1304,21 +1157,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayGreTunnelWithC
 // DeleteTransitGatewayConnectionTunnels : Deletes a specified Transit Gateway redundant GRE tunnel
 // Remove a tunnel from a redundant GRE connection.
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionTunnels(deleteTransitGatewayConnectionTunnelsOptions *DeleteTransitGatewayConnectionTunnelsOptions) (response *core.DetailedResponse, err error) {
-	response, err = transitGatewayApi.DeleteTransitGatewayConnectionTunnelsWithContext(context.Background(), deleteTransitGatewayConnectionTunnelsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.DeleteTransitGatewayConnectionTunnelsWithContext(context.Background(), deleteTransitGatewayConnectionTunnelsOptions)
 }
 
 // DeleteTransitGatewayConnectionTunnelsWithContext is an alternate form of the DeleteTransitGatewayConnectionTunnels method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionTunnelsWithContext(ctx context.Context, deleteTransitGatewayConnectionTunnelsOptions *DeleteTransitGatewayConnectionTunnelsOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayConnectionTunnelsOptions, "deleteTransitGatewayConnectionTunnelsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayConnectionTunnelsOptions, "deleteTransitGatewayConnectionTunnelsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1333,7 +1182,6 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionTunn
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1350,16 +1198,10 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionTunn
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApi.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_transit_gateway_connection_tunnels", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -1367,21 +1209,17 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionTunn
 // GetTransitGatewayConnectionTunnels : Retrieves specified Transit Gateway connection tunnel
 // This request retrieves a connection tunnel from the Transit Gateway connection.
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionTunnels(getTransitGatewayConnectionTunnelsOptions *GetTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.GetTransitGatewayConnectionTunnelsWithContext(context.Background(), getTransitGatewayConnectionTunnelsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.GetTransitGatewayConnectionTunnelsWithContext(context.Background(), getTransitGatewayConnectionTunnelsOptions)
 }
 
 // GetTransitGatewayConnectionTunnelsWithContext is an alternate form of the GetTransitGatewayConnectionTunnels method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionTunnelsWithContext(ctx context.Context, getTransitGatewayConnectionTunnelsOptions *GetTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionTunnelsOptions, "getTransitGatewayConnectionTunnelsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayConnectionTunnelsOptions, "getTransitGatewayConnectionTunnelsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1396,7 +1234,6 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionTunnels
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1414,21 +1251,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionTunnels
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_transit_gateway_connection_tunnels", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnel)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1440,21 +1273,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionTunnels
 // UpdateTransitGatewayConnectionTunnels : Updates specified Transit Gateway redundant GRE tunnel
 // Update the name of a connection tunnel.
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsOptions *UpdateTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.UpdateTransitGatewayConnectionTunnelsWithContext(context.Background(), updateTransitGatewayConnectionTunnelsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.UpdateTransitGatewayConnectionTunnelsWithContext(context.Background(), updateTransitGatewayConnectionTunnelsOptions)
 }
 
 // UpdateTransitGatewayConnectionTunnelsWithContext is an alternate form of the UpdateTransitGatewayConnectionTunnels method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionTunnelsWithContext(ctx context.Context, updateTransitGatewayConnectionTunnelsOptions *UpdateTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionTunnelsOptions, "updateTransitGatewayConnectionTunnelsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayConnectionTunnelsOptions, "updateTransitGatewayConnectionTunnelsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1469,7 +1298,6 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionTunn
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1488,27 +1316,22 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionTunn
 
 	_, err = builder.SetBodyContentJSON(updateTransitGatewayConnectionTunnelsOptions.TransitGatewayTunnelPatch)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_transit_gateway_connection_tunnels", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnel)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1520,16 +1343,13 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionTunn
 // ListGatewayLocations : Lists all locations that support Transit Gateways
 // List all locations that support Transit Gateways.
 func (transitGatewayApi *TransitGatewayApiV1) ListGatewayLocations(listGatewayLocationsOptions *ListGatewayLocationsOptions) (result *TSCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListGatewayLocationsWithContext(context.Background(), listGatewayLocationsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListGatewayLocationsWithContext(context.Background(), listGatewayLocationsOptions)
 }
 
 // ListGatewayLocationsWithContext is an alternate form of the ListGatewayLocations method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListGatewayLocationsWithContext(ctx context.Context, listGatewayLocationsOptions *ListGatewayLocationsOptions) (result *TSCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listGatewayLocationsOptions, "listGatewayLocationsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1538,7 +1358,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListGatewayLocationsWithContext(ct
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/locations`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1556,21 +1375,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListGatewayLocationsWithContext(ct
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_locations", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTSCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1582,21 +1397,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListGatewayLocationsWithContext(ct
 // GetGatewayLocation : Shows the details of a given Transit Gateway location
 // Get the details of a Transit Gateway Location.
 func (transitGatewayApi *TransitGatewayApiV1) GetGatewayLocation(getGatewayLocationOptions *GetGatewayLocationOptions) (result *TSLocation, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.GetGatewayLocationWithContext(context.Background(), getGatewayLocationOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.GetGatewayLocationWithContext(context.Background(), getGatewayLocationOptions)
 }
 
 // GetGatewayLocationWithContext is an alternate form of the GetGatewayLocation method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) GetGatewayLocationWithContext(ctx context.Context, getGatewayLocationOptions *GetGatewayLocationOptions) (result *TSLocation, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayLocationOptions, "getGatewayLocationOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayLocationOptions, "getGatewayLocationOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1609,7 +1420,6 @@ func (transitGatewayApi *TransitGatewayApiV1) GetGatewayLocationWithContext(ctx 
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/locations/{name}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1627,21 +1437,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetGatewayLocationWithContext(ctx 
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_location", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTSLocation)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1653,21 +1459,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetGatewayLocationWithContext(ctx 
 // ListTransitGatewayConnectionPrefixFilters : Retrieves all prefix filters in a Transit Gateway connection
 // This request retrieves all prefix filters in a Transit Gateway connection.
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions) (result *PrefixFilterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListTransitGatewayConnectionPrefixFiltersWithContext(context.Background(), listTransitGatewayConnectionPrefixFiltersOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListTransitGatewayConnectionPrefixFiltersWithContext(context.Background(), listTransitGatewayConnectionPrefixFiltersOptions)
 }
 
 // ListTransitGatewayConnectionPrefixFiltersWithContext is an alternate form of the ListTransitGatewayConnectionPrefixFilters method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionPrefixFiltersWithContext(ctx context.Context, listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions) (result *PrefixFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayConnectionPrefixFiltersOptions, "listTransitGatewayConnectionPrefixFiltersOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayConnectionPrefixFiltersOptions, "listTransitGatewayConnectionPrefixFiltersOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1681,7 +1483,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionPrefix
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1699,21 +1500,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionPrefix
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_transit_gateway_connection_prefix_filters", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1725,21 +1522,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayConnectionPrefix
 // CreateTransitGatewayConnectionPrefixFilter : Add a prefix filter to a Transit Gateway connection
 // Add a prefix filter to a Transit Gateway connection.
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
 }
 
 // CreateTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the CreateTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionPrefixFilterOptions, "createTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayConnectionPrefixFilterOptions, "createTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1753,7 +1546,6 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionPref
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1788,27 +1580,22 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionPref
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCust)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1820,21 +1607,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayConnectionPref
 // ReplaceTransitGatewayConnectionPrefixFilter : Replaces the prefix filters of the Transit Gateway connection
 // Replaces the prefix filters of the Transit Gateway connection.
 func (transitGatewayApi *TransitGatewayApiV1) ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptions *ReplaceTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ReplaceTransitGatewayConnectionPrefixFilterWithContext(context.Background(), replaceTransitGatewayConnectionPrefixFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ReplaceTransitGatewayConnectionPrefixFilterWithContext(context.Background(), replaceTransitGatewayConnectionPrefixFilterOptions)
 }
 
 // ReplaceTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the ReplaceTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ReplaceTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, replaceTransitGatewayConnectionPrefixFilterOptions *ReplaceTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceTransitGatewayConnectionPrefixFilterOptions, "replaceTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceTransitGatewayConnectionPrefixFilterOptions, "replaceTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1848,7 +1631,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ReplaceTransitGatewayConnectionPre
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1871,27 +1653,22 @@ func (transitGatewayApi *TransitGatewayApiV1) ReplaceTransitGatewayConnectionPre
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "replace_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1903,21 +1680,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ReplaceTransitGatewayConnectionPre
 // DeleteTransitGatewayConnectionPrefixFilter : Remove prefix filter from Transit Gateway connection
 // Delete a prefix filter.
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions) (response *core.DetailedResponse, err error) {
-	response, err = transitGatewayApi.DeleteTransitGatewayConnectionPrefixFilterWithContext(context.Background(), deleteTransitGatewayConnectionPrefixFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.DeleteTransitGatewayConnectionPrefixFilterWithContext(context.Background(), deleteTransitGatewayConnectionPrefixFilterOptions)
 }
 
 // DeleteTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the DeleteTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayConnectionPrefixFilterOptions, "deleteTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayConnectionPrefixFilterOptions, "deleteTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1932,7 +1705,6 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionPref
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1949,16 +1721,10 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionPref
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApi.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -1966,21 +1732,17 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayConnectionPref
 // GetTransitGatewayConnectionPrefixFilter : Retrieves specified Transit Gateway connection prefix filter
 // This request retrieves a prefix filter from the Transit Gateway connection.
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.GetTransitGatewayConnectionPrefixFilterWithContext(context.Background(), getTransitGatewayConnectionPrefixFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.GetTransitGatewayConnectionPrefixFilterWithContext(context.Background(), getTransitGatewayConnectionPrefixFilterOptions)
 }
 
 // GetTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the GetTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionPrefixFilterOptions, "getTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayConnectionPrefixFilterOptions, "getTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1995,7 +1757,6 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionPrefixF
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2013,21 +1774,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionPrefixF
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCust)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2039,21 +1796,17 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayConnectionPrefixF
 // UpdateTransitGatewayConnectionPrefixFilter : Updates specified Transit Gateway connection prefix filter
 // Update prefix filter for a Transit Gateway Connection.
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.UpdateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), updateTransitGatewayConnectionPrefixFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.UpdateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), updateTransitGatewayConnectionPrefixFilterOptions)
 }
 
 // UpdateTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the UpdateTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, updateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionPrefixFilterOptions, "updateTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayConnectionPrefixFilterOptions, "updateTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2068,7 +1821,6 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionPref
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2103,27 +1855,22 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionPref
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCust)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2136,21 +1883,17 @@ func (transitGatewayApi *TransitGatewayApiV1) UpdateTransitGatewayConnectionPref
 // Retrieve all route reports for the specified Transit Gateway.  There will normally be at most one completed report
 // and one pending report.  Additionally, completed route reports are written to IBM Cloud Activity Tracker.
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.ListTransitGatewayRouteReportsWithContext(context.Background(), listTransitGatewayRouteReportsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.ListTransitGatewayRouteReportsWithContext(context.Background(), listTransitGatewayRouteReportsOptions)
 }
 
 // ListTransitGatewayRouteReportsWithContext is an alternate form of the ListTransitGatewayRouteReports method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayRouteReportsWithContext(ctx context.Context, listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayRouteReportsOptions, "listTransitGatewayRouteReportsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayRouteReportsOptions, "listTransitGatewayRouteReportsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2163,7 +1906,6 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayRouteReportsWith
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2181,21 +1923,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayRouteReportsWith
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_transit_gateway_route_reports", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReportCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2208,21 +1946,17 @@ func (transitGatewayApi *TransitGatewayApiV1) ListTransitGatewayRouteReportsWith
 // Request route report generation.  While report generation is in progress, additional requests to generate a report
 // are ignored and return the current pending report.
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.CreateTransitGatewayRouteReportWithContext(context.Background(), createTransitGatewayRouteReportOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.CreateTransitGatewayRouteReportWithContext(context.Background(), createTransitGatewayRouteReportOptions)
 }
 
 // CreateTransitGatewayRouteReportWithContext is an alternate form of the CreateTransitGatewayRouteReport method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayRouteReportWithContext(ctx context.Context, createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayRouteReportOptions, "createTransitGatewayRouteReportOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayRouteReportOptions, "createTransitGatewayRouteReportOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2235,7 +1969,6 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayRouteReportWit
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2253,21 +1986,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayRouteReportWit
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_transit_gateway_route_report", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2279,21 +2008,17 @@ func (transitGatewayApi *TransitGatewayApiV1) CreateTransitGatewayRouteReportWit
 // DeleteTransitGatewayRouteReport : Deletes a route report
 // Delete a route report.
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions *DeleteTransitGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
-	response, err = transitGatewayApi.DeleteTransitGatewayRouteReportWithContext(context.Background(), deleteTransitGatewayRouteReportOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.DeleteTransitGatewayRouteReportWithContext(context.Background(), deleteTransitGatewayRouteReportOptions)
 }
 
 // DeleteTransitGatewayRouteReportWithContext is an alternate form of the DeleteTransitGatewayRouteReport method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayRouteReportWithContext(ctx context.Context, deleteTransitGatewayRouteReportOptions *DeleteTransitGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayRouteReportOptions, "deleteTransitGatewayRouteReportOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayRouteReportOptions, "deleteTransitGatewayRouteReportOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2307,7 +2032,6 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayRouteReportWit
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2324,16 +2048,10 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayRouteReportWit
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApi.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_transit_gateway_route_report", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -2341,21 +2059,17 @@ func (transitGatewayApi *TransitGatewayApiV1) DeleteTransitGatewayRouteReportWit
 // GetTransitGatewayRouteReport : Retrieves a route report
 // Retrieve a route report.
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	result, response, err = transitGatewayApi.GetTransitGatewayRouteReportWithContext(context.Background(), getTransitGatewayRouteReportOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return transitGatewayApi.GetTransitGatewayRouteReportWithContext(context.Background(), getTransitGatewayRouteReportOptions)
 }
 
 // GetTransitGatewayRouteReportWithContext is an alternate form of the GetTransitGatewayRouteReport method which supports a Context parameter
 func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayRouteReportWithContext(ctx context.Context, getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayRouteReportOptions, "getTransitGatewayRouteReportOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayRouteReportOptions, "getTransitGatewayRouteReportOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2369,7 +2083,6 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayRouteReportWithCo
 	builder.EnableGzipCompression = transitGatewayApi.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApi.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2387,30 +2100,23 @@ func (transitGatewayApi *TransitGatewayApiV1) GetTransitGatewayRouteReportWithCo
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApi.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_transit_gateway_route_report", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
 	}
 
 	return
-}
-func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "__VERSION__")
 }
 
 // CreateTransitGatewayConnectionActionsOptions : The CreateTransitGatewayConnectionActions options.
@@ -3726,7 +3432,6 @@ func UnmarshalPaginationFirstConnection(m map[string]json.RawMessage, result int
 	obj := new(PaginationFirstConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3744,7 +3449,6 @@ func UnmarshalPaginationFirstTG(m map[string]json.RawMessage, result interface{}
 	obj := new(PaginationFirstTG)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3763,7 +3467,6 @@ func UnmarshalPaginationFirstTGWConnection(m map[string]json.RawMessage, result 
 	obj := new(PaginationFirstTGWConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3784,12 +3487,10 @@ func UnmarshalPaginationNextConnection(m map[string]json.RawMessage, result inte
 	obj := new(PaginationNextConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3810,12 +3511,10 @@ func UnmarshalPaginationNextTG(m map[string]json.RawMessage, result interface{})
 	obj := new(PaginationNextTG)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3836,12 +3535,10 @@ func UnmarshalPaginationNextTGWConnection(m map[string]json.RawMessage, result i
 	obj := new(PaginationNextTGWConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3859,7 +3556,6 @@ func UnmarshalPrefixFilterCollection(m map[string]json.RawMessage, result interf
 	obj := new(PrefixFilterCollection)
 	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalPrefixFilterCust)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix_filters-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3924,42 +3620,34 @@ func UnmarshalPrefixFilterCust(m map[string]json.RawMessage, result interface{})
 	obj := new(PrefixFilterCust)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4009,9 +3697,6 @@ func (*TransitGatewayApiV1) NewPrefixFilterPut(action string, prefix string) (_m
 		Prefix: core.StringPtr(prefix),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -4020,22 +3705,18 @@ func UnmarshalPrefixFilterPut(m map[string]json.RawMessage, result interface{}) 
 	obj := new(PrefixFilterPut)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4103,9 +3784,6 @@ func (*TransitGatewayApiV1) NewResourceGroupIdentity(id string) (_model *Resourc
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -4114,7 +3792,6 @@ func UnmarshalResourceGroupIdentity(m map[string]json.RawMessage, result interfa
 	obj := new(ResourceGroupIdentity)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4136,12 +3813,10 @@ func UnmarshalResourceGroupReference(m map[string]json.RawMessage, result interf
 	obj := new(ResourceGroupReference)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4183,32 +3858,26 @@ func UnmarshalRouteReport(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(RouteReport)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalRouteReportConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "overlapping_routes", &obj.OverlappingRoutes, UnmarshalRouteReportOverlappingRouteGroup)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "overlapping_routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4226,7 +3895,6 @@ func UnmarshalRouteReportCollection(m map[string]json.RawMessage, result interfa
 	obj := new(RouteReportCollection)
 	err = core.UnmarshalModel(m, "route_reports", &obj.RouteReports, UnmarshalRouteReport)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "route_reports-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4256,27 +3924,22 @@ func UnmarshalRouteReportConnection(m map[string]json.RawMessage, result interfa
 	obj := new(RouteReportConnection)
 	err = core.UnmarshalModel(m, "bgps", &obj.Bgps, UnmarshalRouteReportConnectionBgp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportConnectionRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4303,22 +3966,18 @@ func UnmarshalRouteReportConnectionBgp(m map[string]json.RawMessage, result inte
 	obj := new(RouteReportConnectionBgp)
 	err = core.UnmarshalPrimitive(m, "as_path", &obj.AsPath)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_path-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "is_used", &obj.IsUsed)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "is_used-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_preference", &obj.LocalPreference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_preference-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4336,7 +3995,6 @@ func UnmarshalRouteReportConnectionRoute(m map[string]json.RawMessage, result in
 	obj := new(RouteReportConnectionRoute)
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4357,12 +4015,10 @@ func UnmarshalRouteReportOverlappingRoute(m map[string]json.RawMessage, result i
 	obj := new(RouteReportOverlappingRoute)
 	err = core.UnmarshalPrimitive(m, "connection_id", &obj.ConnectionID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4380,7 +4036,6 @@ func UnmarshalRouteReportOverlappingRouteGroup(m map[string]json.RawMessage, res
 	obj := new(RouteReportOverlappingRouteGroup)
 	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportOverlappingRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "routes-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4398,7 +4053,6 @@ func UnmarshalTSCollection(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(TSCollection)
 	err = core.UnmarshalModel(m, "locations", &obj.Locations, UnmarshalTSLocationBasic)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "locations-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4436,22 +4090,18 @@ func UnmarshalTSLocalLocation(m map[string]json.RawMessage, result interface{}) 
 	obj := new(TSLocalLocation)
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "supported_connection_types", &obj.SupportedConnectionTypes)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "supported_connection_types-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4481,27 +4131,22 @@ func UnmarshalTSLocation(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(TSLocation)
 	err = core.UnmarshalPrimitive(m, "billing_location", &obj.BillingLocation)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "billing_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "local_connection_locations", &obj.LocalConnectionLocations, UnmarshalTSLocalLocation)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_connection_locations-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zones", &obj.Zones, UnmarshalZoneReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "zones-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4525,17 +4170,14 @@ func UnmarshalTSLocationBasic(m map[string]json.RawMessage, result interface{}) 
 	obj := new(TSLocationBasic)
 	err = core.UnmarshalPrimitive(m, "billing_location", &obj.BillingLocation)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "billing_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4694,117 +4336,94 @@ func UnmarshalTransitConnection(m map[string]json.RawMessage, result interface{}
 	obj := new(TransitConnection)
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "base_network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "base_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "mtu-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix_filters_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "request_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "transit_gateway", &obj.TransitGateway, UnmarshalTransitGatewayReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "transit_gateway-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayTunnel)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4831,22 +4450,18 @@ func UnmarshalTransitConnectionCollection(m map[string]json.RawMessage, result i
 	obj := new(TransitConnectionCollection)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4910,47 +4525,38 @@ func UnmarshalTransitGateway(m map[string]json.RawMessage, result interface{}) (
 	obj := new(TransitGateway)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4977,22 +4583,18 @@ func UnmarshalTransitGatewayCollection(m map[string]json.RawMessage, result inte
 	obj := new(TransitGatewayCollection)
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstTG)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextTG)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "transit_gateways", &obj.TransitGateways, UnmarshalTransitGateway)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "transit_gateways-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5032,27 +4634,22 @@ func UnmarshalTransitGatewayConnectionCollection(m map[string]json.RawMessage, r
 	obj := new(TransitGatewayConnectionCollection)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitGatewayConnectionCust)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstTGWConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextTGWConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5213,112 +4810,90 @@ func UnmarshalTransitGatewayConnectionCust(m map[string]json.RawMessage, result 
 	obj := new(TransitGatewayConnectionCust)
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "base_network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "base_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "mtu-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix_filters_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "request_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayTunnel)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalTransitGatewayConnectionCustZone)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5336,7 +4911,6 @@ func UnmarshalTransitGatewayConnectionCustZone(m map[string]json.RawMessage, res
 	obj := new(TransitGatewayConnectionCustZone)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5372,9 +4946,6 @@ func (*TransitGatewayApiV1) NewTransitGatewayConnectionPrefixFilter(action strin
 		Prefix: core.StringPtr(prefix),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -5383,22 +4954,18 @@ func UnmarshalTransitGatewayConnectionPrefixFilter(m map[string]json.RawMessage,
 	obj := new(TransitGatewayConnectionPrefixFilter)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5459,42 +5026,34 @@ func UnmarshalTransitGatewayConnectionPrefixFilterReference(m map[string]json.Ra
 	obj := new(TransitGatewayConnectionPrefixFilterReference)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5518,17 +5077,14 @@ func UnmarshalTransitGatewayReference(m map[string]json.RawMessage, result inter
 	obj := new(TransitGatewayReference)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5618,82 +5174,66 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	obj := new(TransitGatewayTunnel)
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "base_network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "mtu-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5711,7 +5251,6 @@ func UnmarshalTransitGatewayTunnelCollection(m map[string]json.RawMessage, resul
 	obj := new(TransitGatewayTunnelCollection)
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayTunnel)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5729,7 +5268,6 @@ func UnmarshalTransitGatewayTunnelPatch(m map[string]json.RawMessage, result int
 	obj := new(TransitGatewayTunnelPatch)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5742,9 +5280,6 @@ func (transitGatewayTunnelPatch *TransitGatewayTunnelPatch) AsPatch() (_patch ma
 	jsonData, err = json.Marshal(transitGatewayTunnelPatch)
 	if err == nil {
 		err = json.Unmarshal(jsonData, &_patch)
-	}
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unmarshal-patch-data-error", common.GetComponentInfo())
 	}
 	return
 }
@@ -5789,9 +5324,6 @@ func (*TransitGatewayApiV1) NewTransitGatewayTunnelTemplate(localGatewayIp strin
 		Zone: zone,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -5800,37 +5332,30 @@ func UnmarshalTransitGatewayTunnelTemplate(m map[string]json.RawMessage, result 
 	obj := new(TransitGatewayTunnelTemplate)
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6142,7 +5667,6 @@ func UnmarshalZoneIdentity(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(ZoneIdentity)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6160,7 +5684,6 @@ func UnmarshalZoneReference(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(ZoneReference)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6183,7 +5706,6 @@ func UnmarshalZoneIdentityByName(m map[string]json.RawMessage, result interface{
 	obj := new(ZoneIdentityByName)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6205,7 +5727,7 @@ type TransitGatewaysPager struct {
 // NewTransitGatewaysPager returns a new TransitGatewaysPager instance.
 func (transitGatewayApi *TransitGatewayApiV1) NewTransitGatewaysPager(options *ListTransitGatewaysOptions) (pager *TransitGatewaysPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
+		err = fmt.Errorf("the 'options.Start' field should not be set")
 		return
 	}
 
@@ -6233,7 +5755,6 @@ func (pager *TransitGatewaysPager) GetNextWithContext(ctx context.Context) (page
 
 	result, _, err := pager.client.ListTransitGatewaysWithContext(ctx, pager.options)
 	if err != nil {
-		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -6255,7 +5776,6 @@ func (pager *TransitGatewaysPager) GetAllWithContext(ctx context.Context) (allIt
 		var nextPage []TransitGateway
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
-			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -6265,16 +5785,12 @@ func (pager *TransitGatewaysPager) GetAllWithContext(ctx context.Context) (allIt
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewaysPager) GetNext() (page []TransitGateway, err error) {
-	page, err = pager.GetNextWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetNextWithContext(context.Background())
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewaysPager) GetAll() (allItems []TransitGateway, err error) {
-	allItems, err = pager.GetAllWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetAllWithContext(context.Background())
 }
 
 //
@@ -6292,7 +5808,7 @@ type ConnectionsPager struct {
 // NewConnectionsPager returns a new ConnectionsPager instance.
 func (transitGatewayApi *TransitGatewayApiV1) NewConnectionsPager(options *ListConnectionsOptions) (pager *ConnectionsPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
+		err = fmt.Errorf("the 'options.Start' field should not be set")
 		return
 	}
 
@@ -6320,7 +5836,6 @@ func (pager *ConnectionsPager) GetNextWithContext(ctx context.Context) (page []T
 
 	result, _, err := pager.client.ListConnectionsWithContext(ctx, pager.options)
 	if err != nil {
-		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -6342,7 +5857,6 @@ func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems 
 		var nextPage []TransitConnection
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
-			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -6352,16 +5866,12 @@ func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems 
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *ConnectionsPager) GetNext() (page []TransitConnection, err error) {
-	page, err = pager.GetNextWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetNextWithContext(context.Background())
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *ConnectionsPager) GetAll() (allItems []TransitConnection, err error) {
-	allItems, err = pager.GetAllWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetAllWithContext(context.Background())
 }
 
 //
@@ -6379,7 +5889,7 @@ type TransitGatewayConnectionsPager struct {
 // NewTransitGatewayConnectionsPager returns a new TransitGatewayConnectionsPager instance.
 func (transitGatewayApi *TransitGatewayApiV1) NewTransitGatewayConnectionsPager(options *ListTransitGatewayConnectionsOptions) (pager *TransitGatewayConnectionsPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
+		err = fmt.Errorf("the 'options.Start' field should not be set")
 		return
 	}
 
@@ -6407,7 +5917,6 @@ func (pager *TransitGatewayConnectionsPager) GetNextWithContext(ctx context.Cont
 
 	result, _, err := pager.client.ListTransitGatewayConnectionsWithContext(ctx, pager.options)
 	if err != nil {
-		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -6429,7 +5938,6 @@ func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Conte
 		var nextPage []TransitGatewayConnectionCust
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
-			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -6439,14 +5947,10 @@ func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Conte
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewayConnectionsPager) GetNext() (page []TransitGatewayConnectionCust, err error) {
-	page, err = pager.GetNextWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetNextWithContext(context.Background())
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewayConnectionsPager) GetAll() (allItems []TransitGatewayConnectionCust, err error) {
-	allItems, err = pager.GetAllWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetAllWithContext(context.Background())
 }
