@@ -415,10 +415,10 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				RuleID:    core.StringPtr(rule2UpdateId),
 			}
 
-			ruleResp, response, err = rulesetsService.DeleteInstanceRulesetRule(deleteInstanceRulesetRuleOptions)
+			result, res, err := rulesetsService.DeleteInstanceRulesetRule(deleteInstanceRulesetRuleOptions)
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(ruleResp).ToNot(BeNil())
+			Expect(res.StatusCode).To(Equal(200))
+			Expect(result).ToNot(BeNil())
 		})
 
 		It("Delete Instance Ruleset", func() {
@@ -756,10 +756,10 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 				RuleID:    core.StringPtr(rule2UpdateId),
 			}
 
-			ruleResp, response, err = rulesetsService.DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions)
+			result, res, err := rulesetsService.DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions)
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(ruleResp).ToNot(BeNil())
+			Expect(res.StatusCode).To(Equal(200))
+			Expect(result).ToNot(BeNil())
 		})
 
 		It("Delete Zone Ruleset", func() {
