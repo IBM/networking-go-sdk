@@ -39,7 +39,7 @@ before_deploy:
   - npm install @semantic-release/exec
   - npm install @semantic-release/git
   - npm install @semantic-release/github
-  - pip install --user bump2version
+  - pip install bump2version
 
 deploy:
   - provider: script
