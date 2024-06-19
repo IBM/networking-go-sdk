@@ -34,7 +34,7 @@ script:
 
 before_deploy:
   - nvm install 20
-  - npm install -g npm@6.x
+  - npm install -g npm@latest
   - npm install @semantic-release/changelog
   - npm install @semantic-release/exec
   - npm install @semantic-release/git
