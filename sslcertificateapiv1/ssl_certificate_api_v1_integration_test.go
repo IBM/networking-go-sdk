@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  */
 
 package sslcertificateapiv1_test
@@ -7,6 +7,7 @@ package sslcertificateapiv1_test
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
@@ -20,17 +21,23 @@ import (
 const configFile = "../cis.env"
 
 var configLoaded bool = true
+var authenticationSucceeded bool = true
 
 func shouldSkipTest() {
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
 	}
+
+	if !authenticationSucceeded {
+		Skip("Authentication failed. Check external configuration...")
+	}
 }
 
 var _ = Describe(`sslcertificateapiv1`, func() {
-	BeforeEach(func() {
-		Skip("Skipping Tests")
-	})
+
+	// BeforeEach(func() {
+	// 	Skip("Skipping Tests")
+	// })
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
@@ -44,6 +51,13 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 	authenticator := &core.IamAuthenticator{
 		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
 		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
+	}
+	authErr := authenticator.Authenticate(&http.Request{
+		Header: http.Header{},
+	})
+	if authErr != nil {
+		authenticationSucceeded = false
+		fmt.Println("Authentication error during setup: ", authErr)
 	}
 	serviceURL := os.Getenv("API_ENDPOINT")
 	crn := os.Getenv("CRN")
@@ -155,6 +169,7 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 				}
 			})
 			It(`order/view/delete ssl certificate packs`, func() {
+				Skip("SKipping this test as this method is deprecated")
 				shouldSkipTest()
 				// order certificate packs
 				orderOpt := service.NewOrderCertificateOptions()
@@ -411,6 +426,110 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 			Expect(changeResp).ToNot(BeNil())
 			Expect(changeResult).ToNot(BeNil())
 			Expect(*changeResult.Success).Should(BeTrue())
+		})
+	})
+
+	Describe("Order Advanced Certificate", func() {
+		It("create/delete advance certificate pack", func() {
+			shouldSkipTest()
+			// order advanced certificate pack
+			orderOpt := service.NewOrderAdvancedCertificateOptions()
+			orderOpt.SetCertificateAuthority(OrderAdvancedCertificateOptions_CertificateAuthority_LetsEncrypt)
+			orderOpt.SetCloudflareBranding(false)
+			orderOpt.SetHosts([]string{url})
+			orderOpt.SetType(OrderAdvancedCertificateOptions_Type_Advanced)
+			orderOpt.SetValidationMethod(OrderAdvancedCertificateOptions_ValidationMethod_Txt)
+			orderOpt.SetValidityDays(90)
+
+			certResult, certResp, certErr := service.OrderAdvancedCertificate(orderOpt)
+
+			Expect(certErr).To(BeNil())
+			Expect(certResp).ToNot(BeNil())
+			Expect(certResult).ToNot(BeNil())
+			Expect(certResult.Result.ID).ToNot(BeNil())
+			Expect(certResult.Result.Status).ToNot(BeNil())
+			Expect(*certResult.Result.Type).Should(BeEquivalentTo(OrderAdvancedCertificateOptions_Type_Advanced))
+			advanceCertId := *certResult.Result.ID
+
+			// restart validation for advaced certificate under validation_timed_out state
+			// skipping as there is no way to test now
+			// validateOpt := service.NewPatchCertificateOptions(advanceCertId)
+			// certResult, certResp, certErr = service.PatchCertificate(validateOpt)
+			// Expect(certErr).To(BeNil())
+			// Expect(certResp).ToNot(BeNil())
+			// Expect(certResult).ToNot(BeNil())
+
+			// delete advance certificate pack
+			delOpt := service.NewDeleteCertificateOptions(advanceCertId)
+			delResp, delErr := service.DeleteCertificate(delOpt)
+			Expect(delErr).To(BeNil())
+			Expect(delResp).ToNot(BeNil())
+
+		})
+
+		It("Get SSL verification info of a zone", func() {
+			shouldSkipTest()
+			Skip("Can be skipped..")
+			verificationOpt := service.NewGetSslVerificationOptions()
+			result, resp, err := service.GetSslVerification(verificationOpt)
+
+			Expect(err).To(BeNil())
+			Expect(resp).ToNot(BeNil())
+			Expect(result).ToNot(BeNil())
+
+		})
+	})
+
+	Describe("Origin Certificate", func() {
+		It("List origin certificate", func() {
+			shouldSkipTest()
+			certOpt := service.NewListOriginCertificatesOptions(crn, zone_id)
+			certResult, certResp, certErr := service.ListOriginCertificates(certOpt)
+
+			Expect(certErr).To(BeNil())
+			Expect(certResp).ToNot(BeNil())
+			Expect(certResult).ToNot(BeNil())
+		})
+
+		It("Create/Get/Delete origin certificate", func() {
+			shouldSkipTest()
+
+			// create origin certificate
+			certOpt := service.NewCreateOriginCertificateOptions(crn, zone_id)
+			certOpt.SetCsr("-----BEGIN CERTIFICATE REQUEST-----\nMIICxzCCAa8CAQAwSDELMAkGA1UEBhMCVVMxFjAUBgNVBAgTDVNhbiBGcmFuY2lz\nY28xCzAJBgNVBAcTAkNBMRQwEgYDVQQDEwtleGFtcGxlLm5ldDCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBALxejtu4b+jPdFeFi6OUsye8TYJQBm3WfCvL\nHu5EvijMO/4Z2TImwASbwUF7Ir8OLgH+mGlQZeqyNvGoSOMEaZVXcYfpR1hlVak8\n4GGVr+04IGfOCqaBokaBFIwzclGZbzKmLGwIQioNxGfqFm6RGYGA3be2Je2iseBc\nN8GV1wYmvYE0RR+yWweJCTJ157exyRzu7sVxaEW9F87zBQLyOnwXc64rflXslRqi\ng7F7w5IaQYOl8yvmk/jEPCAha7fkiUfEpj4N12+oPRiMvleJF98chxjD4MH39c5I\nuOslULhrWunfh7GB1jwWNA9y44H0snrf+xvoy2TcHmxvma9Eln8CAwEAAaA6MDgG\nCSqGSIb3DQEJDjErMCkwJwYDVR0RBCAwHoILZXhhbXBsZS5uZXSCD3d3dy5leGFt\ncGxlLm5ldDANBgkqhkiG9w0BAQsFAAOCAQEAcBaX6dOnI8ncARrI9ZSF2AJX+8mx\npTHY2+Y2C0VvrVDGMtbBRH8R9yMbqWtlxeeNGf//LeMkSKSFa4kbpdx226lfui8/\nauRDBTJGx2R1ccUxmLZXx4my0W5iIMxunu+kez+BDlu7bTT2io0uXMRHue4i6quH\nyc5ibxvbJMjR7dqbcanVE10/34oprzXQsJ/VmSuZNXtjbtSKDlmcpw6To/eeAJ+J\nhXykcUihvHyG4A1m2R6qpANBjnA0pHexfwM/SgfzvpbvUg0T1ubmer8BgTwCKIWs\ndcWYTthM51JIqRBfNqy4QcBnX+GY05yltEEswQI55wdiS3CjTTA67sdbcQ==\n-----END CERTIFICATE REQUEST-----")
+			certOpt.SetHostnames([]string{url})
+			certOpt.SetRequestType(OriginCertificate_RequestType_OriginRsa)
+			certOpt.SetRequestedValidity(5475)
+
+			certResult, certResp, certErr := service.CreateOriginCertificate(certOpt)
+
+			Expect(certErr).To(BeNil())
+			Expect(certResp).ToNot(BeNil())
+			Expect(certResult).ToNot(BeNil())
+			Expect(certResult.Result.ID).ToNot(BeNil())
+			Expect(*certResult.Result.RequestType).Should(BeEquivalentTo(OriginCertificate_RequestType_OriginRsa))
+			originCertId := *certResult.Result.ID
+
+			// get origin certificate
+
+			getOpt := service.NewGetOriginCertificateOptions(crn, zone_id, originCertId)
+			certResult, certResp, certErr = service.GetOriginCertificate(getOpt)
+
+			Expect(certErr).To(BeNil())
+			Expect(certResp).ToNot(BeNil())
+			Expect(certResult).ToNot(BeNil())
+			Expect(certResult.Result.ID).ToNot(BeNil())
+			Expect(*certResult.Result.ID).Should(BeEquivalentTo(originCertId))
+			Expect(*certResult.Result.RequestType).Should(BeEquivalentTo(OriginCertificate_RequestType_OriginRsa))
+
+			// delete origin certificates
+
+			delOpt := service.NewRevokeOriginCertificateOptions(crn, zone_id, originCertId)
+			result, resp, err := service.RevokeOriginCertificate(delOpt)
+			Expect(err).To(BeNil())
+			Expect(resp).ToNot(BeNil())
+			Expect(result).ToNot(BeNil())
+
 		})
 	})
 })
