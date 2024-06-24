@@ -460,8 +460,8 @@ var _ = Describe(`sslcertificateapiv1`, func() {
 			// Expect(certResult).ToNot(BeNil())
 
 			// delete advance certificate pack
-			delOpt := service.NewDeleteCertificateOptions(advanceCertId)
-			delResp, delErr := service.DeleteCertificate(delOpt)
+			delOpt := service.NewDeleteCertificateV2Options(advanceCertId)
+			delResp, delErr := service.DeleteCertificateV2(delOpt)
 			Expect(delErr).To(BeNil())
 			Expect(delResp).ToNot(BeNil())
 
