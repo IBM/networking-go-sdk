@@ -1,6 +1,6 @@
 module github.com/IBM/networking-go-sdk
 
-go 1.22.4
+go 1.22.2
 
 require (
 	github.com/IBM/go-sdk-core/v5 v5.17.3
