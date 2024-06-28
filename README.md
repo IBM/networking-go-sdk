@@ -35,7 +35,7 @@ Go client library to interact with the various [IBM Cloud Networking Service API
 - [Contributing](#contributing)
 - [License](#license)
 
-<!--  tocstop  -->
+<!-- tocstop -->
 
 ## Overview
 
