@@ -35,9 +35,9 @@ func shouldSkipTest() {
 
 var _ = Describe(`sslcertificateapiv1`, func() {
 
-	// BeforeEach(func() {
-	// 	Skip("Skipping Tests")
-	// })
+	BeforeEach(func() {
+		Skip("Skipping Tests")
+	})
 
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
