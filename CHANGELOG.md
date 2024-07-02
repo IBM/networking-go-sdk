@@ -1,3 +1,10 @@
+## [0.47.1](https://github.com/IBM/networking-go-sdk/compare/v0.47.0...v0.47.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* change ruleset rule response ([61a03df](https://github.com/IBM/networking-go-sdk/commit/61a03df98bbaf63de737c7e1738de2fff80ab0eb))
+
 ## [0.46.1](https://github.com/IBM/networking-go-sdk/compare/v0.46.0...v0.46.1) (2024-04-24)
 
 
