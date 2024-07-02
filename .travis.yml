@@ -40,7 +40,6 @@ before_deploy:
   - npm install @semantic-release/git
   - npm install @semantic-release/github
   - pip install bump2version
-  - grep 'const Version = "0.47.1"' common/version.go || (echo "Version string not found in common/version.go" && exit 1)
 
 deploy:
   - provider: script

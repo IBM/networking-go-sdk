@@ -5,15 +5,16 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     [
-      "@semantic-release/exec", 
+      "@semantic-release/exec",
       {
         "prepareCmd": "bump2version --allow-dirty --current-version ${lastRelease.version} --new-version ${nextRelease.version} patch"
       }
     ],
     [
-      "@semantic-release/git", 
+      "@semantic-release/git",
       {
-        "message": "chore(release): ${nextRelease.version} release notes [skip ci]\n\n${nextRelease.notes}"
+        "assets": ["package.json", "common/version.go", "README.md", "CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
     "@semantic-release/github"
