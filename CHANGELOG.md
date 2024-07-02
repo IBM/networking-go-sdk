@@ -1,3 +1,10 @@
+# [0.48.0](https://github.com/IBM/networking-go-sdk/compare/v0.47.2...v0.48.0) (2024-07-02)
+
+
+### Features
+
+* **CIS:** add order advanced certificate and origin certificate ([#187](https://github.com/IBM/networking-go-sdk/issues/187)) ([321347b](https://github.com/IBM/networking-go-sdk/commit/321347b6dc463d3093f0f0bbafe105863a41c0aa))
+
 ## [0.47.2](https://github.com/IBM/networking-go-sdk/compare/v0.47.1...v0.47.2) (2024-07-02)
 
 
