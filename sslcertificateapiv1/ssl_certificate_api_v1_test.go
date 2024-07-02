@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -192,7 +192,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listCertificatesPath := "/v1/testString/zones/testString/ssl/certificate_packs"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -204,7 +204,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListCertificates with error: Operation response processing error`, func() {
@@ -239,15 +239,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListCertificates(listCertificatesOptions *ListCertificatesOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listCertificatesPath := "/v1/testString/zones/testString/ssl/certificate_packs"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -258,12 +255,70 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["Hosts"], "certificates": [{"id": "436627", "hosts": ["Hosts"], "status": "active", "issuer": "CloudflareInc", "signature": "ECDSAWithSHA256", "bundle_method": "ubiquitous", "zone_id": "863e9769b9bb27bb66476ca044ed0733", "uploaded_on": "2021-01-28T07:32:53.379278Z", "modified_on": "2021-01-28T07:21:08.144112Z", "expires_on": "2022-01-26T23:59:59.000000Z", "priority": 1}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "total_pages": 1, "count": 1, "total_count": 200}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke ListCertificates successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListCertificatesOptions model
+				listCertificatesOptionsModel := new(sslcertificateapiv1.ListCertificatesOptions)
+				listCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.ListCertificatesWithContext(ctx, listCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.ListCertificates(listCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.ListCertificatesWithContext(ctx, listCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listCertificatesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["Hosts"], "certificates": [{"id": "436627", "hosts": ["Hosts"], "status": "active", "issuer": "CloudflareInc", "signature": "ECDSAWithSHA256", "bundle_method": "ubiquitous", "zone_id": "863e9769b9bb27bb66476ca044ed0733", "uploaded_on": "2021-01-28T07:32:53.379278Z", "modified_on": "2021-01-28T07:21:08.144112Z", "expires_on": "2022-01-26T23:59:59.000000Z", "priority": 1}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "total_pages": 1, "count": 1, "total_count": 200}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke ListCertificates successfully`, func() {
@@ -275,7 +330,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.ListCertificates(nil)
@@ -294,30 +348,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ListCertificatesWithContext(ctx, listCertificatesOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.ListCertificates(listCertificatesOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ListCertificatesWithContext(ctx, listCertificatesOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListCertificates with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -346,12 +376,48 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListCertificates successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ListCertificatesOptions model
+				listCertificatesOptionsModel := new(sslcertificateapiv1.ListCertificatesOptions)
+				listCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.ListCertificates(listCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`OrderCertificate(orderCertificateOptions *OrderCertificateOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		orderCertificatePath := "/v1/testString/zones/testString/ssl/certificate_packs"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -363,7 +429,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke OrderCertificate with error: Operation response processing error`, func() {
@@ -379,7 +445,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				// Construct an instance of the OrderCertificateOptions model
 				orderCertificateOptionsModel := new(sslcertificateapiv1.OrderCertificateOptions)
 				orderCertificateOptionsModel.Type = core.StringPtr("dedicated")
-				orderCertificateOptionsModel.Hosts = []string{"example.com"}
+				orderCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
 				orderCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
 				orderCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -400,15 +466,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`OrderCertificate(orderCertificateOptions *OrderCertificateOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		orderCertificatePath := "/v1/testString/zones/testString/ssl/certificate_packs"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -435,12 +498,88 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
 					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["Hosts"], "certificates": [{"id": "436627", "hosts": ["Hosts"], "status": "active", "issuer": "CloudflareInc", "signature": "ECDSAWithSHA256", "bundle_method": "ubiquitous", "zone_id": "863e9769b9bb27bb66476ca044ed0733", "uploaded_on": "2021-01-28T07:32:53.379278Z", "modified_on": "2021-01-28T07:21:08.144112Z", "expires_on": "2022-01-26T23:59:59.000000Z", "priority": 1}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}, "result_info": {"page": 1, "per_page": 2, "total_pages": 1, "count": 1, "total_count": 200}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke OrderCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the OrderCertificateOptions model
+				orderCertificateOptionsModel := new(sslcertificateapiv1.OrderCertificateOptions)
+				orderCertificateOptionsModel.Type = core.StringPtr("dedicated")
+				orderCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.OrderCertificateWithContext(ctx, orderCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.OrderCertificate(orderCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.OrderCertificateWithContext(ctx, orderCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(orderCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["Hosts"], "certificates": [{"id": "436627", "hosts": ["Hosts"], "status": "active", "issuer": "CloudflareInc", "signature": "ECDSAWithSHA256", "bundle_method": "ubiquitous", "zone_id": "863e9769b9bb27bb66476ca044ed0733", "uploaded_on": "2021-01-28T07:32:53.379278Z", "modified_on": "2021-01-28T07:21:08.144112Z", "expires_on": "2022-01-26T23:59:59.000000Z", "priority": 1}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}, "result_info": {"page": 1, "per_page": 2, "total_pages": 1, "count": 1, "total_count": 200}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke OrderCertificate successfully`, func() {
@@ -452,7 +591,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.OrderCertificate(nil)
@@ -463,7 +601,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				// Construct an instance of the OrderCertificateOptions model
 				orderCertificateOptionsModel := new(sslcertificateapiv1.OrderCertificateOptions)
 				orderCertificateOptionsModel.Type = core.StringPtr("dedicated")
-				orderCertificateOptionsModel.Hosts = []string{"example.com"}
+				orderCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
 				orderCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
 				orderCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -473,30 +611,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.OrderCertificateWithContext(ctx, orderCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.OrderCertificate(orderCertificateOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.OrderCertificateWithContext(ctx, orderCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke OrderCertificate with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -511,7 +625,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				// Construct an instance of the OrderCertificateOptions model
 				orderCertificateOptionsModel := new(sslcertificateapiv1.OrderCertificateOptions)
 				orderCertificateOptionsModel.Type = core.StringPtr("dedicated")
-				orderCertificateOptionsModel.Hosts = []string{"example.com"}
+				orderCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
 				orderCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
 				orderCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -527,8 +641,45 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke OrderCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the OrderCertificateOptions model
+				orderCertificateOptionsModel := new(sslcertificateapiv1.OrderCertificateOptions)
+				orderCertificateOptionsModel.Type = core.StringPtr("dedicated")
+				orderCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.OrderCertificate(orderCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteCertificate(deleteCertificateOptions *DeleteCertificateOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
@@ -556,7 +707,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				response, operationErr := sslCertificateApiService.DeleteCertificate(nil)
@@ -570,12 +720,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				deleteCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = sslCertificateApiService.DeleteCertificate(deleteCertificateOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
 				response, operationErr = sslCertificateApiService.DeleteCertificate(deleteCertificateOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -618,7 +762,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getSslSettingPath := "/v1/testString/zones/testString/settings/ssl"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -628,7 +772,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetSslSetting with error: Operation response processing error`, func() {
@@ -662,15 +806,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSslSetting(getSslSettingOptions *GetSslSettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getSslSettingPath := "/v1/testString/zones/testString/settings/ssl"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -679,12 +820,67 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "result": {"id": "ssl", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.12345Z"}, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"id": "ssl", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.12345Z"}, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetSslSetting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetSslSettingOptions model
+				getSslSettingOptionsModel := new(sslcertificateapiv1.GetSslSettingOptions)
+				getSslSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetSslSettingWithContext(ctx, getSslSettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetSslSetting(getSslSettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetSslSettingWithContext(ctx, getSslSettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSslSettingPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"id": "ssl", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.12345Z"}, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke GetSslSetting successfully`, func() {
@@ -696,7 +892,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.GetSslSetting(nil)
@@ -714,30 +909,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetSslSettingWithContext(ctx, getSslSettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.GetSslSetting(getSslSettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetSslSettingWithContext(ctx, getSslSettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetSslSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -765,12 +936,47 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSslSetting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetSslSettingOptions model
+				getSslSettingOptionsModel := new(sslcertificateapiv1.GetSslSettingOptions)
+				getSslSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetSslSetting(getSslSettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ChangeSslSetting(changeSslSettingOptions *ChangeSslSettingOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		changeSslSettingPath := "/v1/testString/zones/testString/settings/ssl"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -780,7 +986,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ChangeSslSetting with error: Operation response processing error`, func() {
@@ -815,15 +1021,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ChangeSslSetting(changeSslSettingOptions *ChangeSslSettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		changeSslSettingPath := "/v1/testString/zones/testString/settings/ssl"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -848,12 +1051,84 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "result": {"id": "ssl", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.12345Z"}, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"id": "ssl", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.12345Z"}, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke ChangeSslSetting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the ChangeSslSettingOptions model
+				changeSslSettingOptionsModel := new(sslcertificateapiv1.ChangeSslSettingOptions)
+				changeSslSettingOptionsModel.Value = core.StringPtr("off")
+				changeSslSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.ChangeSslSettingWithContext(ctx, changeSslSettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.ChangeSslSetting(changeSslSettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.ChangeSslSettingWithContext(ctx, changeSslSettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(changeSslSettingPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"id": "ssl", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.12345Z"}, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke ChangeSslSetting successfully`, func() {
@@ -865,7 +1140,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.ChangeSslSetting(nil)
@@ -884,30 +1158,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ChangeSslSettingWithContext(ctx, changeSslSettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.ChangeSslSetting(changeSslSettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ChangeSslSettingWithContext(ctx, changeSslSettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ChangeSslSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -936,12 +1186,48 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ChangeSslSetting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ChangeSslSettingOptions model
+				changeSslSettingOptionsModel := new(sslcertificateapiv1.ChangeSslSettingOptions)
+				changeSslSettingOptionsModel.Value = core.StringPtr("off")
+				changeSslSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.ChangeSslSetting(changeSslSettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListCustomCertificates(listCustomCertificatesOptions *ListCustomCertificatesOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listCustomCertificatesPath := "/v1/testString/zones/testString/custom_certificates"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -951,7 +1237,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListCustomCertificates with error: Operation response processing error`, func() {
@@ -985,15 +1271,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListCustomCertificates(listCustomCertificatesOptions *ListCustomCertificatesOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listCustomCertificatesPath := "/v1/testString/zones/testString/custom_certificates"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -1002,12 +1285,67 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["example.com"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}], "result_info": {"page": 1, "per_page": 2, "total_pages": 1, "count": 1, "total_count": 200}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke ListCustomCertificates successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListCustomCertificatesOptions model
+				listCustomCertificatesOptionsModel := new(sslcertificateapiv1.ListCustomCertificatesOptions)
+				listCustomCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.ListCustomCertificatesWithContext(ctx, listCustomCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.ListCustomCertificates(listCustomCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.ListCustomCertificatesWithContext(ctx, listCustomCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listCustomCertificatesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}], "result_info": {"page": 1, "per_page": 2, "total_pages": 1, "count": 1, "total_count": 200}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomCertificates successfully`, func() {
@@ -1019,7 +1357,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.ListCustomCertificates(nil)
@@ -1037,30 +1374,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ListCustomCertificatesWithContext(ctx, listCustomCertificatesOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.ListCustomCertificates(listCustomCertificatesOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ListCustomCertificatesWithContext(ctx, listCustomCertificatesOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListCustomCertificates with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -1088,12 +1401,47 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListCustomCertificates successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ListCustomCertificatesOptions model
+				listCustomCertificatesOptionsModel := new(sslcertificateapiv1.ListCustomCertificatesOptions)
+				listCustomCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.ListCustomCertificates(listCustomCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UploadCustomCertificate(uploadCustomCertificateOptions *UploadCustomCertificateOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		uploadCustomCertificatePath := "/v1/testString/zones/testString/custom_certificates"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1103,7 +1451,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UploadCustomCertificate with error: Operation response processing error`, func() {
@@ -1145,15 +1493,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UploadCustomCertificate(uploadCustomCertificateOptions *UploadCustomCertificateOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		uploadCustomCertificatePath := "/v1/testString/zones/testString/custom_certificates"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -1178,12 +1523,91 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["example.com"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke UploadCustomCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the CustomCertReqGeoRestrictions model
+				customCertReqGeoRestrictionsModel := new(sslcertificateapiv1.CustomCertReqGeoRestrictions)
+				customCertReqGeoRestrictionsModel.Label = core.StringPtr("us")
+
+				// Construct an instance of the UploadCustomCertificateOptions model
+				uploadCustomCertificateOptionsModel := new(sslcertificateapiv1.UploadCustomCertificateOptions)
+				uploadCustomCertificateOptionsModel.Certificate = core.StringPtr("testString")
+				uploadCustomCertificateOptionsModel.PrivateKey = core.StringPtr("testString")
+				uploadCustomCertificateOptionsModel.BundleMethod = core.StringPtr("ubiquitous")
+				uploadCustomCertificateOptionsModel.GeoRestrictions = customCertReqGeoRestrictionsModel
+				uploadCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.UploadCustomCertificateWithContext(ctx, uploadCustomCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.UploadCustomCertificate(uploadCustomCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.UploadCustomCertificateWithContext(ctx, uploadCustomCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(uploadCustomCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke UploadCustomCertificate successfully`, func() {
@@ -1195,7 +1619,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.UploadCustomCertificate(nil)
@@ -1221,30 +1644,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.UploadCustomCertificateWithContext(ctx, uploadCustomCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.UploadCustomCertificate(uploadCustomCertificateOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.UploadCustomCertificateWithContext(ctx, uploadCustomCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UploadCustomCertificate with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -1280,12 +1679,55 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UploadCustomCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the CustomCertReqGeoRestrictions model
+				customCertReqGeoRestrictionsModel := new(sslcertificateapiv1.CustomCertReqGeoRestrictions)
+				customCertReqGeoRestrictionsModel.Label = core.StringPtr("us")
+
+				// Construct an instance of the UploadCustomCertificateOptions model
+				uploadCustomCertificateOptionsModel := new(sslcertificateapiv1.UploadCustomCertificateOptions)
+				uploadCustomCertificateOptionsModel.Certificate = core.StringPtr("testString")
+				uploadCustomCertificateOptionsModel.PrivateKey = core.StringPtr("testString")
+				uploadCustomCertificateOptionsModel.BundleMethod = core.StringPtr("ubiquitous")
+				uploadCustomCertificateOptionsModel.GeoRestrictions = customCertReqGeoRestrictionsModel
+				uploadCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.UploadCustomCertificate(uploadCustomCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetCustomCertificate(getCustomCertificateOptions *GetCustomCertificateOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getCustomCertificatePath := "/v1/testString/zones/testString/custom_certificates/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1295,7 +1737,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetCustomCertificate with error: Operation response processing error`, func() {
@@ -1330,15 +1772,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetCustomCertificate(getCustomCertificateOptions *GetCustomCertificateOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getCustomCertificatePath := "/v1/testString/zones/testString/custom_certificates/testString"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -1347,12 +1786,68 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["example.com"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetCustomCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetCustomCertificateOptions model
+				getCustomCertificateOptionsModel := new(sslcertificateapiv1.GetCustomCertificateOptions)
+				getCustomCertificateOptionsModel.CustomCertID = core.StringPtr("testString")
+				getCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetCustomCertificateWithContext(ctx, getCustomCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetCustomCertificate(getCustomCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetCustomCertificateWithContext(ctx, getCustomCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getCustomCertificatePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke GetCustomCertificate successfully`, func() {
@@ -1364,7 +1859,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.GetCustomCertificate(nil)
@@ -1383,30 +1877,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetCustomCertificateWithContext(ctx, getCustomCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.GetCustomCertificate(getCustomCertificateOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetCustomCertificateWithContext(ctx, getCustomCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetCustomCertificate with error: Operation validation and request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -1442,12 +1912,48 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetCustomCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetCustomCertificateOptions model
+				getCustomCertificateOptionsModel := new(sslcertificateapiv1.GetCustomCertificateOptions)
+				getCustomCertificateOptionsModel.CustomCertID = core.StringPtr("testString")
+				getCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetCustomCertificate(getCustomCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateCustomCertificate(updateCustomCertificateOptions *UpdateCustomCertificateOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateCustomCertificatePath := "/v1/testString/zones/testString/custom_certificates/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1457,7 +1963,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateCustomCertificate with error: Operation response processing error`, func() {
@@ -1500,15 +2006,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateCustomCertificate(updateCustomCertificateOptions *UpdateCustomCertificateOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateCustomCertificatePath := "/v1/testString/zones/testString/custom_certificates/testString"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -1533,12 +2036,92 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["example.com"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke UpdateCustomCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the CustomCertReqGeoRestrictions model
+				customCertReqGeoRestrictionsModel := new(sslcertificateapiv1.CustomCertReqGeoRestrictions)
+				customCertReqGeoRestrictionsModel.Label = core.StringPtr("us")
+
+				// Construct an instance of the UpdateCustomCertificateOptions model
+				updateCustomCertificateOptionsModel := new(sslcertificateapiv1.UpdateCustomCertificateOptions)
+				updateCustomCertificateOptionsModel.CustomCertID = core.StringPtr("testString")
+				updateCustomCertificateOptionsModel.Certificate = core.StringPtr("testString")
+				updateCustomCertificateOptionsModel.PrivateKey = core.StringPtr("testString")
+				updateCustomCertificateOptionsModel.BundleMethod = core.StringPtr("ubiquitous")
+				updateCustomCertificateOptionsModel.GeoRestrictions = customCertReqGeoRestrictionsModel
+				updateCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.UpdateCustomCertificateWithContext(ctx, updateCustomCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.UpdateCustomCertificate(updateCustomCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.UpdateCustomCertificateWithContext(ctx, updateCustomCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateCustomCertificatePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "hosts": ["Hosts"], "issuer": "/Country=US/Organization=Lets Encrypt/CommonName=Lets Encrypt Authority X3", "signature": "SHA256WithRSA", "status": "active", "bundle_method": "BundleMethod", "zone_id": "ZoneID", "uploaded_on": "UploadedOn", "modified_on": "ModifiedOn", "expires_on": "ExpiresOn", "priority": 8}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke UpdateCustomCertificate successfully`, func() {
@@ -1550,7 +2133,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.UpdateCustomCertificate(nil)
@@ -1577,30 +2159,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.UpdateCustomCertificateWithContext(ctx, updateCustomCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.UpdateCustomCertificate(updateCustomCertificateOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.UpdateCustomCertificateWithContext(ctx, updateCustomCertificateOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateCustomCertificate with error: Operation validation and request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -1644,8 +2202,51 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateCustomCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the CustomCertReqGeoRestrictions model
+				customCertReqGeoRestrictionsModel := new(sslcertificateapiv1.CustomCertReqGeoRestrictions)
+				customCertReqGeoRestrictionsModel.Label = core.StringPtr("us")
+
+				// Construct an instance of the UpdateCustomCertificateOptions model
+				updateCustomCertificateOptionsModel := new(sslcertificateapiv1.UpdateCustomCertificateOptions)
+				updateCustomCertificateOptionsModel.CustomCertID = core.StringPtr("testString")
+				updateCustomCertificateOptionsModel.Certificate = core.StringPtr("testString")
+				updateCustomCertificateOptionsModel.PrivateKey = core.StringPtr("testString")
+				updateCustomCertificateOptionsModel.BundleMethod = core.StringPtr("ubiquitous")
+				updateCustomCertificateOptionsModel.GeoRestrictions = customCertReqGeoRestrictionsModel
+				updateCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.UpdateCustomCertificate(updateCustomCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteCustomCertificate(deleteCustomCertificateOptions *DeleteCustomCertificateOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
@@ -1671,7 +2272,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				response, operationErr := sslCertificateApiService.DeleteCustomCertificate(nil)
@@ -1684,12 +2284,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				deleteCustomCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = sslCertificateApiService.DeleteCustomCertificate(deleteCustomCertificateOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
 				response, operationErr = sslCertificateApiService.DeleteCustomCertificate(deleteCustomCertificateOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -1727,7 +2321,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ChangeCertificatePriority(changeCertificatePriorityOptions *ChangeCertificatePriorityOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
@@ -1769,7 +2362,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				response, operationErr := sslCertificateApiService.ChangeCertificatePriority(nil)
@@ -1787,12 +2379,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				changeCertificatePriorityOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = sslCertificateApiService.ChangeCertificatePriority(changeCertificatePriorityOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
 				response, operationErr = sslCertificateApiService.ChangeCertificatePriority(changeCertificatePriorityOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -1833,7 +2419,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getUniversalCertificateSettingPath := "/v1/testString/zones/testString/ssl/universal/settings"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1843,7 +2429,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetUniversalCertificateSetting with error: Operation response processing error`, func() {
@@ -1877,15 +2463,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetUniversalCertificateSetting(getUniversalCertificateSettingOptions *GetUniversalCertificateSettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getUniversalCertificateSettingPath := "/v1/testString/zones/testString/ssl/universal/settings"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -1894,12 +2477,67 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"enabled": true}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"enabled": true}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetUniversalCertificateSetting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetUniversalCertificateSettingOptions model
+				getUniversalCertificateSettingOptionsModel := new(sslcertificateapiv1.GetUniversalCertificateSettingOptions)
+				getUniversalCertificateSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetUniversalCertificateSettingWithContext(ctx, getUniversalCertificateSettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetUniversalCertificateSetting(getUniversalCertificateSettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetUniversalCertificateSettingWithContext(ctx, getUniversalCertificateSettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getUniversalCertificateSettingPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"enabled": true}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke GetUniversalCertificateSetting successfully`, func() {
@@ -1911,7 +2549,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.GetUniversalCertificateSetting(nil)
@@ -1929,30 +2566,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetUniversalCertificateSettingWithContext(ctx, getUniversalCertificateSettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.GetUniversalCertificateSetting(getUniversalCertificateSettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetUniversalCertificateSettingWithContext(ctx, getUniversalCertificateSettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetUniversalCertificateSetting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -1980,8 +2593,42 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetUniversalCertificateSetting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetUniversalCertificateSettingOptions model
+				getUniversalCertificateSettingOptionsModel := new(sslcertificateapiv1.GetUniversalCertificateSettingOptions)
+				getUniversalCertificateSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetUniversalCertificateSetting(getUniversalCertificateSettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ChangeUniversalCertificateSetting(changeUniversalCertificateSettingOptions *ChangeUniversalCertificateSettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
@@ -2023,7 +2670,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				response, operationErr := sslCertificateApiService.ChangeUniversalCertificateSetting(nil)
@@ -2036,12 +2682,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				changeUniversalCertificateSettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = sslCertificateApiService.ChangeUniversalCertificateSetting(changeUniversalCertificateSettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
 				response, operationErr = sslCertificateApiService.ChangeUniversalCertificateSetting(changeUniversalCertificateSettingOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -2077,7 +2717,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getTls12SettingPath := "/v1/testString/zones/testString/settings/tls_1_2_only"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2087,7 +2727,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetTls12Setting with error: Operation response processing error`, func() {
@@ -2121,15 +2761,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetTls12Setting(getTls12SettingOptions *GetTls12SettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getTls12SettingPath := "/v1/testString/zones/testString/settings/tls_1_2_only"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -2138,12 +2775,67 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_2_only", "value": "on", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_2_only", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetTls12Setting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetTls12SettingOptions model
+				getTls12SettingOptionsModel := new(sslcertificateapiv1.GetTls12SettingOptions)
+				getTls12SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetTls12SettingWithContext(ctx, getTls12SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetTls12Setting(getTls12SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetTls12SettingWithContext(ctx, getTls12SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTls12SettingPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_2_only", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke GetTls12Setting successfully`, func() {
@@ -2155,7 +2847,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.GetTls12Setting(nil)
@@ -2173,30 +2864,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetTls12SettingWithContext(ctx, getTls12SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.GetTls12Setting(getTls12SettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetTls12SettingWithContext(ctx, getTls12SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetTls12Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -2224,12 +2891,47 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetTls12Setting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetTls12SettingOptions model
+				getTls12SettingOptionsModel := new(sslcertificateapiv1.GetTls12SettingOptions)
+				getTls12SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetTls12Setting(getTls12SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ChangeTls12Setting(changeTls12SettingOptions *ChangeTls12SettingOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		changeTls12SettingPath := "/v1/testString/zones/testString/settings/tls_1_2_only"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2239,7 +2941,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ChangeTls12Setting with error: Operation response processing error`, func() {
@@ -2274,15 +2976,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ChangeTls12Setting(changeTls12SettingOptions *ChangeTls12SettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		changeTls12SettingPath := "/v1/testString/zones/testString/settings/tls_1_2_only"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -2307,12 +3006,84 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_2_only", "value": "on", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_2_only", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke ChangeTls12Setting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the ChangeTls12SettingOptions model
+				changeTls12SettingOptionsModel := new(sslcertificateapiv1.ChangeTls12SettingOptions)
+				changeTls12SettingOptionsModel.Value = core.StringPtr("on")
+				changeTls12SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.ChangeTls12SettingWithContext(ctx, changeTls12SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.ChangeTls12Setting(changeTls12SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.ChangeTls12SettingWithContext(ctx, changeTls12SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(changeTls12SettingPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_2_only", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke ChangeTls12Setting successfully`, func() {
@@ -2324,7 +3095,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.ChangeTls12Setting(nil)
@@ -2343,30 +3113,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ChangeTls12SettingWithContext(ctx, changeTls12SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.ChangeTls12Setting(changeTls12SettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ChangeTls12SettingWithContext(ctx, changeTls12SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ChangeTls12Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -2395,12 +3141,48 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ChangeTls12Setting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ChangeTls12SettingOptions model
+				changeTls12SettingOptionsModel := new(sslcertificateapiv1.ChangeTls12SettingOptions)
+				changeTls12SettingOptionsModel.Value = core.StringPtr("on")
+				changeTls12SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.ChangeTls12Setting(changeTls12SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetTls13Setting(getTls13SettingOptions *GetTls13SettingOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getTls13SettingPath := "/v1/testString/zones/testString/settings/tls_1_3"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2410,7 +3192,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetTls13Setting with error: Operation response processing error`, func() {
@@ -2444,15 +3226,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetTls13Setting(getTls13SettingOptions *GetTls13SettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getTls13SettingPath := "/v1/testString/zones/testString/settings/tls_1_3"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -2461,12 +3240,67 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_3", "value": "on", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_3", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetTls13Setting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetTls13SettingOptions model
+				getTls13SettingOptionsModel := new(sslcertificateapiv1.GetTls13SettingOptions)
+				getTls13SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetTls13SettingWithContext(ctx, getTls13SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetTls13Setting(getTls13SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetTls13SettingWithContext(ctx, getTls13SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getTls13SettingPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_3", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke GetTls13Setting successfully`, func() {
@@ -2478,7 +3312,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.GetTls13Setting(nil)
@@ -2496,30 +3329,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetTls13SettingWithContext(ctx, getTls13SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.GetTls13Setting(getTls13SettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.GetTls13SettingWithContext(ctx, getTls13SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetTls13Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -2547,12 +3356,47 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetTls13Setting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetTls13SettingOptions model
+				getTls13SettingOptionsModel := new(sslcertificateapiv1.GetTls13SettingOptions)
+				getTls13SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetTls13Setting(getTls13SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ChangeTls13Setting(changeTls13SettingOptions *ChangeTls13SettingOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		changeTls13SettingPath := "/v1/testString/zones/testString/settings/tls_1_3"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2562,7 +3406,7 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					Expect(req.Method).To(Equal("PATCH"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ChangeTls13Setting with error: Operation response processing error`, func() {
@@ -2597,15 +3441,12 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ChangeTls13Setting(changeTls13SettingOptions *ChangeTls13SettingOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		changeTls13SettingPath := "/v1/testString/zones/testString/settings/tls_1_3"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -2630,12 +3471,84 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_3", "value": "on", "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["Errors"]], "messages": [{"status": "OK"}]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_3", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke ChangeTls13Setting successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the ChangeTls13SettingOptions model
+				changeTls13SettingOptionsModel := new(sslcertificateapiv1.ChangeTls13SettingOptions)
+				changeTls13SettingOptionsModel.Value = core.StringPtr("on")
+				changeTls13SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.ChangeTls13SettingWithContext(ctx, changeTls13SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.ChangeTls13Setting(changeTls13SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.ChangeTls13SettingWithContext(ctx, changeTls13SettingOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(changeTls13SettingPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "tls_1_3", "value": "on", "editable": true, "modified_on": "2014-01-01T05:20:00.123Z"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
 				}))
 			})
 			It(`Invoke ChangeTls13Setting successfully`, func() {
@@ -2647,7 +3560,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(sslCertificateApiService).ToNot(BeNil())
-				sslCertificateApiService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := sslCertificateApiService.ChangeTls13Setting(nil)
@@ -2666,30 +3578,6 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ChangeTls13SettingWithContext(ctx, changeTls13SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				sslCertificateApiService.DisableRetries()
-				result, response, operationErr = sslCertificateApiService.ChangeTls13Setting(changeTls13SettingOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = sslCertificateApiService.ChangeTls13SettingWithContext(ctx, changeTls13SettingOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ChangeTls13Setting with error: Operation request error`, func() {
 				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
@@ -2718,6 +3606,1899 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ChangeTls13Setting successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ChangeTls13SettingOptions model
+				changeTls13SettingOptionsModel := new(sslcertificateapiv1.ChangeTls13SettingOptions)
+				changeTls13SettingOptionsModel.Value = core.StringPtr("on")
+				changeTls13SettingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.ChangeTls13Setting(changeTls13SettingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`OrderAdvancedCertificate(orderAdvancedCertificateOptions *OrderAdvancedCertificateOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		orderAdvancedCertificatePath := "/v2/testString/zones/testString/ssl/certificate_packs/order"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(orderAdvancedCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke OrderAdvancedCertificate with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the OrderAdvancedCertificateOptions model
+				orderAdvancedCertificateOptionsModel := new(sslcertificateapiv1.OrderAdvancedCertificateOptions)
+				orderAdvancedCertificateOptionsModel.Type = core.StringPtr("advanced")
+				orderAdvancedCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderAdvancedCertificateOptionsModel.ValidationMethod = core.StringPtr("txt")
+				orderAdvancedCertificateOptionsModel.ValidityDays = core.Int64Ptr(int64(90))
+				orderAdvancedCertificateOptionsModel.CertificateAuthority = core.StringPtr("lets_encrypt")
+				orderAdvancedCertificateOptionsModel.CloudflareBranding = core.BoolPtr(false)
+				orderAdvancedCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderAdvancedCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.OrderAdvancedCertificate(orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.OrderAdvancedCertificate(orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`OrderAdvancedCertificate(orderAdvancedCertificateOptions *OrderAdvancedCertificateOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		orderAdvancedCertificatePath := "/v2/testString/zones/testString/ssl/certificate_packs/order"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(orderAdvancedCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "a58ceb22-f3c8-422c-a2b0-5787381007c5", "type": "advanced", "hosts": ["Hosts"], "validation_method": "txt", "validity_days": 365, "certificate_authority": "lets_encrypt", "cloudflare_branding": false, "status": "initializing"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke OrderAdvancedCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the OrderAdvancedCertificateOptions model
+				orderAdvancedCertificateOptionsModel := new(sslcertificateapiv1.OrderAdvancedCertificateOptions)
+				orderAdvancedCertificateOptionsModel.Type = core.StringPtr("advanced")
+				orderAdvancedCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderAdvancedCertificateOptionsModel.ValidationMethod = core.StringPtr("txt")
+				orderAdvancedCertificateOptionsModel.ValidityDays = core.Int64Ptr(int64(90))
+				orderAdvancedCertificateOptionsModel.CertificateAuthority = core.StringPtr("lets_encrypt")
+				orderAdvancedCertificateOptionsModel.CloudflareBranding = core.BoolPtr(false)
+				orderAdvancedCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderAdvancedCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.OrderAdvancedCertificateWithContext(ctx, orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.OrderAdvancedCertificate(orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.OrderAdvancedCertificateWithContext(ctx, orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(orderAdvancedCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "a58ceb22-f3c8-422c-a2b0-5787381007c5", "type": "advanced", "hosts": ["Hosts"], "validation_method": "txt", "validity_days": 365, "certificate_authority": "lets_encrypt", "cloudflare_branding": false, "status": "initializing"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke OrderAdvancedCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.OrderAdvancedCertificate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the OrderAdvancedCertificateOptions model
+				orderAdvancedCertificateOptionsModel := new(sslcertificateapiv1.OrderAdvancedCertificateOptions)
+				orderAdvancedCertificateOptionsModel.Type = core.StringPtr("advanced")
+				orderAdvancedCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderAdvancedCertificateOptionsModel.ValidationMethod = core.StringPtr("txt")
+				orderAdvancedCertificateOptionsModel.ValidityDays = core.Int64Ptr(int64(90))
+				orderAdvancedCertificateOptionsModel.CertificateAuthority = core.StringPtr("lets_encrypt")
+				orderAdvancedCertificateOptionsModel.CloudflareBranding = core.BoolPtr(false)
+				orderAdvancedCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderAdvancedCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.OrderAdvancedCertificate(orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke OrderAdvancedCertificate with error: Operation request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the OrderAdvancedCertificateOptions model
+				orderAdvancedCertificateOptionsModel := new(sslcertificateapiv1.OrderAdvancedCertificateOptions)
+				orderAdvancedCertificateOptionsModel.Type = core.StringPtr("advanced")
+				orderAdvancedCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderAdvancedCertificateOptionsModel.ValidationMethod = core.StringPtr("txt")
+				orderAdvancedCertificateOptionsModel.ValidityDays = core.Int64Ptr(int64(90))
+				orderAdvancedCertificateOptionsModel.CertificateAuthority = core.StringPtr("lets_encrypt")
+				orderAdvancedCertificateOptionsModel.CloudflareBranding = core.BoolPtr(false)
+				orderAdvancedCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderAdvancedCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.OrderAdvancedCertificate(orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke OrderAdvancedCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the OrderAdvancedCertificateOptions model
+				orderAdvancedCertificateOptionsModel := new(sslcertificateapiv1.OrderAdvancedCertificateOptions)
+				orderAdvancedCertificateOptionsModel.Type = core.StringPtr("advanced")
+				orderAdvancedCertificateOptionsModel.Hosts = []string{"example.com", "*.example.com"}
+				orderAdvancedCertificateOptionsModel.ValidationMethod = core.StringPtr("txt")
+				orderAdvancedCertificateOptionsModel.ValidityDays = core.Int64Ptr(int64(90))
+				orderAdvancedCertificateOptionsModel.CertificateAuthority = core.StringPtr("lets_encrypt")
+				orderAdvancedCertificateOptionsModel.CloudflareBranding = core.BoolPtr(false)
+				orderAdvancedCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				orderAdvancedCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.OrderAdvancedCertificate(orderAdvancedCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`PatchCertificate(patchCertificateOptions *PatchCertificateOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		patchCertificatePath := "/v2/testString/zones/testString/ssl/certificate_packs/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(patchCertificatePath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke PatchCertificate with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the PatchCertificateOptions model
+				patchCertificateOptionsModel := new(sslcertificateapiv1.PatchCertificateOptions)
+				patchCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				patchCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				patchCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.PatchCertificate(patchCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.PatchCertificate(patchCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`PatchCertificate(patchCertificateOptions *PatchCertificateOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		patchCertificatePath := "/v2/testString/zones/testString/ssl/certificate_packs/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(patchCertificatePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "a58ceb22-f3c8-422c-a2b0-5787381007c5", "type": "advanced", "hosts": ["Hosts"], "validation_method": "txt", "validity_days": 365, "certificate_authority": "lets_encrypt", "cloudflare_branding": false, "status": "initializing"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke PatchCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the PatchCertificateOptions model
+				patchCertificateOptionsModel := new(sslcertificateapiv1.PatchCertificateOptions)
+				patchCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				patchCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				patchCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.PatchCertificateWithContext(ctx, patchCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.PatchCertificate(patchCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.PatchCertificateWithContext(ctx, patchCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(patchCertificatePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "a58ceb22-f3c8-422c-a2b0-5787381007c5", "type": "advanced", "hosts": ["Hosts"], "validation_method": "txt", "validity_days": 365, "certificate_authority": "lets_encrypt", "cloudflare_branding": false, "status": "initializing"}, "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke PatchCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.PatchCertificate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the PatchCertificateOptions model
+				patchCertificateOptionsModel := new(sslcertificateapiv1.PatchCertificateOptions)
+				patchCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				patchCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				patchCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.PatchCertificate(patchCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke PatchCertificate with error: Operation validation and request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the PatchCertificateOptions model
+				patchCertificateOptionsModel := new(sslcertificateapiv1.PatchCertificateOptions)
+				patchCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				patchCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				patchCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.PatchCertificate(patchCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the PatchCertificateOptions model with no property values
+				patchCertificateOptionsModelNew := new(sslcertificateapiv1.PatchCertificateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = sslCertificateApiService.PatchCertificate(patchCertificateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke PatchCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the PatchCertificateOptions model
+				patchCertificateOptionsModel := new(sslcertificateapiv1.PatchCertificateOptions)
+				patchCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				patchCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				patchCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.PatchCertificate(patchCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteCertificateV2(deleteCertificateV2Options *DeleteCertificateV2Options)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		deleteCertificateV2Path := "/v2/testString/zones/testString/ssl/certificate_packs/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteCertificateV2Path))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke DeleteCertificateV2 successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := sslCertificateApiService.DeleteCertificateV2(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteCertificateV2Options model
+				deleteCertificateV2OptionsModel := new(sslcertificateapiv1.DeleteCertificateV2Options)
+				deleteCertificateV2OptionsModel.CertIdentifier = core.StringPtr("testString")
+				deleteCertificateV2OptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteCertificateV2OptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = sslCertificateApiService.DeleteCertificateV2(deleteCertificateV2OptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteCertificateV2 with error: Operation validation and request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteCertificateV2Options model
+				deleteCertificateV2OptionsModel := new(sslcertificateapiv1.DeleteCertificateV2Options)
+				deleteCertificateV2OptionsModel.CertIdentifier = core.StringPtr("testString")
+				deleteCertificateV2OptionsModel.XCorrelationID = core.StringPtr("testString")
+				deleteCertificateV2OptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := sslCertificateApiService.DeleteCertificateV2(deleteCertificateV2OptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteCertificateV2Options model with no property values
+				deleteCertificateV2OptionsModelNew := new(sslcertificateapiv1.DeleteCertificateV2Options)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = sslCertificateApiService.DeleteCertificateV2(deleteCertificateV2OptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetSslVerification(getSslVerificationOptions *GetSslVerificationOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getSslVerificationPath := "/v2/testString/zones/testString/ssl/verification"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSslVerificationPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetSslVerification with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetSslVerificationOptions model
+				getSslVerificationOptionsModel := new(sslcertificateapiv1.GetSslVerificationOptions)
+				getSslVerificationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSslVerificationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.GetSslVerification(getSslVerificationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.GetSslVerification(getSslVerificationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetSslVerification(getSslVerificationOptions *GetSslVerificationOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getSslVerificationPath := "/v2/testString/zones/testString/ssl/verification"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSslVerificationPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": [{"certificate_status": "active", "validation_method": "txt", "verification_type": "cname", "cert_pack_uuid": "a77f8bd7-3b47-46b4-a6f1-75cf98109948", "verification_status": true, "verification_info": {"record_name": "b3b90cfedd89a3e487d3e383c56c4267.example.com", "record_target": "6979be7e4cfc9e5c603e31df7efac9cc60fee82d.comodoca.com"}, "brand_check": false}], "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetSslVerification successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetSslVerificationOptions model
+				getSslVerificationOptionsModel := new(sslcertificateapiv1.GetSslVerificationOptions)
+				getSslVerificationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSslVerificationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetSslVerificationWithContext(ctx, getSslVerificationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetSslVerification(getSslVerificationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetSslVerificationWithContext(ctx, getSslVerificationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSslVerificationPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": [{"certificate_status": "active", "validation_method": "txt", "verification_type": "cname", "cert_pack_uuid": "a77f8bd7-3b47-46b4-a6f1-75cf98109948", "verification_status": true, "verification_info": {"record_name": "b3b90cfedd89a3e487d3e383c56c4267.example.com", "record_target": "6979be7e4cfc9e5c603e31df7efac9cc60fee82d.comodoca.com"}, "brand_check": false}], "success": true, "errors": [{"anyKey": "anyValue"}], "messages": [{"anyKey": "anyValue"}]}`)
+				}))
+			})
+			It(`Invoke GetSslVerification successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.GetSslVerification(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetSslVerificationOptions model
+				getSslVerificationOptionsModel := new(sslcertificateapiv1.GetSslVerificationOptions)
+				getSslVerificationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSslVerificationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.GetSslVerification(getSslVerificationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetSslVerification with error: Operation request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetSslVerificationOptions model
+				getSslVerificationOptionsModel := new(sslcertificateapiv1.GetSslVerificationOptions)
+				getSslVerificationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSslVerificationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.GetSslVerification(getSslVerificationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSslVerification successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetSslVerificationOptions model
+				getSslVerificationOptionsModel := new(sslcertificateapiv1.GetSslVerificationOptions)
+				getSslVerificationOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getSslVerificationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetSslVerification(getSslVerificationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOriginCertificates(listOriginCertificatesOptions *ListOriginCertificatesOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		listOriginCertificatesPath := "/v1/testString/zones/testString/origin_certificates"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOriginCertificatesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListOriginCertificates with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ListOriginCertificatesOptions model
+				listOriginCertificatesOptionsModel := new(sslcertificateapiv1.ListOriginCertificatesOptions)
+				listOriginCertificatesOptionsModel.Crn = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListOriginCertificates(listOriginCertificatesOptions *ListOriginCertificatesOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		listOriginCertificatesPath := "/v1/testString/zones/testString/origin_certificates"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOriginCertificatesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": [{"id": "3664634374038615934", "certificate": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----", "hostnames": ["example.com"], "expires_on": "2014-01-01T05:20:00.12345Z", "request_type": "origin-rsa", "requested_validity": 5475, "csr": "-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----", "private_key": "-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY----- \n"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke ListOriginCertificates successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListOriginCertificatesOptions model
+				listOriginCertificatesOptionsModel := new(sslcertificateapiv1.ListOriginCertificatesOptions)
+				listOriginCertificatesOptionsModel.Crn = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.ListOriginCertificatesWithContext(ctx, listOriginCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.ListOriginCertificatesWithContext(ctx, listOriginCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listOriginCertificatesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": [{"id": "3664634374038615934", "certificate": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----", "hostnames": ["example.com"], "expires_on": "2014-01-01T05:20:00.12345Z", "request_type": "origin-rsa", "requested_validity": 5475, "csr": "-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----", "private_key": "-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY----- \n"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke ListOriginCertificates successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.ListOriginCertificates(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListOriginCertificatesOptions model
+				listOriginCertificatesOptionsModel := new(sslcertificateapiv1.ListOriginCertificatesOptions)
+				listOriginCertificatesOptionsModel.Crn = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListOriginCertificates with error: Operation validation and request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ListOriginCertificatesOptions model
+				listOriginCertificatesOptionsModel := new(sslcertificateapiv1.ListOriginCertificatesOptions)
+				listOriginCertificatesOptionsModel.Crn = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListOriginCertificatesOptions model with no property values
+				listOriginCertificatesOptionsModelNew := new(sslcertificateapiv1.ListOriginCertificatesOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListOriginCertificates successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the ListOriginCertificatesOptions model
+				listOriginCertificatesOptionsModel := new(sslcertificateapiv1.ListOriginCertificatesOptions)
+				listOriginCertificatesOptionsModel.Crn = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listOriginCertificatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.ListOriginCertificates(listOriginCertificatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateOriginCertificate(createOriginCertificateOptions *CreateOriginCertificateOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		createOriginCertificatePath := "/v1/testString/zones/testString/origin_certificates"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createOriginCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateOriginCertificate with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the CreateOriginCertificateOptions model
+				createOriginCertificateOptionsModel := new(sslcertificateapiv1.CreateOriginCertificateOptions)
+				createOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Hostnames = []string{"example.com"}
+				createOriginCertificateOptionsModel.RequestType = core.StringPtr("origin-rsa")
+				createOriginCertificateOptionsModel.RequestedValidity = core.Int64Ptr(int64(5475))
+				createOriginCertificateOptionsModel.Csr = core.StringPtr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")
+				createOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateOriginCertificate(createOriginCertificateOptions *CreateOriginCertificateOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		createOriginCertificatePath := "/v1/testString/zones/testString/origin_certificates"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createOriginCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "3664634374038615934", "certificate": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----", "hostnames": ["example.com"], "expires_on": "2014-01-01T05:20:00.12345Z", "request_type": "origin-rsa", "requested_validity": 5475, "csr": "-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----", "private_key": "-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY----- \n"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke CreateOriginCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateOriginCertificateOptions model
+				createOriginCertificateOptionsModel := new(sslcertificateapiv1.CreateOriginCertificateOptions)
+				createOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Hostnames = []string{"example.com"}
+				createOriginCertificateOptionsModel.RequestType = core.StringPtr("origin-rsa")
+				createOriginCertificateOptionsModel.RequestedValidity = core.Int64Ptr(int64(5475))
+				createOriginCertificateOptionsModel.Csr = core.StringPtr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")
+				createOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.CreateOriginCertificateWithContext(ctx, createOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.CreateOriginCertificateWithContext(ctx, createOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createOriginCertificatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "3664634374038615934", "certificate": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----", "hostnames": ["example.com"], "expires_on": "2014-01-01T05:20:00.12345Z", "request_type": "origin-rsa", "requested_validity": 5475, "csr": "-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----", "private_key": "-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY----- \n"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke CreateOriginCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.CreateOriginCertificate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateOriginCertificateOptions model
+				createOriginCertificateOptionsModel := new(sslcertificateapiv1.CreateOriginCertificateOptions)
+				createOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Hostnames = []string{"example.com"}
+				createOriginCertificateOptionsModel.RequestType = core.StringPtr("origin-rsa")
+				createOriginCertificateOptionsModel.RequestedValidity = core.Int64Ptr(int64(5475))
+				createOriginCertificateOptionsModel.Csr = core.StringPtr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")
+				createOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateOriginCertificate with error: Operation validation and request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the CreateOriginCertificateOptions model
+				createOriginCertificateOptionsModel := new(sslcertificateapiv1.CreateOriginCertificateOptions)
+				createOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Hostnames = []string{"example.com"}
+				createOriginCertificateOptionsModel.RequestType = core.StringPtr("origin-rsa")
+				createOriginCertificateOptionsModel.RequestedValidity = core.Int64Ptr(int64(5475))
+				createOriginCertificateOptionsModel.Csr = core.StringPtr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")
+				createOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateOriginCertificateOptions model with no property values
+				createOriginCertificateOptionsModelNew := new(sslcertificateapiv1.CreateOriginCertificateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateOriginCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the CreateOriginCertificateOptions model
+				createOriginCertificateOptionsModel := new(sslcertificateapiv1.CreateOriginCertificateOptions)
+				createOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Hostnames = []string{"example.com"}
+				createOriginCertificateOptionsModel.RequestType = core.StringPtr("origin-rsa")
+				createOriginCertificateOptionsModel.RequestedValidity = core.Int64Ptr(int64(5475))
+				createOriginCertificateOptionsModel.Csr = core.StringPtr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")
+				createOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				createOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.CreateOriginCertificate(createOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`RevokeOriginCertificate(revokeOriginCertificateOptions *RevokeOriginCertificateOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		revokeOriginCertificatePath := "/v1/testString/zones/testString/origin_certificates/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(revokeOriginCertificatePath))
+					Expect(req.Method).To(Equal("DELETE"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke RevokeOriginCertificate with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the RevokeOriginCertificateOptions model
+				revokeOriginCertificateOptionsModel := new(sslcertificateapiv1.RevokeOriginCertificateOptions)
+				revokeOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`RevokeOriginCertificate(revokeOriginCertificateOptions *RevokeOriginCertificateOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		revokeOriginCertificatePath := "/v1/testString/zones/testString/origin_certificates/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(revokeOriginCertificatePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "3664634374038615934"}}`)
+				}))
+			})
+			It(`Invoke RevokeOriginCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the RevokeOriginCertificateOptions model
+				revokeOriginCertificateOptionsModel := new(sslcertificateapiv1.RevokeOriginCertificateOptions)
+				revokeOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.RevokeOriginCertificateWithContext(ctx, revokeOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.RevokeOriginCertificateWithContext(ctx, revokeOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(revokeOriginCertificatePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "3664634374038615934"}}`)
+				}))
+			})
+			It(`Invoke RevokeOriginCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.RevokeOriginCertificate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the RevokeOriginCertificateOptions model
+				revokeOriginCertificateOptionsModel := new(sslcertificateapiv1.RevokeOriginCertificateOptions)
+				revokeOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke RevokeOriginCertificate with error: Operation validation and request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the RevokeOriginCertificateOptions model
+				revokeOriginCertificateOptionsModel := new(sslcertificateapiv1.RevokeOriginCertificateOptions)
+				revokeOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the RevokeOriginCertificateOptions model with no property values
+				revokeOriginCertificateOptionsModelNew := new(sslcertificateapiv1.RevokeOriginCertificateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke RevokeOriginCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the RevokeOriginCertificateOptions model
+				revokeOriginCertificateOptionsModel := new(sslcertificateapiv1.RevokeOriginCertificateOptions)
+				revokeOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				revokeOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.RevokeOriginCertificate(revokeOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetOriginCertificate(getOriginCertificateOptions *GetOriginCertificateOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getOriginCertificatePath := "/v1/testString/zones/testString/origin_certificates/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginCertificatePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetOriginCertificate with error: Operation response processing error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginCertificateOptions model
+				getOriginCertificateOptionsModel := new(sslcertificateapiv1.GetOriginCertificateOptions)
+				getOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				sslCertificateApiService.EnableRetries(0, 0)
+				result, response, operationErr = sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetOriginCertificate(getOriginCertificateOptions *GetOriginCertificateOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getOriginCertificatePath := "/v1/testString/zones/testString/origin_certificates/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginCertificatePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "3664634374038615934", "certificate": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----", "hostnames": ["example.com"], "expires_on": "2014-01-01T05:20:00.12345Z", "request_type": "origin-rsa", "requested_validity": 5475, "csr": "-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----", "private_key": "-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY----- \n"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetOriginCertificate successfully with retries`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+				sslCertificateApiService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetOriginCertificateOptions model
+				getOriginCertificateOptionsModel := new(sslcertificateapiv1.GetOriginCertificateOptions)
+				getOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := sslCertificateApiService.GetOriginCertificateWithContext(ctx, getOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				sslCertificateApiService.DisableRetries()
+				result, response, operationErr := sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = sslCertificateApiService.GetOriginCertificateWithContext(ctx, getOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginCertificatePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "3664634374038615934", "certificate": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----", "hostnames": ["example.com"], "expires_on": "2014-01-01T05:20:00.12345Z", "request_type": "origin-rsa", "requested_validity": 5475, "csr": "-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----", "private_key": "-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY----- \n"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetOriginCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := sslCertificateApiService.GetOriginCertificate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetOriginCertificateOptions model
+				getOriginCertificateOptionsModel := new(sslcertificateapiv1.GetOriginCertificateOptions)
+				getOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetOriginCertificate with error: Operation validation and request error`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginCertificateOptions model
+				getOriginCertificateOptionsModel := new(sslcertificateapiv1.GetOriginCertificateOptions)
+				getOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := sslCertificateApiService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetOriginCertificateOptions model with no property values
+				getOriginCertificateOptionsModelNew := new(sslcertificateapiv1.GetOriginCertificateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetOriginCertificate successfully`, func() {
+				sslCertificateApiService, serviceErr := sslcertificateapiv1.NewSslCertificateApiV1(&sslcertificateapiv1.SslCertificateApiV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(sslCertificateApiService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginCertificateOptions model
+				getOriginCertificateOptionsModel := new(sslcertificateapiv1.GetOriginCertificateOptions)
+				getOriginCertificateOptionsModel.Crn = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.CertIdentifier = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getOriginCertificateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := sslCertificateApiService.GetOriginCertificate(getOriginCertificateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
@@ -2732,8 +5513,8 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			It(`Invoke NewCertPriorityReqCertificatesItem successfully`, func() {
 				id := "5a7805061c76ada191ed06f989cc3dac"
 				priority := int64(1)
-				model, err := sslCertificateApiService.NewCertPriorityReqCertificatesItem(id, priority)
-				Expect(model).ToNot(BeNil())
+				_model, err := sslCertificateApiService.NewCertPriorityReqCertificatesItem(id, priority)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewChangeCertificatePriorityOptions successfully`, func() {
@@ -2789,10 +5570,33 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(changeUniversalCertificateSettingOptionsModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(changeUniversalCertificateSettingOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateOriginCertificateOptions successfully`, func() {
+				// Construct an instance of the CreateOriginCertificateOptions model
+				crn := "testString"
+				zoneIdentifier := "testString"
+				createOriginCertificateOptionsModel := sslCertificateApiService.NewCreateOriginCertificateOptions(crn, zoneIdentifier)
+				createOriginCertificateOptionsModel.SetCrn("testString")
+				createOriginCertificateOptionsModel.SetZoneIdentifier("testString")
+				createOriginCertificateOptionsModel.SetHostnames([]string{"example.com"})
+				createOriginCertificateOptionsModel.SetRequestType("origin-rsa")
+				createOriginCertificateOptionsModel.SetRequestedValidity(int64(5475))
+				createOriginCertificateOptionsModel.SetCsr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")
+				createOriginCertificateOptionsModel.SetXCorrelationID("testString")
+				createOriginCertificateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createOriginCertificateOptionsModel).ToNot(BeNil())
+				Expect(createOriginCertificateOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
+				Expect(createOriginCertificateOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(createOriginCertificateOptionsModel.Hostnames).To(Equal([]string{"example.com"}))
+				Expect(createOriginCertificateOptionsModel.RequestType).To(Equal(core.StringPtr("origin-rsa")))
+				Expect(createOriginCertificateOptionsModel.RequestedValidity).To(Equal(core.Int64Ptr(int64(5475))))
+				Expect(createOriginCertificateOptionsModel.Csr).To(Equal(core.StringPtr("-----BEGIN CERTIFICATE REQUEST-----\n...\n-----END CERTIFICATE REQUEST-----")))
+				Expect(createOriginCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(createOriginCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewCustomCertReqGeoRestrictions successfully`, func() {
 				label := "us"
-				model, err := sslCertificateApiService.NewCustomCertReqGeoRestrictions(label)
-				Expect(model).ToNot(BeNil())
+				_model, err := sslCertificateApiService.NewCustomCertReqGeoRestrictions(label)
+				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewDeleteCertificateOptions successfully`, func() {
@@ -2806,6 +5610,18 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(deleteCertificateOptionsModel.CertIdentifier).To(Equal(core.StringPtr("testString")))
 				Expect(deleteCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteCertificateV2Options successfully`, func() {
+				// Construct an instance of the DeleteCertificateV2Options model
+				certIdentifier := "testString"
+				deleteCertificateV2OptionsModel := sslCertificateApiService.NewDeleteCertificateV2Options(certIdentifier)
+				deleteCertificateV2OptionsModel.SetCertIdentifier("testString")
+				deleteCertificateV2OptionsModel.SetXCorrelationID("testString")
+				deleteCertificateV2OptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteCertificateV2OptionsModel).ToNot(BeNil())
+				Expect(deleteCertificateV2OptionsModel.CertIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCertificateV2OptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteCertificateV2OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteCustomCertificateOptions successfully`, func() {
 				// Construct an instance of the DeleteCustomCertificateOptions model
@@ -2827,12 +5643,39 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(getCustomCertificateOptionsModel.CustomCertID).To(Equal(core.StringPtr("testString")))
 				Expect(getCustomCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetOriginCertificateOptions successfully`, func() {
+				// Construct an instance of the GetOriginCertificateOptions model
+				crn := "testString"
+				zoneIdentifier := "testString"
+				certIdentifier := "testString"
+				getOriginCertificateOptionsModel := sslCertificateApiService.NewGetOriginCertificateOptions(crn, zoneIdentifier, certIdentifier)
+				getOriginCertificateOptionsModel.SetCrn("testString")
+				getOriginCertificateOptionsModel.SetZoneIdentifier("testString")
+				getOriginCertificateOptionsModel.SetCertIdentifier("testString")
+				getOriginCertificateOptionsModel.SetXCorrelationID("testString")
+				getOriginCertificateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getOriginCertificateOptionsModel).ToNot(BeNil())
+				Expect(getOriginCertificateOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
+				Expect(getOriginCertificateOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(getOriginCertificateOptionsModel.CertIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(getOriginCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getOriginCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetSslSettingOptions successfully`, func() {
 				// Construct an instance of the GetSslSettingOptions model
 				getSslSettingOptionsModel := sslCertificateApiService.NewGetSslSettingOptions()
 				getSslSettingOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getSslSettingOptionsModel).ToNot(BeNil())
 				Expect(getSslSettingOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetSslVerificationOptions successfully`, func() {
+				// Construct an instance of the GetSslVerificationOptions model
+				getSslVerificationOptionsModel := sslCertificateApiService.NewGetSslVerificationOptions()
+				getSslVerificationOptionsModel.SetXCorrelationID("testString")
+				getSslVerificationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getSslVerificationOptionsModel).ToNot(BeNil())
+				Expect(getSslVerificationOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getSslVerificationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetTls12SettingOptions successfully`, func() {
 				// Construct an instance of the GetTls12SettingOptions model
@@ -2871,18 +5714,84 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 				Expect(listCustomCertificatesOptionsModel).ToNot(BeNil())
 				Expect(listCustomCertificatesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListOriginCertificatesOptions successfully`, func() {
+				// Construct an instance of the ListOriginCertificatesOptions model
+				crn := "testString"
+				zoneIdentifier := "testString"
+				listOriginCertificatesOptionsModel := sslCertificateApiService.NewListOriginCertificatesOptions(crn, zoneIdentifier)
+				listOriginCertificatesOptionsModel.SetCrn("testString")
+				listOriginCertificatesOptionsModel.SetZoneIdentifier("testString")
+				listOriginCertificatesOptionsModel.SetXCorrelationID("testString")
+				listOriginCertificatesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listOriginCertificatesOptionsModel).ToNot(BeNil())
+				Expect(listOriginCertificatesOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
+				Expect(listOriginCertificatesOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(listOriginCertificatesOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listOriginCertificatesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewOrderAdvancedCertificateOptions successfully`, func() {
+				// Construct an instance of the OrderAdvancedCertificateOptions model
+				orderAdvancedCertificateOptionsModel := sslCertificateApiService.NewOrderAdvancedCertificateOptions()
+				orderAdvancedCertificateOptionsModel.SetType("advanced")
+				orderAdvancedCertificateOptionsModel.SetHosts([]string{"example.com", "*.example.com"})
+				orderAdvancedCertificateOptionsModel.SetValidationMethod("txt")
+				orderAdvancedCertificateOptionsModel.SetValidityDays(int64(90))
+				orderAdvancedCertificateOptionsModel.SetCertificateAuthority("lets_encrypt")
+				orderAdvancedCertificateOptionsModel.SetCloudflareBranding(false)
+				orderAdvancedCertificateOptionsModel.SetXCorrelationID("testString")
+				orderAdvancedCertificateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(orderAdvancedCertificateOptionsModel).ToNot(BeNil())
+				Expect(orderAdvancedCertificateOptionsModel.Type).To(Equal(core.StringPtr("advanced")))
+				Expect(orderAdvancedCertificateOptionsModel.Hosts).To(Equal([]string{"example.com", "*.example.com"}))
+				Expect(orderAdvancedCertificateOptionsModel.ValidationMethod).To(Equal(core.StringPtr("txt")))
+				Expect(orderAdvancedCertificateOptionsModel.ValidityDays).To(Equal(core.Int64Ptr(int64(90))))
+				Expect(orderAdvancedCertificateOptionsModel.CertificateAuthority).To(Equal(core.StringPtr("lets_encrypt")))
+				Expect(orderAdvancedCertificateOptionsModel.CloudflareBranding).To(Equal(core.BoolPtr(false)))
+				Expect(orderAdvancedCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(orderAdvancedCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewOrderCertificateOptions successfully`, func() {
 				// Construct an instance of the OrderCertificateOptions model
 				orderCertificateOptionsModel := sslCertificateApiService.NewOrderCertificateOptions()
 				orderCertificateOptionsModel.SetType("dedicated")
-				orderCertificateOptionsModel.SetHosts([]string{"example.com"})
+				orderCertificateOptionsModel.SetHosts([]string{"example.com", "*.example.com"})
 				orderCertificateOptionsModel.SetXCorrelationID("testString")
 				orderCertificateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(orderCertificateOptionsModel).ToNot(BeNil())
 				Expect(orderCertificateOptionsModel.Type).To(Equal(core.StringPtr("dedicated")))
-				Expect(orderCertificateOptionsModel.Hosts).To(Equal([]string{"example.com"}))
+				Expect(orderCertificateOptionsModel.Hosts).To(Equal([]string{"example.com", "*.example.com"}))
 				Expect(orderCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(orderCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewPatchCertificateOptions successfully`, func() {
+				// Construct an instance of the PatchCertificateOptions model
+				certIdentifier := "testString"
+				patchCertificateOptionsModel := sslCertificateApiService.NewPatchCertificateOptions(certIdentifier)
+				patchCertificateOptionsModel.SetCertIdentifier("testString")
+				patchCertificateOptionsModel.SetXCorrelationID("testString")
+				patchCertificateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(patchCertificateOptionsModel).ToNot(BeNil())
+				Expect(patchCertificateOptionsModel.CertIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(patchCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(patchCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewRevokeOriginCertificateOptions successfully`, func() {
+				// Construct an instance of the RevokeOriginCertificateOptions model
+				crn := "testString"
+				zoneIdentifier := "testString"
+				certIdentifier := "testString"
+				revokeOriginCertificateOptionsModel := sslCertificateApiService.NewRevokeOriginCertificateOptions(crn, zoneIdentifier, certIdentifier)
+				revokeOriginCertificateOptionsModel.SetCrn("testString")
+				revokeOriginCertificateOptionsModel.SetZoneIdentifier("testString")
+				revokeOriginCertificateOptionsModel.SetCertIdentifier("testString")
+				revokeOriginCertificateOptionsModel.SetXCorrelationID("testString")
+				revokeOriginCertificateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(revokeOriginCertificateOptionsModel).ToNot(BeNil())
+				Expect(revokeOriginCertificateOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
+				Expect(revokeOriginCertificateOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(revokeOriginCertificateOptionsModel.CertIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(revokeOriginCertificateOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(revokeOriginCertificateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateCustomCertificateOptions successfully`, func() {
 				// Construct an instance of the CustomCertReqGeoRestrictions model
@@ -2945,11 +5854,11 @@ var _ = Describe(`SslCertificateApiV1`, func() {
 			Expect(mockReader).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDate() successfully`, func() {
-			mockDate := CreateMockDate()
+			mockDate := CreateMockDate("2019-01-01")
 			Expect(mockDate).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDateTime() successfully`, func() {
-			mockDateTime := CreateMockDateTime()
+			mockDateTime := CreateMockDateTime("2019-01-01T12:00:00.000Z")
 			Expect(mockDateTime).ToNot(BeNil())
 		})
 	})
@@ -2974,13 +5883,19 @@ func CreateMockReader(mockData string) io.ReadCloser {
 	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
-func CreateMockDate() *strfmt.Date {
-	d := strfmt.Date(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDate(mockData string) *strfmt.Date {
+	d, err := core.ParseDate(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
-func CreateMockDateTime() *strfmt.DateTime {
-	d := strfmt.DateTime(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDateTime(mockData string) *strfmt.DateTime {
+	d, err := core.ParseDateTime(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
