@@ -1,3 +1,27 @@
+## [0.47.2](https://github.com/IBM/networking-go-sdk/compare/v0.47.1...v0.47.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* fix: Reverting Previous Dependency Updates ([9d6745e](https://github.com/IBM/networking-go-sdk/commit/9d6745e18ee21842a13909eb1fd60d457c50a5a6))
+* fixing deployement issues  ([#194](https://github.com/IBM/networking-go-sdk/issues/194)) ([0a1223a](https://github.com/IBM/networking-go-sdk/commit/0a1223a0e9495b394f32f23092a9d1718b46cc84))
+* fixing deployment issue ([#186](https://github.com/IBM/networking-go-sdk/issues/186)) ([851a472](https://github.com/IBM/networking-go-sdk/commit/851a4721c1f67ef928f2e9dd11ba48c2b411ce38))
+* fixing deployment issue ([#199](https://github.com/IBM/networking-go-sdk/issues/199)) ([6ade25d](https://github.com/IBM/networking-go-sdk/commit/6ade25dd763ccb3a2b8616918ff05c9a372a3fc5))
+* fixing the deployment issue ([#185](https://github.com/IBM/networking-go-sdk/issues/185)) ([39c812a](https://github.com/IBM/networking-go-sdk/commit/39c812a34ed43b2b19494688873d6b80049bb7ab))
+* fixng Uncontrolled resource consumption in braces ([#184](https://github.com/IBM/networking-go-sdk/issues/184)) ([27ce9ab](https://github.com/IBM/networking-go-sdk/commit/27ce9ab333c055bd7e222f9daa453f8bb821b992))
+* reverting previous dependency update chnages ([#192](https://github.com/IBM/networking-go-sdk/issues/192)) ([6f63583](https://github.com/IBM/networking-go-sdk/commit/6f63583fbac3d332c968997b7857d45dee3078a8))
+* reverting previous dependency update chnages ([#193](https://github.com/IBM/networking-go-sdk/issues/193)) ([fd7031e](https://github.com/IBM/networking-go-sdk/commit/fd7031e8f6ccf81de8b8501bb2ab617b8d43feeb))
+* reverting previous dependency update chnages ([#197](https://github.com/IBM/networking-go-sdk/issues/197)) ([f94dddd](https://github.com/IBM/networking-go-sdk/commit/f94dddd6fbca6ee1819f2a915bfffde306d93877))
+* reverting previous dependency update chnages ([#198](https://github.com/IBM/networking-go-sdk/issues/198)) ([fe11a39](https://github.com/IBM/networking-go-sdk/commit/fe11a3974b6652515f585cd73d537e5e66bf9ffd))
+* Reverting Previous Dependency Updates  ([#189](https://github.com/IBM/networking-go-sdk/issues/189)) ([21e156b](https://github.com/IBM/networking-go-sdk/commit/21e156b36ac36df2c1edbdff777f18eff580e8a7))
+
+## [0.47.1](https://github.com/IBM/networking-go-sdk/compare/v0.47.0...v0.47.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* change ruleset rule response ([61a03df](https://github.com/IBM/networking-go-sdk/commit/61a03df98bbaf63de737c7e1738de2fff80ab0eb))
+
 ## [0.46.1](https://github.com/IBM/networking-go-sdk/compare/v0.46.0...v0.46.1) (2024-04-24)
 
 
