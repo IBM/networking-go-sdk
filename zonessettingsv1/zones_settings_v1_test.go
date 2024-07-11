@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15653,6 +15653,936 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 		})
 	})
+	Describe(`GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptions *GetOriginMaxHttpVersionOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getOriginMaxHttpVersionPath := "/v1/testString/zones/testString/settings/origin_max_http_version"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginMaxHttpVersionPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetOriginMaxHttpVersion with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginMaxHttpVersionOptions model
+				getOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.GetOriginMaxHttpVersionOptions)
+				getOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptions *GetOriginMaxHttpVersionOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getOriginMaxHttpVersionPath := "/v1/testString/zones/testString/settings/origin_max_http_version"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginMaxHttpVersionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_max_http_version", "value": "1", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetOriginMaxHttpVersion successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetOriginMaxHttpVersionOptions model
+				getOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.GetOriginMaxHttpVersionOptions)
+				getOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetOriginMaxHttpVersionWithContext(ctx, getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetOriginMaxHttpVersionWithContext(ctx, getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginMaxHttpVersionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_max_http_version", "value": "1", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetOriginMaxHttpVersion successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetOriginMaxHttpVersion(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetOriginMaxHttpVersionOptions model
+				getOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.GetOriginMaxHttpVersionOptions)
+				getOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetOriginMaxHttpVersion with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginMaxHttpVersionOptions model
+				getOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.GetOriginMaxHttpVersionOptions)
+				getOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetOriginMaxHttpVersion successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginMaxHttpVersionOptions model
+				getOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.GetOriginMaxHttpVersionOptions)
+				getOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.GetOriginMaxHttpVersion(getOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptions *UpdateOriginMaxHttpVersionOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateOriginMaxHttpVersionPath := "/v1/testString/zones/testString/settings/origin_max_http_version"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateOriginMaxHttpVersionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateOriginMaxHttpVersion with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateOriginMaxHttpVersionOptions model
+				updateOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.UpdateOriginMaxHttpVersionOptions)
+				updateOriginMaxHttpVersionOptionsModel.Value = core.StringPtr("1")
+				updateOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptions *UpdateOriginMaxHttpVersionOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateOriginMaxHttpVersionPath := "/v1/testString/zones/testString/settings/origin_max_http_version"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateOriginMaxHttpVersionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_max_http_version", "value": "1", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateOriginMaxHttpVersion successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateOriginMaxHttpVersionOptions model
+				updateOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.UpdateOriginMaxHttpVersionOptions)
+				updateOriginMaxHttpVersionOptionsModel.Value = core.StringPtr("1")
+				updateOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateOriginMaxHttpVersionWithContext(ctx, updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateOriginMaxHttpVersionWithContext(ctx, updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateOriginMaxHttpVersionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_max_http_version", "value": "1", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateOriginMaxHttpVersion successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateOriginMaxHttpVersion(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateOriginMaxHttpVersionOptions model
+				updateOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.UpdateOriginMaxHttpVersionOptions)
+				updateOriginMaxHttpVersionOptionsModel.Value = core.StringPtr("1")
+				updateOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateOriginMaxHttpVersion with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateOriginMaxHttpVersionOptions model
+				updateOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.UpdateOriginMaxHttpVersionOptions)
+				updateOriginMaxHttpVersionOptionsModel.Value = core.StringPtr("1")
+				updateOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateOriginMaxHttpVersion successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateOriginMaxHttpVersionOptions model
+				updateOriginMaxHttpVersionOptionsModel := new(zonessettingsv1.UpdateOriginMaxHttpVersionOptions)
+				updateOriginMaxHttpVersionOptionsModel.Value = core.StringPtr("1")
+				updateOriginMaxHttpVersionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.UpdateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptions *GetOriginPostQuantumEncryptionOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getOriginPostQuantumEncryptionPath := "/v1/testString/zones/testString/cache/origin_post_quantum_encryption"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginPostQuantumEncryptionPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetOriginPostQuantumEncryption with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginPostQuantumEncryptionOptions model
+				getOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.GetOriginPostQuantumEncryptionOptions)
+				getOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptions *GetOriginPostQuantumEncryptionOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getOriginPostQuantumEncryptionPath := "/v1/testString/zones/testString/cache/origin_post_quantum_encryption"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginPostQuantumEncryptionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_pqe", "value": "off", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetOriginPostQuantumEncryption successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetOriginPostQuantumEncryptionOptions model
+				getOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.GetOriginPostQuantumEncryptionOptions)
+				getOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetOriginPostQuantumEncryptionWithContext(ctx, getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetOriginPostQuantumEncryptionWithContext(ctx, getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getOriginPostQuantumEncryptionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_pqe", "value": "off", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetOriginPostQuantumEncryption successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetOriginPostQuantumEncryption(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetOriginPostQuantumEncryptionOptions model
+				getOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.GetOriginPostQuantumEncryptionOptions)
+				getOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetOriginPostQuantumEncryption with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginPostQuantumEncryptionOptions model
+				getOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.GetOriginPostQuantumEncryptionOptions)
+				getOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetOriginPostQuantumEncryption successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetOriginPostQuantumEncryptionOptions model
+				getOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.GetOriginPostQuantumEncryptionOptions)
+				getOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.GetOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptions *UpdateOriginPostQuantumEncryptionOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateOriginPostQuantumEncryptionPath := "/v1/testString/zones/testString/cache/origin_post_quantum_encryption"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateOriginPostQuantumEncryptionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateOriginPostQuantumEncryption with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateOriginPostQuantumEncryptionOptions model
+				updateOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.UpdateOriginPostQuantumEncryptionOptions)
+				updateOriginPostQuantumEncryptionOptionsModel.Value = core.StringPtr("preferred")
+				updateOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptions *UpdateOriginPostQuantumEncryptionOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateOriginPostQuantumEncryptionPath := "/v1/testString/zones/testString/cache/origin_post_quantum_encryption"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateOriginPostQuantumEncryptionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_pqe", "value": "off", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateOriginPostQuantumEncryption successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateOriginPostQuantumEncryptionOptions model
+				updateOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.UpdateOriginPostQuantumEncryptionOptions)
+				updateOriginPostQuantumEncryptionOptionsModel.Value = core.StringPtr("preferred")
+				updateOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateOriginPostQuantumEncryptionWithContext(ctx, updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateOriginPostQuantumEncryptionWithContext(ctx, updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateOriginPostQuantumEncryptionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "origin_pqe", "value": "off", "editable": true, "modified_on": "2023-09-14T09:49:19.524Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateOriginPostQuantumEncryption successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateOriginPostQuantumEncryption(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateOriginPostQuantumEncryptionOptions model
+				updateOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.UpdateOriginPostQuantumEncryptionOptions)
+				updateOriginPostQuantumEncryptionOptionsModel.Value = core.StringPtr("preferred")
+				updateOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateOriginPostQuantumEncryption with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateOriginPostQuantumEncryptionOptions model
+				updateOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.UpdateOriginPostQuantumEncryptionOptions)
+				updateOriginPostQuantumEncryptionOptionsModel.Value = core.StringPtr("preferred")
+				updateOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateOriginPostQuantumEncryption successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateOriginPostQuantumEncryptionOptions model
+				updateOriginPostQuantumEncryptionOptionsModel := new(zonessettingsv1.UpdateOriginPostQuantumEncryptionOptions)
+				updateOriginPostQuantumEncryptionOptionsModel.Value = core.StringPtr("preferred")
+				updateOriginPostQuantumEncryptionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.UpdateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
@@ -15802,6 +16732,20 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				getOpportunisticOnionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getOpportunisticOnionOptionsModel).ToNot(BeNil())
 				Expect(getOpportunisticOnionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetOriginMaxHttpVersionOptions successfully`, func() {
+				// Construct an instance of the GetOriginMaxHttpVersionOptions model
+				getOriginMaxHttpVersionOptionsModel := zonesSettingsService.NewGetOriginMaxHttpVersionOptions()
+				getOriginMaxHttpVersionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getOriginMaxHttpVersionOptionsModel).ToNot(BeNil())
+				Expect(getOriginMaxHttpVersionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetOriginPostQuantumEncryptionOptions successfully`, func() {
+				// Construct an instance of the GetOriginPostQuantumEncryptionOptions model
+				getOriginPostQuantumEncryptionOptionsModel := zonesSettingsService.NewGetOriginPostQuantumEncryptionOptions()
+				getOriginPostQuantumEncryptionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getOriginPostQuantumEncryptionOptionsModel).ToNot(BeNil())
+				Expect(getOriginPostQuantumEncryptionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetPrefetchPreloadOptions successfully`, func() {
 				// Construct an instance of the GetPrefetchPreloadOptions model
@@ -16124,6 +17068,24 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updateOpportunisticOnionOptionsModel).ToNot(BeNil())
 				Expect(updateOpportunisticOnionOptionsModel.Value).To(Equal(core.StringPtr("off")))
 				Expect(updateOpportunisticOnionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateOriginMaxHttpVersionOptions successfully`, func() {
+				// Construct an instance of the UpdateOriginMaxHttpVersionOptions model
+				updateOriginMaxHttpVersionOptionsModel := zonesSettingsService.NewUpdateOriginMaxHttpVersionOptions()
+				updateOriginMaxHttpVersionOptionsModel.SetValue("1")
+				updateOriginMaxHttpVersionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateOriginMaxHttpVersionOptionsModel).ToNot(BeNil())
+				Expect(updateOriginMaxHttpVersionOptionsModel.Value).To(Equal(core.StringPtr("1")))
+				Expect(updateOriginMaxHttpVersionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateOriginPostQuantumEncryptionOptions successfully`, func() {
+				// Construct an instance of the UpdateOriginPostQuantumEncryptionOptions model
+				updateOriginPostQuantumEncryptionOptionsModel := zonesSettingsService.NewUpdateOriginPostQuantumEncryptionOptions()
+				updateOriginPostQuantumEncryptionOptionsModel.SetValue("preferred")
+				updateOriginPostQuantumEncryptionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateOriginPostQuantumEncryptionOptionsModel).ToNot(BeNil())
+				Expect(updateOriginPostQuantumEncryptionOptionsModel.Value).To(Equal(core.StringPtr("preferred")))
+				Expect(updateOriginPostQuantumEncryptionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdatePrefetchPreloadOptions successfully`, func() {
 				// Construct an instance of the UpdatePrefetchPreloadOptions model

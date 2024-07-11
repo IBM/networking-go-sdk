@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2024.
  */
 
 package zonessettingsv1_test
@@ -687,6 +687,50 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				for _, value := range values {
 					updateOpt.SetValue([]string{value})
 					updateResult, updateResp, updateErr := service.UpdateCiphers(updateOpt)
+					Expect(updateErr).To(BeNil())
+					Expect(updateResp).ToNot(BeNil())
+					Expect(updateResult).ToNot(BeNil())
+					Expect(*updateResult.Success).Should(BeTrue())
+				}
+			})
+			It("origin max http version setting test", func() {
+				shouldSkipTest()
+				getOpt := service.NewGetOriginMaxHttpVersionOptions()
+				getResult, getResp, getErr := service.GetOriginMaxHttpVersion(getOpt)
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+
+				values := []string{"1", "2"}
+
+				updateOpt := service.NewUpdateOriginMaxHttpVersionOptions()
+				for _, value := range values {
+					updateOpt.SetValue(value)
+					updateResult, updateResp, updateErr := service.UpdateOriginMaxHttpVersion(updateOpt)
+					Expect(updateErr).To(BeNil())
+					Expect(updateResp).ToNot(BeNil())
+					Expect(updateResult).ToNot(BeNil())
+					Expect(*updateResult.Success).Should(BeTrue())
+				}
+			})
+			It("origin post-quantum enrcryption setting test", func() {
+				shouldSkipTest()
+				getOpt := service.NewGetOriginPostQuantumEncryptionOptions()
+				getResult, getResp, getErr := service.GetOriginPostQuantumEncryption(getOpt)
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+
+				values := []string{OriginPostQuantumEncryptionRespResult_Value_Preferred,
+					OriginPostQuantumEncryptionRespResult_Value_Supported,
+					OriginPostQuantumEncryptionRespResult_Value_Off}
+
+				updateOpt := service.NewUpdateOriginPostQuantumEncryptionOptions()
+				for _, value := range values {
+					updateOpt.SetValue(value)
+					updateResult, updateResp, updateErr := service.UpdateOriginPostQuantumEncryption(updateOpt)
 					Expect(updateErr).To(BeNil())
 					Expect(updateResp).ToNot(BeNil())
 					Expect(updateResult).ToNot(BeNil())
