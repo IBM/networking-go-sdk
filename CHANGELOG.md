@@ -1,3 +1,10 @@
+# [0.49.0](https://github.com/IBM/networking-go-sdk/compare/v0.48.0...v0.49.0) (2024-07-12)
+
+
+### Features
+
+* **CIS:** origin post quantum encryption and max HTTP version ([#201](https://github.com/IBM/networking-go-sdk/issues/201)) ([10dc3c5](https://github.com/IBM/networking-go-sdk/commit/10dc3c5c25f214180252831fc75f8d515652784b))
+
 # [0.48.0](https://github.com/IBM/networking-go-sdk/compare/v0.47.2...v0.48.0) (2024-07-02)
 
 
