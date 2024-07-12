@@ -4470,7 +4470,7 @@ func (zonesSettings *ZonesSettingsV1) UpdateOriginPostQuantumEncryptionWithConte
 		"zone_identifier": *zonesSettings.ZoneIdentifier,
 	}
 
-	builder := core.NewRequestBuilder(core.PATCH)
+	builder := core.NewRequestBuilder(core.PUT)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/cache/origin_post_quantum_encryption`, pathParamsMap)

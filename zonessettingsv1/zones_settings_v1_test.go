@@ -16343,7 +16343,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateOriginPostQuantumEncryptionPath))
-					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -16392,7 +16392,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateOriginPostQuantumEncryptionPath))
-					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Method).To(Equal("PUT"))
 
 					// For gzip-disabled operation, verify Content-Encoding is not set.
 					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
@@ -16467,7 +16467,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateOriginPostQuantumEncryptionPath))
-					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.Method).To(Equal("PUT"))
 
 					// For gzip-disabled operation, verify Content-Encoding is not set.
 					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
