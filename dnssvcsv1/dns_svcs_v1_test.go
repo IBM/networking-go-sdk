@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package dnssvcsv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -34,9 +36,6 @@ import (
 )
 
 var _ = Describe(`DnsSvcsV1`, func() {
-	defer GinkgoRecover()
-	Skip("Skipping as build is fialing..")
-
 	var testServer *httptest.Server
 	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
@@ -69,13 +68,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_SVCS_URL":       "https://dnssvcsv1/api",
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
 				"DNS_SVCS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{})
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
 				Expect(dnsSvcsService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -104,7 +104,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{})
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+				})
 				err := dnsSvcsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
@@ -122,12 +123,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_SVCS_URL":       "https://dnssvcsv1/api",
+				"DNS_SVCS_URL": "https://dnssvcsv1/api",
 				"DNS_SVCS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{})
+			dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(&dnssvcsv1.DnsSvcsV1Options{
+			})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(dnsSvcsService).To(BeNil())
@@ -138,7 +140,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DNS_SVCS_AUTH_TYPE": "NOAuth",
+				"DNS_SVCS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -480,10 +482,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listDnszonesOptionsModel := &dnssvcsv1.ListDnszonesOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
-					VpcID:          core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+					VpcID: core.StringPtr("testString"),
 				}
 
 				pager, err := dnsSvcsService.NewDnszonesPager(listDnszonesOptionsModel)
@@ -508,10 +510,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listDnszonesOptionsModel := &dnssvcsv1.ListDnszonesOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
-					VpcID:          core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(200)),
+					VpcID: core.StringPtr("testString"),
 				}
 
 				pager, err := dnsSvcsService.NewDnszonesPager(listDnszonesOptionsModel)
@@ -1697,12 +1699,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listResourceRecordsOptionsModel := &dnssvcsv1.ListResourceRecordsOptions{
-					InstanceID:     core.StringPtr("testString"),
-					DnszoneID:      core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
-					Type:           core.StringPtr("A"),
-					Name:           core.StringPtr("www.example.com"),
+					Limit: core.Int64Ptr(int64(200)),
+					Type: core.StringPtr("A"),
+					Name: core.StringPtr("www.example.com"),
 				}
 
 				pager, err := dnsSvcsService.NewResourceRecordsPager(listResourceRecordsOptionsModel)
@@ -1727,12 +1729,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listResourceRecordsOptionsModel := &dnssvcsv1.ListResourceRecordsOptions{
-					InstanceID:     core.StringPtr("testString"),
-					DnszoneID:      core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
-					Type:           core.StringPtr("A"),
-					Name:           core.StringPtr("www.example.com"),
+					Limit: core.Int64Ptr(int64(200)),
+					Type: core.StringPtr("A"),
+					Name: core.StringPtr("www.example.com"),
 				}
 
 				pager, err := dnsSvcsService.NewResourceRecordsPager(listResourceRecordsOptionsModel)
@@ -1779,8 +1781,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel := new(dnssvcsv1.CreateResourceRecordOptions)
 				createResourceRecordOptionsModel.InstanceID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
-				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Type = core.StringPtr("SRV")
+				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Rdata = resourceRecordInputRdataModel
 				createResourceRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
@@ -1860,8 +1862,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel := new(dnssvcsv1.CreateResourceRecordOptions)
 				createResourceRecordOptionsModel.InstanceID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
-				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Type = core.StringPtr("SRV")
+				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Rdata = resourceRecordInputRdataModel
 				createResourceRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
@@ -1949,8 +1951,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel := new(dnssvcsv1.CreateResourceRecordOptions)
 				createResourceRecordOptionsModel.InstanceID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
-				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Type = core.StringPtr("SRV")
+				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Rdata = resourceRecordInputRdataModel
 				createResourceRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
@@ -1981,8 +1983,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel := new(dnssvcsv1.CreateResourceRecordOptions)
 				createResourceRecordOptionsModel.InstanceID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
-				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Type = core.StringPtr("SRV")
+				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Rdata = resourceRecordInputRdataModel
 				createResourceRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
@@ -2034,8 +2036,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createResourceRecordOptionsModel := new(dnssvcsv1.CreateResourceRecordOptions)
 				createResourceRecordOptionsModel.InstanceID = core.StringPtr("testString")
 				createResourceRecordOptionsModel.DnszoneID = core.StringPtr("testString")
-				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Type = core.StringPtr("SRV")
+				createResourceRecordOptionsModel.Name = core.StringPtr("test.example.com")
 				createResourceRecordOptionsModel.Rdata = resourceRecordInputRdataModel
 				createResourceRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createResourceRecordOptionsModel.Service = core.StringPtr("_sip")
@@ -2846,6 +2848,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
+
 				// Verify empty byte buffer.
 				Expect(result).ToNot(BeNil())
 				buffer, operationErr := io.ReadAll(result)
@@ -3023,7 +3026,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 			It(`Invoke ImportResourceRecords with error: Param validation error`, func() {
 				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
-					URL:           testServer.URL,
+					URL:  testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4426,10 +4429,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listLoadBalancersOptionsModel := &dnssvcsv1.ListLoadBalancersOptions{
-					InstanceID:     core.StringPtr("testString"),
-					DnszoneID:      core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewLoadBalancersPager(listLoadBalancersOptionsModel)
@@ -4454,10 +4457,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listLoadBalancersOptionsModel := &dnssvcsv1.ListLoadBalancersOptions{
-					InstanceID:     core.StringPtr("testString"),
-					DnszoneID:      core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewLoadBalancersPager(listLoadBalancersOptionsModel)
@@ -4496,22 +4499,22 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the CreateLoadBalancerOptions model
 				createLoadBalancerOptionsModel := new(dnssvcsv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.InstanceID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Name = core.StringPtr("glb.example.com")
+				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
+				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
 				createLoadBalancerOptionsModel.Description = core.StringPtr("Load balancer for glb.example.com.")
 				createLoadBalancerOptionsModel.Enabled = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
-				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -4579,22 +4582,22 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 				dnsSvcsService.EnableRetries(0, 0)
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the CreateLoadBalancerOptions model
 				createLoadBalancerOptionsModel := new(dnssvcsv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.InstanceID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Name = core.StringPtr("glb.example.com")
+				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
+				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
 				createLoadBalancerOptionsModel.Description = core.StringPtr("Load balancer for glb.example.com.")
 				createLoadBalancerOptionsModel.Enabled = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
-				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4670,22 +4673,22 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the CreateLoadBalancerOptions model
 				createLoadBalancerOptionsModel := new(dnssvcsv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.InstanceID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Name = core.StringPtr("glb.example.com")
+				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
+				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
 				createLoadBalancerOptionsModel.Description = core.StringPtr("Load balancer for glb.example.com.")
 				createLoadBalancerOptionsModel.Enabled = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
-				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4704,22 +4707,22 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the CreateLoadBalancerOptions model
 				createLoadBalancerOptionsModel := new(dnssvcsv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.InstanceID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Name = core.StringPtr("glb.example.com")
+				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
+				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
 				createLoadBalancerOptionsModel.Description = core.StringPtr("Load balancer for glb.example.com.")
 				createLoadBalancerOptionsModel.Enabled = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
-				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4759,22 +4762,22 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the CreateLoadBalancerOptions model
 				createLoadBalancerOptionsModel := new(dnssvcsv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.InstanceID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.DnszoneID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Name = core.StringPtr("glb.example.com")
+				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
+				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
 				createLoadBalancerOptionsModel.Description = core.StringPtr("Load balancer for glb.example.com.")
 				createLoadBalancerOptionsModel.Enabled = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
-				createLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-				createLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				createLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				createLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5125,10 +5128,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(dnssvcsv1.UpdateLoadBalancerOptions)
@@ -5141,7 +5144,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
 				updateLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -5209,10 +5212,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 				dnsSvcsService.EnableRetries(0, 0)
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(dnssvcsv1.UpdateLoadBalancerOptions)
@@ -5225,7 +5228,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
 				updateLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5301,10 +5304,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(dnssvcsv1.UpdateLoadBalancerOptions)
@@ -5317,7 +5320,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
 				updateLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5336,10 +5339,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(dnssvcsv1.UpdateLoadBalancerOptions)
@@ -5352,7 +5355,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
 				updateLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -5392,10 +5395,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
 
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(dnssvcsv1.UpdateLoadBalancerOptions)
@@ -5408,7 +5411,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.TTL = core.Int64Ptr(int64(120))
 				updateLoadBalancerOptionsModel.FallbackPool = core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
 				updateLoadBalancerOptionsModel.DefaultPools = []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
-				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}
+				updateLoadBalancerOptionsModel.AzPools = []dnssvcsv1.AzPoolsItem{*azPoolsItemModel}
 				updateLoadBalancerOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5734,9 +5737,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listPoolsOptionsModel := &dnssvcsv1.ListPoolsOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewPoolsPager(listPoolsOptionsModel)
@@ -5761,9 +5764,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listPoolsOptionsModel := &dnssvcsv1.ListPoolsOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewPoolsPager(listPoolsOptionsModel)
@@ -5813,10 +5816,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel := new(dnssvcsv1.CreatePoolOptions)
 				createPoolOptionsModel.InstanceID = core.StringPtr("testString")
 				createPoolOptionsModel.Name = core.StringPtr("dal10-az-pool")
+				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Description = core.StringPtr("Load balancer pool for dal10 availability zone.")
 				createPoolOptionsModel.Enabled = core.BoolPtr(true)
 				createPoolOptionsModel.HealthyOriginsThreshold = core.Int64Ptr(int64(1))
-				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
@@ -5899,10 +5902,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel := new(dnssvcsv1.CreatePoolOptions)
 				createPoolOptionsModel.InstanceID = core.StringPtr("testString")
 				createPoolOptionsModel.Name = core.StringPtr("dal10-az-pool")
+				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Description = core.StringPtr("Load balancer pool for dal10 availability zone.")
 				createPoolOptionsModel.Enabled = core.BoolPtr(true)
 				createPoolOptionsModel.HealthyOriginsThreshold = core.Int64Ptr(int64(1))
-				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
@@ -5993,10 +5996,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel := new(dnssvcsv1.CreatePoolOptions)
 				createPoolOptionsModel.InstanceID = core.StringPtr("testString")
 				createPoolOptionsModel.Name = core.StringPtr("dal10-az-pool")
+				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Description = core.StringPtr("Load balancer pool for dal10 availability zone.")
 				createPoolOptionsModel.Enabled = core.BoolPtr(true)
 				createPoolOptionsModel.HealthyOriginsThreshold = core.Int64Ptr(int64(1))
-				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
@@ -6030,10 +6033,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel := new(dnssvcsv1.CreatePoolOptions)
 				createPoolOptionsModel.InstanceID = core.StringPtr("testString")
 				createPoolOptionsModel.Name = core.StringPtr("dal10-az-pool")
+				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Description = core.StringPtr("Load balancer pool for dal10 availability zone.")
 				createPoolOptionsModel.Enabled = core.BoolPtr(true)
 				createPoolOptionsModel.HealthyOriginsThreshold = core.Int64Ptr(int64(1))
-				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
@@ -6088,10 +6091,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createPoolOptionsModel := new(dnssvcsv1.CreatePoolOptions)
 				createPoolOptionsModel.InstanceID = core.StringPtr("testString")
 				createPoolOptionsModel.Name = core.StringPtr("dal10-az-pool")
+				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Description = core.StringPtr("Load balancer pool for dal10 availability zone.")
 				createPoolOptionsModel.Enabled = core.BoolPtr(true)
 				createPoolOptionsModel.HealthyOriginsThreshold = core.Int64Ptr(int64(1))
-				createPoolOptionsModel.Origins = []dnssvcsv1.OriginInput{*originInputModel}
 				createPoolOptionsModel.Monitor = core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.NotificationChannel = core.StringPtr("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.HealthcheckRegion = core.StringPtr("us-south")
@@ -7063,9 +7066,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listMonitorsOptionsModel := &dnssvcsv1.ListMonitorsOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewMonitorsPager(listMonitorsOptionsModel)
@@ -7090,9 +7093,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listMonitorsOptionsModel := &dnssvcsv1.ListMonitorsOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewMonitorsPager(listMonitorsOptionsModel)
@@ -7140,8 +7143,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel := new(dnssvcsv1.CreateMonitorOptions)
 				createMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				createMonitorOptionsModel.Name = core.StringPtr("healthcheck-monitor")
-				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Type = core.StringPtr("HTTPS")
+				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Port = core.Int64Ptr(int64(8080))
 				createMonitorOptionsModel.Interval = core.Int64Ptr(int64(60))
 				createMonitorOptionsModel.Retries = core.Int64Ptr(int64(2))
@@ -7228,8 +7231,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel := new(dnssvcsv1.CreateMonitorOptions)
 				createMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				createMonitorOptionsModel.Name = core.StringPtr("healthcheck-monitor")
-				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Type = core.StringPtr("HTTPS")
+				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Port = core.Int64Ptr(int64(8080))
 				createMonitorOptionsModel.Interval = core.Int64Ptr(int64(60))
 				createMonitorOptionsModel.Retries = core.Int64Ptr(int64(2))
@@ -7324,8 +7327,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel := new(dnssvcsv1.CreateMonitorOptions)
 				createMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				createMonitorOptionsModel.Name = core.StringPtr("healthcheck-monitor")
-				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Type = core.StringPtr("HTTPS")
+				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Port = core.Int64Ptr(int64(8080))
 				createMonitorOptionsModel.Interval = core.Int64Ptr(int64(60))
 				createMonitorOptionsModel.Retries = core.Int64Ptr(int64(2))
@@ -7363,8 +7366,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel := new(dnssvcsv1.CreateMonitorOptions)
 				createMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				createMonitorOptionsModel.Name = core.StringPtr("healthcheck-monitor")
-				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Type = core.StringPtr("HTTPS")
+				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Port = core.Int64Ptr(int64(8080))
 				createMonitorOptionsModel.Interval = core.Int64Ptr(int64(60))
 				createMonitorOptionsModel.Retries = core.Int64Ptr(int64(2))
@@ -7423,8 +7426,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createMonitorOptionsModel := new(dnssvcsv1.CreateMonitorOptions)
 				createMonitorOptionsModel.InstanceID = core.StringPtr("testString")
 				createMonitorOptionsModel.Name = core.StringPtr("healthcheck-monitor")
-				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Type = core.StringPtr("HTTPS")
+				createMonitorOptionsModel.Description = core.StringPtr("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.Port = core.Int64Ptr(int64(8080))
 				createMonitorOptionsModel.Interval = core.Int64Ptr(int64(60))
 				createMonitorOptionsModel.Retries = core.Int64Ptr(int64(2))
@@ -8170,7 +8173,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers successfully with retries`, func() {
@@ -8227,7 +8230,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}`)
 				}))
 			})
 			It(`Invoke ListCustomResolvers successfully`, func() {
@@ -8362,6 +8365,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.Profile = core.StringPtr("essential")
 				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -8417,7 +8421,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver successfully with retries`, func() {
@@ -8440,6 +8444,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.Profile = core.StringPtr("essential")
 				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -8498,7 +8503,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateCustomResolver successfully`, func() {
@@ -8526,6 +8531,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.Profile = core.StringPtr("essential")
 				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -8555,6 +8561,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.Profile = core.StringPtr("essential")
 				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -8605,6 +8612,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				createCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				createCustomResolverOptionsModel.Locations = []dnssvcsv1.LocationInput{*locationInputModel}
+				createCustomResolverOptionsModel.Profile = core.StringPtr("essential")
 				createCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -8763,7 +8771,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetCustomResolver successfully with retries`, func() {
@@ -8821,7 +8829,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetCustomResolver successfully`, func() {
@@ -8955,6 +8963,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.Profile = core.StringPtr("advanced")
+				updateCustomResolverOptionsModel.AllowDisruptiveUpdates = core.BoolPtr(true)
 				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -9010,7 +9020,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver successfully with retries`, func() {
@@ -9029,6 +9039,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.Profile = core.StringPtr("advanced")
+				updateCustomResolverOptionsModel.AllowDisruptiveUpdates = core.BoolPtr(true)
 				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -9087,7 +9099,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCustomResolver successfully`, func() {
@@ -9111,6 +9123,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.Profile = core.StringPtr("advanced")
+				updateCustomResolverOptionsModel.AllowDisruptiveUpdates = core.BoolPtr(true)
 				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -9136,6 +9150,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.Profile = core.StringPtr("advanced")
+				updateCustomResolverOptionsModel.AllowDisruptiveUpdates = core.BoolPtr(true)
 				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -9182,6 +9198,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateCustomResolverOptionsModel.Name = core.StringPtr("my-resolver")
 				updateCustomResolverOptionsModel.Description = core.StringPtr("custom resolver")
 				updateCustomResolverOptionsModel.Enabled = core.BoolPtr(false)
+				updateCustomResolverOptionsModel.Profile = core.StringPtr("advanced")
+				updateCustomResolverOptionsModel.AllowDisruptiveUpdates = core.BoolPtr(true)
 				updateCustomResolverOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateCustomResolverOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -9283,7 +9301,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCrLocationsOrder successfully with retries`, func() {
@@ -9358,7 +9376,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "profile": "essential", "allow_disruptive_updates": false, "lifecycle": {"state": "stable", "active_delta": {"profile": "essential"}, "reasons": [{"code": "internal_error", "message": "An internal error occurred, please contact support.", "more_info": "https://cloud.ibm.com/apidocs/dns-svcs#error-handling"}]}, "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateCrLocationsOrder successfully`, func() {
@@ -10158,7 +10176,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListForwardingRules successfully with retries`, func() {
@@ -10220,7 +10238,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
+					fmt.Fprintf(res, "%s", `{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}`)
 				}))
 			})
 			It(`Invoke ListForwardingRules successfully`, func() {
@@ -10381,9 +10399,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"forwarding_rules":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","description":"forwarding rule","type":"zone","match":"example.com","forward_to":["161.26.0.7"],"created_on":"2021-04-21T08:18:25.000Z","modified_on":"2021-04-21T08:18:25.000Z"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"forwarding_rules":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","description":"forwarding rule","type":"zone","match":"example.com","forward_to":["ForwardTo"],"views":[{"name":"view-example","description":"view example","expression":"ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')","forward_to":["ForwardTo"]}],"created_on":"2021-04-21T08:18:25.000Z","modified_on":"2021-04-21T08:18:25.000Z"}],"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"forwarding_rules":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","description":"forwarding rule","type":"zone","match":"example.com","forward_to":["161.26.0.7"],"created_on":"2021-04-21T08:18:25.000Z","modified_on":"2021-04-21T08:18:25.000Z"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"forwarding_rules":[{"id":"5365b73c-ce6f-4d6f-ad9f-d9c131b26370","description":"forwarding rule","type":"zone","match":"example.com","forward_to":["ForwardTo"],"views":[{"name":"view-example","description":"view example","expression":"ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')","forward_to":["ForwardTo"]}],"created_on":"2021-04-21T08:18:25.000Z","modified_on":"2021-04-21T08:18:25.000Z"}],"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -10398,10 +10416,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listForwardingRulesOptionsModel := &dnssvcsv1.ListForwardingRulesOptions{
-					InstanceID:     core.StringPtr("testString"),
-					ResolverID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewForwardingRulesPager(listForwardingRulesOptionsModel)
@@ -10426,10 +10444,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listForwardingRulesOptionsModel := &dnssvcsv1.ListForwardingRulesOptions{
-					InstanceID:     core.StringPtr("testString"),
-					ResolverID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewForwardingRulesPager(listForwardingRulesOptionsModel)
@@ -10468,14 +10486,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+				// Construct an instance of the ForwardingRuleInputForwardingRuleBoth model
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
 				// Construct an instance of the CreateForwardingRuleOptions model
 				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
 				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
-				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
-				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
-				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
-				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.ForwardingRuleInput = forwardingRuleInputModel
 				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -10531,7 +10561,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule successfully with retries`, func() {
@@ -10543,14 +10573,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 				dnsSvcsService.EnableRetries(0, 0)
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+				// Construct an instance of the ForwardingRuleInputForwardingRuleBoth model
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
 				// Construct an instance of the CreateForwardingRuleOptions model
 				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
 				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
-				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
-				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
-				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
-				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.ForwardingRuleInput = forwardingRuleInputModel
 				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -10609,7 +10651,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateForwardingRule successfully`, func() {
@@ -10626,14 +10668,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+				// Construct an instance of the ForwardingRuleInputForwardingRuleBoth model
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
 				// Construct an instance of the CreateForwardingRuleOptions model
 				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
 				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
-				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
-				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
-				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
-				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.ForwardingRuleInput = forwardingRuleInputModel
 				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -10652,14 +10706,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+				// Construct an instance of the ForwardingRuleInputForwardingRuleBoth model
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
 				// Construct an instance of the CreateForwardingRuleOptions model
 				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
 				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
-				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
-				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
-				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
-				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.ForwardingRuleInput = forwardingRuleInputModel
 				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -10699,14 +10765,26 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+				// Construct an instance of the ForwardingRuleInputForwardingRuleBoth model
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
 				// Construct an instance of the CreateForwardingRuleOptions model
 				createForwardingRuleOptionsModel := new(dnssvcsv1.CreateForwardingRuleOptions)
 				createForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.ResolverID = core.StringPtr("testString")
-				createForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
-				createForwardingRuleOptionsModel.Type = core.StringPtr("zone")
-				createForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
-				createForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				createForwardingRuleOptionsModel.ForwardingRuleInput = forwardingRuleInputModel
 				createForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -10868,7 +10946,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetForwardingRule successfully with retries`, func() {
@@ -10927,7 +11005,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke GetForwardingRule successfully`, func() {
@@ -11057,6 +11135,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
 				// Construct an instance of the UpdateForwardingRuleOptions model
 				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
 				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
@@ -11065,6 +11150,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
 				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
 				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
 				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -11120,7 +11206,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule successfully with retries`, func() {
@@ -11132,6 +11218,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 				dnsSvcsService.EnableRetries(0, 0)
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
 				// Construct an instance of the UpdateForwardingRuleOptions model
 				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
 				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
@@ -11140,6 +11233,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
 				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
 				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
 				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11198,7 +11292,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["ForwardTo"], "views": [{"name": "view-example", "description": "view example", "expression": "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')", "forward_to": ["ForwardTo"]}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateForwardingRule successfully`, func() {
@@ -11215,6 +11309,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
 				// Construct an instance of the UpdateForwardingRuleOptions model
 				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
 				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
@@ -11223,6 +11324,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
 				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
 				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
 				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11241,6 +11343,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
 				// Construct an instance of the UpdateForwardingRuleOptions model
 				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
 				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
@@ -11249,6 +11358,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
 				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
 				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
 				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -11288,6 +11398,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsSvcsService).ToNot(BeNil())
 
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
 				// Construct an instance of the UpdateForwardingRuleOptions model
 				updateForwardingRuleOptionsModel := new(dnssvcsv1.UpdateForwardingRuleOptions)
 				updateForwardingRuleOptionsModel.InstanceID = core.StringPtr("testString")
@@ -11296,6 +11413,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateForwardingRuleOptionsModel.Description = core.StringPtr("forwarding rule")
 				updateForwardingRuleOptionsModel.Match = core.StringPtr("example.com")
 				updateForwardingRuleOptionsModel.ForwardTo = []string{"161.26.0.7"}
+				updateForwardingRuleOptionsModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
 				updateForwardingRuleOptionsModel.XCorrelationID = core.StringPtr("testString")
 				updateForwardingRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11341,10 +11459,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
 				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
-				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
 				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
-				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -11416,10 +11534,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
 				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
-				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
 				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
-				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11499,10 +11617,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
 				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
-				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
 				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
-				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11525,10 +11643,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
 				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
-				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
 				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
-				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -11572,10 +11690,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				createSecondaryZoneOptionsModel := new(dnssvcsv1.CreateSecondaryZoneOptions)
 				createSecondaryZoneOptionsModel.InstanceID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.ResolverID = core.StringPtr("testString")
-				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
 				createSecondaryZoneOptionsModel.Zone = core.StringPtr("example.com")
-				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.TransferFrom = []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel.Description = core.StringPtr("secondary zone")
+				createSecondaryZoneOptionsModel.Enabled = core.BoolPtr(false)
 				createSecondaryZoneOptionsModel.XCorrelationID = core.StringPtr("testString")
 				createSecondaryZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11906,10 +12024,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listSecondaryZonesOptionsModel := &dnssvcsv1.ListSecondaryZonesOptions{
-					InstanceID:     core.StringPtr("testString"),
-					ResolverID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewSecondaryZonesPager(listSecondaryZonesOptionsModel)
@@ -11934,10 +12052,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listSecondaryZonesOptionsModel := &dnssvcsv1.ListSecondaryZonesOptions{
-					InstanceID:     core.StringPtr("testString"),
-					ResolverID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					ResolverID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewSecondaryZonesPager(listSecondaryZonesOptionsModel)
@@ -12849,9 +12967,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listLinkedZonesOptionsModel := &dnssvcsv1.ListLinkedZonesOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewLinkedZonesPager(listLinkedZonesOptionsModel)
@@ -12876,9 +12994,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listLinkedZonesOptionsModel := &dnssvcsv1.ListLinkedZonesOptions{
-					InstanceID:     core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewLinkedZonesPager(listLinkedZonesOptionsModel)
@@ -14053,10 +14171,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listDnszoneAccessRequestsOptionsModel := &dnssvcsv1.ListDnszoneAccessRequestsOptions{
-					InstanceID:     core.StringPtr("testString"),
-					DnszoneID:      core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewDnszoneAccessRequestsPager(listDnszoneAccessRequestsOptionsModel)
@@ -14081,10 +14199,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(dnsSvcsService).ToNot(BeNil())
 
 				listDnszoneAccessRequestsOptionsModel := &dnssvcsv1.ListDnszoneAccessRequestsOptions{
-					InstanceID:     core.StringPtr("testString"),
-					DnszoneID:      core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
+					DnszoneID: core.StringPtr("testString"),
 					XCorrelationID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(200)),
+					Limit: core.Int64Ptr(int64(200)),
 				}
 
 				pager, err := dnsSvcsService.NewDnszoneAccessRequestsPager(listDnszoneAccessRequestsOptionsModel)
@@ -15595,7 +15713,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the AddCustomResolverLocationOptions model
 				instanceID := "testString"
 				resolverID := "testString"
-				addCustomResolverLocationOptionsModel := dnsSvcsService.NewAddCustomResolverLocationOptions(instanceID, resolverID)
+				addCustomResolverLocationOptionsSubnetCrn := "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"
+				addCustomResolverLocationOptionsModel := dnsSvcsService.NewAddCustomResolverLocationOptions(instanceID, resolverID, addCustomResolverLocationOptionsSubnetCrn)
 				addCustomResolverLocationOptionsModel.SetInstanceID("testString")
 				addCustomResolverLocationOptionsModel.SetResolverID("testString")
 				addCustomResolverLocationOptionsModel.SetSubnetCrn("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
@@ -15621,11 +15740,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 				// Construct an instance of the CreateCustomResolverOptions model
 				instanceID := "testString"
-				createCustomResolverOptionsModel := dnsSvcsService.NewCreateCustomResolverOptions(instanceID)
+				createCustomResolverOptionsName := "my-resolver"
+				createCustomResolverOptionsModel := dnsSvcsService.NewCreateCustomResolverOptions(instanceID, createCustomResolverOptionsName)
 				createCustomResolverOptionsModel.SetInstanceID("testString")
 				createCustomResolverOptionsModel.SetName("my-resolver")
 				createCustomResolverOptionsModel.SetDescription("custom resolver")
 				createCustomResolverOptionsModel.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				createCustomResolverOptionsModel.SetProfile("essential")
 				createCustomResolverOptionsModel.SetXCorrelationID("testString")
 				createCustomResolverOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createCustomResolverOptionsModel).ToNot(BeNil())
@@ -15633,13 +15754,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createCustomResolverOptionsModel.Name).To(Equal(core.StringPtr("my-resolver")))
 				Expect(createCustomResolverOptionsModel.Description).To(Equal(core.StringPtr("custom resolver")))
 				Expect(createCustomResolverOptionsModel.Locations).To(Equal([]dnssvcsv1.LocationInput{*locationInputModel}))
+				Expect(createCustomResolverOptionsModel.Profile).To(Equal(core.StringPtr("essential")))
 				Expect(createCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateDnszoneOptions successfully`, func() {
 				// Construct an instance of the CreateDnszoneOptions model
 				instanceID := "testString"
-				createDnszoneOptionsModel := dnsSvcsService.NewCreateDnszoneOptions(instanceID)
+				createDnszoneOptionsName := "example.com"
+				createDnszoneOptionsModel := dnsSvcsService.NewCreateDnszoneOptions(instanceID, createDnszoneOptionsName)
 				createDnszoneOptionsModel.SetInstanceID("testString")
 				createDnszoneOptionsModel.SetName("example.com")
 				createDnszoneOptionsModel.SetDescription("The DNS zone is used for VPCs in us-east region")
@@ -15655,32 +15778,55 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createDnszoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateForwardingRuleOptions successfully`, func() {
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				Expect(viewConfigModel).ToNot(BeNil())
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+				Expect(viewConfigModel.Name).To(Equal(core.StringPtr("view-example")))
+				Expect(viewConfigModel.Description).To(Equal(core.StringPtr("view example")))
+				Expect(viewConfigModel.Expression).To(Equal(core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")))
+				Expect(viewConfigModel.ForwardTo).To(Equal([]string{"10.240.2.6"}))
+
+				// Construct an instance of the ForwardingRuleInputForwardingRuleBoth model
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				Expect(forwardingRuleInputModel).ToNot(BeNil())
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+				Expect(forwardingRuleInputModel.Description).To(Equal(core.StringPtr("forwarding rule")))
+				Expect(forwardingRuleInputModel.Type).To(Equal(core.StringPtr("zone")))
+				Expect(forwardingRuleInputModel.Match).To(Equal(core.StringPtr("example.com")))
+				Expect(forwardingRuleInputModel.ForwardTo).To(Equal([]string{"161.26.0.7"}))
+				Expect(forwardingRuleInputModel.Views).To(Equal([]dnssvcsv1.ViewConfig{*viewConfigModel}))
+
 				// Construct an instance of the CreateForwardingRuleOptions model
 				instanceID := "testString"
 				resolverID := "testString"
-				createForwardingRuleOptionsModel := dnsSvcsService.NewCreateForwardingRuleOptions(instanceID, resolverID)
+				var forwardingRuleInput dnssvcsv1.ForwardingRuleInputIntf = nil
+				createForwardingRuleOptionsModel := dnsSvcsService.NewCreateForwardingRuleOptions(instanceID, resolverID, forwardingRuleInput)
 				createForwardingRuleOptionsModel.SetInstanceID("testString")
 				createForwardingRuleOptionsModel.SetResolverID("testString")
-				createForwardingRuleOptionsModel.SetDescription("forwarding rule")
-				createForwardingRuleOptionsModel.SetType("zone")
-				createForwardingRuleOptionsModel.SetMatch("example.com")
-				createForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+				createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModel)
 				createForwardingRuleOptionsModel.SetXCorrelationID("testString")
 				createForwardingRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
 				Expect(createForwardingRuleOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createForwardingRuleOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
-				Expect(createForwardingRuleOptionsModel.Description).To(Equal(core.StringPtr("forwarding rule")))
-				Expect(createForwardingRuleOptionsModel.Type).To(Equal(core.StringPtr("zone")))
-				Expect(createForwardingRuleOptionsModel.Match).To(Equal(core.StringPtr("example.com")))
-				Expect(createForwardingRuleOptionsModel.ForwardTo).To(Equal([]string{"161.26.0.7"}))
+				Expect(createForwardingRuleOptionsModel.ForwardingRuleInput).To(Equal(forwardingRuleInputModel))
 				Expect(createForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateLinkedZoneOptions successfully`, func() {
 				// Construct an instance of the CreateLinkedZoneOptions model
 				instanceID := "testString"
-				createLinkedZoneOptionsModel := dnsSvcsService.NewCreateLinkedZoneOptions(instanceID)
+				createLinkedZoneOptionsOwnerInstanceID := "abe30019-1c08-42dc-9ad9-a0682af70054"
+				createLinkedZoneOptionsOwnerZoneID := "05855abe-3908-4cdc-bf0d-063e0b1c296d"
+				createLinkedZoneOptionsModel := dnsSvcsService.NewCreateLinkedZoneOptions(instanceID, createLinkedZoneOptionsOwnerInstanceID, createLinkedZoneOptionsOwnerZoneID)
 				createLinkedZoneOptionsModel.SetInstanceID("testString")
 				createLinkedZoneOptionsModel.SetOwnerInstanceID("abe30019-1c08-42dc-9ad9-a0682af70054")
 				createLinkedZoneOptionsModel.SetOwnerZoneID("05855abe-3908-4cdc-bf0d-063e0b1c296d")
@@ -15698,39 +15844,42 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createLinkedZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateLoadBalancerOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				Expect(loadBalancerAzPoolsItemModel).ToNot(BeNil())
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
-				Expect(loadBalancerAzPoolsItemModel.AvailabilityZone).To(Equal(core.StringPtr("us-south-1")))
-				Expect(loadBalancerAzPoolsItemModel.Pools).To(Equal([]string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}))
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				Expect(azPoolsItemModel).ToNot(BeNil())
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				Expect(azPoolsItemModel.AvailabilityZone).To(Equal(core.StringPtr("us-south-1")))
+				Expect(azPoolsItemModel.Pools).To(Equal([]string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}))
 
 				// Construct an instance of the CreateLoadBalancerOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				createLoadBalancerOptionsModel := dnsSvcsService.NewCreateLoadBalancerOptions(instanceID, dnszoneID)
+				createLoadBalancerOptionsName := "glb.example.com"
+				createLoadBalancerOptionsFallbackPool := "24ccf79a-4ae0-4769-b4c8-17f8f230072e"
+				createLoadBalancerOptionsDefaultPools := []string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}
+				createLoadBalancerOptionsModel := dnsSvcsService.NewCreateLoadBalancerOptions(instanceID, dnszoneID, createLoadBalancerOptionsName, createLoadBalancerOptionsFallbackPool, createLoadBalancerOptionsDefaultPools)
 				createLoadBalancerOptionsModel.SetInstanceID("testString")
 				createLoadBalancerOptionsModel.SetDnszoneID("testString")
 				createLoadBalancerOptionsModel.SetName("glb.example.com")
+				createLoadBalancerOptionsModel.SetFallbackPool("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
+				createLoadBalancerOptionsModel.SetDefaultPools([]string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"})
 				createLoadBalancerOptionsModel.SetDescription("Load balancer for glb.example.com.")
 				createLoadBalancerOptionsModel.SetEnabled(true)
 				createLoadBalancerOptionsModel.SetTTL(int64(120))
-				createLoadBalancerOptionsModel.SetFallbackPool("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-				createLoadBalancerOptionsModel.SetDefaultPools([]string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"})
-				createLoadBalancerOptionsModel.SetAzPools([]dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel})
+				createLoadBalancerOptionsModel.SetAzPools([]dnssvcsv1.AzPoolsItem{*azPoolsItemModel})
 				createLoadBalancerOptionsModel.SetXCorrelationID("testString")
 				createLoadBalancerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createLoadBalancerOptionsModel).ToNot(BeNil())
 				Expect(createLoadBalancerOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("glb.example.com")))
+				Expect(createLoadBalancerOptionsModel.FallbackPool).To(Equal(core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")))
+				Expect(createLoadBalancerOptionsModel.DefaultPools).To(Equal([]string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}))
 				Expect(createLoadBalancerOptionsModel.Description).To(Equal(core.StringPtr("Load balancer for glb.example.com.")))
 				Expect(createLoadBalancerOptionsModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(createLoadBalancerOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
-				Expect(createLoadBalancerOptionsModel.FallbackPool).To(Equal(core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")))
-				Expect(createLoadBalancerOptionsModel.DefaultPools).To(Equal([]string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}))
-				Expect(createLoadBalancerOptionsModel.AzPools).To(Equal([]dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}))
+				Expect(createLoadBalancerOptionsModel.AzPools).To(Equal([]dnssvcsv1.AzPoolsItem{*azPoolsItemModel}))
 				Expect(createLoadBalancerOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -15744,7 +15893,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreateLzPermittedNetworkOptions model
 				instanceID := "testString"
 				linkedDnszoneID := "testString"
-				createLzPermittedNetworkOptionsModel := dnsSvcsService.NewCreateLzPermittedNetworkOptions(instanceID, linkedDnszoneID)
+				createLzPermittedNetworkOptionsType := "vpc"
+				var createLzPermittedNetworkOptionsPermittedNetwork *dnssvcsv1.PermittedNetworkVpc = nil
+				createLzPermittedNetworkOptionsModel := dnsSvcsService.NewCreateLzPermittedNetworkOptions(instanceID, linkedDnszoneID, createLzPermittedNetworkOptionsType, createLzPermittedNetworkOptionsPermittedNetwork)
 				createLzPermittedNetworkOptionsModel.SetInstanceID("testString")
 				createLzPermittedNetworkOptionsModel.SetLinkedDnszoneID("testString")
 				createLzPermittedNetworkOptionsModel.SetType("vpc")
@@ -15770,11 +15921,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 				// Construct an instance of the CreateMonitorOptions model
 				instanceID := "testString"
-				createMonitorOptionsModel := dnsSvcsService.NewCreateMonitorOptions(instanceID)
+				createMonitorOptionsName := "healthcheck-monitor"
+				createMonitorOptionsType := "HTTPS"
+				createMonitorOptionsModel := dnsSvcsService.NewCreateMonitorOptions(instanceID, createMonitorOptionsName, createMonitorOptionsType)
 				createMonitorOptionsModel.SetInstanceID("testString")
 				createMonitorOptionsModel.SetName("healthcheck-monitor")
-				createMonitorOptionsModel.SetDescription("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.SetType("HTTPS")
+				createMonitorOptionsModel.SetDescription("Load balancer monitor for glb.example.com.")
 				createMonitorOptionsModel.SetPort(int64(8080))
 				createMonitorOptionsModel.SetInterval(int64(60))
 				createMonitorOptionsModel.SetRetries(int64(2))
@@ -15790,8 +15943,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createMonitorOptionsModel).ToNot(BeNil())
 				Expect(createMonitorOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createMonitorOptionsModel.Name).To(Equal(core.StringPtr("healthcheck-monitor")))
-				Expect(createMonitorOptionsModel.Description).To(Equal(core.StringPtr("Load balancer monitor for glb.example.com.")))
 				Expect(createMonitorOptionsModel.Type).To(Equal(core.StringPtr("HTTPS")))
+				Expect(createMonitorOptionsModel.Description).To(Equal(core.StringPtr("Load balancer monitor for glb.example.com.")))
 				Expect(createMonitorOptionsModel.Port).To(Equal(core.Int64Ptr(int64(8080))))
 				Expect(createMonitorOptionsModel.Interval).To(Equal(core.Int64Ptr(int64(60))))
 				Expect(createMonitorOptionsModel.Retries).To(Equal(core.Int64Ptr(int64(2))))
@@ -15815,7 +15968,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreatePermittedNetworkOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				createPermittedNetworkOptionsModel := dnsSvcsService.NewCreatePermittedNetworkOptions(instanceID, dnszoneID)
+				createPermittedNetworkOptionsType := "vpc"
+				var createPermittedNetworkOptionsPermittedNetwork *dnssvcsv1.PermittedNetworkVpc = nil
+				createPermittedNetworkOptionsModel := dnsSvcsService.NewCreatePermittedNetworkOptions(instanceID, dnszoneID, createPermittedNetworkOptionsType, createPermittedNetworkOptionsPermittedNetwork)
 				createPermittedNetworkOptionsModel.SetInstanceID("testString")
 				createPermittedNetworkOptionsModel.SetDnszoneID("testString")
 				createPermittedNetworkOptionsModel.SetType("vpc")
@@ -15847,13 +16002,15 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 				// Construct an instance of the CreatePoolOptions model
 				instanceID := "testString"
-				createPoolOptionsModel := dnsSvcsService.NewCreatePoolOptions(instanceID)
+				createPoolOptionsName := "dal10-az-pool"
+				createPoolOptionsOrigins := []dnssvcsv1.OriginInput{}
+				createPoolOptionsModel := dnsSvcsService.NewCreatePoolOptions(instanceID, createPoolOptionsName, createPoolOptionsOrigins)
 				createPoolOptionsModel.SetInstanceID("testString")
 				createPoolOptionsModel.SetName("dal10-az-pool")
+				createPoolOptionsModel.SetOrigins([]dnssvcsv1.OriginInput{*originInputModel})
 				createPoolOptionsModel.SetDescription("Load balancer pool for dal10 availability zone.")
 				createPoolOptionsModel.SetEnabled(true)
 				createPoolOptionsModel.SetHealthyOriginsThreshold(int64(1))
-				createPoolOptionsModel.SetOrigins([]dnssvcsv1.OriginInput{*originInputModel})
 				createPoolOptionsModel.SetMonitor("7dd6841c-264e-11ea-88df-062967242a6a")
 				createPoolOptionsModel.SetNotificationChannel("https://mywebsite.com/dns/webhook")
 				createPoolOptionsModel.SetHealthcheckRegion("us-south")
@@ -15863,10 +16020,10 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createPoolOptionsModel).ToNot(BeNil())
 				Expect(createPoolOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createPoolOptionsModel.Name).To(Equal(core.StringPtr("dal10-az-pool")))
+				Expect(createPoolOptionsModel.Origins).To(Equal([]dnssvcsv1.OriginInput{*originInputModel}))
 				Expect(createPoolOptionsModel.Description).To(Equal(core.StringPtr("Load balancer pool for dal10 availability zone.")))
 				Expect(createPoolOptionsModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(createPoolOptionsModel.HealthyOriginsThreshold).To(Equal(core.Int64Ptr(int64(1))))
-				Expect(createPoolOptionsModel.Origins).To(Equal([]dnssvcsv1.OriginInput{*originInputModel}))
 				Expect(createPoolOptionsModel.Monitor).To(Equal(core.StringPtr("7dd6841c-264e-11ea-88df-062967242a6a")))
 				Expect(createPoolOptionsModel.NotificationChannel).To(Equal(core.StringPtr("https://mywebsite.com/dns/webhook")))
 				Expect(createPoolOptionsModel.HealthcheckRegion).To(Equal(core.StringPtr("us-south")))
@@ -15884,11 +16041,12 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreateResourceRecordOptions model
 				instanceID := "testString"
 				dnszoneID := "testString"
-				createResourceRecordOptionsModel := dnsSvcsService.NewCreateResourceRecordOptions(instanceID, dnszoneID)
+				createResourceRecordOptionsType := "SRV"
+				createResourceRecordOptionsModel := dnsSvcsService.NewCreateResourceRecordOptions(instanceID, dnszoneID, createResourceRecordOptionsType)
 				createResourceRecordOptionsModel.SetInstanceID("testString")
 				createResourceRecordOptionsModel.SetDnszoneID("testString")
-				createResourceRecordOptionsModel.SetName("test.example.com")
 				createResourceRecordOptionsModel.SetType("SRV")
+				createResourceRecordOptionsModel.SetName("test.example.com")
 				createResourceRecordOptionsModel.SetRdata(resourceRecordInputRdataModel)
 				createResourceRecordOptionsModel.SetTTL(int64(120))
 				createResourceRecordOptionsModel.SetService("_sip")
@@ -15898,8 +16056,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(createResourceRecordOptionsModel).ToNot(BeNil())
 				Expect(createResourceRecordOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createResourceRecordOptionsModel.DnszoneID).To(Equal(core.StringPtr("testString")))
-				Expect(createResourceRecordOptionsModel.Name).To(Equal(core.StringPtr("test.example.com")))
 				Expect(createResourceRecordOptionsModel.Type).To(Equal(core.StringPtr("SRV")))
+				Expect(createResourceRecordOptionsModel.Name).To(Equal(core.StringPtr("test.example.com")))
 				Expect(createResourceRecordOptionsModel.Rdata).To(Equal(resourceRecordInputRdataModel))
 				Expect(createResourceRecordOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(createResourceRecordOptionsModel.Service).To(Equal(core.StringPtr("_sip")))
@@ -15911,22 +16069,24 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the CreateSecondaryZoneOptions model
 				instanceID := "testString"
 				resolverID := "testString"
-				createSecondaryZoneOptionsModel := dnsSvcsService.NewCreateSecondaryZoneOptions(instanceID, resolverID)
+				createSecondaryZoneOptionsZone := "example.com"
+				createSecondaryZoneOptionsTransferFrom := []string{"10.0.0.7"}
+				createSecondaryZoneOptionsModel := dnsSvcsService.NewCreateSecondaryZoneOptions(instanceID, resolverID, createSecondaryZoneOptionsZone, createSecondaryZoneOptionsTransferFrom)
 				createSecondaryZoneOptionsModel.SetInstanceID("testString")
 				createSecondaryZoneOptionsModel.SetResolverID("testString")
-				createSecondaryZoneOptionsModel.SetDescription("secondary zone")
 				createSecondaryZoneOptionsModel.SetZone("example.com")
-				createSecondaryZoneOptionsModel.SetEnabled(false)
 				createSecondaryZoneOptionsModel.SetTransferFrom([]string{"10.0.0.7"})
+				createSecondaryZoneOptionsModel.SetDescription("secondary zone")
+				createSecondaryZoneOptionsModel.SetEnabled(false)
 				createSecondaryZoneOptionsModel.SetXCorrelationID("testString")
 				createSecondaryZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createSecondaryZoneOptionsModel).ToNot(BeNil())
 				Expect(createSecondaryZoneOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createSecondaryZoneOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
-				Expect(createSecondaryZoneOptionsModel.Description).To(Equal(core.StringPtr("secondary zone")))
 				Expect(createSecondaryZoneOptionsModel.Zone).To(Equal(core.StringPtr("example.com")))
-				Expect(createSecondaryZoneOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
 				Expect(createSecondaryZoneOptionsModel.TransferFrom).To(Equal([]string{"10.0.0.7"}))
+				Expect(createSecondaryZoneOptionsModel.Description).To(Equal(core.StringPtr("secondary zone")))
+				Expect(createSecondaryZoneOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
 				Expect(createSecondaryZoneOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(createSecondaryZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -16579,7 +16739,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				// Construct an instance of the UpdateCrLocationsOrderOptions model
 				instanceID := "testString"
 				resolverID := "testString"
-				updateCrLocationsOrderOptionsModel := dnsSvcsService.NewUpdateCrLocationsOrderOptions(instanceID, resolverID)
+				updateCrLocationsOrderOptionsLocations := []string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}
+				updateCrLocationsOrderOptionsModel := dnsSvcsService.NewUpdateCrLocationsOrderOptions(instanceID, resolverID, updateCrLocationsOrderOptionsLocations)
 				updateCrLocationsOrderOptionsModel.SetInstanceID("testString")
 				updateCrLocationsOrderOptionsModel.SetResolverID("testString")
 				updateCrLocationsOrderOptionsModel.SetLocations([]string{"9a234ede-c2b6-4c39-bc27-d39ec139ecdb"})
@@ -16624,6 +16785,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateCustomResolverOptionsModel.SetName("my-resolver")
 				updateCustomResolverOptionsModel.SetDescription("custom resolver")
 				updateCustomResolverOptionsModel.SetEnabled(false)
+				updateCustomResolverOptionsModel.SetProfile("advanced")
+				updateCustomResolverOptionsModel.SetAllowDisruptiveUpdates(true)
 				updateCustomResolverOptionsModel.SetXCorrelationID("testString")
 				updateCustomResolverOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateCustomResolverOptionsModel).ToNot(BeNil())
@@ -16632,6 +16795,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateCustomResolverOptionsModel.Name).To(Equal(core.StringPtr("my-resolver")))
 				Expect(updateCustomResolverOptionsModel.Description).To(Equal(core.StringPtr("custom resolver")))
 				Expect(updateCustomResolverOptionsModel.Enabled).To(Equal(core.BoolPtr(false)))
+				Expect(updateCustomResolverOptionsModel.Profile).To(Equal(core.StringPtr("advanced")))
+				Expect(updateCustomResolverOptionsModel.AllowDisruptiveUpdates).To(Equal(core.BoolPtr(true)))
 				Expect(updateCustomResolverOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateCustomResolverOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -16640,7 +16805,8 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				requestID := "testString"
-				updateDnszoneAccessRequestOptionsModel := dnsSvcsService.NewUpdateDnszoneAccessRequestOptions(instanceID, dnszoneID, requestID)
+				updateDnszoneAccessRequestOptionsAction := "APPROVE"
+				updateDnszoneAccessRequestOptionsModel := dnsSvcsService.NewUpdateDnszoneAccessRequestOptions(instanceID, dnszoneID, requestID, updateDnszoneAccessRequestOptionsAction)
 				updateDnszoneAccessRequestOptionsModel.SetInstanceID("testString")
 				updateDnszoneAccessRequestOptionsModel.SetDnszoneID("testString")
 				updateDnszoneAccessRequestOptionsModel.SetRequestID("testString")
@@ -16675,6 +16841,18 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateDnszoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateForwardingRuleOptions successfully`, func() {
+				// Construct an instance of the ViewConfig model
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				Expect(viewConfigModel).ToNot(BeNil())
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+				Expect(viewConfigModel.Name).To(Equal(core.StringPtr("view-example")))
+				Expect(viewConfigModel.Description).To(Equal(core.StringPtr("view example")))
+				Expect(viewConfigModel.Expression).To(Equal(core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")))
+				Expect(viewConfigModel.ForwardTo).To(Equal([]string{"10.240.2.6"}))
+
 				// Construct an instance of the UpdateForwardingRuleOptions model
 				instanceID := "testString"
 				resolverID := "testString"
@@ -16686,6 +16864,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateForwardingRuleOptionsModel.SetDescription("forwarding rule")
 				updateForwardingRuleOptionsModel.SetMatch("example.com")
 				updateForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+				updateForwardingRuleOptionsModel.SetViews([]dnssvcsv1.ViewConfig{*viewConfigModel})
 				updateForwardingRuleOptionsModel.SetXCorrelationID("testString")
 				updateForwardingRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateForwardingRuleOptionsModel).ToNot(BeNil())
@@ -16695,6 +16874,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateForwardingRuleOptionsModel.Description).To(Equal(core.StringPtr("forwarding rule")))
 				Expect(updateForwardingRuleOptionsModel.Match).To(Equal(core.StringPtr("example.com")))
 				Expect(updateForwardingRuleOptionsModel.ForwardTo).To(Equal([]string{"161.26.0.7"}))
+				Expect(updateForwardingRuleOptionsModel.Views).To(Equal([]dnssvcsv1.ViewConfig{*viewConfigModel}))
 				Expect(updateForwardingRuleOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateForwardingRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -16718,13 +16898,13 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateLinkedZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerAzPoolsItem model
-				loadBalancerAzPoolsItemModel := new(dnssvcsv1.LoadBalancerAzPoolsItem)
-				Expect(loadBalancerAzPoolsItemModel).ToNot(BeNil())
-				loadBalancerAzPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
-				loadBalancerAzPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
-				Expect(loadBalancerAzPoolsItemModel.AvailabilityZone).To(Equal(core.StringPtr("us-south-1")))
-				Expect(loadBalancerAzPoolsItemModel.Pools).To(Equal([]string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}))
+				// Construct an instance of the AzPoolsItem model
+				azPoolsItemModel := new(dnssvcsv1.AzPoolsItem)
+				Expect(azPoolsItemModel).ToNot(BeNil())
+				azPoolsItemModel.AvailabilityZone = core.StringPtr("us-south-1")
+				azPoolsItemModel.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+				Expect(azPoolsItemModel.AvailabilityZone).To(Equal(core.StringPtr("us-south-1")))
+				Expect(azPoolsItemModel.Pools).To(Equal([]string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}))
 
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				instanceID := "testString"
@@ -16740,7 +16920,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				updateLoadBalancerOptionsModel.SetTTL(int64(120))
 				updateLoadBalancerOptionsModel.SetFallbackPool("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
 				updateLoadBalancerOptionsModel.SetDefaultPools([]string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"})
-				updateLoadBalancerOptionsModel.SetAzPools([]dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel})
+				updateLoadBalancerOptionsModel.SetAzPools([]dnssvcsv1.AzPoolsItem{*azPoolsItemModel})
 				updateLoadBalancerOptionsModel.SetXCorrelationID("testString")
 				updateLoadBalancerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerOptionsModel).ToNot(BeNil())
@@ -16753,7 +16933,7 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(updateLoadBalancerOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(updateLoadBalancerOptionsModel.FallbackPool).To(Equal(core.StringPtr("24ccf79a-4ae0-4769-b4c8-17f8f230072e")))
 				Expect(updateLoadBalancerOptionsModel.DefaultPools).To(Equal([]string{"24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74"}))
-				Expect(updateLoadBalancerOptionsModel.AzPools).To(Equal([]dnssvcsv1.LoadBalancerAzPoolsItem{*loadBalancerAzPoolsItemModel}))
+				Expect(updateLoadBalancerOptionsModel.AzPools).To(Equal([]dnssvcsv1.AzPoolsItem{*azPoolsItemModel}))
 				Expect(updateLoadBalancerOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -16862,7 +17042,9 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				instanceID := "testString"
 				dnszoneID := "testString"
 				recordID := "testString"
-				updateResourceRecordOptionsModel := dnsSvcsService.NewUpdateResourceRecordOptions(instanceID, dnszoneID, recordID)
+				updateResourceRecordOptionsName := "test.example.com"
+				var updateResourceRecordOptionsRdata dnssvcsv1.ResourceRecordUpdateInputRdataIntf = nil
+				updateResourceRecordOptionsModel := dnsSvcsService.NewUpdateResourceRecordOptions(instanceID, dnszoneID, recordID, updateResourceRecordOptionsName, updateResourceRecordOptionsRdata)
 				updateResourceRecordOptionsModel.SetInstanceID("testString")
 				updateResourceRecordOptionsModel.SetDnszoneID("testString")
 				updateResourceRecordOptionsModel.SetRecordID("testString")
@@ -16925,6 +17107,14 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			It(`Invoke NewPermittedNetworkVpc successfully`, func() {
 				vpcCrn := "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"
 				_model, err := dnsSvcsService.NewPermittedNetworkVpc(vpcCrn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewViewConfig successfully`, func() {
+				name := "view-example"
+				expression := "ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')"
+				forwardTo := []string{"10.240.2.6"}
+				_model, err := dnsSvcsService.NewViewConfig(name, expression, forwardTo)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -17020,11 +17210,555 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewForwardingRuleInputForwardingRuleBoth successfully`, func() {
+				typeVar := "zone"
+				match := "example.com"
+				forwardTo := []string{"161.26.0.7"}
+				views := []dnssvcsv1.ViewConfig{}
+				_model, err := dnsSvcsService.NewForwardingRuleInputForwardingRuleBoth(typeVar, match, forwardTo, views)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewForwardingRuleInputForwardingRuleOnlyForward successfully`, func() {
+				typeVar := "zone"
+				match := "example.com"
+				forwardTo := []string{"161.26.0.7"}
+				_model, err := dnsSvcsService.NewForwardingRuleInputForwardingRuleOnlyForward(typeVar, match, forwardTo)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewForwardingRuleInputForwardingRuleOnlyView successfully`, func() {
+				typeVar := "zone"
+				match := "example.com"
+				views := []dnssvcsv1.ViewConfig{}
+				_model, err := dnsSvcsService.NewForwardingRuleInputForwardingRuleOnlyView(typeVar, match, views)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+		})
+	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalAzPoolsItem successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.AzPoolsItem)
+			model.AvailabilityZone = core.StringPtr("us-south-1")
+			model.Pools = []string{"0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.AzPoolsItem
+			err = dnssvcsv1.UnmarshalAzPoolsItem(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdata successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdata)
+			model.Ip = core.StringPtr("10.110.201.214")
+			model.Cname = core.StringPtr("www.example.com")
+			model.Exchange = core.StringPtr("mail.example.com")
+			model.Preference = core.Int64Ptr(int64(10))
+			model.Port = core.Int64Ptr(int64(80))
+			model.Priority = core.Int64Ptr(int64(10))
+			model.Target = core.StringPtr("www.example.com")
+			model.Weight = core.Int64Ptr(int64(10))
+			model.Text = core.StringPtr("This is a text record")
+			model.Ptrdname = core.StringPtr("www.example.com")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdata
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdata(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdata successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdata)
+			model.Ip = core.StringPtr("10.110.201.214")
+			model.Cname = core.StringPtr("www.example.com")
+			model.Exchange = core.StringPtr("mail.example.com")
+			model.Preference = core.Int64Ptr(int64(10))
+			model.Port = core.Int64Ptr(int64(80))
+			model.Priority = core.Int64Ptr(int64(10))
+			model.Target = core.StringPtr("www.example.com")
+			model.Weight = core.Int64Ptr(int64(10))
+			model.Text = core.StringPtr("This is a text record")
+			model.Ptrdname = core.StringPtr("www.example.com")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdata
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdata(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalForwardingRuleInput successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ForwardingRuleInput)
+			model.Description = core.StringPtr("forwarding rule")
+			model.Type = core.StringPtr("zone")
+			model.Match = core.StringPtr("example.com")
+			model.ForwardTo = []string{"161.26.0.7"}
+			model.Views = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ForwardingRuleInput
+			err = dnssvcsv1.UnmarshalForwardingRuleInput(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalHealthcheckHeader successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.HealthcheckHeader)
+			model.Name = core.StringPtr("Host")
+			model.Value = []string{"origin.example.com"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.HealthcheckHeader
+			err = dnssvcsv1.UnmarshalHealthcheckHeader(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalLocationInput successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.LocationInput)
+			model.SubnetCrn = core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+			model.Enabled = core.BoolPtr(false)
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.LocationInput
+			err = dnssvcsv1.UnmarshalLocationInput(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalOriginInput successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.OriginInput)
+			model.Name = core.StringPtr("app-server-1")
+			model.Description = core.StringPtr("description of the origin server")
+			model.Address = core.StringPtr("10.10.16.8")
+			model.Enabled = core.BoolPtr(true)
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.OriginInput
+			err = dnssvcsv1.UnmarshalOriginInput(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalPermittedNetworkVpc successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.PermittedNetworkVpc)
+			model.VpcCrn = core.StringPtr("crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.PermittedNetworkVpc
+			err = dnssvcsv1.UnmarshalPermittedNetworkVpc(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalViewConfig successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ViewConfig)
+			model.Name = core.StringPtr("view-example")
+			model.Description = core.StringPtr("view example")
+			model.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+			model.ForwardTo = []string{"10.240.2.6"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ViewConfig
+			err = dnssvcsv1.UnmarshalViewConfig(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataARecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataARecord)
+			model.Ip = core.StringPtr("10.110.201.214")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataARecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataARecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataAaaaRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataAaaaRecord)
+			model.Ip = core.StringPtr("2019::2019")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataAaaaRecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataAaaaRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataCnameRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataCnameRecord)
+			model.Cname = core.StringPtr("www.example.com")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataCnameRecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataCnameRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataMxRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataMxRecord)
+			model.Exchange = core.StringPtr("mail.example.com")
+			model.Preference = core.Int64Ptr(int64(10))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataMxRecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataMxRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataPtrRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataPtrRecord)
+			model.Ptrdname = core.StringPtr("www.example.com")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataPtrRecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataPtrRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataSrvRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataSrvRecord)
+			model.Port = core.Int64Ptr(int64(80))
+			model.Priority = core.Int64Ptr(int64(10))
+			model.Target = core.StringPtr("www.example.com")
+			model.Weight = core.Int64Ptr(int64(10))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataSrvRecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataSrvRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordInputRdataRdataTxtRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordInputRdataRdataTxtRecord)
+			model.Text = core.StringPtr("This is a text record")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordInputRdataRdataTxtRecord
+			err = dnssvcsv1.UnmarshalResourceRecordInputRdataRdataTxtRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataARecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataARecord)
+			model.Ip = core.StringPtr("10.110.201.214")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataARecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataARecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataAaaaRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataAaaaRecord)
+			model.Ip = core.StringPtr("2019::2019")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataAaaaRecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataAaaaRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataCnameRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataCnameRecord)
+			model.Cname = core.StringPtr("www.example.com")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataCnameRecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataCnameRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataMxRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataMxRecord)
+			model.Exchange = core.StringPtr("mail.example.com")
+			model.Preference = core.Int64Ptr(int64(10))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataMxRecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataMxRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataPtrRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataPtrRecord)
+			model.Ptrdname = core.StringPtr("www.example.com")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataPtrRecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataPtrRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataSrvRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataSrvRecord)
+			model.Port = core.Int64Ptr(int64(80))
+			model.Priority = core.Int64Ptr(int64(10))
+			model.Target = core.StringPtr("www.example.com")
+			model.Weight = core.Int64Ptr(int64(10))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataSrvRecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataSrvRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceRecordUpdateInputRdataRdataTxtRecord successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ResourceRecordUpdateInputRdataRdataTxtRecord)
+			model.Text = core.StringPtr("This is a text record")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ResourceRecordUpdateInputRdataRdataTxtRecord
+			err = dnssvcsv1.UnmarshalResourceRecordUpdateInputRdataRdataTxtRecord(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalForwardingRuleInputForwardingRuleBoth successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+			model.Description = core.StringPtr("forwarding rule")
+			model.Type = core.StringPtr("zone")
+			model.Match = core.StringPtr("example.com")
+			model.ForwardTo = []string{"161.26.0.7"}
+			model.Views = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ForwardingRuleInputForwardingRuleBoth
+			err = dnssvcsv1.UnmarshalForwardingRuleInputForwardingRuleBoth(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalForwardingRuleInputForwardingRuleOnlyForward successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyForward)
+			model.Description = core.StringPtr("forwarding rule")
+			model.Type = core.StringPtr("zone")
+			model.Match = core.StringPtr("example.com")
+			model.ForwardTo = []string{"161.26.0.7"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyForward
+			err = dnssvcsv1.UnmarshalForwardingRuleInputForwardingRuleOnlyForward(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalForwardingRuleInputForwardingRuleOnlyView successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyView)
+			model.Description = core.StringPtr("forwarding rule")
+			model.Type = core.StringPtr("zone")
+			model.Match = core.StringPtr("example.com")
+			model.Views = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyView
+			err = dnssvcsv1.UnmarshalForwardingRuleInputForwardingRuleOnlyView(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
 		})
 	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -17050,9 +17784,11 @@ var _ = Describe(`DnsSvcsV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 
