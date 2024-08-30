@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package dnssvcsv1_test
 
 import (
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -47,8 +47,6 @@ func shouldSkipTest() {
 
 var _ = Describe(`dnssvcsv1`, func() {
 	defer GinkgoRecover()
-	Skip("Skipping as build is fialing..")
-
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
@@ -71,7 +69,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 	}
 	service, serviceErr := dnssvcsv1.NewDnsSvcsV1UsingExternalConfig(options)
 	if serviceErr != nil {
-		panic(serviceErr)
+		panic(err)
 	}
 	ownerAPIKey := os.Getenv("DNS_SVCS_OWNER_APIKEY")
 	if ownerAPIKey == "" {
@@ -148,8 +146,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 				// Create DNS Zone
 				zoneName := fmt.Sprintf("zone-example%s.com", uuid.New().String())
-				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
-				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID, zoneName)
 				createDnszoneOptions.SetDescription("testString")
 				createDnszoneOptions.SetLabel("testString")
 				createDnszoneOptions.SetXCorrelationID("abc123")
@@ -249,8 +246,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				// Create DNS Zone
 				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
-				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
-				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID, zoneName)
 				createDnszoneOptions.SetDescription("testString")
 				createDnszoneOptions.SetLabel("testString")
 				createDnszoneOptions.SetXCorrelationID("abc123")
@@ -316,9 +312,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 
 				// create resource record
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions.SetName("testa")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions.SetTTL(120)
 				rdataARecord, err := service.NewResourceRecordInputRdataRdataARecord("1.1.1.1")
 				Expect(err).To(BeNil())
@@ -331,13 +326,12 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
 				Expect(*result.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
 
-				updateOpt := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *result.ID)
+				updaterdataARecord, err := service.NewResourceRecordUpdateInputRdataRdataARecord("1.1.1.2")
+				Expect(err).To(BeNil())
+				updateOpt := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *result.ID, "updatea", updaterdataARecord)
 				updateOpt.SetName("updatea")
 				updateOpt.SetTTL(300)
 				updateOpt.SetXCorrelationID("abc123")
-				updaterdataARecord, err := service.NewResourceRecordUpdateInputRdataRdataARecord("1.1.1.2")
-				Expect(err).To(BeNil())
-				updateOpt.SetRdata(updaterdataARecord)
 				updateResult, updateResponse, updateErr := service.UpdateResourceRecord(updateOpt)
 				Expect(updateErr).To(BeNil())
 				Expect(updateResponse).ToNot(BeNil())
@@ -367,9 +361,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 
 				// create resource record
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions.SetName("testa")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions.SetTTL(120)
 				rdataARecord, err := service.NewResourceRecordInputRdataRdataARecord("1.1.1.1")
 				Expect(err).To(BeNil())
@@ -382,9 +375,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
 				Expect(*result.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
 
-				createResourcePtrRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourcePtrRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Ptr)
 				createResourcePtrRecordOptions.SetName("1.1.1.1")
-				createResourcePtrRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Ptr)
 				createResourcePtrRecordOptions.SetTTL(120)
 				rdataPtrRecord, err := service.NewResourceRecordInputRdataRdataPtrRecord("testa." + *zoneInfo.Name)
 				Expect(err).To(BeNil())
@@ -421,9 +413,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 					"test": "teststring",
 				}
 				// Test Create Resource Record AAAA
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Aaaa)
 				createResourceRecordOptions.SetName("testaaaa")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Aaaa)
 				createResourceRecordOptions.SetTTL(120)
 				rdataAaaaRecord, err := service.NewResourceRecordInputRdataRdataAaaaRecord("2001::8888")
 				Expect(err).To(BeNil())
@@ -440,12 +431,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				aaaaRecordID := *result.ID
 				// Test Update Resource Record AAAA
-				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, aaaaRecordID)
-				updateResourceRecordOptions.SetName("updateaaaa")
-				updateResourceRecordOptions.SetTTL(300)
 				updaterdataAaaaRecord, err := service.NewResourceRecordUpdateInputRdataRdataAaaaRecord("2001::8889")
 				Expect(err).To(BeNil())
-				updateResourceRecordOptions.SetRdata(updaterdataAaaaRecord)
+				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, aaaaRecordID, "updateaaaa", updaterdataAaaaRecord)
+				updateResourceRecordOptions.SetTTL(300)
 				updateResourceRecordOptions.SetXCorrelationID("abc123")
 				updateResourceRecordOptions.SetHeaders(header)
 				result, response, reqErr = service.UpdateResourceRecord(updateResourceRecordOptions)
@@ -484,9 +473,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 					"test": "teststring",
 				}
 				// Test Create Resource Record CNAME
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Cname)
 				createResourceRecordOptions.SetName("testcname")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Cname)
 				createResourceRecordOptions.SetTTL(120)
 				rdataCnameRecord, err := service.NewResourceRecordInputRdataRdataCnameRecord("testcnamedata.com")
 				Expect(err).To(BeNil())
@@ -504,12 +492,11 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				cnameRecordID := result.ID
 				// Test Update Resource Record CNAME
-				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *cnameRecordID)
-				updateResourceRecordOptions.SetName("updatecname")
-				updateResourceRecordOptions.SetTTL(300)
 				updaterdataCnameRecord, err := service.NewResourceRecordUpdateInputRdataRdataCnameRecord("updatecnamedata.com")
 				Expect(err).To(BeNil())
-				updateResourceRecordOptions.SetRdata(updaterdataCnameRecord)
+				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *cnameRecordID, "updatecname", updaterdataCnameRecord)
+				updateResourceRecordOptions.SetTTL(300)
+
 				updateResourceRecordOptions.SetXCorrelationID("abc123")
 				updateResourceRecordOptions.SetHeaders(header)
 				result, response, reqErr = service.UpdateResourceRecord(updateResourceRecordOptions)
@@ -546,9 +533,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 					"test": "teststring",
 				}
 				// Test Create Resource Record MX
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Mx)
 				createResourceRecordOptions.SetName("testmx")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Mx)
 				createResourceRecordOptions.SetTTL(120)
 				rdataMxRecord, err := service.NewResourceRecordInputRdataRdataMxRecord("mail.testmx.com", 1)
 				Expect(err).To(BeNil())
@@ -565,12 +551,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				mxRecordID := result.ID
 				// Test Update Resource Record MX
-				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *mxRecordID)
-				updateResourceRecordOptions.SetName("testupdatemx")
-				updateResourceRecordOptions.SetTTL(300)
 				updaterdataMxRecord, err := service.NewResourceRecordUpdateInputRdataRdataMxRecord("mail1.testmx.com", 2)
 				Expect(err).To(BeNil())
-				updateResourceRecordOptions.SetRdata(updaterdataMxRecord)
+				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *mxRecordID, "testupdatemx", updaterdataMxRecord)
+				updateResourceRecordOptions.SetTTL(300)
 				updateResourceRecordOptions.SetXCorrelationID("abc123")
 				updateResourceRecordOptions.SetHeaders(header)
 				result, response, reqErr = service.UpdateResourceRecord(updateResourceRecordOptions)
@@ -598,7 +582,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 					"test": "teststring",
 				}
 				// Test Create Resource Record SRV
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Srv)
 				createResourceRecordOptions.SetName("testsrv")
 				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Srv)
 				createResourceRecordOptions.SetTTL(120)
@@ -619,14 +603,12 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				srvRecordID := result.ID
 				// Test Update Resource Record SRV
-				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *srvRecordID)
-				updateResourceRecordOptions.SetName("updatesrv")
+				updaterdataSrvRecord, err := service.NewResourceRecordUpdateInputRdataRdataSrvRecord(2, 2, "updatesiphost.com", 2)
+				Expect(err).To(BeNil())
+				updateResourceRecordOptions := service.NewUpdateResourceRecordOptions(instanceID, *zoneInfo.ID, *srvRecordID, "updatesrv", updaterdataSrvRecord)
 				updateResourceRecordOptions.SetTTL(300)
 				updateResourceRecordOptions.SetService("_sip")
 				updateResourceRecordOptions.SetProtocol("udp")
-				updaterdataSrvRecord, err := service.NewResourceRecordUpdateInputRdataRdataSrvRecord(2, 2, "updatesiphost.com", 2)
-				Expect(err).To(BeNil())
-				updateResourceRecordOptions.SetRdata(updaterdataSrvRecord)
 				updateResourceRecordOptions.SetXCorrelationID("abc123")
 				updateResourceRecordOptions.SetHeaders(header)
 				result, response, reqErr = service.UpdateResourceRecord(updateResourceRecordOptions)
@@ -654,9 +636,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 					"test": "teststring",
 				}
 				// Test Create Resource Record TXT
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Txt)
 				createResourceRecordOptions.SetName("testtxt")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Txt)
 				createResourceRecordOptions.SetTTL(120)
 				rdataTxtRecord, err := service.NewResourceRecordInputRdataRdataTxtRecord("txtdata string")
 				Expect(err).To(BeNil())
@@ -709,7 +690,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				importResourceRecordsOptions := service.NewImportResourceRecordsOptions(instanceID, *zoneInfo.ID)
 				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
 				f := strings.NewReader(zoneName + ` 1 IN AAAA 2001::888`)
-				importResourceRecordsOptions.SetFile(io.NopCloser(f))
+				importResourceRecordsOptions.SetFile(ioutil.NopCloser(f))
 				importResourceRecordsOptions.SetXCorrelationID("abc123")
 				importResourceRecordsOptions.SetFileContentType("application/json")
 				result, response, reqErr := service.ImportResourceRecords(importResourceRecordsOptions)
@@ -723,9 +704,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 
 				//create a resource record
-				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions.SetName("teststring")
-				createResourceRecordOptions.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions.SetTTL(120)
 				rdataARecord, err := service.NewResourceRecordInputRdataRdataARecord("1.1.1.1")
 				Expect(err).To(BeNil())
@@ -798,8 +778,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				// Create DNS Zone
 				zoneName := fmt.Sprintf("test-example%s.com", uuid.New().String())
-				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
-				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID, zoneName)
 				createDnszoneOptions.SetDescription("testString")
 				createDnszoneOptions.SetLabel("testString")
 				createDnszoneOptions.SetXCorrelationID("abc123")
@@ -811,9 +790,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				zoneInfo = result
 
 				// Create records for list operation validation by name, type and name+type.
-				createResourceRecordOptions1 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions1 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions1.SetName("atest")
-				createResourceRecordOptions1.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions1.SetTTL(120)
 				rdataARecord, err1 := service.NewResourceRecordInputRdataRdataARecord("1.1.1.1")
 				Expect(err1).To(BeNil())
@@ -828,9 +806,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*result1.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
 
 				// create resource record PTR
-				createResourceRecordOptions2 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions2 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions2.SetName("atest")
-				createResourceRecordOptions2.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_A)
 				createResourceRecordOptions2.SetTTL(120)
 				rdataARecord2, err2 := service.NewResourceRecordInputRdataRdataARecord("1.1.1.2")
 				Expect(err2).To(BeNil())
@@ -843,9 +820,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(response2.GetStatusCode()).To(BeEquivalentTo(200))
 				Expect(*result2.Type).To(BeEquivalentTo(dnssvcsv1.CreateResourceRecordOptions_Type_A))
 
-				createResourcePtrRecordOptions2 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourcePtrRecordOptions2 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Ptr)
 				createResourcePtrRecordOptions2.SetName("1.1.1.2")
-				createResourcePtrRecordOptions2.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Ptr)
 				createResourcePtrRecordOptions2.SetTTL(120)
 				rdataPtrRecord, err3 := service.NewResourceRecordInputRdataRdataPtrRecord("atest." + *zoneInfo.Name)
 				Expect(err3).To(BeNil())
@@ -862,9 +838,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				header := map[string]string{
 					"test": "teststring",
 				}
-				createResourceRecordOptions3 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID)
+				createResourceRecordOptions3 := service.NewCreateResourceRecordOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreateResourceRecordOptions_Type_Aaaa)
 				createResourceRecordOptions3.SetName("testaaaa")
-				createResourceRecordOptions3.SetType(dnssvcsv1.CreateResourceRecordOptions_Type_Aaaa)
 				createResourceRecordOptions3.SetTTL(120)
 				rdataAaaaRecord, err4 := service.NewResourceRecordInputRdataRdataAaaaRecord("2001::8888")
 				Expect(err4).To(BeNil())
@@ -1077,8 +1052,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				// Create DNS Zone
 				zoneName := fmt.Sprintf("glb-example%s.com", uuid.New().String())
-				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
-				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID, zoneName)
 				createDnszoneOptions.SetDescription("testString")
 				createDnszoneOptions.SetLabel("testString")
 				createDnszoneOptions.SetXCorrelationID("abc123")
@@ -1153,9 +1127,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 				//Create and List Monitor
 				for i := 1; i < 4; i++ {
-					createMonitorOptions := service.NewCreateMonitorOptions(instanceID)
-					createMonitorOptions.SetName("testaMonitor-" + strconv.Itoa(i))
-					createMonitorOptions.SetType(dnssvcsv1.CreateMonitorOptions_Type_Http)
+					monitorName := "testaMonitor-" + strconv.Itoa(i)
+					createMonitorOptions := service.NewCreateMonitorOptions(instanceID, monitorName, dnssvcsv1.CreateMonitorOptions_Type_Http)
 					createMonitorOptions.SetExpectedCodes("200")
 					result, response, reqErr := service.CreateMonitor(createMonitorOptions)
 					Expect(reqErr).To(BeNil())
@@ -1164,9 +1137,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 					Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
 					Expect(*result.Type).To(BeEquivalentTo(dnssvcsv1.CreateMonitorOptions_Type_Http))
 
-					createPoolOptions := service.NewCreatePoolOptions(instanceID)
 					name := fmt.Sprintf("testpool-%d", i)
-					createPoolOptions.SetName(name)
+					createPoolOptionsOrigins := []dnssvcsv1.OriginInput{}
+					createPoolOptions := service.NewCreatePoolOptions(instanceID, name, createPoolOptionsOrigins)
 					createPoolOptions.SetDescription("creating pool")
 					createPoolOptions.SetEnabled(true)
 					createPoolOptions.SetHealthyOriginsThreshold(1)
@@ -1203,10 +1176,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				shouldSkipTest()
 
 				// create Load Balancer Monitor
-				createMonitorOptions := service.NewCreateMonitorOptions(instanceID)
-				createMonitorOptions.SetName("testa")
+				createMonitorOptions := service.NewCreateMonitorOptions(instanceID, "testa", dnssvcsv1.CreateMonitorOptions_Type_Http)
 				createMonitorOptions.SetExpectedCodes("200")
-				createMonitorOptions.SetType(dnssvcsv1.CreateMonitorOptions_Type_Http)
 				createMonitorOptions.SetDescription("PDNS Load balancer monitor.")
 				createMonitorOptions.SetPort(8080)
 				createMonitorOptions.SetInterval(60)
@@ -1266,8 +1237,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*updateResult.Type).To(BeEquivalentTo(dnssvcsv1.UpdateMonitorOptions_Type_Https))
 
 				//Test CreatePool
-				createPoolOptions := service.NewCreatePoolOptions(instanceID)
-				createPoolOptions.SetName("testPool")
+				createPoolOptionsOrigins := []dnssvcsv1.OriginInput{}
+				createPoolOptions := service.NewCreatePoolOptions(instanceID, "testPool", createPoolOptionsOrigins)
 				createPoolOptions.SetDescription("creating pool")
 				createPoolOptions.SetEnabled(true)
 				createPoolOptions.SetHealthyOriginsThreshold(1)
@@ -1330,13 +1301,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*updatePoolResult.HealthcheckVsis[0].Subnet).To(BeEquivalentTo(subnetCrn))
 
 				//Test Create Load Balancer
-				createLoadBalancerOptions := service.NewCreateLoadBalancerOptions(instanceID, *zoneInfo.ID)
-				createLoadBalancerOptions.SetName("testloadbalancer")
+				createLoadBalancerOptions := service.NewCreateLoadBalancerOptions(instanceID, *zoneInfo.ID, "testloadbalancer", *resultPool.ID, []string{*resultPool.ID})
 				createLoadBalancerOptions.SetDescription("PDNS Load balancer")
 				createLoadBalancerOptions.SetEnabled(true)
 				createLoadBalancerOptions.SetTTL(120)
-				createLoadBalancerOptions.SetFallbackPool(*resultPool.ID)
-				createLoadBalancerOptions.SetDefaultPools([]string{*resultPool.ID})
 				resultLoadbalancer, responseLoadbalancer, reqErrLoadbalancer := service.CreateLoadBalancer(createLoadBalancerOptions)
 				Expect(reqErrLoadbalancer).To(BeNil())
 				Expect(responseLoadbalancer).ToNot(BeNil())
@@ -1463,8 +1431,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 
 				// Create DNS Zone
 				zoneName := fmt.Sprintf("network-example-%s.com", uuid.New().String())
-				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID)
-				createDnszoneOptions.SetName(zoneName)
+				createDnszoneOptions := service.NewCreateDnszoneOptions(instanceID, zoneName)
 				createDnszoneOptions.SetDescription("testString")
 				createDnszoneOptions.SetLabel("testString")
 				result, response, reqErr := service.CreateDnszone(createDnszoneOptions)
@@ -1528,9 +1495,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 					"test": "teststring",
 				}
 				// Test Add Permitted Network
-				createPermittedNetworkOptions := service.NewCreatePermittedNetworkOptions(instanceID, *zoneInfo.ID)
 				permittedNwVPCOption, err := service.NewPermittedNetworkVpc(vpcCrn)
 				Expect(err).To(BeNil())
+				createPermittedNetworkOptions := service.NewCreatePermittedNetworkOptions(instanceID, *zoneInfo.ID, dnssvcsv1.CreatePermittedNetworkOptions_Type_Vpc, permittedNwVPCOption)
 				createPermittedNetworkOptions.SetPermittedNetwork(permittedNwVPCOption)
 				createPermittedNetworkOptions.SetType(dnssvcsv1.CreatePermittedNetworkOptions_Type_Vpc)
 				createPermittedNetworkOptions.SetHeaders(header)
@@ -1652,11 +1619,11 @@ var _ = Describe(`dnssvcsv1`, func() {
 				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
 				locationInputModel.Enabled = core.BoolPtr(false)
 
-				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
-				createCustomResolverOptions.SetName("test-resolver1")
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID, "test-resolver1")
 				createCustomResolverOptions.SetDescription("Integration test resolver")
 				createCustomResolverOptions.SetXCorrelationID("abc12387")
 				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				createCustomResolverOptions.SetProfile("essential")
 
 				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
 				locationId := result.Locations[0].ID
@@ -1694,6 +1661,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				updateCustomResolverOptionsModel.SetDescription("custom resolver2")
 				updateCustomResolverOptionsModel.SetEnabled(false)
 				updateCustomResolverOptionsModel.SetXCorrelationID("abc12387")
+				updateCustomResolverOptionsModel.SetProfile("essential")
+				updateCustomResolverOptionsModel.SetAllowDisruptiveUpdates(true)
 				Expect(updateCustomResolverOptionsModel).ToNot(BeNil())
 				resultUpdate, responseUpdate, errUpdate := service.UpdateCustomResolver(updateCustomResolverOptionsModel)
 				Expect(errUpdate).To(BeNil())
@@ -1703,8 +1672,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*resultUpdate.ID).To(Equal(customResolverIDs[0]))
 
 				//Test Update the locations order of Custom Resolver
-				updateCustomResolverLocationsOrderOptionsModel := service.NewUpdateCrLocationsOrderOptions(instanceID, customResolverIDs[0])
-				updateCustomResolverLocationsOrderOptionsModel.SetLocations([]string{*locationId})
+				updateCustomResolverLocationsOrderOptionsModel := service.NewUpdateCrLocationsOrderOptions(instanceID, customResolverIDs[0], []string{*locationId})
 				updateCustomResolverLocationsOrderOptionsModel.SetXCorrelationID("abc12387")
 				Expect(updateCustomResolverLocationsOrderOptionsModel).ToNot(BeNil())
 
@@ -1716,8 +1684,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(*resultCrUpdate.ID).To(Equal(customResolverIDs[0]))
 
 				// Test Add Custom Resolver Location
-				addCustomResolverLocationOptionsModel := service.NewAddCustomResolverLocationOptions(instanceID, customResolverIDs[0])
-				addCustomResolverLocationOptionsModel.SetSubnetCrn(subnetCrn)
+				addCustomResolverLocationOptionsModel := service.NewAddCustomResolverLocationOptions(instanceID, customResolverIDs[0], subnetCrn)
 				addCustomResolverLocationOptionsModel.SetEnabled(false)
 				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc12387")
 				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
@@ -1731,8 +1698,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(resAdd.DnsServerIp).ToNot(BeNil())
 
 				locationID := resAdd.ID
-				addCustomResolverLocationOptionsModel = service.NewAddCustomResolverLocationOptions(instanceID, customResolverIDs[0])
-				addCustomResolverLocationOptionsModel.SetSubnetCrn(customCrn)
+				addCustomResolverLocationOptionsModel = service.NewAddCustomResolverLocationOptions(instanceID, customResolverIDs[0], customCrn)
 				addCustomResolverLocationOptionsModel.SetEnabled(false)
 				addCustomResolverLocationOptionsModel.SetXCorrelationID("abc12387")
 				Expect(addCustomResolverLocationOptionsModel).ToNot(BeNil())
@@ -1768,12 +1734,25 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(resultUp.DnsServerIp).ToNot(BeNil())
 
 				// Test - Create Forwarding Rule
-				createForwardingRuleOptionsModel := service.NewCreateForwardingRuleOptions(instanceID, customResolverIDs[0])
-				createForwardingRuleOptionsModel.SetDescription("test forwarding rule")
-				createForwardingRuleOptionsModel.SetType(dnssvcsv1.CreateForwardingRuleOptions_Type_Zone)
-				createForwardingRuleOptionsModel.SetMatch("example.com")
-				createForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+
+				var forwardingRuleInput dnssvcsv1.ForwardingRuleInputIntf = nil
+				createForwardingRuleOptionsModel := service.NewCreateForwardingRuleOptions(instanceID, customResolverIDs[0], forwardingRuleInput)
 				createForwardingRuleOptionsModel.SetXCorrelationID("abc12387")
+
+				viewConfigModel := new(dnssvcsv1.ViewConfig)
+				viewConfigModel.Name = core.StringPtr("view-example")
+				viewConfigModel.Description = core.StringPtr("view example")
+				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModel.Type = core.StringPtr("zone")
+				forwardingRuleInputModel.Match = core.StringPtr("example.com")
+				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
+				createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModel)
 				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
 				resultCreate, responseCreate, errCreate := service.CreateForwardingRule(createForwardingRuleOptionsModel)
 				Expect(errCreate).To(BeNil())
@@ -1782,6 +1761,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
 				Expect(resultCreate.ID).ToNot(BeNil())
 				forwardingRulesID := resultCreate.ID
+
 				// List Forwarding Rules
 				listForwardingRulesOptionsModel := service.NewListForwardingRulesOptions(instanceID, customResolverIDs[0])
 				listForwardingRulesOptionsModel.SetXCorrelationID("abc12387")
@@ -1804,11 +1784,13 @@ var _ = Describe(`dnssvcsv1`, func() {
 				// Test Update a Forwarding Rule
 				updateForwardingRuleOptionsModel := service.NewUpdateForwardingRuleOptions(instanceID, customResolverIDs[0], *forwardingRulesID)
 				updateForwardingRuleOptionsModel.SetXCorrelationID("testString")
-				Expect(updateForwardingRuleOptionsModel).ToNot(BeNil())
 				updateForwardingRuleOptionsModel.SetDescription("cli test forwarding rule")
 				updateForwardingRuleOptionsModel.SetMatch("test.example.com")
 				updateForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.8.8"})
 				updateForwardingRuleOptionsModel.SetXCorrelationID("testString")
+				updateForwardingRuleOptionsModel.SetViews([]dnssvcsv1.ViewConfig{*viewConfigModel})
+
+				Expect(updateForwardingRuleOptionsModel).ToNot(BeNil())
 				resultFRUpdate, responseFRUpdate, errFRUpdate := service.UpdateForwardingRule(updateForwardingRuleOptionsModel)
 				Expect(errFRUpdate).To(BeNil())
 				Expect(responseFRUpdate).ToNot(BeNil())
@@ -1871,11 +1853,11 @@ var _ = Describe(`dnssvcsv1`, func() {
 				locationInputModel := new(dnssvcsv1.LocationInput)
 				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
 				locationInputModel.Enabled = core.BoolPtr(false)
-				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
-				createCustomResolverOptions.SetName("test-resolver")
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID, "test-resolver")
 				createCustomResolverOptions.SetDescription("Integration test resolver")
 				createCustomResolverOptions.SetXCorrelationID("abc12387")
 				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				createCustomResolverOptions.SetProfile("essential")
 
 				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
 				Expect(err).To(BeNil())
@@ -1885,11 +1867,23 @@ var _ = Describe(`dnssvcsv1`, func() {
 				customResolverID = *result.ID
 				// Create forwarding rules
 				for i := 1; i <= 3; i++ {
-					createForwardingRuleOptionsModel := service.NewCreateForwardingRuleOptions(instanceID, customResolverID)
-					createForwardingRuleOptionsModel.SetDescription("test forwarding rule " + strconv.Itoa(i))
-					createForwardingRuleOptionsModel.SetType(dnssvcsv1.CreateForwardingRuleOptions_Type_Zone)
-					createForwardingRuleOptionsModel.SetMatch(strconv.Itoa(i) + "example.com")
-					createForwardingRuleOptionsModel.SetForwardTo([]string{"161.26.0.7"})
+					var forwardingRuleInput dnssvcsv1.ForwardingRuleInputIntf = nil
+					createForwardingRuleOptionsModel := service.NewCreateForwardingRuleOptions(instanceID, customResolverID, forwardingRuleInput)
+
+					viewConfigModel := new(dnssvcsv1.ViewConfig)
+					viewConfigModel.Name = core.StringPtr("view-example")
+					viewConfigModel.Description = core.StringPtr("view example")
+					viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
+					viewConfigModel.ForwardTo = []string{"10.240.2.6"}
+
+					forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+					forwardingRuleInputModel.Description = core.StringPtr("test forwarding rule " + strconv.Itoa(i))
+					forwardingRuleInputModel.Type = core.StringPtr("zone")
+					forwardingRuleInputModel.Match = core.StringPtr(strconv.Itoa(i) + "example.com")
+					forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
+					forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
+					createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModel)
 					createForwardingRuleOptionsModel.SetXCorrelationID("abc12387")
 					Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
 					resultCreate, responseCreate, errCreate := service.CreateForwardingRule(createForwardingRuleOptionsModel)
@@ -2078,11 +2072,11 @@ var _ = Describe(`dnssvcsv1`, func() {
 				locationInputModel.Enabled = core.BoolPtr(false)
 
 				// create test custom resolver
-				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID)
-				createCustomResolverOptions.SetName("secondaryzone-test-resolver1")
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID, "secondaryzone-test-resolver1")
 				createCustomResolverOptions.SetDescription("Integration test resolver")
 				createCustomResolverOptions.SetXCorrelationID("secondaryzone123")
 				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				createCustomResolverOptions.SetProfile("essential")
 
 				resultCreateCustomResolver, responseCreateCustomResolver, err := service.CreateCustomResolver(createCustomResolverOptions)
 				Expect(err).To(BeNil())
@@ -2146,12 +2140,10 @@ var _ = Describe(`dnssvcsv1`, func() {
 				createSecondaryZoneOptions := service.NewCreateSecondaryZoneOptions(
 					instanceID,
 					*testCustomResolver.ID,
-				)
-				createSecondaryZoneOptions.SetXCorrelationID("create-secondaryzone123")
-				createSecondaryZoneOptions.SetZone("example.com")
-				createSecondaryZoneOptions.SetTransferFrom(
+					"example.com",
 					[]string{"10.0.0.7"},
 				)
+				createSecondaryZoneOptions.SetXCorrelationID("create-secondaryzone123")
 
 				resultCreate, responseCreate, errCreate := service.CreateSecondaryZone(createSecondaryZoneOptions)
 				Expect(errCreate).To(BeNil())
@@ -2255,9 +2247,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 							ownerInstanceID,
 							ownerZoneID,
 							*resultListAccessRequests.AccessRequests[0].ID,
+							"REVOKE",
 						)
 					updateDnszoneAccessRequestsOptions.SetXCorrelationID("lzpermittednetworks-updatednszoneaccessrequests-beforeeach")
-					updateDnszoneAccessRequestsOptions.SetAction("REVOKE")
 					resultUpdate, responseUpdate, errUpdate := serviceOwnerDnsInstanceAccount.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestsOptions)
 					Expect(errUpdate).To(BeNil())
 					Expect(responseUpdate).ToNot(BeNil())
@@ -2305,6 +2297,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 							ownerInstanceID,
 							ownerZoneID,
 							*resultListAccessRequests.AccessRequests[0].ID,
+							"REVOKE",
 						)
 					updateDnszoneAccessRequestsOptions.SetXCorrelationID("lzpermittednetworks-updatednszoneaccessrequests-beforeeach")
 					updateDnszoneAccessRequestsOptions.SetAction("REVOKE")
@@ -2325,10 +2318,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 			It(`create/list/update/delete/get cross accounts (linked zones, access requests, and permitted networks)`, func() {
 				// Create Linked Zone
 
-				createLinkedZoneOptions := service.NewCreateLinkedZoneOptions(instanceID)
+				createLinkedZoneOptions := service.NewCreateLinkedZoneOptions(instanceID, ownerInstanceID, ownerZoneID)
 				createLinkedZoneOptions.SetXCorrelationID("create-linkedZone123")
-				createLinkedZoneOptions.SetOwnerInstanceID(ownerInstanceID)
-				createLinkedZoneOptions.SetOwnerZoneID(ownerZoneID)
 				resultCreateLZ, responseCreateLZ, errCreateLZ := service.CreateLinkedZone(createLinkedZoneOptions)
 				Expect(errCreateLZ).To(BeNil())
 				Expect(responseCreateLZ).ToNot(BeNil())
@@ -2394,9 +2385,9 @@ var _ = Describe(`dnssvcsv1`, func() {
 						ownerInstanceID,
 						ownerZoneID,
 						*resultListAccessRequests.AccessRequests[0].ID,
+						"APPROVE",
 					)
 				updateDnszoneAccessRequestsOptions.SetXCorrelationID("dnszoneaccessrequest123-update")
-				updateDnszoneAccessRequestsOptions.SetAction("APPROVE")
 				resultUpdate, responseUpdate, errUpdate := serviceOwnerDnsInstanceAccount.UpdateDnszoneAccessRequest(updateDnszoneAccessRequestsOptions)
 				Expect(errUpdate).To(BeNil())
 				Expect(responseUpdate).ToNot(BeNil())
@@ -2404,7 +2395,8 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(resultUpdate).ToNot(BeNil())
 
 				// Create LZ Permitted Networks
-				createLzPermittedNetworkOptions := service.NewCreateLzPermittedNetworkOptions(instanceID, *resultCreateLZ.ID)
+				var createLzPermittedNetworkOptionsPermittedNetwork *dnssvcsv1.PermittedNetworkVpc = nil
+				createLzPermittedNetworkOptions := service.NewCreateLzPermittedNetworkOptions(instanceID, *resultCreateLZ.ID, "vpc", createLzPermittedNetworkOptionsPermittedNetwork)
 				createLzPermittedNetworkOptions.SetXCorrelationID("lzpermittednetworks-create")
 				createLzPermittedNetworkOptions.SetType("vpc")
 
