@@ -1745,14 +1745,15 @@ var _ = Describe(`dnssvcsv1`, func() {
 				viewConfigModel.Expression = core.StringPtr("ipInRange(source.ip, '10.240.0.0/24') || ipInRange(source.ip, '10.240.1.0/24')")
 				viewConfigModel.ForwardTo = []string{"10.240.2.6"}
 
-				forwardingRuleInputModel := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
-				forwardingRuleInputModel.Description = core.StringPtr("forwarding rule")
-				forwardingRuleInputModel.Type = core.StringPtr("zone")
-				forwardingRuleInputModel.Match = core.StringPtr("example.com")
-				forwardingRuleInputModel.ForwardTo = []string{"161.26.0.7"}
-				forwardingRuleInputModel.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+				// testing Forwarding rule where both views and forward_to is required
+				forwardingRuleInputModelBoth := new(dnssvcsv1.ForwardingRuleInputForwardingRuleBoth)
+				forwardingRuleInputModelBoth.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModelBoth.Type = core.StringPtr("zone")
+				forwardingRuleInputModelBoth.Match = core.StringPtr("example.com")
+				forwardingRuleInputModelBoth.ForwardTo = []string{"161.26.0.7"}
+				forwardingRuleInputModelBoth.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
 
-				createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModel)
+				createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModelBoth)
 				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
 				resultCreate, responseCreate, errCreate := service.CreateForwardingRule(createForwardingRuleOptionsModel)
 				Expect(errCreate).To(BeNil())
@@ -1761,6 +1762,38 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
 				Expect(resultCreate.ID).ToNot(BeNil())
 				forwardingRulesID := resultCreate.ID
+
+				// testing Forwarding rule where only forward_to is required
+				forwardingRuleInputModelOnlyForward := new(dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyForward)
+				forwardingRuleInputModelOnlyForward.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModelOnlyForward.Type = core.StringPtr("zone")
+				forwardingRuleInputModelOnlyForward.Match = core.StringPtr("example1.com")
+				forwardingRuleInputModelOnlyForward.ForwardTo = []string{"161.26.0.7"}
+
+				createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModelOnlyForward)
+				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
+				resultCreate, responseCreate, errCreate = service.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(errCreate).To(BeNil())
+				Expect(responseCreate).ToNot(BeNil())
+				Expect(resultCreate).ToNot(BeNil())
+				Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
+				Expect(resultCreate.ID).ToNot(BeNil())
+
+				// testing Forwarding rule where only view is required
+				forwardingRuleInputModelOnlyView := new(dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyView)
+				forwardingRuleInputModelOnlyView.Description = core.StringPtr("forwarding rule")
+				forwardingRuleInputModelOnlyView.Type = core.StringPtr("zone")
+				forwardingRuleInputModelOnlyView.Match = core.StringPtr("example2.com")
+				forwardingRuleInputModelOnlyView.Views = []dnssvcsv1.ViewConfig{*viewConfigModel}
+
+				createForwardingRuleOptionsModel.SetForwardingRuleInput(forwardingRuleInputModelOnlyView)
+				Expect(createForwardingRuleOptionsModel).ToNot(BeNil())
+				resultCreate, responseCreate, errCreate = service.CreateForwardingRule(createForwardingRuleOptionsModel)
+				Expect(errCreate).To(BeNil())
+				Expect(responseCreate).ToNot(BeNil())
+				Expect(resultCreate).ToNot(BeNil())
+				Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
+				Expect(resultCreate.ID).ToNot(BeNil())
 
 				// List Forwarding Rules
 				listForwardingRulesOptionsModel := service.NewListForwardingRulesOptions(instanceID, customResolverIDs[0])
