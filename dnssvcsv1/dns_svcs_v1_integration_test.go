@@ -1670,6 +1670,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(resultUpdate).ToNot(BeNil())
 				Expect(responseUpdate.GetStatusCode()).To(BeEquivalentTo(200))
 				Expect(*resultUpdate.ID).To(Equal(customResolverIDs[0]))
+				Expect(*result.Profile).To(Equal("essential"))
 
 				//Test Update the locations order of Custom Resolver
 				updateCustomResolverLocationsOrderOptionsModel := service.NewUpdateCrLocationsOrderOptions(instanceID, customResolverIDs[0], []string{*locationId})
@@ -1925,6 +1926,7 @@ var _ = Describe(`dnssvcsv1`, func() {
 					Expect(resultCreate).ToNot(BeNil())
 					Expect(responseCreate.StatusCode).To(BeEquivalentTo(200))
 					Expect(resultCreate.ID).ToNot(BeNil())
+					Expect(resultCreate.ForwardTo[0]).To(Equal("161.26.0.7"))
 					forwardingRulesID[i-1] = resultCreate.ID
 
 				}
