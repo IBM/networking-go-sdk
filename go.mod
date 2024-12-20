@@ -3,7 +3,7 @@ module github.com/IBM/networking-go-sdk
 go 1.22.4
 
 require (
-	github.com/IBM/go-sdk-core/v5 v5.17.3
+	github.com/IBM/go-sdk-core/v5 v5.18.3
 	github.com/go-openapi/strfmt v0.22.1
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1

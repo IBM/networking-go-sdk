@@ -22,13 +22,12 @@ import (
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/networking-go-sdk/logpushjobsapiv1"
-	. "github.com/IBM/networking-go-sdk/logpushjobsapiv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-const configFile = "../cislog.env"
+const configFile = "../cis.env"
 
 var configLoaded bool = true
 
@@ -54,6 +53,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 		ApiKey: os.Getenv("CIS_SERVICES_APIKEY"),
 		URL:    os.Getenv("CIS_SERVICES_AUTH_URL"),
 	}
+
 	crn := os.Getenv("CRN")
 	zoneId := os.Getenv("ZONE_ID")
 	serviceURL := os.Getenv("API_ENDPOINT")
@@ -67,7 +67,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 
 	dataset := "http_requests"
 	globalOptions := &logpushjobsapiv1.LogpushJobsApiV1Options{
-		ServiceName:   DefaultServiceName,
+		ServiceName:   logpushjobsapiv1.DefaultServiceName,
 		Crn:           &crn,
 		ZoneID:        &zoneId,
 		URL:           serviceURL,
@@ -122,7 +122,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				shouldSkipTest()
 
 				options := testService.NewCreateLogpushJobV2Options()
-				createLogpushJobV2RequestModel := &CreateLogpushJobV2RequestLogpushJobLogdnaReq{
+				createLogpushJobV2RequestModel := &logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobLogdnaReq{
 
 					Name:           core.StringPtr("Test123"),
 					Enabled:        core.BoolPtr(false),
@@ -159,7 +159,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 
 				//Update Logpush Jobs
 				updateOptions := testService.NewUpdateLogpushJobV2Options(*job.ID)
-				updateLogpushJobV2RequestModel := &UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq{
+				updateLogpushJobV2RequestModel := &logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq{
 					Enabled:        core.BoolPtr(false),
 					LogpullOptions: core.StringPtr("timestamps=rfc3339&timestamps=rfc3339"),
 					Logdna:         map[string]interface{}{"ingress_key": IngressKey, "region": LogdnaRegion, "hostname": LogdnaDomain},
