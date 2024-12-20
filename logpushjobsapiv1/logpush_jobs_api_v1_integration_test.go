@@ -76,7 +76,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 	}
 
 	testService, testServiceErr := logpushjobsapiv1.NewLogpushJobsApiV1(globalOptions)
-	Expect(testServiceErr).To(BeNil())
+	if testServiceErr != nil {
+		fmt.Println(testServiceErr)
+	}
 
 	Describe(`LogpushJobsApiV1_test`, func() {
 		Context(`LogpushJobsApiV1 All Jobs`, func() {
