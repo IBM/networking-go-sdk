@@ -5,6 +5,7 @@ dist: jammy
 go:
 - 1.21.x
 - 1.22.x
+- 1.23.x
 
 notifications:
   email: true
@@ -27,7 +28,7 @@ before_install:
   && openssl aes-256-cbc -K $encrypted_fb1b85a9795b_key -iv $encrypted_fb1b85a9795b_iv -in cislog.env.enc -out cislog.env -d || true
 
 install:
-  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.55.2
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.60.3
 
 script:
   - make travis-ci
@@ -46,5 +47,5 @@ deploy:
     script: npx semantic-release
     skip_cleanup: true
     on:
-      go: '1.22.x'
+      go: '1.23.x'
       branch: master
