@@ -333,7 +333,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteDnszoneWithContext(ctx context.Context, deleteDn
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteDnszoneOptions.InstanceID,
-		"dnszone_id": *deleteDnszoneOptions.DnszoneID,
+		"dnszone_id":  *deleteDnszoneOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -385,7 +385,7 @@ func (dnsSvcs *DnsSvcsV1) GetDnszoneWithContext(ctx context.Context, getDnszoneO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getDnszoneOptions.InstanceID,
-		"dnszone_id": *getDnszoneOptions.DnszoneID,
+		"dnszone_id":  *getDnszoneOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -449,7 +449,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszoneWithContext(ctx context.Context, updateDn
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateDnszoneOptions.InstanceID,
-		"dnszone_id": *updateDnszoneOptions.DnszoneID,
+		"dnszone_id":  *updateDnszoneOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -526,7 +526,7 @@ func (dnsSvcs *DnsSvcsV1) ListResourceRecordsWithContext(ctx context.Context, li
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listResourceRecordsOptions.InstanceID,
-		"dnszone_id": *listResourceRecordsOptions.DnszoneID,
+		"dnszone_id":  *listResourceRecordsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -603,7 +603,7 @@ func (dnsSvcs *DnsSvcsV1) CreateResourceRecordWithContext(ctx context.Context, c
 
 	pathParamsMap := map[string]string{
 		"instance_id": *createResourceRecordOptions.InstanceID,
-		"dnszone_id": *createResourceRecordOptions.DnszoneID,
+		"dnszone_id":  *createResourceRecordOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -692,8 +692,8 @@ func (dnsSvcs *DnsSvcsV1) DeleteResourceRecordWithContext(ctx context.Context, d
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteResourceRecordOptions.InstanceID,
-		"dnszone_id": *deleteResourceRecordOptions.DnszoneID,
-		"record_id": *deleteResourceRecordOptions.RecordID,
+		"dnszone_id":  *deleteResourceRecordOptions.DnszoneID,
+		"record_id":   *deleteResourceRecordOptions.RecordID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -745,8 +745,8 @@ func (dnsSvcs *DnsSvcsV1) GetResourceRecordWithContext(ctx context.Context, getR
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getResourceRecordOptions.InstanceID,
-		"dnszone_id": *getResourceRecordOptions.DnszoneID,
-		"record_id": *getResourceRecordOptions.RecordID,
+		"dnszone_id":  *getResourceRecordOptions.DnszoneID,
+		"record_id":   *getResourceRecordOptions.RecordID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -810,8 +810,8 @@ func (dnsSvcs *DnsSvcsV1) UpdateResourceRecordWithContext(ctx context.Context, u
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateResourceRecordOptions.InstanceID,
-		"dnszone_id": *updateResourceRecordOptions.DnszoneID,
-		"record_id": *updateResourceRecordOptions.RecordID,
+		"dnszone_id":  *updateResourceRecordOptions.DnszoneID,
+		"record_id":   *updateResourceRecordOptions.RecordID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -897,7 +897,7 @@ func (dnsSvcs *DnsSvcsV1) ExportResourceRecordsWithContext(ctx context.Context, 
 
 	pathParamsMap := map[string]string{
 		"instance_id": *exportResourceRecordsOptions.InstanceID,
-		"dnszone_id": *exportResourceRecordsOptions.DnszoneID,
+		"dnszone_id":  *exportResourceRecordsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -947,14 +947,14 @@ func (dnsSvcs *DnsSvcsV1) ImportResourceRecordsWithContext(ctx context.Context, 
 	if err != nil {
 		return
 	}
-	if (importResourceRecordsOptions.File == nil) {
+	if importResourceRecordsOptions.File == nil {
 		err = fmt.Errorf("file must be supplied")
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"instance_id": *importResourceRecordsOptions.InstanceID,
-		"dnszone_id": *importResourceRecordsOptions.DnszoneID,
+		"dnszone_id":  *importResourceRecordsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1023,7 +1023,7 @@ func (dnsSvcs *DnsSvcsV1) ListPermittedNetworksWithContext(ctx context.Context, 
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listPermittedNetworksOptions.InstanceID,
-		"dnszone_id": *listPermittedNetworksOptions.DnszoneID,
+		"dnszone_id":  *listPermittedNetworksOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1091,7 +1091,7 @@ func (dnsSvcs *DnsSvcsV1) CreatePermittedNetworkWithContext(ctx context.Context,
 
 	pathParamsMap := map[string]string{
 		"instance_id": *createPermittedNetworkOptions.InstanceID,
-		"dnszone_id": *createPermittedNetworkOptions.DnszoneID,
+		"dnszone_id":  *createPermittedNetworkOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1171,8 +1171,8 @@ func (dnsSvcs *DnsSvcsV1) DeletePermittedNetworkWithContext(ctx context.Context,
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *deletePermittedNetworkOptions.InstanceID,
-		"dnszone_id": *deletePermittedNetworkOptions.DnszoneID,
+		"instance_id":          *deletePermittedNetworkOptions.InstanceID,
+		"dnszone_id":           *deletePermittedNetworkOptions.DnszoneID,
 		"permitted_network_id": *deletePermittedNetworkOptions.PermittedNetworkID,
 	}
 
@@ -1236,8 +1236,8 @@ func (dnsSvcs *DnsSvcsV1) GetPermittedNetworkWithContext(ctx context.Context, ge
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *getPermittedNetworkOptions.InstanceID,
-		"dnszone_id": *getPermittedNetworkOptions.DnszoneID,
+		"instance_id":          *getPermittedNetworkOptions.InstanceID,
+		"dnszone_id":           *getPermittedNetworkOptions.DnszoneID,
 		"permitted_network_id": *getPermittedNetworkOptions.PermittedNetworkID,
 	}
 
@@ -1302,7 +1302,7 @@ func (dnsSvcs *DnsSvcsV1) ListLoadBalancersWithContext(ctx context.Context, list
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listLoadBalancersOptions.InstanceID,
-		"dnszone_id": *listLoadBalancersOptions.DnszoneID,
+		"dnszone_id":  *listLoadBalancersOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1373,7 +1373,7 @@ func (dnsSvcs *DnsSvcsV1) CreateLoadBalancerWithContext(ctx context.Context, cre
 
 	pathParamsMap := map[string]string{
 		"instance_id": *createLoadBalancerOptions.InstanceID,
-		"dnszone_id": *createLoadBalancerOptions.DnszoneID,
+		"dnszone_id":  *createLoadBalancerOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1465,8 +1465,8 @@ func (dnsSvcs *DnsSvcsV1) DeleteLoadBalancerWithContext(ctx context.Context, del
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteLoadBalancerOptions.InstanceID,
-		"dnszone_id": *deleteLoadBalancerOptions.DnszoneID,
-		"lb_id": *deleteLoadBalancerOptions.LbID,
+		"dnszone_id":  *deleteLoadBalancerOptions.DnszoneID,
+		"lb_id":       *deleteLoadBalancerOptions.LbID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1518,8 +1518,8 @@ func (dnsSvcs *DnsSvcsV1) GetLoadBalancerWithContext(ctx context.Context, getLoa
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getLoadBalancerOptions.InstanceID,
-		"dnszone_id": *getLoadBalancerOptions.DnszoneID,
-		"lb_id": *getLoadBalancerOptions.LbID,
+		"dnszone_id":  *getLoadBalancerOptions.DnszoneID,
+		"lb_id":       *getLoadBalancerOptions.LbID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1583,8 +1583,8 @@ func (dnsSvcs *DnsSvcsV1) UpdateLoadBalancerWithContext(ctx context.Context, upd
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateLoadBalancerOptions.InstanceID,
-		"dnszone_id": *updateLoadBalancerOptions.DnszoneID,
-		"lb_id": *updateLoadBalancerOptions.LbID,
+		"dnszone_id":  *updateLoadBalancerOptions.DnszoneID,
+		"lb_id":       *updateLoadBalancerOptions.LbID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1843,7 +1843,7 @@ func (dnsSvcs *DnsSvcsV1) DeletePoolWithContext(ctx context.Context, deletePoolO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deletePoolOptions.InstanceID,
-		"pool_id": *deletePoolOptions.PoolID,
+		"pool_id":     *deletePoolOptions.PoolID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1895,7 +1895,7 @@ func (dnsSvcs *DnsSvcsV1) GetPoolWithContext(ctx context.Context, getPoolOptions
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getPoolOptions.InstanceID,
-		"pool_id": *getPoolOptions.PoolID,
+		"pool_id":     *getPoolOptions.PoolID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1959,7 +1959,7 @@ func (dnsSvcs *DnsSvcsV1) UpdatePoolWithContext(ctx context.Context, updatePoolO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updatePoolOptions.InstanceID,
-		"pool_id": *updatePoolOptions.PoolID,
+		"pool_id":     *updatePoolOptions.PoolID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -2236,7 +2236,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteMonitorWithContext(ctx context.Context, deleteMo
 
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteMonitorOptions.InstanceID,
-		"monitor_id": *deleteMonitorOptions.MonitorID,
+		"monitor_id":  *deleteMonitorOptions.MonitorID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2288,7 +2288,7 @@ func (dnsSvcs *DnsSvcsV1) GetMonitorWithContext(ctx context.Context, getMonitorO
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getMonitorOptions.InstanceID,
-		"monitor_id": *getMonitorOptions.MonitorID,
+		"monitor_id":  *getMonitorOptions.MonitorID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -2352,7 +2352,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateMonitorWithContext(ctx context.Context, updateMo
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateMonitorOptions.InstanceID,
-		"monitor_id": *updateMonitorOptions.MonitorID,
+		"monitor_id":  *updateMonitorOptions.MonitorID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -3237,7 +3237,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteForwardingRuleWithContext(ctx context.Context, d
 	pathParamsMap := map[string]string{
 		"instance_id": *deleteForwardingRuleOptions.InstanceID,
 		"resolver_id": *deleteForwardingRuleOptions.ResolverID,
-		"rule_id": *deleteForwardingRuleOptions.RuleID,
+		"rule_id":     *deleteForwardingRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -3290,7 +3290,7 @@ func (dnsSvcs *DnsSvcsV1) GetForwardingRuleWithContext(ctx context.Context, getF
 	pathParamsMap := map[string]string{
 		"instance_id": *getForwardingRuleOptions.InstanceID,
 		"resolver_id": *getForwardingRuleOptions.ResolverID,
-		"rule_id": *getForwardingRuleOptions.RuleID,
+		"rule_id":     *getForwardingRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -3355,7 +3355,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateForwardingRuleWithContext(ctx context.Context, u
 	pathParamsMap := map[string]string{
 		"instance_id": *updateForwardingRuleOptions.InstanceID,
 		"resolver_id": *updateForwardingRuleOptions.ResolverID,
-		"rule_id": *updateForwardingRuleOptions.RuleID,
+		"rule_id":     *updateForwardingRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -3588,8 +3588,8 @@ func (dnsSvcs *DnsSvcsV1) GetSecondaryZoneWithContext(ctx context.Context, getSe
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *getSecondaryZoneOptions.InstanceID,
-		"resolver_id": *getSecondaryZoneOptions.ResolverID,
+		"instance_id":       *getSecondaryZoneOptions.InstanceID,
+		"resolver_id":       *getSecondaryZoneOptions.ResolverID,
 		"secondary_zone_id": *getSecondaryZoneOptions.SecondaryZoneID,
 	}
 
@@ -3653,8 +3653,8 @@ func (dnsSvcs *DnsSvcsV1) UpdateSecondaryZoneWithContext(ctx context.Context, up
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *updateSecondaryZoneOptions.InstanceID,
-		"resolver_id": *updateSecondaryZoneOptions.ResolverID,
+		"instance_id":       *updateSecondaryZoneOptions.InstanceID,
+		"resolver_id":       *updateSecondaryZoneOptions.ResolverID,
 		"secondary_zone_id": *updateSecondaryZoneOptions.SecondaryZoneID,
 	}
 
@@ -3734,8 +3734,8 @@ func (dnsSvcs *DnsSvcsV1) DeleteSecondaryZoneWithContext(ctx context.Context, de
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *deleteSecondaryZoneOptions.InstanceID,
-		"resolver_id": *deleteSecondaryZoneOptions.ResolverID,
+		"instance_id":       *deleteSecondaryZoneOptions.InstanceID,
+		"resolver_id":       *deleteSecondaryZoneOptions.ResolverID,
 		"secondary_zone_id": *deleteSecondaryZoneOptions.SecondaryZoneID,
 	}
 
@@ -3939,7 +3939,7 @@ func (dnsSvcs *DnsSvcsV1) GetLinkedZoneWithContext(ctx context.Context, getLinke
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *getLinkedZoneOptions.InstanceID,
+		"instance_id":       *getLinkedZoneOptions.InstanceID,
 		"linked_dnszone_id": *getLinkedZoneOptions.LinkedDnszoneID,
 	}
 
@@ -4003,7 +4003,7 @@ func (dnsSvcs *DnsSvcsV1) UpdateLinkedZoneWithContext(ctx context.Context, updat
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *updateLinkedZoneOptions.InstanceID,
+		"instance_id":       *updateLinkedZoneOptions.InstanceID,
 		"linked_dnszone_id": *updateLinkedZoneOptions.LinkedDnszoneID,
 	}
 
@@ -4080,7 +4080,7 @@ func (dnsSvcs *DnsSvcsV1) DeleteLinkedZoneWithContext(ctx context.Context, delet
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *deleteLinkedZoneOptions.InstanceID,
+		"instance_id":       *deleteLinkedZoneOptions.InstanceID,
 		"linked_dnszone_id": *deleteLinkedZoneOptions.LinkedDnszoneID,
 	}
 
@@ -4133,7 +4133,7 @@ func (dnsSvcs *DnsSvcsV1) ListDnszoneAccessRequestsWithContext(ctx context.Conte
 
 	pathParamsMap := map[string]string{
 		"instance_id": *listDnszoneAccessRequestsOptions.InstanceID,
-		"dnszone_id": *listDnszoneAccessRequestsOptions.DnszoneID,
+		"dnszone_id":  *listDnszoneAccessRequestsOptions.DnszoneID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -4204,8 +4204,8 @@ func (dnsSvcs *DnsSvcsV1) GetDnszoneAccessRequestWithContext(ctx context.Context
 
 	pathParamsMap := map[string]string{
 		"instance_id": *getDnszoneAccessRequestOptions.InstanceID,
-		"dnszone_id": *getDnszoneAccessRequestOptions.DnszoneID,
-		"request_id": *getDnszoneAccessRequestOptions.RequestID,
+		"dnszone_id":  *getDnszoneAccessRequestOptions.DnszoneID,
+		"request_id":  *getDnszoneAccessRequestOptions.RequestID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -4269,8 +4269,8 @@ func (dnsSvcs *DnsSvcsV1) UpdateDnszoneAccessRequestWithContext(ctx context.Cont
 
 	pathParamsMap := map[string]string{
 		"instance_id": *updateDnszoneAccessRequestOptions.InstanceID,
-		"dnszone_id": *updateDnszoneAccessRequestOptions.DnszoneID,
-		"request_id": *updateDnszoneAccessRequestOptions.RequestID,
+		"dnszone_id":  *updateDnszoneAccessRequestOptions.DnszoneID,
+		"request_id":  *updateDnszoneAccessRequestOptions.RequestID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -4343,7 +4343,7 @@ func (dnsSvcs *DnsSvcsV1) ListLinkedPermittedNetworksWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *listLinkedPermittedNetworksOptions.InstanceID,
+		"instance_id":       *listLinkedPermittedNetworksOptions.InstanceID,
 		"linked_dnszone_id": *listLinkedPermittedNetworksOptions.LinkedDnszoneID,
 	}
 
@@ -4407,7 +4407,7 @@ func (dnsSvcs *DnsSvcsV1) CreateLzPermittedNetworkWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *createLzPermittedNetworkOptions.InstanceID,
+		"instance_id":       *createLzPermittedNetworkOptions.InstanceID,
 		"linked_dnszone_id": *createLzPermittedNetworkOptions.LinkedDnszoneID,
 	}
 
@@ -4484,8 +4484,8 @@ func (dnsSvcs *DnsSvcsV1) DeleteLzPermittedNetworkWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *deleteLzPermittedNetworkOptions.InstanceID,
-		"linked_dnszone_id": *deleteLzPermittedNetworkOptions.LinkedDnszoneID,
+		"instance_id":          *deleteLzPermittedNetworkOptions.InstanceID,
+		"linked_dnszone_id":    *deleteLzPermittedNetworkOptions.LinkedDnszoneID,
 		"permitted_network_id": *deleteLzPermittedNetworkOptions.PermittedNetworkID,
 	}
 
@@ -4549,8 +4549,8 @@ func (dnsSvcs *DnsSvcsV1) GetLinkedPermittedNetworkWithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"instance_id": *getLinkedPermittedNetworkOptions.InstanceID,
-		"linked_dnszone_id": *getLinkedPermittedNetworkOptions.LinkedDnszoneID,
+		"instance_id":          *getLinkedPermittedNetworkOptions.InstanceID,
+		"linked_dnszone_id":    *getLinkedPermittedNetworkOptions.LinkedDnszoneID,
 		"permitted_network_id": *getLinkedPermittedNetworkOptions.PermittedNetworkID,
 	}
 
@@ -5023,7 +5023,7 @@ type CreateLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewCreateLoadBalancerOptions(instanceID string, dnszoneID string) *CreateLoadBalancerOptions {
 	return &CreateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -5123,7 +5123,7 @@ const (
 // NewCreateLzPermittedNetworkOptions : Instantiate CreateLzPermittedNetworkOptions
 func (*DnsSvcsV1) NewCreateLzPermittedNetworkOptions(instanceID string, linkedDnszoneID string) *CreateLzPermittedNetworkOptions {
 	return &CreateLzPermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
+		InstanceID:      core.StringPtr(instanceID),
 		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
 	}
 }
@@ -5224,15 +5224,15 @@ type CreateMonitorOptions struct {
 // Constants associated with the CreateMonitorOptions.Type property.
 // The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
 const (
-	CreateMonitorOptions_Type_Http = "HTTP"
+	CreateMonitorOptions_Type_Http  = "HTTP"
 	CreateMonitorOptions_Type_Https = "HTTPS"
-	CreateMonitorOptions_Type_Tcp = "TCP"
+	CreateMonitorOptions_Type_Tcp   = "TCP"
 )
 
 // Constants associated with the CreateMonitorOptions.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	CreateMonitorOptions_Method_Get = "GET"
+	CreateMonitorOptions_Method_Get  = "GET"
 	CreateMonitorOptions_Method_Head = "HEAD"
 )
 
@@ -5374,7 +5374,7 @@ const (
 func (*DnsSvcsV1) NewCreatePermittedNetworkOptions(instanceID string, dnszoneID string) *CreatePermittedNetworkOptions {
 	return &CreatePermittedNetworkOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -5464,11 +5464,11 @@ type CreatePoolOptions struct {
 // Constants associated with the CreatePoolOptions.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	CreatePoolOptions_HealthcheckRegion_AuSyd = "au-syd"
-	CreatePoolOptions_HealthcheckRegion_EuDu = "eu-du"
-	CreatePoolOptions_HealthcheckRegion_EuGb = "eu-gb"
-	CreatePoolOptions_HealthcheckRegion_JpTok = "jp-tok"
-	CreatePoolOptions_HealthcheckRegion_UsEast = "us-east"
+	CreatePoolOptions_HealthcheckRegion_AuSyd   = "au-syd"
+	CreatePoolOptions_HealthcheckRegion_EuDu    = "eu-du"
+	CreatePoolOptions_HealthcheckRegion_EuGb    = "eu-gb"
+	CreatePoolOptions_HealthcheckRegion_JpTok   = "jp-tok"
+	CreatePoolOptions_HealthcheckRegion_UsEast  = "us-east"
 	CreatePoolOptions_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -5587,20 +5587,20 @@ type CreateResourceRecordOptions struct {
 // Constants associated with the CreateResourceRecordOptions.Type property.
 // Type of the resource record.
 const (
-	CreateResourceRecordOptions_Type_A = "A"
-	CreateResourceRecordOptions_Type_Aaaa = "AAAA"
+	CreateResourceRecordOptions_Type_A     = "A"
+	CreateResourceRecordOptions_Type_Aaaa  = "AAAA"
 	CreateResourceRecordOptions_Type_Cname = "CNAME"
-	CreateResourceRecordOptions_Type_Mx = "MX"
-	CreateResourceRecordOptions_Type_Ptr = "PTR"
-	CreateResourceRecordOptions_Type_Srv = "SRV"
-	CreateResourceRecordOptions_Type_Txt = "TXT"
+	CreateResourceRecordOptions_Type_Mx    = "MX"
+	CreateResourceRecordOptions_Type_Ptr   = "PTR"
+	CreateResourceRecordOptions_Type_Srv   = "SRV"
+	CreateResourceRecordOptions_Type_Txt   = "TXT"
 )
 
 // NewCreateResourceRecordOptions : Instantiate CreateResourceRecordOptions
 func (*DnsSvcsV1) NewCreateResourceRecordOptions(instanceID string, dnszoneID string) *CreateResourceRecordOptions {
 	return &CreateResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -5870,7 +5870,7 @@ type DeleteDnszoneOptions struct {
 func (*DnsSvcsV1) NewDeleteDnszoneOptions(instanceID string, dnszoneID string) *DeleteDnszoneOptions {
 	return &DeleteDnszoneOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -5921,7 +5921,7 @@ func (*DnsSvcsV1) NewDeleteForwardingRuleOptions(instanceID string, resolverID s
 	return &DeleteForwardingRuleOptions{
 		InstanceID: core.StringPtr(instanceID),
 		ResolverID: core.StringPtr(resolverID),
-		RuleID: core.StringPtr(ruleID),
+		RuleID:     core.StringPtr(ruleID),
 	}
 }
 
@@ -5973,7 +5973,7 @@ type DeleteLinkedZoneOptions struct {
 // NewDeleteLinkedZoneOptions : Instantiate DeleteLinkedZoneOptions
 func (*DnsSvcsV1) NewDeleteLinkedZoneOptions(instanceID string, linkedDnszoneID string) *DeleteLinkedZoneOptions {
 	return &DeleteLinkedZoneOptions{
-		InstanceID: core.StringPtr(instanceID),
+		InstanceID:      core.StringPtr(instanceID),
 		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
 	}
 }
@@ -6024,8 +6024,8 @@ type DeleteLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewDeleteLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *DeleteLoadBalancerOptions {
 	return &DeleteLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
@@ -6080,8 +6080,8 @@ type DeleteLzPermittedNetworkOptions struct {
 // NewDeleteLzPermittedNetworkOptions : Instantiate DeleteLzPermittedNetworkOptions
 func (*DnsSvcsV1) NewDeleteLzPermittedNetworkOptions(instanceID string, linkedDnszoneID string, permittedNetworkID string) *DeleteLzPermittedNetworkOptions {
 	return &DeleteLzPermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		LinkedDnszoneID:    core.StringPtr(linkedDnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
@@ -6135,7 +6135,7 @@ type DeleteMonitorOptions struct {
 func (*DnsSvcsV1) NewDeleteMonitorOptions(instanceID string, monitorID string) *DeleteMonitorOptions {
 	return &DeleteMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
@@ -6184,8 +6184,8 @@ type DeletePermittedNetworkOptions struct {
 // NewDeletePermittedNetworkOptions : Instantiate DeletePermittedNetworkOptions
 func (*DnsSvcsV1) NewDeletePermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *DeletePermittedNetworkOptions {
 	return &DeletePermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		DnszoneID:          core.StringPtr(dnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
@@ -6239,7 +6239,7 @@ type DeletePoolOptions struct {
 func (*DnsSvcsV1) NewDeletePoolOptions(instanceID string, poolID string) *DeletePoolOptions {
 	return &DeletePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
@@ -6289,8 +6289,8 @@ type DeleteResourceRecordOptions struct {
 func (*DnsSvcsV1) NewDeleteResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *DeleteResourceRecordOptions {
 	return &DeleteResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RecordID: core.StringPtr(recordID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RecordID:   core.StringPtr(recordID),
 	}
 }
 
@@ -6345,8 +6345,8 @@ type DeleteSecondaryZoneOptions struct {
 // NewDeleteSecondaryZoneOptions : Instantiate DeleteSecondaryZoneOptions
 func (*DnsSvcsV1) NewDeleteSecondaryZoneOptions(instanceID string, resolverID string, secondaryZoneID string) *DeleteSecondaryZoneOptions {
 	return &DeleteSecondaryZoneOptions{
-		InstanceID: core.StringPtr(instanceID),
-		ResolverID: core.StringPtr(resolverID),
+		InstanceID:      core.StringPtr(instanceID),
+		ResolverID:      core.StringPtr(resolverID),
 		SecondaryZoneID: core.StringPtr(secondaryZoneID),
 	}
 }
@@ -6400,7 +6400,7 @@ type ExportResourceRecordsOptions struct {
 func (*DnsSvcsV1) NewExportResourceRecordsOptions(instanceID string, dnszoneID string) *ExportResourceRecordsOptions {
 	return &ExportResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -6497,8 +6497,8 @@ type GetDnszoneAccessRequestOptions struct {
 func (*DnsSvcsV1) NewGetDnszoneAccessRequestOptions(instanceID string, dnszoneID string, requestID string) *GetDnszoneAccessRequestOptions {
 	return &GetDnszoneAccessRequestOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RequestID: core.StringPtr(requestID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RequestID:  core.StringPtr(requestID),
 	}
 }
 
@@ -6551,7 +6551,7 @@ type GetDnszoneOptions struct {
 func (*DnsSvcsV1) NewGetDnszoneOptions(instanceID string, dnszoneID string) *GetDnszoneOptions {
 	return &GetDnszoneOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -6602,7 +6602,7 @@ func (*DnsSvcsV1) NewGetForwardingRuleOptions(instanceID string, resolverID stri
 	return &GetForwardingRuleOptions{
 		InstanceID: core.StringPtr(instanceID),
 		ResolverID: core.StringPtr(resolverID),
-		RuleID: core.StringPtr(ruleID),
+		RuleID:     core.StringPtr(ruleID),
 	}
 }
 
@@ -6657,8 +6657,8 @@ type GetLinkedPermittedNetworkOptions struct {
 // NewGetLinkedPermittedNetworkOptions : Instantiate GetLinkedPermittedNetworkOptions
 func (*DnsSvcsV1) NewGetLinkedPermittedNetworkOptions(instanceID string, linkedDnszoneID string, permittedNetworkID string) *GetLinkedPermittedNetworkOptions {
 	return &GetLinkedPermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		LinkedDnszoneID:    core.StringPtr(linkedDnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
@@ -6711,7 +6711,7 @@ type GetLinkedZoneOptions struct {
 // NewGetLinkedZoneOptions : Instantiate GetLinkedZoneOptions
 func (*DnsSvcsV1) NewGetLinkedZoneOptions(instanceID string, linkedDnszoneID string) *GetLinkedZoneOptions {
 	return &GetLinkedZoneOptions{
-		InstanceID: core.StringPtr(instanceID),
+		InstanceID:      core.StringPtr(instanceID),
 		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
 	}
 }
@@ -6762,8 +6762,8 @@ type GetLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewGetLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *GetLoadBalancerOptions {
 	return &GetLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
@@ -6816,7 +6816,7 @@ type GetMonitorOptions struct {
 func (*DnsSvcsV1) NewGetMonitorOptions(instanceID string, monitorID string) *GetMonitorOptions {
 	return &GetMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
@@ -6865,8 +6865,8 @@ type GetPermittedNetworkOptions struct {
 // NewGetPermittedNetworkOptions : Instantiate GetPermittedNetworkOptions
 func (*DnsSvcsV1) NewGetPermittedNetworkOptions(instanceID string, dnszoneID string, permittedNetworkID string) *GetPermittedNetworkOptions {
 	return &GetPermittedNetworkOptions{
-		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		InstanceID:         core.StringPtr(instanceID),
+		DnszoneID:          core.StringPtr(dnszoneID),
 		PermittedNetworkID: core.StringPtr(permittedNetworkID),
 	}
 }
@@ -6920,7 +6920,7 @@ type GetPoolOptions struct {
 func (*DnsSvcsV1) NewGetPoolOptions(instanceID string, poolID string) *GetPoolOptions {
 	return &GetPoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
@@ -6970,8 +6970,8 @@ type GetResourceRecordOptions struct {
 func (*DnsSvcsV1) NewGetResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *GetResourceRecordOptions {
 	return &GetResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RecordID: core.StringPtr(recordID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RecordID:   core.StringPtr(recordID),
 	}
 }
 
@@ -7026,8 +7026,8 @@ type GetSecondaryZoneOptions struct {
 // NewGetSecondaryZoneOptions : Instantiate GetSecondaryZoneOptions
 func (*DnsSvcsV1) NewGetSecondaryZoneOptions(instanceID string, resolverID string, secondaryZoneID string) *GetSecondaryZoneOptions {
 	return &GetSecondaryZoneOptions{
-		InstanceID: core.StringPtr(instanceID),
-		ResolverID: core.StringPtr(resolverID),
+		InstanceID:      core.StringPtr(instanceID),
+		ResolverID:      core.StringPtr(resolverID),
 		SecondaryZoneID: core.StringPtr(secondaryZoneID),
 	}
 }
@@ -7087,7 +7087,7 @@ type ImportResourceRecordsOptions struct {
 func (*DnsSvcsV1) NewImportResourceRecordsOptions(instanceID string, dnszoneID string) *ImportResourceRecordsOptions {
 	return &ImportResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -7213,7 +7213,7 @@ type ListDnszoneAccessRequestsOptions struct {
 func (*DnsSvcsV1) NewListDnszoneAccessRequestsOptions(instanceID string, dnszoneID string) *ListDnszoneAccessRequestsOptions {
 	return &ListDnszoneAccessRequestsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -7400,7 +7400,7 @@ type ListLinkedPermittedNetworksOptions struct {
 // NewListLinkedPermittedNetworksOptions : Instantiate ListLinkedPermittedNetworksOptions
 func (*DnsSvcsV1) NewListLinkedPermittedNetworksOptions(instanceID string, linkedDnszoneID string) *ListLinkedPermittedNetworksOptions {
 	return &ListLinkedPermittedNetworksOptions{
-		InstanceID: core.StringPtr(instanceID),
+		InstanceID:      core.StringPtr(instanceID),
 		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
 	}
 }
@@ -7509,7 +7509,7 @@ type ListLoadBalancersOptions struct {
 func (*DnsSvcsV1) NewListLoadBalancersOptions(instanceID string, dnszoneID string) *ListLoadBalancersOptions {
 	return &ListLoadBalancersOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -7627,7 +7627,7 @@ type ListPermittedNetworksOptions struct {
 func (*DnsSvcsV1) NewListPermittedNetworksOptions(instanceID string, dnszoneID string) *ListPermittedNetworksOptions {
 	return &ListPermittedNetworksOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -7747,7 +7747,7 @@ type ListResourceRecordsOptions struct {
 func (*DnsSvcsV1) NewListResourceRecordsOptions(instanceID string, dnszoneID string) *ListResourceRecordsOptions {
 	return &ListResourceRecordsOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -7990,6 +7990,7 @@ type ResourceRecordInputRdata struct {
 	// Hostname of the relevant A or AAAA record.
 	Ptrdname *string `json:"ptrdname,omitempty"`
 }
+
 func (*ResourceRecordInputRdata) isaResourceRecordInputRdata() bool {
 	return true
 }
@@ -8085,6 +8086,7 @@ type ResourceRecordUpdateInputRdata struct {
 	// Hostname of the relevant A or AAAA record.
 	Ptrdname *string `json:"ptrdname,omitempty"`
 }
+
 func (*ResourceRecordUpdateInputRdata) isaResourceRecordUpdateInputRdata() bool {
 	return true
 }
@@ -8370,16 +8372,16 @@ type UpdateDnszoneAccessRequestOptions struct {
 // The action applies to the access request.
 const (
 	UpdateDnszoneAccessRequestOptions_Action_Approve = "APPROVE"
-	UpdateDnszoneAccessRequestOptions_Action_Reject = "REJECT"
-	UpdateDnszoneAccessRequestOptions_Action_Revoke = "REVOKE"
+	UpdateDnszoneAccessRequestOptions_Action_Reject  = "REJECT"
+	UpdateDnszoneAccessRequestOptions_Action_Revoke  = "REVOKE"
 )
 
 // NewUpdateDnszoneAccessRequestOptions : Instantiate UpdateDnszoneAccessRequestOptions
 func (*DnsSvcsV1) NewUpdateDnszoneAccessRequestOptions(instanceID string, dnszoneID string, requestID string) *UpdateDnszoneAccessRequestOptions {
 	return &UpdateDnszoneAccessRequestOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RequestID: core.StringPtr(requestID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RequestID:  core.StringPtr(requestID),
 	}
 }
 
@@ -8444,7 +8446,7 @@ type UpdateDnszoneOptions struct {
 func (*DnsSvcsV1) NewUpdateDnszoneOptions(instanceID string, dnszoneID string) *UpdateDnszoneOptions {
 	return &UpdateDnszoneOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
+		DnszoneID:  core.StringPtr(dnszoneID),
 	}
 }
 
@@ -8516,7 +8518,7 @@ func (*DnsSvcsV1) NewUpdateForwardingRuleOptions(instanceID string, resolverID s
 	return &UpdateForwardingRuleOptions{
 		InstanceID: core.StringPtr(instanceID),
 		ResolverID: core.StringPtr(resolverID),
-		RuleID: core.StringPtr(ruleID),
+		RuleID:     core.StringPtr(ruleID),
 	}
 }
 
@@ -8592,7 +8594,7 @@ type UpdateLinkedZoneOptions struct {
 // NewUpdateLinkedZoneOptions : Instantiate UpdateLinkedZoneOptions
 func (*DnsSvcsV1) NewUpdateLinkedZoneOptions(instanceID string, linkedDnszoneID string) *UpdateLinkedZoneOptions {
 	return &UpdateLinkedZoneOptions{
-		InstanceID: core.StringPtr(instanceID),
+		InstanceID:      core.StringPtr(instanceID),
 		LinkedDnszoneID: core.StringPtr(linkedDnszoneID),
 	}
 }
@@ -8677,8 +8679,8 @@ type UpdateLoadBalancerOptions struct {
 func (*DnsSvcsV1) NewUpdateLoadBalancerOptions(instanceID string, dnszoneID string, lbID string) *UpdateLoadBalancerOptions {
 	return &UpdateLoadBalancerOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		LbID: core.StringPtr(lbID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		LbID:       core.StringPtr(lbID),
 	}
 }
 
@@ -8818,15 +8820,15 @@ type UpdateMonitorOptions struct {
 // Constants associated with the UpdateMonitorOptions.Type property.
 // The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS' and 'TCP'.
 const (
-	UpdateMonitorOptions_Type_Http = "HTTP"
+	UpdateMonitorOptions_Type_Http  = "HTTP"
 	UpdateMonitorOptions_Type_Https = "HTTPS"
-	UpdateMonitorOptions_Type_Tcp = "TCP"
+	UpdateMonitorOptions_Type_Tcp   = "TCP"
 )
 
 // Constants associated with the UpdateMonitorOptions.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	UpdateMonitorOptions_Method_Get = "GET"
+	UpdateMonitorOptions_Method_Get  = "GET"
 	UpdateMonitorOptions_Method_Head = "HEAD"
 )
 
@@ -8834,7 +8836,7 @@ const (
 func (*DnsSvcsV1) NewUpdateMonitorOptions(instanceID string, monitorID string) *UpdateMonitorOptions {
 	return &UpdateMonitorOptions{
 		InstanceID: core.StringPtr(instanceID),
-		MonitorID: core.StringPtr(monitorID),
+		MonitorID:  core.StringPtr(monitorID),
 	}
 }
 
@@ -8987,11 +8989,11 @@ type UpdatePoolOptions struct {
 // Constants associated with the UpdatePoolOptions.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	UpdatePoolOptions_HealthcheckRegion_AuSyd = "au-syd"
-	UpdatePoolOptions_HealthcheckRegion_EuDu = "eu-du"
-	UpdatePoolOptions_HealthcheckRegion_EuGb = "eu-gb"
-	UpdatePoolOptions_HealthcheckRegion_JpTok = "jp-tok"
-	UpdatePoolOptions_HealthcheckRegion_UsEast = "us-east"
+	UpdatePoolOptions_HealthcheckRegion_AuSyd   = "au-syd"
+	UpdatePoolOptions_HealthcheckRegion_EuDu    = "eu-du"
+	UpdatePoolOptions_HealthcheckRegion_EuGb    = "eu-gb"
+	UpdatePoolOptions_HealthcheckRegion_JpTok   = "jp-tok"
+	UpdatePoolOptions_HealthcheckRegion_UsEast  = "us-east"
 	UpdatePoolOptions_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -8999,7 +9001,7 @@ const (
 func (*DnsSvcsV1) NewUpdatePoolOptions(instanceID string, poolID string) *UpdatePoolOptions {
 	return &UpdatePoolOptions{
 		InstanceID: core.StringPtr(instanceID),
-		PoolID: core.StringPtr(poolID),
+		PoolID:     core.StringPtr(poolID),
 	}
 }
 
@@ -9118,8 +9120,8 @@ type UpdateResourceRecordOptions struct {
 func (*DnsSvcsV1) NewUpdateResourceRecordOptions(instanceID string, dnszoneID string, recordID string) *UpdateResourceRecordOptions {
 	return &UpdateResourceRecordOptions{
 		InstanceID: core.StringPtr(instanceID),
-		DnszoneID: core.StringPtr(dnszoneID),
-		RecordID: core.StringPtr(recordID),
+		DnszoneID:  core.StringPtr(dnszoneID),
+		RecordID:   core.StringPtr(recordID),
 	}
 }
 
@@ -9213,8 +9215,8 @@ type UpdateSecondaryZoneOptions struct {
 // NewUpdateSecondaryZoneOptions : Instantiate UpdateSecondaryZoneOptions
 func (*DnsSvcsV1) NewUpdateSecondaryZoneOptions(instanceID string, resolverID string, secondaryZoneID string) *UpdateSecondaryZoneOptions {
 	return &UpdateSecondaryZoneOptions{
-		InstanceID: core.StringPtr(instanceID),
-		ResolverID: core.StringPtr(resolverID),
+		InstanceID:      core.StringPtr(instanceID),
+		ResolverID:      core.StringPtr(resolverID),
 		SecondaryZoneID: core.StringPtr(secondaryZoneID),
 	}
 }
@@ -9298,9 +9300,9 @@ type AccessRequest struct {
 // The state of the access request.
 const (
 	AccessRequest_State_Approved = "APPROVED"
-	AccessRequest_State_Pending = "PENDING"
+	AccessRequest_State_Pending  = "PENDING"
 	AccessRequest_State_Rejected = "REJECTED"
-	AccessRequest_State_Revoked = "REVOKED"
+	AccessRequest_State_Revoked  = "REVOKED"
 	AccessRequest_State_Timedout = "TIMEDOUT"
 )
 
@@ -9465,7 +9467,7 @@ type CustomResolver struct {
 const (
 	CustomResolver_Health_Critical = "CRITICAL"
 	CustomResolver_Health_Degraded = "DEGRADED"
-	CustomResolver_Health_Healthy = "HEALTHY"
+	CustomResolver_Health_Healthy  = "HEALTHY"
 )
 
 // UnmarshalCustomResolver unmarshals an instance of CustomResolver from the specified map of raw messages.
@@ -9554,10 +9556,10 @@ type Dnszone struct {
 // Constants associated with the Dnszone.State property.
 // State of DNS zone.
 const (
-	Dnszone_State_Active = "active"
-	Dnszone_State_Deleted = "deleted"
-	Dnszone_State_Disabled = "disabled"
-	Dnszone_State_PendingDelete = "pending_delete"
+	Dnszone_State_Active            = "active"
+	Dnszone_State_Deleted           = "deleted"
+	Dnszone_State_Disabled          = "disabled"
+	Dnszone_State_PendingDelete     = "pending_delete"
 	Dnszone_State_PendingNetworkAdd = "pending_network_add"
 )
 
@@ -9628,7 +9630,7 @@ type ForwardingRule struct {
 // Type of the forwarding rule.
 const (
 	ForwardingRule_Type_Default = "default"
-	ForwardingRule_Type_Zone = "zone"
+	ForwardingRule_Type_Zone    = "zone"
 )
 
 // UnmarshalForwardingRule unmarshals an instance of ForwardingRule from the specified map of raw messages.
@@ -9768,7 +9770,7 @@ type HealthcheckHeader struct {
 // NewHealthcheckHeader : Instantiate HealthcheckHeader (Generic Model Constructor)
 func (*DnsSvcsV1) NewHealthcheckHeader(name string, value []string) (_model *HealthcheckHeader, err error) {
 	_model = &HealthcheckHeader{
-		Name: core.StringPtr(name),
+		Name:  core.StringPtr(name),
 		Value: value,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -9885,11 +9887,11 @@ type LinkedDnszone struct {
 // Constants associated with the LinkedDnszone.State property.
 // The state of linked zone.
 const (
-	LinkedDnszone_State_Active = "ACTIVE"
-	LinkedDnszone_State_ApprovalRejected = "APPROVAL_REJECTED"
-	LinkedDnszone_State_ApprovalRevoked = "APPROVAL_REVOKED"
-	LinkedDnszone_State_ApprovalTimedout = "APPROVAL_TIMEDOUT"
-	LinkedDnszone_State_PendingApproval = "PENDING_APPROVAL"
+	LinkedDnszone_State_Active            = "ACTIVE"
+	LinkedDnszone_State_ApprovalRejected  = "APPROVAL_REJECTED"
+	LinkedDnszone_State_ApprovalRevoked   = "APPROVAL_REVOKED"
+	LinkedDnszone_State_ApprovalTimedout  = "APPROVAL_TIMEDOUT"
+	LinkedDnszone_State_PendingApproval   = "PENDING_APPROVAL"
 	LinkedDnszone_State_PendingNetworkAdd = "PENDING_NETWORK_ADD"
 )
 
@@ -10539,7 +10541,7 @@ type LoadBalancer struct {
 const (
 	LoadBalancer_Health_Critical = "CRITICAL"
 	LoadBalancer_Health_Degraded = "DEGRADED"
-	LoadBalancer_Health_Healthy = "HEALTHY"
+	LoadBalancer_Health_Healthy  = "HEALTHY"
 )
 
 // UnmarshalLoadBalancer unmarshals an instance of LoadBalancer from the specified map of raw messages.
@@ -10731,7 +10733,7 @@ type Monitor struct {
 // Constants associated with the Monitor.Method property.
 // The method to use for the health check applicable to HTTP/HTTPS based checks, the default value is 'GET'.
 const (
-	Monitor_Method_Get = "GET"
+	Monitor_Method_Get  = "GET"
 	Monitor_Method_Head = "HEAD"
 )
 
@@ -10946,7 +10948,7 @@ const (
 // Constants associated with the PermittedNetwork.State property.
 // The state of a permitted network.
 const (
-	PermittedNetwork_State_Active = "ACTIVE"
+	PermittedNetwork_State_Active            = "ACTIVE"
 	PermittedNetwork_State_RemovalInProgress = "REMOVAL_IN_PROGRESS"
 )
 
@@ -11063,17 +11065,17 @@ type Pool struct {
 const (
 	Pool_Health_Critical = "CRITICAL"
 	Pool_Health_Degraded = "DEGRADED"
-	Pool_Health_Healthy = "HEALTHY"
+	Pool_Health_Healthy  = "HEALTHY"
 )
 
 // Constants associated with the Pool.HealthcheckRegion property.
 // Health check region of VSIs.
 const (
-	Pool_HealthcheckRegion_AuSyd = "au-syd"
-	Pool_HealthcheckRegion_EuDu = "eu-du"
-	Pool_HealthcheckRegion_EuGb = "eu-gb"
-	Pool_HealthcheckRegion_JpTok = "jp-tok"
-	Pool_HealthcheckRegion_UsEast = "us-east"
+	Pool_HealthcheckRegion_AuSyd   = "au-syd"
+	Pool_HealthcheckRegion_EuDu    = "eu-du"
+	Pool_HealthcheckRegion_EuGb    = "eu-gb"
+	Pool_HealthcheckRegion_JpTok   = "jp-tok"
+	Pool_HealthcheckRegion_UsEast  = "us-east"
 	Pool_HealthcheckRegion_UsSouth = "us-south"
 )
 
@@ -11280,13 +11282,13 @@ type ResourceRecord struct {
 // Constants associated with the ResourceRecord.Type property.
 // Type of the resource record.
 const (
-	ResourceRecord_Type_A = "A"
-	ResourceRecord_Type_Aaaa = "AAAA"
+	ResourceRecord_Type_A     = "A"
+	ResourceRecord_Type_Aaaa  = "AAAA"
 	ResourceRecord_Type_Cname = "CNAME"
-	ResourceRecord_Type_Mx = "MX"
-	ResourceRecord_Type_Ptr = "PTR"
-	ResourceRecord_Type_Srv = "SRV"
-	ResourceRecord_Type_Txt = "TXT"
+	ResourceRecord_Type_Mx    = "MX"
+	ResourceRecord_Type_Ptr   = "PTR"
+	ResourceRecord_Type_Srv   = "SRV"
+	ResourceRecord_Type_Txt   = "TXT"
 )
 
 // UnmarshalResourceRecord unmarshals an instance of ResourceRecord from the specified map of raw messages.
@@ -11587,7 +11589,7 @@ type ResourceRecordInputRdataRdataMxRecord struct {
 // NewResourceRecordInputRdataRdataMxRecord : Instantiate ResourceRecordInputRdataRdataMxRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataMxRecord(exchange string, preference int64) (_model *ResourceRecordInputRdataRdataMxRecord, err error) {
 	_model = &ResourceRecordInputRdataRdataMxRecord{
-		Exchange: core.StringPtr(exchange),
+		Exchange:   core.StringPtr(exchange),
 		Preference: core.Int64Ptr(preference),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -11663,10 +11665,10 @@ type ResourceRecordInputRdataRdataSrvRecord struct {
 // NewResourceRecordInputRdataRdataSrvRecord : Instantiate ResourceRecordInputRdataRdataSrvRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (_model *ResourceRecordInputRdataRdataSrvRecord, err error) {
 	_model = &ResourceRecordInputRdataRdataSrvRecord{
-		Port: core.Int64Ptr(port),
+		Port:     core.Int64Ptr(port),
 		Priority: core.Int64Ptr(priority),
-		Target: core.StringPtr(target),
-		Weight: core.Int64Ptr(weight),
+		Target:   core.StringPtr(target),
+		Weight:   core.Int64Ptr(weight),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -11836,7 +11838,7 @@ type ResourceRecordUpdateInputRdataRdataMxRecord struct {
 // NewResourceRecordUpdateInputRdataRdataMxRecord : Instantiate ResourceRecordUpdateInputRdataRdataMxRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataMxRecord(exchange string, preference int64) (_model *ResourceRecordUpdateInputRdataRdataMxRecord, err error) {
 	_model = &ResourceRecordUpdateInputRdataRdataMxRecord{
-		Exchange: core.StringPtr(exchange),
+		Exchange:   core.StringPtr(exchange),
 		Preference: core.Int64Ptr(preference),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -11912,10 +11914,10 @@ type ResourceRecordUpdateInputRdataRdataSrvRecord struct {
 // NewResourceRecordUpdateInputRdataRdataSrvRecord : Instantiate ResourceRecordUpdateInputRdataRdataSrvRecord (Generic Model Constructor)
 func (*DnsSvcsV1) NewResourceRecordUpdateInputRdataRdataSrvRecord(port int64, priority int64, target string, weight int64) (_model *ResourceRecordUpdateInputRdataRdataSrvRecord, err error) {
 	_model = &ResourceRecordUpdateInputRdataRdataSrvRecord{
-		Port: core.Int64Ptr(port),
+		Port:     core.Int64Ptr(port),
 		Priority: core.Int64Ptr(priority),
-		Target: core.StringPtr(target),
-		Weight: core.Int64Ptr(weight),
+		Target:   core.StringPtr(target),
+		Weight:   core.Int64Ptr(weight),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -11979,13 +11981,11 @@ func UnmarshalResourceRecordUpdateInputRdataRdataTxtRecord(m map[string]json.Raw
 	return
 }
 
-//
 // DnszonesPager can be used to simplify the use of the "ListDnszones" method.
-//
 type DnszonesPager struct {
-	hasNext bool
-	options *ListDnszonesOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListDnszonesOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12066,13 +12066,11 @@ func (pager *DnszonesPager) GetAll() (allItems []Dnszone, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // ResourceRecordsPager can be used to simplify the use of the "ListResourceRecords" method.
-//
 type ResourceRecordsPager struct {
-	hasNext bool
-	options *ListResourceRecordsOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListResourceRecordsOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12153,13 +12151,11 @@ func (pager *ResourceRecordsPager) GetAll() (allItems []ResourceRecord, err erro
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // LoadBalancersPager can be used to simplify the use of the "ListLoadBalancers" method.
-//
 type LoadBalancersPager struct {
-	hasNext bool
-	options *ListLoadBalancersOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListLoadBalancersOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12240,13 +12236,11 @@ func (pager *LoadBalancersPager) GetAll() (allItems []LoadBalancer, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // PoolsPager can be used to simplify the use of the "ListPools" method.
-//
 type PoolsPager struct {
-	hasNext bool
-	options *ListPoolsOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListPoolsOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12327,13 +12321,11 @@ func (pager *PoolsPager) GetAll() (allItems []Pool, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // MonitorsPager can be used to simplify the use of the "ListMonitors" method.
-//
 type MonitorsPager struct {
-	hasNext bool
-	options *ListMonitorsOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListMonitorsOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12414,13 +12406,11 @@ func (pager *MonitorsPager) GetAll() (allItems []Monitor, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // ForwardingRulesPager can be used to simplify the use of the "ListForwardingRules" method.
-//
 type ForwardingRulesPager struct {
-	hasNext bool
-	options *ListForwardingRulesOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListForwardingRulesOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12501,13 +12491,11 @@ func (pager *ForwardingRulesPager) GetAll() (allItems []ForwardingRule, err erro
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // SecondaryZonesPager can be used to simplify the use of the "ListSecondaryZones" method.
-//
 type SecondaryZonesPager struct {
-	hasNext bool
-	options *ListSecondaryZonesOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListSecondaryZonesOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12588,13 +12576,11 @@ func (pager *SecondaryZonesPager) GetAll() (allItems []SecondaryZone, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // LinkedZonesPager can be used to simplify the use of the "ListLinkedZones" method.
-//
 type LinkedZonesPager struct {
-	hasNext bool
-	options *ListLinkedZonesOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListLinkedZonesOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
@@ -12675,13 +12661,11 @@ func (pager *LinkedZonesPager) GetAll() (allItems []LinkedDnszone, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // DnszoneAccessRequestsPager can be used to simplify the use of the "ListDnszoneAccessRequests" method.
-//
 type DnszoneAccessRequestsPager struct {
-	hasNext bool
-	options *ListDnszoneAccessRequestsOptions
-	client  *DnsSvcsV1
+	hasNext     bool
+	options     *ListDnszoneAccessRequestsOptions
+	client      *DnsSvcsV1
 	pageContext struct {
 		next *int64
 	}
