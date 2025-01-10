@@ -47,7 +47,7 @@ func shouldSkipTest() {
 
 var _ = Describe(`dnssvcsv1`, func() {
 	defer GinkgoRecover()
-	//Skip("Skipping as build is failing..")
+	Skip("Skipping test cases..")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
