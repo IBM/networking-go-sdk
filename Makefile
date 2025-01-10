@@ -14,7 +14,8 @@ alltest:
 	go test `go list ./... | grep -v samples` -v -tags=integration -timeout 15m
 
 lint:
-	golangci-lint run
+	golangci-lint --version
+	golangci-lint run --enable gofmt -e S1034 --timeout 15m
 
 tidy:
 	go mod tidy
