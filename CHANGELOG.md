@@ -1,3 +1,10 @@
+# [0.50.0](https://github.com/IBM/networking-go-sdk/compare/v0.49.0...v0.50.0) (2025-01-10)
+
+
+### Features
+
+* **PDNS:** update custom resolver profile and views ([#202](https://github.com/IBM/networking-go-sdk/issues/202)) ([b6d6cd0](https://github.com/IBM/networking-go-sdk/commit/b6d6cd0efd07202fe5a91994b203fd5eaab077da))
+
 # [0.49.0](https://github.com/IBM/networking-go-sdk/compare/v0.48.0...v0.49.0) (2024-07-12)
 
 

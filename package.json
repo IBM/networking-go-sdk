@@ -13,6 +13,6 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
-    "@semantic-release/github": "^10.1.0"
+    "@semantic-release/github": "^10.3.5"
   }
 }

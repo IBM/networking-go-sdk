@@ -40,14 +40,14 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		It(`Instantiate service client`, func() {
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(directLinkProviderService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(directLinkProviderService).To(BeNil())
@@ -55,7 +55,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
-				URL: "https://directlinkproviderv2/api",
+				URL:     "https://directlinkproviderv2/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -76,7 +76,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_PROVIDER_URL": "https://directlinkproviderv2/api",
+				"DIRECT_LINK_PROVIDER_URL":       "https://directlinkproviderv2/api",
 				"DIRECT_LINK_PROVIDER_AUTH_TYPE": "noauth",
 			}
 
@@ -98,7 +98,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2UsingExternalConfig(&directlinkproviderv2.DirectLinkProviderV2Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -134,7 +134,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_PROVIDER_URL": "https://directlinkproviderv2/api",
+				"DIRECT_LINK_PROVIDER_URL":       "https://directlinkproviderv2/api",
 				"DIRECT_LINK_PROVIDER_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,12 +152,12 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"DIRECT_LINK_PROVIDER_AUTH_TYPE":   "NOAuth",
+				"DIRECT_LINK_PROVIDER_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2UsingExternalConfig(&directlinkproviderv2.DirectLinkProviderV2Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -201,7 +201,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -257,7 +257,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -316,7 +316,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -344,7 +344,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -380,7 +380,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -449,7 +449,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -475,7 +475,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -517,7 +517,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -599,7 +599,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -684,7 +684,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -723,7 +723,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -777,7 +777,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -833,7 +833,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -886,7 +886,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -942,7 +942,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -969,7 +969,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1011,7 +1011,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1055,7 +1055,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1108,7 +1108,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1164,7 +1164,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1191,7 +1191,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1233,7 +1233,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1277,7 +1277,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1352,7 +1352,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1430,7 +1430,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1463,7 +1463,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1511,7 +1511,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1563,7 +1563,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1619,7 +1619,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1678,7 +1678,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1706,7 +1706,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1742,7 +1742,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1811,7 +1811,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1837,7 +1837,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1878,7 +1878,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1931,7 +1931,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -1987,7 +1987,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -2014,7 +2014,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -2056,7 +2056,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 				directLinkProviderService, serviceErr := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkProviderService).ToNot(BeNil())
@@ -2085,7 +2085,7 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			directLinkProviderService, _ := directlinkproviderv2.NewDirectLinkProviderV2(&directlinkproviderv2.DirectLinkProviderV2Options{
 				URL:           "http://directlinkproviderv2modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			It(`Invoke NewCreateProviderGatewayOptions successfully`, func() {
 				// Construct an instance of the ProviderGatewayPortIdentity model
