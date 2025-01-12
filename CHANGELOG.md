@@ -1,3 +1,10 @@
+# [0.51.0](https://github.com/IBM/networking-go-sdk/compare/v0.50.0...v0.51.0) (2025-01-12)
+
+
+### Features
+
+* **CIS:** Logpush to cloud logs and generic destination ([#204](https://github.com/IBM/networking-go-sdk/issues/204)) ([217437b](https://github.com/IBM/networking-go-sdk/commit/217437babe77b6e168c070fadedf78c8eabdefdd))
+
 # [0.50.0](https://github.com/IBM/networking-go-sdk/compare/v0.49.0...v0.50.0) (2025-01-10)
 
 
