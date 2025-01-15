@@ -1,3 +1,10 @@
+## [0.51.1](https://github.com/IBM/networking-go-sdk/compare/v0.51.0...v0.51.1) (2025-01-15)
+
+
+### Bug Fixes
+
+* bumping down golang version to 1.23.2 ([#207](https://github.com/IBM/networking-go-sdk/issues/207)) ([911c053](https://github.com/IBM/networking-go-sdk/commit/911c0531c8854a47a76b41a958c431c8d35055dd))
+
 # [0.51.0](https://github.com/IBM/networking-go-sdk/compare/v0.50.0...v0.51.0) (2025-01-12)
 
 
