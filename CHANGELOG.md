@@ -1,3 +1,10 @@
+## [0.51.2](https://github.com/IBM/networking-go-sdk/compare/v0.51.1...v0.51.2) (2025-02-13)
+
+
+### Bug Fixes
+
+* **CIS:** proxy read timeout response ([#220](https://github.com/IBM/networking-go-sdk/issues/220)) ([5aaa39a](https://github.com/IBM/networking-go-sdk/commit/5aaa39adbc632b8a969e016f8fef3a8f35faa37a))
+
 ## [0.51.1](https://github.com/IBM/networking-go-sdk/compare/v0.51.0...v0.51.1) (2025-01-15)
 
 
