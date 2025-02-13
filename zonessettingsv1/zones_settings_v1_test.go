@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package zonessettingsv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -13395,7 +13397,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetProxyReadTimeout successfully with retries`, func() {
@@ -13450,7 +13452,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetProxyReadTimeout successfully`, func() {
@@ -13626,7 +13628,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateProxyReadTimeout successfully with retries`, func() {
@@ -13698,7 +13700,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateProxyReadTimeout successfully`, func() {
@@ -17226,9 +17228,91 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 		})
 	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalMinifySettingValue successfully`, func() {
+			// Construct an instance of the model.
+			model := new(zonessettingsv1.MinifySettingValue)
+			model.Css = core.StringPtr("off")
+			model.HTML = core.StringPtr("off")
+			model.Js = core.StringPtr("off")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *zonessettingsv1.MinifySettingValue
+			err = zonessettingsv1.UnmarshalMinifySettingValue(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalMobileRedirecSettingValue successfully`, func() {
+			// Construct an instance of the model.
+			model := new(zonessettingsv1.MobileRedirecSettingValue)
+			model.Status = core.StringPtr("on")
+			model.MobileSubdomain = core.StringPtr("m")
+			model.StripURI = core.BoolPtr(false)
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *zonessettingsv1.MobileRedirecSettingValue
+			err = zonessettingsv1.UnmarshalMobileRedirecSettingValue(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalSecurityHeaderSettingValue successfully`, func() {
+			// Construct an instance of the model.
+			model := new(zonessettingsv1.SecurityHeaderSettingValue)
+			model.StrictTransportSecurity = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *zonessettingsv1.SecurityHeaderSettingValue
+			err = zonessettingsv1.UnmarshalSecurityHeaderSettingValue(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalSecurityHeaderSettingValueStrictTransportSecurity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(zonessettingsv1.SecurityHeaderSettingValueStrictTransportSecurity)
+			model.Enabled = core.BoolPtr(true)
+			model.MaxAge = core.Int64Ptr(int64(86400))
+			model.IncludeSubdomains = core.BoolPtr(true)
+			model.Preload = core.BoolPtr(true)
+			model.Nosniff = core.BoolPtr(true)
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *zonessettingsv1.SecurityHeaderSettingValueStrictTransportSecurity
+			err = zonessettingsv1.UnmarshalSecurityHeaderSettingValueStrictTransportSecurity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -17254,9 +17338,11 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 

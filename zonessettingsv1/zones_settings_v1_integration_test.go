@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  */
 
 package zonessettingsv1_test
@@ -731,6 +731,27 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				for _, value := range values {
 					updateOpt.SetValue(value)
 					updateResult, updateResp, updateErr := service.UpdateOriginPostQuantumEncryption(updateOpt)
+					Expect(updateErr).To(BeNil())
+					Expect(updateResp).ToNot(BeNil())
+					Expect(updateResult).ToNot(BeNil())
+					Expect(*updateResult.Success).Should(BeTrue())
+				}
+			})
+			It("proxy read timeout setting test", func() {
+				shouldSkipTest()
+				getOpt := service.NewGetProxyReadTimeoutOptions()
+				getResult, getResp, getErr := service.GetProxyReadTimeout(getOpt)
+				Expect(getErr).To(BeNil())
+				Expect(getResp).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).Should(BeTrue())
+
+				values := []int{30, 60, 100, 120, 180, 360, 450, 540, 600, 900, 1200, 1800, 3600, 4500, 5400, 6000}
+
+				updateOpt := service.NewUpdateProxyReadTimeoutOptions()
+				for _, value := range values {
+					updateOpt.SetValue(float64(value))
+					updateResult, updateResp, updateErr := service.UpdateProxyReadTimeout(updateOpt)
 					Expect(updateErr).To(BeNil())
 					Expect(updateResp).ToNot(BeNil())
 					Expect(updateResult).ToNot(BeNil())
