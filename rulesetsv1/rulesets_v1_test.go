@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package rulesetsv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -470,7 +472,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRuleset successfully with retries`, func() {
@@ -526,7 +528,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRuleset successfully`, func() {
@@ -661,6 +663,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -678,7 +681,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -775,7 +778,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRuleset successfully with retries`, func() {
@@ -795,6 +798,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -812,7 +816,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -910,7 +914,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRuleset successfully`, func() {
@@ -935,6 +939,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -952,7 +957,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -1020,6 +1025,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -1037,7 +1043,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -1126,6 +1132,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -1143,7 +1150,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -1570,7 +1577,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully with retries`, func() {
@@ -1627,7 +1634,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully`, func() {
@@ -1876,7 +1883,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully with retries`, func() {
@@ -1932,7 +1939,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully`, func() {
@@ -2067,6 +2074,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -2084,7 +2092,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -2181,7 +2189,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully with retries`, func() {
@@ -2201,6 +2209,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -2218,7 +2227,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -2316,7 +2325,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully`, func() {
@@ -2341,6 +2350,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -2358,7 +2368,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -2426,6 +2436,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -2443,7 +2454,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -2532,6 +2543,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -2549,7 +2561,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -2902,7 +2914,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully with retries`, func() {
@@ -2959,7 +2971,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully`, func() {
@@ -3097,6 +3109,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3114,7 +3127,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3203,7 +3216,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully with retries`, func() {
@@ -3223,6 +3236,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3240,7 +3254,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3330,7 +3344,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully`, func() {
@@ -3355,6 +3369,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3372,7 +3387,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3432,6 +3447,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3449,7 +3465,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3530,6 +3546,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3547,7 +3564,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3630,6 +3647,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3647,7 +3665,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3737,7 +3755,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully with retries`, func() {
@@ -3757,6 +3775,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3774,7 +3793,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3865,7 +3884,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully`, func() {
@@ -3890,6 +3909,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3907,7 +3927,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -3968,6 +3988,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -3985,7 +4006,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -4067,6 +4088,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -4084,7 +4106,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -4204,7 +4226,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully with retries`, func() {
@@ -4261,7 +4283,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully`, func() {
@@ -4436,7 +4458,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully with retries`, func() {
@@ -4494,7 +4516,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully`, func() {
@@ -4884,7 +4906,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRuleset successfully with retries`, func() {
@@ -4940,7 +4962,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRuleset successfully`, func() {
@@ -5075,6 +5097,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -5092,7 +5115,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -5189,7 +5212,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRuleset successfully with retries`, func() {
@@ -5209,6 +5232,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -5226,7 +5250,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -5324,7 +5348,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRuleset successfully`, func() {
@@ -5349,6 +5373,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -5366,7 +5391,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -5434,6 +5459,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -5451,7 +5477,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -5540,6 +5566,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -5557,7 +5584,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -5984,7 +6011,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRulesetVersion successfully with retries`, func() {
@@ -6041,7 +6068,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRulesetVersion successfully`, func() {
@@ -6290,7 +6317,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully with retries`, func() {
@@ -6346,7 +6373,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully`, func() {
@@ -6481,6 +6508,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -6498,7 +6526,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -6595,7 +6623,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully with retries`, func() {
@@ -6615,6 +6643,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -6632,7 +6661,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -6730,7 +6759,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully`, func() {
@@ -6755,6 +6784,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -6772,7 +6802,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -6840,6 +6870,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -6857,7 +6888,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -6946,6 +6977,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -6963,7 +6995,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -7316,7 +7348,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully with retries`, func() {
@@ -7373,7 +7405,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully`, func() {
@@ -7511,6 +7543,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -7528,7 +7561,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -7617,7 +7650,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneRulesetRule successfully with retries`, func() {
@@ -7637,6 +7670,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -7654,7 +7688,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -7744,7 +7778,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneRulesetRule successfully`, func() {
@@ -7769,6 +7803,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -7786,7 +7821,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -7846,6 +7881,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -7863,7 +7899,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -7944,6 +7980,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -7961,7 +7998,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -8044,6 +8081,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8061,7 +8099,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -8151,7 +8189,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully with retries`, func() {
@@ -8171,6 +8209,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8188,7 +8227,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -8279,7 +8318,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully`, func() {
@@ -8304,6 +8343,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8321,7 +8361,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -8382,6 +8422,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8399,7 +8440,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -8481,6 +8522,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8498,7 +8540,7 @@ var _ = Describe(`RulesetsV1`, func() {
 
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
 
@@ -8618,7 +8660,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully with retries`, func() {
@@ -8675,7 +8717,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high"}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully`, func() {
@@ -8791,7 +8833,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewActionParametersResponse successfully`, func() {
-				content := `{"success": false, "error": "you have been blocked"}`
+				content := "{\"success\": false, \"error\": \"you have been blocked\"}"
 				contentType := "application/json"
 				statusCode := int64(400)
 				_model, err := rulesetsService.NewActionParametersResponse(content, contentType, statusCode)
@@ -8806,10 +8848,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8838,10 +8882,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -8912,10 +8956,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -8944,10 +8990,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9252,10 +9298,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -9284,10 +9332,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9372,10 +9420,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -9404,10 +9454,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9492,10 +9542,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -9524,10 +9576,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9601,10 +9653,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -9633,10 +9687,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9721,10 +9775,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -9753,10 +9809,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9841,10 +9897,12 @@ var _ = Describe(`RulesetsV1`, func() {
 				rulesOverrideModel.Enabled = core.BoolPtr(true)
 				rulesOverrideModel.Action = core.StringPtr("testString")
 				rulesOverrideModel.SensitivityLevel = core.StringPtr("high")
+				rulesOverrideModel.ScoreThreshold = core.Int64Ptr(int64(60))
 				Expect(rulesOverrideModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.Enabled).To(Equal(core.BoolPtr(true)))
 				Expect(rulesOverrideModel.Action).To(Equal(core.StringPtr("testString")))
 				Expect(rulesOverrideModel.SensitivityLevel).To(Equal(core.StringPtr("high")))
+				Expect(rulesOverrideModel.ScoreThreshold).To(Equal(core.Int64Ptr(int64(60))))
 
 				// Construct an instance of the CategoriesOverride model
 				categoriesOverrideModel := new(rulesetsv1.CategoriesOverride)
@@ -9873,10 +9931,10 @@ var _ = Describe(`RulesetsV1`, func() {
 				// Construct an instance of the ActionParametersResponse model
 				actionParametersResponseModel := new(rulesetsv1.ActionParametersResponse)
 				Expect(actionParametersResponseModel).ToNot(BeNil())
-				actionParametersResponseModel.Content = core.StringPtr(`{"success": false, "error": "you have been blocked"}`)
+				actionParametersResponseModel.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
 				actionParametersResponseModel.ContentType = core.StringPtr("application/json")
 				actionParametersResponseModel.StatusCode = core.Int64Ptr(int64(400))
-				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr(`{"success": false, "error": "you have been blocked"}`)))
+				Expect(actionParametersResponseModel.Content).To(Equal(core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")))
 				Expect(actionParametersResponseModel.ContentType).To(Equal(core.StringPtr("application/json")))
 				Expect(actionParametersResponseModel.StatusCode).To(Equal(core.Int64Ptr(int64(400))))
 
@@ -9957,9 +10015,182 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 		})
 	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalActionParametersResponse successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.ActionParametersResponse)
+			model.Content = core.StringPtr("{\"success\": false, \"error\": \"you have been blocked\"}")
+			model.ContentType = core.StringPtr("application/json")
+			model.StatusCode = core.Int64Ptr(int64(400))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.ActionParametersResponse
+			err = rulesetsv1.UnmarshalActionParametersResponse(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalActionParameters successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.ActionParameters)
+			model.ID = core.StringPtr("testString")
+			model.Overrides = nil
+			model.Version = core.StringPtr("testString")
+			model.Ruleset = core.StringPtr("testString")
+			model.Rulesets = []string{"testString"}
+			model.Response = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.ActionParameters
+			err = rulesetsv1.UnmarshalActionParameters(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalCategoriesOverride successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.CategoriesOverride)
+			model.Category = core.StringPtr("testString")
+			model.Enabled = core.BoolPtr(true)
+			model.Action = core.StringPtr("testString")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.CategoriesOverride
+			err = rulesetsv1.UnmarshalCategoriesOverride(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalLogging successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.Logging)
+			model.Enabled = core.BoolPtr(true)
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.Logging
+			err = rulesetsv1.UnmarshalLogging(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalOverrides successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.Overrides)
+			model.Action = core.StringPtr("testString")
+			model.Enabled = core.BoolPtr(true)
+			model.SensitivityLevel = core.StringPtr("high")
+			model.Rules = nil
+			model.Categories = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.Overrides
+			err = rulesetsv1.UnmarshalOverrides(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalPosition successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.Position)
+			model.Before = core.StringPtr("testString")
+			model.After = core.StringPtr("testString")
+			model.Index = core.Int64Ptr(int64(0))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.Position
+			err = rulesetsv1.UnmarshalPosition(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalRuleCreate successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.RuleCreate)
+			model.Action = core.StringPtr("testString")
+			model.ActionParameters = nil
+			model.Description = core.StringPtr("testString")
+			model.Enabled = core.BoolPtr(true)
+			model.Expression = core.StringPtr("ip.src ne 1.1.1.1")
+			model.ID = core.StringPtr("testString")
+			model.Logging = nil
+			model.Ref = core.StringPtr("my_ref")
+			model.Position = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.RuleCreate
+			err = rulesetsv1.UnmarshalRuleCreate(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalRulesOverride successfully`, func() {
+			// Construct an instance of the model.
+			model := new(rulesetsv1.RulesOverride)
+			model.ID = core.StringPtr("testString")
+			model.Enabled = core.BoolPtr(true)
+			model.Action = core.StringPtr("testString")
+			model.SensitivityLevel = core.StringPtr("high")
+			model.ScoreThreshold = core.Int64Ptr(int64(60))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *rulesetsv1.RulesOverride
+			err = rulesetsv1.UnmarshalRulesOverride(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -9985,9 +10216,11 @@ var _ = Describe(`RulesetsV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 
