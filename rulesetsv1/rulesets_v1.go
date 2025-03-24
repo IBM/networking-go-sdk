@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.84.0-a4533f12-20240103-170852
+ * IBM OpenAPI SDK Code Generator Version: 3.99.1-daeb6e46-20250131-173156
  */
 
 // Package rulesetsv1 : Operations and models for the RulesetsV1 service
@@ -24,7 +24,6 @@ package rulesetsv1
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"reflect"
 	"time"
@@ -74,22 +73,26 @@ func NewRulesetsV1UsingExternalConfig(options *RulesetsV1Options) (rulesets *Rul
 	if options.Authenticator == nil {
 		options.Authenticator, err = core.GetAuthenticatorFromEnvironment(options.ServiceName)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "env-auth-error", common.GetComponentInfo())
 			return
 		}
 	}
 
 	rulesets, err = NewRulesetsV1(options)
+	err = core.RepurposeSDKProblem(err, "new-client-error")
 	if err != nil {
 		return
 	}
 
 	err = rulesets.Service.ConfigureService(options.ServiceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "client-config-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = rulesets.Service.SetServiceURL(options.URL)
+		err = core.RepurposeSDKProblem(err, "url-set-error")
 	}
 	return
 }
@@ -103,17 +106,20 @@ func NewRulesetsV1(options *RulesetsV1Options) (service *RulesetsV1, err error) 
 
 	err = core.ValidateStruct(options, "options")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "invalid-global-options", common.GetComponentInfo())
 		return
 	}
 
 	baseService, err := core.NewBaseService(serviceOptions)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "new-base-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = baseService.SetServiceURL(options.URL)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "set-url-error", common.GetComponentInfo())
 			return
 		}
 	}
@@ -129,7 +135,7 @@ func NewRulesetsV1(options *RulesetsV1Options) (service *RulesetsV1, err error) 
 
 // GetServiceURLForRegion returns the service URL to be used for the specified region
 func GetServiceURLForRegion(region string) (string, error) {
-	return "", fmt.Errorf("service does not support regional URLs")
+	return "", core.SDKErrorf(nil, "service does not support regional URLs", "no-regional-support", common.GetComponentInfo())
 }
 
 // Clone makes a copy of "rulesets" suitable for processing requests.
@@ -144,7 +150,11 @@ func (rulesets *RulesetsV1) Clone() *RulesetsV1 {
 
 // SetServiceURL sets the service URL
 func (rulesets *RulesetsV1) SetServiceURL(url string) error {
-	return rulesets.Service.SetServiceURL(url)
+	err := rulesets.Service.SetServiceURL(url)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-set-error", common.GetComponentInfo())
+	}
+	return err
 }
 
 // GetServiceURL returns the service URL
@@ -181,13 +191,16 @@ func (rulesets *RulesetsV1) DisableRetries() {
 // GetInstanceRulesets : List Instance rulesets
 // List all rulesets at the instance level.
 func (rulesets *RulesetsV1) GetInstanceRulesets(getInstanceRulesetsOptions *GetInstanceRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceRulesetsWithContext(context.Background(), getInstanceRulesetsOptions)
+	result, response, err = rulesets.GetInstanceRulesetsWithContext(context.Background(), getInstanceRulesetsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceRulesetsWithContext is an alternate form of the GetInstanceRulesets method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceRulesetsWithContext(ctx context.Context, getInstanceRulesetsOptions *GetInstanceRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getInstanceRulesetsOptions, "getInstanceRulesetsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -200,6 +213,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetsWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -215,17 +229,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetsWithContext(ctx context.Context, 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_rulesets", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListRulesetsResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -237,17 +255,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetsWithContext(ctx context.Context, 
 // GetInstanceRuleset : Get an instance ruleset
 // View a specific instance ruleset.
 func (rulesets *RulesetsV1) GetInstanceRuleset(getInstanceRulesetOptions *GetInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceRulesetWithContext(context.Background(), getInstanceRulesetOptions)
+	result, response, err = rulesets.GetInstanceRulesetWithContext(context.Background(), getInstanceRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceRulesetWithContext is an alternate form of the GetInstanceRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, getInstanceRulesetOptions *GetInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceRulesetOptions, "getInstanceRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceRulesetOptions, "getInstanceRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -261,6 +283,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, g
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -276,17 +299,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, g
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -298,17 +325,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, g
 // UpdateInstanceRuleset : Update an instance ruleset
 // Update a specific instance ruleset.
 func (rulesets *RulesetsV1) UpdateInstanceRuleset(updateInstanceRulesetOptions *UpdateInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateInstanceRulesetWithContext(context.Background(), updateInstanceRulesetOptions)
+	result, response, err = rulesets.UpdateInstanceRulesetWithContext(context.Background(), updateInstanceRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateInstanceRulesetWithContext is an alternate form of the UpdateInstanceRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context, updateInstanceRulesetOptions *UpdateInstanceRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceRulesetOptions, "updateInstanceRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateInstanceRulesetOptions, "updateInstanceRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -322,6 +353,7 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -354,22 +386,27 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_instance_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -381,17 +418,21 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context
 // DeleteInstanceRuleset : Delete an instance ruleset
 // Delete a specific instance ruleset.
 func (rulesets *RulesetsV1) DeleteInstanceRuleset(deleteInstanceRulesetOptions *DeleteInstanceRulesetOptions) (response *core.DetailedResponse, err error) {
-	return rulesets.DeleteInstanceRulesetWithContext(context.Background(), deleteInstanceRulesetOptions)
+	response, err = rulesets.DeleteInstanceRulesetWithContext(context.Background(), deleteInstanceRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteInstanceRulesetWithContext is an alternate form of the DeleteInstanceRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context, deleteInstanceRulesetOptions *DeleteInstanceRulesetOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceRulesetOptions, "deleteInstanceRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteInstanceRulesetOptions, "deleteInstanceRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -405,6 +446,7 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -419,10 +461,16 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = rulesets.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_instance_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -430,17 +478,21 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context
 // GetInstanceRulesetVersions : List version of an instance ruleset
 // List all versions of a specific instance ruleset.
 func (rulesets *RulesetsV1) GetInstanceRulesetVersions(getInstanceRulesetVersionsOptions *GetInstanceRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceRulesetVersionsWithContext(context.Background(), getInstanceRulesetVersionsOptions)
+	result, response, err = rulesets.GetInstanceRulesetVersionsWithContext(context.Background(), getInstanceRulesetVersionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceRulesetVersionsWithContext is an alternate form of the GetInstanceRulesetVersions method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Context, getInstanceRulesetVersionsOptions *GetInstanceRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceRulesetVersionsOptions, "getInstanceRulesetVersionsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceRulesetVersionsOptions, "getInstanceRulesetVersionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -454,6 +506,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Co
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/versions`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -469,17 +522,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Co
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_ruleset_versions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListRulesetsResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -491,17 +548,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Co
 // GetInstanceRulesetVersion : Get a specific version of an instance ruleset
 // View a specific version of a specific instance ruleset.
 func (rulesets *RulesetsV1) GetInstanceRulesetVersion(getInstanceRulesetVersionOptions *GetInstanceRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceRulesetVersionWithContext(context.Background(), getInstanceRulesetVersionOptions)
+	result, response, err = rulesets.GetInstanceRulesetVersionWithContext(context.Background(), getInstanceRulesetVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceRulesetVersionWithContext is an alternate form of the GetInstanceRulesetVersion method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Context, getInstanceRulesetVersionOptions *GetInstanceRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceRulesetVersionOptions, "getInstanceRulesetVersionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceRulesetVersionOptions, "getInstanceRulesetVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -516,6 +577,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Con
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/versions/{ruleset_version}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -531,17 +593,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Con
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_ruleset_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -553,17 +619,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Con
 // DeleteInstanceRulesetVersion : Delete a specific version of an instance ruleset
 // Delete a specific version of a specific instance ruleset.
 func (rulesets *RulesetsV1) DeleteInstanceRulesetVersion(deleteInstanceRulesetVersionOptions *DeleteInstanceRulesetVersionOptions) (response *core.DetailedResponse, err error) {
-	return rulesets.DeleteInstanceRulesetVersionWithContext(context.Background(), deleteInstanceRulesetVersionOptions)
+	response, err = rulesets.DeleteInstanceRulesetVersionWithContext(context.Background(), deleteInstanceRulesetVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteInstanceRulesetVersionWithContext is an alternate form of the DeleteInstanceRulesetVersion method which supports a Context parameter
 func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.Context, deleteInstanceRulesetVersionOptions *DeleteInstanceRulesetVersionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceRulesetVersionOptions, "deleteInstanceRulesetVersionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteInstanceRulesetVersionOptions, "deleteInstanceRulesetVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -578,6 +648,7 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/versions/{ruleset_version}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -592,10 +663,16 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = rulesets.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_instance_ruleset_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -603,17 +680,21 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.
 // GetInstanceEntrypointRuleset : Get an instance entrypoint ruleset
 // Get the instance ruleset for the given phase's entrypoint.
 func (rulesets *RulesetsV1) GetInstanceEntrypointRuleset(getInstanceEntrypointRulesetOptions *GetInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceEntrypointRulesetWithContext(context.Background(), getInstanceEntrypointRulesetOptions)
+	result, response, err = rulesets.GetInstanceEntrypointRulesetWithContext(context.Background(), getInstanceEntrypointRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceEntrypointRulesetWithContext is an alternate form of the GetInstanceEntrypointRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.Context, getInstanceEntrypointRulesetOptions *GetInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceEntrypointRulesetOptions, "getInstanceEntrypointRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceEntrypointRulesetOptions, "getInstanceEntrypointRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -627,6 +708,7 @@ func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/phases/{ruleset_phase}/entrypoint`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -642,17 +724,21 @@ func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_entrypoint_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -664,17 +750,21 @@ func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.
 // UpdateInstanceEntrypointRuleset : Update an instance entrypoint ruleset
 // Updates the instance ruleset for the given phase's entry point.
 func (rulesets *RulesetsV1) UpdateInstanceEntrypointRuleset(updateInstanceEntrypointRulesetOptions *UpdateInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateInstanceEntrypointRulesetWithContext(context.Background(), updateInstanceEntrypointRulesetOptions)
+	result, response, err = rulesets.UpdateInstanceEntrypointRulesetWithContext(context.Background(), updateInstanceEntrypointRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateInstanceEntrypointRulesetWithContext is an alternate form of the UpdateInstanceEntrypointRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx context.Context, updateInstanceEntrypointRulesetOptions *UpdateInstanceEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceEntrypointRulesetOptions, "updateInstanceEntrypointRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateInstanceEntrypointRulesetOptions, "updateInstanceEntrypointRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -688,6 +778,7 @@ func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx conte
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/phases/{ruleset_phase}/entrypoint`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -720,22 +811,27 @@ func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx conte
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_instance_entrypoint_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -747,17 +843,21 @@ func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx conte
 // GetInstanceEntryPointRulesetVersions : List an instance entry point ruleset's versions
 // Lists the instance ruleset versions for the given phase's entry point.
 func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersions(getInstanceEntryPointRulesetVersionsOptions *GetInstanceEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceEntryPointRulesetVersionsWithContext(context.Background(), getInstanceEntryPointRulesetVersionsOptions)
+	result, response, err = rulesets.GetInstanceEntryPointRulesetVersionsWithContext(context.Background(), getInstanceEntryPointRulesetVersionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceEntryPointRulesetVersionsWithContext is an alternate form of the GetInstanceEntryPointRulesetVersions method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx context.Context, getInstanceEntryPointRulesetVersionsOptions *GetInstanceEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceEntryPointRulesetVersionsOptions, "getInstanceEntryPointRulesetVersionsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceEntryPointRulesetVersionsOptions, "getInstanceEntryPointRulesetVersionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -771,6 +871,7 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx 
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/phases/{ruleset_phase}/entrypoint/versions`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -786,17 +887,21 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_entry_point_ruleset_versions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListRulesetsResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -808,17 +913,21 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx 
 // GetInstanceEntryPointRulesetVersion : Get an instance entry point ruleset version
 // Fetches a specific version of an instance entry point ruleset.
 func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersion(getInstanceEntryPointRulesetVersionOptions *GetInstanceEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceEntryPointRulesetVersionWithContext(context.Background(), getInstanceEntryPointRulesetVersionOptions)
+	result, response, err = rulesets.GetInstanceEntryPointRulesetVersionWithContext(context.Background(), getInstanceEntryPointRulesetVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceEntryPointRulesetVersionWithContext is an alternate form of the GetInstanceEntryPointRulesetVersion method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx context.Context, getInstanceEntryPointRulesetVersionOptions *GetInstanceEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceEntryPointRulesetVersionOptions, "getInstanceEntryPointRulesetVersionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceEntryPointRulesetVersionOptions, "getInstanceEntryPointRulesetVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -833,6 +942,7 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx c
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -848,17 +958,21 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx c
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_entry_point_ruleset_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -870,17 +984,21 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx c
 // CreateInstanceRulesetRule : Create an instance ruleset rule
 // Create an instance ruleset rule.
 func (rulesets *RulesetsV1) CreateInstanceRulesetRule(createInstanceRulesetRuleOptions *CreateInstanceRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.CreateInstanceRulesetRuleWithContext(context.Background(), createInstanceRulesetRuleOptions)
+	result, response, err = rulesets.CreateInstanceRulesetRuleWithContext(context.Background(), createInstanceRulesetRuleOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateInstanceRulesetRuleWithContext is an alternate form of the CreateInstanceRulesetRule method which supports a Context parameter
 func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Context, createInstanceRulesetRuleOptions *CreateInstanceRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceRulesetRuleOptions, "createInstanceRulesetRuleOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createInstanceRulesetRuleOptions, "createInstanceRulesetRuleOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -894,6 +1012,7 @@ func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Con
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/rules`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -938,22 +1057,27 @@ func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Con
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_instance_ruleset_rule", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -965,17 +1089,21 @@ func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Con
 // UpdateInstanceRulesetRule : Update an instance ruleset rule
 // Update an instance ruleset rule.
 func (rulesets *RulesetsV1) UpdateInstanceRulesetRule(updateInstanceRulesetRuleOptions *UpdateInstanceRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateInstanceRulesetRuleWithContext(context.Background(), updateInstanceRulesetRuleOptions)
+	result, response, err = rulesets.UpdateInstanceRulesetRuleWithContext(context.Background(), updateInstanceRulesetRuleOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateInstanceRulesetRuleWithContext is an alternate form of the UpdateInstanceRulesetRule method which supports a Context parameter
 func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Context, updateInstanceRulesetRuleOptions *UpdateInstanceRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceRulesetRuleOptions, "updateInstanceRulesetRuleOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateInstanceRulesetRuleOptions, "updateInstanceRulesetRuleOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -990,6 +1118,7 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Con
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/rules/{rule_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1034,22 +1163,27 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Con
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_instance_ruleset_rule", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1061,17 +1195,21 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Con
 // DeleteInstanceRulesetRule : Delete an instance ruleset rule
 // Delete an instance ruleset rule.
 func (rulesets *RulesetsV1) DeleteInstanceRulesetRule(deleteInstanceRulesetRuleOptions *DeleteInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	return rulesets.DeleteInstanceRulesetRuleWithContext(context.Background(), deleteInstanceRulesetRuleOptions)
+	result, response, err = rulesets.DeleteInstanceRulesetRuleWithContext(context.Background(), deleteInstanceRulesetRuleOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteInstanceRulesetRuleWithContext is an alternate form of the DeleteInstanceRulesetRule method which supports a Context parameter
 func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Context, deleteInstanceRulesetRuleOptions *DeleteInstanceRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceRulesetRuleOptions, "deleteInstanceRulesetRuleOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteInstanceRulesetRuleOptions, "deleteInstanceRulesetRuleOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1086,6 +1224,7 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Con
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/rules/{rule_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1101,17 +1240,21 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Con
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_instance_ruleset_rule", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRuleResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1123,17 +1266,21 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Con
 // GetInstanceRulesetVersionByTag : List an instance ruleset verion's rules by tag
 // Lists rules by tag for a specific version of an instance ruleset.
 func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTag(getInstanceRulesetVersionByTagOptions *GetInstanceRulesetVersionByTagOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetInstanceRulesetVersionByTagWithContext(context.Background(), getInstanceRulesetVersionByTagOptions)
+	result, response, err = rulesets.GetInstanceRulesetVersionByTagWithContext(context.Background(), getInstanceRulesetVersionByTagOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInstanceRulesetVersionByTagWithContext is an alternate form of the GetInstanceRulesetVersionByTag method which supports a Context parameter
 func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx context.Context, getInstanceRulesetVersionByTagOptions *GetInstanceRulesetVersionByTagOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceRulesetVersionByTagOptions, "getInstanceRulesetVersionByTagOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInstanceRulesetVersionByTagOptions, "getInstanceRulesetVersionByTagOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1149,6 +1296,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx contex
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1164,17 +1312,21 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx contex
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_instance_ruleset_version_by_tag", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1186,13 +1338,16 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx contex
 // GetZoneRulesets : List zone rulesets
 // List all rulesets at the zone level.
 func (rulesets *RulesetsV1) GetZoneRulesets(getZoneRulesetsOptions *GetZoneRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneRulesetsWithContext(context.Background(), getZoneRulesetsOptions)
+	result, response, err = rulesets.GetZoneRulesetsWithContext(context.Background(), getZoneRulesetsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneRulesetsWithContext is an alternate form of the GetZoneRulesets method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZoneRulesetsOptions *GetZoneRulesetsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getZoneRulesetsOptions, "getZoneRulesetsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1206,6 +1361,7 @@ func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZ
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1221,17 +1377,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZ
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_rulesets", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListRulesetsResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1243,17 +1403,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZ
 // GetZoneRuleset : Get a zone ruleset
 // View a specific zone ruleset.
 func (rulesets *RulesetsV1) GetZoneRuleset(getZoneRulesetOptions *GetZoneRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneRulesetWithContext(context.Background(), getZoneRulesetOptions)
+	result, response, err = rulesets.GetZoneRulesetWithContext(context.Background(), getZoneRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneRulesetWithContext is an alternate form of the GetZoneRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZoneRulesetOptions *GetZoneRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneRulesetOptions, "getZoneRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getZoneRulesetOptions, "getZoneRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1268,6 +1432,7 @@ func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZo
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1283,17 +1448,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZo
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1305,17 +1474,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZo
 // UpdateZoneRuleset : Update a zone ruleset
 // Update a specific zone ruleset.
 func (rulesets *RulesetsV1) UpdateZoneRuleset(updateZoneRulesetOptions *UpdateZoneRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateZoneRulesetWithContext(context.Background(), updateZoneRulesetOptions)
+	result, response, err = rulesets.UpdateZoneRulesetWithContext(context.Background(), updateZoneRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateZoneRulesetWithContext is an alternate form of the UpdateZoneRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, updateZoneRulesetOptions *UpdateZoneRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateZoneRulesetOptions, "updateZoneRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateZoneRulesetOptions, "updateZoneRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1330,6 +1503,7 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, up
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1362,22 +1536,27 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, up
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_zone_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1389,17 +1568,21 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, up
 // DeleteZoneRuleset : Delete a zone ruleset
 // Delete a specific zone ruleset.
 func (rulesets *RulesetsV1) DeleteZoneRuleset(deleteZoneRulesetOptions *DeleteZoneRulesetOptions) (response *core.DetailedResponse, err error) {
-	return rulesets.DeleteZoneRulesetWithContext(context.Background(), deleteZoneRulesetOptions)
+	response, err = rulesets.DeleteZoneRulesetWithContext(context.Background(), deleteZoneRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteZoneRulesetWithContext is an alternate form of the DeleteZoneRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, deleteZoneRulesetOptions *DeleteZoneRulesetOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteZoneRulesetOptions, "deleteZoneRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteZoneRulesetOptions, "deleteZoneRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1414,6 +1597,7 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, de
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1428,10 +1612,16 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, de
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = rulesets.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_zone_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1439,17 +1629,21 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, de
 // GetZoneRulesetVersions : List version of a zone ruleset
 // List all versions of a specific zone ruleset.
 func (rulesets *RulesetsV1) GetZoneRulesetVersions(getZoneRulesetVersionsOptions *GetZoneRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneRulesetVersionsWithContext(context.Background(), getZoneRulesetVersionsOptions)
+	result, response, err = rulesets.GetZoneRulesetVersionsWithContext(context.Background(), getZoneRulesetVersionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneRulesetVersionsWithContext is an alternate form of the GetZoneRulesetVersions method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Context, getZoneRulesetVersionsOptions *GetZoneRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneRulesetVersionsOptions, "getZoneRulesetVersionsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getZoneRulesetVersionsOptions, "getZoneRulesetVersionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1464,6 +1658,7 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Contex
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}/versions`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1479,17 +1674,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Contex
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_ruleset_versions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListRulesetsResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1501,17 +1700,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Contex
 // GetZoneRulesetVersion : Get a specific version of a zone ruleset
 // View a specific version of a specific zone ruleset.
 func (rulesets *RulesetsV1) GetZoneRulesetVersion(getZoneRulesetVersionOptions *GetZoneRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneRulesetVersionWithContext(context.Background(), getZoneRulesetVersionOptions)
+	result, response, err = rulesets.GetZoneRulesetVersionWithContext(context.Background(), getZoneRulesetVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneRulesetVersionWithContext is an alternate form of the GetZoneRulesetVersion method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context, getZoneRulesetVersionOptions *GetZoneRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneRulesetVersionOptions, "getZoneRulesetVersionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getZoneRulesetVersionOptions, "getZoneRulesetVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1527,6 +1730,7 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}/versions/{ruleset_version}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1542,17 +1746,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_ruleset_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1564,17 +1772,21 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context
 // DeleteZoneRulesetVersion : Delete a specific version of a zone ruleset
 // Delete a specific version of a specific zone ruleset.
 func (rulesets *RulesetsV1) DeleteZoneRulesetVersion(deleteZoneRulesetVersionOptions *DeleteZoneRulesetVersionOptions) (response *core.DetailedResponse, err error) {
-	return rulesets.DeleteZoneRulesetVersionWithContext(context.Background(), deleteZoneRulesetVersionOptions)
+	response, err = rulesets.DeleteZoneRulesetVersionWithContext(context.Background(), deleteZoneRulesetVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteZoneRulesetVersionWithContext is an alternate form of the DeleteZoneRulesetVersion method which supports a Context parameter
 func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Context, deleteZoneRulesetVersionOptions *DeleteZoneRulesetVersionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteZoneRulesetVersionOptions, "deleteZoneRulesetVersionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteZoneRulesetVersionOptions, "deleteZoneRulesetVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1590,6 +1802,7 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Cont
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}/versions/{ruleset_version}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1604,10 +1817,16 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = rulesets.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_zone_ruleset_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1615,17 +1834,21 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Cont
 // GetZoneEntrypointRuleset : Get a zone entrypoint ruleset
 // Get the zone ruleset for the given phase's entrypoint.
 func (rulesets *RulesetsV1) GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions *GetZoneEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneEntrypointRulesetWithContext(context.Background(), getZoneEntrypointRulesetOptions)
+	result, response, err = rulesets.GetZoneEntrypointRulesetWithContext(context.Background(), getZoneEntrypointRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneEntrypointRulesetWithContext is an alternate form of the GetZoneEntrypointRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Context, getZoneEntrypointRulesetOptions *GetZoneEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneEntrypointRulesetOptions, "getZoneEntrypointRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getZoneEntrypointRulesetOptions, "getZoneEntrypointRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1640,6 +1863,7 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/phases/{ruleset_phase}/entrypoint`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1655,17 +1879,21 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_entrypoint_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1677,17 +1905,21 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 // UpdateZoneEntrypointRuleset : Update a zone entrypoint ruleset
 // Updates the instance ruleset for the given phase's entry point.
 func (rulesets *RulesetsV1) UpdateZoneEntrypointRuleset(updateZoneEntrypointRulesetOptions *UpdateZoneEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateZoneEntrypointRulesetWithContext(context.Background(), updateZoneEntrypointRulesetOptions)
+	result, response, err = rulesets.UpdateZoneEntrypointRulesetWithContext(context.Background(), updateZoneEntrypointRulesetOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateZoneEntrypointRulesetWithContext is an alternate form of the UpdateZoneEntrypointRuleset method which supports a Context parameter
 func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.Context, updateZoneEntrypointRulesetOptions *UpdateZoneEntrypointRulesetOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateZoneEntrypointRulesetOptions, "updateZoneEntrypointRulesetOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateZoneEntrypointRulesetOptions, "updateZoneEntrypointRulesetOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1702,6 +1934,7 @@ func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.C
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/phases/{ruleset_phase}/entrypoint`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1734,22 +1967,27 @@ func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.C
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_zone_entrypoint_ruleset", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1761,17 +1999,21 @@ func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.C
 // GetZoneEntryPointRulesetVersions : List a zone entry point ruleset's versions
 // Lists the zone ruleset versions for the given phase's entry point.
 func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersions(getZoneEntryPointRulesetVersionsOptions *GetZoneEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneEntryPointRulesetVersionsWithContext(context.Background(), getZoneEntryPointRulesetVersionsOptions)
+	result, response, err = rulesets.GetZoneEntryPointRulesetVersionsWithContext(context.Background(), getZoneEntryPointRulesetVersionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneEntryPointRulesetVersionsWithContext is an alternate form of the GetZoneEntryPointRulesetVersions method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx context.Context, getZoneEntryPointRulesetVersionsOptions *GetZoneEntryPointRulesetVersionsOptions) (result *ListRulesetsResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneEntryPointRulesetVersionsOptions, "getZoneEntryPointRulesetVersionsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getZoneEntryPointRulesetVersionsOptions, "getZoneEntryPointRulesetVersionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1786,6 +2028,7 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx cont
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/phases/{ruleset_phase}/entrypoint/versions`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1801,17 +2044,21 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_entry_point_ruleset_versions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalListRulesetsResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1823,17 +2070,21 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx cont
 // GetZoneEntryPointRulesetVersion : Get a zone entry point ruleset version
 // Fetches a specific version of a zone entry point ruleset.
 func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersion(getZoneEntryPointRulesetVersionOptions *GetZoneEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.GetZoneEntryPointRulesetVersionWithContext(context.Background(), getZoneEntryPointRulesetVersionOptions)
+	result, response, err = rulesets.GetZoneEntryPointRulesetVersionWithContext(context.Background(), getZoneEntryPointRulesetVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetZoneEntryPointRulesetVersionWithContext is an alternate form of the GetZoneEntryPointRulesetVersion method which supports a Context parameter
 func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx context.Context, getZoneEntryPointRulesetVersionOptions *GetZoneEntryPointRulesetVersionOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getZoneEntryPointRulesetVersionOptions, "getZoneEntryPointRulesetVersionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getZoneEntryPointRulesetVersionOptions, "getZoneEntryPointRulesetVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1849,6 +2100,7 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx conte
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1864,17 +2116,21 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx conte
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_zone_entry_point_ruleset_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1886,17 +2142,21 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx conte
 // CreateZoneRulesetRule : Create a zone ruleset rule
 // Create a zone ruleset rule.
 func (rulesets *RulesetsV1) CreateZoneRulesetRule(createZoneRulesetRuleOptions *CreateZoneRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.CreateZoneRulesetRuleWithContext(context.Background(), createZoneRulesetRuleOptions)
+	result, response, err = rulesets.CreateZoneRulesetRuleWithContext(context.Background(), createZoneRulesetRuleOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateZoneRulesetRuleWithContext is an alternate form of the CreateZoneRulesetRule method which supports a Context parameter
 func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context, createZoneRulesetRuleOptions *CreateZoneRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createZoneRulesetRuleOptions, "createZoneRulesetRuleOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createZoneRulesetRuleOptions, "createZoneRulesetRuleOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1911,6 +2171,7 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}/rules`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1955,22 +2216,27 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_zone_ruleset_rule", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1982,17 +2248,21 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 // UpdateZoneRulesetRule : Update a zone ruleset rule
 // Update a zone ruleset rule.
 func (rulesets *RulesetsV1) UpdateZoneRulesetRule(updateZoneRulesetRuleOptions *UpdateZoneRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
-	return rulesets.UpdateZoneRulesetRuleWithContext(context.Background(), updateZoneRulesetRuleOptions)
+	result, response, err = rulesets.UpdateZoneRulesetRuleWithContext(context.Background(), updateZoneRulesetRuleOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateZoneRulesetRuleWithContext is an alternate form of the UpdateZoneRulesetRule method which supports a Context parameter
 func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context, updateZoneRulesetRuleOptions *UpdateZoneRulesetRuleOptions) (result *RulesetResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateZoneRulesetRuleOptions, "updateZoneRulesetRuleOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateZoneRulesetRuleOptions, "updateZoneRulesetRuleOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2008,6 +2278,7 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}/rules/{rule_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2052,22 +2323,27 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_zone_ruleset_rule", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRulesetResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2079,17 +2355,21 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 // DeleteZoneRulesetRule : Delete a zone ruleset rule
 // Delete an instance ruleset rule.
 func (rulesets *RulesetsV1) DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions *DeleteZoneRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
-	return rulesets.DeleteZoneRulesetRuleWithContext(context.Background(), deleteZoneRulesetRuleOptions)
+	result, response, err = rulesets.DeleteZoneRulesetRuleWithContext(context.Background(), deleteZoneRulesetRuleOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteZoneRulesetRuleWithContext is an alternate form of the DeleteZoneRulesetRule method which supports a Context parameter
 func (rulesets *RulesetsV1) DeleteZoneRulesetRuleWithContext(ctx context.Context, deleteZoneRulesetRuleOptions *DeleteZoneRulesetRuleOptions) (result *RuleResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteZoneRulesetRuleOptions, "deleteZoneRulesetRuleOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteZoneRulesetRuleOptions, "deleteZoneRulesetRuleOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2105,6 +2385,7 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetRuleWithContext(ctx context.Context
 	builder.EnableGzipCompression = rulesets.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(rulesets.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/rulesets/{ruleset_id}/rules/{rule_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2120,23 +2401,30 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetRuleWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = rulesets.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_zone_ruleset_rule", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRuleResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
 	}
 
 	return
+}
+func getServiceComponentInfo() *core.ProblemComponent {
+	return core.NewProblemComponent(DefaultServiceName, "1.0.1")
 }
 
 // ActionParametersResponse : ActionParametersResponse struct
@@ -2158,6 +2446,9 @@ func (*RulesetsV1) NewActionParametersResponse(content string, contentType strin
 		StatusCode:  core.Int64Ptr(statusCode),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -2166,14 +2457,17 @@ func UnmarshalActionParametersResponse(m map[string]json.RawMessage, result inte
 	obj := new(ActionParametersResponse)
 	err = core.UnmarshalPrimitive(m, "content", &obj.Content)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "content-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "content_type", &obj.ContentType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "content_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -2206,7 +2500,7 @@ type CreateInstanceRulesetRuleOptions struct {
 
 	Position *Position `json:"position,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2309,7 +2603,7 @@ type CreateZoneRulesetRuleOptions struct {
 
 	Position *Position `json:"position,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2391,7 +2685,7 @@ type DeleteInstanceRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2422,7 +2716,7 @@ type DeleteInstanceRulesetRuleOptions struct {
 	// ID of a specific rule.
 	RuleID *string `json:"rule_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2460,7 +2754,7 @@ type DeleteInstanceRulesetVersionOptions struct {
 	// The version of the ruleset.
 	RulesetVersion *string `json:"ruleset_version" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2495,7 +2789,7 @@ type DeleteZoneRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2526,7 +2820,7 @@ type DeleteZoneRulesetRuleOptions struct {
 	// ID of a specific rule.
 	RuleID *string `json:"rule_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2564,7 +2858,7 @@ type DeleteZoneRulesetVersionOptions struct {
 	// The version of the ruleset.
 	RulesetVersion *string `json:"ruleset_version" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2602,7 +2896,7 @@ type GetInstanceEntryPointRulesetVersionOptions struct {
 	// The version of the ruleset.
 	RulesetVersion *string `json:"ruleset_version" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2662,7 +2956,7 @@ type GetInstanceEntryPointRulesetVersionsOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2715,7 +3009,7 @@ type GetInstanceEntrypointRulesetOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2768,7 +3062,7 @@ type GetInstanceRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2802,7 +3096,7 @@ type GetInstanceRulesetVersionByTagOptions struct {
 	// A category of the rule.
 	RuleTag *string `json:"rule_tag" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2847,7 +3141,7 @@ type GetInstanceRulesetVersionOptions struct {
 	// The version of the ruleset.
 	RulesetVersion *string `json:"ruleset_version" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2882,7 +3176,7 @@ type GetInstanceRulesetVersionsOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2908,7 +3202,7 @@ func (options *GetInstanceRulesetVersionsOptions) SetHeaders(param map[string]st
 // GetInstanceRulesetsOptions : The GetInstanceRulesets options.
 type GetInstanceRulesetsOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2931,7 +3225,7 @@ type GetZoneEntryPointRulesetVersionOptions struct {
 	// The version of the ruleset.
 	RulesetVersion *string `json:"ruleset_version" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2991,7 +3285,7 @@ type GetZoneEntryPointRulesetVersionsOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3044,7 +3338,7 @@ type GetZoneEntrypointRulesetOptions struct {
 	// The phase of the ruleset.
 	RulesetPhase *string `json:"ruleset_phase" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3097,7 +3391,7 @@ type GetZoneRulesetOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3128,7 +3422,7 @@ type GetZoneRulesetVersionOptions struct {
 	// The version of the ruleset.
 	RulesetVersion *string `json:"ruleset_version" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3163,7 +3457,7 @@ type GetZoneRulesetVersionsOptions struct {
 	// ID of a specific ruleset.
 	RulesetID *string `json:"ruleset_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3189,7 +3483,7 @@ func (options *GetZoneRulesetVersionsOptions) SetHeaders(param map[string]string
 // GetZoneRulesetsOptions : The GetZoneRulesets options.
 type GetZoneRulesetsOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3215,6 +3509,7 @@ func UnmarshalMessageSource(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(MessageSource)
 	err = core.UnmarshalPrimitive(m, "pointer", &obj.Pointer)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "pointer-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3239,7 +3534,7 @@ type UpdateInstanceEntrypointRulesetOptions struct {
 
 	Rules []RuleCreate `json:"rules,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3368,7 +3663,7 @@ type UpdateInstanceRulesetOptions struct {
 
 	Rules []RuleCreate `json:"rules,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3483,7 +3778,7 @@ type UpdateInstanceRulesetRuleOptions struct {
 
 	Position *Position `json:"position,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3585,7 +3880,7 @@ type UpdateZoneEntrypointRulesetOptions struct {
 
 	Rules []RuleCreate `json:"rules,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3714,7 +4009,7 @@ type UpdateZoneRulesetOptions struct {
 
 	Rules []RuleCreate `json:"rules,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3829,7 +4124,7 @@ type UpdateZoneRulesetRuleOptions struct {
 
 	Position *Position `json:"position,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3937,26 +4232,32 @@ func UnmarshalActionParameters(m map[string]json.RawMessage, result interface{})
 	obj := new(ActionParameters)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "overrides", &obj.Overrides, UnmarshalOverrides)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "overrides-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ruleset", &obj.Ruleset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ruleset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "rulesets", &obj.Rulesets)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "rulesets-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "response", &obj.Response, UnmarshalActionParametersResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "response-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3979,14 +4280,17 @@ func UnmarshalCategoriesOverride(m map[string]json.RawMessage, result interface{
 	obj := new(CategoriesOverride)
 	err = core.UnmarshalPrimitive(m, "category", &obj.Category)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "category-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4013,18 +4317,22 @@ func UnmarshalListRulesetsResp(m map[string]json.RawMessage, result interface{})
 	obj := new(ListRulesetsResp)
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "errors", &obj.Errors, UnmarshalMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "messages", &obj.Messages, UnmarshalMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalListedRuleset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4092,30 +4400,37 @@ func UnmarshalListedRuleset(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(ListedRuleset)
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_updated", &obj.LastUpdated)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_updated-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "phase", &obj.Phase)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "phase-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4133,6 +4448,9 @@ func (*RulesetsV1) NewLogging(enabled bool) (_model *Logging, err error) {
 		Enabled: core.BoolPtr(enabled),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -4141,6 +4459,7 @@ func UnmarshalLogging(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(Logging)
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enabled-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4164,14 +4483,17 @@ func UnmarshalMessage(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(Message)
 	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalMessageSource)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4206,22 +4528,27 @@ func UnmarshalOverrides(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(Overrides)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "sensitivity_level", &obj.SensitivityLevel)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sensitivity_level-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "rules", &obj.Rules, UnmarshalRulesOverride)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "rules-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "categories", &obj.Categories, UnmarshalCategoriesOverride)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "categories-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4245,14 +4572,17 @@ func UnmarshalPosition(m map[string]json.RawMessage, result interface{}) (err er
 	obj := new(Position)
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "after", &obj.After)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "after-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "index", &obj.Index)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "index-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4290,6 +4620,9 @@ func (*RulesetsV1) NewRuleCreate(action string, expression string) (_model *Rule
 		Expression: core.StringPtr(expression),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -4298,38 +4631,47 @@ func UnmarshalRuleCreate(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(RuleCreate)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "action_parameters", &obj.ActionParameters, UnmarshalActionParameters)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_parameters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "expression", &obj.Expression)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "expression-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "logging", &obj.Logging, UnmarshalLogging)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "logging-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ref", &obj.Ref)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ref-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "position", &obj.Position, UnmarshalPosition)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "position-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4375,46 +4717,57 @@ func UnmarshalRuleDetails(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(RuleDetails)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "action_parameters", &obj.ActionParameters, UnmarshalActionParameters)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_parameters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "categories", &obj.Categories)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "categories-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "expression", &obj.Expression)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "expression-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ref", &obj.Ref)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ref-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "logging", &obj.Logging, UnmarshalLogging)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "logging-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_updated", &obj.LastUpdated)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_updated-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4440,18 +4793,22 @@ func UnmarshalRuleResp(m map[string]json.RawMessage, result interface{}) (err er
 	obj := new(RuleResp)
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "errors", &obj.Errors, UnmarshalMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "messages", &obj.Messages, UnmarshalMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalRuleDetails)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4469,6 +4826,9 @@ type RulesOverride struct {
 
 	// The sensitivity level of the rule.
 	SensitivityLevel *string `json:"sensitivity_level,omitempty"`
+
+	// The score threshold of the rule.
+	ScoreThreshold *int64 `json:"score_threshold,omitempty"`
 }
 
 // Constants associated with the RulesOverride.SensitivityLevel property.
@@ -4484,18 +4844,27 @@ func UnmarshalRulesOverride(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(RulesOverride)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "sensitivity_level", &obj.SensitivityLevel)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sensitivity_level-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "score_threshold", &obj.ScoreThreshold)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "score_threshold-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4565,34 +4934,42 @@ func UnmarshalRulesetDetails(m map[string]json.RawMessage, result interface{}) (
 	obj := new(RulesetDetails)
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_updated", &obj.LastUpdated)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_updated-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "phase", &obj.Phase)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "phase-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "rules", &obj.Rules, UnmarshalRuleDetails)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "rules-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4618,18 +4995,22 @@ func UnmarshalRulesetResp(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(RulesetResp)
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "errors", &obj.Errors, UnmarshalMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "messages", &obj.Messages, UnmarshalMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalRulesetDetails)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))

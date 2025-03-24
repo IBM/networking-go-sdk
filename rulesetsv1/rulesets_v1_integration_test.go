@@ -134,9 +134,10 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			// Also we are overriding a rule already present in the managed ruleset
 
 			rulesOverrideModel := &rulesetsv1.RulesOverride{
-				ID:      rule1Id,
-				Enabled: core.BoolPtr(true),
-				Action:  core.StringPtr("block"),
+				ID:             rule1Id,
+				Enabled:        core.BoolPtr(true),
+				Action:         core.StringPtr("block"),
+				ScoreThreshold: core.Int64Ptr(int64(60)),
 			}
 
 			categoriesOverrideModel := &rulesetsv1.CategoriesOverride{
@@ -180,6 +181,8 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
+			expected_ptr := int64(60)
+			Expect(rulesetResp.Result.Rules[0].ActionParameters.Overrides.Rules[0].ScoreThreshold).To(Equal(&expected_ptr))
 
 			rulsetForTestingId = rulesetResp.Result.ID
 		})
@@ -488,9 +491,10 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 
 		It("Update Zone Entrypoint Ruleset", func() {
 			rulesOverrideModel := &rulesetsv1.RulesOverride{
-				ID:      rule1Id,
-				Enabled: core.BoolPtr(true),
-				Action:  core.StringPtr("log"),
+				ID:             rule1Id,
+				Enabled:        core.BoolPtr(true),
+				Action:         core.StringPtr("log"),
+				ScoreThreshold: core.Int64Ptr(int64(60)),
 			}
 
 			categoriesOverrideModel := &rulesetsv1.CategoriesOverride{
@@ -534,6 +538,8 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesetResp).ToNot(BeNil())
+			expected_ptr := int64(60)
+			Expect(rulesetResp.Result.Rules[0].ActionParameters.Overrides.Rules[0].ScoreThreshold).To(Equal(&expected_ptr))
 
 			rulsetForTestingId = rulesetResp.Result.ID
 		})
