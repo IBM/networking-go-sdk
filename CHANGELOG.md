@@ -1,3 +1,16 @@
+## [0.51.3](https://github.com/IBM/networking-go-sdk/compare/v0.51.2...v0.51.3) (2025-03-25)
+
+
+### Bug Fixes
+
+* **CIS:** Add score threshold in managed ruleset ([#225](https://github.com/IBM/networking-go-sdk/issues/225)) ([0f13b0a](https://github.com/IBM/networking-go-sdk/commit/0f13b0a1aac8761558872ceba1f16b97637fb156))
+* update module github.com/stretchr/testify to v1.10.0 ([#213](https://github.com/IBM/networking-go-sdk/issues/213)) ([86736a4](https://github.com/IBM/networking-go-sdk/commit/86736a49ea5cf8000344245e33a9f97e25eec362))
+* update actions/checkout action to v4 to v1.10.0 ([#214](https://github.com/IBM/networking-go-sdk/issues/214)) ([86bbb3a](https://github.com/IBM/networking-go-sdk/commit/86bbb3a9797cd0c8ddd56927a41be330d06d6912))
+* update module github.com/onsi/ginkgo to v2 ([#216](https://github.com/IBM/networking-go-sdk/issues/216)) ([84eeb63](https://github.com/IBM/networking-go-sdk/commit/84eeb63d6a1fa2cf12157f34520c0140279276c8))
+* update github/codeql-action action to v3 ([#215](https://github.com/IBM/networking-go-sdk/issues/215)) ([a768b83](https://github.com/IBM/networking-go-sdk/commit/a768b830380c13c06c18eb0778715548cb278a21))
+* update semantic-release monorepo (major) ([#218](https://github.com/IBM/networking-go-sdk/issues/218)) ([12661a1](https://github.com/IBM/networking-go-sdk/commit/12661a1fccba41dd0276c81c64b097c045af02d1))
+* update module github.com/ibm/go-sdk-core/v5 to v5.19.0 ([#221](https://github.com/IBM/networking-go-sdk/issues/221)) ([12ed1f8](https://github.com/IBM/networking-go-sdk/commit/12ed1f8790856648bb854ce6d4ce642c08000053))
+
 ## [0.51.2](https://github.com/IBM/networking-go-sdk/compare/v0.51.1...v0.51.2) (2025-02-13)
 
 
