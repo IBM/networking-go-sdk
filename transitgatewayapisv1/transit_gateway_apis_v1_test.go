@@ -19,6 +19,8 @@ package transitgatewayapisv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -6181,14 +6183,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextAsnOps)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.AsnCollectionOps)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -6644,14 +6646,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TSAlertsOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -6661,7 +6663,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -7098,14 +7100,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextConnectionInternal)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitConnectionCollectionInternal)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -9111,7 +9113,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"exit_code": 0, "format": "application/json", "result": "[{"id": "gw_id", "name":...}]"}`)
+					fmt.Fprintf(res, "%s", `{"exit_code": 0, "format": "application/json", "result": "[{\"id\": \"gw_id\", \"name\":...}]"}`)
 				}))
 			})
 			It(`Invoke CreateExecutionGatewayDeviceCommands successfully with retries`, func() {
@@ -9188,7 +9190,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"exit_code": 0, "format": "application/json", "result": "[{"id": "gw_id", "name":...}]"}`)
+					fmt.Fprintf(res, "%s", `{"exit_code": 0, "format": "application/json", "result": "[{\"id\": \"gw_id\", \"name\":...}]"}`)
 				}))
 			})
 			It(`Invoke CreateExecutionGatewayDeviceCommands successfully`, func() {
@@ -9553,14 +9555,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.GatewayDeviceConnectionCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -9570,7 +9572,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -9896,14 +9898,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.GatewayDeviceGatewayCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -9913,7 +9915,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -10233,14 +10235,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.GatewayDevicesAuditsOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -10250,7 +10252,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -14210,14 +14212,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TSMetricsOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -14227,7 +14229,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -16423,14 +16425,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextRDOps)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.RouteDistinguisherCollectionOps)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -17921,14 +17923,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextTGWConnectionOps)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitGatewayConnectionOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -18506,14 +18508,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextTGWConnectionOps)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.ConnectionOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -19891,7 +19893,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"networks": ["{"route_target":"13749:1073741824","route_distinguisher":"13749:1073741824"}"], "rest_call": "https://iaas.cloud.ibm.com/internal/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c5333/rt_rd?version=2019-09-09&generation=1", "status_code": 200}`)
+					fmt.Fprintf(res, "%s", `{"networks": ["{\"route_target\":\"13749:1073741824\",\"route_distinguisher\":\"13749:1073741824\"}"], "rest_call": "https://iaas.cloud.ibm.com/internal/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c5333/rt_rd?version=2019-09-09&generation=1", "status_code": 200}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewaysConnectionsNetworksOps successfully with retries`, func() {
@@ -19948,7 +19950,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"networks": ["{"route_target":"13749:1073741824","route_distinguisher":"13749:1073741824"}"], "rest_call": "https://iaas.cloud.ibm.com/internal/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c5333/rt_rd?version=2019-09-09&generation=1", "status_code": 200}`)
+					fmt.Fprintf(res, "%s", `{"networks": ["{\"route_target\":\"13749:1073741824\",\"route_distinguisher\":\"13749:1073741824\"}"], "rest_call": "https://iaas.cloud.ibm.com/internal/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c5333/rt_rd?version=2019-09-09&generation=1", "status_code": 200}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewaysConnectionsNetworksOps successfully`, func() {
@@ -21813,14 +21815,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextTGWConnection)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitGatewayConnectionCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -24479,14 +24481,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitGatewayOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -24496,7 +24498,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -26046,14 +26048,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextTG)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitGatewayCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -27260,14 +27262,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.ProvisionTestResultsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -27277,7 +27279,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -27819,14 +27821,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.UnderlayConnectionOpsCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -27836,7 +27838,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.NextOps)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -28953,14 +28955,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				nextObject := new(transitgatewayapisv1.PaginationNextConnection)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapisv1.TransitConnectionCollection)
-	
+
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -31124,9 +31126,187 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalPrefixFilterPut successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.PrefixFilterPut)
+			model.Action = core.StringPtr("permit")
+			model.Ge = core.Int64Ptr(int64(0))
+			model.Le = core.Int64Ptr(int64(32))
+			model.Prefix = core.StringPtr("192.168.100.0/24")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.PrefixFilterPut
+			err = transitgatewayapisv1.UnmarshalPrefixFilterPut(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalRedundantGRETunnelPatchOps successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.RedundantGRETunnelPatchOps)
+			model.IsDeletable = core.BoolPtr(false)
+			model.TemplateVersion = core.StringPtr("v1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.RedundantGRETunnelPatchOps
+			err = transitgatewayapisv1.UnmarshalRedundantGRETunnelPatchOps(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceGroupIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ResourceGroupIdentity)
+			model.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ResourceGroupIdentity
+			err = transitgatewayapisv1.UnmarshalResourceGroupIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTSLocationQuotaPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TSLocationQuotaPatch)
+			model.Name = core.StringPtr("us-south")
+			model.Value = core.Int64Ptr(int64(1))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TSLocationQuotaPatch
+			err = transitgatewayapisv1.UnmarshalTSLocationQuotaPatch(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayConnectionPrefixFilter successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+			model.Action = core.StringPtr("permit")
+			model.Ge = core.Int64Ptr(int64(0))
+			model.Le = core.Int64Ptr(int64(32))
+			model.Prefix = core.StringPtr("192.168.100.0/24")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayConnectionPrefixFilter
+			err = transitgatewayapisv1.UnmarshalTransitGatewayConnectionPrefixFilter(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayTunnelPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+			model.Name = core.StringPtr("gre2")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayTunnelPatch
+			err = transitgatewayapisv1.UnmarshalTransitGatewayTunnelPatch(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayTunnelTemplate successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+			model.LocalGatewayIp = core.StringPtr("10.242.63.12")
+			model.LocalTunnelIp = core.StringPtr("192.168.100.20")
+			model.Name = core.StringPtr("gre1")
+			model.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+			model.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+			model.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+			model.Zone = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayTunnelTemplate
+			err = transitgatewayapisv1.UnmarshalTransitGatewayTunnelTemplate(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalZoneIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ZoneIdentity)
+			model.Name = core.StringPtr("us-south-1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ZoneIdentity
+			err = transitgatewayapisv1.UnmarshalZoneIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalZoneIdentityByName successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ZoneIdentityByName)
+			model.Name = core.StringPtr("us-south-1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ZoneIdentityByName
+			err = transitgatewayapisv1.UnmarshalZoneIdentityByName(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -31152,9 +31332,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 
