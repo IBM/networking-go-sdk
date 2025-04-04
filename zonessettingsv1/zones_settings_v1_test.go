@@ -16585,6 +16585,505 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 		})
 	})
+	Describe(`GetLogRetention(getLogRetentionOptions *GetLogRetentionOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getLogRetentionPath := "/v1/testString/zones/testString/logs/retention"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLogRetentionPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetLogRetention with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLogRetentionOptions model
+				getLogRetentionOptionsModel := new(zonessettingsv1.GetLogRetentionOptions)
+				getLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				getLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetLogRetention(getLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetLogRetention(getLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetLogRetention(getLogRetentionOptions *GetLogRetentionOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getLogRetentionPath := "/v1/testString/zones/testString/logs/retention"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLogRetentionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"flag": true}, "errors": ["Errors"], "messages": ["Messages"]}`)
+				}))
+			})
+			It(`Invoke GetLogRetention successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetLogRetentionOptions model
+				getLogRetentionOptionsModel := new(zonessettingsv1.GetLogRetentionOptions)
+				getLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				getLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetLogRetentionWithContext(ctx, getLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetLogRetention(getLogRetentionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetLogRetentionWithContext(ctx, getLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getLogRetentionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"flag": true}, "errors": ["Errors"], "messages": ["Messages"]}`)
+				}))
+			})
+			It(`Invoke GetLogRetention successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetLogRetention(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetLogRetentionOptions model
+				getLogRetentionOptionsModel := new(zonessettingsv1.GetLogRetentionOptions)
+				getLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				getLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetLogRetention(getLogRetentionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetLogRetention with error: Operation validation and request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLogRetentionOptions model
+				getLogRetentionOptionsModel := new(zonessettingsv1.GetLogRetentionOptions)
+				getLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				getLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetLogRetention(getLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetLogRetentionOptions model with no property values
+				getLogRetentionOptionsModelNew := new(zonessettingsv1.GetLogRetentionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = zonesSettingsService.GetLogRetention(getLogRetentionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLogRetention successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetLogRetentionOptions model
+				getLogRetentionOptionsModel := new(zonessettingsv1.GetLogRetentionOptions)
+				getLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				getLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				getLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.GetLogRetention(getLogRetentionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateLogRetention(updateLogRetentionOptions *UpdateLogRetentionOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateLogRetentionPath := "/v1/testString/zones/testString/logs/retention"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateLogRetentionPath))
+					Expect(req.Method).To(Equal("POST"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateLogRetention with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateLogRetentionOptions model
+				updateLogRetentionOptionsModel := new(zonessettingsv1.UpdateLogRetentionOptions)
+				updateLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.Flag = core.BoolPtr(true)
+				updateLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateLogRetention(updateLogRetentionOptions *UpdateLogRetentionOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateLogRetentionPath := "/v1/testString/zones/testString/logs/retention"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateLogRetentionPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"flag": true}, "errors": ["Errors"], "messages": ["Messages"]}`)
+				}))
+			})
+			It(`Invoke UpdateLogRetention successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateLogRetentionOptions model
+				updateLogRetentionOptionsModel := new(zonessettingsv1.UpdateLogRetentionOptions)
+				updateLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.Flag = core.BoolPtr(true)
+				updateLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateLogRetentionWithContext(ctx, updateLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateLogRetentionWithContext(ctx, updateLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateLogRetentionPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "result": {"flag": true}, "errors": ["Errors"], "messages": ["Messages"]}`)
+				}))
+			})
+			It(`Invoke UpdateLogRetention successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateLogRetention(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateLogRetentionOptions model
+				updateLogRetentionOptionsModel := new(zonessettingsv1.UpdateLogRetentionOptions)
+				updateLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.Flag = core.BoolPtr(true)
+				updateLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateLogRetention with error: Operation validation and request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateLogRetentionOptions model
+				updateLogRetentionOptionsModel := new(zonessettingsv1.UpdateLogRetentionOptions)
+				updateLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.Flag = core.BoolPtr(true)
+				updateLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateLogRetentionOptions model with no property values
+				updateLogRetentionOptionsModelNew := new(zonessettingsv1.UpdateLogRetentionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLogRetention successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateLogRetentionOptions model
+				updateLogRetentionOptionsModel := new(zonessettingsv1.UpdateLogRetentionOptions)
+				updateLogRetentionOptionsModel.Crn = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.ZoneIdentifier = core.StringPtr("testString")
+				updateLogRetentionOptionsModel.Flag = core.BoolPtr(true)
+				updateLogRetentionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.UpdateLogRetention(updateLogRetentionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
@@ -16692,6 +17191,19 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				getIpv6OptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getIpv6OptionsModel).ToNot(BeNil())
 				Expect(getIpv6OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetLogRetentionOptions successfully`, func() {
+				// Construct an instance of the GetLogRetentionOptions model
+				crn := "testString"
+				zoneIdentifier := "testString"
+				getLogRetentionOptionsModel := zonesSettingsService.NewGetLogRetentionOptions(crn, zoneIdentifier)
+				getLogRetentionOptionsModel.SetCrn("testString")
+				getLogRetentionOptionsModel.SetZoneIdentifier("testString")
+				getLogRetentionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getLogRetentionOptionsModel).ToNot(BeNil())
+				Expect(getLogRetentionOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
+				Expect(getLogRetentionOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(getLogRetentionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetMaxUploadOptions successfully`, func() {
 				// Construct an instance of the GetMaxUploadOptions model
@@ -16996,6 +17508,21 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updateIpv6OptionsModel).ToNot(BeNil())
 				Expect(updateIpv6OptionsModel.Value).To(Equal(core.StringPtr("on")))
 				Expect(updateIpv6OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateLogRetentionOptions successfully`, func() {
+				// Construct an instance of the UpdateLogRetentionOptions model
+				crn := "testString"
+				zoneIdentifier := "testString"
+				updateLogRetentionOptionsModel := zonesSettingsService.NewUpdateLogRetentionOptions(crn, zoneIdentifier)
+				updateLogRetentionOptionsModel.SetCrn("testString")
+				updateLogRetentionOptionsModel.SetZoneIdentifier("testString")
+				updateLogRetentionOptionsModel.SetFlag(true)
+				updateLogRetentionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateLogRetentionOptionsModel).ToNot(BeNil())
+				Expect(updateLogRetentionOptionsModel.Crn).To(Equal(core.StringPtr("testString")))
+				Expect(updateLogRetentionOptionsModel.ZoneIdentifier).To(Equal(core.StringPtr("testString")))
+				Expect(updateLogRetentionOptionsModel.Flag).To(Equal(core.BoolPtr(true)))
+				Expect(updateLogRetentionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateMaxUploadOptions successfully`, func() {
 				// Construct an instance of the UpdateMaxUploadOptions model

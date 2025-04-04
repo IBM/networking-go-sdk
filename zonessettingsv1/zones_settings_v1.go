@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.98.0-8be2046a-20241205-162752
+ * IBM OpenAPI SDK Code Generator Version: 3.102.0-615ec964-20250307-203034
  */
 
 // Package zonessettingsv1 : Operations and models for the ZonesSettingsV1 service
@@ -5123,6 +5123,158 @@ func (zonesSettings *ZonesSettingsV1) UpdateOriginPostQuantumEncryptionWithConte
 
 	return
 }
+
+// GetLogRetention : Retrieves the current setting for log retention
+// Get the current setting for log retention. This setting is available for Enterprise plans only. If this setting is
+// turned on, then logs from the cloud edge are retained for the customers domain. Otherwise they will be discarded.
+func (zonesSettings *ZonesSettingsV1) GetLogRetention(getLogRetentionOptions *GetLogRetentionOptions) (result *LogRetentionResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.GetLogRetentionWithContext(context.Background(), getLogRetentionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetLogRetentionWithContext is an alternate form of the GetLogRetention method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) GetLogRetentionWithContext(ctx context.Context, getLogRetentionOptions *GetLogRetentionOptions) (result *LogRetentionResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getLogRetentionOptions, "getLogRetentionOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(getLogRetentionOptions, "getLogRetentionOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *getLogRetentionOptions.Crn,
+		"zone_identifier": *getLogRetentionOptions.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/logs/retention`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	for headerName, headerValue := range getLogRetentionOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetLogRetention")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_log_retention", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLogRetentionResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateLogRetention : Toggles the current setting for log retention
+// Toggles the current setting for log retention.
+func (zonesSettings *ZonesSettingsV1) UpdateLogRetention(updateLogRetentionOptions *UpdateLogRetentionOptions) (result *LogRetentionResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.UpdateLogRetentionWithContext(context.Background(), updateLogRetentionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateLogRetentionWithContext is an alternate form of the UpdateLogRetention method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) UpdateLogRetentionWithContext(ctx context.Context, updateLogRetentionOptions *UpdateLogRetentionOptions) (result *LogRetentionResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateLogRetentionOptions, "updateLogRetentionOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(updateLogRetentionOptions, "updateLogRetentionOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *updateLogRetentionOptions.Crn,
+		"zone_identifier": *updateLogRetentionOptions.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/logs/retention`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	for headerName, headerValue := range updateLogRetentionOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateLogRetention")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateLogRetentionOptions.Flag != nil {
+		body["flag"] = updateLogRetentionOptions.Flag
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_log_retention", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLogRetentionResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
 func getServiceComponentInfo() *core.ProblemComponent {
 	return core.NewProblemComponent(DefaultServiceName, "1.0.1")
 }
@@ -5627,6 +5779,44 @@ func (*ZonesSettingsV1) NewGetIpv6Options() *GetIpv6Options {
 
 // SetHeaders : Allow user to set Headers
 func (options *GetIpv6Options) SetHeaders(param map[string]string) *GetIpv6Options {
+	options.Headers = param
+	return options
+}
+
+// GetLogRetentionOptions : The GetLogRetention options.
+type GetLogRetentionOptions struct {
+	// Full url-encoded cloud resource name (CRN) of resource instance.
+	Crn *string `json:"crn" validate:"required,ne="`
+
+	// Zone identifier.
+	ZoneIdentifier *string `json:"zone_identifier" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetLogRetentionOptions : Instantiate GetLogRetentionOptions
+func (*ZonesSettingsV1) NewGetLogRetentionOptions(crn string, zoneIdentifier string) *GetLogRetentionOptions {
+	return &GetLogRetentionOptions{
+		Crn:            core.StringPtr(crn),
+		ZoneIdentifier: core.StringPtr(zoneIdentifier),
+	}
+}
+
+// SetCrn : Allow user to set Crn
+func (_options *GetLogRetentionOptions) SetCrn(crn string) *GetLogRetentionOptions {
+	_options.Crn = core.StringPtr(crn)
+	return _options
+}
+
+// SetZoneIdentifier : Allow user to set ZoneIdentifier
+func (_options *GetLogRetentionOptions) SetZoneIdentifier(zoneIdentifier string) *GetLogRetentionOptions {
+	_options.ZoneIdentifier = core.StringPtr(zoneIdentifier)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetLogRetentionOptions) SetHeaders(param map[string]string) *GetLogRetentionOptions {
 	options.Headers = param
 	return options
 }
@@ -6297,6 +6487,24 @@ func UnmarshalIpv6RespResult(m map[string]json.RawMessage, result interface{}) (
 	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "modified_on-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LogRetentionRespResult : LogRetentionRespResult struct
+type LogRetentionRespResult struct {
+	// Boolean flag indicating whether or not log retention is turned on or off.
+	Flag *bool `json:"flag" validate:"required"`
+}
+
+// UnmarshalLogRetentionRespResult unmarshals an instance of LogRetentionRespResult from the specified map of raw messages.
+func UnmarshalLogRetentionRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LogRetentionRespResult)
+	err = core.UnmarshalPrimitive(m, "flag", &obj.Flag)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "flag-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7902,6 +8110,53 @@ func (options *UpdateIpv6Options) SetHeaders(param map[string]string) *UpdateIpv
 	return options
 }
 
+// UpdateLogRetentionOptions : The UpdateLogRetention options.
+type UpdateLogRetentionOptions struct {
+	// Full url-encoded cloud resource name (CRN) of resource instance.
+	Crn *string `json:"crn" validate:"required,ne="`
+
+	// Zone identifier.
+	ZoneIdentifier *string `json:"zone_identifier" validate:"required,ne="`
+
+	// True/false value to turn log retention on/off respectively.
+	Flag *bool `json:"flag,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewUpdateLogRetentionOptions : Instantiate UpdateLogRetentionOptions
+func (*ZonesSettingsV1) NewUpdateLogRetentionOptions(crn string, zoneIdentifier string) *UpdateLogRetentionOptions {
+	return &UpdateLogRetentionOptions{
+		Crn:            core.StringPtr(crn),
+		ZoneIdentifier: core.StringPtr(zoneIdentifier),
+	}
+}
+
+// SetCrn : Allow user to set Crn
+func (_options *UpdateLogRetentionOptions) SetCrn(crn string) *UpdateLogRetentionOptions {
+	_options.Crn = core.StringPtr(crn)
+	return _options
+}
+
+// SetZoneIdentifier : Allow user to set ZoneIdentifier
+func (_options *UpdateLogRetentionOptions) SetZoneIdentifier(zoneIdentifier string) *UpdateLogRetentionOptions {
+	_options.ZoneIdentifier = core.StringPtr(zoneIdentifier)
+	return _options
+}
+
+// SetFlag : Allow user to set Flag
+func (_options *UpdateLogRetentionOptions) SetFlag(flag bool) *UpdateLogRetentionOptions {
+	_options.Flag = core.BoolPtr(flag)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateLogRetentionOptions) SetHeaders(param map[string]string) *UpdateLogRetentionOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateMaxUploadOptions : The UpdateMaxUpload options.
 type UpdateMaxUploadOptions struct {
 	// Valid values(in MB) for "max_upload" are 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450,
@@ -9322,6 +9577,47 @@ func UnmarshalIpv6Resp(m map[string]json.RawMessage, result interface{}) (err er
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LogRetentionResp : Schema for the response to a GET call for the log retention setting.
+type LogRetentionResp struct {
+	// Boolean flag indicating whether hte API call was successful in retrieving the requested data.
+	Success *bool `json:"success" validate:"required"`
+
+	Result *LogRetentionRespResult `json:"result" validate:"required"`
+
+	// Array of errors messages.
+	Errors []string `json:"errors" validate:"required"`
+
+	// Array of additional messages.
+	Messages []string `json:"messages" validate:"required"`
+}
+
+// UnmarshalLogRetentionResp unmarshals an instance of LogRetentionResp from the specified map of raw messages.
+func UnmarshalLogRetentionResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LogRetentionResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalLogRetentionRespResult)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
