@@ -1,3 +1,13 @@
+# [0.51.4](https://github.com/IBM/networking-go-sdk/compare/v0.51.3...v0.51.4) (2025-04-17)
+
+
+### Bug Fixes
+
+* **CIS:** Added integration tests for Log retention and Opportunistic onion ([#236](https://github.com/IBM/networking-go-sdk/issues/236)) ([df5bd4e](https://github.com/IBM/networking-go-sdk/commit/df5bd4e84e64603ee88ecbcf3da988a442bd6e64))
+* update module github.com/onsi/gomega to v1.37.0 ([#224](https://github.com/IBM/networking-go-sdk/pull/224)) ([a881675](https://github.com/IBM/networking-go-sdk/pull/224/commits/a8816750e08fccf8f727df6c61823061e6c4ce8d))
+* update module github.com/onsi/ginkgo to v2 ([#235](https://github.com/IBM/networking-go-sdk/pull/235)) ([0d985be](https://github.com/IBM/networking-go-sdk/commit/0d985beb994c4dcdeb564ead189243f8b8bdde70))
+* update module github.com/onsi/gomega to v1.37.0 ([#237](https://github.com/IBM/networking-go-sdk/pull/237)) ([2599eb4](https://github.com/IBM/networking-go-sdk/commit/2599eb424184ea2b26acbd853586369c6701d1cb))
+
 ## [0.51.3](https://github.com/IBM/networking-go-sdk/compare/v0.51.2...v0.51.3) (2025-03-25)
 
 
