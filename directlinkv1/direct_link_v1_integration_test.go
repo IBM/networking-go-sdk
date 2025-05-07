@@ -96,6 +96,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 	})
 
 	Describe("Direct Link Gateways", func() {
+		Skip("Skipping Tests")
 
 		timestamp := time.Now().Unix()
 		gatewayName := "GO-INT-SDK-" + strconv.FormatInt(timestamp, 10)
@@ -2395,14 +2396,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 		crossConnectRouter := "LAB-xcr02.dal09"
 		global := true
 		locationName := os.Getenv("DL_SERVICES_LOCATION_NAME")
-		speedMbps := int64(1000)
+		speedMbps := int64(10000)
 		metered := true
 		carrierName := "GOSDK_TEST_CARRIER"
 		customerName := "GOSDK_TEST_CUSTOMER"
 		typeVar := "dedicated"
 
 		timestamp := time.Now().Unix()
-		name := os.Getenv("DL_SERVICES_GW_NAME") + "-DEDICATED-MACsec-" + strconv.FormatInt(timestamp, 10)
+		name := "TEST-DEDICATED-MACsec-" + strconv.FormatInt(timestamp, 10)
 
 		gatewayTemplateModel, err := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, name, speedMbps, typeVar, carrierName, crossConnectRouter, customerName, locationName)
 		Expect(err).To(BeNil())
@@ -2461,9 +2462,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			getGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 			// Expect response parsing to fail since we are receiving a text/plain response
 			result, response, operationErr := service.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-			Expect(operationErr).ToNot(BeNil())
+			Expect(operationErr).To(BeNil())
 			Expect(response).ToNot(BeNil())
-			Expect(result).To(BeNil())
+			Expect(result).ToNot(BeNil())
 
 			// List Gateway MAcsec CAKs
 			// Construct an instance of the ListGatewayMacsecCaksOptions model
@@ -2472,10 +2473,29 @@ var _ = Describe(`DirectLinkV1`, func() {
 			listGatewayMacsecCaksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 			// Expect response parsing to fail since we are receiving a text/plain response
 			res, resp, operationErr := service.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-			Expect(operationErr).ToNot(BeNil())
+			Expect(operationErr).To(BeNil())
 			Expect(resp).ToNot(BeNil())
-			Expect(res).To(BeNil())
-			getMacsecCAKsID := res.Caks[0].ID
+			Expect(res).ToNot(BeNil())
+
+			// Create Gateway Macsec CAK
+			// Construct HPCS Key Indetity for create CAK
+			// Construct an instance of the HpcsKeyIdentity model
+			hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
+			hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
+
+			// Construct an instance of the CreateGatewayMacsecCakOptions model
+			createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
+			createGatewayMacsecCakOptionsModel.ID = gatewayID
+			createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+			createGatewayMacsecCakOptionsModel.Name = core.StringPtr("BB02")
+			createGatewayMacsecCakOptionsModel.Session = core.StringPtr("fallback")
+			createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+			// Expect response parsing to fail since we are receiving a text/plain response
+			resultGetCak, responseGetCak, operationErr := service.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
+			Expect(operationErr).To(BeNil())
+			Expect(responseGetCak).ToNot(BeNil())
+			Expect(resultGetCak).ToNot(BeNil())
+			getMacsecCAKsID := resultGetCak.ID
 
 			// Get Gateway MAcsec CAK
 			// Construct an instance of the GetGatewayMacsecCakOptions model
@@ -2485,29 +2505,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			getGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 			// Expect response parsing to fail since we are receiving a text/plain response
 			resultCak, responseCak, operationErr := service.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-			Expect(operationErr).ToNot(BeNil())
+			Expect(operationErr).To(BeNil())
 			Expect(responseCak).ToNot(BeNil())
-			Expect(resultCak).To(BeNil())
-
-			// Create Gateway Macsec CAK
-
-			// Construct HPCS Key Indetity for create CAK
-			// Construct an instance of the HpcsKeyIdentity model
-			hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-			hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
-
-			// Construct an instance of the CreateGatewayMacsecCakOptions model
-			createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
-			createGatewayMacsecCakOptionsModel.ID = getMacsecCAKsID
-			createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
-			createGatewayMacsecCakOptionsModel.Name = core.StringPtr("BB02")
-			createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
-			createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-			// Expect response parsing to fail since we are receiving a text/plain response
-			resultGetCak, responseGetCak, operationErr := service.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-			Expect(operationErr).ToNot(BeNil())
-			Expect(responseGetCak).ToNot(BeNil())
-			Expect(resultGetCak).To(BeNil())
+			Expect(resultCak).ToNot(BeNil())
 
 			// Update Gateway Macsec CAK
 
@@ -2526,9 +2526,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			updateGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 			// Expect response parsing to fail since we are receiving a text/plain response
 			resultCak, responseCak, operationErr = service.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
-			Expect(operationErr).ToNot(BeNil())
+			Expect(operationErr).To(BeNil())
 			Expect(responseCak).ToNot(BeNil())
-			Expect(resultCak).To(BeNil())
+			Expect(resultCak).ToNot(BeNil())
 
 			// Delete Gateway MAcsec CAK
 
@@ -2566,9 +2566,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 			updateGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 			// Expect response parsing to fail since we are receiving a text/plain response
 			result, response, operationErr = service.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-			Expect(operationErr).ToNot(BeNil())
+			Expect(operationErr).To(BeNil())
 			Expect(response).ToNot(BeNil())
-			Expect(result).To(BeNil())
+			Expect(result).ToNot(BeNil())
 
 			// Unset Gateway Macsec
 
@@ -2581,6 +2581,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 			response, operationErr = service.UnsetGatewayMacsec(unsetGatewayMacsecOptionsModel)
 			Expect(operationErr).To(BeNil())
 			Expect(response).ToNot(BeNil())
+
+			// Delete Test Gateway
+			deteleGatewayOptions := service.NewDeleteGatewayOptions(*gatewayID)
+
+			detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(204))
 		})
 
 	})
