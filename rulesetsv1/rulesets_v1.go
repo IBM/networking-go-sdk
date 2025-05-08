@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.99.1-daeb6e46-20250131-173156
+ * IBM OpenAPI SDK Code Generator Version: 3.104.0-b4a47c49-20250418-184351
  */
 
 // Package rulesetsv1 : Operations and models for the RulesetsV1 service
@@ -125,8 +125,8 @@ func NewRulesetsV1(options *RulesetsV1Options) (service *RulesetsV1, err error) 
 	}
 
 	service = &RulesetsV1{
-		Service:        baseService,
-		Crn:            options.Crn,
+		Service: baseService,
+		Crn: options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -274,7 +274,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, g
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *getInstanceRulesetOptions.RulesetID,
 	}
 
@@ -344,7 +344,7 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *updateInstanceRulesetOptions.RulesetID,
 	}
 
@@ -437,7 +437,7 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *deleteInstanceRulesetOptions.RulesetID,
 	}
 
@@ -497,7 +497,7 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *getInstanceRulesetVersionsOptions.RulesetID,
 	}
 
@@ -567,8 +567,8 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_id":      *getInstanceRulesetVersionOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *getInstanceRulesetVersionOptions.RulesetID,
 		"ruleset_version": *getInstanceRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -638,8 +638,8 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_id":      *deleteInstanceRulesetVersionOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *deleteInstanceRulesetVersionOptions.RulesetID,
 		"ruleset_version": *deleteInstanceRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -699,7 +699,7 @@ func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":           *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_phase": *getInstanceEntrypointRulesetOptions.RulesetPhase,
 	}
 
@@ -769,7 +769,7 @@ func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":           *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_phase": *updateInstanceEntrypointRulesetOptions.RulesetPhase,
 	}
 
@@ -862,7 +862,7 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx 
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":           *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_phase": *getInstanceEntryPointRulesetVersionsOptions.RulesetPhase,
 	}
 
@@ -932,8 +932,8 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_phase":   *getInstanceEntryPointRulesetVersionOptions.RulesetPhase,
+		"crn": *rulesets.Crn,
+		"ruleset_phase": *getInstanceEntryPointRulesetVersionOptions.RulesetPhase,
 		"ruleset_version": *getInstanceEntryPointRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -1003,7 +1003,7 @@ func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *createInstanceRulesetRuleOptions.RulesetID,
 	}
 
@@ -1108,9 +1108,9 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *updateInstanceRulesetRuleOptions.RulesetID,
-		"rule_id":    *updateInstanceRulesetRuleOptions.RuleID,
+		"rule_id": *updateInstanceRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -1214,9 +1214,9 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":        *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"ruleset_id": *deleteInstanceRulesetRuleOptions.RulesetID,
-		"rule_id":    *deleteInstanceRulesetRuleOptions.RuleID,
+		"rule_id": *deleteInstanceRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1285,10 +1285,10 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
-		"ruleset_id":      *getInstanceRulesetVersionByTagOptions.RulesetID,
+		"crn": *rulesets.Crn,
+		"ruleset_id": *getInstanceRulesetVersionByTagOptions.RulesetID,
 		"ruleset_version": *getInstanceRulesetVersionByTagOptions.RulesetVersion,
-		"rule_tag":        *getInstanceRulesetVersionByTagOptions.RuleTag,
+		"rule_tag": *getInstanceRulesetVersionByTagOptions.RuleTag,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1352,7 +1352,7 @@ func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZ
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
 	}
 
@@ -1422,9 +1422,9 @@ func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZo
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *getZoneRulesetOptions.RulesetID,
+		"ruleset_id": *getZoneRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1493,9 +1493,9 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, up
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *updateZoneRulesetOptions.RulesetID,
+		"ruleset_id": *updateZoneRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1587,9 +1587,9 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, de
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *deleteZoneRulesetOptions.RulesetID,
+		"ruleset_id": *deleteZoneRulesetOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1648,9 +1648,9 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *getZoneRulesetVersionsOptions.RulesetID,
+		"ruleset_id": *getZoneRulesetVersionsOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1719,9 +1719,9 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *getZoneRulesetVersionOptions.RulesetID,
+		"ruleset_id": *getZoneRulesetVersionOptions.RulesetID,
 		"ruleset_version": *getZoneRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -1791,9 +1791,9 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *deleteZoneRulesetVersionOptions.RulesetID,
+		"ruleset_id": *deleteZoneRulesetVersionOptions.RulesetID,
 		"ruleset_version": *deleteZoneRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -1853,9 +1853,9 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *getZoneEntrypointRulesetOptions.RulesetPhase,
+		"ruleset_phase": *getZoneEntrypointRulesetOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1924,9 +1924,9 @@ func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *updateZoneEntrypointRulesetOptions.RulesetPhase,
+		"ruleset_phase": *updateZoneEntrypointRulesetOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -2018,9 +2018,9 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx cont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *getZoneEntryPointRulesetVersionsOptions.RulesetPhase,
+		"ruleset_phase": *getZoneEntryPointRulesetVersionsOptions.RulesetPhase,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -2089,9 +2089,9 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx conte
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_phase":   *getZoneEntryPointRulesetVersionOptions.RulesetPhase,
+		"ruleset_phase": *getZoneEntryPointRulesetVersionOptions.RulesetPhase,
 		"ruleset_version": *getZoneEntryPointRulesetVersionOptions.RulesetVersion,
 	}
 
@@ -2161,9 +2161,9 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *createZoneRulesetRuleOptions.RulesetID,
+		"ruleset_id": *createZoneRulesetRuleOptions.RulesetID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -2267,10 +2267,10 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *updateZoneRulesetRuleOptions.RulesetID,
-		"rule_id":         *updateZoneRulesetRuleOptions.RuleID,
+		"ruleset_id": *updateZoneRulesetRuleOptions.RulesetID,
+		"rule_id": *updateZoneRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -2374,10 +2374,10 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetRuleWithContext(ctx context.Context
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *rulesets.Crn,
+		"crn": *rulesets.Crn,
 		"zone_identifier": *rulesets.ZoneIdentifier,
-		"ruleset_id":      *deleteZoneRulesetRuleOptions.RulesetID,
-		"rule_id":         *deleteZoneRulesetRuleOptions.RuleID,
+		"ruleset_id": *deleteZoneRulesetRuleOptions.RulesetID,
+		"rule_id": *deleteZoneRulesetRuleOptions.RuleID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2441,9 +2441,9 @@ type ActionParametersResponse struct {
 // NewActionParametersResponse : Instantiate ActionParametersResponse (Generic Model Constructor)
 func (*RulesetsV1) NewActionParametersResponse(content string, contentType string, statusCode int64) (_model *ActionParametersResponse, err error) {
 	_model = &ActionParametersResponse{
-		Content:     core.StringPtr(content),
+		Content: core.StringPtr(content),
 		ContentType: core.StringPtr(contentType),
-		StatusCode:  core.Int64Ptr(statusCode),
+		StatusCode: core.Int64Ptr(statusCode),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -2724,7 +2724,7 @@ type DeleteInstanceRulesetRuleOptions struct {
 func (*RulesetsV1) NewDeleteInstanceRulesetRuleOptions(rulesetID string, ruleID string) *DeleteInstanceRulesetRuleOptions {
 	return &DeleteInstanceRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
@@ -2761,7 +2761,7 @@ type DeleteInstanceRulesetVersionOptions struct {
 // NewDeleteInstanceRulesetVersionOptions : Instantiate DeleteInstanceRulesetVersionOptions
 func (*RulesetsV1) NewDeleteInstanceRulesetVersionOptions(rulesetID string, rulesetVersion string) *DeleteInstanceRulesetVersionOptions {
 	return &DeleteInstanceRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -2828,7 +2828,7 @@ type DeleteZoneRulesetRuleOptions struct {
 func (*RulesetsV1) NewDeleteZoneRulesetRuleOptions(rulesetID string, ruleID string) *DeleteZoneRulesetRuleOptions {
 	return &DeleteZoneRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
@@ -2865,7 +2865,7 @@ type DeleteZoneRulesetVersionOptions struct {
 // NewDeleteZoneRulesetVersionOptions : Instantiate DeleteZoneRulesetVersionOptions
 func (*RulesetsV1) NewDeleteZoneRulesetVersionOptions(rulesetID string, rulesetVersion string) *DeleteZoneRulesetVersionOptions {
 	return &DeleteZoneRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -2903,32 +2903,32 @@ type GetInstanceEntryPointRulesetVersionOptions struct {
 // Constants associated with the GetInstanceEntryPointRulesetVersionOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetInstanceEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetInstanceEntryPointRulesetVersionOptions : Instantiate GetInstanceEntryPointRulesetVersionOptions
 func (*RulesetsV1) NewGetInstanceEntryPointRulesetVersionOptions(rulesetPhase string, rulesetVersion string) *GetInstanceEntryPointRulesetVersionOptions {
 	return &GetInstanceEntryPointRulesetVersionOptions{
-		RulesetPhase:   core.StringPtr(rulesetPhase),
+		RulesetPhase: core.StringPtr(rulesetPhase),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -2963,26 +2963,26 @@ type GetInstanceEntryPointRulesetVersionsOptions struct {
 // Constants associated with the GetInstanceEntryPointRulesetVersionsOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetInstanceEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetInstanceEntryPointRulesetVersionsOptions : Instantiate GetInstanceEntryPointRulesetVersionsOptions
@@ -3016,26 +3016,26 @@ type GetInstanceEntrypointRulesetOptions struct {
 // Constants associated with the GetInstanceEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetInstanceEntrypointRulesetOptions : Instantiate GetInstanceEntrypointRulesetOptions
@@ -3103,9 +3103,9 @@ type GetInstanceRulesetVersionByTagOptions struct {
 // NewGetInstanceRulesetVersionByTagOptions : Instantiate GetInstanceRulesetVersionByTagOptions
 func (*RulesetsV1) NewGetInstanceRulesetVersionByTagOptions(rulesetID string, rulesetVersion string, ruleTag string) *GetInstanceRulesetVersionByTagOptions {
 	return &GetInstanceRulesetVersionByTagOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
-		RuleTag:        core.StringPtr(ruleTag),
+		RuleTag: core.StringPtr(ruleTag),
 	}
 }
 
@@ -3148,7 +3148,7 @@ type GetInstanceRulesetVersionOptions struct {
 // NewGetInstanceRulesetVersionOptions : Instantiate GetInstanceRulesetVersionOptions
 func (*RulesetsV1) NewGetInstanceRulesetVersionOptions(rulesetID string, rulesetVersion string) *GetInstanceRulesetVersionOptions {
 	return &GetInstanceRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -3232,32 +3232,32 @@ type GetZoneEntryPointRulesetVersionOptions struct {
 // Constants associated with the GetZoneEntryPointRulesetVersionOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetZoneEntryPointRulesetVersionOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetZoneEntryPointRulesetVersionOptions : Instantiate GetZoneEntryPointRulesetVersionOptions
 func (*RulesetsV1) NewGetZoneEntryPointRulesetVersionOptions(rulesetPhase string, rulesetVersion string) *GetZoneEntryPointRulesetVersionOptions {
 	return &GetZoneEntryPointRulesetVersionOptions{
-		RulesetPhase:   core.StringPtr(rulesetPhase),
+		RulesetPhase: core.StringPtr(rulesetPhase),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -3292,26 +3292,26 @@ type GetZoneEntryPointRulesetVersionsOptions struct {
 // Constants associated with the GetZoneEntryPointRulesetVersionsOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetZoneEntryPointRulesetVersionsOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetZoneEntryPointRulesetVersionsOptions : Instantiate GetZoneEntryPointRulesetVersionsOptions
@@ -3345,26 +3345,26 @@ type GetZoneEntrypointRulesetOptions struct {
 // Constants associated with the GetZoneEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	GetZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewGetZoneEntrypointRulesetOptions : Instantiate GetZoneEntrypointRulesetOptions
@@ -3429,7 +3429,7 @@ type GetZoneRulesetVersionOptions struct {
 // NewGetZoneRulesetVersionOptions : Instantiate GetZoneRulesetVersionOptions
 func (*RulesetsV1) NewGetZoneRulesetVersionOptions(rulesetID string, rulesetVersion string) *GetZoneRulesetVersionOptions {
 	return &GetZoneRulesetVersionOptions{
-		RulesetID:      core.StringPtr(rulesetID),
+		RulesetID: core.StringPtr(rulesetID),
 		RulesetVersion: core.StringPtr(rulesetVersion),
 	}
 }
@@ -3541,59 +3541,59 @@ type UpdateInstanceEntrypointRulesetOptions struct {
 // Constants associated with the UpdateInstanceEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // Constants associated with the UpdateInstanceEntrypointRulesetOptions.Kind property.
 const (
-	UpdateInstanceEntrypointRulesetOptions_Kind_Custom  = "custom"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Custom = "custom"
 	UpdateInstanceEntrypointRulesetOptions_Kind_Managed = "managed"
-	UpdateInstanceEntrypointRulesetOptions_Kind_Root    = "root"
-	UpdateInstanceEntrypointRulesetOptions_Kind_Zone    = "zone"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Root = "root"
+	UpdateInstanceEntrypointRulesetOptions_Kind_Zone = "zone"
 )
 
 // Constants associated with the UpdateInstanceEntrypointRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateInstanceEntrypointRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateInstanceEntrypointRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateInstanceEntrypointRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateInstanceEntrypointRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateInstanceEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewUpdateInstanceEntrypointRulesetOptions : Instantiate UpdateInstanceEntrypointRulesetOptions
@@ -3669,35 +3669,35 @@ type UpdateInstanceRulesetOptions struct {
 
 // Constants associated with the UpdateInstanceRulesetOptions.Kind property.
 const (
-	UpdateInstanceRulesetOptions_Kind_Custom  = "custom"
+	UpdateInstanceRulesetOptions_Kind_Custom = "custom"
 	UpdateInstanceRulesetOptions_Kind_Managed = "managed"
-	UpdateInstanceRulesetOptions_Kind_Root    = "root"
-	UpdateInstanceRulesetOptions_Kind_Zone    = "zone"
+	UpdateInstanceRulesetOptions_Kind_Root = "root"
+	UpdateInstanceRulesetOptions_Kind_Zone = "zone"
 )
 
 // Constants associated with the UpdateInstanceRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateInstanceRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateInstanceRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateInstanceRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateInstanceRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateInstanceRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateInstanceRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateInstanceRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateInstanceRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateInstanceRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateInstanceRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateInstanceRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateInstanceRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateInstanceRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateInstanceRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateInstanceRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateInstanceRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateInstanceRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateInstanceRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateInstanceRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateInstanceRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateInstanceRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewUpdateInstanceRulesetOptions : Instantiate UpdateInstanceRulesetOptions
@@ -3786,7 +3786,7 @@ type UpdateInstanceRulesetRuleOptions struct {
 func (*RulesetsV1) NewUpdateInstanceRulesetRuleOptions(rulesetID string, ruleID string) *UpdateInstanceRulesetRuleOptions {
 	return &UpdateInstanceRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
@@ -3887,59 +3887,59 @@ type UpdateZoneEntrypointRulesetOptions struct {
 // Constants associated with the UpdateZoneEntrypointRulesetOptions.RulesetPhase property.
 // The phase of the ruleset.
 const (
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL4                         = "ddos_l4"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL7                         = "ddos_l7"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings             = "http_config_settings"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors               = "http_custom_errors"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit                  = "http_ratelimit"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin              = "http_request_origin"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL4 = "ddos_l4"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_DdosL7 = "ddos_l7"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpConfigSettings = "http_config_settings"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpCustomErrors = "http_custom_errors"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRatelimit = "http_ratelimit"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestOrigin = "http_request_origin"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestRedirect = "http_request_redirect"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform           = "http_request_transform"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression        = "http_response_compression"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpRequestTransform = "http_request_transform"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseCompression = "http_response_compression"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_RulesetPhase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // Constants associated with the UpdateZoneEntrypointRulesetOptions.Kind property.
 const (
-	UpdateZoneEntrypointRulesetOptions_Kind_Custom  = "custom"
+	UpdateZoneEntrypointRulesetOptions_Kind_Custom = "custom"
 	UpdateZoneEntrypointRulesetOptions_Kind_Managed = "managed"
-	UpdateZoneEntrypointRulesetOptions_Kind_Root    = "root"
-	UpdateZoneEntrypointRulesetOptions_Kind_Zone    = "zone"
+	UpdateZoneEntrypointRulesetOptions_Kind_Root = "root"
+	UpdateZoneEntrypointRulesetOptions_Kind_Zone = "zone"
 )
 
 // Constants associated with the UpdateZoneEntrypointRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateZoneEntrypointRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateZoneEntrypointRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateZoneEntrypointRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateZoneEntrypointRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateZoneEntrypointRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewUpdateZoneEntrypointRulesetOptions : Instantiate UpdateZoneEntrypointRulesetOptions
@@ -4015,35 +4015,35 @@ type UpdateZoneRulesetOptions struct {
 
 // Constants associated with the UpdateZoneRulesetOptions.Kind property.
 const (
-	UpdateZoneRulesetOptions_Kind_Custom  = "custom"
+	UpdateZoneRulesetOptions_Kind_Custom = "custom"
 	UpdateZoneRulesetOptions_Kind_Managed = "managed"
-	UpdateZoneRulesetOptions_Kind_Root    = "root"
-	UpdateZoneRulesetOptions_Kind_Zone    = "zone"
+	UpdateZoneRulesetOptions_Kind_Root = "root"
+	UpdateZoneRulesetOptions_Kind_Zone = "zone"
 )
 
 // Constants associated with the UpdateZoneRulesetOptions.Phase property.
 // The phase of the ruleset.
 const (
-	UpdateZoneRulesetOptions_Phase_DdosL4                         = "ddos_l4"
-	UpdateZoneRulesetOptions_Phase_DdosL7                         = "ddos_l7"
-	UpdateZoneRulesetOptions_Phase_HttpConfigSettings             = "http_config_settings"
-	UpdateZoneRulesetOptions_Phase_HttpCustomErrors               = "http_custom_errors"
-	UpdateZoneRulesetOptions_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	UpdateZoneRulesetOptions_Phase_HttpRatelimit                  = "http_ratelimit"
-	UpdateZoneRulesetOptions_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	UpdateZoneRulesetOptions_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	UpdateZoneRulesetOptions_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	UpdateZoneRulesetOptions_Phase_HttpRequestOrigin              = "http_request_origin"
-	UpdateZoneRulesetOptions_Phase_HttpRequestRedirect            = "http_request_redirect"
-	UpdateZoneRulesetOptions_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	UpdateZoneRulesetOptions_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	UpdateZoneRulesetOptions_Phase_DdosL4 = "ddos_l4"
+	UpdateZoneRulesetOptions_Phase_DdosL7 = "ddos_l7"
+	UpdateZoneRulesetOptions_Phase_HttpConfigSettings = "http_config_settings"
+	UpdateZoneRulesetOptions_Phase_HttpCustomErrors = "http_custom_errors"
+	UpdateZoneRulesetOptions_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	UpdateZoneRulesetOptions_Phase_HttpRatelimit = "http_ratelimit"
+	UpdateZoneRulesetOptions_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	UpdateZoneRulesetOptions_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	UpdateZoneRulesetOptions_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	UpdateZoneRulesetOptions_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	UpdateZoneRulesetOptions_Phase_HttpRequestOrigin = "http_request_origin"
+	UpdateZoneRulesetOptions_Phase_HttpRequestRedirect = "http_request_redirect"
+	UpdateZoneRulesetOptions_Phase_HttpRequestSanitize = "http_request_sanitize"
+	UpdateZoneRulesetOptions_Phase_HttpRequestSbfm = "http_request_sbfm"
 	UpdateZoneRulesetOptions_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	UpdateZoneRulesetOptions_Phase_HttpRequestTransform           = "http_request_transform"
-	UpdateZoneRulesetOptions_Phase_HttpResponseCompression        = "http_response_compression"
-	UpdateZoneRulesetOptions_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	UpdateZoneRulesetOptions_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	UpdateZoneRulesetOptions_Phase_HttpRequestTransform = "http_request_transform"
+	UpdateZoneRulesetOptions_Phase_HttpResponseCompression = "http_response_compression"
+	UpdateZoneRulesetOptions_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	UpdateZoneRulesetOptions_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // NewUpdateZoneRulesetOptions : Instantiate UpdateZoneRulesetOptions
@@ -4132,7 +4132,7 @@ type UpdateZoneRulesetRuleOptions struct {
 func (*RulesetsV1) NewUpdateZoneRulesetRuleOptions(rulesetID string, ruleID string) *UpdateZoneRulesetRuleOptions {
 	return &UpdateZoneRulesetRuleOptions{
 		RulesetID: core.StringPtr(rulesetID),
-		RuleID:    core.StringPtr(ruleID),
+		RuleID: core.StringPtr(ruleID),
 	}
 }
 
@@ -4224,6 +4224,12 @@ type ActionParameters struct {
 	// List of ruleset ids to apply action to. Use "current" to apply to the current ruleset.
 	Rulesets []string `json:"rulesets,omitempty"`
 
+	// Skips the execution of one or more phases.
+	Phases []string `json:"phases,omitempty"`
+
+	// Skips specific security products that are not based on the Ruleset Engine.
+	Products []string `json:"products,omitempty"`
+
 	Response *ActionParametersResponse `json:"response,omitempty"`
 }
 
@@ -4253,6 +4259,16 @@ func UnmarshalActionParameters(m map[string]json.RawMessage, result interface{})
 	err = core.UnmarshalPrimitive(m, "rulesets", &obj.Rulesets)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "rulesets-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "phases", &obj.Phases)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "phases-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "products", &obj.Products)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "products-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "response", &obj.Response, UnmarshalActionParametersResponse)
@@ -4364,35 +4380,35 @@ type ListedRuleset struct {
 
 // Constants associated with the ListedRuleset.Kind property.
 const (
-	ListedRuleset_Kind_Custom  = "custom"
+	ListedRuleset_Kind_Custom = "custom"
 	ListedRuleset_Kind_Managed = "managed"
-	ListedRuleset_Kind_Root    = "root"
-	ListedRuleset_Kind_Zone    = "zone"
+	ListedRuleset_Kind_Root = "root"
+	ListedRuleset_Kind_Zone = "zone"
 )
 
 // Constants associated with the ListedRuleset.Phase property.
 // The phase of the ruleset.
 const (
-	ListedRuleset_Phase_DdosL4                         = "ddos_l4"
-	ListedRuleset_Phase_DdosL7                         = "ddos_l7"
-	ListedRuleset_Phase_HttpConfigSettings             = "http_config_settings"
-	ListedRuleset_Phase_HttpCustomErrors               = "http_custom_errors"
-	ListedRuleset_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	ListedRuleset_Phase_HttpRatelimit                  = "http_ratelimit"
-	ListedRuleset_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	ListedRuleset_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	ListedRuleset_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	ListedRuleset_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	ListedRuleset_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	ListedRuleset_Phase_HttpRequestOrigin              = "http_request_origin"
-	ListedRuleset_Phase_HttpRequestRedirect            = "http_request_redirect"
-	ListedRuleset_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	ListedRuleset_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	ListedRuleset_Phase_DdosL4 = "ddos_l4"
+	ListedRuleset_Phase_DdosL7 = "ddos_l7"
+	ListedRuleset_Phase_HttpConfigSettings = "http_config_settings"
+	ListedRuleset_Phase_HttpCustomErrors = "http_custom_errors"
+	ListedRuleset_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	ListedRuleset_Phase_HttpRatelimit = "http_ratelimit"
+	ListedRuleset_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	ListedRuleset_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	ListedRuleset_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	ListedRuleset_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	ListedRuleset_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	ListedRuleset_Phase_HttpRequestOrigin = "http_request_origin"
+	ListedRuleset_Phase_HttpRequestRedirect = "http_request_redirect"
+	ListedRuleset_Phase_HttpRequestSanitize = "http_request_sanitize"
+	ListedRuleset_Phase_HttpRequestSbfm = "http_request_sbfm"
 	ListedRuleset_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	ListedRuleset_Phase_HttpRequestTransform           = "http_request_transform"
-	ListedRuleset_Phase_HttpResponseCompression        = "http_response_compression"
-	ListedRuleset_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	ListedRuleset_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	ListedRuleset_Phase_HttpRequestTransform = "http_request_transform"
+	ListedRuleset_Phase_HttpResponseCompression = "http_response_compression"
+	ListedRuleset_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	ListedRuleset_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // UnmarshalListedRuleset unmarshals an instance of ListedRuleset from the specified map of raw messages.
@@ -4518,8 +4534,8 @@ type Overrides struct {
 // Constants associated with the Overrides.SensitivityLevel property.
 // The sensitivity level of the rule.
 const (
-	Overrides_SensitivityLevel_High   = "high"
-	Overrides_SensitivityLevel_Low    = "low"
+	Overrides_SensitivityLevel_High = "high"
+	Overrides_SensitivityLevel_Low = "low"
 	Overrides_SensitivityLevel_Medium = "medium"
 )
 
@@ -4616,7 +4632,7 @@ type RuleCreate struct {
 // NewRuleCreate : Instantiate RuleCreate (Generic Model Constructor)
 func (*RulesetsV1) NewRuleCreate(action string, expression string) (_model *RuleCreate, err error) {
 	_model = &RuleCreate{
-		Action:     core.StringPtr(action),
+		Action: core.StringPtr(action),
 		Expression: core.StringPtr(expression),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -4834,8 +4850,8 @@ type RulesOverride struct {
 // Constants associated with the RulesOverride.SensitivityLevel property.
 // The sensitivity level of the rule.
 const (
-	RulesOverride_SensitivityLevel_High   = "high"
-	RulesOverride_SensitivityLevel_Low    = "low"
+	RulesOverride_SensitivityLevel_High = "high"
+	RulesOverride_SensitivityLevel_Low = "low"
 	RulesOverride_SensitivityLevel_Medium = "medium"
 )
 
@@ -4898,35 +4914,35 @@ type RulesetDetails struct {
 
 // Constants associated with the RulesetDetails.Kind property.
 const (
-	RulesetDetails_Kind_Custom  = "custom"
+	RulesetDetails_Kind_Custom = "custom"
 	RulesetDetails_Kind_Managed = "managed"
-	RulesetDetails_Kind_Root    = "root"
-	RulesetDetails_Kind_Zone    = "zone"
+	RulesetDetails_Kind_Root = "root"
+	RulesetDetails_Kind_Zone = "zone"
 )
 
 // Constants associated with the RulesetDetails.Phase property.
 // The phase of the ruleset.
 const (
-	RulesetDetails_Phase_DdosL4                         = "ddos_l4"
-	RulesetDetails_Phase_DdosL7                         = "ddos_l7"
-	RulesetDetails_Phase_HttpConfigSettings             = "http_config_settings"
-	RulesetDetails_Phase_HttpCustomErrors               = "http_custom_errors"
-	RulesetDetails_Phase_HttpLogCustomFields            = "http_log_custom_fields"
-	RulesetDetails_Phase_HttpRatelimit                  = "http_ratelimit"
-	RulesetDetails_Phase_HttpRequestCacheSettings       = "http_request_cache_settings"
-	RulesetDetails_Phase_HttpRequestDynamicRedirect     = "http_request_dynamic_redirect"
-	RulesetDetails_Phase_HttpRequestFirewallCustom      = "http_request_firewall_custom"
-	RulesetDetails_Phase_HttpRequestFirewallManaged     = "http_request_firewall_managed"
-	RulesetDetails_Phase_HttpRequestLateTransform       = "http_request_late_transform"
-	RulesetDetails_Phase_HttpRequestOrigin              = "http_request_origin"
-	RulesetDetails_Phase_HttpRequestRedirect            = "http_request_redirect"
-	RulesetDetails_Phase_HttpRequestSanitize            = "http_request_sanitize"
-	RulesetDetails_Phase_HttpRequestSbfm                = "http_request_sbfm"
+	RulesetDetails_Phase_DdosL4 = "ddos_l4"
+	RulesetDetails_Phase_DdosL7 = "ddos_l7"
+	RulesetDetails_Phase_HttpConfigSettings = "http_config_settings"
+	RulesetDetails_Phase_HttpCustomErrors = "http_custom_errors"
+	RulesetDetails_Phase_HttpLogCustomFields = "http_log_custom_fields"
+	RulesetDetails_Phase_HttpRatelimit = "http_ratelimit"
+	RulesetDetails_Phase_HttpRequestCacheSettings = "http_request_cache_settings"
+	RulesetDetails_Phase_HttpRequestDynamicRedirect = "http_request_dynamic_redirect"
+	RulesetDetails_Phase_HttpRequestFirewallCustom = "http_request_firewall_custom"
+	RulesetDetails_Phase_HttpRequestFirewallManaged = "http_request_firewall_managed"
+	RulesetDetails_Phase_HttpRequestLateTransform = "http_request_late_transform"
+	RulesetDetails_Phase_HttpRequestOrigin = "http_request_origin"
+	RulesetDetails_Phase_HttpRequestRedirect = "http_request_redirect"
+	RulesetDetails_Phase_HttpRequestSanitize = "http_request_sanitize"
+	RulesetDetails_Phase_HttpRequestSbfm = "http_request_sbfm"
 	RulesetDetails_Phase_HttpRequestSelectConfiguration = "http_request_select_configuration"
-	RulesetDetails_Phase_HttpRequestTransform           = "http_request_transform"
-	RulesetDetails_Phase_HttpResponseCompression        = "http_response_compression"
-	RulesetDetails_Phase_HttpResponseFirewallManaged    = "http_response_firewall_managed"
-	RulesetDetails_Phase_HttpResponseHeadersTransform   = "http_response_headers_transform"
+	RulesetDetails_Phase_HttpRequestTransform = "http_request_transform"
+	RulesetDetails_Phase_HttpResponseCompression = "http_response_compression"
+	RulesetDetails_Phase_HttpResponseFirewallManaged = "http_response_firewall_managed"
+	RulesetDetails_Phase_HttpResponseHeadersTransform = "http_response_headers_transform"
 )
 
 // UnmarshalRulesetDetails unmarshals an instance of RulesetDetails from the specified map of raw messages.

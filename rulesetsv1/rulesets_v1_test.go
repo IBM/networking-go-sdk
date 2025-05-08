@@ -42,8 +42,8 @@ var _ = Describe(`RulesetsV1`, func() {
 		zoneIdentifier := "testString"
 		It(`Instantiate service client`, func() {
 			rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-				Authenticator:  &core.NoAuthAuthenticator{},
-				Crn:            core.StringPtr(crn),
+				Authenticator: &core.NoAuthAuthenticator{},
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(rulesetsService).ToNot(BeNil())
@@ -51,8 +51,8 @@ var _ = Describe(`RulesetsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-				URL:            "{BAD_URL_STRING",
-				Crn:            core.StringPtr(crn),
+				URL: "{BAD_URL_STRING",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			Expect(rulesetsService).To(BeNil())
@@ -60,8 +60,8 @@ var _ = Describe(`RulesetsV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-				URL:            "https://rulesetsv1/api",
-				Crn:            core.StringPtr(crn),
+				URL: "https://rulesetsv1/api",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -83,14 +83,14 @@ var _ = Describe(`RulesetsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RULESETS_URL":       "https://rulesetsv1/api",
+				"RULESETS_URL": "https://rulesetsv1/api",
 				"RULESETS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1UsingExternalConfig(&rulesetsv1.RulesetsV1Options{
-					Crn:            core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(rulesetsService).ToNot(BeNil())
@@ -106,8 +106,8 @@ var _ = Describe(`RulesetsV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1UsingExternalConfig(&rulesetsv1.RulesetsV1Options{
-					URL:            "https://testService/api",
-					Crn:            core.StringPtr(crn),
+					URL: "https://testService/api",
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(rulesetsService).ToNot(BeNil())
@@ -124,7 +124,7 @@ var _ = Describe(`RulesetsV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1UsingExternalConfig(&rulesetsv1.RulesetsV1Options{
-					Crn:            core.StringPtr(crn),
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				err := rulesetsService.SetServiceURL("https://testService/api")
@@ -144,13 +144,13 @@ var _ = Describe(`RulesetsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RULESETS_URL":       "https://rulesetsv1/api",
+				"RULESETS_URL": "https://rulesetsv1/api",
 				"RULESETS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1UsingExternalConfig(&rulesetsv1.RulesetsV1Options{
-				Crn:            core.StringPtr(crn),
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -163,13 +163,13 @@ var _ = Describe(`RulesetsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"RULESETS_AUTH_TYPE": "NOAuth",
+				"RULESETS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1UsingExternalConfig(&rulesetsv1.RulesetsV1Options{
-				URL:            "{BAD_URL_STRING",
-				Crn:            core.StringPtr(crn),
+				URL: "{BAD_URL_STRING",
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 
@@ -209,9 +209,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesets with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -262,9 +262,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesets successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -317,9 +317,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesets successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -344,9 +344,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesets with error: Operation request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -379,9 +379,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesets successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -423,9 +423,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -472,14 +472,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -528,14 +528,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -561,9 +561,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -604,9 +604,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -649,9 +649,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -692,6 +692,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -778,14 +780,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -827,6 +829,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -914,14 +918,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -968,6 +972,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -1011,9 +1017,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1054,6 +1060,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -1118,9 +1126,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1161,6 +1169,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -1226,9 +1236,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1251,9 +1261,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1301,9 +1311,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersions with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1355,9 +1365,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersions successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1411,9 +1421,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1439,9 +1449,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersions with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1482,9 +1492,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1527,9 +1537,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersion with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1577,14 +1587,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1634,14 +1644,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1668,9 +1678,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersion with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1712,9 +1722,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1757,9 +1767,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1783,9 +1793,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRulesetVersion with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1834,9 +1844,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntrypointRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1883,14 +1893,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1939,14 +1949,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -1972,9 +1982,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntrypointRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2015,9 +2025,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2060,9 +2070,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2103,6 +2113,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2189,14 +2201,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2238,6 +2250,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2325,14 +2339,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2379,6 +2393,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2422,9 +2438,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2465,6 +2481,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2529,9 +2547,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2572,6 +2590,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2638,9 +2658,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersions with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2692,9 +2712,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersions successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2748,9 +2768,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2776,9 +2796,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersions with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2819,9 +2839,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2864,9 +2884,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2914,14 +2934,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -2971,14 +2991,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3005,9 +3025,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3049,9 +3069,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3095,9 +3115,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke CreateInstanceRulesetRule with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3138,6 +3158,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3216,14 +3238,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3265,6 +3287,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3344,14 +3368,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3398,6 +3422,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3433,9 +3459,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke CreateInstanceRulesetRule with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3476,6 +3502,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3532,9 +3560,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3575,6 +3603,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3633,9 +3663,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceRulesetRule with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3676,6 +3706,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3755,14 +3787,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3804,6 +3836,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3884,14 +3918,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -3938,6 +3972,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3974,9 +4010,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceRulesetRule with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4017,6 +4053,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -4074,9 +4112,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4117,6 +4155,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -4176,9 +4216,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRulesetRule with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4226,14 +4266,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4283,14 +4323,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4317,9 +4357,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRulesetRule with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4361,9 +4401,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4407,9 +4447,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4458,14 +4498,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4516,14 +4556,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4551,9 +4591,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4596,9 +4636,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4643,9 +4683,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesets with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4696,9 +4736,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesets successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4751,9 +4791,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesets successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4778,9 +4818,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesets with error: Operation request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4813,9 +4853,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesets successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4857,9 +4897,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4906,14 +4946,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4962,14 +5002,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -4995,9 +5035,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5038,9 +5078,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5083,9 +5123,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5126,6 +5166,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5212,14 +5254,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5261,6 +5303,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5348,14 +5392,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5402,6 +5446,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5445,9 +5491,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5488,6 +5534,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5552,9 +5600,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5595,6 +5643,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5660,9 +5710,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5685,9 +5735,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5735,9 +5785,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersions with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5789,9 +5839,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersions successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5845,9 +5895,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5873,9 +5923,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersions with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5916,9 +5966,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -5961,9 +6011,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersion with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6011,14 +6061,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRulesetVersion successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6068,14 +6118,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6102,9 +6152,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersion with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6146,9 +6196,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6191,9 +6241,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6217,9 +6267,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRulesetVersion with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6268,9 +6318,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntrypointRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6317,14 +6367,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6373,14 +6423,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6406,9 +6456,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntrypointRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6449,9 +6499,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6494,9 +6544,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6537,6 +6587,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6623,14 +6675,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6672,6 +6724,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6759,14 +6813,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6813,6 +6867,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6856,9 +6912,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -6899,6 +6955,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6963,9 +7021,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7006,6 +7064,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7072,9 +7132,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersions with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7126,9 +7186,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersions successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7182,9 +7242,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7210,9 +7270,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersions with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7253,9 +7313,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersions successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7298,9 +7358,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7348,14 +7408,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7405,14 +7465,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7439,9 +7499,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7483,9 +7543,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7529,9 +7589,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke CreateZoneRulesetRule with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7572,6 +7632,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7650,14 +7712,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneRulesetRule successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7699,6 +7761,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7778,14 +7842,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7832,6 +7896,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7867,9 +7933,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke CreateZoneRulesetRule with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -7910,6 +7976,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7966,9 +8034,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke CreateZoneRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8009,6 +8077,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8067,9 +8137,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneRulesetRule with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8110,6 +8180,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8189,14 +8261,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8238,6 +8310,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8318,14 +8392,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8372,6 +8446,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8408,9 +8484,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneRulesetRule with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8451,6 +8527,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8508,9 +8586,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8551,6 +8629,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8610,9 +8690,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRulesetRule with error: Operation response processing error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8660,14 +8740,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully with retries`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8717,14 +8797,14 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8751,9 +8831,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRulesetRule with error: Operation validation and request error`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8795,9 +8875,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully`, func() {
 				rulesetsService, serviceErr := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-					URL:            testServer.URL,
-					Authenticator:  &core.NoAuthAuthenticator{},
-					Crn:            core.StringPtr(crn),
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Crn: core.StringPtr(crn),
 					ZoneIdentifier: core.StringPtr(zoneIdentifier),
 				})
 				Expect(serviceErr).To(BeNil())
@@ -8827,9 +8907,9 @@ var _ = Describe(`RulesetsV1`, func() {
 			crn := "testString"
 			zoneIdentifier := "testString"
 			rulesetsService, _ := rulesetsv1.NewRulesetsV1(&rulesetsv1.RulesetsV1Options{
-				URL:            "http://rulesetsv1modelgenerator.com",
-				Authenticator:  &core.NoAuthAuthenticator{},
-				Crn:            core.StringPtr(crn),
+				URL:           "http://rulesetsv1modelgenerator.com",
+				Authenticator: &core.NoAuthAuthenticator{},
+				Crn: core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
 			It(`Invoke NewActionParametersResponse successfully`, func() {
@@ -8897,12 +8977,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9005,12 +9089,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9347,12 +9435,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9469,12 +9561,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9591,12 +9687,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9702,12 +9802,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9824,12 +9928,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9946,12 +10054,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -10044,6 +10156,8 @@ var _ = Describe(`RulesetsV1`, func() {
 			model.Version = core.StringPtr("testString")
 			model.Ruleset = core.StringPtr("testString")
 			model.Rulesets = []string{"testString"}
+			model.Phases = []string{"testString"}
+			model.Products = []string{"testString"}
 			model.Response = nil
 
 			b, err := json.Marshal(model)

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  */
 
 package rulesetsv1_test
@@ -32,7 +32,7 @@ var configLoaded bool = true
 var authenticationSucceeded bool = true
 
 func shouldSkipTest() {
-	Skip("Skipping...")
+	//Skip("Skipping...")
 
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
@@ -662,7 +662,7 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 
 		})
 
-		It("Create Zone Ruleset Rule", func() {
+		It("Create Zone Ruleset Rule for execute", func() {
 			rulesOverrideModel := &rulesetsv1.RulesOverride{
 				ID:      rule2Id,
 				Enabled: core.BoolPtr(true),
@@ -708,7 +708,7 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			Expect(ruleResp).ToNot(BeNil())
 		})
 
-		It("Update/Delete Zone Ruleset Rule", func() {
+		It("Update/Delete Zone Ruleset Rule for execute", func() {
 
 			getZoneEntrypointRulesetOptions := &rulesetsv1.GetZoneEntrypointRulesetOptions{
 				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
@@ -766,6 +766,81 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(res.StatusCode).To(Equal(200))
 			Expect(result).ToNot(BeNil())
+		})
+
+		It("Create Zone Ruleset Rule for skip", func() {
+
+			getZoneEntrypointRulesetOptions := &rulesetsv1.GetZoneEntrypointRulesetOptions{
+				RulesetPhase: core.StringPtr("http_request_firewall_custom"),
+			}
+			rulesetResp, _, _ := rulesetsService.GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions)
+			customRulesetId := *rulesetResp.Result.ID
+
+			actionParametersModel := &rulesetsv1.ActionParameters{
+				Phases:   []string{"http_ratelimit", "http_request_firewall_managed"},
+				Products: []string{"waf"},
+			}
+
+			createZoneRulesetRuleOptions := &rulesetsv1.CreateZoneRulesetRuleOptions{
+				RulesetID:        core.StringPtr(customRulesetId),
+				Action:           core.StringPtr("skip"),
+				ActionParameters: actionParametersModel,
+				Description:      core.StringPtr("deploying custom rule"),
+				Enabled:          core.BoolPtr(true),
+				Expression:       core.StringPtr("ip.src ne 1.1.1.3"),
+				Ref:              rulsetForTestingId,
+			}
+
+			ruleResp, response, err := rulesetsService.CreateZoneRulesetRule(createZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ruleResp).ToNot(BeNil())
+		})
+
+		It("Update/Delete Zone Ruleset Rule for skip", func() {
+
+			getZoneEntrypointRulesetOptions := &rulesetsv1.GetZoneEntrypointRulesetOptions{
+				RulesetPhase: core.StringPtr("http_request_firewall_custom"),
+			}
+
+			rulesetResp, _, err := rulesetsService.GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions)
+
+			customRulesetId := *rulesetResp.Result.ID
+			customRuleId := *rulesetResp.Result.Rules[0].ID
+
+			Expect(err).To(BeNil())
+			Expect(rulesetResp).ToNot(BeNil())
+
+			actionParametersModel := &rulesetsv1.ActionParameters{
+				Phases:   []string{"http_ratelimit", "http_request_firewall_managed"},
+				Products: []string{"waf"},
+			}
+
+			updateZoneRulesetRuleOptions := &rulesetsv1.UpdateZoneRulesetRuleOptions{
+				RulesetID:        core.StringPtr(customRulesetId),
+				RuleID:           core.StringPtr(customRuleId),
+				Action:           core.StringPtr("skip"),
+				ActionParameters: actionParametersModel,
+				Description:      core.StringPtr("Updating the rule with correct IDs"),
+				Enabled:          core.BoolPtr(true),
+				Expression:       core.StringPtr("ip.src ne 1.1.1.4"),
+			}
+
+			ruleResp, response, err := rulesetsService.UpdateZoneRulesetRule(updateZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ruleResp).ToNot(BeNil())
+
+			deleteZoneRulesetRuleOptions := &rulesetsv1.DeleteZoneRulesetRuleOptions{
+				RulesetID: core.StringPtr(customRulesetId),
+				RuleID:    core.StringPtr(customRuleId),
+			}
+
+			rulesResp, response, err := rulesetsService.DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(rulesResp).ToNot(BeNil())
+
 		})
 
 		It("Delete Zone Ruleset", func() {
