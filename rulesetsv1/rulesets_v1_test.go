@@ -692,6 +692,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -827,6 +829,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -968,6 +972,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -1054,6 +1060,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -1161,6 +1169,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2103,6 +2113,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2238,6 +2250,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2379,6 +2393,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2465,6 +2481,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -2572,6 +2590,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3138,6 +3158,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3265,6 +3287,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3398,6 +3422,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3476,6 +3502,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3575,6 +3603,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3676,6 +3706,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3804,6 +3836,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -3938,6 +3972,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -4017,6 +4053,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -4117,6 +4155,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5126,6 +5166,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5261,6 +5303,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5402,6 +5446,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5488,6 +5534,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -5595,6 +5643,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6537,6 +6587,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6672,6 +6724,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6813,6 +6867,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -6899,6 +6955,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7006,6 +7064,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7572,6 +7632,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7699,6 +7761,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7832,6 +7896,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -7910,6 +7976,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8009,6 +8077,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8110,6 +8180,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8238,6 +8310,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8372,6 +8446,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8451,6 +8527,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8551,6 +8629,8 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 
 				// Construct an instance of the Logging model
@@ -8897,12 +8977,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9005,12 +9089,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9347,12 +9435,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9469,12 +9561,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9591,12 +9687,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9702,12 +9802,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9824,12 +9928,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -9946,12 +10054,16 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Version = core.StringPtr("testString")
 				actionParametersModel.Ruleset = core.StringPtr("testString")
 				actionParametersModel.Rulesets = []string{"testString"}
+				actionParametersModel.Phases = []string{"testString"}
+				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Ruleset).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Rulesets).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
+				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
 
 				// Construct an instance of the Logging model
@@ -10044,6 +10156,8 @@ var _ = Describe(`RulesetsV1`, func() {
 			model.Version = core.StringPtr("testString")
 			model.Ruleset = core.StringPtr("testString")
 			model.Rulesets = []string{"testString"}
+			model.Phases = []string{"testString"}
+			model.Products = []string{"testString"}
 			model.Response = nil
 
 			b, err := json.Marshal(model)
