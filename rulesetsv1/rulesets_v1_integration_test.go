@@ -32,7 +32,7 @@ var configLoaded bool = true
 var authenticationSucceeded bool = true
 
 func shouldSkipTest() {
-	Skip("Skipping...")
+	//Skip("Skipping...")
 
 	if !configLoaded {
 		Skip("External configuration is not available, skipping...")
@@ -804,9 +804,13 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			}
 
 			rulesetResp, _, err := rulesetsService.GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions)
+			lastRuleIndex := len(rulesetResp.Result.Rules) - 1
 
+			if lastRuleIndex < 0 {
+				Fail("No rules found in the ruleset")
+			}
+			customRuleId := *rulesetResp.Result.Rules[lastRuleIndex].ID
 			customRulesetId := *rulesetResp.Result.ID
-			customRuleId := *rulesetResp.Result.Rules[0].ID
 
 			Expect(err).To(BeNil())
 			Expect(rulesetResp).ToNot(BeNil())
