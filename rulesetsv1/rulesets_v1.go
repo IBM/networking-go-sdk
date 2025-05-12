@@ -4224,6 +4224,12 @@ type ActionParameters struct {
 	// List of ruleset ids to apply action to. Use "current" to apply to the current ruleset.
 	Rulesets []string `json:"rulesets,omitempty"`
 
+	// Skips the execution of one or more phases.
+	Phases []string `json:"phases,omitempty"`
+
+	// Skips specific security products that are not based on the Ruleset Engine.
+	Products []string `json:"products,omitempty"`
+
 	Response *ActionParametersResponse `json:"response,omitempty"`
 }
 
@@ -4253,6 +4259,16 @@ func UnmarshalActionParameters(m map[string]json.RawMessage, result interface{})
 	err = core.UnmarshalPrimitive(m, "rulesets", &obj.Rulesets)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "rulesets-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "phases", &obj.Phases)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "phases-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "products", &obj.Products)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "products-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "response", &obj.Response, UnmarshalActionParametersResponse)
