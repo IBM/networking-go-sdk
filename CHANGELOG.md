@@ -1,3 +1,13 @@
+# [0.51.5](https://github.com/IBM/networking-go-sdk/compare/v0.51.4...v0.51.5) (2025-05-13)
+
+
+### Bug Fixes
+
+* update module github.com/onsi/ginkgo to v2 ([#243](https://github.com/IBM/networking-go-sdk/issues/243)) ([b96f1a2](https://github.com/IBM/networking-go-sdk/commit/b96f1a2383c66f255ccf4cb3347798991515a8bf))
+* **CIS:** add skip action in custom ruleset ([#245](https://github.com/IBM/networking-go-sdk/pull/245)) ([e3d918a](https://github.com/IBM/networking-go-sdk/commit/e3d918a9a7518f691a91e7179f9f69cd598ee08a))
+* update module github.com/ibm/go-sdk-core/v5 to v5.19.1 ([#241](https://github.com/IBM/networking-go-sdk/pull/241)) ([def8508](https://github.com/IBM/networking-go-sdk/commit/def8508eebcada3382487f139a60b506c9d27205))
+* update module github.com/onsi/ginkgo to v2 ([#238](https://github.com/IBM/networking-go-sdk/pull/238)) ([c6b38ca](https://github.com/IBM/networking-go-sdk/commit/c6b38ca3837dfb341adef9b5bd4180cf279b9e36))
+
 # [0.51.4](https://github.com/IBM/networking-go-sdk/compare/v0.51.3...v0.51.4) (2025-04-17)
 
 
