@@ -19,7 +19,6 @@ package transitgatewayapiv1_test
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -410,14 +409,14 @@ var _ = Describe(`TransitGatewayApiV1`, func() {
 				nextObject := new(transitgatewayapiv1.PaginationNextTG)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapiv1.TransitGatewayCollection)
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -1575,14 +1574,14 @@ var _ = Describe(`TransitGatewayApiV1`, func() {
 				nextObject := new(transitgatewayapiv1.PaginationNextConnection)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapiv1.TransitConnectionCollection)
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -1914,14 +1913,14 @@ var _ = Describe(`TransitGatewayApiV1`, func() {
 				nextObject := new(transitgatewayapiv1.PaginationNextTGWConnection)
 				nextObject.Start = core.StringPtr("abc-123")
 				responseObject.Next = nextObject
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.StringPtr("abc-123")))
 			})
 			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
 				responseObject := new(transitgatewayapiv1.TransitGatewayConnectionCollection)
-
+	
 				value, err := responseObject.GetNextStart()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -7400,146 +7399,6 @@ var _ = Describe(`TransitGatewayApiV1`, func() {
 			})
 		})
 	})
-	Describe(`Model unmarshaling tests`, func() {
-		It(`Invoke UnmarshalPrefixFilterPut successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.PrefixFilterPut)
-			model.Action = core.StringPtr("permit")
-			model.Ge = core.Int64Ptr(int64(0))
-			model.Le = core.Int64Ptr(int64(32))
-			model.Prefix = core.StringPtr("192.168.100.0/24")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.PrefixFilterPut
-			err = transitgatewayapiv1.UnmarshalPrefixFilterPut(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalResourceGroupIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.ResourceGroupIdentity)
-			model.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.ResourceGroupIdentity
-			err = transitgatewayapiv1.UnmarshalResourceGroupIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalTransitGatewayConnectionPrefixFilter successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.TransitGatewayConnectionPrefixFilter)
-			model.Action = core.StringPtr("permit")
-			model.Ge = core.Int64Ptr(int64(0))
-			model.Le = core.Int64Ptr(int64(32))
-			model.Prefix = core.StringPtr("192.168.100.0/24")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.TransitGatewayConnectionPrefixFilter
-			err = transitgatewayapiv1.UnmarshalTransitGatewayConnectionPrefixFilter(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalTransitGatewayTunnelPatch successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.TransitGatewayTunnelPatch)
-			model.Name = core.StringPtr("gre2")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.TransitGatewayTunnelPatch
-			err = transitgatewayapiv1.UnmarshalTransitGatewayTunnelPatch(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalTransitGatewayTunnelTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.TransitGatewayTunnelTemplate)
-			model.LocalGatewayIp = core.StringPtr("10.242.63.12")
-			model.LocalTunnelIp = core.StringPtr("192.168.100.20")
-			model.Name = core.StringPtr("gre1")
-			model.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-			model.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-			model.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-			model.Zone = nil
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.TransitGatewayTunnelTemplate
-			err = transitgatewayapiv1.UnmarshalTransitGatewayTunnelTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalZoneIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.ZoneIdentity)
-			model.Name = core.StringPtr("us-south-1")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.ZoneIdentity
-			err = transitgatewayapiv1.UnmarshalZoneIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalZoneIdentityByName successfully`, func() {
-			// Construct an instance of the model.
-			model := new(transitgatewayapiv1.ZoneIdentityByName)
-			model.Name = core.StringPtr("us-south-1")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *transitgatewayapiv1.ZoneIdentityByName
-			err = transitgatewayapiv1.UnmarshalZoneIdentityByName(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
 			mockByteArray := CreateMockByteArray("This is a test")
@@ -7569,7 +7428,8 @@ var _ = Describe(`TransitGatewayApiV1`, func() {
 //
 
 func CreateMockByteArray(mockData string) *[]byte {
-	ba := []byte(mockData)
+	ba := make([]byte, 0)
+	ba = append(ba, mockData...)
 	return &ba
 }
 
