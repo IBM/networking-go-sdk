@@ -13397,7 +13397,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetProxyReadTimeout successfully with retries`, func() {
@@ -13452,7 +13452,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetProxyReadTimeout successfully`, func() {
@@ -13628,7 +13628,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateProxyReadTimeout successfully with retries`, func() {
@@ -13700,7 +13700,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateProxyReadTimeout successfully`, func() {
