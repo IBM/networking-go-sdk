@@ -73,26 +73,22 @@ func NewDirectLinkV1UsingExternalConfig(options *DirectLinkV1Options) (directLin
 	if options.Authenticator == nil {
 		options.Authenticator, err = core.GetAuthenticatorFromEnvironment(options.ServiceName)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "env-auth-error", common.GetComponentInfo())
 			return
 		}
 	}
 
 	directLink, err = NewDirectLinkV1(options)
-	err = core.RepurposeSDKProblem(err, "new-client-error")
 	if err != nil {
 		return
 	}
 
 	err = directLink.Service.ConfigureService(options.ServiceName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "client-config-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = directLink.Service.SetServiceURL(options.URL)
-		err = core.RepurposeSDKProblem(err, "url-set-error")
 	}
 	return
 }
@@ -106,20 +102,17 @@ func NewDirectLinkV1(options *DirectLinkV1Options) (service *DirectLinkV1, err e
 
 	err = core.ValidateStruct(options, "options")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "invalid-global-options", common.GetComponentInfo())
 		return
 	}
 
 	baseService, err := core.NewBaseService(serviceOptions)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "new-base-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = baseService.SetServiceURL(options.URL)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "set-url-error", common.GetComponentInfo())
 			return
 		}
 	}
@@ -134,7 +127,7 @@ func NewDirectLinkV1(options *DirectLinkV1Options) (service *DirectLinkV1, err e
 
 // GetServiceURLForRegion returns the service URL to be used for the specified region
 func GetServiceURLForRegion(region string) (string, error) {
-	return "", core.SDKErrorf(nil, "service does not support regional URLs", "no-regional-support", common.GetComponentInfo())
+	return "", fmt.Errorf("service does not support regional URLs")
 }
 
 // Clone makes a copy of "directLink" suitable for processing requests.
@@ -149,11 +142,7 @@ func (directLink *DirectLinkV1) Clone() *DirectLinkV1 {
 
 // SetServiceURL sets the service URL
 func (directLink *DirectLinkV1) SetServiceURL(url string) error {
-	err := directLink.Service.SetServiceURL(url)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-set-error", common.GetComponentInfo())
-	}
-	return err
+	return directLink.Service.SetServiceURL(url)
 }
 
 // GetServiceURL returns the service URL
@@ -191,16 +180,13 @@ func (directLink *DirectLinkV1) DisableRetries() {
 // List all Direct Link gateways in this account.  Gateways in other accounts with connections to networks in this
 // account are also returned.
 func (directLink *DirectLinkV1) ListGateways(listGatewaysOptions *ListGatewaysOptions) (result *GatewayCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewaysWithContext(context.Background(), listGatewaysOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewaysWithContext(context.Background(), listGatewaysOptions)
 }
 
 // ListGatewaysWithContext is an alternate form of the ListGateways method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewaysWithContext(ctx context.Context, listGatewaysOptions *ListGatewaysOptions) (result *GatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listGatewaysOptions, "listGatewaysOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -209,7 +195,6 @@ func (directLink *DirectLinkV1) ListGatewaysWithContext(ctx context.Context, lis
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -227,21 +212,17 @@ func (directLink *DirectLinkV1) ListGatewaysWithContext(ctx context.Context, lis
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateways", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -253,21 +234,17 @@ func (directLink *DirectLinkV1) ListGatewaysWithContext(ctx context.Context, lis
 // CreateGateway : Create gateway
 // Creates a Direct Link gateway based on the supplied template.
 func (directLink *DirectLinkV1) CreateGateway(createGatewayOptions *CreateGatewayOptions) (result *Gateway, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayWithContext(context.Background(), createGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayWithContext(context.Background(), createGatewayOptions)
 }
 
 // CreateGatewayWithContext is an alternate form of the CreateGateway method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayWithContext(ctx context.Context, createGatewayOptions *CreateGatewayOptions) (result *Gateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayOptions, "createGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayOptions, "createGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -276,7 +253,6 @@ func (directLink *DirectLinkV1) CreateGatewayWithContext(ctx context.Context, cr
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -295,27 +271,22 @@ func (directLink *DirectLinkV1) CreateGatewayWithContext(ctx context.Context, cr
 
 	_, err = builder.SetBodyContentJSON(createGatewayOptions.GatewayTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGateway)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -327,21 +298,17 @@ func (directLink *DirectLinkV1) CreateGatewayWithContext(ctx context.Context, cr
 // DeleteGateway : Delete gateway
 // Delete a Direct Link gateway.
 func (directLink *DirectLinkV1) DeleteGateway(deleteGatewayOptions *DeleteGatewayOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.DeleteGatewayWithContext(context.Background(), deleteGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.DeleteGatewayWithContext(context.Background(), deleteGatewayOptions)
 }
 
 // DeleteGatewayWithContext is an alternate form of the DeleteGateway method which supports a Context parameter
 func (directLink *DirectLinkV1) DeleteGatewayWithContext(ctx context.Context, deleteGatewayOptions *DeleteGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteGatewayOptions, "deleteGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteGatewayOptions, "deleteGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -354,7 +321,6 @@ func (directLink *DirectLinkV1) DeleteGatewayWithContext(ctx context.Context, de
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -371,16 +337,10 @@ func (directLink *DirectLinkV1) DeleteGatewayWithContext(ctx context.Context, de
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -388,21 +348,17 @@ func (directLink *DirectLinkV1) DeleteGatewayWithContext(ctx context.Context, de
 // GetGateway : Get gateway
 // Retrieve a Direct Link gateway.
 func (directLink *DirectLinkV1) GetGateway(getGatewayOptions *GetGatewayOptions) (result GetGatewayResponseIntf, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayWithContext(context.Background(), getGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayWithContext(context.Background(), getGatewayOptions)
 }
 
 // GetGatewayWithContext is an alternate form of the GetGateway method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayWithContext(ctx context.Context, getGatewayOptions *GetGatewayOptions) (result GetGatewayResponseIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayOptions, "getGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayOptions, "getGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -415,7 +371,6 @@ func (directLink *DirectLinkV1) GetGatewayWithContext(ctx context.Context, getGa
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -433,21 +388,17 @@ func (directLink *DirectLinkV1) GetGatewayWithContext(ctx context.Context, getGa
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGetGatewayResponse)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -459,21 +410,17 @@ func (directLink *DirectLinkV1) GetGatewayWithContext(ctx context.Context, getGa
 // UpdateGateway : Update gateway
 // Update a Direct Link gateway.
 func (directLink *DirectLinkV1) UpdateGateway(updateGatewayOptions *UpdateGatewayOptions) (result *Gateway, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.UpdateGatewayWithContext(context.Background(), updateGatewayOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.UpdateGatewayWithContext(context.Background(), updateGatewayOptions)
 }
 
 // UpdateGatewayWithContext is an alternate form of the UpdateGateway method which supports a Context parameter
 func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, updateGatewayOptions *UpdateGatewayOptions) (result *Gateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateGatewayOptions, "updateGatewayOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateGatewayOptions, "updateGatewayOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -486,7 +433,6 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -505,27 +451,22 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 
 	_, err = builder.SetBodyContentJSON(updateGatewayOptions.GatewayPatchTemplatePatch)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_gateway", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGateway)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -540,21 +481,17 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 // This API is only used for provider created Direct Link Connect gateways to approve or reject specific changes
 // initiated from a provider portal.
 func (directLink *DirectLinkV1) CreateGatewayAction(createGatewayActionOptions *CreateGatewayActionOptions) (result *Gateway, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayActionWithContext(context.Background(), createGatewayActionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayActionWithContext(context.Background(), createGatewayActionOptions)
 }
 
 // CreateGatewayActionWithContext is an alternate form of the CreateGatewayAction method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Context, createGatewayActionOptions *CreateGatewayActionOptions) (result *Gateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayActionOptions, "createGatewayActionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayActionOptions, "createGatewayActionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -567,7 +504,6 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/actions`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -626,27 +562,22 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_action", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGateway)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -658,21 +589,17 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 // ListGatewayCompletionNotice : Get completion notice
 // Retrieve a Direct Link Dedicated gateway's completion notice.
 func (directLink *DirectLinkV1) ListGatewayCompletionNotice(listGatewayCompletionNoticeOptions *ListGatewayCompletionNoticeOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayCompletionNoticeWithContext(context.Background(), listGatewayCompletionNoticeOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewayCompletionNoticeWithContext(context.Background(), listGatewayCompletionNoticeOptions)
 }
 
 // ListGatewayCompletionNoticeWithContext is an alternate form of the ListGatewayCompletionNotice method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewayCompletionNoticeWithContext(ctx context.Context, listGatewayCompletionNoticeOptions *ListGatewayCompletionNoticeOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listGatewayCompletionNoticeOptions, "listGatewayCompletionNoticeOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listGatewayCompletionNoticeOptions, "listGatewayCompletionNoticeOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -685,7 +612,6 @@ func (directLink *DirectLinkV1) ListGatewayCompletionNoticeWithContext(ctx conte
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/completion_notice`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -703,16 +629,10 @@ func (directLink *DirectLinkV1) ListGatewayCompletionNoticeWithContext(ctx conte
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, &result)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_completion_notice", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -720,25 +640,21 @@ func (directLink *DirectLinkV1) ListGatewayCompletionNoticeWithContext(ctx conte
 // CreateGatewayCompletionNotice : Create completion notice
 // Upload a Direct Link Dedicated gateway completion notice.
 func (directLink *DirectLinkV1) CreateGatewayCompletionNotice(createGatewayCompletionNoticeOptions *CreateGatewayCompletionNoticeOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.CreateGatewayCompletionNoticeWithContext(context.Background(), createGatewayCompletionNoticeOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayCompletionNoticeWithContext(context.Background(), createGatewayCompletionNoticeOptions)
 }
 
 // CreateGatewayCompletionNoticeWithContext is an alternate form of the CreateGatewayCompletionNotice method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx context.Context, createGatewayCompletionNoticeOptions *CreateGatewayCompletionNoticeOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayCompletionNoticeOptions, "createGatewayCompletionNoticeOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayCompletionNoticeOptions, "createGatewayCompletionNoticeOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 	if createGatewayCompletionNoticeOptions.Upload == nil {
-		err = core.SDKErrorf(nil, "upload must be supplied", "condition-not-met", common.GetComponentInfo())
+		err = fmt.Errorf("upload must be supplied")
 		return
 	}
 
@@ -751,7 +667,6 @@ func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx con
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/completion_notice`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -773,16 +688,10 @@ func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx con
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_completion_notice", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -790,21 +699,17 @@ func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx con
 // ListGatewayLetterOfAuthorization : Get letter of authorization
 // Retrieve a Direct Link Dedicated gateway's Letter of Authorization.
 func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptions *ListGatewayLetterOfAuthorizationOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayLetterOfAuthorizationWithContext(context.Background(), listGatewayLetterOfAuthorizationOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewayLetterOfAuthorizationWithContext(context.Background(), listGatewayLetterOfAuthorizationOptions)
 }
 
 // ListGatewayLetterOfAuthorizationWithContext is an alternate form of the ListGatewayLetterOfAuthorization method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorizationWithContext(ctx context.Context, listGatewayLetterOfAuthorizationOptions *ListGatewayLetterOfAuthorizationOptions) (result io.ReadCloser, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listGatewayLetterOfAuthorizationOptions, "listGatewayLetterOfAuthorizationOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listGatewayLetterOfAuthorizationOptions, "listGatewayLetterOfAuthorizationOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -817,7 +722,6 @@ func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorizationWithContext(ctx 
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/letter_of_authorization`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -835,16 +739,10 @@ func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorizationWithContext(ctx 
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, &result)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_letter_of_authorization", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -853,21 +751,17 @@ func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorizationWithContext(ctx 
 // Retrieve gateway statistics or debug information.  Specify statistic to retrieve using required `type` query
 // parameter.
 func (directLink *DirectLinkV1) GetGatewayStatistics(getGatewayStatisticsOptions *GetGatewayStatisticsOptions) (result *GatewayStatisticCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayStatisticsWithContext(context.Background(), getGatewayStatisticsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayStatisticsWithContext(context.Background(), getGatewayStatisticsOptions)
 }
 
 // GetGatewayStatisticsWithContext is an alternate form of the GetGatewayStatistics method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayStatisticsWithContext(ctx context.Context, getGatewayStatisticsOptions *GetGatewayStatisticsOptions) (result *GatewayStatisticCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayStatisticsOptions, "getGatewayStatisticsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayStatisticsOptions, "getGatewayStatisticsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -880,7 +774,6 @@ func (directLink *DirectLinkV1) GetGatewayStatisticsWithContext(ctx context.Cont
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/statistics`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -899,21 +792,17 @@ func (directLink *DirectLinkV1) GetGatewayStatisticsWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_statistics", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayStatisticCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -925,21 +814,17 @@ func (directLink *DirectLinkV1) GetGatewayStatisticsWithContext(ctx context.Cont
 // GetGatewayStatus : Gateway status information
 // Retrieve gateway status.  Specify status to retrieve using required `type` query parameter.
 func (directLink *DirectLinkV1) GetGatewayStatus(getGatewayStatusOptions *GetGatewayStatusOptions) (result *GatewayStatusCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayStatusWithContext(context.Background(), getGatewayStatusOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayStatusWithContext(context.Background(), getGatewayStatusOptions)
 }
 
 // GetGatewayStatusWithContext is an alternate form of the GetGatewayStatus method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayStatusWithContext(ctx context.Context, getGatewayStatusOptions *GetGatewayStatusOptions) (result *GatewayStatusCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayStatusOptions, "getGatewayStatusOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayStatusOptions, "getGatewayStatusOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -952,7 +837,6 @@ func (directLink *DirectLinkV1) GetGatewayStatusWithContext(ctx context.Context,
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/status`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -973,178 +857,17 @@ func (directLink *DirectLinkV1) GetGatewayStatusWithContext(ctx context.Context,
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_status", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayStatusCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ListGatewayAsPrepends : List AS Prepends
-// Retrieve all AS Prepends for the specified Direct Link gateway.
-func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
-func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_as_prepends", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ReplaceGatewayAsPrepends : Replace existing AS Prepends
-// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
-// AS Prepend item is unchanged.
-func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
-func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-	if replaceGatewayAsPrependsOptions.IfMatch != nil {
-		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	body := make(map[string]interface{})
-	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
-		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "replace_gateway_as_prepends", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1163,21 +886,17 @@ func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.
 // If an export route does not match any of the export route filters, the route is subject to the
 // `default_export_route_filter` of the direct link.
 func (directLink *DirectLinkV1) ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayExportRouteFiltersWithContext(context.Background(), listGatewayExportRouteFiltersOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewayExportRouteFiltersWithContext(context.Background(), listGatewayExportRouteFiltersOptions)
 }
 
 // ListGatewayExportRouteFiltersWithContext is an alternate form of the ListGatewayExportRouteFilters method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewayExportRouteFiltersWithContext(ctx context.Context, listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listGatewayExportRouteFiltersOptions, "listGatewayExportRouteFiltersOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listGatewayExportRouteFiltersOptions, "listGatewayExportRouteFiltersOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1190,7 +909,6 @@ func (directLink *DirectLinkV1) ListGatewayExportRouteFiltersWithContext(ctx con
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1208,21 +926,17 @@ func (directLink *DirectLinkV1) ListGatewayExportRouteFiltersWithContext(ctx con
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_export_route_filters", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalExportRouteFilterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1244,21 +958,17 @@ func (directLink *DirectLinkV1) ListGatewayExportRouteFiltersWithContext(ctx con
 // that specified route filter. If the specified route filter has a preceding route filter, that filter's `before` field
 // is updated to the created route filter.
 func (directLink *DirectLinkV1) CreateGatewayExportRouteFilter(createGatewayExportRouteFilterOptions *CreateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayExportRouteFilterWithContext(context.Background(), createGatewayExportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayExportRouteFilterWithContext(context.Background(), createGatewayExportRouteFilterOptions)
 }
 
 // CreateGatewayExportRouteFilterWithContext is an alternate form of the CreateGatewayExportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayExportRouteFilterWithContext(ctx context.Context, createGatewayExportRouteFilterOptions *CreateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayExportRouteFilterOptions, "createGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayExportRouteFilterOptions, "createGatewayExportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1271,7 +981,6 @@ func (directLink *DirectLinkV1) CreateGatewayExportRouteFilterWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1306,27 +1015,22 @@ func (directLink *DirectLinkV1) CreateGatewayExportRouteFilterWithContext(ctx co
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_export_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1338,21 +1042,17 @@ func (directLink *DirectLinkV1) CreateGatewayExportRouteFilterWithContext(ctx co
 // ReplaceGatewayExportRouteFilters : Replace existing export route filters
 // Replace all existing export route filters configured on the Direct Link gateway.
 func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptions *ReplaceGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ReplaceGatewayExportRouteFiltersWithContext(context.Background(), replaceGatewayExportRouteFiltersOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ReplaceGatewayExportRouteFiltersWithContext(context.Background(), replaceGatewayExportRouteFiltersOptions)
 }
 
 // ReplaceGatewayExportRouteFiltersWithContext is an alternate form of the ReplaceGatewayExportRouteFilters method which supports a Context parameter
 func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFiltersWithContext(ctx context.Context, replaceGatewayExportRouteFiltersOptions *ReplaceGatewayExportRouteFiltersOptions) (result *ExportRouteFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceGatewayExportRouteFiltersOptions, "replaceGatewayExportRouteFiltersOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceGatewayExportRouteFiltersOptions, "replaceGatewayExportRouteFiltersOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1365,7 +1065,6 @@ func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFiltersWithContext(ctx 
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1391,27 +1090,22 @@ func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFiltersWithContext(ctx 
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "replace_gateway_export_route_filters", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalExportRouteFilterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1427,21 +1121,17 @@ func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFiltersWithContext(ctx 
 // follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
 // following the deleted route filter.
 func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptions *DeleteGatewayExportRouteFilterOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.DeleteGatewayExportRouteFilterWithContext(context.Background(), deleteGatewayExportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.DeleteGatewayExportRouteFilterWithContext(context.Background(), deleteGatewayExportRouteFilterOptions)
 }
 
 // DeleteGatewayExportRouteFilterWithContext is an alternate form of the DeleteGatewayExportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx context.Context, deleteGatewayExportRouteFilterOptions *DeleteGatewayExportRouteFilterOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteGatewayExportRouteFilterOptions, "deleteGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteGatewayExportRouteFilterOptions, "deleteGatewayExportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1455,7 +1145,6 @@ func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1472,16 +1161,10 @@ func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx co
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_gateway_export_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -1489,21 +1172,17 @@ func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx co
 // GetGatewayExportRouteFilter : Retrieves the specified Direct Link gateway export route filter
 // Retrieve an export route filter from the Direct Link gateway.
 func (directLink *DirectLinkV1) GetGatewayExportRouteFilter(getGatewayExportRouteFilterOptions *GetGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayExportRouteFilterWithContext(context.Background(), getGatewayExportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayExportRouteFilterWithContext(context.Background(), getGatewayExportRouteFilterOptions)
 }
 
 // GetGatewayExportRouteFilterWithContext is an alternate form of the GetGatewayExportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx context.Context, getGatewayExportRouteFilterOptions *GetGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayExportRouteFilterOptions, "getGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayExportRouteFilterOptions, "getGatewayExportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1517,7 +1196,6 @@ func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx conte
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1535,21 +1213,17 @@ func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx conte
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_export_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1569,21 +1243,17 @@ func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx conte
 // Considering the updated filter after the update, if the new filter following the updated filter has an existing
 // filter preceding it, that preceding filter's `before` field will be set to the updated filter.
 func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptions *UpdateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.UpdateGatewayExportRouteFilterWithContext(context.Background(), updateGatewayExportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.UpdateGatewayExportRouteFilterWithContext(context.Background(), updateGatewayExportRouteFilterOptions)
 }
 
 // UpdateGatewayExportRouteFilterWithContext is an alternate form of the UpdateGatewayExportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx context.Context, updateGatewayExportRouteFilterOptions *UpdateGatewayExportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateGatewayExportRouteFilterOptions, "updateGatewayExportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateGatewayExportRouteFilterOptions, "updateGatewayExportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1597,7 +1267,6 @@ func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/export_route_filters/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1616,27 +1285,22 @@ func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx co
 
 	_, err = builder.SetBodyContentJSON(updateGatewayExportRouteFilterOptions.UpdateRouteFilterTemplatePatch)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_gateway_export_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1654,21 +1318,17 @@ func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx co
 // If an import route does not match any of the import route filters, the route is subject to the
 // `default_import_route_filter` of the direct link.
 func (directLink *DirectLinkV1) ListGatewayImportRouteFilters(listGatewayImportRouteFiltersOptions *ListGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayImportRouteFiltersWithContext(context.Background(), listGatewayImportRouteFiltersOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewayImportRouteFiltersWithContext(context.Background(), listGatewayImportRouteFiltersOptions)
 }
 
 // ListGatewayImportRouteFiltersWithContext is an alternate form of the ListGatewayImportRouteFilters method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewayImportRouteFiltersWithContext(ctx context.Context, listGatewayImportRouteFiltersOptions *ListGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listGatewayImportRouteFiltersOptions, "listGatewayImportRouteFiltersOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listGatewayImportRouteFiltersOptions, "listGatewayImportRouteFiltersOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1681,7 +1341,6 @@ func (directLink *DirectLinkV1) ListGatewayImportRouteFiltersWithContext(ctx con
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1699,21 +1358,17 @@ func (directLink *DirectLinkV1) ListGatewayImportRouteFiltersWithContext(ctx con
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_import_route_filters", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalImportRouteFilterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1735,21 +1390,17 @@ func (directLink *DirectLinkV1) ListGatewayImportRouteFiltersWithContext(ctx con
 // that specified route filter. If the specified route filter has a preceding route filter, that filter's `before` field
 // is updated to the created route filter.
 func (directLink *DirectLinkV1) CreateGatewayImportRouteFilter(createGatewayImportRouteFilterOptions *CreateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayImportRouteFilterWithContext(context.Background(), createGatewayImportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayImportRouteFilterWithContext(context.Background(), createGatewayImportRouteFilterOptions)
 }
 
 // CreateGatewayImportRouteFilterWithContext is an alternate form of the CreateGatewayImportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayImportRouteFilterWithContext(ctx context.Context, createGatewayImportRouteFilterOptions *CreateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayImportRouteFilterOptions, "createGatewayImportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayImportRouteFilterOptions, "createGatewayImportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1762,7 +1413,6 @@ func (directLink *DirectLinkV1) CreateGatewayImportRouteFilterWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1797,27 +1447,22 @@ func (directLink *DirectLinkV1) CreateGatewayImportRouteFilterWithContext(ctx co
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_import_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1829,21 +1474,17 @@ func (directLink *DirectLinkV1) CreateGatewayImportRouteFilterWithContext(ctx co
 // ReplaceGatewayImportRouteFilters : Replace existing import route filters
 // Replace all existing import route filters configured on the Direct Link gateway.
 func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptions *ReplaceGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ReplaceGatewayImportRouteFiltersWithContext(context.Background(), replaceGatewayImportRouteFiltersOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ReplaceGatewayImportRouteFiltersWithContext(context.Background(), replaceGatewayImportRouteFiltersOptions)
 }
 
 // ReplaceGatewayImportRouteFiltersWithContext is an alternate form of the ReplaceGatewayImportRouteFilters method which supports a Context parameter
 func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFiltersWithContext(ctx context.Context, replaceGatewayImportRouteFiltersOptions *ReplaceGatewayImportRouteFiltersOptions) (result *ImportRouteFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceGatewayImportRouteFiltersOptions, "replaceGatewayImportRouteFiltersOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceGatewayImportRouteFiltersOptions, "replaceGatewayImportRouteFiltersOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1856,7 +1497,6 @@ func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFiltersWithContext(ctx 
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1882,27 +1522,22 @@ func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFiltersWithContext(ctx 
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "replace_gateway_import_route_filters", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalImportRouteFilterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1918,21 +1553,17 @@ func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFiltersWithContext(ctx 
 // follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
 // following the deleted route filter.
 func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptions *DeleteGatewayImportRouteFilterOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.DeleteGatewayImportRouteFilterWithContext(context.Background(), deleteGatewayImportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.DeleteGatewayImportRouteFilterWithContext(context.Background(), deleteGatewayImportRouteFilterOptions)
 }
 
 // DeleteGatewayImportRouteFilterWithContext is an alternate form of the DeleteGatewayImportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx context.Context, deleteGatewayImportRouteFilterOptions *DeleteGatewayImportRouteFilterOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteGatewayImportRouteFilterOptions, "deleteGatewayImportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteGatewayImportRouteFilterOptions, "deleteGatewayImportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1946,7 +1577,6 @@ func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1963,16 +1593,10 @@ func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx co
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_gateway_import_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -1980,21 +1604,17 @@ func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx co
 // GetGatewayImportRouteFilter : Retrieves the specified Direct Link gateway import route filter
 // Retrieve an import route filter from the Direct Link gateway.
 func (directLink *DirectLinkV1) GetGatewayImportRouteFilter(getGatewayImportRouteFilterOptions *GetGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayImportRouteFilterWithContext(context.Background(), getGatewayImportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayImportRouteFilterWithContext(context.Background(), getGatewayImportRouteFilterOptions)
 }
 
 // GetGatewayImportRouteFilterWithContext is an alternate form of the GetGatewayImportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx context.Context, getGatewayImportRouteFilterOptions *GetGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayImportRouteFilterOptions, "getGatewayImportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayImportRouteFilterOptions, "getGatewayImportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2008,7 +1628,6 @@ func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx conte
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2026,21 +1645,17 @@ func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx conte
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_import_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2060,21 +1675,17 @@ func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx conte
 // Considering the updated filter after the update, if the new filter following the updated filter has an existing
 // filter preceding it, that preceding filter's `before` field will be set to the updated filter.
 func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptions *UpdateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.UpdateGatewayImportRouteFilterWithContext(context.Background(), updateGatewayImportRouteFilterOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.UpdateGatewayImportRouteFilterWithContext(context.Background(), updateGatewayImportRouteFilterOptions)
 }
 
 // UpdateGatewayImportRouteFilterWithContext is an alternate form of the UpdateGatewayImportRouteFilter method which supports a Context parameter
 func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx context.Context, updateGatewayImportRouteFilterOptions *UpdateGatewayImportRouteFilterOptions) (result *RouteFilter, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateGatewayImportRouteFilterOptions, "updateGatewayImportRouteFilterOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateGatewayImportRouteFilterOptions, "updateGatewayImportRouteFilterOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2088,7 +1699,6 @@ func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/import_route_filters/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2107,706 +1717,22 @@ func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx co
 
 	_, err = builder.SetBodyContentJSON(updateGatewayImportRouteFilterOptions.UpdateRouteFilterTemplatePatch)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_gateway_import_route_filter", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteFilter)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// UnsetGatewayMacsec : Unset MACsec configuration
-// Removes the MACsec configuration from a direct link, disabling the features.
-func (directLink *DirectLinkV1) UnsetGatewayMacsec(unsetGatewayMacsecOptions *UnsetGatewayMacsecOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.UnsetGatewayMacsecWithContext(context.Background(), unsetGatewayMacsecOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// UnsetGatewayMacsecWithContext is an alternate form of the UnsetGatewayMacsec method which supports a Context parameter
-func (directLink *DirectLinkV1) UnsetGatewayMacsecWithContext(ctx context.Context, unsetGatewayMacsecOptions *UnsetGatewayMacsecOptions) (response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(unsetGatewayMacsecOptions, "unsetGatewayMacsecOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(unsetGatewayMacsecOptions, "unsetGatewayMacsecOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id": *unsetGatewayMacsecOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.DELETE)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range unsetGatewayMacsecOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UnsetGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "unset_gateway_macsec", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-
-	return
-}
-
-// GetGatewayMacsec : Get MACsec configuration
-// Retrieve the MACsec configuration of a direct link.
-func (directLink *DirectLinkV1) GetGatewayMacsec(getGatewayMacsecOptions *GetGatewayMacsecOptions) (result *GatewayMacsec, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayMacsecWithContext(context.Background(), getGatewayMacsecOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// GetGatewayMacsecWithContext is an alternate form of the GetGatewayMacsec method which supports a Context parameter
-func (directLink *DirectLinkV1) GetGatewayMacsecWithContext(ctx context.Context, getGatewayMacsecOptions *GetGatewayMacsecOptions) (result *GatewayMacsec, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getGatewayMacsecOptions, "getGatewayMacsecOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(getGatewayMacsecOptions, "getGatewayMacsecOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id": *getGatewayMacsecOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range getGatewayMacsecOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_macsec", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsec)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// UpdateGatewayMacsec : Update MACsec configuration
-// Updates the MACsec configuration on a direct link.
-func (directLink *DirectLinkV1) UpdateGatewayMacsec(updateGatewayMacsecOptions *UpdateGatewayMacsecOptions) (result *GatewayMacsec, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.UpdateGatewayMacsecWithContext(context.Background(), updateGatewayMacsecOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// UpdateGatewayMacsecWithContext is an alternate form of the UpdateGatewayMacsec method which supports a Context parameter
-func (directLink *DirectLinkV1) UpdateGatewayMacsecWithContext(ctx context.Context, updateGatewayMacsecOptions *UpdateGatewayMacsecOptions) (result *GatewayMacsec, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateGatewayMacsecOptions, "updateGatewayMacsecOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(updateGatewayMacsecOptions, "updateGatewayMacsecOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id": *updateGatewayMacsecOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.PATCH)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range updateGatewayMacsecOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/merge-patch+json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	_, err = builder.SetBodyContentJSON(updateGatewayMacsecOptions.GatewayMacsecPatch)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "update_gateway_macsec", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsec)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// SetGatewayMacsec : Set MACsec configuration
-// Sets the MACsec configuration on a direct link, enabling the feature.
-func (directLink *DirectLinkV1) SetGatewayMacsec(setGatewayMacsecOptions *SetGatewayMacsecOptions) (result *GatewayMacsec, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.SetGatewayMacsecWithContext(context.Background(), setGatewayMacsecOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// SetGatewayMacsecWithContext is an alternate form of the SetGatewayMacsec method which supports a Context parameter
-func (directLink *DirectLinkV1) SetGatewayMacsecWithContext(ctx context.Context, setGatewayMacsecOptions *SetGatewayMacsecOptions) (result *GatewayMacsec, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(setGatewayMacsecOptions, "setGatewayMacsecOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(setGatewayMacsecOptions, "setGatewayMacsecOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id": *setGatewayMacsecOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range setGatewayMacsecOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "SetGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-	if setGatewayMacsecOptions.IfMatch != nil {
-		builder.AddHeader("If-Match", fmt.Sprint(*setGatewayMacsecOptions.IfMatch))
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	body := make(map[string]interface{})
-	if setGatewayMacsecOptions.Active != nil {
-		body["active"] = setGatewayMacsecOptions.Active
-	}
-	if setGatewayMacsecOptions.Caks != nil {
-		body["caks"] = setGatewayMacsecOptions.Caks
-	}
-	if setGatewayMacsecOptions.SakRekey != nil {
-		body["sak_rekey"] = setGatewayMacsecOptions.SakRekey
-	}
-	if setGatewayMacsecOptions.SecurityPolicy != nil {
-		body["security_policy"] = setGatewayMacsecOptions.SecurityPolicy
-	}
-	if setGatewayMacsecOptions.WindowSize != nil {
-		body["window_size"] = setGatewayMacsecOptions.WindowSize
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "set_gateway_macsec", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsec)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ListGatewayMacsecCaks : List MACsec CAKs
-// List the CAKs associated with the MACsec configuration of a direct link.
-func (directLink *DirectLinkV1) ListGatewayMacsecCaks(listGatewayMacsecCaksOptions *ListGatewayMacsecCaksOptions) (result *GatewayMacsecCakCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayMacsecCaksWithContext(context.Background(), listGatewayMacsecCaksOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// ListGatewayMacsecCaksWithContext is an alternate form of the ListGatewayMacsecCaks method which supports a Context parameter
-func (directLink *DirectLinkV1) ListGatewayMacsecCaksWithContext(ctx context.Context, listGatewayMacsecCaksOptions *ListGatewayMacsecCaksOptions) (result *GatewayMacsecCakCollection, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listGatewayMacsecCaksOptions, "listGatewayMacsecCaksOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(listGatewayMacsecCaksOptions, "listGatewayMacsecCaksOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id": *listGatewayMacsecCaksOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec/caks`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range listGatewayMacsecCaksOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayMacsecCaks")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_macsec_caks", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsecCakCollection)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// CreateGatewayMacsecCak : Create MACsec CAK
-// Creates a CAK associated with the MACsec configuration of a direct link.
-func (directLink *DirectLinkV1) CreateGatewayMacsecCak(createGatewayMacsecCakOptions *CreateGatewayMacsecCakOptions) (result *GatewayMacsecCak, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayMacsecCakWithContext(context.Background(), createGatewayMacsecCakOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// CreateGatewayMacsecCakWithContext is an alternate form of the CreateGatewayMacsecCak method which supports a Context parameter
-func (directLink *DirectLinkV1) CreateGatewayMacsecCakWithContext(ctx context.Context, createGatewayMacsecCakOptions *CreateGatewayMacsecCakOptions) (result *GatewayMacsecCak, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(createGatewayMacsecCakOptions, "createGatewayMacsecCakOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(createGatewayMacsecCakOptions, "createGatewayMacsecCakOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id": *createGatewayMacsecCakOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.POST)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec/caks`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range createGatewayMacsecCakOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	body := make(map[string]interface{})
-	if createGatewayMacsecCakOptions.Key != nil {
-		body["key"] = createGatewayMacsecCakOptions.Key
-	}
-	if createGatewayMacsecCakOptions.Name != nil {
-		body["name"] = createGatewayMacsecCakOptions.Name
-	}
-	if createGatewayMacsecCakOptions.Session != nil {
-		body["session"] = createGatewayMacsecCakOptions.Session
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_macsec_cak", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsecCak)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// DeleteGatewayMacsecCak : Delete MACsec CAK
-// Deletes the CAK from the MACsec configuration of a direct link.
-func (directLink *DirectLinkV1) DeleteGatewayMacsecCak(deleteGatewayMacsecCakOptions *DeleteGatewayMacsecCakOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.DeleteGatewayMacsecCakWithContext(context.Background(), deleteGatewayMacsecCakOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// DeleteGatewayMacsecCakWithContext is an alternate form of the DeleteGatewayMacsecCak method which supports a Context parameter
-func (directLink *DirectLinkV1) DeleteGatewayMacsecCakWithContext(ctx context.Context, deleteGatewayMacsecCakOptions *DeleteGatewayMacsecCakOptions) (response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(deleteGatewayMacsecCakOptions, "deleteGatewayMacsecCakOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(deleteGatewayMacsecCakOptions, "deleteGatewayMacsecCakOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id":     *deleteGatewayMacsecCakOptions.ID,
-		"cak_id": *deleteGatewayMacsecCakOptions.CakID,
-	}
-
-	builder := core.NewRequestBuilder(core.DELETE)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec/caks/{cak_id}`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range deleteGatewayMacsecCakOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_gateway_macsec_cak", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-
-	return
-}
-
-// GetGatewayMacsecCak : Get MACsec CAK
-// Get a MACsec CAK by its identifier.
-func (directLink *DirectLinkV1) GetGatewayMacsecCak(getGatewayMacsecCakOptions *GetGatewayMacsecCakOptions) (result *GatewayMacsecCak, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayMacsecCakWithContext(context.Background(), getGatewayMacsecCakOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// GetGatewayMacsecCakWithContext is an alternate form of the GetGatewayMacsecCak method which supports a Context parameter
-func (directLink *DirectLinkV1) GetGatewayMacsecCakWithContext(ctx context.Context, getGatewayMacsecCakOptions *GetGatewayMacsecCakOptions) (result *GatewayMacsecCak, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getGatewayMacsecCakOptions, "getGatewayMacsecCakOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(getGatewayMacsecCakOptions, "getGatewayMacsecCakOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id":     *getGatewayMacsecCakOptions.ID,
-		"cak_id": *getGatewayMacsecCakOptions.CakID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec/caks/{cak_id}`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range getGatewayMacsecCakOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_macsec_cak", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsecCak)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// UpdateGatewayMacsecCak : Update MACsec CAK
-// Updates the CAK on the MACsec configuration of a direct link.
-func (directLink *DirectLinkV1) UpdateGatewayMacsecCak(updateGatewayMacsecCakOptions *UpdateGatewayMacsecCakOptions) (result *GatewayMacsecCak, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.UpdateGatewayMacsecCakWithContext(context.Background(), updateGatewayMacsecCakOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
-}
-
-// UpdateGatewayMacsecCakWithContext is an alternate form of the UpdateGatewayMacsecCak method which supports a Context parameter
-func (directLink *DirectLinkV1) UpdateGatewayMacsecCakWithContext(ctx context.Context, updateGatewayMacsecCakOptions *UpdateGatewayMacsecCakOptions) (result *GatewayMacsecCak, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(updateGatewayMacsecCakOptions, "updateGatewayMacsecCakOptions cannot be nil")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
-		return
-	}
-	err = core.ValidateStruct(updateGatewayMacsecCakOptions, "updateGatewayMacsecCakOptions")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"id":     *updateGatewayMacsecCakOptions.ID,
-		"cak_id": *updateGatewayMacsecCakOptions.CakID,
-	}
-
-	builder := core.NewRequestBuilder(core.PATCH)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{id}/macsec/caks/{cak_id}`, pathParamsMap)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
-		return
-	}
-
-	for headerName, headerValue := range updateGatewayMacsecCakOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/merge-patch+json")
-
-	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
-
-	_, err = builder.SetBodyContentJSON(updateGatewayMacsecCakOptions.GatewayMacsecCakPatch)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = directLink.Service.Request(request, &rawResponse)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "update_gateway_macsec_cak", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayMacsecCak)
-		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2818,21 +1744,17 @@ func (directLink *DirectLinkV1) UpdateGatewayMacsecCakWithContext(ctx context.Co
 // ListGatewayRouteReports : List route reports
 // Retrieve all route reports for the specified Direct Link gateway.
 func (directLink *DirectLinkV1) ListGatewayRouteReports(listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayRouteReportsWithContext(context.Background(), listGatewayRouteReportsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewayRouteReportsWithContext(context.Background(), listGatewayRouteReportsOptions)
 }
 
 // ListGatewayRouteReportsWithContext is an alternate form of the ListGatewayRouteReports method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.Context, listGatewayRouteReportsOptions *ListGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listGatewayRouteReportsOptions, "listGatewayRouteReportsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listGatewayRouteReportsOptions, "listGatewayRouteReportsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2845,7 +1767,6 @@ func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.C
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2863,21 +1784,17 @@ func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.C
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_route_reports", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReportCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2893,21 +1810,17 @@ func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.C
 // `status` enters the `complete` status.  Call `get_gateway_route_report` with the pending route report's `id` to check
 // on the current status of the report.
 func (directLink *DirectLinkV1) CreateGatewayRouteReport(createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayRouteReportWithContext(context.Background(), createGatewayRouteReportOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayRouteReportWithContext(context.Background(), createGatewayRouteReportOptions)
 }
 
 // CreateGatewayRouteReportWithContext is an alternate form of the CreateGatewayRouteReport method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.Context, createGatewayRouteReportOptions *CreateGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayRouteReportOptions, "createGatewayRouteReportOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayRouteReportOptions, "createGatewayRouteReportOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2920,7 +1833,6 @@ func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2938,21 +1850,17 @@ func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_route_report", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2964,21 +1872,17 @@ func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.
 // DeleteGatewayRouteReport : Delete route report
 // Delete a route report.
 func (directLink *DirectLinkV1) DeleteGatewayRouteReport(deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.DeleteGatewayRouteReportWithContext(context.Background(), deleteGatewayRouteReportOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.DeleteGatewayRouteReportWithContext(context.Background(), deleteGatewayRouteReportOptions)
 }
 
 // DeleteGatewayRouteReportWithContext is an alternate form of the DeleteGatewayRouteReport method which supports a Context parameter
 func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.Context, deleteGatewayRouteReportOptions *DeleteGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteGatewayRouteReportOptions, "deleteGatewayRouteReportOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteGatewayRouteReportOptions, "deleteGatewayRouteReportOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2992,7 +1896,6 @@ func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3009,16 +1912,10 @@ func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_gateway_route_report", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -3026,21 +1923,17 @@ func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.
 // GetGatewayRouteReport : Retrieve route report
 // Retrieve a route report.
 func (directLink *DirectLinkV1) GetGatewayRouteReport(getGatewayRouteReportOptions *GetGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayRouteReportWithContext(context.Background(), getGatewayRouteReportOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayRouteReportWithContext(context.Background(), getGatewayRouteReportOptions)
 }
 
 // GetGatewayRouteReportWithContext is an alternate form of the GetGatewayRouteReport method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Context, getGatewayRouteReportOptions *GetGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayRouteReportOptions, "getGatewayRouteReportOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayRouteReportOptions, "getGatewayRouteReportOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3054,7 +1947,6 @@ func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Con
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/route_reports/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3072,21 +1964,17 @@ func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Con
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_route_report", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3099,21 +1987,17 @@ func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Con
 // List a gateway's virtual connections.   For gateway in other account with virtual connections that connect to network
 // in this account.  Only virtual connections that connect to this account are returned.
 func (directLink *DirectLinkV1) ListGatewayVirtualConnections(listGatewayVirtualConnectionsOptions *ListGatewayVirtualConnectionsOptions) (result *GatewayVirtualConnectionCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListGatewayVirtualConnectionsWithContext(context.Background(), listGatewayVirtualConnectionsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListGatewayVirtualConnectionsWithContext(context.Background(), listGatewayVirtualConnectionsOptions)
 }
 
 // ListGatewayVirtualConnectionsWithContext is an alternate form of the ListGatewayVirtualConnections method which supports a Context parameter
 func (directLink *DirectLinkV1) ListGatewayVirtualConnectionsWithContext(ctx context.Context, listGatewayVirtualConnectionsOptions *ListGatewayVirtualConnectionsOptions) (result *GatewayVirtualConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listGatewayVirtualConnectionsOptions, "listGatewayVirtualConnectionsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listGatewayVirtualConnectionsOptions, "listGatewayVirtualConnectionsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3126,7 +2010,6 @@ func (directLink *DirectLinkV1) ListGatewayVirtualConnectionsWithContext(ctx con
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/virtual_connections`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3144,21 +2027,17 @@ func (directLink *DirectLinkV1) ListGatewayVirtualConnectionsWithContext(ctx con
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_gateway_virtual_connections", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayVirtualConnectionCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3170,21 +2049,17 @@ func (directLink *DirectLinkV1) ListGatewayVirtualConnectionsWithContext(ctx con
 // CreateGatewayVirtualConnection : Create virtual connection
 // Create a virtual connection to the specified network.
 func (directLink *DirectLinkV1) CreateGatewayVirtualConnection(createGatewayVirtualConnectionOptions *CreateGatewayVirtualConnectionOptions) (result *GatewayVirtualConnection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.CreateGatewayVirtualConnectionWithContext(context.Background(), createGatewayVirtualConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.CreateGatewayVirtualConnectionWithContext(context.Background(), createGatewayVirtualConnectionOptions)
 }
 
 // CreateGatewayVirtualConnectionWithContext is an alternate form of the CreateGatewayVirtualConnection method which supports a Context parameter
 func (directLink *DirectLinkV1) CreateGatewayVirtualConnectionWithContext(ctx context.Context, createGatewayVirtualConnectionOptions *CreateGatewayVirtualConnectionOptions) (result *GatewayVirtualConnection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createGatewayVirtualConnectionOptions, "createGatewayVirtualConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createGatewayVirtualConnectionOptions, "createGatewayVirtualConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3197,7 +2072,6 @@ func (directLink *DirectLinkV1) CreateGatewayVirtualConnectionWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/virtual_connections`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3226,27 +2100,22 @@ func (directLink *DirectLinkV1) CreateGatewayVirtualConnectionWithContext(ctx co
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "create_gateway_virtual_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayVirtualConnection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3258,21 +2127,17 @@ func (directLink *DirectLinkV1) CreateGatewayVirtualConnectionWithContext(ctx co
 // DeleteGatewayVirtualConnection : Delete virtual connection
 // Delete the virtual connection.
 func (directLink *DirectLinkV1) DeleteGatewayVirtualConnection(deleteGatewayVirtualConnectionOptions *DeleteGatewayVirtualConnectionOptions) (response *core.DetailedResponse, err error) {
-	response, err = directLink.DeleteGatewayVirtualConnectionWithContext(context.Background(), deleteGatewayVirtualConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.DeleteGatewayVirtualConnectionWithContext(context.Background(), deleteGatewayVirtualConnectionOptions)
 }
 
 // DeleteGatewayVirtualConnectionWithContext is an alternate form of the DeleteGatewayVirtualConnection method which supports a Context parameter
 func (directLink *DirectLinkV1) DeleteGatewayVirtualConnectionWithContext(ctx context.Context, deleteGatewayVirtualConnectionOptions *DeleteGatewayVirtualConnectionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteGatewayVirtualConnectionOptions, "deleteGatewayVirtualConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteGatewayVirtualConnectionOptions, "deleteGatewayVirtualConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3286,7 +2151,6 @@ func (directLink *DirectLinkV1) DeleteGatewayVirtualConnectionWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/virtual_connections/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3303,16 +2167,10 @@ func (directLink *DirectLinkV1) DeleteGatewayVirtualConnectionWithContext(ctx co
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = directLink.Service.Request(request, nil)
-	if err != nil {
-		core.EnrichHTTPProblem(err, "delete_gateway_virtual_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
-		return
-	}
 
 	return
 }
@@ -3320,21 +2178,17 @@ func (directLink *DirectLinkV1) DeleteGatewayVirtualConnectionWithContext(ctx co
 // GetGatewayVirtualConnection : Get virtual connection
 // Retrieve a virtual connection.
 func (directLink *DirectLinkV1) GetGatewayVirtualConnection(getGatewayVirtualConnectionOptions *GetGatewayVirtualConnectionOptions) (result *GatewayVirtualConnection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetGatewayVirtualConnectionWithContext(context.Background(), getGatewayVirtualConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetGatewayVirtualConnectionWithContext(context.Background(), getGatewayVirtualConnectionOptions)
 }
 
 // GetGatewayVirtualConnectionWithContext is an alternate form of the GetGatewayVirtualConnection method which supports a Context parameter
 func (directLink *DirectLinkV1) GetGatewayVirtualConnectionWithContext(ctx context.Context, getGatewayVirtualConnectionOptions *GetGatewayVirtualConnectionOptions) (result *GatewayVirtualConnection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayVirtualConnectionOptions, "getGatewayVirtualConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayVirtualConnectionOptions, "getGatewayVirtualConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3348,7 +2202,6 @@ func (directLink *DirectLinkV1) GetGatewayVirtualConnectionWithContext(ctx conte
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/virtual_connections/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3366,21 +2219,17 @@ func (directLink *DirectLinkV1) GetGatewayVirtualConnectionWithContext(ctx conte
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_gateway_virtual_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayVirtualConnection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3392,21 +2241,17 @@ func (directLink *DirectLinkV1) GetGatewayVirtualConnectionWithContext(ctx conte
 // UpdateGatewayVirtualConnection : Update virtual connection
 // Update a virtual connection.
 func (directLink *DirectLinkV1) UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptions *UpdateGatewayVirtualConnectionOptions) (result *GatewayVirtualConnection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.UpdateGatewayVirtualConnectionWithContext(context.Background(), updateGatewayVirtualConnectionOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.UpdateGatewayVirtualConnectionWithContext(context.Background(), updateGatewayVirtualConnectionOptions)
 }
 
 // UpdateGatewayVirtualConnectionWithContext is an alternate form of the UpdateGatewayVirtualConnection method which supports a Context parameter
 func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx context.Context, updateGatewayVirtualConnectionOptions *UpdateGatewayVirtualConnectionOptions) (result *GatewayVirtualConnection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateGatewayVirtualConnectionOptions, "updateGatewayVirtualConnectionOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateGatewayVirtualConnectionOptions, "updateGatewayVirtualConnectionOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3420,7 +2265,6 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/virtual_connections/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3433,33 +2277,35 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	builder.AddHeader("Content-Type", "application/json")
 
 	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
 
-	_, err = builder.SetBodyContentJSON(updateGatewayVirtualConnectionOptions.GatewayVirtualConnectionPatchTemplatePatch)
+	body := make(map[string]interface{})
+	if updateGatewayVirtualConnectionOptions.Name != nil {
+		body["name"] = updateGatewayVirtualConnectionOptions.Name
+	}
+	if updateGatewayVirtualConnectionOptions.Status != nil {
+		body["status"] = updateGatewayVirtualConnectionOptions.Status
+	}
+	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "update_gateway_virtual_connection", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalGatewayVirtualConnection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3471,21 +2317,17 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 // ListOfferingTypeLocations : List available locations
 // Retrieve the list of valid locations for the specified Direct Link offering.
 func (directLink *DirectLinkV1) ListOfferingTypeLocations(listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) (result *LocationCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListOfferingTypeLocationsWithContext(context.Background(), listOfferingTypeLocationsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListOfferingTypeLocationsWithContext(context.Background(), listOfferingTypeLocationsOptions)
 }
 
 // ListOfferingTypeLocationsWithContext is an alternate form of the ListOfferingTypeLocations method which supports a Context parameter
 func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context.Context, listOfferingTypeLocationsOptions *ListOfferingTypeLocationsOptions) (result *LocationCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listOfferingTypeLocationsOptions, "listOfferingTypeLocationsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listOfferingTypeLocationsOptions, "listOfferingTypeLocationsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3498,7 +2340,6 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/locations`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3516,21 +2357,17 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_offering_type_locations", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocationCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3542,21 +2379,17 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context
 // ListOfferingTypeLocationCrossConnectRouters : List routers
 // Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
 func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) (result *LocationCrossConnectRouterCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListOfferingTypeLocationCrossConnectRoutersWithContext(context.Background(), listOfferingTypeLocationCrossConnectRoutersOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListOfferingTypeLocationCrossConnectRoutersWithContext(context.Background(), listOfferingTypeLocationCrossConnectRoutersOptions)
 }
 
 // ListOfferingTypeLocationCrossConnectRoutersWithContext is an alternate form of the ListOfferingTypeLocationCrossConnectRouters method which supports a Context parameter
 func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithContext(ctx context.Context, listOfferingTypeLocationCrossConnectRoutersOptions *ListOfferingTypeLocationCrossConnectRoutersOptions) (result *LocationCrossConnectRouterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listOfferingTypeLocationCrossConnectRoutersOptions, "listOfferingTypeLocationCrossConnectRoutersOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listOfferingTypeLocationCrossConnectRoutersOptions, "listOfferingTypeLocationCrossConnectRoutersOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3570,7 +2403,6 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithC
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3588,21 +2420,17 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithC
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_offering_type_location_cross_connect_routers", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLocationCrossConnectRouterCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3614,21 +2442,17 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithC
 // ListOfferingTypeSpeeds : List speed options
 // List the available Direct Link speeds.
 func (directLink *DirectLinkV1) ListOfferingTypeSpeeds(listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) (result *OfferingSpeedCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListOfferingTypeSpeedsWithContext(context.Background(), listOfferingTypeSpeedsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListOfferingTypeSpeedsWithContext(context.Background(), listOfferingTypeSpeedsOptions)
 }
 
 // ListOfferingTypeSpeedsWithContext is an alternate form of the ListOfferingTypeSpeeds method which supports a Context parameter
 func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Context, listOfferingTypeSpeedsOptions *ListOfferingTypeSpeedsOptions) (result *OfferingSpeedCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listOfferingTypeSpeedsOptions, "listOfferingTypeSpeedsOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listOfferingTypeSpeedsOptions, "listOfferingTypeSpeedsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3641,7 +2465,6 @@ func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Co
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/offering_types/{offering_type}/speeds`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3659,21 +2482,17 @@ func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Co
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_offering_type_speeds", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalOfferingSpeedCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3686,16 +2505,13 @@ func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Co
 // Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
 // gateways.
 func (directLink *DirectLinkV1) ListPorts(listPortsOptions *ListPortsOptions) (result *PortCollection, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.ListPortsWithContext(context.Background(), listPortsOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.ListPortsWithContext(context.Background(), listPortsOptions)
 }
 
 // ListPortsWithContext is an alternate form of the ListPorts method which supports a Context parameter
 func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPortsOptions *ListPortsOptions) (result *PortCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listPortsOptions, "listPortsOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3704,7 +2520,6 @@ func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPo
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/ports`, nil)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3731,21 +2546,17 @@ func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPo
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "list_ports", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPortCollection)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3757,21 +2568,17 @@ func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPo
 // GetPort : Get port
 // Retrieve Direct Link Connect provider port.
 func (directLink *DirectLinkV1) GetPort(getPortOptions *GetPortOptions) (result *Port, response *core.DetailedResponse, err error) {
-	result, response, err = directLink.GetPortWithContext(context.Background(), getPortOptions)
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return directLink.GetPortWithContext(context.Background(), getPortOptions)
 }
 
 // GetPortWithContext is an alternate form of the GetPort method which supports a Context parameter
 func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortOptions *GetPortOptions) (result *Port, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPortOptions, "getPortOptions cannot be nil")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getPortOptions, "getPortOptions")
 	if err != nil {
-		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3784,7 +2591,6 @@ func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortO
 	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/ports/{id}`, pathParamsMap)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3802,21 +2608,17 @@ func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortO
 
 	request, err := builder.Build()
 	if err != nil {
-		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = directLink.Service.Request(request, &rawResponse)
 	if err != nil {
-		core.EnrichHTTPProblem(err, "get_port", getServiceComponentInfo())
-		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPort)
 		if err != nil {
-			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3824,8 +2626,143 @@ func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortO
 
 	return
 }
-func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "__VERSION__")
+
+// ListGatewayAsPrepends : List AS Prepends
+// Retrieve all AS Prepends for the specified Direct Link gateway.
+func (directLink *DirectLinkV1) ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ListGatewayAsPrependsWithContext(context.Background(), listGatewayAsPrependsOptions)
+}
+
+// ListGatewayAsPrependsWithContext is an alternate form of the ListGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Context, listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listGatewayAsPrependsOptions, "listGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *listGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ReplaceGatewayAsPrepends : Replace existing AS Prepends
+// Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the individual
+// AS Prepend item is unchanged.
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	return directLink.ReplaceGatewayAsPrependsWithContext(context.Background(), replaceGatewayAsPrependsOptions)
+}
+
+// ReplaceGatewayAsPrependsWithContext is an alternate form of the ReplaceGatewayAsPrepends method which supports a Context parameter
+func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.Context, replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) (result *AsPrependCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(replaceGatewayAsPrependsOptions, "replaceGatewayAsPrependsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"gateway_id": *replaceGatewayAsPrependsOptions.GatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = directLink.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(directLink.Service.Options.URL, `/gateways/{gateway_id}/as_prepends`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if replaceGatewayAsPrependsOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*replaceGatewayAsPrependsOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*directLink.Version))
+
+	body := make(map[string]interface{})
+	if replaceGatewayAsPrependsOptions.AsPrepends != nil {
+		body["as_prepends"] = replaceGatewayAsPrependsOptions.AsPrepends
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = directLink.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAsPrependCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
 }
 
 // AsPrepend : Gateway AS Prepend object.
@@ -3866,37 +2803,30 @@ func UnmarshalAsPrepend(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(AsPrepend)
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "length-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "specific_prefixes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3914,7 +2844,6 @@ func UnmarshalAsPrependCollection(m map[string]json.RawMessage, result interface
 	obj := new(AsPrependCollection)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependEntry)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3955,32 +2884,26 @@ func UnmarshalAsPrependEntry(m map[string]json.RawMessage, result interface{}) (
 	obj := new(AsPrependEntry)
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "length-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "specific_prefixes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4014,9 +2937,6 @@ func (*DirectLinkV1) NewAsPrependPrefixArrayTemplate(length int64, policy string
 		Policy: core.StringPtr(policy),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -4025,17 +2945,14 @@ func UnmarshalAsPrependPrefixArrayTemplate(m map[string]json.RawMessage, result 
 	obj := new(AsPrependPrefixArrayTemplate)
 	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "length-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "specific_prefixes-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4073,9 +2990,6 @@ func (*DirectLinkV1) NewAsPrependTemplate(length int64, policy string) (_model *
 		Policy: core.StringPtr(policy),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -4084,91 +2998,18 @@ func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}
 	obj := new(AsPrependTemplate)
 	err = core.UnmarshalPrimitive(m, "length", &obj.Length)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "length-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "policy", &obj.Policy)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "specific_prefixes", &obj.SpecificPrefixes)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "specific_prefixes-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AuthenticationKeyIdentity : AuthenticationKeyIdentity struct
-// Models which "extend" this model:
-// - AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
-// - AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity
-type AuthenticationKeyIdentity struct {
-	// The CRN of the key.
-	Crn *string `json:"crn,omitempty"`
-}
-
-func (*AuthenticationKeyIdentity) isaAuthenticationKeyIdentity() bool {
-	return true
-}
-
-type AuthenticationKeyIdentityIntf interface {
-	isaAuthenticationKeyIdentity() bool
-	asPatch() map[string]interface{}
-}
-
-// UnmarshalAuthenticationKeyIdentity unmarshals an instance of AuthenticationKeyIdentity from the specified map of raw messages.
-func UnmarshalAuthenticationKeyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AuthenticationKeyIdentity)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the AuthenticationKeyIdentity
-func (authenticationKeyIdentity *AuthenticationKeyIdentity) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(authenticationKeyIdentity.Crn) {
-		_patch["crn"] = authenticationKeyIdentity.Crn
-	}
-
-	return
-}
-
-// AuthenticationKeyReference : AuthenticationKeyReference struct
-// Models which "extend" this model:
-// - AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
-// - AuthenticationKeyReferenceHpcsAuthenticationKeyReference
-type AuthenticationKeyReference struct {
-	// The CRN of the referenced key.
-	Crn *string `json:"crn,omitempty"`
-}
-
-func (*AuthenticationKeyReference) isaAuthenticationKeyReference() bool {
-	return true
-}
-
-type AuthenticationKeyReferenceIntf interface {
-	isaAuthenticationKeyReference() bool
-}
-
-// UnmarshalAuthenticationKeyReference unmarshals an instance of AuthenticationKeyReference from the specified map of raw messages.
-func UnmarshalAuthenticationKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AuthenticationKeyReference)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4187,7 +3028,11 @@ type CreateGatewayActionOptions struct {
 	// information.
 	AsPrepends []AsPrependTemplate `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyIdentityIntf `json:"authentication_key,omitempty"`
+	// Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayActionTemplateAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// Applicable for create_gateway_approve requests to select the gateway's BFD configuration information.
 	BfdConfig *GatewayBfdConfigActionTemplate `json:"bfd_config,omitempty"`
@@ -4231,7 +3076,7 @@ type CreateGatewayActionOptions struct {
 	// must provide an updates field that matches the gateway's current pending changes.
 	Updates []GatewayActionTemplateUpdatesItemIntf `json:"updates,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4297,7 +3142,7 @@ func (_options *CreateGatewayActionOptions) SetAsPrepends(asPrepends []AsPrepend
 }
 
 // SetAuthenticationKey : Allow user to set AuthenticationKey
-func (_options *CreateGatewayActionOptions) SetAuthenticationKey(authenticationKey AuthenticationKeyIdentityIntf) *CreateGatewayActionOptions {
+func (_options *CreateGatewayActionOptions) SetAuthenticationKey(authenticationKey *GatewayActionTemplateAuthenticationKey) *CreateGatewayActionOptions {
 	_options.AuthenticationKey = authenticationKey
 	return _options
 }
@@ -4379,7 +3224,7 @@ type CreateGatewayCompletionNoticeOptions struct {
 	// The content type of upload.
 	UploadContentType *string `json:"upload_content_type,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4442,7 +3287,7 @@ type CreateGatewayExportRouteFilterOptions struct {
 	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
 	Le *int64 `json:"le,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4532,7 +3377,7 @@ type CreateGatewayImportRouteFilterOptions struct {
 	// The maximum matching length of the prefix-set (mnemonic for less than or equal to).
 	Le *int64 `json:"le,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4594,91 +3439,12 @@ func (options *CreateGatewayImportRouteFilterOptions) SetHeaders(param map[strin
 	return options
 }
 
-// CreateGatewayMacsecCakOptions : The CreateGatewayMacsecCak options.
-type CreateGatewayMacsecCakOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyIdentity `json:"key" validate:"required"`
-
-	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
-	//
-	// The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
-	//
-	// This value, along with the material of the `key`, must match on the MACsec peers.
-	Name *string `json:"name" validate:"required"`
-
-	// The intended session the key will be used to secure.
-	//
-	// If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
-	// over.
-	//
-	// There must be a `primary` session CAK. A `fallback` CAK is optional.
-	Session *string `json:"session" validate:"required"`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// Constants associated with the CreateGatewayMacsecCakOptions.Session property.
-// The intended session the key will be used to secure.
-//
-// If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
-// over.
-//
-// There must be a `primary` session CAK. A `fallback` CAK is optional.
-const (
-	CreateGatewayMacsecCakOptions_Session_Fallback = "fallback"
-	CreateGatewayMacsecCakOptions_Session_Primary  = "primary"
-)
-
-// NewCreateGatewayMacsecCakOptions : Instantiate CreateGatewayMacsecCakOptions
-func (*DirectLinkV1) NewCreateGatewayMacsecCakOptions(id string, key *HpcsKeyIdentity, name string, session string) *CreateGatewayMacsecCakOptions {
-	return &CreateGatewayMacsecCakOptions{
-		ID:      core.StringPtr(id),
-		Key:     key,
-		Name:    core.StringPtr(name),
-		Session: core.StringPtr(session),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *CreateGatewayMacsecCakOptions) SetID(id string) *CreateGatewayMacsecCakOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetKey : Allow user to set Key
-func (_options *CreateGatewayMacsecCakOptions) SetKey(key *HpcsKeyIdentity) *CreateGatewayMacsecCakOptions {
-	_options.Key = key
-	return _options
-}
-
-// SetName : Allow user to set Name
-func (_options *CreateGatewayMacsecCakOptions) SetName(name string) *CreateGatewayMacsecCakOptions {
-	_options.Name = core.StringPtr(name)
-	return _options
-}
-
-// SetSession : Allow user to set Session
-func (_options *CreateGatewayMacsecCakOptions) SetSession(session string) *CreateGatewayMacsecCakOptions {
-	_options.Session = core.StringPtr(session)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *CreateGatewayMacsecCakOptions) SetHeaders(param map[string]string) *CreateGatewayMacsecCakOptions {
-	options.Headers = param
-	return options
-}
-
 // CreateGatewayOptions : The CreateGateway options.
 type CreateGatewayOptions struct {
 	// The Direct Link Gateway template.
 	GatewayTemplate GatewayTemplateIntf `json:"GatewayTemplate" validate:"required"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4706,7 +3472,7 @@ type CreateGatewayRouteReportOptions struct {
 	// Direct Link gateway identifier.
 	GatewayID *string `json:"gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4745,7 +3511,7 @@ type CreateGatewayVirtualConnectionOptions struct {
 	// field does not apply to type=classic connections.
 	NetworkID *string `json:"network_id,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4795,12 +3561,26 @@ func (options *CreateGatewayVirtualConnectionOptions) SetHeaders(param map[strin
 	return options
 }
 
+// CrossAccountGatewayPort : gateway port for type=connect gateways.
+type CrossAccountGatewayPort struct {
+	// Port Identifier.
+	ID *string `json:"id" validate:"required"`
+}
+
+// UnmarshalCrossAccountGatewayPort unmarshals an instance of CrossAccountGatewayPort from the specified map of raw messages.
+func UnmarshalCrossAccountGatewayPort(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CrossAccountGatewayPort)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // CrossConnectRouter : Cross Connect Router details.
 type CrossConnectRouter struct {
-	// List of capabilities for this router.
-	//
-	// Listed `MacsecCapability` values indicate the router is associated with switch ports with that capability, and is
-	// able to provision direct links with that capability. Multiple `MacsecCapability` values may be listed.
+	// Array of capabilities for this router.
 	Capabilities []string `json:"capabilities,omitempty"`
 
 	// The name of the Router.
@@ -4815,17 +3595,14 @@ func UnmarshalCrossConnectRouter(m map[string]json.RawMessage, result interface{
 	obj := new(CrossConnectRouter)
 	err = core.UnmarshalPrimitive(m, "capabilities", &obj.Capabilities)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "capabilities-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "router_name", &obj.RouterName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "router_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "total_connections", &obj.TotalConnections)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "total_connections-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4840,7 +3617,7 @@ type DeleteGatewayExportRouteFilterOptions struct {
 	// Identifier of an import route filter.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4878,7 +3655,7 @@ type DeleteGatewayImportRouteFilterOptions struct {
 	// Identifier of an import route filter.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4908,50 +3685,12 @@ func (options *DeleteGatewayImportRouteFilterOptions) SetHeaders(param map[strin
 	return options
 }
 
-// DeleteGatewayMacsecCakOptions : The DeleteGatewayMacsecCak options.
-type DeleteGatewayMacsecCakOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// MACsec CAK identifier.
-	CakID *string `json:"cak_id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewDeleteGatewayMacsecCakOptions : Instantiate DeleteGatewayMacsecCakOptions
-func (*DirectLinkV1) NewDeleteGatewayMacsecCakOptions(id string, cakID string) *DeleteGatewayMacsecCakOptions {
-	return &DeleteGatewayMacsecCakOptions{
-		ID:    core.StringPtr(id),
-		CakID: core.StringPtr(cakID),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *DeleteGatewayMacsecCakOptions) SetID(id string) *DeleteGatewayMacsecCakOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetCakID : Allow user to set CakID
-func (_options *DeleteGatewayMacsecCakOptions) SetCakID(cakID string) *DeleteGatewayMacsecCakOptions {
-	_options.CakID = core.StringPtr(cakID)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *DeleteGatewayMacsecCakOptions) SetHeaders(param map[string]string) *DeleteGatewayMacsecCakOptions {
-	options.Headers = param
-	return options
-}
-
 // DeleteGatewayOptions : The DeleteGateway options.
 type DeleteGatewayOptions struct {
 	// Direct Link gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -4982,7 +3721,7 @@ type DeleteGatewayRouteReportOptions struct {
 	// Route report identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -5020,7 +3759,7 @@ type DeleteGatewayVirtualConnectionOptions struct {
 	// The virtual connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -5061,7 +3800,6 @@ func UnmarshalExportRouteFilterCollection(m map[string]json.RawMessage, result i
 	obj := new(ExportRouteFilterCollection)
 	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "export_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5073,7 +3811,11 @@ type Gateway struct {
 	// array of AS Prepend information.
 	AsPrepends []AsPrepend `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyReferenceIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdConfig `json:"bfd_config,omitempty"`
@@ -5085,7 +3827,7 @@ type Gateway struct {
 	//
 	// See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -5127,7 +3869,7 @@ type Gateway struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account" validate:"required"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Customer name.  Only set for type=dedicated gateways.
@@ -5158,19 +3900,9 @@ type Gateway struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// Only included on type=dedicated direct links.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+	// Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfig `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -5181,18 +3913,10 @@ type Gateway struct {
 
 	// Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 	// processes using this field  must tolerate unexpected values.
-	//
-	// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
 
-	// Context for certain values of `operational_status`.
-	OperationalStatusReasons []GatewayStatusReason `json:"operational_status_reasons" validate:"required"`
-
-	// Gateway patch panel complete notification from implementation team.
-	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
-
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *GatewayPort `json:"port,omitempty"`
 
 	// Indicates whether gateway changes must be made via a provider portal.
 	ProviderApiManaged *bool `json:"provider_api_managed,omitempty"`
@@ -5202,6 +3926,9 @@ type Gateway struct {
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field  must tolerate unexpected values.
@@ -5253,27 +3980,9 @@ const (
 	Gateway_LinkStatus_Up   = "up"
 )
 
-// Constants associated with the Gateway.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// Only included on type=dedicated direct links.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-const (
-	Gateway_MacsecCapability_Macsec         = "macsec"
-	Gateway_MacsecCapability_MacsecOptional = "macsec_optional"
-	Gateway_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 // Constants associated with the Gateway.OperationalStatus property.
 // Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field  must tolerate unexpected values.
-//
-// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	Gateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
 	Gateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
@@ -5284,7 +3993,6 @@ const (
 	Gateway_OperationalStatus_CreatePending            = "create_pending"
 	Gateway_OperationalStatus_CreateRejected           = "create_rejected"
 	Gateway_OperationalStatus_DeletePending            = "delete_pending"
-	Gateway_OperationalStatus_Failed                   = "failed"
 	Gateway_OperationalStatus_LoaAccepted              = "loa_accepted"
 	Gateway_OperationalStatus_LoaCreated               = "loa_created"
 	Gateway_OperationalStatus_LoaRejected              = "loa_rejected"
@@ -5304,202 +4012,184 @@ func UnmarshalGateway(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(Gateway)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrepend)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyReference)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_asn", &obj.BgpIbmAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "change_request", &obj.ChangeRequest, UnmarshalGatewayChangeRequest)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "change_request-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "completion_notice_reject_reason", &obj.CompletionNoticeRejectReason)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "completion_notice_reject_reason-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecReference)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "operational_status_reasons", &obj.OperationalStatusReasons, UnmarshalGatewayStatusReason)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provider_api_managed", &obj.ProviderApiManaged)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provider_api_managed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayActionTemplateAuthenticationKey : Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key. The key material
+// that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear
+// the optional `authentication_key` field patch its crn to `""`.
+type GatewayActionTemplateAuthenticationKey struct {
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayActionTemplateAuthenticationKey : Instantiate GatewayActionTemplateAuthenticationKey (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayActionTemplateAuthenticationKey(crn string) (_model *GatewayActionTemplateAuthenticationKey, err error) {
+	_model = &GatewayActionTemplateAuthenticationKey{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayActionTemplateAuthenticationKey unmarshals an instance of GatewayActionTemplateAuthenticationKey from the specified map of raw messages.
+func UnmarshalGatewayActionTemplateAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayActionTemplateAuthenticationKey)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5555,27 +4245,43 @@ func UnmarshalGatewayActionTemplateUpdatesItem(m map[string]json.RawMessage, res
 	obj := new(GatewayActionTemplateUpdatesItem)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
+type GatewayAuthenticationKey struct {
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// UnmarshalGatewayAuthenticationKey unmarshals an instance of GatewayAuthenticationKey from the specified map of raw messages.
+func UnmarshalGatewayAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayAuthenticationKey)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5613,22 +4319,18 @@ func UnmarshalGatewayBfdConfig(m map[string]json.RawMessage, result interface{})
 	obj := new(GatewayBfdConfig)
 	err = core.UnmarshalPrimitive(m, "bfd_status", &obj.BfdStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bfd_status_updated_at", &obj.BfdStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "multiplier-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5651,9 +4353,6 @@ func (*DirectLinkV1) NewGatewayBfdConfigActionTemplate(interval int64) (_model *
 		Interval: core.Int64Ptr(interval),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -5662,12 +4361,10 @@ func UnmarshalGatewayBfdConfigActionTemplate(m map[string]json.RawMessage, resul
 	obj := new(GatewayBfdConfigActionTemplate)
 	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "multiplier-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5690,9 +4387,6 @@ func (*DirectLinkV1) NewGatewayBfdConfigTemplate(interval int64) (_model *Gatewa
 		Interval: core.Int64Ptr(interval),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -5701,12 +4395,10 @@ func UnmarshalGatewayBfdConfigTemplate(m map[string]json.RawMessage, result inte
 	obj := new(GatewayBfdConfigTemplate)
 	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "multiplier-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5730,28 +4422,13 @@ func UnmarshalGatewayBfdPatchTemplate(m map[string]json.RawMessage, result inter
 	obj := new(GatewayBfdPatchTemplate)
 	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "multiplier", &obj.Multiplier)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "multiplier-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the GatewayBfdPatchTemplate
-func (gatewayBfdPatchTemplate *GatewayBfdPatchTemplate) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(gatewayBfdPatchTemplate.Interval) {
-		_patch["interval"] = gatewayBfdPatchTemplate.Interval
-	}
-	if !core.IsNil(gatewayBfdPatchTemplate.Multiplier) {
-		_patch["multiplier"] = gatewayBfdPatchTemplate.Multiplier
-	}
-
 	return
 }
 
@@ -5787,12 +4464,10 @@ func UnmarshalGatewayChangeRequest(m map[string]json.RawMessage, result interfac
 	obj := new(GatewayChangeRequest)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "updates", &obj.Updates, UnmarshalGatewayChangeRequestUpdatesItem)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updates-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5848,27 +4523,22 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5924,27 +4594,22 @@ func UnmarshalGatewayChangeRequestUpdatesItem(m map[string]json.RawMessage, resu
 	obj := new(GatewayChangeRequestUpdatesItem)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5962,7 +4627,6 @@ func UnmarshalGatewayCollection(m map[string]json.RawMessage, result interface{}
 	obj := new(GatewayCollection)
 	err = core.UnmarshalModel(m, "gateways", &obj.Gateways, UnmarshalGatewayCollectionGatewaysItem)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "gateways-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5977,7 +4641,11 @@ type GatewayCollectionGatewaysItem struct {
 	// array of AS Prepend information.
 	AsPrepends []AsPrepend `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyReferenceIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdConfig `json:"bfd_config,omitempty"`
@@ -5989,7 +4657,7 @@ type GatewayCollectionGatewaysItem struct {
 	//
 	// See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -6031,7 +4699,7 @@ type GatewayCollectionGatewaysItem struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account,omitempty"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Customer name.  Only set for type=dedicated gateways.
@@ -6062,19 +4730,9 @@ type GatewayCollectionGatewaysItem struct {
 	// Gateway location.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// Only included on type=dedicated direct links.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+	// Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfig `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -6085,18 +4743,10 @@ type GatewayCollectionGatewaysItem struct {
 
 	// Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 	// processes using this field  must tolerate unexpected values.
-	//
-	// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 	OperationalStatus *string `json:"operational_status,omitempty"`
 
-	// Context for certain values of `operational_status`.
-	OperationalStatusReasons []GatewayStatusReason `json:"operational_status_reasons,omitempty"`
-
-	// Gateway patch panel complete notification from implementation team.
-	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
-
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *GatewayPort `json:"port,omitempty"`
 
 	// Indicates whether gateway changes must be made via a provider portal.
 	ProviderApiManaged *bool `json:"provider_api_managed,omitempty"`
@@ -6106,6 +4756,9 @@ type GatewayCollectionGatewaysItem struct {
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field  must tolerate unexpected values.
@@ -6157,27 +4810,9 @@ const (
 	GatewayCollectionGatewaysItem_LinkStatus_Up   = "up"
 )
 
-// Constants associated with the GatewayCollectionGatewaysItem.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// Only included on type=dedicated direct links.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-const (
-	GatewayCollectionGatewaysItem_MacsecCapability_Macsec         = "macsec"
-	GatewayCollectionGatewaysItem_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayCollectionGatewaysItem_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 // Constants associated with the GatewayCollectionGatewaysItem.OperationalStatus property.
 // Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field  must tolerate unexpected values.
-//
-// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GatewayCollectionGatewaysItem_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
 	GatewayCollectionGatewaysItem_OperationalStatus_AwaitingLoa              = "awaiting_loa"
@@ -6188,7 +4823,6 @@ const (
 	GatewayCollectionGatewaysItem_OperationalStatus_CreatePending            = "create_pending"
 	GatewayCollectionGatewaysItem_OperationalStatus_CreateRejected           = "create_rejected"
 	GatewayCollectionGatewaysItem_OperationalStatus_DeletePending            = "delete_pending"
-	GatewayCollectionGatewaysItem_OperationalStatus_Failed                   = "failed"
 	GatewayCollectionGatewaysItem_OperationalStatus_LoaAccepted              = "loa_accepted"
 	GatewayCollectionGatewaysItem_OperationalStatus_LoaCreated               = "loa_created"
 	GatewayCollectionGatewaysItem_OperationalStatus_LoaRejected              = "loa_rejected"
@@ -6216,968 +4850,594 @@ func UnmarshalGatewayCollectionGatewaysItem(m map[string]json.RawMessage, result
 	obj := new(GatewayCollectionGatewaysItem)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrepend)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyReference)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_asn", &obj.BgpIbmAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "change_request", &obj.ChangeRequest, UnmarshalGatewayChangeRequest)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "change_request-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "completion_notice_reject_reason", &obj.CompletionNoticeRejectReason)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "completion_notice_reject_reason-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecReference)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "operational_status_reasons", &obj.OperationalStatusReasons, UnmarshalGatewayStatusReason)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provider_api_managed", &obj.ProviderApiManaged)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provider_api_managed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// GatewayMacsec : MACsec configuration information of a Direct Link gateway.
-type GatewayMacsec struct {
-	// Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway.
+// GatewayMacsecConfig : MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+// Contact IBM support for access to MACsec.
+type GatewayMacsecConfig struct {
+	// Indicate whether MACsec should currently be active (true) or inactive (false) for a MACsec enabled gateway.   To be
+	// MACsec enabled a `macsec_config` must be specified at gateway create time.
 	Active *bool `json:"active" validate:"required"`
 
-	// The cipher suite used in generating the security association key (SAK).
-	CipherSuite *string `json:"cipher_suite" validate:"required"`
-
-	// The confidentiality offset determines the number of octets in an Ethernet frame that are not encrypted.
-	ConfidentialityOffset *int64 `json:"confidentiality_offset" validate:"required"`
-
-	// The date and time the resource was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// Used in the MACsec Key Agreement (MKA) protocol to determine which peer acts as the key server.
+	// Active connectivity association key.
 	//
-	// Lower values indicate a higher preference to be the key server.
-	//
-	// The MACsec configuration on the direct link will always set this value to 255.
-	KeyServerPriority *int64 `json:"key_server_priority" validate:"required"`
+	// During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be
+	// used to indicate which key is currently active on the gateway.
+	ActiveCak *GatewayMacsecConfigActiveCak `json:"active_cak,omitempty"`
 
-	// Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-	SakRekey SakRekeyIntf `json:"sak_rekey" validate:"required"`
+	// SAK cipher suite.
+	CipherSuite *string `json:"cipher_suite,omitempty"`
 
-	// Determines how packets without MACsec headers are handled.
-	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
-	SecurityPolicy *string `json:"security_policy" validate:"required"`
+	// confidentiality offset.
+	ConfidentialityOffset *int64 `json:"confidentiality_offset,omitempty"`
 
-	// Current status of MACsec on this direct link.
+	// cryptographic algorithm.
+	CryptographicAlgorithm *string `json:"cryptographic_algorithm,omitempty"`
+
+	// fallback connectivity association key.
+	FallbackCak *GatewayMacsecConfigFallbackCak `json:"fallback_cak,omitempty"`
+
+	// key server priority.
+	KeyServerPriority *int64 `json:"key_server_priority,omitempty"`
+
+	// desired primary connectivity association key.
+	PrimaryCak *GatewayMacsecConfigPrimaryCak `json:"primary_cak" validate:"required"`
+
+	// Secure Association Key (SAK) expiry time in seconds.
+	SakExpiryTime *int64 `json:"sak_expiry_time,omitempty"`
+
+	// Packets without MACsec headers are dropped when security_policy is `must_secure`.
+	SecurityPolicy *string `json:"security_policy,omitempty"`
+
+	// Current status of MACsec on this gateway.
 	//
-	// Status `offline` is returned when MACsec is inactive and during direct link creation.
-	//
-	// Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link
-	// deletion.
-	//
-	// See `status_reasons[]` for possible remediation of the `failed` `status`.
+	// Status 'offline' is returned during gateway creation and deletion.
 	Status *string `json:"status" validate:"required"`
 
-	// Context for certain values of `status`.
-	StatusReasons []GatewayMacsecStatusReason `json:"status_reasons" validate:"required"`
-
-	// The date and time the resource was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
-
-	// The window size determines the number of frames in a window for replay protection.
-	//
-	// Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
-	// replay protected.
-	WindowSize *int64 `json:"window_size" validate:"required"`
+	// replay protection window size.
+	WindowSize *int64 `json:"window_size,omitempty"`
 }
 
-// Constants associated with the GatewayMacsec.CipherSuite property.
-// The cipher suite used in generating the security association key (SAK).
+// Constants associated with the GatewayMacsecConfig.CipherSuite property.
+// SAK cipher suite.
 const (
-	GatewayMacsec_CipherSuite_GcmAesXpn256 = "gcm_aes_xpn_256"
+	GatewayMacsecConfig_CipherSuite_GcmAesXpn256 = "gcm_aes_xpn_256"
 )
 
-// Constants associated with the GatewayMacsec.SecurityPolicy property.
-// Determines how packets without MACsec headers are handled.
-//
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
+// Constants associated with the GatewayMacsecConfig.CryptographicAlgorithm property.
+// cryptographic algorithm.
 const (
-	GatewayMacsec_SecurityPolicy_MustSecure   = "must_secure"
-	GatewayMacsec_SecurityPolicy_ShouldSecure = "should_secure"
+	GatewayMacsecConfig_CryptographicAlgorithm_Aes256Cmac = "aes_256_cmac"
 )
 
-// Constants associated with the GatewayMacsec.Status property.
-// Current status of MACsec on this direct link.
-//
-// Status `offline` is returned when MACsec is inactive and during direct link creation.
-//
-// Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link
-// deletion.
-//
-// See `status_reasons[]` for possible remediation of the `failed` `status`.
+// Constants associated with the GatewayMacsecConfig.SecurityPolicy property.
+// Packets without MACsec headers are dropped when security_policy is `must_secure`.
 const (
-	GatewayMacsec_Status_Deleting = "deleting"
-	GatewayMacsec_Status_Failed   = "failed"
-	GatewayMacsec_Status_Init     = "init"
-	GatewayMacsec_Status_Offline  = "offline"
-	GatewayMacsec_Status_Pending  = "pending"
-	GatewayMacsec_Status_Secured  = "secured"
+	GatewayMacsecConfig_SecurityPolicy_MustSecure = "must_secure"
 )
 
-// UnmarshalGatewayMacsec unmarshals an instance of GatewayMacsec from the specified map of raw messages.
-func UnmarshalGatewayMacsec(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsec)
+// Constants associated with the GatewayMacsecConfig.Status property.
+// Current status of MACsec on this gateway.
+//
+// Status 'offline' is returned during gateway creation and deletion.
+const (
+	GatewayMacsecConfig_Status_Init    = "init"
+	GatewayMacsecConfig_Status_Offline = "offline"
+	GatewayMacsecConfig_Status_Pending = "pending"
+	GatewayMacsecConfig_Status_Secured = "secured"
+)
+
+// UnmarshalGatewayMacsecConfig unmarshals an instance of GatewayMacsecConfig from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfig(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfig)
 	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "active-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "active_cak", &obj.ActiveCak, UnmarshalGatewayMacsecConfigActiveCak)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cipher_suite", &obj.CipherSuite)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cipher_suite-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "confidentiality_offset", &obj.ConfidentialityOffset)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "confidentiality_offset-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	err = core.UnmarshalPrimitive(m, "cryptographic_algorithm", &obj.CryptographicAlgorithm)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecConfigFallbackCak)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "key_server_priority", &obj.KeyServerPriority)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "key_server_priority-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "sak_rekey", &obj.SakRekey, UnmarshalSakRekey)
+	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecConfigPrimaryCak)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "sak_rekey-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "sak_expiry_time", &obj.SakExpiryTime)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "security_policy", &obj.SecurityPolicy)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "security_policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "status_reasons", &obj.StatusReasons, UnmarshalGatewayMacsecStatusReason)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "status_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "window_size", &obj.WindowSize)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "window_size-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// GatewayMacsecCak : A connectivity association key (CAK) used in the MACsec Key Agreement (MKA) protocol.
+// GatewayMacsecConfigActiveCak : Active connectivity association key.
 //
-// MACsec CAKs consist of both a name and key. The CAK's `name` must be a hexadecimal string of even lengths between 2
-// to 64 inclusive. The CAK's `key` must be a [Hyper Protect Crypto Service Standard
-// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) type=standard with key material a hexadecimal
-// string exactly 64 characters in length.
-type GatewayMacsecCak struct {
-	// This field will be present when the `status` of the MACsec CAK is `rotating` and may be present when the `status` is
-	// `failed`.
-	//
-	// This object denotes the MACsec CAK's values prior to beginning the rotation and represent the previous key still
-	// configured in the direct link's MACsec key chain.
-	//
-	// This object will be removed when the MACsec CAK rotation completes, indicating that the previous key has been
-	// removed from the key chain, and the current CAK's values are in use.
-	ActiveDelta *GatewayMacsecCakActiveDelta `json:"active_delta,omitempty"`
+// During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be used
+// to indicate which key is currently active on the gateway.
+type GatewayMacsecConfigActiveCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
 
-	// The date and time the resource was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The unique identifier for this connectivity association key (CAK).
-	ID *string `json:"id" validate:"required"`
-
-	// A reference to a [Hyper Protect Crypto Service Standard
-	// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyReference `json:"key" validate:"required"`
-
-	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
-	//
-	// The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
-	//
-	// This value, along with the material of the `key`, must match on the MACsec peers.
-	Name *string `json:"name" validate:"required"`
-
-	// The intended session the key will be used to secure.
-	//
-	// If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
-	// over.
-	//
-	// There must be a `primary` session CAK. A `fallback` CAK is optional.
-	Session *string `json:"session" validate:"required"`
-
-	// Current status of the CAK.
-	//
-	// Status `operational` is returned when the CAK is configured successfully.
-	//
-	// Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
-	// session.
-	//
-	// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is securing the MACsec
-	// session. The status will remain `rotating` until the new key is `active`.
-	//
-	// Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS
-	// key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
-	// session.
+	// connectivity association key status.
 	Status *string `json:"status" validate:"required"`
-
-	// The date and time the resource was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 }
 
-// Constants associated with the GatewayMacsecCak.Session property.
-// The intended session the key will be used to secure.
-//
-// If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
-// over.
-//
-// There must be a `primary` session CAK. A `fallback` CAK is optional.
-const (
-	GatewayMacsecCak_Session_Fallback = "fallback"
-	GatewayMacsecCak_Session_Primary  = "primary"
-)
-
-// Constants associated with the GatewayMacsecCak.Status property.
-// Current status of the CAK.
-//
-// Status `operational` is returned when the CAK is configured successfully.
-//
-// Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
-// session.
-//
-// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is securing the MACsec
-// session. The status will remain `rotating` until the new key is `active`.
-//
-// Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS
-// key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
-// session.
-const (
-	GatewayMacsecCak_Status_Active      = "active"
-	GatewayMacsecCak_Status_Failed      = "failed"
-	GatewayMacsecCak_Status_Operational = "operational"
-	GatewayMacsecCak_Status_Rotating    = "rotating"
-)
-
-// UnmarshalGatewayMacsecCak unmarshals an instance of GatewayMacsecCak from the specified map of raw messages.
-func UnmarshalGatewayMacsecCak(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecCak)
-	err = core.UnmarshalModel(m, "active_delta", &obj.ActiveDelta, UnmarshalGatewayMacsecCakActiveDelta)
+// UnmarshalGatewayMacsecConfigActiveCak unmarshals an instance of GatewayMacsecConfigActiveCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigActiveCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigActiveCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "active_delta-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "session", &obj.Session)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "session-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// GatewayMacsecCakActiveDelta : This field will be present when the `status` of the MACsec CAK is `rotating` and may be present when the `status` is
-// `failed`.
-//
-// This object denotes the MACsec CAK's values prior to beginning the rotation and represent the previous key still
-// configured in the direct link's MACsec key chain.
-//
-// This object will be removed when the MACsec CAK rotation completes, indicating that the previous key has been removed
-// from the key chain, and the current CAK's values are in use.
-type GatewayMacsecCakActiveDelta struct {
-	// A reference to a [Hyper Protect Crypto Service Standard
-	// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyReference `json:"key,omitempty"`
+// GatewayMacsecConfigFallbackCak : fallback connectivity association key.
+type GatewayMacsecConfigFallbackCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
 
-	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
-	//
-	// The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
-	//
-	// This value, along with the material of the `key`, must match on the MACsec peers.
-	Name *string `json:"name,omitempty"`
+	// connectivity association key status.
+	Status *string `json:"status" validate:"required"`
 }
 
-// UnmarshalGatewayMacsecCakActiveDelta unmarshals an instance of GatewayMacsecCakActiveDelta from the specified map of raw messages.
-func UnmarshalGatewayMacsecCakActiveDelta(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecCakActiveDelta)
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyReference)
+// UnmarshalGatewayMacsecConfigFallbackCak unmarshals an instance of GatewayMacsecConfigFallbackCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigFallbackCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigFallbackCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// GatewayMacsecCakCollection : List of all connectivity association keys (CAKs) associated with the MACsec feature on a direct link.
-type GatewayMacsecCakCollection struct {
-	// List of all connectivity association keys (CAKs) associated with the MACsec feature on a direct link.
-	Caks []GatewayMacsecCak `json:"caks,omitempty"`
-}
-
-// UnmarshalGatewayMacsecCakCollection unmarshals an instance of GatewayMacsecCakCollection from the specified map of raw messages.
-func UnmarshalGatewayMacsecCakCollection(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecCakCollection)
-	err = core.UnmarshalModel(m, "caks", &obj.Caks, UnmarshalGatewayMacsecCak)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "caks-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// GatewayMacsecCakPatch : Patch fields for CAK of MACsec configuration on a direct link.
+// GatewayMacsecConfigPatchTemplate : MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the
+// patch request.  Contact IBM support for access to MACsec.
 //
-// When rotating a CAK, patch both the `name` and `key` fields simultaneously. Both must have new values and cannot
-// match with another CAK. Neither `name` nor `key` is allowed to be patched on its own.
-type GatewayMacsecCakPatch struct {
-	// A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyIdentity `json:"key,omitempty"`
-
-	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
-	//
-	// The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
-	//
-	// This value, along with the material of the `key`, must match on the MACsec peers.
-	Name *string `json:"name,omitempty"`
-}
-
-// UnmarshalGatewayMacsecCakPatch unmarshals an instance of GatewayMacsecCakPatch from the specified map of raw messages.
-func UnmarshalGatewayMacsecCakPatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecCakPatch)
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyIdentity)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AsPatch returns a generic map representation of the GatewayMacsecCakPatch
-func (gatewayMacsecCakPatch *GatewayMacsecCakPatch) AsPatch() (_patch map[string]interface{}, err error) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(gatewayMacsecCakPatch.Key) {
-		_patch["key"] = gatewayMacsecCakPatch.Key.asPatch()
-	}
-	if !core.IsNil(gatewayMacsecCakPatch.Name) {
-		_patch["name"] = gatewayMacsecCakPatch.Name
-	}
-
-	return
-}
-
-// GatewayMacsecCakPrototype : The prototype for a connectivity association key (CAK) used in the MACsec Key Agreement (MKA) protocol.
-type GatewayMacsecCakPrototype struct {
-	// A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyIdentity `json:"key" validate:"required"`
-
-	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
-	//
-	// The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
-	//
-	// This value, along with the material of the `key`, must match on the MACsec peers.
-	Name *string `json:"name" validate:"required"`
-
-	// The intended session the key will be used to secure.
-	//
-	// If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
-	// over.
-	//
-	// There must be a `primary` session CAK. A `fallback` CAK is optional.
-	Session *string `json:"session" validate:"required"`
-}
-
-// Constants associated with the GatewayMacsecCakPrototype.Session property.
-// The intended session the key will be used to secure.
-//
-// If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
-// over.
-//
-// There must be a `primary` session CAK. A `fallback` CAK is optional.
-const (
-	GatewayMacsecCakPrototype_Session_Fallback = "fallback"
-	GatewayMacsecCakPrototype_Session_Primary  = "primary"
-)
-
-// NewGatewayMacsecCakPrototype : Instantiate GatewayMacsecCakPrototype (Generic Model Constructor)
-func (*DirectLinkV1) NewGatewayMacsecCakPrototype(key *HpcsKeyIdentity, name string, session string) (_model *GatewayMacsecCakPrototype, err error) {
-	_model = &GatewayMacsecCakPrototype{
-		Key:     key,
-		Name:    core.StringPtr(name),
-		Session: core.StringPtr(session),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-// UnmarshalGatewayMacsecCakPrototype unmarshals an instance of GatewayMacsecCakPrototype from the specified map of raw messages.
-func UnmarshalGatewayMacsecCakPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecCakPrototype)
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyIdentity)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "session", &obj.Session)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "session-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// GatewayMacsecPatch : Patch fields for MACsec configuration of a Direct Link gateway.
-type GatewayMacsecPatch struct {
-	// Sets the MACsec feature to be active (true) or inactive (false) for a gateway.
+// A MACsec config cannot be added to a gateway created without MACsec.
+type GatewayMacsecConfigPatchTemplate struct {
+	// Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled gateway.
 	Active *bool `json:"active,omitempty"`
 
-	// Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-	SakRekey SakRekeyPatchIntf `json:"sak_rekey,omitempty"`
-
-	// Determines how packets without MACsec headers are handled.
+	// Fallback connectivity association key.
 	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
-	SecurityPolicy *string `json:"security_policy,omitempty"`
-
-	// The window size determines the number of frames in a window for replay protection.
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
 	//
-	// Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
-	// replay protected.
+	// To clear the optional `fallback_cak` field patch its crn to `""`.
+	//
+	// A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+	FallbackCak *GatewayMacsecConfigPatchTemplateFallbackCak `json:"fallback_cak,omitempty"`
+
+	// Desired primary connectivity association key.
+	//
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	//
+	// A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+	PrimaryCak *GatewayMacsecConfigPatchTemplatePrimaryCak `json:"primary_cak,omitempty"`
+
+	// replay protection window size.
 	WindowSize *int64 `json:"window_size,omitempty"`
 }
 
-// Constants associated with the GatewayMacsecPatch.SecurityPolicy property.
-// Determines how packets without MACsec headers are handled.
-//
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
-const (
-	GatewayMacsecPatch_SecurityPolicy_MustSecure   = "must_secure"
-	GatewayMacsecPatch_SecurityPolicy_ShouldSecure = "should_secure"
-)
-
-// UnmarshalGatewayMacsecPatch unmarshals an instance of GatewayMacsecPatch from the specified map of raw messages.
-func UnmarshalGatewayMacsecPatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecPatch)
+// UnmarshalGatewayMacsecConfigPatchTemplate unmarshals an instance of GatewayMacsecConfigPatchTemplate from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPatchTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPatchTemplate)
 	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "active-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "sak_rekey", &obj.SakRekey, UnmarshalSakRekeyPatch)
+	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecConfigPatchTemplateFallbackCak)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "sak_rekey-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "security_policy", &obj.SecurityPolicy)
+	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecConfigPatchTemplatePrimaryCak)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "security_policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "window_size", &obj.WindowSize)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "window_size-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// AsPatch returns a generic map representation of the GatewayMacsecPatch
-func (gatewayMacsecPatch *GatewayMacsecPatch) AsPatch() (_patch map[string]interface{}, err error) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(gatewayMacsecPatch.Active) {
-		_patch["active"] = gatewayMacsecPatch.Active
-	}
-	if !core.IsNil(gatewayMacsecPatch.SakRekey) {
-		_patch["sak_rekey"] = gatewayMacsecPatch.SakRekey.asPatch()
-	}
-	if !core.IsNil(gatewayMacsecPatch.SecurityPolicy) {
-		_patch["security_policy"] = gatewayMacsecPatch.SecurityPolicy
-	}
-	if !core.IsNil(gatewayMacsecPatch.WindowSize) {
-		_patch["window_size"] = gatewayMacsecPatch.WindowSize
-	}
-
-	return
-}
-
-// GatewayMacsecPrototype : MACsec configuration information of a Direct Link gateway.
-type GatewayMacsecPrototype struct {
-	// Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway.
-	Active *bool `json:"active" validate:"required"`
-
-	// List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a direct
-	// link.
-	//
-	// There must be at least one CAK with `session`: `primary`. There can be at most one CAK with `session`: `fallback`
-	//
-	// All CAKs must reference a unique key.
-	Caks []GatewayMacsecCakPrototype `json:"caks" validate:"required"`
-
-	// Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-	SakRekey SakRekeyPrototypeIntf `json:"sak_rekey" validate:"required"`
-
-	// Determines how packets without MACsec headers are handled.
-	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
-	SecurityPolicy *string `json:"security_policy" validate:"required"`
-
-	// The window size determines the number of frames in a window for replay protection.
-	//
-	// Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
-	// replay protected.
-	WindowSize *int64 `json:"window_size,omitempty"`
-}
-
-// Constants associated with the GatewayMacsecPrototype.SecurityPolicy property.
-// Determines how packets without MACsec headers are handled.
+// GatewayMacsecConfigPatchTemplateFallbackCak : Fallback connectivity association key.
 //
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
-const (
-	GatewayMacsecPrototype_SecurityPolicy_MustSecure   = "must_secure"
-	GatewayMacsecPrototype_SecurityPolicy_ShouldSecure = "should_secure"
-)
+// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+// [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+//
+// To clear the optional `fallback_cak` field patch its crn to `""`.
+//
+// A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+type GatewayMacsecConfigPatchTemplateFallbackCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
 
-// NewGatewayMacsecPrototype : Instantiate GatewayMacsecPrototype (Generic Model Constructor)
-func (*DirectLinkV1) NewGatewayMacsecPrototype(active bool, caks []GatewayMacsecCakPrototype, sakRekey SakRekeyPrototypeIntf, securityPolicy string) (_model *GatewayMacsecPrototype, err error) {
-	_model = &GatewayMacsecPrototype{
-		Active:         core.BoolPtr(active),
-		Caks:           caks,
-		SakRekey:       sakRekey,
-		SecurityPolicy: core.StringPtr(securityPolicy),
+// NewGatewayMacsecConfigPatchTemplateFallbackCak : Instantiate GatewayMacsecConfigPatchTemplateFallbackCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigPatchTemplateFallbackCak(crn string) (_model *GatewayMacsecConfigPatchTemplateFallbackCak, err error) {
+	_model = &GatewayMacsecConfigPatchTemplateFallbackCak{
+		Crn: core.StringPtr(crn),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
-// UnmarshalGatewayMacsecPrototype unmarshals an instance of GatewayMacsecPrototype from the specified map of raw messages.
-func UnmarshalGatewayMacsecPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecPrototype)
-	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+// UnmarshalGatewayMacsecConfigPatchTemplateFallbackCak unmarshals an instance of GatewayMacsecConfigPatchTemplateFallbackCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPatchTemplateFallbackCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPatchTemplateFallbackCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "active-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "caks", &obj.Caks, UnmarshalGatewayMacsecCakPrototype)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "caks-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "sak_rekey", &obj.SakRekey, UnmarshalSakRekeyPrototype)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "sak_rekey-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "security_policy", &obj.SecurityPolicy)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "security_policy-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "window_size", &obj.WindowSize)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "window_size-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// GatewayMacsecReference : MACsec configuration information of a Direct Link gateway.
-type GatewayMacsecReference struct {
-	// Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway.
-	Active *bool `json:"active" validate:"required"`
-
-	// Determines how packets without MACsec headers are handled.
-	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
-	SecurityPolicy *string `json:"security_policy" validate:"required"`
-
-	// Current status of MACsec on this direct link.
-	//
-	// Status `offline` is returned when MACsec is inactive and during direct link creation.
-	//
-	// Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link
-	// deletion.
-	//
-	// See `status_reasons[]` for possible remediation of the `failed` `status`.
-	Status *string `json:"status" validate:"required"`
-
-	// Context for certain values of `status`.
-	StatusReasons []GatewayMacsecStatusReason `json:"status_reasons" validate:"required"`
+// GatewayMacsecConfigPatchTemplatePrimaryCak : Desired primary connectivity association key.
+//
+// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+// [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+//
+// A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+type GatewayMacsecConfigPatchTemplatePrimaryCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
 }
 
-// Constants associated with the GatewayMacsecReference.SecurityPolicy property.
-// Determines how packets without MACsec headers are handled.
-//
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
-const (
-	GatewayMacsecReference_SecurityPolicy_MustSecure   = "must_secure"
-	GatewayMacsecReference_SecurityPolicy_ShouldSecure = "should_secure"
-)
+// NewGatewayMacsecConfigPatchTemplatePrimaryCak : Instantiate GatewayMacsecConfigPatchTemplatePrimaryCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigPatchTemplatePrimaryCak(crn string) (_model *GatewayMacsecConfigPatchTemplatePrimaryCak, err error) {
+	_model = &GatewayMacsecConfigPatchTemplatePrimaryCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
 
-// Constants associated with the GatewayMacsecReference.Status property.
-// Current status of MACsec on this direct link.
-//
-// Status `offline` is returned when MACsec is inactive and during direct link creation.
-//
-// Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link
-// deletion.
-//
-// See `status_reasons[]` for possible remediation of the `failed` `status`.
-const (
-	GatewayMacsecReference_Status_Deleting = "deleting"
-	GatewayMacsecReference_Status_Failed   = "failed"
-	GatewayMacsecReference_Status_Init     = "init"
-	GatewayMacsecReference_Status_Offline  = "offline"
-	GatewayMacsecReference_Status_Pending  = "pending"
-	GatewayMacsecReference_Status_Secured  = "secured"
-)
-
-// UnmarshalGatewayMacsecReference unmarshals an instance of GatewayMacsecReference from the specified map of raw messages.
-func UnmarshalGatewayMacsecReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecReference)
-	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+// UnmarshalGatewayMacsecConfigPatchTemplatePrimaryCak unmarshals an instance of GatewayMacsecConfigPatchTemplatePrimaryCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPatchTemplatePrimaryCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPatchTemplatePrimaryCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "active-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "security_policy", &obj.SecurityPolicy)
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigPrimaryCak : desired primary connectivity association key.
+type GatewayMacsecConfigPrimaryCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+
+	// connectivity association key status.
+	Status *string `json:"status" validate:"required"`
+}
+
+// UnmarshalGatewayMacsecConfigPrimaryCak unmarshals an instance of GatewayMacsecConfigPrimaryCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigPrimaryCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigPrimaryCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "security_policy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "status_reasons", &obj.StatusReasons, UnmarshalGatewayMacsecStatusReason)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "status_reasons-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
-// GatewayMacsecStatusReason : A reason for the current `status`.
-type GatewayMacsecStatusReason struct {
-	// A reason code for the status:
-	// - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec
-	// configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs associated
-	// with the MACsec configuration to find the the source of this reason.
-	Code *string `json:"code" validate:"required"`
+// GatewayMacsecConfigTemplate : MACsec configuration information.  Contact IBM support for access to MACsec.
+type GatewayMacsecConfigTemplate struct {
+	// Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled gateway.
+	Active *bool `json:"active" validate:"required"`
 
-	// An explanation of the status reason.
-	Message *string `json:"message" validate:"required"`
+	// Fallback connectivity association key.
+	//
+	// The `fallback_cak` crn cannot match the `primary_cak` crn.
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	FallbackCak *GatewayMacsecConfigTemplateFallbackCak `json:"fallback_cak,omitempty"`
 
-	// Link to documentation about this status reason.
-	MoreInfo *string `json:"more_info,omitempty"`
+	// Desired primary connectivity association key.
+	//
+	// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+	// [a-fA-F0-9].
+	// The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+	PrimaryCak *GatewayMacsecConfigTemplatePrimaryCak `json:"primary_cak" validate:"required"`
+
+	// replay protection window size.
+	WindowSize *int64 `json:"window_size,omitempty"`
 }
 
-// Constants associated with the GatewayMacsecStatusReason.Code property.
-// A reason code for the status:
-// - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec
-// configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs associated
-// with the MACsec configuration to find the the source of this reason.
-const (
-	GatewayMacsecStatusReason_Code_MacsecCakFailed = "macsec_cak_failed"
-)
+// NewGatewayMacsecConfigTemplate : Instantiate GatewayMacsecConfigTemplate (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigTemplate(active bool, primaryCak *GatewayMacsecConfigTemplatePrimaryCak) (_model *GatewayMacsecConfigTemplate, err error) {
+	_model = &GatewayMacsecConfigTemplate{
+		Active:     core.BoolPtr(active),
+		PrimaryCak: primaryCak,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
 
-// UnmarshalGatewayMacsecStatusReason unmarshals an instance of GatewayMacsecStatusReason from the specified map of raw messages.
-func UnmarshalGatewayMacsecStatusReason(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayMacsecStatusReason)
-	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
+// UnmarshalGatewayMacsecConfigTemplate unmarshals an instance of GatewayMacsecConfigTemplate from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigTemplate)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "code-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
+	err = core.UnmarshalModel(m, "fallback_cak", &obj.FallbackCak, UnmarshalGatewayMacsecConfigTemplateFallbackCak)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
+	err = core.UnmarshalModel(m, "primary_cak", &obj.PrimaryCak, UnmarshalGatewayMacsecConfigTemplatePrimaryCak)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "more_info-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "window_size", &obj.WindowSize)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigTemplateFallbackCak : Fallback connectivity association key.
+//
+// The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be type=standard with key name lengths
+// between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in
+// length and contain only [a-fA-F0-9].
+type GatewayMacsecConfigTemplateFallbackCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecConfigTemplateFallbackCak : Instantiate GatewayMacsecConfigTemplateFallbackCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigTemplateFallbackCak(crn string) (_model *GatewayMacsecConfigTemplateFallbackCak, err error) {
+	_model = &GatewayMacsecConfigTemplateFallbackCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayMacsecConfigTemplateFallbackCak unmarshals an instance of GatewayMacsecConfigTemplateFallbackCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigTemplateFallbackCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigTemplateFallbackCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecConfigTemplatePrimaryCak : Desired primary connectivity association key.
+//
+// MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+// [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+type GatewayMacsecConfigTemplatePrimaryCak struct {
+	// connectivity association key crn.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecConfigTemplatePrimaryCak : Instantiate GatewayMacsecConfigTemplatePrimaryCak (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecConfigTemplatePrimaryCak(crn string) (_model *GatewayMacsecConfigTemplatePrimaryCak, err error) {
+	_model = &GatewayMacsecConfigTemplatePrimaryCak{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayMacsecConfigTemplatePrimaryCak unmarshals an instance of GatewayMacsecConfigTemplatePrimaryCak from the specified map of raw messages.
+func UnmarshalGatewayMacsecConfigTemplatePrimaryCak(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecConfigTemplatePrimaryCak)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7186,10 +5446,11 @@ func UnmarshalGatewayMacsecStatusReason(m map[string]json.RawMessage, result int
 
 // GatewayPatchTemplate : patch gateway template.
 type GatewayPatchTemplate struct {
-	// A reference to a key to use as the BGP MD5 authentication key.
-	//
-	// Patch to `null` to disable BGP MD5 authentication.
-	AuthenticationKey AuthenticationKeyIdentityIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayPatchTemplateAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdPatchTemplate `json:"bfd_config,omitempty"`
@@ -7234,6 +5495,12 @@ type GatewayPatchTemplate struct {
 	//
 	// Only allowed for type=dedicated gateways.
 	LoaRejectReason *string `json:"loa_reject_reason,omitempty"`
+
+	// MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the
+	// patch request.  Contact IBM support for access to MACsec.
+	//
+	// A MACsec config cannot be added to a gateway created without MACsec.
+	MacsecConfig *GatewayMacsecConfigPatchTemplate `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -7302,84 +5569,72 @@ const (
 // UnmarshalGatewayPatchTemplate unmarshals an instance of GatewayPatchTemplate from the specified map of raw messages.
 func UnmarshalGatewayPatchTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayPatchTemplate)
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyIdentity)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayPatchTemplateAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdPatchTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "loa_reject_reason", &obj.LoaRejectReason)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "loa_reject_reason-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfigPatchTemplate)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7388,56 +5643,58 @@ func UnmarshalGatewayPatchTemplate(m map[string]json.RawMessage, result interfac
 
 // AsPatch returns a generic map representation of the GatewayPatchTemplate
 func (gatewayPatchTemplate *GatewayPatchTemplate) AsPatch() (_patch map[string]interface{}, err error) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(gatewayPatchTemplate.AuthenticationKey) {
-		_patch["authentication_key"] = gatewayPatchTemplate.AuthenticationKey.asPatch()
+	var jsonData []byte
+	jsonData, err = json.Marshal(gatewayPatchTemplate)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
 	}
-	if !core.IsNil(gatewayPatchTemplate.BfdConfig) {
-		_patch["bfd_config"] = gatewayPatchTemplate.BfdConfig.asPatch()
-	}
-	if !core.IsNil(gatewayPatchTemplate.BgpAsn) {
-		_patch["bgp_asn"] = gatewayPatchTemplate.BgpAsn
-	}
-	if !core.IsNil(gatewayPatchTemplate.BgpCerCidr) {
-		_patch["bgp_cer_cidr"] = gatewayPatchTemplate.BgpCerCidr
-	}
-	if !core.IsNil(gatewayPatchTemplate.BgpIbmCidr) {
-		_patch["bgp_ibm_cidr"] = gatewayPatchTemplate.BgpIbmCidr
-	}
-	if !core.IsNil(gatewayPatchTemplate.ConnectionMode) {
-		_patch["connection_mode"] = gatewayPatchTemplate.ConnectionMode
-	}
-	if !core.IsNil(gatewayPatchTemplate.DefaultExportRouteFilter) {
-		_patch["default_export_route_filter"] = gatewayPatchTemplate.DefaultExportRouteFilter
-	}
-	if !core.IsNil(gatewayPatchTemplate.DefaultImportRouteFilter) {
-		_patch["default_import_route_filter"] = gatewayPatchTemplate.DefaultImportRouteFilter
-	}
-	if !core.IsNil(gatewayPatchTemplate.Global) {
-		_patch["global"] = gatewayPatchTemplate.Global
-	}
-	if !core.IsNil(gatewayPatchTemplate.LoaRejectReason) {
-		_patch["loa_reject_reason"] = gatewayPatchTemplate.LoaRejectReason
-	}
-	if !core.IsNil(gatewayPatchTemplate.Metered) {
-		_patch["metered"] = gatewayPatchTemplate.Metered
-	}
-	if !core.IsNil(gatewayPatchTemplate.Name) {
-		_patch["name"] = gatewayPatchTemplate.Name
-	}
-	if !core.IsNil(gatewayPatchTemplate.OperationalStatus) {
-		_patch["operational_status"] = gatewayPatchTemplate.OperationalStatus
-	}
-	if !core.IsNil(gatewayPatchTemplate.PatchPanelCompletionNotice) {
-		_patch["patch_panel_completion_notice"] = gatewayPatchTemplate.PatchPanelCompletionNotice
-	}
-	if !core.IsNil(gatewayPatchTemplate.SpeedMbps) {
-		_patch["speed_mbps"] = gatewayPatchTemplate.SpeedMbps
-	}
-	if !core.IsNil(gatewayPatchTemplate.Vlan) {
-		_patch["vlan"] = gatewayPatchTemplate.Vlan
-	}
+	return
+}
 
+// GatewayPatchTemplateAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
+type GatewayPatchTemplateAuthenticationKey struct {
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayPatchTemplateAuthenticationKey : Instantiate GatewayPatchTemplateAuthenticationKey (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayPatchTemplateAuthenticationKey(crn string) (_model *GatewayPatchTemplateAuthenticationKey, err error) {
+	_model = &GatewayPatchTemplateAuthenticationKey{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayPatchTemplateAuthenticationKey unmarshals an instance of GatewayPatchTemplateAuthenticationKey from the specified map of raw messages.
+func UnmarshalGatewayPatchTemplateAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayPatchTemplateAuthenticationKey)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayPort : gateway port for type=connect gateways.
+type GatewayPort struct {
+	// Port Identifier.
+	ID *string `json:"id" validate:"required"`
+}
+
+// UnmarshalGatewayPort unmarshals an instance of GatewayPort from the specified map of raw messages.
+func UnmarshalGatewayPort(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayPort)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
@@ -7453,9 +5710,6 @@ func (*DirectLinkV1) NewGatewayPortIdentity(id string) (_model *GatewayPortIdent
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -7464,25 +5718,6 @@ func UnmarshalGatewayPortIdentity(m map[string]json.RawMessage, result interface
 	obj := new(GatewayPortIdentity)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// GatewayPortReference : Port information for type=connect gateways.
-type GatewayPortReference struct {
-	// Port Identifier.
-	ID *string `json:"id" validate:"required"`
-}
-
-// UnmarshalGatewayPortReference unmarshals an instance of GatewayPortReference from the specified map of raw messages.
-func UnmarshalGatewayPortReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayPortReference)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7515,17 +5750,14 @@ func UnmarshalGatewayStatistic(m map[string]json.RawMessage, result interface{})
 	obj := new(GatewayStatistic)
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "data", &obj.Data)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7543,7 +5775,6 @@ func UnmarshalGatewayStatisticCollection(m map[string]json.RawMessage, result in
 	obj := new(GatewayStatisticCollection)
 	err = core.UnmarshalModel(m, "statistics", &obj.Statistics, UnmarshalGatewayStatistic)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "statistics-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7594,17 +5825,14 @@ func UnmarshalGatewayStatus(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(GatewayStatus)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7622,51 +5850,6 @@ func UnmarshalGatewayStatusCollection(m map[string]json.RawMessage, result inter
 	obj := new(GatewayStatusCollection)
 	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalGatewayStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// GatewayStatusReason : A reason for the current `operational_status`.
-type GatewayStatusReason struct {
-	// A reason code for the status:
-	// - `authentication_key_failed`: `authentication_key` was unable to be configured on the direct link gateway. To
-	// recover, first resolve any issues with your key, then patch the gateway with the same or new key.
-	Code *string `json:"code" validate:"required"`
-
-	// An explanation of the status reason.
-	Message *string `json:"message" validate:"required"`
-
-	// Link to documentation about this status reason.
-	MoreInfo *string `json:"more_info,omitempty"`
-}
-
-// Constants associated with the GatewayStatusReason.Code property.
-// A reason code for the status:
-// - `authentication_key_failed`: `authentication_key` was unable to be configured on the direct link gateway. To
-// recover, first resolve any issues with your key, then patch the gateway with the same or new key.
-const (
-	GatewayStatusReason_Code_AuthenticationKeyFailed = "authentication_key_failed"
-)
-
-// UnmarshalGatewayStatusReason unmarshals an instance of GatewayStatusReason from the specified map of raw messages.
-func UnmarshalGatewayStatusReason(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayStatusReason)
-	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "code-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "more_info-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7681,7 +5864,11 @@ type GatewayTemplate struct {
 	// array of AS Prepend configuration information.
 	AsPrepends []AsPrependTemplate `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyIdentityIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdConfigTemplate `json:"bfd_config,omitempty"`
@@ -7694,7 +5881,7 @@ type GatewayTemplate struct {
 	// Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
 	// automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -7771,26 +5958,8 @@ type GatewayTemplate struct {
 	// Gateway location.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecPrototype `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	//
-	// If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
-	// capabilities and available ports:
-	//   - `macsec` was not provided in the request
-	//     - `non_macsec`
-	//     - `macsec_optional`
-	//   - `macsec` was provided in the request
-	//     - `macsec_optional`
-	//     - `macsec`.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfigTemplate `json:"macsec_config,omitempty"`
 
 	// The VLAN to configure for this gateway.
 	Vlan *int64 `json:"vlan,omitempty"`
@@ -7829,29 +5998,6 @@ const (
 	GatewayTemplate_Type_Dedicated = "dedicated"
 )
 
-// Constants associated with the GatewayTemplate.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-//
-// If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
-// capabilities and available ports:
-//   - `macsec` was not provided in the request
-//   - `non_macsec`
-//   - `macsec_optional`
-//   - `macsec` was provided in the request
-//   - `macsec_optional`
-//   - `macsec`.
-const (
-	GatewayTemplate_MacsecCapability_Macsec         = "macsec"
-	GatewayTemplate_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayTemplate_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 func (*GatewayTemplate) isaGatewayTemplate() bool {
 	return true
 }
@@ -7865,137 +6011,136 @@ func UnmarshalGatewayTemplate(m map[string]json.RawMessage, result interface{}) 
 	obj := new(GatewayTemplate)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyIdentity)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayTemplateAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfigTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "export_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "import_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecPrototype)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfigTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortIdentity)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayTemplateAuthenticationKey : The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+// base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+// `authentication_key` field patch its crn to `""`.
+type GatewayTemplateAuthenticationKey struct {
+	// The CRN of the [Key Protect Standard
+	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+	// Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayTemplateAuthenticationKey : Instantiate GatewayTemplateAuthenticationKey (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayTemplateAuthenticationKey(crn string) (_model *GatewayTemplateAuthenticationKey, err error) {
+	_model = &GatewayTemplateAuthenticationKey{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalGatewayTemplateAuthenticationKey unmarshals an instance of GatewayTemplateAuthenticationKey from the specified map of raw messages.
+func UnmarshalGatewayTemplateAuthenticationKey(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayTemplateAuthenticationKey)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8031,9 +6176,6 @@ func (*DirectLinkV1) NewGatewayTemplateRouteFilter(action string, prefix string)
 		Prefix: core.StringPtr(prefix),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -8042,22 +6184,18 @@ func UnmarshalGatewayTemplateRouteFilter(m map[string]json.RawMessage, result in
 	obj := new(GatewayTemplateRouteFilter)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8129,37 +6267,30 @@ func UnmarshalGatewayVirtualConnection(m map[string]json.RawMessage, result inte
 	obj := new(GatewayVirtualConnection)
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account", &obj.NetworkAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8177,61 +6308,9 @@ func UnmarshalGatewayVirtualConnectionCollection(m map[string]json.RawMessage, r
 	obj := new(GatewayVirtualConnectionCollection)
 	err = core.UnmarshalModel(m, "virtual_connections", &obj.VirtualConnections, UnmarshalGatewayVirtualConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connections-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// GatewayVirtualConnectionPatchTemplate : Patch virtual connection template.
-type GatewayVirtualConnectionPatchTemplate struct {
-	// The user-defined name for this virtual connection.  Virtual connection names are unique within a gateway.  This is
-	// the name of the virtual connection itself, the network being connected may have its own name attribute.
-	Name *string `json:"name,omitempty"`
-
-	// Status of the virtual connection.  Virtual connections that span IBM Cloud Accounts are created in approval_pending
-	// status.  The owner of the target network can accept or reject connection requests by patching status to attached or
-	// rejected respectively.
-	Status *string `json:"status,omitempty"`
-}
-
-// Constants associated with the GatewayVirtualConnectionPatchTemplate.Status property.
-// Status of the virtual connection.  Virtual connections that span IBM Cloud Accounts are created in approval_pending
-// status.  The owner of the target network can accept or reject connection requests by patching status to attached or
-// rejected respectively.
-const (
-	GatewayVirtualConnectionPatchTemplate_Status_Attached = "attached"
-	GatewayVirtualConnectionPatchTemplate_Status_Rejected = "rejected"
-)
-
-// UnmarshalGatewayVirtualConnectionPatchTemplate unmarshals an instance of GatewayVirtualConnectionPatchTemplate from the specified map of raw messages.
-func UnmarshalGatewayVirtualConnectionPatchTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GatewayVirtualConnectionPatchTemplate)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AsPatch returns a generic map representation of the GatewayVirtualConnectionPatchTemplate
-func (gatewayVirtualConnectionPatchTemplate *GatewayVirtualConnectionPatchTemplate) AsPatch() (_patch map[string]interface{}, err error) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(gatewayVirtualConnectionPatchTemplate.Name) {
-		_patch["name"] = gatewayVirtualConnectionPatchTemplate.Name
-	}
-	if !core.IsNil(gatewayVirtualConnectionPatchTemplate.Status) {
-		_patch["status"] = gatewayVirtualConnectionPatchTemplate.Status
-	}
-
 	return
 }
 
@@ -8243,7 +6322,7 @@ type GetGatewayExportRouteFilterOptions struct {
 	// Identifier of an import route filter.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -8281,7 +6360,7 @@ type GetGatewayImportRouteFilterOptions struct {
 	// Identifier of an import route filter.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -8311,78 +6390,12 @@ func (options *GetGatewayImportRouteFilterOptions) SetHeaders(param map[string]s
 	return options
 }
 
-// GetGatewayMacsecCakOptions : The GetGatewayMacsecCak options.
-type GetGatewayMacsecCakOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// MACsec CAK identifier.
-	CakID *string `json:"cak_id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewGetGatewayMacsecCakOptions : Instantiate GetGatewayMacsecCakOptions
-func (*DirectLinkV1) NewGetGatewayMacsecCakOptions(id string, cakID string) *GetGatewayMacsecCakOptions {
-	return &GetGatewayMacsecCakOptions{
-		ID:    core.StringPtr(id),
-		CakID: core.StringPtr(cakID),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *GetGatewayMacsecCakOptions) SetID(id string) *GetGatewayMacsecCakOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetCakID : Allow user to set CakID
-func (_options *GetGatewayMacsecCakOptions) SetCakID(cakID string) *GetGatewayMacsecCakOptions {
-	_options.CakID = core.StringPtr(cakID)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetGatewayMacsecCakOptions) SetHeaders(param map[string]string) *GetGatewayMacsecCakOptions {
-	options.Headers = param
-	return options
-}
-
-// GetGatewayMacsecOptions : The GetGatewayMacsec options.
-type GetGatewayMacsecOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewGetGatewayMacsecOptions : Instantiate GetGatewayMacsecOptions
-func (*DirectLinkV1) NewGetGatewayMacsecOptions(id string) *GetGatewayMacsecOptions {
-	return &GetGatewayMacsecOptions{
-		ID: core.StringPtr(id),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *GetGatewayMacsecOptions) SetID(id string) *GetGatewayMacsecOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetGatewayMacsecOptions) SetHeaders(param map[string]string) *GetGatewayMacsecOptions {
-	options.Headers = param
-	return options
-}
-
 // GetGatewayOptions : The GetGateway options.
 type GetGatewayOptions struct {
 	// Direct Link gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -8413,7 +6426,11 @@ type GetGatewayResponse struct {
 	// array of AS Prepend information.
 	AsPrepends []AsPrepend `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyReferenceIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdConfig `json:"bfd_config,omitempty"`
@@ -8425,7 +6442,7 @@ type GetGatewayResponse struct {
 	//
 	// See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -8467,7 +6484,7 @@ type GetGatewayResponse struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account,omitempty"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Customer name.  Only set for type=dedicated gateways.
@@ -8498,19 +6515,9 @@ type GetGatewayResponse struct {
 	// Gateway location.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// Only included on type=dedicated direct links.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+	// Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfig `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -8521,18 +6528,10 @@ type GetGatewayResponse struct {
 
 	// Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 	// processes using this field  must tolerate unexpected values.
-	//
-	// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 	OperationalStatus *string `json:"operational_status,omitempty"`
 
-	// Context for certain values of `operational_status`.
-	OperationalStatusReasons []GatewayStatusReason `json:"operational_status_reasons,omitempty"`
-
-	// Gateway patch panel complete notification from implementation team.
-	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
-
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *GatewayPort `json:"port,omitempty"`
 
 	// Indicates whether gateway changes must be made via a provider portal.
 	ProviderApiManaged *bool `json:"provider_api_managed,omitempty"`
@@ -8542,6 +6541,9 @@ type GetGatewayResponse struct {
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps,omitempty"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field  must tolerate unexpected values.
@@ -8593,27 +6595,9 @@ const (
 	GetGatewayResponse_LinkStatus_Up   = "up"
 )
 
-// Constants associated with the GetGatewayResponse.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// Only included on type=dedicated direct links.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-const (
-	GetGatewayResponse_MacsecCapability_Macsec         = "macsec"
-	GetGatewayResponse_MacsecCapability_MacsecOptional = "macsec_optional"
-	GetGatewayResponse_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 // Constants associated with the GetGatewayResponse.OperationalStatus property.
 // Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field  must tolerate unexpected values.
-//
-// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GetGatewayResponse_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
 	GetGatewayResponse_OperationalStatus_AwaitingLoa              = "awaiting_loa"
@@ -8624,7 +6608,6 @@ const (
 	GetGatewayResponse_OperationalStatus_CreatePending            = "create_pending"
 	GetGatewayResponse_OperationalStatus_CreateRejected           = "create_rejected"
 	GetGatewayResponse_OperationalStatus_DeletePending            = "delete_pending"
-	GetGatewayResponse_OperationalStatus_Failed                   = "failed"
 	GetGatewayResponse_OperationalStatus_LoaAccepted              = "loa_accepted"
 	GetGatewayResponse_OperationalStatus_LoaCreated               = "loa_created"
 	GetGatewayResponse_OperationalStatus_LoaRejected              = "loa_rejected"
@@ -8652,202 +6635,154 @@ func UnmarshalGetGatewayResponse(m map[string]json.RawMessage, result interface{
 	obj := new(GetGatewayResponse)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrepend)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyReference)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_asn", &obj.BgpIbmAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "change_request", &obj.ChangeRequest, UnmarshalGatewayChangeRequest)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "change_request-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "completion_notice_reject_reason", &obj.CompletionNoticeRejectReason)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "completion_notice_reject_reason-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecReference)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "operational_status_reasons", &obj.OperationalStatusReasons, UnmarshalGatewayStatusReason)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provider_api_managed", &obj.ProviderApiManaged)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provider_api_managed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8862,7 +6797,7 @@ type GetGatewayRouteReportOptions struct {
 	// Route report identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -8900,7 +6835,7 @@ type GetGatewayStatisticsOptions struct {
 	// Specify statistic to retrieve.
 	Type *string `json:"type" validate:"required"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -8947,7 +6882,7 @@ type GetGatewayStatusOptions struct {
 	// Specify status to retrieve.
 	Type *string `json:"type,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -8992,7 +6927,7 @@ type GetGatewayVirtualConnectionOptions struct {
 	// The virtual connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9027,7 +6962,7 @@ type GetPortOptions struct {
 	// The port identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9050,65 +6985,6 @@ func (options *GetPortOptions) SetHeaders(param map[string]string) *GetPortOptio
 	return options
 }
 
-// HpcsKeyIdentity : A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-type HpcsKeyIdentity struct {
-	// The CRN of the key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// NewHpcsKeyIdentity : Instantiate HpcsKeyIdentity (Generic Model Constructor)
-func (*DirectLinkV1) NewHpcsKeyIdentity(crn string) (_model *HpcsKeyIdentity, err error) {
-	_model = &HpcsKeyIdentity{
-		Crn: core.StringPtr(crn),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-// UnmarshalHpcsKeyIdentity unmarshals an instance of HpcsKeyIdentity from the specified map of raw messages.
-func UnmarshalHpcsKeyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(HpcsKeyIdentity)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the HpcsKeyIdentity
-func (hpcsKeyIdentity *HpcsKeyIdentity) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(hpcsKeyIdentity.Crn) {
-		_patch["crn"] = hpcsKeyIdentity.Crn
-	}
-
-	return
-}
-
-// HpcsKeyReference : A reference to a [Hyper Protect Crypto Service Standard
-// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-type HpcsKeyReference struct {
-	// The CRN of the referenced key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// UnmarshalHpcsKeyReference unmarshals an instance of HpcsKeyReference from the specified map of raw messages.
-func UnmarshalHpcsKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(HpcsKeyReference)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // ImportRouteFilterCollection : Collection of import route filters.
 type ImportRouteFilterCollection struct {
 	// Array of import route filters.
@@ -9120,7 +6996,6 @@ func UnmarshalImportRouteFilterCollection(m map[string]json.RawMessage, result i
 	obj := new(ImportRouteFilterCollection)
 	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "import_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9132,7 +7007,7 @@ type ListGatewayAsPrependsOptions struct {
 	// Direct Link gateway identifier.
 	GatewayID *string `json:"gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9160,7 +7035,7 @@ type ListGatewayCompletionNoticeOptions struct {
 	// Direct Link Dedicated gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9188,7 +7063,7 @@ type ListGatewayExportRouteFiltersOptions struct {
 	// Direct Link gateway identifier.
 	GatewayID *string `json:"gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9216,7 +7091,7 @@ type ListGatewayImportRouteFiltersOptions struct {
 	// Direct Link gateway identifier.
 	GatewayID *string `json:"gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9244,7 +7119,7 @@ type ListGatewayLetterOfAuthorizationOptions struct {
 	// Direct Link Dedicated gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9267,40 +7142,12 @@ func (options *ListGatewayLetterOfAuthorizationOptions) SetHeaders(param map[str
 	return options
 }
 
-// ListGatewayMacsecCaksOptions : The ListGatewayMacsecCaks options.
-type ListGatewayMacsecCaksOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewListGatewayMacsecCaksOptions : Instantiate ListGatewayMacsecCaksOptions
-func (*DirectLinkV1) NewListGatewayMacsecCaksOptions(id string) *ListGatewayMacsecCaksOptions {
-	return &ListGatewayMacsecCaksOptions{
-		ID: core.StringPtr(id),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *ListGatewayMacsecCaksOptions) SetID(id string) *ListGatewayMacsecCaksOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *ListGatewayMacsecCaksOptions) SetHeaders(param map[string]string) *ListGatewayMacsecCaksOptions {
-	options.Headers = param
-	return options
-}
-
 // ListGatewayRouteReportsOptions : The ListGatewayRouteReports options.
 type ListGatewayRouteReportsOptions struct {
 	// Direct Link gateway identifier.
 	GatewayID *string `json:"gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9328,7 +7175,7 @@ type ListGatewayVirtualConnectionsOptions struct {
 	// Direct Link gateway identifier.
 	GatewayID *string `json:"gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9354,7 +7201,7 @@ func (options *ListGatewayVirtualConnectionsOptions) SetHeaders(param map[string
 // ListGatewaysOptions : The ListGateways options.
 type ListGatewaysOptions struct {
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9377,7 +7224,7 @@ type ListOfferingTypeLocationCrossConnectRoutersOptions struct {
 	// The name of the Direct Link location.
 	LocationName *string `json:"location_name" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9419,7 +7266,7 @@ type ListOfferingTypeLocationsOptions struct {
 	// The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 	OfferingType *string `json:"offering_type" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9454,7 +7301,7 @@ type ListOfferingTypeSpeedsOptions struct {
 	// The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 	OfferingType *string `json:"offering_type" validate:"required,ne="`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9495,7 +7342,7 @@ type ListPortsOptions struct {
 	// Direct Link location short name.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9539,7 +7386,6 @@ func UnmarshalLocationCollection(m map[string]json.RawMessage, result interface{
 	obj := new(LocationCollection)
 	err = core.UnmarshalModel(m, "locations", &obj.Locations, UnmarshalLocationOutput)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "locations-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9557,7 +7403,6 @@ func UnmarshalLocationCrossConnectRouterCollection(m map[string]json.RawMessage,
 	obj := new(LocationCrossConnectRouterCollection)
 	err = core.UnmarshalModel(m, "cross_connect_routers", &obj.CrossConnectRouters, UnmarshalCrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_routers-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9609,62 +7454,50 @@ func UnmarshalLocationOutput(m map[string]json.RawMessage, result interface{}) (
 	obj := new(LocationOutput)
 	err = core.UnmarshalPrimitive(m, "billing_location", &obj.BillingLocation)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "billing_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "building_colocation_owner", &obj.BuildingColocationOwner)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "building_colocation_owner-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_type", &obj.LocationType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "macsec_enabled", &obj.MacsecEnabled)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "market", &obj.Market)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "market-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "market_geography", &obj.MarketGeography)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "market_geography-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mzr", &obj.Mzr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "mzr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_type", &obj.OfferingType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "offering_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provision_enabled", &obj.ProvisionEnabled)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provision_enabled-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vpc_region", &obj.VpcRegion)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vpc_region-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9689,17 +7522,14 @@ func UnmarshalOfferingSpeed(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(OfferingSpeed)
 	err = core.UnmarshalPrimitive(m, "capabilities", &obj.Capabilities)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "capabilities-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_speed", &obj.LinkSpeed)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_speed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "macsec_enabled", &obj.MacsecEnabled)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_enabled-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9717,7 +7547,6 @@ func UnmarshalOfferingSpeedCollection(m map[string]json.RawMessage, result inter
 	obj := new(OfferingSpeedCollection)
 	err = core.UnmarshalModel(m, "speeds", &obj.Speeds, UnmarshalOfferingSpeed)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speeds-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9753,37 +7582,30 @@ func UnmarshalPort(m map[string]json.RawMessage, result interface{}) (err error)
 	obj := new(Port)
 	err = core.UnmarshalPrimitive(m, "direct_link_count", &obj.DirectLinkCount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "direct_link_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "label", &obj.Label)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "label-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provider_name", &obj.ProviderName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provider_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "supported_link_speeds", &obj.SupportedLinkSpeeds)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "supported_link_speeds-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9813,27 +7635,22 @@ func UnmarshalPortCollection(m map[string]json.RawMessage, result interface{}) (
 	obj := new(PortCollection)
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPortsPaginatedCollectionFirst)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPortsPaginatedCollectionNext)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "ports", &obj.Ports, UnmarshalPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ports-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9859,7 +7676,6 @@ func UnmarshalPortsPaginatedCollectionFirst(m map[string]json.RawMessage, result
 	obj := new(PortsPaginatedCollectionFirst)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9880,12 +7696,10 @@ func UnmarshalPortsPaginatedCollectionNext(m map[string]json.RawMessage, result 
 	obj := new(PortsPaginatedCollectionNext)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9903,7 +7717,7 @@ type ReplaceGatewayAsPrependsOptions struct {
 	// array of AS Prepend configuration information.
 	AsPrepends []AsPrependPrefixArrayTemplate `json:"as_prepends,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9951,7 +7765,7 @@ type ReplaceGatewayExportRouteFiltersOptions struct {
 	// filters, the order of the items in the array will set the ordering of the list of route filters.
 	ExportRouteFilters []GatewayTemplateRouteFilter `json:"export_route_filters,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -9999,7 +7813,7 @@ type ReplaceGatewayImportRouteFiltersOptions struct {
 	// filters, the order of the items in the array will set the ordering of the list of route filters.
 	ImportRouteFilters []GatewayTemplateRouteFilter `json:"import_route_filters,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -10048,9 +7862,6 @@ func (*DirectLinkV1) NewResourceGroupIdentity(id string) (_model *ResourceGroupI
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -10059,7 +7870,6 @@ func UnmarshalResourceGroupIdentity(m map[string]json.RawMessage, result interfa
 	obj := new(ResourceGroupIdentity)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10077,7 +7887,6 @@ func UnmarshalResourceGroupReference(m map[string]json.RawMessage, result interf
 	obj := new(ResourceGroupReference)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10131,42 +7940,34 @@ func UnmarshalRouteFilter(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(RouteFilter)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10218,47 +8019,38 @@ func UnmarshalRouteReport(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(RouteReport)
 	err = core.UnmarshalModel(m, "advertised_routes", &obj.AdvertisedRoutes, UnmarshalRouteReportAdvertisedRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "advertised_routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "gateway_routes", &obj.GatewayRoutes, UnmarshalRouteReportRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "gateway_routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "on_prem_routes", &obj.OnPremRoutes, UnmarshalRouteReportOnPremRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "on_prem_routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "overlapping_routes", &obj.OverlappingRoutes, UnmarshalRouteReportOverlappingRouteGroup)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "overlapping_routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "virtual_connection_routes", &obj.VirtualConnectionRoutes, UnmarshalRouteReportConnection)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connection_routes-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10279,12 +8071,10 @@ func UnmarshalRouteReportAdvertisedRoute(m map[string]json.RawMessage, result in
 	obj := new(RouteReportAdvertisedRoute)
 	err = core.UnmarshalPrimitive(m, "as_path", &obj.AsPath)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_path-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10302,7 +8092,6 @@ func UnmarshalRouteReportCollection(m map[string]json.RawMessage, result interfa
 	obj := new(RouteReportCollection)
 	err = core.UnmarshalModel(m, "route_reports", &obj.RouteReports, UnmarshalRouteReport)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "route_reports-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10329,22 +8118,18 @@ func UnmarshalRouteReportConnection(m map[string]json.RawMessage, result interfa
 	obj := new(RouteReportConnection)
 	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportVirtualConnectionRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "virtual_connection_id", &obj.VirtualConnectionID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "virtual_connection_name", &obj.VirtualConnectionName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connection_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "virtual_connection_type", &obj.VirtualConnectionType)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connection_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10368,17 +8153,14 @@ func UnmarshalRouteReportOnPremRoute(m map[string]json.RawMessage, result interf
 	obj := new(RouteReportOnPremRoute)
 	err = core.UnmarshalPrimitive(m, "as_path", &obj.AsPath)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_path-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "next_hop", &obj.NextHop)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "next_hop-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10419,17 +8201,14 @@ func UnmarshalRouteReportOverlappingRoute(m map[string]json.RawMessage, result i
 	obj := new(RouteReportOverlappingRoute)
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "virtual_connection_id", &obj.VirtualConnectionID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10447,7 +8226,6 @@ func UnmarshalRouteReportOverlappingRouteGroup(m map[string]json.RawMessage, res
 	obj := new(RouteReportOverlappingRouteGroup)
 	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportOverlappingRoute)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "routes-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10465,7 +8243,6 @@ func UnmarshalRouteReportRoute(m map[string]json.RawMessage, result interface{})
 	obj := new(RouteReportRoute)
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10489,305 +8266,18 @@ func UnmarshalRouteReportVirtualConnectionRoute(m map[string]json.RawMessage, re
 	obj := new(RouteReportVirtualConnectionRoute)
 	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "active-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_preference", &obj.LocalPreference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "local_preference-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
-}
-
-// SakRekey : Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-// Models which "extend" this model:
-// - SakRekeyTimerMode
-// - SakRekeyPacketNumberRolloverMode
-type SakRekey struct {
-	// The time, in seconds, to force a Secure Association Key (SAK) rekey.
-	Interval *int64 `json:"interval,omitempty"`
-
-	// Determines that the SAK rekey occurs based on a timer.
-	Mode *string `json:"mode,omitempty"`
-}
-
-// Constants associated with the SakRekey.Mode property.
-// Determines that the SAK rekey occurs based on a timer.
-const (
-	SakRekey_Mode_Timer = "timer"
-)
-
-func (*SakRekey) isaSakRekey() bool {
-	return true
-}
-
-type SakRekeyIntf interface {
-	isaSakRekey() bool
-}
-
-// UnmarshalSakRekey unmarshals an instance of SakRekey from the specified map of raw messages.
-func UnmarshalSakRekey(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekey)
-	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SakRekeyPatch : Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-// Models which "extend" this model:
-// - SakRekeyPatchSakRekeyTimerModePatch
-// - SakRekeyPatchSakRekeyPacketNumberRolloverModePatch
-type SakRekeyPatch struct {
-	// The time, in seconds, to force a Secure Association Key (SAK) rekey.
-	Interval *int64 `json:"interval,omitempty"`
-
-	// Determines that the SAK rekey occurs based on a timer.
-	Mode *string `json:"mode,omitempty"`
-}
-
-// Constants associated with the SakRekeyPatch.Mode property.
-// Determines that the SAK rekey occurs based on a timer.
-const (
-	SakRekeyPatch_Mode_Timer = "timer"
-)
-
-func (*SakRekeyPatch) isaSakRekeyPatch() bool {
-	return true
-}
-
-type SakRekeyPatchIntf interface {
-	isaSakRekeyPatch() bool
-	asPatch() map[string]interface{}
-}
-
-// UnmarshalSakRekeyPatch unmarshals an instance of SakRekeyPatch from the specified map of raw messages.
-func UnmarshalSakRekeyPatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPatch)
-	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the SakRekeyPatch
-func (sakRekeyPatch *SakRekeyPatch) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(sakRekeyPatch.Interval) {
-		_patch["interval"] = sakRekeyPatch.Interval
-	}
-	if !core.IsNil(sakRekeyPatch.Mode) {
-		_patch["mode"] = sakRekeyPatch.Mode
-	}
-
-	return
-}
-
-// SakRekeyPrototype : Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-// Models which "extend" this model:
-// - SakRekeyPrototypeSakRekeyTimerModePrototype
-// - SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype
-type SakRekeyPrototype struct {
-	// The time, in seconds, to force a Secure Association Key (SAK) rekey.
-	Interval *int64 `json:"interval,omitempty"`
-
-	// Determines that the SAK rekey occurs based on a timer.
-	Mode *string `json:"mode,omitempty"`
-}
-
-// Constants associated with the SakRekeyPrototype.Mode property.
-// Determines that the SAK rekey occurs based on a timer.
-const (
-	SakRekeyPrototype_Mode_Timer = "timer"
-)
-
-func (*SakRekeyPrototype) isaSakRekeyPrototype() bool {
-	return true
-}
-
-type SakRekeyPrototypeIntf interface {
-	isaSakRekeyPrototype() bool
-}
-
-// UnmarshalSakRekeyPrototype unmarshals an instance of SakRekeyPrototype from the specified map of raw messages.
-func UnmarshalSakRekeyPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPrototype)
-	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SetGatewayMacsecOptions : The SetGatewayMacsec options.
-type SetGatewayMacsecOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway.
-	Active *bool `json:"active" validate:"required"`
-
-	// List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a direct
-	// link.
-	//
-	// There must be at least one CAK with `session`: `primary`. There can be at most one CAK with `session`: `fallback`
-	//
-	// All CAKs must reference a unique key.
-	Caks []GatewayMacsecCakPrototype `json:"caks" validate:"required"`
-
-	// Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
-	SakRekey SakRekeyPrototypeIntf `json:"sak_rekey" validate:"required"`
-
-	// Determines how packets without MACsec headers are handled.
-	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
-	SecurityPolicy *string `json:"security_policy" validate:"required"`
-
-	// The window size determines the number of frames in a window for replay protection.
-	//
-	// Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
-	// replay protected.
-	WindowSize *int64 `json:"window_size,omitempty"`
-
-	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
-	//
-	// `If-Match` is required when the resource exists and has an ETag value.
-	IfMatch *string `json:"If-Match,omitempty"`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// Constants associated with the SetGatewayMacsecOptions.SecurityPolicy property.
-// Determines how packets without MACsec headers are handled.
-//
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
-const (
-	SetGatewayMacsecOptions_SecurityPolicy_MustSecure   = "must_secure"
-	SetGatewayMacsecOptions_SecurityPolicy_ShouldSecure = "should_secure"
-)
-
-// NewSetGatewayMacsecOptions : Instantiate SetGatewayMacsecOptions
-func (*DirectLinkV1) NewSetGatewayMacsecOptions(id string, active bool, caks []GatewayMacsecCakPrototype, sakRekey SakRekeyPrototypeIntf, securityPolicy string) *SetGatewayMacsecOptions {
-	return &SetGatewayMacsecOptions{
-		ID:             core.StringPtr(id),
-		Active:         core.BoolPtr(active),
-		Caks:           caks,
-		SakRekey:       sakRekey,
-		SecurityPolicy: core.StringPtr(securityPolicy),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *SetGatewayMacsecOptions) SetID(id string) *SetGatewayMacsecOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetActive : Allow user to set Active
-func (_options *SetGatewayMacsecOptions) SetActive(active bool) *SetGatewayMacsecOptions {
-	_options.Active = core.BoolPtr(active)
-	return _options
-}
-
-// SetCaks : Allow user to set Caks
-func (_options *SetGatewayMacsecOptions) SetCaks(caks []GatewayMacsecCakPrototype) *SetGatewayMacsecOptions {
-	_options.Caks = caks
-	return _options
-}
-
-// SetSakRekey : Allow user to set SakRekey
-func (_options *SetGatewayMacsecOptions) SetSakRekey(sakRekey SakRekeyPrototypeIntf) *SetGatewayMacsecOptions {
-	_options.SakRekey = sakRekey
-	return _options
-}
-
-// SetSecurityPolicy : Allow user to set SecurityPolicy
-func (_options *SetGatewayMacsecOptions) SetSecurityPolicy(securityPolicy string) *SetGatewayMacsecOptions {
-	_options.SecurityPolicy = core.StringPtr(securityPolicy)
-	return _options
-}
-
-// SetWindowSize : Allow user to set WindowSize
-func (_options *SetGatewayMacsecOptions) SetWindowSize(windowSize int64) *SetGatewayMacsecOptions {
-	_options.WindowSize = core.Int64Ptr(windowSize)
-	return _options
-}
-
-// SetIfMatch : Allow user to set IfMatch
-func (_options *SetGatewayMacsecOptions) SetIfMatch(ifMatch string) *SetGatewayMacsecOptions {
-	_options.IfMatch = core.StringPtr(ifMatch)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *SetGatewayMacsecOptions) SetHeaders(param map[string]string) *SetGatewayMacsecOptions {
-	options.Headers = param
-	return options
-}
-
-// UnsetGatewayMacsecOptions : The UnsetGatewayMacsec options.
-type UnsetGatewayMacsecOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewUnsetGatewayMacsecOptions : Instantiate UnsetGatewayMacsecOptions
-func (*DirectLinkV1) NewUnsetGatewayMacsecOptions(id string) *UnsetGatewayMacsecOptions {
-	return &UnsetGatewayMacsecOptions{
-		ID: core.StringPtr(id),
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *UnsetGatewayMacsecOptions) SetID(id string) *UnsetGatewayMacsecOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *UnsetGatewayMacsecOptions) SetHeaders(param map[string]string) *UnsetGatewayMacsecOptions {
-	options.Headers = param
-	return options
 }
 
 // UpdateGatewayExportRouteFilterOptions : The UpdateGatewayExportRouteFilter options.
@@ -10801,7 +8291,7 @@ type UpdateGatewayExportRouteFilterOptions struct {
 	// The export route filter update template.
 	UpdateRouteFilterTemplatePatch map[string]interface{} `json:"UpdateRouteFilterTemplate_patch" validate:"required"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -10849,7 +8339,7 @@ type UpdateGatewayImportRouteFilterOptions struct {
 	// The import route filter update template.
 	UpdateRouteFilterTemplatePatch map[string]interface{} `json:"UpdateRouteFilterTemplate_patch" validate:"required"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -10886,92 +8376,6 @@ func (options *UpdateGatewayImportRouteFilterOptions) SetHeaders(param map[strin
 	return options
 }
 
-// UpdateGatewayMacsecCakOptions : The UpdateGatewayMacsecCak options.
-type UpdateGatewayMacsecCakOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// MACsec CAK identifier.
-	CakID *string `json:"cak_id" validate:"required,ne="`
-
-	// The MACsec CAK patch.
-	GatewayMacsecCakPatch map[string]interface{} `json:"GatewayMacsecCak_patch" validate:"required"`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewUpdateGatewayMacsecCakOptions : Instantiate UpdateGatewayMacsecCakOptions
-func (*DirectLinkV1) NewUpdateGatewayMacsecCakOptions(id string, cakID string, gatewayMacsecCakPatch map[string]interface{}) *UpdateGatewayMacsecCakOptions {
-	return &UpdateGatewayMacsecCakOptions{
-		ID:                    core.StringPtr(id),
-		CakID:                 core.StringPtr(cakID),
-		GatewayMacsecCakPatch: gatewayMacsecCakPatch,
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *UpdateGatewayMacsecCakOptions) SetID(id string) *UpdateGatewayMacsecCakOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetCakID : Allow user to set CakID
-func (_options *UpdateGatewayMacsecCakOptions) SetCakID(cakID string) *UpdateGatewayMacsecCakOptions {
-	_options.CakID = core.StringPtr(cakID)
-	return _options
-}
-
-// SetGatewayMacsecCakPatch : Allow user to set GatewayMacsecCakPatch
-func (_options *UpdateGatewayMacsecCakOptions) SetGatewayMacsecCakPatch(gatewayMacsecCakPatch map[string]interface{}) *UpdateGatewayMacsecCakOptions {
-	_options.GatewayMacsecCakPatch = gatewayMacsecCakPatch
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *UpdateGatewayMacsecCakOptions) SetHeaders(param map[string]string) *UpdateGatewayMacsecCakOptions {
-	options.Headers = param
-	return options
-}
-
-// UpdateGatewayMacsecOptions : The UpdateGatewayMacsec options.
-type UpdateGatewayMacsecOptions struct {
-	// Direct Link gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// The MACsec configuration patch.
-	GatewayMacsecPatch map[string]interface{} `json:"GatewayMacsec_patch" validate:"required"`
-
-	// Allows users to set headers on API requests.
-	Headers map[string]string
-}
-
-// NewUpdateGatewayMacsecOptions : Instantiate UpdateGatewayMacsecOptions
-func (*DirectLinkV1) NewUpdateGatewayMacsecOptions(id string, gatewayMacsecPatch map[string]interface{}) *UpdateGatewayMacsecOptions {
-	return &UpdateGatewayMacsecOptions{
-		ID:                 core.StringPtr(id),
-		GatewayMacsecPatch: gatewayMacsecPatch,
-	}
-}
-
-// SetID : Allow user to set ID
-func (_options *UpdateGatewayMacsecOptions) SetID(id string) *UpdateGatewayMacsecOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetGatewayMacsecPatch : Allow user to set GatewayMacsecPatch
-func (_options *UpdateGatewayMacsecOptions) SetGatewayMacsecPatch(gatewayMacsecPatch map[string]interface{}) *UpdateGatewayMacsecOptions {
-	_options.GatewayMacsecPatch = gatewayMacsecPatch
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *UpdateGatewayMacsecOptions) SetHeaders(param map[string]string) *UpdateGatewayMacsecOptions {
-	options.Headers = param
-	return options
-}
-
 // UpdateGatewayOptions : The UpdateGateway options.
 type UpdateGatewayOptions struct {
 	// Direct Link gateway identifier.
@@ -10980,7 +8384,7 @@ type UpdateGatewayOptions struct {
 	// The Direct Link gateway patch.
 	GatewayPatchTemplatePatch map[string]interface{} `json:"GatewayPatchTemplate_patch" validate:"required"`
 
-	// Allows users to set headers on API requests.
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
@@ -11018,19 +8422,33 @@ type UpdateGatewayVirtualConnectionOptions struct {
 	// The virtual connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The virtual connection patch template.
-	GatewayVirtualConnectionPatchTemplatePatch map[string]interface{} `json:"GatewayVirtualConnectionPatchTemplate_patch" validate:"required"`
+	// The user-defined name for this virtual connection.  Virtual connection names are unique within a gateway.  This is
+	// the name of the virtual connection itself, the network being connected may have its own name attribute.
+	Name *string `json:"name,omitempty"`
 
-	// Allows users to set headers on API requests.
+	// Status of the virtual connection.  Virtual connections that span IBM Cloud Accounts are created in approval_pending
+	// status.  The owner of the target network can accept or reject connection requests by patching status to attached or
+	// rejected respectively.
+	Status *string `json:"status,omitempty"`
+
+	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
+// Constants associated with the UpdateGatewayVirtualConnectionOptions.Status property.
+// Status of the virtual connection.  Virtual connections that span IBM Cloud Accounts are created in approval_pending
+// status.  The owner of the target network can accept or reject connection requests by patching status to attached or
+// rejected respectively.
+const (
+	UpdateGatewayVirtualConnectionOptions_Status_Attached = "attached"
+	UpdateGatewayVirtualConnectionOptions_Status_Rejected = "rejected"
+)
+
 // NewUpdateGatewayVirtualConnectionOptions : Instantiate UpdateGatewayVirtualConnectionOptions
-func (*DirectLinkV1) NewUpdateGatewayVirtualConnectionOptions(gatewayID string, id string, gatewayVirtualConnectionPatchTemplatePatch map[string]interface{}) *UpdateGatewayVirtualConnectionOptions {
+func (*DirectLinkV1) NewUpdateGatewayVirtualConnectionOptions(gatewayID string, id string) *UpdateGatewayVirtualConnectionOptions {
 	return &UpdateGatewayVirtualConnectionOptions{
 		GatewayID: core.StringPtr(gatewayID),
 		ID:        core.StringPtr(id),
-		GatewayVirtualConnectionPatchTemplatePatch: gatewayVirtualConnectionPatchTemplatePatch,
 	}
 }
 
@@ -11046,9 +8464,15 @@ func (_options *UpdateGatewayVirtualConnectionOptions) SetID(id string) *UpdateG
 	return _options
 }
 
-// SetGatewayVirtualConnectionPatchTemplatePatch : Allow user to set GatewayVirtualConnectionPatchTemplatePatch
-func (_options *UpdateGatewayVirtualConnectionOptions) SetGatewayVirtualConnectionPatchTemplatePatch(gatewayVirtualConnectionPatchTemplatePatch map[string]interface{}) *UpdateGatewayVirtualConnectionOptions {
-	_options.GatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplatePatch
+// SetName : Allow user to set Name
+func (_options *UpdateGatewayVirtualConnectionOptions) SetName(name string) *UpdateGatewayVirtualConnectionOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetStatus : Allow user to set Status
+func (_options *UpdateGatewayVirtualConnectionOptions) SetStatus(status string) *UpdateGatewayVirtualConnectionOptions {
+	_options.Status = core.StringPtr(status)
 	return _options
 }
 
@@ -11100,27 +8524,22 @@ func UnmarshalUpdateRouteFilterTemplate(m map[string]json.RawMessage, result int
 	obj := new(UpdateRouteFilterTemplate)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11129,161 +8548,11 @@ func UnmarshalUpdateRouteFilterTemplate(m map[string]json.RawMessage, result int
 
 // AsPatch returns a generic map representation of the UpdateRouteFilterTemplate
 func (updateRouteFilterTemplate *UpdateRouteFilterTemplate) AsPatch() (_patch map[string]interface{}, err error) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(updateRouteFilterTemplate.Action) {
-		_patch["action"] = updateRouteFilterTemplate.Action
+	var jsonData []byte
+	jsonData, err = json.Marshal(updateRouteFilterTemplate)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
 	}
-	if !core.IsNil(updateRouteFilterTemplate.Before) {
-		_patch["before"] = updateRouteFilterTemplate.Before
-	}
-	if !core.IsNil(updateRouteFilterTemplate.Ge) {
-		_patch["ge"] = updateRouteFilterTemplate.Ge
-	}
-	if !core.IsNil(updateRouteFilterTemplate.Le) {
-		_patch["le"] = updateRouteFilterTemplate.Le
-	}
-	if !core.IsNil(updateRouteFilterTemplate.Prefix) {
-		_patch["prefix"] = updateRouteFilterTemplate.Prefix
-	}
-
-	return
-}
-
-// AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity : A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-// This model "extends" AuthenticationKeyIdentity
-type AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity struct {
-	// The CRN of the key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// NewAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity : Instantiate AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity (Generic Model Constructor)
-func (*DirectLinkV1) NewAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(crn string) (_model *AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity, err error) {
-	_model = &AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity{
-		Crn: core.StringPtr(crn),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-func (*AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity) isaAuthenticationKeyIdentity() bool {
-	return true
-}
-
-// UnmarshalAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity unmarshals an instance of AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity from the specified map of raw messages.
-func UnmarshalAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity
-func (authenticationKeyIdentityHpcsAuthenticationKeyIdentity *AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(authenticationKeyIdentityHpcsAuthenticationKeyIdentity.Crn) {
-		_patch["crn"] = authenticationKeyIdentityHpcsAuthenticationKeyIdentity.Crn
-	}
-
-	return
-}
-
-// AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity : A [Key Protect Standard Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial).
-// This model "extends" AuthenticationKeyIdentity
-type AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity struct {
-	// The CRN of the key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// NewAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity : Instantiate AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity (Generic Model Constructor)
-func (*DirectLinkV1) NewAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(crn string) (_model *AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity, err error) {
-	_model = &AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity{
-		Crn: core.StringPtr(crn),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-func (*AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity) isaAuthenticationKeyIdentity() bool {
-	return true
-}
-
-// UnmarshalAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity unmarshals an instance of AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity from the specified map of raw messages.
-func UnmarshalAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
-func (authenticationKeyIdentityKeyProtectAuthenticationKeyIdentity *AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(authenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Crn) {
-		_patch["crn"] = authenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Crn
-	}
-
-	return
-}
-
-// AuthenticationKeyReferenceHpcsAuthenticationKeyReference : A reference to a [Hyper Protect Crypto Service Standard
-// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-// This model "extends" AuthenticationKeyReference
-type AuthenticationKeyReferenceHpcsAuthenticationKeyReference struct {
-	// The CRN of the referenced key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-func (*AuthenticationKeyReferenceHpcsAuthenticationKeyReference) isaAuthenticationKeyReference() bool {
-	return true
-}
-
-// UnmarshalAuthenticationKeyReferenceHpcsAuthenticationKeyReference unmarshals an instance of AuthenticationKeyReferenceHpcsAuthenticationKeyReference from the specified map of raw messages.
-func UnmarshalAuthenticationKeyReferenceHpcsAuthenticationKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AuthenticationKeyReferenceHpcsAuthenticationKeyReference)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference : A reference to a [Key Protect Standard
-// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial).
-// This model "extends" AuthenticationKeyReference
-type AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference struct {
-	// The CRN of the referenced key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-func (*AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference) isaAuthenticationKeyReference() bool {
-	return true
-}
-
-// UnmarshalAuthenticationKeyReferenceKeyProtectAuthenticationKeyReference unmarshals an instance of AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference from the specified map of raw messages.
-func UnmarshalAuthenticationKeyReferenceKeyProtectAuthenticationKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
@@ -11304,7 +8573,6 @@ func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate(m map[st
 	obj := new(GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate)
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11343,12 +8611,10 @@ func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate(m map[str
 	obj := new(GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate)
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11371,7 +8637,6 @@ func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate(m map[str
 	obj := new(GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11396,7 +8661,6 @@ func UnmarshalGatewayActionTemplateUpdatesItemGatewayClientVLANUpdate(m map[stri
 	obj := new(GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate)
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11420,7 +8684,6 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate)
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11459,12 +8722,10 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate)
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11487,7 +8748,6 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11512,7 +8772,6 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesIte
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate)
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11536,7 +8795,6 @@ func UnmarshalGatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate(m map[str
 	obj := new(GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate)
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11575,12 +8833,10 @@ func UnmarshalGatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate(m map[stri
 	obj := new(GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate)
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11603,7 +8859,6 @@ func UnmarshalGatewayChangeRequestUpdatesItemGatewayClientSpeedUpdate(m map[stri
 	obj := new(GatewayChangeRequestUpdatesItemGatewayClientSpeedUpdate)
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11628,7 +8883,6 @@ func UnmarshalGatewayChangeRequestUpdatesItemGatewayClientVLANUpdate(m map[strin
 	obj := new(GatewayChangeRequestUpdatesItemGatewayClientVLANUpdate)
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11657,7 +8911,6 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayCreate(m map[string]json.R
 	obj := new(GatewayChangeRequestGatewayClientGatewayCreate)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11686,7 +8939,6 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayDelete(m map[string]json.R
 	obj := new(GatewayChangeRequestGatewayClientGatewayDelete)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11718,12 +8970,10 @@ func UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributes(m map[str
 	obj := new(GatewayChangeRequestGatewayClientGatewayUpdateAttributes)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "updates", &obj.Updates, UnmarshalGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updates-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11754,7 +9004,7 @@ type GatewayCollectionGatewaysItemCrossAccountGateway struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account" validate:"required"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
@@ -11783,8 +9033,8 @@ type GatewayCollectionGatewaysItemCrossAccountGateway struct {
 	// processes using this field  must tolerate unexpected values.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
 
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *CrossAccountGatewayPort `json:"port,omitempty"`
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps" validate:"required"`
@@ -11857,92 +9107,74 @@ func UnmarshalGatewayCollectionGatewaysItemCrossAccountGateway(m map[string]json
 	obj := new(GatewayCollectionGatewaysItemCrossAccountGateway)
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalCrossAccountGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11955,7 +9187,11 @@ type GatewayCollectionGatewaysItemGateway struct {
 	// array of AS Prepend information.
 	AsPrepends []AsPrepend `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyReferenceIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdConfig `json:"bfd_config,omitempty"`
@@ -11967,7 +9203,7 @@ type GatewayCollectionGatewaysItemGateway struct {
 	//
 	// See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -12009,7 +9245,7 @@ type GatewayCollectionGatewaysItemGateway struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account" validate:"required"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Customer name.  Only set for type=dedicated gateways.
@@ -12040,19 +9276,9 @@ type GatewayCollectionGatewaysItemGateway struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// Only included on type=dedicated direct links.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+	// Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfig `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -12063,18 +9289,10 @@ type GatewayCollectionGatewaysItemGateway struct {
 
 	// Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 	// processes using this field  must tolerate unexpected values.
-	//
-	// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
 
-	// Context for certain values of `operational_status`.
-	OperationalStatusReasons []GatewayStatusReason `json:"operational_status_reasons" validate:"required"`
-
-	// Gateway patch panel complete notification from implementation team.
-	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
-
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *GatewayPort `json:"port,omitempty"`
 
 	// Indicates whether gateway changes must be made via a provider portal.
 	ProviderApiManaged *bool `json:"provider_api_managed,omitempty"`
@@ -12084,6 +9302,9 @@ type GatewayCollectionGatewaysItemGateway struct {
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field  must tolerate unexpected values.
@@ -12135,27 +9356,9 @@ const (
 	GatewayCollectionGatewaysItemGateway_LinkStatus_Up   = "up"
 )
 
-// Constants associated with the GatewayCollectionGatewaysItemGateway.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// Only included on type=dedicated direct links.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-const (
-	GatewayCollectionGatewaysItemGateway_MacsecCapability_Macsec         = "macsec"
-	GatewayCollectionGatewaysItemGateway_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayCollectionGatewaysItemGateway_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 // Constants associated with the GatewayCollectionGatewaysItemGateway.OperationalStatus property.
 // Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field  must tolerate unexpected values.
-//
-// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
@@ -12166,7 +9369,6 @@ const (
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_CreatePending            = "create_pending"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_CreateRejected           = "create_rejected"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_DeletePending            = "delete_pending"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_Failed                   = "failed"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaAccepted              = "loa_accepted"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaCreated               = "loa_created"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaRejected              = "loa_rejected"
@@ -12190,202 +9392,154 @@ func UnmarshalGatewayCollectionGatewaysItemGateway(m map[string]json.RawMessage,
 	obj := new(GatewayCollectionGatewaysItemGateway)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrepend)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyReference)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_asn", &obj.BgpIbmAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "change_request", &obj.ChangeRequest, UnmarshalGatewayChangeRequest)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "change_request-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "completion_notice_reject_reason", &obj.CompletionNoticeRejectReason)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "completion_notice_reject_reason-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecReference)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "operational_status_reasons", &obj.OperationalStatusReasons, UnmarshalGatewayStatusReason)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provider_api_managed", &obj.ProviderApiManaged)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provider_api_managed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12429,17 +9583,14 @@ func UnmarshalGatewayStatusGatewayBFDStatus(m map[string]json.RawMessage, result
 	obj := new(GatewayStatusGatewayBFDStatus)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12483,17 +9634,14 @@ func UnmarshalGatewayStatusGatewayBGPStatus(m map[string]json.RawMessage, result
 	obj := new(GatewayStatusGatewayBGPStatus)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12535,17 +9683,14 @@ func UnmarshalGatewayStatusGatewayLinkStatus(m map[string]json.RawMessage, resul
 	obj := new(GatewayStatusGatewayLinkStatus)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12558,7 +9703,7 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 	// array of AS Prepend configuration information.
 	AsPrepends []AsPrependTemplate `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyIdentityIntf `json:"authentication_key,omitempty"`
+	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
 
 	BfdConfig *GatewayBfdConfigTemplate `json:"bfd_config,omitempty"`
 
@@ -12570,7 +9715,7 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 	// Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
 	// automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -12679,9 +9824,6 @@ func (*DirectLinkV1) NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn int64, 
 		Port:      port,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -12694,102 +9836,82 @@ func UnmarshalGatewayTemplateGatewayTypeConnectTemplate(m map[string]json.RawMes
 	obj := new(GatewayTemplateGatewayTypeConnectTemplate)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyIdentity)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayTemplateAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfigTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "export_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "import_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortIdentity)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12802,7 +9924,7 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// array of AS Prepend configuration information.
 	AsPrepends []AsPrependTemplate `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyIdentityIntf `json:"authentication_key,omitempty"`
+	AuthenticationKey *GatewayTemplateAuthenticationKey `json:"authentication_key,omitempty"`
 
 	BfdConfig *GatewayBfdConfigTemplate `json:"bfd_config,omitempty"`
 
@@ -12814,7 +9936,7 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
 	// automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -12889,26 +10011,8 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecPrototype `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	//
-	// If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
-	// capabilities and available ports:
-	//   - `macsec` was not provided in the request
-	//     - `non_macsec`
-	//     - `macsec_optional`
-	//   - `macsec` was provided in the request
-	//     - `macsec_optional`
-	//     - `macsec`.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfigTemplate `json:"macsec_config,omitempty"`
 
 	// The VLAN to configure for this gateway.
 	Vlan *int64 `json:"vlan,omitempty"`
@@ -12944,29 +10048,6 @@ const (
 	GatewayTemplateGatewayTypeDedicatedTemplate_Type_Dedicated = "dedicated"
 )
 
-// Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-//
-// If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
-// capabilities and available ports:
-//   - `macsec` was not provided in the request
-//   - `non_macsec`
-//   - `macsec_optional`
-//   - `macsec` was provided in the request
-//   - `macsec_optional`
-//   - `macsec`.
-const (
-	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_Macsec         = "macsec"
-	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 // NewGatewayTemplateGatewayTypeDedicatedTemplate : Instantiate GatewayTemplateGatewayTypeDedicatedTemplate (Generic Model Constructor)
 func (*DirectLinkV1) NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn int64, global bool, metered bool, name string, speedMbps int64, typeVar string, carrierName string, crossConnectRouter string, customerName string, locationName string) (_model *GatewayTemplateGatewayTypeDedicatedTemplate, err error) {
 	_model = &GatewayTemplateGatewayTypeDedicatedTemplate{
@@ -12982,9 +10063,6 @@ func (*DirectLinkV1) NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn int64
 		LocationName:       core.StringPtr(locationName),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
 	return
 }
 
@@ -12997,132 +10075,102 @@ func UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(m map[string]json.RawM
 	obj := new(GatewayTemplateGatewayTypeDedicatedTemplate)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrependTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyIdentity)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayTemplateAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfigTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "export_route_filters", &obj.ExportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "export_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "import_route_filters", &obj.ImportRouteFilters, UnmarshalGatewayTemplateRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "import_route_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecPrototype)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfigTemplate)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13153,7 +10201,7 @@ type GetGatewayResponseCrossAccountGateway struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account" validate:"required"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Gateways with global routing (`true`) can connect to networks outside their associated region.
@@ -13182,8 +10230,8 @@ type GetGatewayResponseCrossAccountGateway struct {
 	// processes using this field  must tolerate unexpected values.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
 
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *CrossAccountGatewayPort `json:"port,omitempty"`
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps" validate:"required"`
@@ -13256,92 +10304,74 @@ func UnmarshalGetGatewayResponseCrossAccountGateway(m map[string]json.RawMessage
 	obj := new(GetGatewayResponseCrossAccountGateway)
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalCrossAccountGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13354,7 +10384,11 @@ type GetGatewayResponseGateway struct {
 	// array of AS Prepend information.
 	AsPrepends []AsPrepend `json:"as_prepends,omitempty"`
 
-	AuthenticationKey AuthenticationKeyReferenceIntf `json:"authentication_key,omitempty"`
+	// The identity of the standard key to use for BGP MD5 authentication key.
+	// The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
+	// length.
+	// To clear the optional `authentication_key` field patch its crn to `""`.
+	AuthenticationKey *GatewayAuthenticationKey `json:"authentication_key,omitempty"`
 
 	// BFD configuration information.
 	BfdConfig *GatewayBfdConfig `json:"bfd_config,omitempty"`
@@ -13366,7 +10400,7 @@ type GetGatewayResponseGateway struct {
 	//
 	// See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
 	//
-	// Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
+	// Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
 	BgpBaseCidr *string `json:"bgp_base_cidr,omitempty"`
 
 	// BGP customer edge router CIDR.
@@ -13408,7 +10442,7 @@ type GetGatewayResponseGateway struct {
 	// Indicates whether this gateway is cross account gateway.
 	CrossAccount *bool `json:"cross_account" validate:"required"`
 
-	// Cross connect router. Only included on type=dedicated gateways.
+	// Cross connect router.  Only included on type=dedicated gateways.
 	CrossConnectRouter *string `json:"cross_connect_router,omitempty"`
 
 	// Customer name.  Only set for type=dedicated gateways.
@@ -13439,19 +10473,9 @@ type GetGatewayResponseGateway struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
-	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
-
-	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-	// `cross_connect_router`.
-	//
-	// Only included on type=dedicated direct links.
-	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-	// direct link creation.
-	MacsecCapability *string `json:"macsec_capability,omitempty"`
+	// MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+	// Contact IBM support for access to MACsec.
+	MacsecConfig *GatewayMacsecConfig `json:"macsec_config,omitempty"`
 
 	// Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
 	// usage charge, instead a flat rate is charged for the gateway.
@@ -13462,18 +10486,10 @@ type GetGatewayResponseGateway struct {
 
 	// Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 	// processes using this field  must tolerate unexpected values.
-	//
-	// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 	OperationalStatus *string `json:"operational_status" validate:"required"`
 
-	// Context for certain values of `operational_status`.
-	OperationalStatusReasons []GatewayStatusReason `json:"operational_status_reasons" validate:"required"`
-
-	// Gateway patch panel complete notification from implementation team.
-	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
-
-	// Port information for type=connect gateways.
-	Port *GatewayPortReference `json:"port,omitempty"`
+	// gateway port for type=connect gateways.
+	Port *GatewayPort `json:"port,omitempty"`
 
 	// Indicates whether gateway changes must be made via a provider portal.
 	ProviderApiManaged *bool `json:"provider_api_managed,omitempty"`
@@ -13483,6 +10499,9 @@ type GetGatewayResponseGateway struct {
 
 	// Gateway speed in megabits per second.
 	SpeedMbps *int64 `json:"speed_mbps" validate:"required"`
+
+	// Gateway patch panel complete notification from implementation team.
+	PatchPanelCompletionNotice *string `json:"patch_panel_completion_notice,omitempty"`
 
 	// Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 	// this field  must tolerate unexpected values.
@@ -13534,27 +10553,9 @@ const (
 	GetGatewayResponseGateway_LinkStatus_Up   = "up"
 )
 
-// Constants associated with the GetGatewayResponseGateway.MacsecCapability property.
-// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
-// `cross_connect_router`.
-//
-// Only included on type=dedicated direct links.
-//
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-// direct link creation.
-const (
-	GetGatewayResponseGateway_MacsecCapability_Macsec         = "macsec"
-	GetGatewayResponseGateway_MacsecCapability_MacsecOptional = "macsec_optional"
-	GetGatewayResponseGateway_MacsecCapability_NonMacsec      = "non_macsec"
-)
-
 // Constants associated with the GetGatewayResponseGateway.OperationalStatus property.
 // Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field  must tolerate unexpected values.
-//
-// See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GetGatewayResponseGateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
 	GetGatewayResponseGateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
@@ -13565,7 +10566,6 @@ const (
 	GetGatewayResponseGateway_OperationalStatus_CreatePending            = "create_pending"
 	GetGatewayResponseGateway_OperationalStatus_CreateRejected           = "create_rejected"
 	GetGatewayResponseGateway_OperationalStatus_DeletePending            = "delete_pending"
-	GetGatewayResponseGateway_OperationalStatus_Failed                   = "failed"
 	GetGatewayResponseGateway_OperationalStatus_LoaAccepted              = "loa_accepted"
 	GetGatewayResponseGateway_OperationalStatus_LoaCreated               = "loa_created"
 	GetGatewayResponseGateway_OperationalStatus_LoaRejected              = "loa_rejected"
@@ -13589,202 +10589,154 @@ func UnmarshalGetGatewayResponseGateway(m map[string]json.RawMessage, result int
 	obj := new(GetGatewayResponseGateway)
 	err = core.UnmarshalModel(m, "as_prepends", &obj.AsPrepends, UnmarshalAsPrepend)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "as_prepends-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalAuthenticationKeyReference)
+	err = core.UnmarshalModel(m, "authentication_key", &obj.AuthenticationKey, UnmarshalGatewayAuthenticationKey)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "authentication_key-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bfd_config", &obj.BfdConfig, UnmarshalGatewayBfdConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bfd_config-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_asn", &obj.BgpAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_base_cidr", &obj.BgpBaseCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_base_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_cer_cidr", &obj.BgpCerCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_cer_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_asn", &obj.BgpIbmAsn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_ibm_cidr", &obj.BgpIbmCidr)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_ibm_cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status", &obj.BgpStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bgp_status_updated_at", &obj.BgpStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "bgp_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "carrier_name", &obj.CarrierName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "carrier_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "change_request", &obj.ChangeRequest, UnmarshalGatewayChangeRequest)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "change_request-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "completion_notice_reject_reason", &obj.CompletionNoticeRejectReason)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "completion_notice_reject_reason-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_mode", &obj.ConnectionMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "connection_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_account", &obj.CrossAccount)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cross_connect_router", &obj.CrossConnectRouter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "cross_connect_router-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "customer_name", &obj.CustomerName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "customer_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_export_route_filter", &obj.DefaultExportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_export_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_import_route_filter", &obj.DefaultImportRouteFilter)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "default_import_route_filter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status_updated_at", &obj.LinkStatusUpdatedAt)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "link_status_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_display_name", &obj.LocationDisplayName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location_name", &obj.LocationName)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "location_name-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "macsec", &obj.Macsec, UnmarshalGatewayMacsecReference)
+	err = core.UnmarshalModel(m, "macsec_config", &obj.MacsecConfig, UnmarshalGatewayMacsecConfig)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "macsec_capability", &obj.MacsecCapability)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "macsec_capability-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metered", &obj.Metered)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "metered-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "operational_status", &obj.OperationalStatus)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "operational_status_reasons", &obj.OperationalStatusReasons, UnmarshalGatewayStatusReason)
+	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPort)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "operational_status_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "patch_panel_completion_notice-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "port", &obj.Port, UnmarshalGatewayPortReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "port-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "provider_api_managed", &obj.ProviderApiManaged)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "provider_api_managed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "speed_mbps", &obj.SpeedMbps)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "speed_mbps-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "patch_panel_completion_notice", &obj.PatchPanelCompletionNotice)
+	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "vlan-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13819,17 +10771,14 @@ func UnmarshalRouteReportOverlappingRouteForConnection(m map[string]json.RawMess
 	obj := new(RouteReportOverlappingRouteForConnection)
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "virtual_connection_id", &obj.VirtualConnectionID)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "virtual_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13862,286 +10811,10 @@ func UnmarshalRouteReportOverlappingRouteForOthers(m map[string]json.RawMessage,
 	obj := new(RouteReportOverlappingRouteForOthers)
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SakRekeyPacketNumberRolloverMode : SAK rekey mode based on a high proportion of used packet numbers with the current SAK (the exact threshold determined
-// at the system's discretion).
-// This model "extends" SakRekey
-type SakRekeyPacketNumberRolloverMode struct {
-	// Determines that the SAK rekey occurs based on the used packet numbers.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the SakRekeyPacketNumberRolloverMode.Mode property.
-// Determines that the SAK rekey occurs based on the used packet numbers.
-const (
-	SakRekeyPacketNumberRolloverMode_Mode_PacketNumberRollover = "packet_number_rollover"
-)
-
-func (*SakRekeyPacketNumberRolloverMode) isaSakRekey() bool {
-	return true
-}
-
-// UnmarshalSakRekeyPacketNumberRolloverMode unmarshals an instance of SakRekeyPacketNumberRolloverMode from the specified map of raw messages.
-func UnmarshalSakRekeyPacketNumberRolloverMode(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPacketNumberRolloverMode)
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SakRekeyPatchSakRekeyPacketNumberRolloverModePatch : SAK rekey mode based on a high proportion of used packet numbers with the current SAK (the exact threshold determined
-// at the system's discretion).
-// This model "extends" SakRekeyPatch
-type SakRekeyPatchSakRekeyPacketNumberRolloverModePatch struct {
-	// Determines that the SAK rekey occurs based on the used packet numbers.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the SakRekeyPatchSakRekeyPacketNumberRolloverModePatch.Mode property.
-// Determines that the SAK rekey occurs based on the used packet numbers.
-const (
-	SakRekeyPatchSakRekeyPacketNumberRolloverModePatch_Mode_PacketNumberRollover = "packet_number_rollover"
-)
-
-// NewSakRekeyPatchSakRekeyPacketNumberRolloverModePatch : Instantiate SakRekeyPatchSakRekeyPacketNumberRolloverModePatch (Generic Model Constructor)
-func (*DirectLinkV1) NewSakRekeyPatchSakRekeyPacketNumberRolloverModePatch(mode string) (_model *SakRekeyPatchSakRekeyPacketNumberRolloverModePatch, err error) {
-	_model = &SakRekeyPatchSakRekeyPacketNumberRolloverModePatch{
-		Mode: core.StringPtr(mode),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-func (*SakRekeyPatchSakRekeyPacketNumberRolloverModePatch) isaSakRekeyPatch() bool {
-	return true
-}
-
-// UnmarshalSakRekeyPatchSakRekeyPacketNumberRolloverModePatch unmarshals an instance of SakRekeyPatchSakRekeyPacketNumberRolloverModePatch from the specified map of raw messages.
-func UnmarshalSakRekeyPatchSakRekeyPacketNumberRolloverModePatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPatchSakRekeyPacketNumberRolloverModePatch)
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the SakRekeyPatchSakRekeyPacketNumberRolloverModePatch
-func (sakRekeyPatchSakRekeyPacketNumberRolloverModePatch *SakRekeyPatchSakRekeyPacketNumberRolloverModePatch) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(sakRekeyPatchSakRekeyPacketNumberRolloverModePatch.Mode) {
-		_patch["mode"] = sakRekeyPatchSakRekeyPacketNumberRolloverModePatch.Mode
-	}
-
-	return
-}
-
-// SakRekeyPatchSakRekeyTimerModePatch : SAK rekey mode based on length of time since last rekey.
-// This model "extends" SakRekeyPatch
-type SakRekeyPatchSakRekeyTimerModePatch struct {
-	// The time, in seconds, to force a Secure Association Key (SAK) rekey.
-	Interval *int64 `json:"interval" validate:"required"`
-
-	// Determines that the SAK rekey occurs based on a timer.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the SakRekeyPatchSakRekeyTimerModePatch.Mode property.
-// Determines that the SAK rekey occurs based on a timer.
-const (
-	SakRekeyPatchSakRekeyTimerModePatch_Mode_Timer = "timer"
-)
-
-// NewSakRekeyPatchSakRekeyTimerModePatch : Instantiate SakRekeyPatchSakRekeyTimerModePatch (Generic Model Constructor)
-func (*DirectLinkV1) NewSakRekeyPatchSakRekeyTimerModePatch(interval int64, mode string) (_model *SakRekeyPatchSakRekeyTimerModePatch, err error) {
-	_model = &SakRekeyPatchSakRekeyTimerModePatch{
-		Interval: core.Int64Ptr(interval),
-		Mode:     core.StringPtr(mode),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-func (*SakRekeyPatchSakRekeyTimerModePatch) isaSakRekeyPatch() bool {
-	return true
-}
-
-// UnmarshalSakRekeyPatchSakRekeyTimerModePatch unmarshals an instance of SakRekeyPatchSakRekeyTimerModePatch from the specified map of raw messages.
-func UnmarshalSakRekeyPatchSakRekeyTimerModePatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPatchSakRekeyTimerModePatch)
-	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the SakRekeyPatchSakRekeyTimerModePatch
-func (sakRekeyPatchSakRekeyTimerModePatch *SakRekeyPatchSakRekeyTimerModePatch) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(sakRekeyPatchSakRekeyTimerModePatch.Interval) {
-		_patch["interval"] = sakRekeyPatchSakRekeyTimerModePatch.Interval
-	}
-	if !core.IsNil(sakRekeyPatchSakRekeyTimerModePatch.Mode) {
-		_patch["mode"] = sakRekeyPatchSakRekeyTimerModePatch.Mode
-	}
-
-	return
-}
-
-// SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype : Packet number (PN) rollover SAK rekey mode. The SAK is rekeyed based on the proportion of used packet numbers with
-// the current SAK.
-// This model "extends" SakRekeyPrototype
-type SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype struct {
-	// Determines that the SAK rekey occurs based on the used packet numbers.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype.Mode property.
-// Determines that the SAK rekey occurs based on the used packet numbers.
-const (
-	SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype_Mode_PacketNumberRollover = "packet_number_rollover"
-)
-
-// NewSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype : Instantiate SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype (Generic Model Constructor)
-func (*DirectLinkV1) NewSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype(mode string) (_model *SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype, err error) {
-	_model = &SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype{
-		Mode: core.StringPtr(mode),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-func (*SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype) isaSakRekeyPrototype() bool {
-	return true
-}
-
-// UnmarshalSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype unmarshals an instance of SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype from the specified map of raw messages.
-func UnmarshalSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype)
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SakRekeyPrototypeSakRekeyTimerModePrototype : SAK rekey mode based on length of time since last rekey.
-// This model "extends" SakRekeyPrototype
-type SakRekeyPrototypeSakRekeyTimerModePrototype struct {
-	// The time, in seconds, to force a Secure Association Key (SAK) rekey.
-	Interval *int64 `json:"interval" validate:"required"`
-
-	// Determines that the SAK rekey occurs based on a timer.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the SakRekeyPrototypeSakRekeyTimerModePrototype.Mode property.
-// Determines that the SAK rekey occurs based on a timer.
-const (
-	SakRekeyPrototypeSakRekeyTimerModePrototype_Mode_Timer = "timer"
-)
-
-// NewSakRekeyPrototypeSakRekeyTimerModePrototype : Instantiate SakRekeyPrototypeSakRekeyTimerModePrototype (Generic Model Constructor)
-func (*DirectLinkV1) NewSakRekeyPrototypeSakRekeyTimerModePrototype(interval int64, mode string) (_model *SakRekeyPrototypeSakRekeyTimerModePrototype, err error) {
-	_model = &SakRekeyPrototypeSakRekeyTimerModePrototype{
-		Interval: core.Int64Ptr(interval),
-		Mode:     core.StringPtr(mode),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-func (*SakRekeyPrototypeSakRekeyTimerModePrototype) isaSakRekeyPrototype() bool {
-	return true
-}
-
-// UnmarshalSakRekeyPrototypeSakRekeyTimerModePrototype unmarshals an instance of SakRekeyPrototypeSakRekeyTimerModePrototype from the specified map of raw messages.
-func UnmarshalSakRekeyPrototypeSakRekeyTimerModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyPrototypeSakRekeyTimerModePrototype)
-	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SakRekeyTimerMode : SAK rekey mode based on length of time since last rekey.
-// This model "extends" SakRekey
-type SakRekeyTimerMode struct {
-	// The time, in seconds, to force a Secure Association Key (SAK) rekey.
-	Interval *int64 `json:"interval" validate:"required"`
-
-	// Determines that the SAK rekey occurs based on a timer.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the SakRekeyTimerMode.Mode property.
-// Determines that the SAK rekey occurs based on a timer.
-const (
-	SakRekeyTimerMode_Mode_Timer = "timer"
-)
-
-func (*SakRekeyTimerMode) isaSakRekey() bool {
-	return true
-}
-
-// UnmarshalSakRekeyTimerMode unmarshals an instance of SakRekeyTimerMode from the specified map of raw messages.
-func UnmarshalSakRekeyTimerMode(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SakRekeyTimerMode)
-	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "interval-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14161,7 +10834,7 @@ type PortsPager struct {
 // NewPortsPager returns a new PortsPager instance.
 func (directLink *DirectLinkV1) NewPortsPager(options *ListPortsOptions) (pager *PortsPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
+		err = fmt.Errorf("the 'options.Start' field should not be set")
 		return
 	}
 
@@ -14189,7 +10862,6 @@ func (pager *PortsPager) GetNextWithContext(ctx context.Context) (page []Port, e
 
 	result, _, err := pager.client.ListPortsWithContext(ctx, pager.options)
 	if err != nil {
-		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -14211,7 +10883,6 @@ func (pager *PortsPager) GetAllWithContext(ctx context.Context) (allItems []Port
 		var nextPage []Port
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
-			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -14221,14 +10892,10 @@ func (pager *PortsPager) GetAllWithContext(ctx context.Context) (allItems []Port
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *PortsPager) GetNext() (page []Port, err error) {
-	page, err = pager.GetNextWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetNextWithContext(context.Background())
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *PortsPager) GetAll() (allItems []Port, err error) {
-	allItems, err = pager.GetAllWithContext(context.Background())
-	err = core.RepurposeSDKProblem(err, "")
-	return
+	return pager.GetAllWithContext(context.Background())
 }

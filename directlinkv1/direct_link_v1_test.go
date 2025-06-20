@@ -19,8 +19,6 @@ package directlinkv1_test
 import (
 	"bytes"
 	"context"
-	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -43,7 +41,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Version:       core.StringPtr(version),
-				ServiceName:   "dl_services",
 			})
 			Expect(directLinkService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -247,7 +244,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully with retries`, func() {
@@ -302,7 +299,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
@@ -424,9 +421,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayTemplateAuthenticationKey model
+				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
+				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigTemplate model
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
@@ -444,33 +441,25 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPrototype model
-				gatewayMacsecPrototypeModel := new(directlinkv1.GatewayMacsecPrototype)
-				gatewayMacsecPrototypeModel.Active = core.BoolPtr(true)
-				gatewayMacsecPrototypeModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				gatewayMacsecPrototypeModel.SakRekey = sakRekeyPrototypeModel
-				gatewayMacsecPrototypeModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPrototypeModel.WindowSize = core.Int64Ptr(int64(64))
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				gatewayTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
 				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
@@ -492,8 +481,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
-				gatewayTemplateModel.Macsec = gatewayMacsecPrototypeModel
-				gatewayTemplateModel.MacsecCapability = core.StringPtr("non_macsec")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				gatewayTemplateModel.Vlan = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the CreateGatewayOptions model
@@ -553,7 +541,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully with retries`, func() {
@@ -573,9 +561,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayTemplateAuthenticationKey model
+				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
+				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigTemplate model
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
@@ -593,33 +581,25 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPrototype model
-				gatewayMacsecPrototypeModel := new(directlinkv1.GatewayMacsecPrototype)
-				gatewayMacsecPrototypeModel.Active = core.BoolPtr(true)
-				gatewayMacsecPrototypeModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				gatewayMacsecPrototypeModel.SakRekey = sakRekeyPrototypeModel
-				gatewayMacsecPrototypeModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPrototypeModel.WindowSize = core.Int64Ptr(int64(64))
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				gatewayTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
 				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
@@ -641,8 +621,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
-				gatewayTemplateModel.Macsec = gatewayMacsecPrototypeModel
-				gatewayTemplateModel.MacsecCapability = core.StringPtr("non_macsec")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				gatewayTemplateModel.Vlan = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the CreateGatewayOptions model
@@ -704,7 +683,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
@@ -729,9 +708,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayTemplateAuthenticationKey model
+				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
+				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigTemplate model
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
@@ -749,33 +728,25 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPrototype model
-				gatewayMacsecPrototypeModel := new(directlinkv1.GatewayMacsecPrototype)
-				gatewayMacsecPrototypeModel.Active = core.BoolPtr(true)
-				gatewayMacsecPrototypeModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				gatewayMacsecPrototypeModel.SakRekey = sakRekeyPrototypeModel
-				gatewayMacsecPrototypeModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPrototypeModel.WindowSize = core.Int64Ptr(int64(64))
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				gatewayTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
 				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
@@ -797,8 +768,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
-				gatewayTemplateModel.Macsec = gatewayMacsecPrototypeModel
-				gatewayTemplateModel.MacsecCapability = core.StringPtr("non_macsec")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				gatewayTemplateModel.Vlan = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the CreateGatewayOptions model
@@ -829,9 +799,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayTemplateAuthenticationKey model
+				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
+				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigTemplate model
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
@@ -849,33 +819,25 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPrototype model
-				gatewayMacsecPrototypeModel := new(directlinkv1.GatewayMacsecPrototype)
-				gatewayMacsecPrototypeModel.Active = core.BoolPtr(true)
-				gatewayMacsecPrototypeModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				gatewayMacsecPrototypeModel.SakRekey = sakRekeyPrototypeModel
-				gatewayMacsecPrototypeModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPrototypeModel.WindowSize = core.Int64Ptr(int64(64))
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				gatewayTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
 				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
@@ -897,8 +859,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
-				gatewayTemplateModel.Macsec = gatewayMacsecPrototypeModel
-				gatewayTemplateModel.MacsecCapability = core.StringPtr("non_macsec")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				gatewayTemplateModel.Vlan = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the CreateGatewayOptions model
@@ -950,9 +911,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayTemplateAuthenticationKey model
+				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
+				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigTemplate model
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
@@ -970,33 +931,25 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPrototype model
-				gatewayMacsecPrototypeModel := new(directlinkv1.GatewayMacsecPrototype)
-				gatewayMacsecPrototypeModel.Active = core.BoolPtr(true)
-				gatewayMacsecPrototypeModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				gatewayMacsecPrototypeModel.SakRekey = sakRekeyPrototypeModel
-				gatewayMacsecPrototypeModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPrototypeModel.WindowSize = core.Int64Ptr(int64(64))
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				gatewayTemplateModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				gatewayTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
 				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
@@ -1018,8 +971,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
-				gatewayTemplateModel.Macsec = gatewayMacsecPrototypeModel
-				gatewayTemplateModel.MacsecCapability = core.StringPtr("non_macsec")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				gatewayTemplateModel.Vlan = core.Int64Ptr(int64(10))
 
 				// Construct an instance of the CreateGatewayOptions model
@@ -1179,7 +1131,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully with retries`, func() {
@@ -1235,7 +1187,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
@@ -1360,18 +1312,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
+				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
+				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdPatchTemplate model
 				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
 				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the GatewayPatchTemplate model
 				gatewayPatchTemplateModel := new(directlinkv1.GatewayPatchTemplate)
-				gatewayPatchTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayPatchTemplateModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				gatewayPatchTemplateModel.BfdConfig = gatewayBfdPatchTemplateModel
 				gatewayPatchTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
@@ -1381,6 +1348,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				gatewayPatchTemplateModel.Global = core.BoolPtr(true)
 				gatewayPatchTemplateModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				gatewayPatchTemplateModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				gatewayPatchTemplateModel.Metered = core.BoolPtr(false)
 				gatewayPatchTemplateModel.Name = core.StringPtr("testGateway")
 				gatewayPatchTemplateModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -1448,7 +1416,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully with retries`, func() {
@@ -1461,18 +1429,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
+				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
+				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdPatchTemplate model
 				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
 				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the GatewayPatchTemplate model
 				gatewayPatchTemplateModel := new(directlinkv1.GatewayPatchTemplate)
-				gatewayPatchTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayPatchTemplateModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				gatewayPatchTemplateModel.BfdConfig = gatewayBfdPatchTemplateModel
 				gatewayPatchTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
@@ -1482,6 +1465,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				gatewayPatchTemplateModel.Global = core.BoolPtr(true)
 				gatewayPatchTemplateModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				gatewayPatchTemplateModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				gatewayPatchTemplateModel.Metered = core.BoolPtr(false)
 				gatewayPatchTemplateModel.Name = core.StringPtr("testGateway")
 				gatewayPatchTemplateModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -1551,7 +1535,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
@@ -1569,18 +1553,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
+				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
+				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdPatchTemplate model
 				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
 				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the GatewayPatchTemplate model
 				gatewayPatchTemplateModel := new(directlinkv1.GatewayPatchTemplate)
-				gatewayPatchTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayPatchTemplateModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				gatewayPatchTemplateModel.BfdConfig = gatewayBfdPatchTemplateModel
 				gatewayPatchTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
@@ -1590,6 +1589,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				gatewayPatchTemplateModel.Global = core.BoolPtr(true)
 				gatewayPatchTemplateModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				gatewayPatchTemplateModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				gatewayPatchTemplateModel.Metered = core.BoolPtr(false)
 				gatewayPatchTemplateModel.Name = core.StringPtr("testGateway")
 				gatewayPatchTemplateModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -1621,18 +1621,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
+				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
+				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdPatchTemplate model
 				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
 				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the GatewayPatchTemplate model
 				gatewayPatchTemplateModel := new(directlinkv1.GatewayPatchTemplate)
-				gatewayPatchTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayPatchTemplateModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				gatewayPatchTemplateModel.BfdConfig = gatewayBfdPatchTemplateModel
 				gatewayPatchTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
@@ -1642,6 +1657,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				gatewayPatchTemplateModel.Global = core.BoolPtr(true)
 				gatewayPatchTemplateModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				gatewayPatchTemplateModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				gatewayPatchTemplateModel.Metered = core.BoolPtr(false)
 				gatewayPatchTemplateModel.Name = core.StringPtr("testGateway")
 				gatewayPatchTemplateModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -1694,18 +1710,33 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayPatchTemplateAuthenticationKey model
+				gatewayPatchTemplateAuthenticationKeyModel := new(directlinkv1.GatewayPatchTemplateAuthenticationKey)
+				gatewayPatchTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdPatchTemplate model
 				gatewayBfdPatchTemplateModel := new(directlinkv1.GatewayBfdPatchTemplate)
 				gatewayBfdPatchTemplateModel.Interval = core.Int64Ptr(int64(2000))
 				gatewayBfdPatchTemplateModel.Multiplier = core.Int64Ptr(int64(10))
 
+				// Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+				gatewayMacsecConfigPatchTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplateFallbackCak)
+				gatewayMacsecConfigPatchTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigPatchTemplatePrimaryCak)
+				gatewayMacsecConfigPatchTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+				// Construct an instance of the GatewayMacsecConfigPatchTemplate model
+				gatewayMacsecConfigPatchTemplateModel := new(directlinkv1.GatewayMacsecConfigPatchTemplate)
+				gatewayMacsecConfigPatchTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigPatchTemplateModel.FallbackCak = gatewayMacsecConfigPatchTemplateFallbackCakModel
+				gatewayMacsecConfigPatchTemplateModel.PrimaryCak = gatewayMacsecConfigPatchTemplatePrimaryCakModel
+				gatewayMacsecConfigPatchTemplateModel.WindowSize = core.Int64Ptr(int64(512))
+
 				// Construct an instance of the GatewayPatchTemplate model
 				gatewayPatchTemplateModel := new(directlinkv1.GatewayPatchTemplate)
-				gatewayPatchTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayPatchTemplateModel.AuthenticationKey = gatewayPatchTemplateAuthenticationKeyModel
 				gatewayPatchTemplateModel.BfdConfig = gatewayBfdPatchTemplateModel
 				gatewayPatchTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("169.254.0.10/30")
@@ -1715,6 +1746,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayPatchTemplateModel.DefaultImportRouteFilter = core.StringPtr("permit")
 				gatewayPatchTemplateModel.Global = core.BoolPtr(true)
 				gatewayPatchTemplateModel.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
+				gatewayPatchTemplateModel.MacsecConfig = gatewayMacsecConfigPatchTemplateModel
 				gatewayPatchTemplateModel.Metered = core.BoolPtr(false)
 				gatewayPatchTemplateModel.Name = core.StringPtr("testGateway")
 				gatewayPatchTemplateModel.OperationalStatus = core.StringPtr("loa_accepted")
@@ -1776,9 +1808,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
+				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigActionTemplate model
 				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
@@ -1805,7 +1837,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				createGatewayActionOptionsModel.AuthenticationKey = authenticationKeyIdentityModel
+				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
@@ -1870,7 +1902,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully with retries`, func() {
@@ -1890,9 +1922,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
+				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigActionTemplate model
 				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
@@ -1919,7 +1951,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				createGatewayActionOptionsModel.AuthenticationKey = authenticationKeyIdentityModel
+				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
@@ -1986,7 +2018,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "Status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
@@ -2011,9 +2043,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
+				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigActionTemplate model
 				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
@@ -2040,7 +2072,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				createGatewayActionOptionsModel.AuthenticationKey = authenticationKeyIdentityModel
+				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
@@ -2076,9 +2108,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
+				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigActionTemplate model
 				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
@@ -2105,7 +2137,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				createGatewayActionOptionsModel.AuthenticationKey = authenticationKeyIdentityModel
+				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
@@ -2162,9 +2194,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 				asPrependTemplateModel.Prefix = core.StringPtr("172.17.0.0/16")
 				asPrependTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
+				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
 
 				// Construct an instance of the GatewayBfdConfigActionTemplate model
 				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
@@ -2191,7 +2223,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.Action = core.StringPtr("create_gateway_approve")
 				createGatewayActionOptionsModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				createGatewayActionOptionsModel.AuthenticationKey = authenticationKeyIdentityModel
+				createGatewayActionOptionsModel.AuthenticationKey = gatewayActionTemplateAuthenticationKeyModel
 				createGatewayActionOptionsModel.BfdConfig = gatewayBfdConfigActionTemplateModel
 				createGatewayActionOptionsModel.ConnectionMode = core.StringPtr("transit")
 				createGatewayActionOptionsModel.DefaultExportRouteFilter = core.StringPtr("permit")
@@ -3125,528 +3157,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) - Operation response error`, func() {
-		version := "testString"
-		listGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions)`, func() {
-		version := "testString"
-		listGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ListGatewayAsPrepends with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ListGatewayAsPrependsOptions model with no property values
-				listGatewayAsPrependsOptionsModelNew := new(directlinkv1.ListGatewayAsPrependsOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke ListGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayAsPrependsOptions model
-				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
-				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) - Operation response error`, func() {
-		version := "testString"
-		replaceGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("PUT"))
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions)`, func() {
-		version := "testString"
-		replaceGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ReplaceGatewayAsPrepends with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ReplaceGatewayAsPrependsOptions model with no property values
-				replaceGatewayAsPrependsOptionsModelNew := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(201)
-				}))
-			})
-			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the AsPrependPrefixArrayTemplate model
-				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
-				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
-				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
-				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
-				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
-				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
-				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
 	Describe(`ListGatewayExportRouteFilters(listGatewayExportRouteFiltersOptions *ListGatewayExportRouteFiltersOptions) - Operation response error`, func() {
 		version := "testString"
 		listGatewayExportRouteFiltersPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters"
@@ -4160,7 +3670,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayExportRouteFiltersPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
@@ -4186,7 +3696,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
 				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
 				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -4236,7 +3746,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
@@ -4267,7 +3777,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
 				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
 				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4322,7 +3832,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -4355,7 +3865,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
 				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
 				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4385,7 +3895,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
 				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
 				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4436,7 +3946,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
 				replaceGatewayExportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayExportRouteFiltersOptions)
 				replaceGatewayExportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayExportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayExportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5581,7 +5091,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayImportRouteFiltersPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
@@ -5607,7 +5117,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
 				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
 				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -5657,7 +5167,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
@@ -5688,7 +5198,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
 				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
 				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5743,7 +5253,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -5776,7 +5286,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
 				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
 				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5806,7 +5316,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
 				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
 				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -5857,7 +5367,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
 				replaceGatewayImportRouteFiltersOptionsModel := new(directlinkv1.ReplaceGatewayImportRouteFiltersOptions)
 				replaceGatewayImportRouteFiltersOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayImportRouteFiltersOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters = []directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}
 				replaceGatewayImportRouteFiltersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -6478,2125 +5988,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Invoke operation
 				result, response, operationErr := directLinkService.UpdateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`UnsetGatewayMacsec(unsetGatewayMacsecOptions *UnsetGatewayMacsecOptions)`, func() {
-		version := "testString"
-		unsetGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(unsetGatewayMacsecPath))
-					Expect(req.Method).To(Equal("DELETE"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.WriteHeader(204)
-				}))
-			})
-			It(`Invoke UnsetGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				response, operationErr := directLinkService.UnsetGatewayMacsec(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-
-				// Construct an instance of the UnsetGatewayMacsecOptions model
-				unsetGatewayMacsecOptionsModel := new(directlinkv1.UnsetGatewayMacsecOptions)
-				unsetGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				unsetGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				response, operationErr = directLinkService.UnsetGatewayMacsec(unsetGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-			})
-			It(`Invoke UnsetGatewayMacsec with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the UnsetGatewayMacsecOptions model
-				unsetGatewayMacsecOptionsModel := new(directlinkv1.UnsetGatewayMacsecOptions)
-				unsetGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				unsetGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				response, operationErr := directLinkService.UnsetGatewayMacsec(unsetGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				// Construct a second instance of the UnsetGatewayMacsecOptions model with no property values
-				unsetGatewayMacsecOptionsModelNew := new(directlinkv1.UnsetGatewayMacsecOptions)
-				// Invoke operation with invalid model (negative test)
-				response, operationErr = directLinkService.UnsetGatewayMacsec(unsetGatewayMacsecOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`GetGatewayMacsec(getGatewayMacsecOptions *GetGatewayMacsecOptions) - Operation response error`, func() {
-		version := "testString"
-		getGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayMacsecPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke GetGatewayMacsec with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecOptions model
-				getGatewayMacsecOptionsModel := new(directlinkv1.GetGatewayMacsecOptions)
-				getGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`GetGatewayMacsec(getGatewayMacsecOptions *GetGatewayMacsecOptions)`, func() {
-		version := "testString"
-		getGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayMacsecPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}`)
-				}))
-			})
-			It(`Invoke GetGatewayMacsec successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the GetGatewayMacsecOptions model
-				getGatewayMacsecOptionsModel := new(directlinkv1.GetGatewayMacsecOptions)
-				getGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.GetGatewayMacsecWithContext(ctx, getGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.GetGatewayMacsecWithContext(ctx, getGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayMacsecPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}`)
-				}))
-			})
-			It(`Invoke GetGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.GetGatewayMacsec(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecOptions model
-				getGatewayMacsecOptionsModel := new(directlinkv1.GetGatewayMacsecOptions)
-				getGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke GetGatewayMacsec with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecOptions model
-				getGatewayMacsecOptionsModel := new(directlinkv1.GetGatewayMacsecOptions)
-				getGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the GetGatewayMacsecOptions model with no property values
-				getGatewayMacsecOptionsModelNew := new(directlinkv1.GetGatewayMacsecOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke GetGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecOptions model
-				getGatewayMacsecOptionsModel := new(directlinkv1.GetGatewayMacsecOptions)
-				getGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.GetGatewayMacsec(getGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`UpdateGatewayMacsec(updateGatewayMacsecOptions *UpdateGatewayMacsecOptions) - Operation response error`, func() {
-		version := "testString"
-		updateGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayMacsecPath))
-					Expect(req.Method).To(Equal("PATCH"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsec with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the SakRekeyPatchSakRekeyTimerModePatch model
-				sakRekeyPatchModel := new(directlinkv1.SakRekeyPatchSakRekeyTimerModePatch)
-				sakRekeyPatchModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPatchModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPatch model
-				gatewayMacsecPatchModel := new(directlinkv1.GatewayMacsecPatch)
-				gatewayMacsecPatchModel.Active = core.BoolPtr(true)
-				gatewayMacsecPatchModel.SakRekey = sakRekeyPatchModel
-				gatewayMacsecPatchModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPatchModel.WindowSize = core.Int64Ptr(int64(64))
-				gatewayMacsecPatchModelAsPatch, asPatchErr := gatewayMacsecPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecOptions model
-				updateGatewayMacsecOptionsModel := new(directlinkv1.UpdateGatewayMacsecOptions)
-				updateGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecOptionsModel.GatewayMacsecPatch = gatewayMacsecPatchModelAsPatch
-				updateGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`UpdateGatewayMacsec(updateGatewayMacsecOptions *UpdateGatewayMacsecOptions)`, func() {
-		version := "testString"
-		updateGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayMacsecPath))
-					Expect(req.Method).To(Equal("PATCH"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}`)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsec successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the SakRekeyPatchSakRekeyTimerModePatch model
-				sakRekeyPatchModel := new(directlinkv1.SakRekeyPatchSakRekeyTimerModePatch)
-				sakRekeyPatchModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPatchModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPatch model
-				gatewayMacsecPatchModel := new(directlinkv1.GatewayMacsecPatch)
-				gatewayMacsecPatchModel.Active = core.BoolPtr(true)
-				gatewayMacsecPatchModel.SakRekey = sakRekeyPatchModel
-				gatewayMacsecPatchModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPatchModel.WindowSize = core.Int64Ptr(int64(64))
-				gatewayMacsecPatchModelAsPatch, asPatchErr := gatewayMacsecPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecOptions model
-				updateGatewayMacsecOptionsModel := new(directlinkv1.UpdateGatewayMacsecOptions)
-				updateGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecOptionsModel.GatewayMacsecPatch = gatewayMacsecPatchModelAsPatch
-				updateGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.UpdateGatewayMacsecWithContext(ctx, updateGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.UpdateGatewayMacsecWithContext(ctx, updateGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayMacsecPath))
-					Expect(req.Method).To(Equal("PATCH"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}`)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.UpdateGatewayMacsec(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the SakRekeyPatchSakRekeyTimerModePatch model
-				sakRekeyPatchModel := new(directlinkv1.SakRekeyPatchSakRekeyTimerModePatch)
-				sakRekeyPatchModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPatchModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPatch model
-				gatewayMacsecPatchModel := new(directlinkv1.GatewayMacsecPatch)
-				gatewayMacsecPatchModel.Active = core.BoolPtr(true)
-				gatewayMacsecPatchModel.SakRekey = sakRekeyPatchModel
-				gatewayMacsecPatchModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPatchModel.WindowSize = core.Int64Ptr(int64(64))
-				gatewayMacsecPatchModelAsPatch, asPatchErr := gatewayMacsecPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecOptions model
-				updateGatewayMacsecOptionsModel := new(directlinkv1.UpdateGatewayMacsecOptions)
-				updateGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecOptionsModel.GatewayMacsecPatch = gatewayMacsecPatchModelAsPatch
-				updateGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke UpdateGatewayMacsec with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the SakRekeyPatchSakRekeyTimerModePatch model
-				sakRekeyPatchModel := new(directlinkv1.SakRekeyPatchSakRekeyTimerModePatch)
-				sakRekeyPatchModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPatchModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPatch model
-				gatewayMacsecPatchModel := new(directlinkv1.GatewayMacsecPatch)
-				gatewayMacsecPatchModel.Active = core.BoolPtr(true)
-				gatewayMacsecPatchModel.SakRekey = sakRekeyPatchModel
-				gatewayMacsecPatchModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPatchModel.WindowSize = core.Int64Ptr(int64(64))
-				gatewayMacsecPatchModelAsPatch, asPatchErr := gatewayMacsecPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecOptions model
-				updateGatewayMacsecOptionsModel := new(directlinkv1.UpdateGatewayMacsecOptions)
-				updateGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecOptionsModel.GatewayMacsecPatch = gatewayMacsecPatchModelAsPatch
-				updateGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the UpdateGatewayMacsecOptions model with no property values
-				updateGatewayMacsecOptionsModelNew := new(directlinkv1.UpdateGatewayMacsecOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the SakRekeyPatchSakRekeyTimerModePatch model
-				sakRekeyPatchModel := new(directlinkv1.SakRekeyPatchSakRekeyTimerModePatch)
-				sakRekeyPatchModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPatchModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the GatewayMacsecPatch model
-				gatewayMacsecPatchModel := new(directlinkv1.GatewayMacsecPatch)
-				gatewayMacsecPatchModel.Active = core.BoolPtr(true)
-				gatewayMacsecPatchModel.SakRekey = sakRekeyPatchModel
-				gatewayMacsecPatchModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPatchModel.WindowSize = core.Int64Ptr(int64(64))
-				gatewayMacsecPatchModelAsPatch, asPatchErr := gatewayMacsecPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecOptions model
-				updateGatewayMacsecOptionsModel := new(directlinkv1.UpdateGatewayMacsecOptions)
-				updateGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecOptionsModel.GatewayMacsecPatch = gatewayMacsecPatchModelAsPatch
-				updateGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.UpdateGatewayMacsec(updateGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`SetGatewayMacsec(setGatewayMacsecOptions *SetGatewayMacsecOptions) - Operation response error`, func() {
-		version := "testString"
-		setGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(setGatewayMacsecPath))
-					Expect(req.Method).To(Equal("PUT"))
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke SetGatewayMacsec with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the SetGatewayMacsecOptions model
-				setGatewayMacsecOptionsModel := new(directlinkv1.SetGatewayMacsecOptions)
-				setGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				setGatewayMacsecOptionsModel.Active = core.BoolPtr(true)
-				setGatewayMacsecOptionsModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				setGatewayMacsecOptionsModel.SakRekey = sakRekeyPrototypeModel
-				setGatewayMacsecOptionsModel.SecurityPolicy = core.StringPtr("must_secure")
-				setGatewayMacsecOptionsModel.WindowSize = core.Int64Ptr(int64(64))
-				setGatewayMacsecOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				setGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`SetGatewayMacsec(setGatewayMacsecOptions *SetGatewayMacsecOptions)`, func() {
-		version := "testString"
-		setGatewayMacsecPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(setGatewayMacsecPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}`)
-				}))
-			})
-			It(`Invoke SetGatewayMacsec successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the SetGatewayMacsecOptions model
-				setGatewayMacsecOptionsModel := new(directlinkv1.SetGatewayMacsecOptions)
-				setGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				setGatewayMacsecOptionsModel.Active = core.BoolPtr(true)
-				setGatewayMacsecOptionsModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				setGatewayMacsecOptionsModel.SakRekey = sakRekeyPrototypeModel
-				setGatewayMacsecOptionsModel.SecurityPolicy = core.StringPtr("must_secure")
-				setGatewayMacsecOptionsModel.WindowSize = core.Int64Ptr(int64(64))
-				setGatewayMacsecOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				setGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.SetGatewayMacsecWithContext(ctx, setGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.SetGatewayMacsecWithContext(ctx, setGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(setGatewayMacsecPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.Header["If-Match"]).ToNot(BeNil())
-					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}`)
-				}))
-			})
-			It(`Invoke SetGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.SetGatewayMacsec(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the SetGatewayMacsecOptions model
-				setGatewayMacsecOptionsModel := new(directlinkv1.SetGatewayMacsecOptions)
-				setGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				setGatewayMacsecOptionsModel.Active = core.BoolPtr(true)
-				setGatewayMacsecOptionsModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				setGatewayMacsecOptionsModel.SakRekey = sakRekeyPrototypeModel
-				setGatewayMacsecOptionsModel.SecurityPolicy = core.StringPtr("must_secure")
-				setGatewayMacsecOptionsModel.WindowSize = core.Int64Ptr(int64(64))
-				setGatewayMacsecOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				setGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke SetGatewayMacsec with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the SetGatewayMacsecOptions model
-				setGatewayMacsecOptionsModel := new(directlinkv1.SetGatewayMacsecOptions)
-				setGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				setGatewayMacsecOptionsModel.Active = core.BoolPtr(true)
-				setGatewayMacsecOptionsModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				setGatewayMacsecOptionsModel.SakRekey = sakRekeyPrototypeModel
-				setGatewayMacsecOptionsModel.SecurityPolicy = core.StringPtr("must_secure")
-				setGatewayMacsecOptionsModel.WindowSize = core.Int64Ptr(int64(64))
-				setGatewayMacsecOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				setGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the SetGatewayMacsecOptions model with no property values
-				setGatewayMacsecOptionsModelNew := new(directlinkv1.SetGatewayMacsecOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke SetGatewayMacsec successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-
-				// Construct an instance of the SetGatewayMacsecOptions model
-				setGatewayMacsecOptionsModel := new(directlinkv1.SetGatewayMacsecOptions)
-				setGatewayMacsecOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				setGatewayMacsecOptionsModel.Active = core.BoolPtr(true)
-				setGatewayMacsecOptionsModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				setGatewayMacsecOptionsModel.SakRekey = sakRekeyPrototypeModel
-				setGatewayMacsecOptionsModel.SecurityPolicy = core.StringPtr("must_secure")
-				setGatewayMacsecOptionsModel.WindowSize = core.Int64Ptr(int64(64))
-				setGatewayMacsecOptionsModel.IfMatch = core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				setGatewayMacsecOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.SetGatewayMacsec(setGatewayMacsecOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ListGatewayMacsecCaks(listGatewayMacsecCaksOptions *ListGatewayMacsecCaksOptions) - Operation response error`, func() {
-		version := "testString"
-		listGatewayMacsecCaksPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayMacsecCaksPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ListGatewayMacsecCaks with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayMacsecCaksOptions model
-				listGatewayMacsecCaksOptionsModel := new(directlinkv1.ListGatewayMacsecCaksOptions)
-				listGatewayMacsecCaksOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayMacsecCaksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ListGatewayMacsecCaks(listGatewayMacsecCaksOptions *ListGatewayMacsecCaksOptions)`, func() {
-		version := "testString"
-		listGatewayMacsecCaksPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayMacsecCaksPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayMacsecCaks successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the ListGatewayMacsecCaksOptions model
-				listGatewayMacsecCaksOptionsModel := new(directlinkv1.ListGatewayMacsecCaksOptions)
-				listGatewayMacsecCaksOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayMacsecCaksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.ListGatewayMacsecCaksWithContext(ctx, listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.ListGatewayMacsecCaksWithContext(ctx, listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(listGatewayMacsecCaksPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
-				}))
-			})
-			It(`Invoke ListGatewayMacsecCaks successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.ListGatewayMacsecCaks(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the ListGatewayMacsecCaksOptions model
-				listGatewayMacsecCaksOptionsModel := new(directlinkv1.ListGatewayMacsecCaksOptions)
-				listGatewayMacsecCaksOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayMacsecCaksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ListGatewayMacsecCaks with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayMacsecCaksOptions model
-				listGatewayMacsecCaksOptionsModel := new(directlinkv1.ListGatewayMacsecCaksOptions)
-				listGatewayMacsecCaksOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayMacsecCaksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ListGatewayMacsecCaksOptions model with no property values
-				listGatewayMacsecCaksOptionsModelNew := new(directlinkv1.ListGatewayMacsecCaksOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke ListGatewayMacsecCaks successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the ListGatewayMacsecCaksOptions model
-				listGatewayMacsecCaksOptionsModel := new(directlinkv1.ListGatewayMacsecCaksOptions)
-				listGatewayMacsecCaksOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayMacsecCaksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.ListGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`CreateGatewayMacsecCak(createGatewayMacsecCakOptions *CreateGatewayMacsecCakOptions) - Operation response error`, func() {
-		version := "testString"
-		createGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(createGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("POST"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke CreateGatewayMacsecCak with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the CreateGatewayMacsecCakOptions model
-				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
-				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
-				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
-				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
-				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`CreateGatewayMacsecCak(createGatewayMacsecCakOptions *CreateGatewayMacsecCakOptions)`, func() {
-		version := "testString"
-		createGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(createGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("POST"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
-				}))
-			})
-			It(`Invoke CreateGatewayMacsecCak successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the CreateGatewayMacsecCakOptions model
-				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
-				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
-				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
-				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
-				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.CreateGatewayMacsecCakWithContext(ctx, createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.CreateGatewayMacsecCakWithContext(ctx, createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(createGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("POST"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
-				}))
-			})
-			It(`Invoke CreateGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.CreateGatewayMacsecCak(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the CreateGatewayMacsecCakOptions model
-				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
-				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
-				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
-				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
-				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke CreateGatewayMacsecCak with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the CreateGatewayMacsecCakOptions model
-				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
-				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
-				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
-				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
-				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the CreateGatewayMacsecCakOptions model with no property values
-				createGatewayMacsecCakOptionsModelNew := new(directlinkv1.CreateGatewayMacsecCakOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(201)
-				}))
-			})
-			It(`Invoke CreateGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the CreateGatewayMacsecCakOptions model
-				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
-				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
-				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
-				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
-				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.CreateGatewayMacsecCak(createGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`DeleteGatewayMacsecCak(deleteGatewayMacsecCakOptions *DeleteGatewayMacsecCakOptions)`, func() {
-		version := "testString"
-		deleteGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(deleteGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("DELETE"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.WriteHeader(204)
-				}))
-			})
-			It(`Invoke DeleteGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				response, operationErr := directLinkService.DeleteGatewayMacsecCak(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-
-				// Construct an instance of the DeleteGatewayMacsecCakOptions model
-				deleteGatewayMacsecCakOptionsModel := new(directlinkv1.DeleteGatewayMacsecCakOptions)
-				deleteGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				deleteGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				deleteGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				response, operationErr = directLinkService.DeleteGatewayMacsecCak(deleteGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-			})
-			It(`Invoke DeleteGatewayMacsecCak with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the DeleteGatewayMacsecCakOptions model
-				deleteGatewayMacsecCakOptionsModel := new(directlinkv1.DeleteGatewayMacsecCakOptions)
-				deleteGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				deleteGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				deleteGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				response, operationErr := directLinkService.DeleteGatewayMacsecCak(deleteGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				// Construct a second instance of the DeleteGatewayMacsecCakOptions model with no property values
-				deleteGatewayMacsecCakOptionsModelNew := new(directlinkv1.DeleteGatewayMacsecCakOptions)
-				// Invoke operation with invalid model (negative test)
-				response, operationErr = directLinkService.DeleteGatewayMacsecCak(deleteGatewayMacsecCakOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`GetGatewayMacsecCak(getGatewayMacsecCakOptions *GetGatewayMacsecCakOptions) - Operation response error`, func() {
-		version := "testString"
-		getGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke GetGatewayMacsecCak with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecCakOptions model
-				getGatewayMacsecCakOptionsModel := new(directlinkv1.GetGatewayMacsecCakOptions)
-				getGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				getGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`GetGatewayMacsecCak(getGatewayMacsecCakOptions *GetGatewayMacsecCakOptions)`, func() {
-		version := "testString"
-		getGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
-				}))
-			})
-			It(`Invoke GetGatewayMacsecCak successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the GetGatewayMacsecCakOptions model
-				getGatewayMacsecCakOptionsModel := new(directlinkv1.GetGatewayMacsecCakOptions)
-				getGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				getGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.GetGatewayMacsecCakWithContext(ctx, getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.GetGatewayMacsecCakWithContext(ctx, getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("GET"))
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
-				}))
-			})
-			It(`Invoke GetGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.GetGatewayMacsecCak(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecCakOptions model
-				getGatewayMacsecCakOptionsModel := new(directlinkv1.GetGatewayMacsecCakOptions)
-				getGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				getGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke GetGatewayMacsecCak with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecCakOptions model
-				getGatewayMacsecCakOptionsModel := new(directlinkv1.GetGatewayMacsecCakOptions)
-				getGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				getGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the GetGatewayMacsecCakOptions model with no property values
-				getGatewayMacsecCakOptionsModelNew := new(directlinkv1.GetGatewayMacsecCakOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke GetGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the GetGatewayMacsecCakOptions model
-				getGatewayMacsecCakOptionsModel := new(directlinkv1.GetGatewayMacsecCakOptions)
-				getGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				getGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.GetGatewayMacsecCak(getGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`UpdateGatewayMacsecCak(updateGatewayMacsecCakOptions *UpdateGatewayMacsecCakOptions) - Operation response error`, func() {
-		version := "testString"
-		updateGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("PATCH"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsecCak with error: Operation response processing error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPatch model
-				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecCakOptions model
-				updateGatewayMacsecCakOptionsModel := new(directlinkv1.UpdateGatewayMacsecCakOptions)
-				updateGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				updateGatewayMacsecCakOptionsModel.GatewayMacsecCakPatch = gatewayMacsecCakPatchModelAsPatch
-				updateGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				directLinkService.EnableRetries(0, 0)
-				result, response, operationErr = directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`UpdateGatewayMacsecCak(updateGatewayMacsecCakOptions *UpdateGatewayMacsecCakOptions)`, func() {
-		version := "testString"
-		updateGatewayMacsecCakPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("PATCH"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsecCak successfully with retries`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-				directLinkService.EnableRetries(0, 0)
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPatch model
-				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecCakOptions model
-				updateGatewayMacsecCakOptionsModel := new(directlinkv1.UpdateGatewayMacsecCakOptions)
-				updateGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				updateGatewayMacsecCakOptionsModel.GatewayMacsecCakPatch = gatewayMacsecCakPatchModelAsPatch
-				updateGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := directLinkService.UpdateGatewayMacsecCakWithContext(ctx, updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				directLinkService.DisableRetries()
-				result, response, operationErr := directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = directLinkService.UpdateGatewayMacsecCakWithContext(ctx, updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(updateGatewayMacsecCakPath))
-					Expect(req.Method).To(Equal("PATCH"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := directLinkService.UpdateGatewayMacsecCak(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPatch model
-				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecCakOptions model
-				updateGatewayMacsecCakOptionsModel := new(directlinkv1.UpdateGatewayMacsecCakOptions)
-				updateGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				updateGatewayMacsecCakOptionsModel.GatewayMacsecCakPatch = gatewayMacsecCakPatchModelAsPatch
-				updateGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke UpdateGatewayMacsecCak with error: Operation validation and request error`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPatch model
-				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecCakOptions model
-				updateGatewayMacsecCakOptionsModel := new(directlinkv1.UpdateGatewayMacsecCakOptions)
-				updateGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				updateGatewayMacsecCakOptionsModel.GatewayMacsecCakPatch = gatewayMacsecCakPatchModelAsPatch
-				updateGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := directLinkService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the UpdateGatewayMacsecCakOptions model with no property values
-				updateGatewayMacsecCakOptionsModelNew := new(directlinkv1.UpdateGatewayMacsecCakOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(200)
-				}))
-			})
-			It(`Invoke UpdateGatewayMacsecCak successfully`, func() {
-				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(directLinkService).ToNot(BeNil())
-
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-				// Construct an instance of the GatewayMacsecCakPatch model
-				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
-				// Construct an instance of the UpdateGatewayMacsecCakOptions model
-				updateGatewayMacsecCakOptionsModel := new(directlinkv1.UpdateGatewayMacsecCakOptions)
-				updateGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecCakOptionsModel.CakID = core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				updateGatewayMacsecCakOptionsModel.GatewayMacsecCakPatch = gatewayMacsecCakPatchModelAsPatch
-				updateGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := directLinkService.UpdateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -10171,18 +7562,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the GatewayVirtualConnectionPatchTemplate model
-				gatewayVirtualConnectionPatchTemplateModel := new(directlinkv1.GatewayVirtualConnectionPatchTemplate)
-				gatewayVirtualConnectionPatchTemplateModel.Name = core.StringPtr("newConnectionName")
-				gatewayVirtualConnectionPatchTemplateModel.Status = core.StringPtr("attached")
-				gatewayVirtualConnectionPatchTemplateModelAsPatch, asPatchErr := gatewayVirtualConnectionPatchTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayVirtualConnectionOptionsModel.GatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplateModelAsPatch
+				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
+				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := directLinkService.UpdateGatewayVirtualConnection(updateGatewayVirtualConnectionOptionsModel)
@@ -10250,18 +7635,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the GatewayVirtualConnectionPatchTemplate model
-				gatewayVirtualConnectionPatchTemplateModel := new(directlinkv1.GatewayVirtualConnectionPatchTemplate)
-				gatewayVirtualConnectionPatchTemplateModel.Name = core.StringPtr("newConnectionName")
-				gatewayVirtualConnectionPatchTemplateModel.Status = core.StringPtr("attached")
-				gatewayVirtualConnectionPatchTemplateModelAsPatch, asPatchErr := gatewayVirtualConnectionPatchTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayVirtualConnectionOptionsModel.GatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplateModelAsPatch
+				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
+				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -10336,18 +7715,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the GatewayVirtualConnectionPatchTemplate model
-				gatewayVirtualConnectionPatchTemplateModel := new(directlinkv1.GatewayVirtualConnectionPatchTemplate)
-				gatewayVirtualConnectionPatchTemplateModel.Name = core.StringPtr("newConnectionName")
-				gatewayVirtualConnectionPatchTemplateModel.Status = core.StringPtr("attached")
-				gatewayVirtualConnectionPatchTemplateModelAsPatch, asPatchErr := gatewayVirtualConnectionPatchTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayVirtualConnectionOptionsModel.GatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplateModelAsPatch
+				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
+				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -10366,18 +7739,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the GatewayVirtualConnectionPatchTemplate model
-				gatewayVirtualConnectionPatchTemplateModel := new(directlinkv1.GatewayVirtualConnectionPatchTemplate)
-				gatewayVirtualConnectionPatchTemplateModel.Name = core.StringPtr("newConnectionName")
-				gatewayVirtualConnectionPatchTemplateModel.Status = core.StringPtr("attached")
-				gatewayVirtualConnectionPatchTemplateModelAsPatch, asPatchErr := gatewayVirtualConnectionPatchTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayVirtualConnectionOptionsModel.GatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplateModelAsPatch
+				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
+				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := directLinkService.SetServiceURL("")
@@ -10417,18 +7784,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the GatewayVirtualConnectionPatchTemplate model
-				gatewayVirtualConnectionPatchTemplateModel := new(directlinkv1.GatewayVirtualConnectionPatchTemplate)
-				gatewayVirtualConnectionPatchTemplateModel.Name = core.StringPtr("newConnectionName")
-				gatewayVirtualConnectionPatchTemplateModel.Status = core.StringPtr("attached")
-				gatewayVirtualConnectionPatchTemplateModelAsPatch, asPatchErr := gatewayVirtualConnectionPatchTemplateModel.AsPatch()
-				Expect(asPatchErr).To(BeNil())
-
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				updateGatewayVirtualConnectionOptionsModel := new(directlinkv1.UpdateGatewayVirtualConnectionOptions)
 				updateGatewayVirtualConnectionOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayVirtualConnectionOptionsModel.GatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplateModelAsPatch
+				updateGatewayVirtualConnectionOptionsModel.Name = core.StringPtr("newConnectionName")
+				updateGatewayVirtualConnectionOptionsModel.Status = core.StringPtr("attached")
 				updateGatewayVirtualConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -11664,6 +9025,528 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
+	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions) - Operation response error`, func() {
+		version := "testString"
+		listGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListGatewayAsPrepends(listGatewayAsPrependsOptions *ListGatewayAsPrependsOptions)`, func() {
+		version := "testString"
+		listGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ListGatewayAsPrependsWithContext(ctx, listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListGatewayAsPrepends with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListGatewayAsPrependsOptions model with no property values
+				listGatewayAsPrependsOptionsModelNew := new(directlinkv1.ListGatewayAsPrependsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the ListGatewayAsPrependsOptions model
+				listGatewayAsPrependsOptionsModel := new(directlinkv1.ListGatewayAsPrependsOptions)
+				listGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				listGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ListGatewayAsPrepends(listGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions) - Operation response error`, func() {
+		version := "testString"
+		replaceGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends with error: Operation response processing error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				directLinkService.EnableRetries(0, 0)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptions *ReplaceGatewayAsPrependsOptions)`, func() {
+		version := "testString"
+		replaceGatewayAsPrependsPath := "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully with retries`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+				directLinkService.EnableRetries(0, 0)
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				directLinkService.DisableRetries()
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = directLinkService.ReplaceGatewayAsPrependsWithContext(ctx, replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(replaceGatewayAsPrependsPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ReplaceGatewayAsPrepends with error: Operation validation and request error`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := directLinkService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ReplaceGatewayAsPrependsOptions model with no property values
+				replaceGatewayAsPrependsOptionsModelNew := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke ReplaceGatewayAsPrepends successfully`, func() {
+				directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(directLinkService).ToNot(BeNil())
+
+				// Construct an instance of the AsPrependPrefixArrayTemplate model
+				asPrependPrefixArrayTemplateModel := new(directlinkv1.AsPrependPrefixArrayTemplate)
+				asPrependPrefixArrayTemplateModel.Length = core.Int64Ptr(int64(4))
+				asPrependPrefixArrayTemplateModel.Policy = core.StringPtr("import")
+				asPrependPrefixArrayTemplateModel.SpecificPrefixes = []string{"192.168.3.0/24"}
+
+				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+				replaceGatewayAsPrependsOptionsModel := new(directlinkv1.ReplaceGatewayAsPrependsOptions)
+				replaceGatewayAsPrependsOptionsModel.GatewayID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+				replaceGatewayAsPrependsOptionsModel.IfMatch = core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+				replaceGatewayAsPrependsOptionsModel.AsPrepends = []directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}
+				replaceGatewayAsPrependsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := directLinkService.ReplaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			version := "testString"
@@ -11699,11 +9582,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(asPrependTemplateModel.Prefix).To(Equal(core.StringPtr("172.17.0.0/16")))
 				Expect(asPrependTemplateModel.SpecificPrefixes).To(Equal([]string{"192.168.3.0/24"}))
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				Expect(authenticationKeyIdentityModel).ToNot(BeNil())
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(authenticationKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+				// Construct an instance of the GatewayActionTemplateAuthenticationKey model
+				gatewayActionTemplateAuthenticationKeyModel := new(directlinkv1.GatewayActionTemplateAuthenticationKey)
+				Expect(gatewayActionTemplateAuthenticationKeyModel).ToNot(BeNil())
+				gatewayActionTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+				Expect(gatewayActionTemplateAuthenticationKeyModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")))
 
 				// Construct an instance of the GatewayBfdConfigActionTemplate model
 				gatewayBfdConfigActionTemplateModel := new(directlinkv1.GatewayBfdConfigActionTemplate)
@@ -11743,7 +9626,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				createGatewayActionOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				createGatewayActionOptionsModel.SetAction("create_gateway_approve")
 				createGatewayActionOptionsModel.SetAsPrepends([]directlinkv1.AsPrependTemplate{*asPrependTemplateModel})
-				createGatewayActionOptionsModel.SetAuthenticationKey(authenticationKeyIdentityModel)
+				createGatewayActionOptionsModel.SetAuthenticationKey(gatewayActionTemplateAuthenticationKeyModel)
 				createGatewayActionOptionsModel.SetBfdConfig(gatewayBfdConfigActionTemplateModel)
 				createGatewayActionOptionsModel.SetConnectionMode("transit")
 				createGatewayActionOptionsModel.SetDefaultExportRouteFilter("permit")
@@ -11759,7 +9642,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(createGatewayActionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(createGatewayActionOptionsModel.Action).To(Equal(core.StringPtr("create_gateway_approve")))
 				Expect(createGatewayActionOptionsModel.AsPrepends).To(Equal([]directlinkv1.AsPrependTemplate{*asPrependTemplateModel}))
-				Expect(createGatewayActionOptionsModel.AuthenticationKey).To(Equal(authenticationKeyIdentityModel))
+				Expect(createGatewayActionOptionsModel.AuthenticationKey).To(Equal(gatewayActionTemplateAuthenticationKeyModel))
 				Expect(createGatewayActionOptionsModel.BfdConfig).To(Equal(gatewayBfdConfigActionTemplateModel))
 				Expect(createGatewayActionOptionsModel.ConnectionMode).To(Equal(core.StringPtr("transit")))
 				Expect(createGatewayActionOptionsModel.DefaultExportRouteFilter).To(Equal(core.StringPtr("permit")))
@@ -11830,31 +9713,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(createGatewayImportRouteFilterOptionsModel.Le).To(Equal(core.Int64Ptr(int64(30))))
 				Expect(createGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewCreateGatewayMacsecCakOptions successfully`, func() {
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				Expect(hpcsKeyIdentityModel).ToNot(BeNil())
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(hpcsKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
-
-				// Construct an instance of the CreateGatewayMacsecCakOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				var createGatewayMacsecCakOptionsKey *directlinkv1.HpcsKeyIdentity = nil
-				createGatewayMacsecCakOptionsName := "1000"
-				createGatewayMacsecCakOptionsSession := "primary"
-				createGatewayMacsecCakOptionsModel := directLinkService.NewCreateGatewayMacsecCakOptions(id, createGatewayMacsecCakOptionsKey, createGatewayMacsecCakOptionsName, createGatewayMacsecCakOptionsSession)
-				createGatewayMacsecCakOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.SetKey(hpcsKeyIdentityModel)
-				createGatewayMacsecCakOptionsModel.SetName("1000")
-				createGatewayMacsecCakOptionsModel.SetSession("primary")
-				createGatewayMacsecCakOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(createGatewayMacsecCakOptionsModel).ToNot(BeNil())
-				Expect(createGatewayMacsecCakOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(createGatewayMacsecCakOptionsModel.Key).To(Equal(hpcsKeyIdentityModel))
-				Expect(createGatewayMacsecCakOptionsModel.Name).To(Equal(core.StringPtr("1000")))
-				Expect(createGatewayMacsecCakOptionsModel.Session).To(Equal(core.StringPtr("primary")))
-				Expect(createGatewayMacsecCakOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
 			It(`Invoke NewCreateGatewayOptions successfully`, func() {
 				// Construct an instance of the AsPrependTemplate model
 				asPrependTemplateModel := new(directlinkv1.AsPrependTemplate)
@@ -11868,11 +9726,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(asPrependTemplateModel.Prefix).To(Equal(core.StringPtr("172.17.0.0/16")))
 				Expect(asPrependTemplateModel.SpecificPrefixes).To(Equal([]string{"192.168.3.0/24"}))
 
-				// Construct an instance of the AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
-				authenticationKeyIdentityModel := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-				Expect(authenticationKeyIdentityModel).ToNot(BeNil())
-				authenticationKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(authenticationKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+				// Construct an instance of the GatewayTemplateAuthenticationKey model
+				gatewayTemplateAuthenticationKeyModel := new(directlinkv1.GatewayTemplateAuthenticationKey)
+				Expect(gatewayTemplateAuthenticationKeyModel).ToNot(BeNil())
+				gatewayTemplateAuthenticationKeyModel.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+				Expect(gatewayTemplateAuthenticationKeyModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")))
 
 				// Construct an instance of the GatewayBfdConfigTemplate model
 				gatewayBfdConfigTemplateModel := new(directlinkv1.GatewayBfdConfigTemplate)
@@ -11900,49 +9758,35 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("56969d6043e9465c883cb9f7363e78e8")))
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				Expect(hpcsKeyIdentityModel).ToNot(BeNil())
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(hpcsKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+				// Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+				gatewayMacsecConfigTemplateFallbackCakModel := new(directlinkv1.GatewayMacsecConfigTemplateFallbackCak)
+				Expect(gatewayMacsecConfigTemplateFallbackCakModel).ToNot(BeNil())
+				gatewayMacsecConfigTemplateFallbackCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecConfigTemplateFallbackCakModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
 
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				Expect(gatewayMacsecCakPrototypeModel).ToNot(BeNil())
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-				Expect(gatewayMacsecCakPrototypeModel.Key).To(Equal(hpcsKeyIdentityModel))
-				Expect(gatewayMacsecCakPrototypeModel.Name).To(Equal(core.StringPtr("1000")))
-				Expect(gatewayMacsecCakPrototypeModel.Session).To(Equal(core.StringPtr("primary")))
+				// Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+				gatewayMacsecConfigTemplatePrimaryCakModel := new(directlinkv1.GatewayMacsecConfigTemplatePrimaryCak)
+				Expect(gatewayMacsecConfigTemplatePrimaryCakModel).ToNot(BeNil())
+				gatewayMacsecConfigTemplatePrimaryCakModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecConfigTemplatePrimaryCakModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
 
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				Expect(sakRekeyPrototypeModel).ToNot(BeNil())
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-				Expect(sakRekeyPrototypeModel.Interval).To(Equal(core.Int64Ptr(int64(3600))))
-				Expect(sakRekeyPrototypeModel.Mode).To(Equal(core.StringPtr("timer")))
-
-				// Construct an instance of the GatewayMacsecPrototype model
-				gatewayMacsecPrototypeModel := new(directlinkv1.GatewayMacsecPrototype)
-				Expect(gatewayMacsecPrototypeModel).ToNot(BeNil())
-				gatewayMacsecPrototypeModel.Active = core.BoolPtr(true)
-				gatewayMacsecPrototypeModel.Caks = []directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}
-				gatewayMacsecPrototypeModel.SakRekey = sakRekeyPrototypeModel
-				gatewayMacsecPrototypeModel.SecurityPolicy = core.StringPtr("must_secure")
-				gatewayMacsecPrototypeModel.WindowSize = core.Int64Ptr(int64(64))
-				Expect(gatewayMacsecPrototypeModel.Active).To(Equal(core.BoolPtr(true)))
-				Expect(gatewayMacsecPrototypeModel.Caks).To(Equal([]directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}))
-				Expect(gatewayMacsecPrototypeModel.SakRekey).To(Equal(sakRekeyPrototypeModel))
-				Expect(gatewayMacsecPrototypeModel.SecurityPolicy).To(Equal(core.StringPtr("must_secure")))
-				Expect(gatewayMacsecPrototypeModel.WindowSize).To(Equal(core.Int64Ptr(int64(64))))
+				// Construct an instance of the GatewayMacsecConfigTemplate model
+				gatewayMacsecConfigTemplateModel := new(directlinkv1.GatewayMacsecConfigTemplate)
+				Expect(gatewayMacsecConfigTemplateModel).ToNot(BeNil())
+				gatewayMacsecConfigTemplateModel.Active = core.BoolPtr(true)
+				gatewayMacsecConfigTemplateModel.FallbackCak = gatewayMacsecConfigTemplateFallbackCakModel
+				gatewayMacsecConfigTemplateModel.PrimaryCak = gatewayMacsecConfigTemplatePrimaryCakModel
+				gatewayMacsecConfigTemplateModel.WindowSize = core.Int64Ptr(int64(148809600))
+				Expect(gatewayMacsecConfigTemplateModel.Active).To(Equal(core.BoolPtr(true)))
+				Expect(gatewayMacsecConfigTemplateModel.FallbackCak).To(Equal(gatewayMacsecConfigTemplateFallbackCakModel))
+				Expect(gatewayMacsecConfigTemplateModel.PrimaryCak).To(Equal(gatewayMacsecConfigTemplatePrimaryCakModel))
+				Expect(gatewayMacsecConfigTemplateModel.WindowSize).To(Equal(core.Int64Ptr(int64(148809600))))
 
 				// Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
 				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
 				Expect(gatewayTemplateModel).ToNot(BeNil())
 				gatewayTemplateModel.AsPrepends = []directlinkv1.AsPrependTemplate{*asPrependTemplateModel}
-				gatewayTemplateModel.AuthenticationKey = authenticationKeyIdentityModel
+				gatewayTemplateModel.AuthenticationKey = gatewayTemplateAuthenticationKeyModel
 				gatewayTemplateModel.BfdConfig = gatewayBfdConfigTemplateModel
 				gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
 				gatewayTemplateModel.BgpBaseCidr = core.StringPtr("testString")
@@ -11964,11 +9808,10 @@ var _ = Describe(`DirectLinkV1`, func() {
 				gatewayTemplateModel.CrossConnectRouter = core.StringPtr("xcr01.dal03")
 				gatewayTemplateModel.CustomerName = core.StringPtr("newCustomerName")
 				gatewayTemplateModel.LocationName = core.StringPtr("dal03")
-				gatewayTemplateModel.Macsec = gatewayMacsecPrototypeModel
-				gatewayTemplateModel.MacsecCapability = core.StringPtr("non_macsec")
+				gatewayTemplateModel.MacsecConfig = gatewayMacsecConfigTemplateModel
 				gatewayTemplateModel.Vlan = core.Int64Ptr(int64(10))
 				Expect(gatewayTemplateModel.AsPrepends).To(Equal([]directlinkv1.AsPrependTemplate{*asPrependTemplateModel}))
-				Expect(gatewayTemplateModel.AuthenticationKey).To(Equal(authenticationKeyIdentityModel))
+				Expect(gatewayTemplateModel.AuthenticationKey).To(Equal(gatewayTemplateAuthenticationKeyModel))
 				Expect(gatewayTemplateModel.BfdConfig).To(Equal(gatewayBfdConfigTemplateModel))
 				Expect(gatewayTemplateModel.BgpAsn).To(Equal(core.Int64Ptr(int64(64999))))
 				Expect(gatewayTemplateModel.BgpBaseCidr).To(Equal(core.StringPtr("testString")))
@@ -11990,8 +9833,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(gatewayTemplateModel.CrossConnectRouter).To(Equal(core.StringPtr("xcr01.dal03")))
 				Expect(gatewayTemplateModel.CustomerName).To(Equal(core.StringPtr("newCustomerName")))
 				Expect(gatewayTemplateModel.LocationName).To(Equal(core.StringPtr("dal03")))
-				Expect(gatewayTemplateModel.Macsec).To(Equal(gatewayMacsecPrototypeModel))
-				Expect(gatewayTemplateModel.MacsecCapability).To(Equal(core.StringPtr("non_macsec")))
+				Expect(gatewayTemplateModel.MacsecConfig).To(Equal(gatewayMacsecConfigTemplateModel))
 				Expect(gatewayTemplateModel.Vlan).To(Equal(core.Int64Ptr(int64(10))))
 
 				// Construct an instance of the CreateGatewayOptions model
@@ -12057,19 +9899,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(deleteGatewayImportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(deleteGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewDeleteGatewayMacsecCakOptions successfully`, func() {
-				// Construct an instance of the DeleteGatewayMacsecCakOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				cakID := "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-				deleteGatewayMacsecCakOptionsModel := directLinkService.NewDeleteGatewayMacsecCakOptions(id, cakID)
-				deleteGatewayMacsecCakOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				deleteGatewayMacsecCakOptionsModel.SetCakID("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				deleteGatewayMacsecCakOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(deleteGatewayMacsecCakOptionsModel).ToNot(BeNil())
-				Expect(deleteGatewayMacsecCakOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(deleteGatewayMacsecCakOptionsModel.CakID).To(Equal(core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")))
-				Expect(deleteGatewayMacsecCakOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
 			It(`Invoke NewDeleteGatewayOptions successfully`, func() {
 				// Construct an instance of the DeleteGatewayOptions model
 				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
@@ -12106,6 +9935,12 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(deleteGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(deleteGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGatewayActionTemplateAuthenticationKey successfully`, func() {
+				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
+				_model, err := directLinkService.NewGatewayActionTemplateAuthenticationKey(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewGatewayBfdConfigActionTemplate successfully`, func() {
 				interval := int64(2000)
 				_model, err := directLinkService.NewGatewayBfdConfigActionTemplate(interval)
@@ -12118,24 +9953,51 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewGatewayMacsecCakPrototype successfully`, func() {
-				var key *directlinkv1.HpcsKeyIdentity = nil
-				name := "1000"
-				session := "primary"
-				_, err := directLinkService.NewGatewayMacsecCakPrototype(key, name, session)
+			It(`Invoke NewGatewayMacsecConfigPatchTemplateFallbackCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewGatewayMacsecConfigPatchTemplateFallbackCak(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigPatchTemplatePrimaryCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewGatewayMacsecConfigPatchTemplatePrimaryCak(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigTemplate successfully`, func() {
+				active := true
+				var primaryCak *directlinkv1.GatewayMacsecConfigTemplatePrimaryCak = nil
+				_, err := directLinkService.NewGatewayMacsecConfigTemplate(active, primaryCak)
 				Expect(err).ToNot(BeNil())
 			})
-			It(`Invoke NewGatewayMacsecPrototype successfully`, func() {
-				active := true
-				caks := []directlinkv1.GatewayMacsecCakPrototype{}
-				var sakRekey directlinkv1.SakRekeyPrototypeIntf = nil
-				securityPolicy := "must_secure"
-				_, err := directLinkService.NewGatewayMacsecPrototype(active, caks, sakRekey, securityPolicy)
-				Expect(err).ToNot(BeNil())
+			It(`Invoke NewGatewayMacsecConfigTemplateFallbackCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewGatewayMacsecConfigTemplateFallbackCak(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecConfigTemplatePrimaryCak successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewGatewayMacsecConfigTemplatePrimaryCak(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayPatchTemplateAuthenticationKey successfully`, func() {
+				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
+				_model, err := directLinkService.NewGatewayPatchTemplateAuthenticationKey(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayPortIdentity successfully`, func() {
 				id := "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"
 				_model, err := directLinkService.NewGatewayPortIdentity(id)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayTemplateAuthenticationKey successfully`, func() {
+				crn := "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"
+				_model, err := directLinkService.NewGatewayTemplateAuthenticationKey(crn)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -12171,29 +10033,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(getGatewayImportRouteFilterOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayImportRouteFilterOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewGetGatewayMacsecCakOptions successfully`, func() {
-				// Construct an instance of the GetGatewayMacsecCakOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				cakID := "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-				getGatewayMacsecCakOptionsModel := directLinkService.NewGetGatewayMacsecCakOptions(id, cakID)
-				getGatewayMacsecCakOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecCakOptionsModel.SetCakID("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				getGatewayMacsecCakOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(getGatewayMacsecCakOptionsModel).ToNot(BeNil())
-				Expect(getGatewayMacsecCakOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(getGatewayMacsecCakOptionsModel.CakID).To(Equal(core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")))
-				Expect(getGatewayMacsecCakOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewGetGatewayMacsecOptions successfully`, func() {
-				// Construct an instance of the GetGatewayMacsecOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				getGatewayMacsecOptionsModel := directLinkService.NewGetGatewayMacsecOptions(id)
-				getGatewayMacsecOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				getGatewayMacsecOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(getGatewayMacsecOptionsModel).ToNot(BeNil())
-				Expect(getGatewayMacsecOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(getGatewayMacsecOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetGatewayOptions successfully`, func() {
 				// Construct an instance of the GetGatewayOptions model
@@ -12266,12 +10105,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(getPortOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getPortOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewHpcsKeyIdentity successfully`, func() {
-				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				_model, err := directLinkService.NewHpcsKeyIdentity(crn)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewListGatewayAsPrependsOptions successfully`, func() {
 				// Construct an instance of the ListGatewayAsPrependsOptions model
 				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
@@ -12321,16 +10154,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(listGatewayLetterOfAuthorizationOptionsModel).ToNot(BeNil())
 				Expect(listGatewayLetterOfAuthorizationOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(listGatewayLetterOfAuthorizationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewListGatewayMacsecCaksOptions successfully`, func() {
-				// Construct an instance of the ListGatewayMacsecCaksOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				listGatewayMacsecCaksOptionsModel := directLinkService.NewListGatewayMacsecCaksOptions(id)
-				listGatewayMacsecCaksOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				listGatewayMacsecCaksOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(listGatewayMacsecCaksOptionsModel).ToNot(BeNil())
-				Expect(listGatewayMacsecCaksOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(listGatewayMacsecCaksOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayRouteReportsOptions successfully`, func() {
 				// Construct an instance of the ListGatewayRouteReportsOptions model
@@ -12418,15 +10241,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ReplaceGatewayAsPrependsOptions model
 				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				ifMatch := "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\""
+				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
 				replaceGatewayAsPrependsOptionsModel := directLinkService.NewReplaceGatewayAsPrependsOptions(gatewayID, ifMatch)
 				replaceGatewayAsPrependsOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayAsPrependsOptionsModel.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayAsPrependsOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayAsPrependsOptionsModel.SetAsPrepends([]directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel})
 				replaceGatewayAsPrependsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(replaceGatewayAsPrependsOptionsModel).ToNot(BeNil())
 				Expect(replaceGatewayAsPrependsOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(replaceGatewayAsPrependsOptionsModel.IfMatch).To(Equal(core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+				Expect(replaceGatewayAsPrependsOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 				Expect(replaceGatewayAsPrependsOptionsModel.AsPrepends).To(Equal([]directlinkv1.AsPrependPrefixArrayTemplate{*asPrependPrefixArrayTemplateModel}))
 				Expect(replaceGatewayAsPrependsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -12445,15 +10268,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
 				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				ifMatch := "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\""
+				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
 				replaceGatewayExportRouteFiltersOptionsModel := directLinkService.NewReplaceGatewayExportRouteFiltersOptions(gatewayID, ifMatch)
 				replaceGatewayExportRouteFiltersOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayExportRouteFiltersOptionsModel.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayExportRouteFiltersOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayExportRouteFiltersOptionsModel.SetExportRouteFilters([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel})
 				replaceGatewayExportRouteFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(replaceGatewayExportRouteFiltersOptionsModel).ToNot(BeNil())
 				Expect(replaceGatewayExportRouteFiltersOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(replaceGatewayExportRouteFiltersOptionsModel.IfMatch).To(Equal(core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+				Expect(replaceGatewayExportRouteFiltersOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 				Expect(replaceGatewayExportRouteFiltersOptionsModel.ExportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
 				Expect(replaceGatewayExportRouteFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -12472,15 +10295,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
 				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				ifMatch := "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\""
+				ifMatch := `W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`
 				replaceGatewayImportRouteFiltersOptionsModel := directLinkService.NewReplaceGatewayImportRouteFiltersOptions(gatewayID, ifMatch)
 				replaceGatewayImportRouteFiltersOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				replaceGatewayImportRouteFiltersOptionsModel.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+				replaceGatewayImportRouteFiltersOptionsModel.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
 				replaceGatewayImportRouteFiltersOptionsModel.SetImportRouteFilters([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel})
 				replaceGatewayImportRouteFiltersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(replaceGatewayImportRouteFiltersOptionsModel).ToNot(BeNil())
 				Expect(replaceGatewayImportRouteFiltersOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(replaceGatewayImportRouteFiltersOptionsModel.IfMatch).To(Equal(core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
+				Expect(replaceGatewayImportRouteFiltersOptionsModel.IfMatch).To(Equal(core.StringPtr(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)))
 				Expect(replaceGatewayImportRouteFiltersOptionsModel.ImportRouteFilters).To(Equal([]directlinkv1.GatewayTemplateRouteFilter{*gatewayTemplateRouteFilterModel}))
 				Expect(replaceGatewayImportRouteFiltersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -12489,66 +10312,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				_model, err := directLinkService.NewResourceGroupIdentity(id)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSetGatewayMacsecOptions successfully`, func() {
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				Expect(hpcsKeyIdentityModel).ToNot(BeNil())
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(hpcsKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
-
-				// Construct an instance of the GatewayMacsecCakPrototype model
-				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				Expect(gatewayMacsecCakPrototypeModel).ToNot(BeNil())
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
-				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
-				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-				Expect(gatewayMacsecCakPrototypeModel.Key).To(Equal(hpcsKeyIdentityModel))
-				Expect(gatewayMacsecCakPrototypeModel.Name).To(Equal(core.StringPtr("1000")))
-				Expect(gatewayMacsecCakPrototypeModel.Session).To(Equal(core.StringPtr("primary")))
-
-				// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
-				sakRekeyPrototypeModel := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-				Expect(sakRekeyPrototypeModel).ToNot(BeNil())
-				sakRekeyPrototypeModel.Interval = core.Int64Ptr(int64(3600))
-				sakRekeyPrototypeModel.Mode = core.StringPtr("timer")
-				Expect(sakRekeyPrototypeModel.Interval).To(Equal(core.Int64Ptr(int64(3600))))
-				Expect(sakRekeyPrototypeModel.Mode).To(Equal(core.StringPtr("timer")))
-
-				// Construct an instance of the SetGatewayMacsecOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				setGatewayMacsecOptionsActive := true
-				setGatewayMacsecOptionsCaks := []directlinkv1.GatewayMacsecCakPrototype{}
-				var setGatewayMacsecOptionsSakRekey directlinkv1.SakRekeyPrototypeIntf = nil
-				setGatewayMacsecOptionsSecurityPolicy := "must_secure"
-				setGatewayMacsecOptionsModel := directLinkService.NewSetGatewayMacsecOptions(id, setGatewayMacsecOptionsActive, setGatewayMacsecOptionsCaks, setGatewayMacsecOptionsSakRekey, setGatewayMacsecOptionsSecurityPolicy)
-				setGatewayMacsecOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				setGatewayMacsecOptionsModel.SetActive(true)
-				setGatewayMacsecOptionsModel.SetCaks([]directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel})
-				setGatewayMacsecOptionsModel.SetSakRekey(sakRekeyPrototypeModel)
-				setGatewayMacsecOptionsModel.SetSecurityPolicy("must_secure")
-				setGatewayMacsecOptionsModel.SetWindowSize(int64(64))
-				setGatewayMacsecOptionsModel.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-				setGatewayMacsecOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(setGatewayMacsecOptionsModel).ToNot(BeNil())
-				Expect(setGatewayMacsecOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(setGatewayMacsecOptionsModel.Active).To(Equal(core.BoolPtr(true)))
-				Expect(setGatewayMacsecOptionsModel.Caks).To(Equal([]directlinkv1.GatewayMacsecCakPrototype{*gatewayMacsecCakPrototypeModel}))
-				Expect(setGatewayMacsecOptionsModel.SakRekey).To(Equal(sakRekeyPrototypeModel))
-				Expect(setGatewayMacsecOptionsModel.SecurityPolicy).To(Equal(core.StringPtr("must_secure")))
-				Expect(setGatewayMacsecOptionsModel.WindowSize).To(Equal(core.Int64Ptr(int64(64))))
-				Expect(setGatewayMacsecOptionsModel.IfMatch).To(Equal(core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
-				Expect(setGatewayMacsecOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewUnsetGatewayMacsecOptions successfully`, func() {
-				// Construct an instance of the UnsetGatewayMacsecOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				unsetGatewayMacsecOptionsModel := directLinkService.NewUnsetGatewayMacsecOptions(id)
-				unsetGatewayMacsecOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				unsetGatewayMacsecOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(unsetGatewayMacsecOptionsModel).ToNot(BeNil())
-				Expect(unsetGatewayMacsecOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(unsetGatewayMacsecOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateGatewayExportRouteFilterOptions successfully`, func() {
 				// Construct an instance of the UpdateGatewayExportRouteFilterOptions model
@@ -12582,35 +10345,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(updateGatewayImportRouteFilterOptionsModel.UpdateRouteFilterTemplatePatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(updateGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewUpdateGatewayMacsecCakOptions successfully`, func() {
-				// Construct an instance of the UpdateGatewayMacsecCakOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				cakID := "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4"
-				gatewayMacsecCakPatch := map[string]interface{}{"anyKey": "anyValue"}
-				updateGatewayMacsecCakOptionsModel := directLinkService.NewUpdateGatewayMacsecCakOptions(id, cakID, gatewayMacsecCakPatch)
-				updateGatewayMacsecCakOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecCakOptionsModel.SetCakID("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")
-				updateGatewayMacsecCakOptionsModel.SetGatewayMacsecCakPatch(map[string]interface{}{"anyKey": "anyValue"})
-				updateGatewayMacsecCakOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(updateGatewayMacsecCakOptionsModel).ToNot(BeNil())
-				Expect(updateGatewayMacsecCakOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(updateGatewayMacsecCakOptionsModel.CakID).To(Equal(core.StringPtr("ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4")))
-				Expect(updateGatewayMacsecCakOptionsModel.GatewayMacsecCakPatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(updateGatewayMacsecCakOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewUpdateGatewayMacsecOptions successfully`, func() {
-				// Construct an instance of the UpdateGatewayMacsecOptions model
-				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				gatewayMacsecPatch := map[string]interface{}{"anyKey": "anyValue"}
-				updateGatewayMacsecOptionsModel := directLinkService.NewUpdateGatewayMacsecOptions(id, gatewayMacsecPatch)
-				updateGatewayMacsecOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayMacsecOptionsModel.SetGatewayMacsecPatch(map[string]interface{}{"anyKey": "anyValue"})
-				updateGatewayMacsecOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(updateGatewayMacsecOptionsModel).ToNot(BeNil())
-				Expect(updateGatewayMacsecOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(updateGatewayMacsecOptionsModel.GatewayMacsecPatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(updateGatewayMacsecOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
 			It(`Invoke NewUpdateGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdateGatewayOptions model
 				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
@@ -12628,29 +10362,18 @@ var _ = Describe(`DirectLinkV1`, func() {
 				// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 				gatewayID := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
 				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				gatewayVirtualConnectionPatchTemplatePatch := map[string]interface{}{"anyKey": "anyValue"}
-				updateGatewayVirtualConnectionOptionsModel := directLinkService.NewUpdateGatewayVirtualConnectionOptions(gatewayID, id, gatewayVirtualConnectionPatchTemplatePatch)
+				updateGatewayVirtualConnectionOptionsModel := directLinkService.NewUpdateGatewayVirtualConnectionOptions(gatewayID, id)
 				updateGatewayVirtualConnectionOptionsModel.SetGatewayID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
 				updateGatewayVirtualConnectionOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				updateGatewayVirtualConnectionOptionsModel.SetGatewayVirtualConnectionPatchTemplatePatch(map[string]interface{}{"anyKey": "anyValue"})
+				updateGatewayVirtualConnectionOptionsModel.SetName("newConnectionName")
+				updateGatewayVirtualConnectionOptionsModel.SetStatus("attached")
 				updateGatewayVirtualConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateGatewayVirtualConnectionOptionsModel).ToNot(BeNil())
 				Expect(updateGatewayVirtualConnectionOptionsModel.GatewayID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(updateGatewayVirtualConnectionOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(updateGatewayVirtualConnectionOptionsModel.GatewayVirtualConnectionPatchTemplatePatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(updateGatewayVirtualConnectionOptionsModel.Name).To(Equal(core.StringPtr("newConnectionName")))
+				Expect(updateGatewayVirtualConnectionOptionsModel.Status).To(Equal(core.StringPtr("attached")))
 				Expect(updateGatewayVirtualConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity successfully`, func() {
-				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				_model, err := directLinkService.NewAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(crn)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity successfully`, func() {
-				crn := "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				_model, err := directLinkService.NewAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(crn)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayTemplateGatewayTypeConnectTemplate successfully`, func() {
 				bgpAsn := int64(64999)
@@ -12678,753 +10401,11 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSakRekeyPatchSakRekeyPacketNumberRolloverModePatch successfully`, func() {
-				mode := "packet_number_rollover"
-				_model, err := directLinkService.NewSakRekeyPatchSakRekeyPacketNumberRolloverModePatch(mode)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSakRekeyPatchSakRekeyTimerModePatch successfully`, func() {
-				interval := int64(3600)
-				mode := "timer"
-				_model, err := directLinkService.NewSakRekeyPatchSakRekeyTimerModePatch(interval, mode)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype successfully`, func() {
-				mode := "packet_number_rollover"
-				_model, err := directLinkService.NewSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype(mode)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSakRekeyPrototypeSakRekeyTimerModePrototype successfully`, func() {
-				interval := int64(3600)
-				mode := "timer"
-				_model, err := directLinkService.NewSakRekeyPrototypeSakRekeyTimerModePrototype(interval, mode)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-		})
-	})
-	Describe(`Model unmarshaling tests`, func() {
-		It(`Invoke UnmarshalAsPrependPrefixArrayTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.AsPrependPrefixArrayTemplate)
-			model.Length = core.Int64Ptr(int64(4))
-			model.Policy = core.StringPtr("import")
-			model.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.AsPrependPrefixArrayTemplate
-			err = directlinkv1.UnmarshalAsPrependPrefixArrayTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalAsPrependTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.AsPrependTemplate)
-			model.Length = core.Int64Ptr(int64(4))
-			model.Policy = core.StringPtr("import")
-			model.Prefix = core.StringPtr("172.17.0.0/16")
-			model.SpecificPrefixes = []string{"192.168.3.0/24"}
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.AsPrependTemplate
-			err = directlinkv1.UnmarshalAsPrependTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalAuthenticationKeyIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.AuthenticationKeyIdentity)
-			model.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.AuthenticationKeyIdentity
-			err = directlinkv1.UnmarshalAuthenticationKeyIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayActionTemplateUpdatesItem successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayActionTemplateUpdatesItem)
-			model.SpeedMbps = core.Int64Ptr(int64(500))
-			model.BgpCerCidr = core.StringPtr("169.254.0.10/30")
-			model.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
-			model.BgpAsn = core.Int64Ptr(int64(64999))
-			model.Vlan = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayActionTemplateUpdatesItem
-			err = directlinkv1.UnmarshalGatewayActionTemplateUpdatesItem(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayBfdConfigActionTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayBfdConfigActionTemplate)
-			model.Interval = core.Int64Ptr(int64(2000))
-			model.Multiplier = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayBfdConfigActionTemplate
-			err = directlinkv1.UnmarshalGatewayBfdConfigActionTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayBfdConfigTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayBfdConfigTemplate)
-			model.Interval = core.Int64Ptr(int64(2000))
-			model.Multiplier = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayBfdConfigTemplate
-			err = directlinkv1.UnmarshalGatewayBfdConfigTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayBfdPatchTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayBfdPatchTemplate)
-			model.Interval = core.Int64Ptr(int64(2000))
-			model.Multiplier = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayBfdPatchTemplate
-			err = directlinkv1.UnmarshalGatewayBfdPatchTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayMacsecCakPatch successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayMacsecCakPatch)
-			model.Key = nil
-			model.Name = core.StringPtr("1000")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayMacsecCakPatch
-			err = directlinkv1.UnmarshalGatewayMacsecCakPatch(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayMacsecCakPrototype successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayMacsecCakPrototype)
-			model.Key = nil
-			model.Name = core.StringPtr("1000")
-			model.Session = core.StringPtr("primary")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayMacsecCakPrototype
-			err = directlinkv1.UnmarshalGatewayMacsecCakPrototype(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayMacsecPatch successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayMacsecPatch)
-			model.Active = core.BoolPtr(true)
-			model.SakRekey = nil
-			model.SecurityPolicy = core.StringPtr("must_secure")
-			model.WindowSize = core.Int64Ptr(int64(64))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayMacsecPatch
-			err = directlinkv1.UnmarshalGatewayMacsecPatch(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayMacsecPrototype successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayMacsecPrototype)
-			model.Active = core.BoolPtr(true)
-			model.Caks = nil
-			model.SakRekey = nil
-			model.SecurityPolicy = core.StringPtr("must_secure")
-			model.WindowSize = core.Int64Ptr(int64(64))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayMacsecPrototype
-			err = directlinkv1.UnmarshalGatewayMacsecPrototype(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayPatchTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayPatchTemplate)
-			model.AuthenticationKey = nil
-			model.BfdConfig = nil
-			model.BgpAsn = core.Int64Ptr(int64(64999))
-			model.BgpCerCidr = core.StringPtr("169.254.0.10/30")
-			model.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
-			model.ConnectionMode = core.StringPtr("transit")
-			model.DefaultExportRouteFilter = core.StringPtr("permit")
-			model.DefaultImportRouteFilter = core.StringPtr("permit")
-			model.Global = core.BoolPtr(true)
-			model.LoaRejectReason = core.StringPtr("The port mentioned was incorrect")
-			model.Metered = core.BoolPtr(false)
-			model.Name = core.StringPtr("testGateway")
-			model.OperationalStatus = core.StringPtr("loa_accepted")
-			model.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
-			model.SpeedMbps = core.Int64Ptr(int64(1000))
-			model.Vlan = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayPatchTemplate
-			err = directlinkv1.UnmarshalGatewayPatchTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayPortIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayPortIdentity)
-			model.ID = core.StringPtr("fffdcb1a-fee4-41c7-9e11-9cd99e65c777")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayPortIdentity
-			err = directlinkv1.UnmarshalGatewayPortIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayTemplate)
-			model.AsPrepends = nil
-			model.AuthenticationKey = nil
-			model.BfdConfig = nil
-			model.BgpAsn = core.Int64Ptr(int64(64999))
-			model.BgpBaseCidr = core.StringPtr("testString")
-			model.BgpCerCidr = core.StringPtr("169.254.0.10/30")
-			model.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
-			model.ConnectionMode = core.StringPtr("transit")
-			model.DefaultExportRouteFilter = core.StringPtr("permit")
-			model.DefaultImportRouteFilter = core.StringPtr("permit")
-			model.ExportRouteFilters = nil
-			model.Global = core.BoolPtr(true)
-			model.ImportRouteFilters = nil
-			model.Metered = core.BoolPtr(false)
-			model.Name = core.StringPtr("myGateway")
-			model.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
-			model.ResourceGroup = nil
-			model.SpeedMbps = core.Int64Ptr(int64(1000))
-			model.Type = core.StringPtr("dedicated")
-			model.CarrierName = core.StringPtr("myCarrierName")
-			model.CrossConnectRouter = core.StringPtr("xcr01.dal03")
-			model.CustomerName = core.StringPtr("newCustomerName")
-			model.LocationName = core.StringPtr("dal03")
-			model.Macsec = nil
-			model.MacsecCapability = core.StringPtr("non_macsec")
-			model.Vlan = core.Int64Ptr(int64(10))
-			model.Port = nil
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayTemplate
-			err = directlinkv1.UnmarshalGatewayTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayTemplateRouteFilter successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayTemplateRouteFilter)
-			model.Action = core.StringPtr("permit")
-			model.Ge = core.Int64Ptr(int64(25))
-			model.Le = core.Int64Ptr(int64(30))
-			model.Prefix = core.StringPtr("192.168.100.0/24")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayTemplateRouteFilter
-			err = directlinkv1.UnmarshalGatewayTemplateRouteFilter(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayVirtualConnectionPatchTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayVirtualConnectionPatchTemplate)
-			model.Name = core.StringPtr("newConnectionName")
-			model.Status = core.StringPtr("attached")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayVirtualConnectionPatchTemplate
-			err = directlinkv1.UnmarshalGatewayVirtualConnectionPatchTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalHpcsKeyIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.HpcsKeyIdentity)
-			model.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.HpcsKeyIdentity
-			err = directlinkv1.UnmarshalHpcsKeyIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalResourceGroupIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.ResourceGroupIdentity)
-			model.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.ResourceGroupIdentity
-			err = directlinkv1.UnmarshalResourceGroupIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalSakRekeyPatch successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.SakRekeyPatch)
-			model.Interval = core.Int64Ptr(int64(3600))
-			model.Mode = core.StringPtr("timer")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.SakRekeyPatch
-			err = directlinkv1.UnmarshalSakRekeyPatch(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalSakRekeyPrototype successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.SakRekeyPrototype)
-			model.Interval = core.Int64Ptr(int64(3600))
-			model.Mode = core.StringPtr("timer")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.SakRekeyPrototype
-			err = directlinkv1.UnmarshalSakRekeyPrototype(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalUpdateRouteFilterTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.UpdateRouteFilterTemplate)
-			model.Action = core.StringPtr("permit")
-			model.Before = core.StringPtr("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
-			model.Ge = core.Int64Ptr(int64(25))
-			model.Le = core.Int64Ptr(int64(30))
-			model.Prefix = core.StringPtr("192.168.100.0/24")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.UpdateRouteFilterTemplate
-			err = directlinkv1.UnmarshalUpdateRouteFilterTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity)
-			model.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity
-			err = directlinkv1.UnmarshalAuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity)
-			model.Crn = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
-			err = directlinkv1.UnmarshalAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate)
-			model.BgpAsn = core.Int64Ptr(int64(64999))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate
-			err = directlinkv1.UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate)
-			model.BgpCerCidr = core.StringPtr("169.254.0.10/30")
-			model.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate
-			err = directlinkv1.UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate)
-			model.SpeedMbps = core.Int64Ptr(int64(500))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate
-			err = directlinkv1.UnmarshalGatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayActionTemplateUpdatesItemGatewayClientVLANUpdate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate)
-			model.Vlan = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate
-			err = directlinkv1.UnmarshalGatewayActionTemplateUpdatesItemGatewayClientVLANUpdate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayTemplateGatewayTypeConnectTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayTemplateGatewayTypeConnectTemplate)
-			model.AsPrepends = nil
-			model.AuthenticationKey = nil
-			model.BfdConfig = nil
-			model.BgpAsn = core.Int64Ptr(int64(64999))
-			model.BgpBaseCidr = core.StringPtr("testString")
-			model.BgpCerCidr = core.StringPtr("169.254.0.10/30")
-			model.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
-			model.ConnectionMode = core.StringPtr("transit")
-			model.DefaultExportRouteFilter = core.StringPtr("permit")
-			model.DefaultImportRouteFilter = core.StringPtr("permit")
-			model.ExportRouteFilters = nil
-			model.Global = core.BoolPtr(true)
-			model.ImportRouteFilters = nil
-			model.Metered = core.BoolPtr(false)
-			model.Name = core.StringPtr("myGateway")
-			model.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
-			model.ResourceGroup = nil
-			model.SpeedMbps = core.Int64Ptr(int64(1000))
-			model.Type = core.StringPtr("dedicated")
-			model.Port = nil
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayTemplateGatewayTypeConnectTemplate
-			err = directlinkv1.UnmarshalGatewayTemplateGatewayTypeConnectTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-			model.AsPrepends = nil
-			model.AuthenticationKey = nil
-			model.BfdConfig = nil
-			model.BgpAsn = core.Int64Ptr(int64(64999))
-			model.BgpBaseCidr = core.StringPtr("testString")
-			model.BgpCerCidr = core.StringPtr("169.254.0.10/30")
-			model.BgpIbmCidr = core.StringPtr("169.254.0.9/30")
-			model.ConnectionMode = core.StringPtr("transit")
-			model.DefaultExportRouteFilter = core.StringPtr("permit")
-			model.DefaultImportRouteFilter = core.StringPtr("permit")
-			model.ExportRouteFilters = nil
-			model.Global = core.BoolPtr(true)
-			model.ImportRouteFilters = nil
-			model.Metered = core.BoolPtr(false)
-			model.Name = core.StringPtr("myGateway")
-			model.PatchPanelCompletionNotice = core.StringPtr("patch panel configuration details")
-			model.ResourceGroup = nil
-			model.SpeedMbps = core.Int64Ptr(int64(1000))
-			model.Type = core.StringPtr("dedicated")
-			model.CarrierName = core.StringPtr("myCarrierName")
-			model.CrossConnectRouter = core.StringPtr("xcr01.dal03")
-			model.CustomerName = core.StringPtr("newCustomerName")
-			model.LocationName = core.StringPtr("dal03")
-			model.Macsec = nil
-			model.MacsecCapability = core.StringPtr("non_macsec")
-			model.Vlan = core.Int64Ptr(int64(10))
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate
-			err = directlinkv1.UnmarshalGatewayTemplateGatewayTypeDedicatedTemplate(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalSakRekeyPatchSakRekeyPacketNumberRolloverModePatch successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.SakRekeyPatchSakRekeyPacketNumberRolloverModePatch)
-			model.Mode = core.StringPtr("packet_number_rollover")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.SakRekeyPatchSakRekeyPacketNumberRolloverModePatch
-			err = directlinkv1.UnmarshalSakRekeyPatchSakRekeyPacketNumberRolloverModePatch(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalSakRekeyPatchSakRekeyTimerModePatch successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.SakRekeyPatchSakRekeyTimerModePatch)
-			model.Interval = core.Int64Ptr(int64(3600))
-			model.Mode = core.StringPtr("timer")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.SakRekeyPatchSakRekeyTimerModePatch
-			err = directlinkv1.UnmarshalSakRekeyPatchSakRekeyTimerModePatch(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype)
-			model.Mode = core.StringPtr("packet_number_rollover")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype
-			err = directlinkv1.UnmarshalSakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
-		It(`Invoke UnmarshalSakRekeyPrototypeSakRekeyTimerModePrototype successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype)
-			model.Interval = core.Int64Ptr(int64(3600))
-			model.Mode = core.StringPtr("timer")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.SakRekeyPrototypeSakRekeyTimerModePrototype
-			err = directlinkv1.UnmarshalSakRekeyPrototypeSakRekeyTimerModePrototype(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
 		})
 	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
+			mockByteArray := CreateMockByteArray("This is a test")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -13450,11 +10431,9 @@ var _ = Describe(`DirectLinkV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(encodedString string) *[]byte {
-	ba, err := base64.StdEncoding.DecodeString(encodedString)
-	if err != nil {
-		panic(err)
-	}
+func CreateMockByteArray(mockData string) *[]byte {
+	ba := make([]byte, 0)
+	ba = append(ba, mockData...)
 	return &ba
 }
 
