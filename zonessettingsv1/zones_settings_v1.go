@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.98.0-8be2046a-20241205-162752
+ * IBM OpenAPI SDK Code Generator Version: 3.102.0-615ec964-20250307-203034
  */
 
 // Package zonessettingsv1 : Operations and models for the ZonesSettingsV1 service
@@ -7139,7 +7139,7 @@ type ProxyReadTimeoutRespResult struct {
 	ID *string `json:"id" validate:"required"`
 
 	// Value.
-	Value *float64 `json:"value" validate:"required"`
+	Value *string `json:"value" validate:"required"`
 
 	// Editable.
 	Editable *bool `json:"editable" validate:"required"`
