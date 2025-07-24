@@ -75,6 +75,7 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 	var rule1Id *string
 	var rule2Id *string
 	var rulsetForTestingId *string
+	var rulesetEPRatelimitTestingId *string
 
 	Describe("Client initialization", func() {
 		BeforeEach(func() {
@@ -544,6 +545,21 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			rulsetForTestingId = rulesetResp.Result.ID
 		})
 
+		It("Update Zone Entrypoint Ruleset with Ratelimit", func() {
+
+			updateZoneEntrypointRulesetOptions := &rulesetsv1.UpdateZoneEntrypointRulesetOptions{
+				RulesetPhase: core.StringPtr("http_ratelimit"),
+				Description:  core.StringPtr("updating entrypoint ruleset fro ratelimit"),
+			}
+
+			rulesetResp, response, err := rulesetsService.UpdateZoneEntrypointRuleset(updateZoneEntrypointRulesetOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(rulesetResp).ToNot(BeNil())
+
+			rulesetEPRatelimitTestingId = rulesetResp.Result.ID
+		})
+
 		It(`UpdateZoneRuleset(updateZoneRulesetOptions *UpdateZoneRulesetOptions)`, func() {
 			rulesOverrideModel := &rulesetsv1.RulesOverride{
 				ID:      rule1Id,
@@ -845,6 +861,76 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(rulesResp).ToNot(BeNil())
 
+		})
+
+		It("Create Zone Ruleset Rule for http ratelimit", func() {
+
+			ratelimitModel := &rulesetsv1.Ratelimit{
+				Characteristics:    []string{"cf.colo.id", "ip.src"},
+				CountingExpression: core.StringPtr(`(http.host eq "www.example.com") and (http.response.code eq 404)`),
+				MitigationTimeout:  core.Int64Ptr(int64(600)),
+				Period:             core.Int64Ptr(int64(60)),
+				RequestsPerPeriod:  core.Int64Ptr(int64(100)),
+			}
+
+			createZoneRulesetRuleOptions := &rulesetsv1.CreateZoneRulesetRuleOptions{
+				RulesetID:   rulesetEPRatelimitTestingId,
+				Action:      core.StringPtr("block"),
+				Description: core.StringPtr("deploying managed rule"),
+				Enabled:     core.BoolPtr(true),
+				Expression:  core.StringPtr("ip.src ne 1.1.1.3"),
+				Ref:         rulesetEPRatelimitTestingId,
+				Ratelimit:   ratelimitModel,
+			}
+
+			ruleResp, response, err := rulesetsService.CreateZoneRulesetRule(createZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ruleResp).ToNot(BeNil())
+		})
+
+		It("Update/Delete Zone Ruleset Rule for http ratelimit", func() {
+
+			getZoneEntrypointRulesetOptions := &rulesetsv1.GetZoneEntrypointRulesetOptions{
+				RulesetPhase: core.StringPtr("http_ratelimit"),
+			}
+
+			rulesetResp, _, _ := rulesetsService.GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions)
+			rule2UpdateId := *rulesetResp.Result.Rules[0].ID
+
+			ratelimitModel := &rulesetsv1.Ratelimit{
+				Characteristics:    []string{"cf.colo.id", "ip.src"},
+				CountingExpression: core.StringPtr(`(http.host eq "www.example.com") and (http.response.code eq 404)`),
+				MitigationTimeout:  core.Int64Ptr(int64(30)),
+				Period:             core.Int64Ptr(int64(10)),
+				RequestsPerPeriod:  core.Int64Ptr(int64(5)),
+			}
+
+			updateZoneRulesetRuleOptions := &rulesetsv1.UpdateZoneRulesetRuleOptions{
+				RulesetID:   rulesetEPRatelimitTestingId,
+				RuleID:      core.StringPtr(rule2UpdateId),
+				Action:      core.StringPtr("block"),
+				Description: core.StringPtr("updating the rule"),
+				Enabled:     core.BoolPtr(true),
+				Expression:  core.StringPtr("ip.src ne 1.1.1.4"),
+				Ref:         rulesetEPRatelimitTestingId,
+				Ratelimit:   ratelimitModel,
+			}
+
+			ruleResp, response, err := rulesetsService.UpdateZoneRulesetRule(updateZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ruleResp).ToNot(BeNil())
+
+			deleteZoneRulesetRuleOptions := &rulesetsv1.DeleteZoneRulesetRuleOptions{
+				RulesetID: rulesetEPRatelimitTestingId,
+				RuleID:    core.StringPtr(rule2UpdateId),
+			}
+
+			rulesResp, response, err := rulesetsService.DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(rulesResp).ToNot(BeNil())
 		})
 
 		It("Delete Zone Ruleset", func() {

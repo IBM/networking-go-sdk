@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.99.1-daeb6e46-20250131-173156
+ * IBM OpenAPI SDK Code Generator Version: 3.106.0-09823488-20250707-071701
  */
 
 // Package rulesetsv1 : Operations and models for the RulesetsV1 service
@@ -217,12 +217,12 @@ func (rulesets *RulesetsV1) GetInstanceRulesetsWithContext(ctx context.Context, 
 		return
 	}
 
-	for headerName, headerValue := range getInstanceRulesetsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesets")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesets")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceRulesetsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -287,12 +287,12 @@ func (rulesets *RulesetsV1) GetInstanceRulesetWithContext(ctx context.Context, g
 		return
 	}
 
-	for headerName, headerValue := range getInstanceRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -357,12 +357,12 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetWithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range updateInstanceRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateInstanceRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -450,12 +450,12 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetWithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range deleteInstanceRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteInstanceRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -510,12 +510,12 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionsWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range getInstanceRulesetVersionsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersions")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersions")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceRulesetVersionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -581,12 +581,12 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getInstanceRulesetVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -652,12 +652,12 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetVersionWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range deleteInstanceRulesetVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRulesetVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRulesetVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteInstanceRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -712,12 +712,12 @@ func (rulesets *RulesetsV1) GetInstanceEntrypointRulesetWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range getInstanceEntrypointRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntrypointRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntrypointRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceEntrypointRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -782,12 +782,12 @@ func (rulesets *RulesetsV1) UpdateInstanceEntrypointRulesetWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range updateInstanceEntrypointRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceEntrypointRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceEntrypointRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateInstanceEntrypointRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -875,12 +875,12 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionsWithContext(ctx 
 		return
 	}
 
-	for headerName, headerValue := range getInstanceEntryPointRulesetVersionsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntryPointRulesetVersions")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntryPointRulesetVersions")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceEntryPointRulesetVersionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -946,12 +946,12 @@ func (rulesets *RulesetsV1) GetInstanceEntryPointRulesetVersionWithContext(ctx c
 		return
 	}
 
-	for headerName, headerValue := range getInstanceEntryPointRulesetVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntryPointRulesetVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceEntryPointRulesetVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceEntryPointRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1016,12 +1016,12 @@ func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range createInstanceRulesetRuleOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "CreateInstanceRulesetRule")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "CreateInstanceRulesetRule")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createInstanceRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1033,6 +1033,9 @@ func (rulesets *RulesetsV1) CreateInstanceRulesetRuleWithContext(ctx context.Con
 	}
 	if createInstanceRulesetRuleOptions.ActionParameters != nil {
 		body["action_parameters"] = createInstanceRulesetRuleOptions.ActionParameters
+	}
+	if createInstanceRulesetRuleOptions.Ratelimit != nil {
+		body["ratelimit"] = createInstanceRulesetRuleOptions.Ratelimit
 	}
 	if createInstanceRulesetRuleOptions.Description != nil {
 		body["description"] = createInstanceRulesetRuleOptions.Description
@@ -1122,12 +1125,12 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range updateInstanceRulesetRuleOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceRulesetRule")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateInstanceRulesetRule")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateInstanceRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1139,6 +1142,9 @@ func (rulesets *RulesetsV1) UpdateInstanceRulesetRuleWithContext(ctx context.Con
 	}
 	if updateInstanceRulesetRuleOptions.ActionParameters != nil {
 		body["action_parameters"] = updateInstanceRulesetRuleOptions.ActionParameters
+	}
+	if updateInstanceRulesetRuleOptions.Ratelimit != nil {
+		body["ratelimit"] = updateInstanceRulesetRuleOptions.Ratelimit
 	}
 	if updateInstanceRulesetRuleOptions.Description != nil {
 		body["description"] = updateInstanceRulesetRuleOptions.Description
@@ -1228,12 +1234,12 @@ func (rulesets *RulesetsV1) DeleteInstanceRulesetRuleWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range deleteInstanceRulesetRuleOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRulesetRule")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteInstanceRulesetRule")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteInstanceRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1300,12 +1306,12 @@ func (rulesets *RulesetsV1) GetInstanceRulesetVersionByTagWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range getInstanceRulesetVersionByTagOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersionByTag")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetInstanceRulesetVersionByTag")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getInstanceRulesetVersionByTagOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1365,12 +1371,12 @@ func (rulesets *RulesetsV1) GetZoneRulesetsWithContext(ctx context.Context, getZ
 		return
 	}
 
-	for headerName, headerValue := range getZoneRulesetsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRulesets")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRulesets")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneRulesetsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1436,12 +1442,12 @@ func (rulesets *RulesetsV1) GetZoneRulesetWithContext(ctx context.Context, getZo
 		return
 	}
 
-	for headerName, headerValue := range getZoneRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1507,12 +1513,12 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetWithContext(ctx context.Context, up
 		return
 	}
 
-	for headerName, headerValue := range updateZoneRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateZoneRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateZoneRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateZoneRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1601,12 +1607,12 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetWithContext(ctx context.Context, de
 		return
 	}
 
-	for headerName, headerValue := range deleteZoneRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteZoneRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteZoneRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteZoneRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -1662,12 +1668,12 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionsWithContext(ctx context.Contex
 		return
 	}
 
-	for headerName, headerValue := range getZoneRulesetVersionsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRulesetVersions")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRulesetVersions")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneRulesetVersionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1734,12 +1740,12 @@ func (rulesets *RulesetsV1) GetZoneRulesetVersionWithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range getZoneRulesetVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRulesetVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneRulesetVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1806,12 +1812,12 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetVersionWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range deleteZoneRulesetVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteZoneRulesetVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteZoneRulesetVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteZoneRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -1867,12 +1873,12 @@ func (rulesets *RulesetsV1) GetZoneEntrypointRulesetWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range getZoneEntrypointRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneEntrypointRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneEntrypointRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneEntrypointRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1938,12 +1944,12 @@ func (rulesets *RulesetsV1) UpdateZoneEntrypointRulesetWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range updateZoneEntrypointRulesetOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateZoneEntrypointRuleset")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateZoneEntrypointRuleset")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateZoneEntrypointRulesetOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2032,12 +2038,12 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionsWithContext(ctx cont
 		return
 	}
 
-	for headerName, headerValue := range getZoneEntryPointRulesetVersionsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneEntryPointRulesetVersions")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneEntryPointRulesetVersions")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneEntryPointRulesetVersionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2104,12 +2110,12 @@ func (rulesets *RulesetsV1) GetZoneEntryPointRulesetVersionWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range getZoneEntryPointRulesetVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneEntryPointRulesetVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "GetZoneEntryPointRulesetVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneEntryPointRulesetVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2175,12 +2181,12 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range createZoneRulesetRuleOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "CreateZoneRulesetRule")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "CreateZoneRulesetRule")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createZoneRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2192,6 +2198,9 @@ func (rulesets *RulesetsV1) CreateZoneRulesetRuleWithContext(ctx context.Context
 	}
 	if createZoneRulesetRuleOptions.ActionParameters != nil {
 		body["action_parameters"] = createZoneRulesetRuleOptions.ActionParameters
+	}
+	if createZoneRulesetRuleOptions.Ratelimit != nil {
+		body["ratelimit"] = createZoneRulesetRuleOptions.Ratelimit
 	}
 	if createZoneRulesetRuleOptions.Description != nil {
 		body["description"] = createZoneRulesetRuleOptions.Description
@@ -2282,12 +2291,12 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range updateZoneRulesetRuleOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateZoneRulesetRule")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "UpdateZoneRulesetRule")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateZoneRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2299,6 +2308,9 @@ func (rulesets *RulesetsV1) UpdateZoneRulesetRuleWithContext(ctx context.Context
 	}
 	if updateZoneRulesetRuleOptions.ActionParameters != nil {
 		body["action_parameters"] = updateZoneRulesetRuleOptions.ActionParameters
+	}
+	if updateZoneRulesetRuleOptions.Ratelimit != nil {
+		body["ratelimit"] = updateZoneRulesetRuleOptions.Ratelimit
 	}
 	if updateZoneRulesetRuleOptions.Description != nil {
 		body["description"] = updateZoneRulesetRuleOptions.Description
@@ -2389,12 +2401,12 @@ func (rulesets *RulesetsV1) DeleteZoneRulesetRuleWithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range deleteZoneRulesetRuleOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteZoneRulesetRule")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("rulesets", "V1", "DeleteZoneRulesetRule")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteZoneRulesetRuleOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2484,6 +2496,8 @@ type CreateInstanceRulesetRuleOptions struct {
 
 	ActionParameters *ActionParameters `json:"action_parameters,omitempty"`
 
+	Ratelimit *Ratelimit `json:"ratelimit,omitempty"`
+
 	Description *string `json:"description,omitempty"`
 
 	Enabled *bool `json:"enabled,omitempty"`
@@ -2526,6 +2540,12 @@ func (_options *CreateInstanceRulesetRuleOptions) SetAction(action string) *Crea
 // SetActionParameters : Allow user to set ActionParameters
 func (_options *CreateInstanceRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *CreateInstanceRulesetRuleOptions {
 	_options.ActionParameters = actionParameters
+	return _options
+}
+
+// SetRatelimit : Allow user to set Ratelimit
+func (_options *CreateInstanceRulesetRuleOptions) SetRatelimit(ratelimit *Ratelimit) *CreateInstanceRulesetRuleOptions {
+	_options.Ratelimit = ratelimit
 	return _options
 }
 
@@ -2587,6 +2607,8 @@ type CreateZoneRulesetRuleOptions struct {
 
 	ActionParameters *ActionParameters `json:"action_parameters,omitempty"`
 
+	Ratelimit *Ratelimit `json:"ratelimit,omitempty"`
+
 	Description *string `json:"description,omitempty"`
 
 	Enabled *bool `json:"enabled,omitempty"`
@@ -2629,6 +2651,12 @@ func (_options *CreateZoneRulesetRuleOptions) SetAction(action string) *CreateZo
 // SetActionParameters : Allow user to set ActionParameters
 func (_options *CreateZoneRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *CreateZoneRulesetRuleOptions {
 	_options.ActionParameters = actionParameters
+	return _options
+}
+
+// SetRatelimit : Allow user to set Ratelimit
+func (_options *CreateZoneRulesetRuleOptions) SetRatelimit(ratelimit *Ratelimit) *CreateZoneRulesetRuleOptions {
+	_options.Ratelimit = ratelimit
 	return _options
 }
 
@@ -3762,6 +3790,8 @@ type UpdateInstanceRulesetRuleOptions struct {
 
 	ActionParameters *ActionParameters `json:"action_parameters,omitempty"`
 
+	Ratelimit *Ratelimit `json:"ratelimit,omitempty"`
+
 	Description *string `json:"description,omitempty"`
 
 	Enabled *bool `json:"enabled,omitempty"`
@@ -3811,6 +3841,12 @@ func (_options *UpdateInstanceRulesetRuleOptions) SetAction(action string) *Upda
 // SetActionParameters : Allow user to set ActionParameters
 func (_options *UpdateInstanceRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *UpdateInstanceRulesetRuleOptions {
 	_options.ActionParameters = actionParameters
+	return _options
+}
+
+// SetRatelimit : Allow user to set Ratelimit
+func (_options *UpdateInstanceRulesetRuleOptions) SetRatelimit(ratelimit *Ratelimit) *UpdateInstanceRulesetRuleOptions {
+	_options.Ratelimit = ratelimit
 	return _options
 }
 
@@ -4108,6 +4144,8 @@ type UpdateZoneRulesetRuleOptions struct {
 
 	ActionParameters *ActionParameters `json:"action_parameters,omitempty"`
 
+	Ratelimit *Ratelimit `json:"ratelimit,omitempty"`
+
 	Description *string `json:"description,omitempty"`
 
 	Enabled *bool `json:"enabled,omitempty"`
@@ -4157,6 +4195,12 @@ func (_options *UpdateZoneRulesetRuleOptions) SetAction(action string) *UpdateZo
 // SetActionParameters : Allow user to set ActionParameters
 func (_options *UpdateZoneRulesetRuleOptions) SetActionParameters(actionParameters *ActionParameters) *UpdateZoneRulesetRuleOptions {
 	_options.ActionParameters = actionParameters
+	return _options
+}
+
+// SetRatelimit : Allow user to set Ratelimit
+func (_options *UpdateZoneRulesetRuleOptions) SetRatelimit(ratelimit *Ratelimit) *UpdateZoneRulesetRuleOptions {
+	_options.Ratelimit = ratelimit
 	return _options
 }
 
@@ -4605,12 +4649,65 @@ func UnmarshalPosition(m map[string]json.RawMessage, result interface{}) (err er
 	return
 }
 
+// Ratelimit : Ratelimit struct
+type Ratelimit struct {
+	// The set of parameters that define how rate for this rule is tracked.
+	Characteristics []string `json:"characteristics,omitempty"`
+
+	// Expression that specifies the criteria you are matching traffic on.
+	CountingExpression *string `json:"counting_expression,omitempty"`
+
+	// Once the rate is reached, the rate limiting rule blocks further requests for the period of time defined in this
+	// field.
+	MitigationTimeout *int64 `json:"mitigation_timeout,omitempty"`
+
+	// The period of time to consider (in seconds) when evaluating the rate.
+	Period *int64 `json:"period,omitempty"`
+
+	// The number of requests over the period of time that will trigger the rate limiting rule.
+	RequestsPerPeriod *int64 `json:"requests_per_period,omitempty"`
+}
+
+// UnmarshalRatelimit unmarshals an instance of Ratelimit from the specified map of raw messages.
+func UnmarshalRatelimit(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(Ratelimit)
+	err = core.UnmarshalPrimitive(m, "characteristics", &obj.Characteristics)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "characteristics-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "counting_expression", &obj.CountingExpression)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "counting_expression-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mitigation_timeout", &obj.MitigationTimeout)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mitigation_timeout-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "period", &obj.Period)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "period-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "requests_per_period", &obj.RequestsPerPeriod)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "requests_per_period-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // RuleCreate : RuleCreate struct
 type RuleCreate struct {
 	// What happens when theres a match for the rule expression.
 	Action *string `json:"action" validate:"required"`
 
 	ActionParameters *ActionParameters `json:"action_parameters,omitempty"`
+
+	Ratelimit *Ratelimit `json:"ratelimit,omitempty"`
 
 	Description *string `json:"description,omitempty"`
 
@@ -4653,6 +4750,11 @@ func UnmarshalRuleCreate(m map[string]json.RawMessage, result interface{}) (err 
 	err = core.UnmarshalModel(m, "action_parameters", &obj.ActionParameters, UnmarshalActionParameters)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "action_parameters-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "ratelimit", &obj.Ratelimit, UnmarshalRatelimit)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "ratelimit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
