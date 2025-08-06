@@ -542,6 +542,51 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 
+		Context(`Success: POST Transit Gateway VPN Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+
+			It(`Successfully create new VPN Connection`, func() {
+				shouldSkipTest()
+				zoneStr := "us-south-1"
+				crn := os.Getenv("VPN_CRN")
+				network_type := "vpn_gateway"
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				zone := &transitgatewayapisv1.ZoneIdentity{Name: &zoneStr}
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					network_type).
+					SetHeaders(header).
+					SetName("VPN-" + connectionName).
+					SetNetworkID(crn).
+					SetZone(zone)
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+
+				os.Setenv("VPN_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("VPN_CONN_INSTANCE_NAME", *result.Name)
+
+				Expect(*result.ID).NotTo(Equal(""))
+				Expect(*result.NetworkID).To(Equal(crn))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("pending"))
+				Expect(*result.NetworkType).To(Equal(network_type))
+				Expect(*result.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
+
+			})
+
+			It("Successfully waits for VPN connection to report as attached", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPN_CONN_INSTANCE_ID")
+				isResourceAvailable(service, gatewayID, instanceID, "")
+			})
+		})
+
 		Context(`Success: POST Transit Gateway GRE Connection`, func() {
 			header := map[string]string{
 				"Content-type": "application/json",
@@ -728,6 +773,28 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 
+		Context(`Success: GET Transit Gateway VPN Connection`, func() {
+			It(`Successfully get VPN Connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPN_CONN_INSTANCE_ID")
+				getTransitGatewayConnectionOptions := service.NewGetTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				result, detailedResponse, err := service.GetTransitGatewayConnection(getTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.ID).To(Equal(instanceID))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("vpn_gateway"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("VPN_CRN")))
+				Expect(*result.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
+			})
+		})
+
 		Context(`Success: GET Transit Gateway GRE Connection`, func() {
 			It(`Successfully get GRE Connection`, func() {
 				shouldSkipTest()
@@ -852,6 +919,33 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 
+		Context(`Success: UPDATE Transit Gateway VPN Connection`, func() {
+			It(`Successfully update VPN Connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPN_CONN_INSTANCE_ID")
+				updateConnectionName := "UPDATED-" + os.Getenv("VPN_CONN_INSTANCE_NAME")
+				updateTransitGatewayConnectionOptions := service.NewUpdateTransitGatewayConnectionOptions(
+					gatewayID, instanceID).
+					SetName(updateConnectionName)
+
+				result, detailedResponse, err := service.UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+
+				Expect(*result.Name).To(Equal(updateConnectionName))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.NetworkType).To(Equal("vpn_gateway"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("VPN_CRN")))
+				Expect(*result.ID).To(Equal(os.Getenv("VPN_CONN_INSTANCE_ID")))
+
+				os.Setenv("VPN_CONN_INSTANCE_NAME", *result.Name)
+			})
+		})
+
 		Context(`Success: UPDATE Transit Gateway GRE Connection`, func() {
 			It(`Successfully update GRE Connection`, func() {
 				shouldSkipTest()
@@ -921,6 +1015,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(len(result.Connections)).Should(BeNumerically(">", 0))
 
 				dl_found := false
+				vpn_found := false
 				vpc_found := false
 				gre_found := false
 				classic_found := false
@@ -943,6 +1038,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*conn.Name).To(Equal(os.Getenv("DL_CONN_INSTANCE_NAME")))
 						dl_found = true
 
+					} else if *conn.ID == os.Getenv("VPN_CONN_INSTANCE_ID") {
+						Expect(*conn.CreatedAt).NotTo(Equal(""))
+						Expect(*conn.UpdatedAt).NotTo(Equal(""))
+						Expect(*conn.Status).To(Equal("attached"))
+						Expect(*conn.NetworkType).To(Equal("vpn_gateway"))
+						Expect(*conn.NetworkID).To(Equal(os.Getenv("VPN_CRN")))
+						Expect(*conn.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
+						vpn_found = true
+
 					} else if *conn.ID == os.Getenv("GRE_CONN_INSTANCE_ID") {
 						Expect(*conn.CreatedAt).NotTo(Equal(""))
 						Expect(*conn.UpdatedAt).NotTo(Equal(""))
@@ -962,6 +1066,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 				Expect(dl_found).To(Equal(true))
+				Expect(vpn_found).To(Equal(true))
 				Expect(vpc_found).To(Equal(true))
 				Expect(gre_found).To(Equal(true))
 				Expect(classic_found).To(Equal(true))
@@ -1461,6 +1566,28 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				instanceID := os.Getenv("DL_CONN_INSTANCE_ID")
+				deleteCheckTest(service, gatewayID, instanceID, "", "")
+			})
+		})
+
+		Context(`Success: DELETE Transit VPN connection by instanceID`, func() {
+			It(`Successfully delete VPN connection by instanceID`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPN_CONN_INSTANCE_ID")
+				deleteTransitGatewayConnectionOptions := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It("Successfully waits for VPN connection to report as deleted", func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("VPN_CONN_INSTANCE_ID")
 				deleteCheckTest(service, gatewayID, instanceID, "", "")
 			})
 		})
