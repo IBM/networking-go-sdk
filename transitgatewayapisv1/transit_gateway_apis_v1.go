@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.106.0-09823488-20250707-071701
+ * IBM OpenAPI SDK Code Generator Version: 3.107.0-b68ebf7a-20250811-145645
  */
 
 // Package transitgatewayapisv1 : Operations and models for the TransitGatewayApisV1 service
@@ -1735,7 +1735,9 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 }
 
 // CreateTransitGatewayConnectionPrefixFilter : Add a prefix filter to a Transit Gateway connection
-// Add a prefix filter to a Transit Gateway connection.
+// Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to `vpc`, `classic`, `directlink`,
+// and `power_virtual_server` Connection types. Prefix Filters cannot be added to `gre_tunnel`, `unbound_gre_tunnel`,
+// `redundant_gre` or `vpn_gateway` Connection types.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	result, response, err = transitGatewayApis.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -2506,10 +2508,7 @@ type CreateTransitGatewayConnectionOptions struct {
 
 	// network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
 	//
-	// This field is optional for network type `vpn_gateway` connections.
-	//
-	// If left unspecified when creating a `vpn_gateway` connection, a default cidr address of `100.64.0.0/10` will be
-	// used.
+	// This field is required for network type `vpn_gateway` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
 	// `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.

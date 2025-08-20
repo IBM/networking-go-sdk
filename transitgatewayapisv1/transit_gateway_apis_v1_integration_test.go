@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020,2022.
+ * (C) Copyright IBM Corp. 2020, 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package transitgatewayapisv1_test
 
 /*
 
-  How to run this test:
+How to run this test:
 
-  go test -v ./transitgatewayapisv1
+go test -v ./transitgatewayapisv1
 
 */
 
@@ -554,13 +554,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				network_type := "vpn_gateway"
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				zone := &transitgatewayapisv1.ZoneIdentity{Name: &zoneStr}
+				cidr := os.Getenv("VPN_CIDR")
 				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
 					gatewayID,
 					network_type).
 					SetHeaders(header).
 					SetName("VPN-" + connectionName).
 					SetNetworkID(crn).
-					SetZone(zone)
+					SetZone(zone).
+					SetCidr(cidr)
 				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
 				Expect(err).To(BeNil())
 				Expect(detailedResponse.StatusCode).To(Equal(201))
@@ -941,6 +943,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.NetworkType).To(Equal("vpn_gateway"))
 				Expect(*result.NetworkID).To(Equal(os.Getenv("VPN_CRN")))
 				Expect(*result.ID).To(Equal(os.Getenv("VPN_CONN_INSTANCE_ID")))
+				Expect(*result.Cidr).To(Equal(os.Getenv("VPN_CIDR")))
 
 				os.Setenv("VPN_CONN_INSTANCE_NAME", *result.Name)
 			})
@@ -1153,6 +1156,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(len(result.Connections)).Should(BeNumerically(">", 0))
 
 				dl_found := false
+				vpn_found := false
 				vpc_found := false
 				gre_found := false
 				classic_found := false
@@ -1168,6 +1172,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*conn.Name).To(Equal(os.Getenv("DL_CONN_INSTANCE_NAME")))
 						dl_found = true
 
+					} else if *conn.ID == os.Getenv("VPN_CONN_INSTANCE_ID") {
+						Expect(*conn.Type).To(Equal("vpn_gateway"))
+						Expect(*conn.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
+						vpn_found = true
+
 					} else if *conn.ID == os.Getenv("GRE_CONN_INSTANCE_ID") {
 						Expect(*conn.Type).To(Equal("gre_tunnel"))
 						Expect(*conn.Name).To(Equal(os.Getenv("GRE_CONN_INSTANCE_NAME")))
@@ -1181,6 +1190,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				}
 
 				Expect(dl_found).To(Equal(true))
+				Expect(vpn_found).To(Equal(true))
 				Expect(vpc_found).To(Equal(true))
 				Expect(gre_found).To(Equal(true))
 				Expect(classic_found).To(Equal(true))
