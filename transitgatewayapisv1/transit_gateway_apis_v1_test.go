@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -250,7 +250,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
 				}))
 			})
 			It(`Invoke ListTransitGateways successfully with retries`, func() {
@@ -309,7 +309,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
 				}))
 			})
 			It(`Invoke ListTransitGateways successfully`, func() {
@@ -437,9 +437,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"transit_gateways":[{"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"gre_enhanced_route_propagation":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"transit_gateways":[{"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"gre_enhanced_route_propagation":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -528,8 +528,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the CreateTransitGatewayOptions model
 				createTransitGatewayOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayOptions)
 				createTransitGatewayOptionsModel.Location = core.StringPtr("us-south")
-				createTransitGatewayOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway-in-TransitGateway")
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
+				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -585,7 +586,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateTransitGateway successfully with retries`, func() {
@@ -605,8 +606,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the CreateTransitGatewayOptions model
 				createTransitGatewayOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayOptions)
 				createTransitGatewayOptionsModel.Location = core.StringPtr("us-south")
-				createTransitGatewayOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway-in-TransitGateway")
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
+				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -664,7 +666,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke CreateTransitGateway successfully`, func() {
@@ -689,8 +691,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the CreateTransitGatewayOptions model
 				createTransitGatewayOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayOptions)
 				createTransitGatewayOptionsModel.Location = core.StringPtr("us-south")
-				createTransitGatewayOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway-in-TransitGateway")
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
+				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -717,8 +720,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the CreateTransitGatewayOptions model
 				createTransitGatewayOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayOptions)
 				createTransitGatewayOptionsModel.Location = core.StringPtr("us-south")
-				createTransitGatewayOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway-in-TransitGateway")
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
+				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -766,8 +770,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Construct an instance of the CreateTransitGatewayOptions model
 				createTransitGatewayOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayOptions)
 				createTransitGatewayOptionsModel.Location = core.StringPtr("us-south")
-				createTransitGatewayOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway-in-TransitGateway")
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
+				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -923,7 +928,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetTransitGateway successfully with retries`, func() {
@@ -979,7 +984,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetTransitGateway successfully`, func() {
@@ -1108,7 +1113,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayOptions)
 				updateTransitGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayOptionsModel.Global = core.BoolPtr(true)
-				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway")
+				updateTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
+				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-resource")
 				updateTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := transitGatewayApisService.UpdateTransitGateway(updateTransitGatewayOptionsModel)
@@ -1163,7 +1169,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGateway successfully with retries`, func() {
@@ -1180,7 +1186,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayOptions)
 				updateTransitGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayOptionsModel.Global = core.BoolPtr(true)
-				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway")
+				updateTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
+				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-resource")
 				updateTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1237,7 +1244,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
+					fmt.Fprintf(res, "%s", `{"connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "gre_enhanced_route_propagation": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGateway successfully`, func() {
@@ -1259,7 +1266,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayOptions)
 				updateTransitGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayOptionsModel.Global = core.BoolPtr(true)
-				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway")
+				updateTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
+				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-resource")
 				updateTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1282,7 +1290,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayOptions)
 				updateTransitGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayOptionsModel.Global = core.BoolPtr(true)
-				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway")
+				updateTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
+				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-resource")
 				updateTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
@@ -1326,7 +1335,8 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayOptions)
 				updateTransitGatewayOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayOptionsModel.Global = core.BoolPtr(true)
-				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-transit-gateway")
+				updateTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
+				updateTransitGatewayOptionsModel.Name = core.StringPtr("my-resource")
 				updateTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1357,6 +1367,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["network_id"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["network_type"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -1376,6 +1387,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
+				listConnectionsOptionsModel.NetworkType = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := transitGatewayApisService.ListConnections(listConnectionsOptionsModel)
@@ -1411,13 +1423,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["network_id"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["network_type"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully with retries`, func() {
@@ -1435,6 +1448,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
+				listConnectionsOptionsModel.NetworkType = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1475,10 +1489,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["network_id"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["network_type"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}}`)
 				}))
 			})
 			It(`Invoke ListConnections successfully`, func() {
@@ -1501,6 +1516,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
+				listConnectionsOptionsModel.NetworkType = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1524,6 +1540,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
+				listConnectionsOptionsModel.NetworkType = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
@@ -1561,6 +1578,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				listConnectionsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listConnectionsOptionsModel.Start = core.StringPtr("testString")
 				listConnectionsOptionsModel.NetworkID = core.StringPtr("testString")
+				listConnectionsOptionsModel.NetworkType = core.StringPtr("testString")
 				listConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1609,9 +1627,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"NetworkAccountID","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"NetworkAccountID","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -1627,8 +1645,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listConnectionsOptionsModel := &transitgatewayapisv1.ListConnectionsOptions{
-					Limit:     core.Int64Ptr(int64(10)),
-					NetworkID: core.StringPtr("testString"),
+					Limit:       core.Int64Ptr(int64(10)),
+					NetworkID:   core.StringPtr("testString"),
+					NetworkType: core.StringPtr("testString"),
 				}
 
 				pager, err := transitGatewayApisService.NewConnectionsPager(listConnectionsOptionsModel)
@@ -1654,8 +1673,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listConnectionsOptionsModel := &transitgatewayapisv1.ListConnectionsOptions{
-					Limit:     core.Int64Ptr(int64(10)),
-					NetworkID: core.StringPtr("testString"),
+					Limit:       core.Int64Ptr(int64(10)),
+					NetworkID:   core.StringPtr("testString"),
+					NetworkType: core.StringPtr("testString"),
 				}
 
 				pager, err := transitGatewayApisService.NewConnectionsPager(listConnectionsOptionsModel)
@@ -1745,7 +1765,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully with retries`, func() {
@@ -1807,7 +1827,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}`)
 				}))
 			})
 			It(`Invoke ListTransitGatewayConnections successfully`, func() {
@@ -1948,9 +1968,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","base_network_type":"classic","cidr":"192.168.0.0/24","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_BWTN_SJ_DL","network_account_id":"NetworkAccountID","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"NetworkAccountID","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"NetworkAccountID","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","base_network_type":"classic","cidr":"192.168.0.0/24","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_BWTN_SJ_DL","network_account_id":"NetworkAccountID","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":11,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"NetworkAccountID","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -2047,15 +2067,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
-				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
-				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayTunnelTemplate model
+				transitGatewayTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+				transitGatewayTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
@@ -2063,6 +2083,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
 				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
 				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.Cidr = core.StringPtr("192.168.0.0/24")
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
@@ -2073,7 +2094,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel}
 				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -2129,7 +2150,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection successfully with retries`, func() {
@@ -2153,15 +2174,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
-				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
-				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayTunnelTemplate model
+				transitGatewayTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+				transitGatewayTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
@@ -2169,6 +2190,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
 				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
 				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.Cidr = core.StringPtr("192.168.0.0/24")
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
@@ -2179,7 +2201,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel}
 				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2237,7 +2259,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateTransitGatewayConnection successfully`, func() {
@@ -2266,15 +2288,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
-				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
-				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayTunnelTemplate model
+				transitGatewayTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+				transitGatewayTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
@@ -2282,6 +2304,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
 				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
 				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.Cidr = core.StringPtr("192.168.0.0/24")
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
@@ -2292,7 +2315,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel}
 				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2323,15 +2346,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
-				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
-				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayTunnelTemplate model
+				transitGatewayTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+				transitGatewayTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
@@ -2339,6 +2362,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
 				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
 				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.Cidr = core.StringPtr("192.168.0.0/24")
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
@@ -2349,7 +2373,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel}
 				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -2401,15 +2425,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel := new(transitgatewayapisv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
-				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
-				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
+				// Construct an instance of the TransitGatewayTunnelTemplate model
+				transitGatewayTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+				transitGatewayTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayTunnelTemplateModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				createTransitGatewayConnectionOptionsModel := new(transitgatewayapisv1.CreateTransitGatewayConnectionOptions)
@@ -2417,6 +2441,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.NetworkType = core.StringPtr("vpc")
 				createTransitGatewayConnectionOptionsModel.BaseConnectionID = core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")
 				createTransitGatewayConnectionOptionsModel.BaseNetworkType = core.StringPtr("classic")
+				createTransitGatewayConnectionOptionsModel.Cidr = core.StringPtr("192.168.0.0/24")
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
@@ -2427,7 +2452,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
 				createTransitGatewayConnectionOptionsModel.RemoteGatewayIp = core.StringPtr("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}
+				createTransitGatewayConnectionOptionsModel.Tunnels = []transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel}
 				createTransitGatewayConnectionOptionsModel.Zone = zoneIdentityModel
 				createTransitGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2586,7 +2611,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection successfully with retries`, func() {
@@ -2643,7 +2668,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetTransitGatewayConnection successfully`, func() {
@@ -2831,7 +2856,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection successfully with retries`, func() {
@@ -2906,7 +2931,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "NetworkAccountID", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "base_network_type": "classic", "cidr": "192.168.0.0/24", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_BWTN_SJ_DL", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateTransitGatewayConnection successfully`, func() {
@@ -3106,16 +3131,16 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 	})
-	Describe(`GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptions *GetTransitGatewayGreTunnelOptions) - Operation response error`, func() {
+	Describe(`ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptions *ListTransitGatewayGreTunnelOptions) - Operation response error`, func() {
 		version := "testString"
-		getTransitGatewayGreTunnelPath := "/transit_gateways/testString/connections/testString/tunnels"
+		listTransitGatewayGreTunnelPath := "/transit_gateways/testString/connections/testString/tunnels"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayGreTunnelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayGreTunnelPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
@@ -3123,7 +3148,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke GetTransitGatewayGreTunnel with error: Operation response processing error`, func() {
+			It(`Invoke ListTransitGatewayGreTunnel with error: Operation response processing error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -3132,20 +3157,20 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
-				// Construct an instance of the GetTransitGatewayGreTunnelOptions model
-				getTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.GetTransitGatewayGreTunnelOptions)
-				getTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListTransitGatewayGreTunnelOptions model
+				listTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.ListTransitGatewayGreTunnelOptions)
+				listTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
 
 				// Enable retries and test again
 				transitGatewayApisService.EnableRetries(0, 0)
-				result, response, operationErr = transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -3155,16 +3180,16 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 	})
-	Describe(`GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptions *GetTransitGatewayGreTunnelOptions)`, func() {
+	Describe(`ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptions *ListTransitGatewayGreTunnelOptions)`, func() {
 		version := "testString"
-		getTransitGatewayGreTunnelPath := "/transit_gateways/testString/connections/testString/tunnels"
+		listTransitGatewayGreTunnelPath := "/transit_gateways/testString/connections/testString/tunnels"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayGreTunnelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayGreTunnelPath))
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
@@ -3177,7 +3202,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					fmt.Fprintf(res, "%s", `{"tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
 				}))
 			})
-			It(`Invoke GetTransitGatewayGreTunnel successfully with retries`, func() {
+			It(`Invoke ListTransitGatewayGreTunnel successfully with retries`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -3187,22 +3212,22 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(transitGatewayApisService).ToNot(BeNil())
 				transitGatewayApisService.EnableRetries(0, 0)
 
-				// Construct an instance of the GetTransitGatewayGreTunnelOptions model
-				getTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.GetTransitGatewayGreTunnelOptions)
-				getTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListTransitGatewayGreTunnelOptions model
+				listTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.ListTransitGatewayGreTunnelOptions)
+				listTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
 				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc()
-				_, _, operationErr := transitGatewayApisService.GetTransitGatewayGreTunnelWithContext(ctx, getTransitGatewayGreTunnelOptionsModel)
+				_, _, operationErr := transitGatewayApisService.ListTransitGatewayGreTunnelWithContext(ctx, listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 
 				// Disable retries and test again
 				transitGatewayApisService.DisableRetries()
-				result, response, operationErr := transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
@@ -3210,7 +3235,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				// Re-test the timeout error with retries disabled
 				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
 				defer cancelFunc2()
-				_, _, operationErr = transitGatewayApisService.GetTransitGatewayGreTunnelWithContext(ctx, getTransitGatewayGreTunnelOptionsModel)
+				_, _, operationErr = transitGatewayApisService.ListTransitGatewayGreTunnelWithContext(ctx, listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
 			})
@@ -3224,7 +3249,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(getTransitGatewayGreTunnelPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listTransitGatewayGreTunnelPath))
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
@@ -3234,7 +3259,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					fmt.Fprintf(res, "%s", `{"tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 11, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "NetworkAccountID", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}`)
 				}))
 			})
-			It(`Invoke GetTransitGatewayGreTunnel successfully`, func() {
+			It(`Invoke ListTransitGatewayGreTunnel successfully`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -3244,25 +3269,25 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := transitGatewayApisService.GetTransitGatewayGreTunnel(nil)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayGreTunnel(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the GetTransitGatewayGreTunnelOptions model
-				getTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.GetTransitGatewayGreTunnelOptions)
-				getTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListTransitGatewayGreTunnelOptions model
+				listTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.ListTransitGatewayGreTunnelOptions)
+				listTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke GetTransitGatewayGreTunnel with error: Operation validation and request error`, func() {
+			It(`Invoke ListTransitGatewayGreTunnel with error: Operation validation and request error`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -3271,23 +3296,23 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
-				// Construct an instance of the GetTransitGatewayGreTunnelOptions model
-				getTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.GetTransitGatewayGreTunnelOptions)
-				getTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListTransitGatewayGreTunnelOptions model
+				listTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.ListTransitGatewayGreTunnelOptions)
+				listTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the GetTransitGatewayGreTunnelOptions model with no property values
-				getTransitGatewayGreTunnelOptionsModelNew := new(transitgatewayapisv1.GetTransitGatewayGreTunnelOptions)
+				// Construct a second instance of the ListTransitGatewayGreTunnelOptions model with no property values
+				listTransitGatewayGreTunnelOptionsModelNew := new(transitgatewayapisv1.ListTransitGatewayGreTunnelOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModelNew)
+				result, response, operationErr = transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -3305,7 +3330,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					res.WriteHeader(200)
 				}))
 			})
-			It(`Invoke GetTransitGatewayGreTunnel successfully`, func() {
+			It(`Invoke ListTransitGatewayGreTunnel successfully`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -3314,14 +3339,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
-				// Construct an instance of the GetTransitGatewayGreTunnelOptions model
-				getTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.GetTransitGatewayGreTunnelOptions)
-				getTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
-				getTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListTransitGatewayGreTunnelOptions model
+				listTransitGatewayGreTunnelOptionsModel := new(transitgatewayapisv1.ListTransitGatewayGreTunnelOptions)
+				listTransitGatewayGreTunnelOptionsModel.TransitGatewayID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.ID = core.StringPtr("testString")
+				listTransitGatewayGreTunnelOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
-				result, response, operationErr := transitGatewayApisService.GetTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel)
+				result, response, operationErr := transitGatewayApisService.ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -3981,12 +4006,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
+				// Construct an instance of the TransitGatewayTunnelPatch model
+				transitGatewayTunnelPatchModel := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+				transitGatewayTunnelPatchModel.Name = core.StringPtr("gre2")
+				transitGatewayTunnelPatchModelAsPatch, asPatchErr := transitGatewayTunnelPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateTransitGatewayConnectionTunnelsOptions model
 				updateTransitGatewayConnectionTunnelsOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionTunnelsOptions)
 				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID = core.StringPtr("testString")
-				updateTransitGatewayConnectionTunnelsOptionsModel.Name = core.StringPtr("gre2")
+				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayTunnelPatch = transitGatewayTunnelPatchModelAsPatch
 				updateTransitGatewayConnectionTunnelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := transitGatewayApisService.UpdateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsOptionsModel)
@@ -4054,12 +4085,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(transitGatewayApisService).ToNot(BeNil())
 				transitGatewayApisService.EnableRetries(0, 0)
 
+				// Construct an instance of the TransitGatewayTunnelPatch model
+				transitGatewayTunnelPatchModel := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+				transitGatewayTunnelPatchModel.Name = core.StringPtr("gre2")
+				transitGatewayTunnelPatchModelAsPatch, asPatchErr := transitGatewayTunnelPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateTransitGatewayConnectionTunnelsOptions model
 				updateTransitGatewayConnectionTunnelsOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionTunnelsOptions)
 				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID = core.StringPtr("testString")
-				updateTransitGatewayConnectionTunnelsOptionsModel.Name = core.StringPtr("gre2")
+				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayTunnelPatch = transitGatewayTunnelPatchModelAsPatch
 				updateTransitGatewayConnectionTunnelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -4134,12 +4171,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the TransitGatewayTunnelPatch model
+				transitGatewayTunnelPatchModel := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+				transitGatewayTunnelPatchModel.Name = core.StringPtr("gre2")
+				transitGatewayTunnelPatchModelAsPatch, asPatchErr := transitGatewayTunnelPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateTransitGatewayConnectionTunnelsOptions model
 				updateTransitGatewayConnectionTunnelsOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionTunnelsOptions)
 				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID = core.StringPtr("testString")
-				updateTransitGatewayConnectionTunnelsOptionsModel.Name = core.StringPtr("gre2")
+				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayTunnelPatch = transitGatewayTunnelPatchModelAsPatch
 				updateTransitGatewayConnectionTunnelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4158,12 +4201,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
+				// Construct an instance of the TransitGatewayTunnelPatch model
+				transitGatewayTunnelPatchModel := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+				transitGatewayTunnelPatchModel.Name = core.StringPtr("gre2")
+				transitGatewayTunnelPatchModelAsPatch, asPatchErr := transitGatewayTunnelPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateTransitGatewayConnectionTunnelsOptions model
 				updateTransitGatewayConnectionTunnelsOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionTunnelsOptions)
 				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID = core.StringPtr("testString")
-				updateTransitGatewayConnectionTunnelsOptionsModel.Name = core.StringPtr("gre2")
+				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayTunnelPatch = transitGatewayTunnelPatchModelAsPatch
 				updateTransitGatewayConnectionTunnelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := transitGatewayApisService.SetServiceURL("")
@@ -4203,12 +4252,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
+				// Construct an instance of the TransitGatewayTunnelPatch model
+				transitGatewayTunnelPatchModel := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+				transitGatewayTunnelPatchModel.Name = core.StringPtr("gre2")
+				transitGatewayTunnelPatchModelAsPatch, asPatchErr := transitGatewayTunnelPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateTransitGatewayConnectionTunnelsOptions model
 				updateTransitGatewayConnectionTunnelsOptionsModel := new(transitgatewayapisv1.UpdateTransitGatewayConnectionTunnelsOptions)
 				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.ID = core.StringPtr("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID = core.StringPtr("testString")
-				updateTransitGatewayConnectionTunnelsOptionsModel.Name = core.StringPtr("gre2")
+				updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayTunnelPatch = transitGatewayTunnelPatchModelAsPatch
 				updateTransitGatewayConnectionTunnelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -4501,7 +4556,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "supported_connection_types": ["SupportedConnectionTypes"], "type": "region"}], "zones": [{"zones": [{"name": "us-south-1"}]}]}`)
+					fmt.Fprintf(res, "%s", `{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "supported_connection_types": ["SupportedConnectionTypes"], "type": "region"}], "zones": [{"name": "us-south-1"}]}`)
 				}))
 			})
 			It(`Invoke GetGatewayLocation successfully with retries`, func() {
@@ -4557,7 +4612,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "supported_connection_types": ["SupportedConnectionTypes"], "type": "region"}], "zones": [{"zones": [{"name": "us-south-1"}]}]}`)
+					fmt.Fprintf(res, "%s", `{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "supported_connection_types": ["SupportedConnectionTypes"], "type": "region"}], "zones": [{"name": "us-south-1"}]}`)
 				}))
 			})
 			It(`Invoke GetGatewayLocation successfully`, func() {
@@ -6851,23 +6906,23 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
 
-				// Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-				transitGatewayRedundantGreTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate)
-				Expect(transitGatewayRedundantGreTunnelTemplateModel).ToNot(BeNil())
-				transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
-				transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
-				transitGatewayRedundantGreTunnelTemplateModel.Name = core.StringPtr("gre1")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
-				transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
-				transitGatewayRedundantGreTunnelTemplateModel.Zone = zoneIdentityModel
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.LocalGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.100.20")))
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.Name).To(Equal(core.StringPtr("gre1")))
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.RemoteBgpAsn).To(Equal(core.Int64Ptr(int64(65010))))
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.33.22")))
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
-				Expect(transitGatewayRedundantGreTunnelTemplateModel.Zone).To(Equal(zoneIdentityModel))
+				// Construct an instance of the TransitGatewayTunnelTemplate model
+				transitGatewayTunnelTemplateModel := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+				Expect(transitGatewayTunnelTemplateModel).ToNot(BeNil())
+				transitGatewayTunnelTemplateModel.LocalGatewayIp = core.StringPtr("10.242.63.12")
+				transitGatewayTunnelTemplateModel.LocalTunnelIp = core.StringPtr("192.168.100.20")
+				transitGatewayTunnelTemplateModel.Name = core.StringPtr("gre1")
+				transitGatewayTunnelTemplateModel.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+				transitGatewayTunnelTemplateModel.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+				transitGatewayTunnelTemplateModel.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+				transitGatewayTunnelTemplateModel.Zone = zoneIdentityModel
+				Expect(transitGatewayTunnelTemplateModel.LocalGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
+				Expect(transitGatewayTunnelTemplateModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.100.20")))
+				Expect(transitGatewayTunnelTemplateModel.Name).To(Equal(core.StringPtr("gre1")))
+				Expect(transitGatewayTunnelTemplateModel.RemoteBgpAsn).To(Equal(core.Int64Ptr(int64(65010))))
+				Expect(transitGatewayTunnelTemplateModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.33.22")))
+				Expect(transitGatewayTunnelTemplateModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
+				Expect(transitGatewayTunnelTemplateModel.Zone).To(Equal(zoneIdentityModel))
 
 				// Construct an instance of the CreateTransitGatewayConnectionOptions model
 				transitGatewayID := "testString"
@@ -6877,6 +6932,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.SetNetworkType("vpc")
 				createTransitGatewayConnectionOptionsModel.SetBaseConnectionID("975f58c1-afe7-469a-9727-7f3d720f2d32")
 				createTransitGatewayConnectionOptionsModel.SetBaseNetworkType("classic")
+				createTransitGatewayConnectionOptionsModel.SetCidr("192.168.0.0/24")
 				createTransitGatewayConnectionOptionsModel.SetLocalGatewayIp("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.SetLocalTunnelIp("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.SetName("Transit_Service_BWTN_SJ_DL")
@@ -6887,7 +6943,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.SetRemoteBgpAsn(int64(65010))
 				createTransitGatewayConnectionOptionsModel.SetRemoteGatewayIp("10.242.63.12")
 				createTransitGatewayConnectionOptionsModel.SetRemoteTunnelIp("192.168.129.1")
-				createTransitGatewayConnectionOptionsModel.SetTunnels([]transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel})
+				createTransitGatewayConnectionOptionsModel.SetTunnels([]transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel})
 				createTransitGatewayConnectionOptionsModel.SetZone(zoneIdentityModel)
 				createTransitGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createTransitGatewayConnectionOptionsModel).ToNot(BeNil())
@@ -6895,6 +6951,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayConnectionOptionsModel.NetworkType).To(Equal(core.StringPtr("vpc")))
 				Expect(createTransitGatewayConnectionOptionsModel.BaseConnectionID).To(Equal(core.StringPtr("975f58c1-afe7-469a-9727-7f3d720f2d32")))
 				Expect(createTransitGatewayConnectionOptionsModel.BaseNetworkType).To(Equal(core.StringPtr("classic")))
+				Expect(createTransitGatewayConnectionOptionsModel.Cidr).To(Equal(core.StringPtr("192.168.0.0/24")))
 				Expect(createTransitGatewayConnectionOptionsModel.LocalGatewayIp).To(Equal(core.StringPtr("192.168.100.1")))
 				Expect(createTransitGatewayConnectionOptionsModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.129.2")))
 				Expect(createTransitGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
@@ -6905,7 +6962,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayConnectionOptionsModel.RemoteBgpAsn).To(Equal(core.Int64Ptr(int64(65010))))
 				Expect(createTransitGatewayConnectionOptionsModel.RemoteGatewayIp).To(Equal(core.StringPtr("10.242.63.12")))
 				Expect(createTransitGatewayConnectionOptionsModel.RemoteTunnelIp).To(Equal(core.StringPtr("192.168.129.1")))
-				Expect(createTransitGatewayConnectionOptionsModel.Tunnels).To(Equal([]transitgatewayapisv1.TransitGatewayRedundantGRETunnelTemplate{*transitGatewayRedundantGreTunnelTemplateModel}))
+				Expect(createTransitGatewayConnectionOptionsModel.Tunnels).To(Equal([]transitgatewayapisv1.TransitGatewayTunnelTemplate{*transitGatewayTunnelTemplateModel}))
 				Expect(createTransitGatewayConnectionOptionsModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(createTransitGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -6982,17 +7039,19 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				// Construct an instance of the CreateTransitGatewayOptions model
 				createTransitGatewayOptionsLocation := "us-south"
-				createTransitGatewayOptionsName := "Transit_Service_BWTN_SJ_DL"
+				createTransitGatewayOptionsName := "my-transit-gateway-in-TransitGateway"
 				createTransitGatewayOptionsModel := transitGatewayApisService.NewCreateTransitGatewayOptions(createTransitGatewayOptionsLocation, createTransitGatewayOptionsName)
 				createTransitGatewayOptionsModel.SetLocation("us-south")
-				createTransitGatewayOptionsModel.SetName("Transit_Service_BWTN_SJ_DL")
+				createTransitGatewayOptionsModel.SetName("my-transit-gateway-in-TransitGateway")
 				createTransitGatewayOptionsModel.SetGlobal(true)
+				createTransitGatewayOptionsModel.SetGreEnhancedRoutePropagation(true)
 				createTransitGatewayOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createTransitGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createTransitGatewayOptionsModel).ToNot(BeNil())
 				Expect(createTransitGatewayOptionsModel.Location).To(Equal(core.StringPtr("us-south")))
-				Expect(createTransitGatewayOptionsModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
+				Expect(createTransitGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-transit-gateway-in-TransitGateway")))
 				Expect(createTransitGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
+				Expect(createTransitGatewayOptionsModel.GreEnhancedRoutePropagation).To(Equal(core.BoolPtr(true)))
 				Expect(createTransitGatewayOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -7129,19 +7188,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(getTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID).To(Equal(core.StringPtr("testString")))
 				Expect(getTransitGatewayConnectionTunnelsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewGetTransitGatewayGreTunnelOptions successfully`, func() {
-				// Construct an instance of the GetTransitGatewayGreTunnelOptions model
-				transitGatewayID := "testString"
-				id := "testString"
-				getTransitGatewayGreTunnelOptionsModel := transitGatewayApisService.NewGetTransitGatewayGreTunnelOptions(transitGatewayID, id)
-				getTransitGatewayGreTunnelOptionsModel.SetTransitGatewayID("testString")
-				getTransitGatewayGreTunnelOptionsModel.SetID("testString")
-				getTransitGatewayGreTunnelOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(getTransitGatewayGreTunnelOptionsModel).ToNot(BeNil())
-				Expect(getTransitGatewayGreTunnelOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(getTransitGatewayGreTunnelOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getTransitGatewayGreTunnelOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
 			It(`Invoke NewGetTransitGatewayOptions successfully`, func() {
 				// Construct an instance of the GetTransitGatewayOptions model
 				id := "testString"
@@ -7171,11 +7217,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				listConnectionsOptionsModel.SetLimit(int64(10))
 				listConnectionsOptionsModel.SetStart("testString")
 				listConnectionsOptionsModel.SetNetworkID("testString")
+				listConnectionsOptionsModel.SetNetworkType("testString")
 				listConnectionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listConnectionsOptionsModel).ToNot(BeNil())
 				Expect(listConnectionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listConnectionsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
 				Expect(listConnectionsOptionsModel.NetworkID).To(Equal(core.StringPtr("testString")))
+				Expect(listConnectionsOptionsModel.NetworkType).To(Equal(core.StringPtr("testString")))
 				Expect(listConnectionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListGatewayLocationsOptions successfully`, func() {
@@ -7213,6 +7261,19 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(listTransitGatewayConnectionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listTransitGatewayConnectionsOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listTransitGatewayConnectionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListTransitGatewayGreTunnelOptions successfully`, func() {
+				// Construct an instance of the ListTransitGatewayGreTunnelOptions model
+				transitGatewayID := "testString"
+				id := "testString"
+				listTransitGatewayGreTunnelOptionsModel := transitGatewayApisService.NewListTransitGatewayGreTunnelOptions(transitGatewayID, id)
+				listTransitGatewayGreTunnelOptionsModel.SetTransitGatewayID("testString")
+				listTransitGatewayGreTunnelOptionsModel.SetID("testString")
+				listTransitGatewayGreTunnelOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listTransitGatewayGreTunnelOptionsModel).ToNot(BeNil())
+				Expect(listTransitGatewayGreTunnelOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayGreTunnelOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listTransitGatewayGreTunnelOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListTransitGatewayRouteReportsOptions successfully`, func() {
 				// Construct an instance of the ListTransitGatewayRouteReportsOptions model
@@ -7283,14 +7344,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewTransitGatewayRedundantGRETunnelTemplate successfully`, func() {
+			It(`Invoke NewTransitGatewayTunnelTemplate successfully`, func() {
 				localGatewayIp := "10.242.63.12"
 				localTunnelIp := "192.168.100.20"
 				name := "gre1"
 				remoteGatewayIp := "10.242.33.22"
 				remoteTunnelIp := "192.168.129.1"
 				var zone transitgatewayapisv1.ZoneIdentityIntf = nil
-				_, err := transitGatewayApisService.NewTransitGatewayRedundantGRETunnelTemplate(localGatewayIp, localTunnelIp, name, remoteGatewayIp, remoteTunnelIp, zone)
+				_, err := transitGatewayApisService.NewTransitGatewayTunnelTemplate(localGatewayIp, localTunnelIp, name, remoteGatewayIp, remoteTunnelIp, zone)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewUpdateTransitGatewayConnectionOptions successfully`, func() {
@@ -7341,17 +7402,18 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayID := "testString"
 				id := "testString"
 				greTunnelID := "testString"
-				updateTransitGatewayConnectionTunnelsOptionsModel := transitGatewayApisService.NewUpdateTransitGatewayConnectionTunnelsOptions(transitGatewayID, id, greTunnelID)
+				transitGatewayTunnelPatch := map[string]interface{}{"anyKey": "anyValue"}
+				updateTransitGatewayConnectionTunnelsOptionsModel := transitGatewayApisService.NewUpdateTransitGatewayConnectionTunnelsOptions(transitGatewayID, id, greTunnelID, transitGatewayTunnelPatch)
 				updateTransitGatewayConnectionTunnelsOptionsModel.SetTransitGatewayID("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.SetID("testString")
 				updateTransitGatewayConnectionTunnelsOptionsModel.SetGreTunnelID("testString")
-				updateTransitGatewayConnectionTunnelsOptionsModel.SetName("gre2")
+				updateTransitGatewayConnectionTunnelsOptionsModel.SetTransitGatewayTunnelPatch(map[string]interface{}{"anyKey": "anyValue"})
 				updateTransitGatewayConnectionTunnelsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateTransitGatewayConnectionTunnelsOptionsModel).ToNot(BeNil())
 				Expect(updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
 				Expect(updateTransitGatewayConnectionTunnelsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateTransitGatewayConnectionTunnelsOptionsModel.GreTunnelID).To(Equal(core.StringPtr("testString")))
-				Expect(updateTransitGatewayConnectionTunnelsOptionsModel.Name).To(Equal(core.StringPtr("gre2")))
+				Expect(updateTransitGatewayConnectionTunnelsOptionsModel.TransitGatewayTunnelPatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(updateTransitGatewayConnectionTunnelsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateTransitGatewayOptions successfully`, func() {
@@ -7360,12 +7422,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				updateTransitGatewayOptionsModel := transitGatewayApisService.NewUpdateTransitGatewayOptions(id)
 				updateTransitGatewayOptionsModel.SetID("testString")
 				updateTransitGatewayOptionsModel.SetGlobal(true)
-				updateTransitGatewayOptionsModel.SetName("my-transit-gateway")
+				updateTransitGatewayOptionsModel.SetGreEnhancedRoutePropagation(true)
+				updateTransitGatewayOptionsModel.SetName("my-resource")
 				updateTransitGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateTransitGatewayOptionsModel).ToNot(BeNil())
 				Expect(updateTransitGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateTransitGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
-				Expect(updateTransitGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-transit-gateway")))
+				Expect(updateTransitGatewayOptionsModel.GreEnhancedRoutePropagation).To(Equal(core.BoolPtr(true)))
+				Expect(updateTransitGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-resource")))
 				Expect(updateTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 		})
