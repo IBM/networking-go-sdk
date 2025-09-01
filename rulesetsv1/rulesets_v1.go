@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.106.0-09823488-20250707-071701
+ * IBM OpenAPI SDK Code Generator Version: 3.107.0-b68ebf7a-20250811-145645
  */
 
 // Package rulesetsv1 : Operations and models for the RulesetsV1 service
@@ -4275,6 +4275,9 @@ type ActionParameters struct {
 	Products []string `json:"products,omitempty"`
 
 	Response *ActionParametersResponse `json:"response,omitempty"`
+
+	// A map of managed ruleset ID(string) to lists of ruleset's rule IDs(array of strings).
+	Rules map[string][]string `json:"rules,omitempty"`
 }
 
 // UnmarshalActionParameters unmarshals an instance of ActionParameters from the specified map of raw messages.
@@ -4318,6 +4321,11 @@ func UnmarshalActionParameters(m map[string]json.RawMessage, result interface{})
 	err = core.UnmarshalModel(m, "response", &obj.Response, UnmarshalActionParametersResponse)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "response-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "rules", &obj.Rules)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "rules-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))

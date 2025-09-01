@@ -472,7 +472,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRuleset successfully with retries`, func() {
@@ -528,7 +528,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRuleset successfully`, func() {
@@ -695,6 +695,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -789,7 +790,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRuleset successfully with retries`, func() {
@@ -841,6 +842,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -936,7 +938,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRuleset successfully`, func() {
@@ -993,6 +995,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -1090,6 +1093,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -1208,6 +1212,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -1632,7 +1637,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully with retries`, func() {
@@ -1689,7 +1694,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersion successfully`, func() {
@@ -1938,7 +1943,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully with retries`, func() {
@@ -1994,7 +1999,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntrypointRuleset successfully`, func() {
@@ -2161,6 +2166,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2255,7 +2261,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully with retries`, func() {
@@ -2307,6 +2313,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2402,7 +2409,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceEntrypointRuleset successfully`, func() {
@@ -2459,6 +2466,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2556,6 +2564,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2674,6 +2683,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3024,7 +3034,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully with retries`, func() {
@@ -3081,7 +3091,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceEntryPointRulesetVersion successfully`, func() {
@@ -3251,6 +3261,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3337,7 +3348,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully with retries`, func() {
@@ -3389,6 +3400,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3476,7 +3488,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceRulesetRule successfully`, func() {
@@ -3533,6 +3545,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3622,6 +3635,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3732,6 +3746,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3844,6 +3859,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3931,7 +3947,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully with retries`, func() {
@@ -3983,6 +3999,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4071,7 +4088,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceRulesetRule successfully`, func() {
@@ -4128,6 +4145,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4218,6 +4236,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4329,6 +4348,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4446,7 +4466,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully with retries`, func() {
@@ -4503,7 +4523,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteInstanceRulesetRule successfully`, func() {
@@ -4678,7 +4698,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully with retries`, func() {
@@ -4736,7 +4756,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetInstanceRulesetVersionByTag successfully`, func() {
@@ -5126,7 +5146,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRuleset successfully with retries`, func() {
@@ -5182,7 +5202,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRuleset successfully`, func() {
@@ -5349,6 +5369,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5443,7 +5464,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRuleset successfully with retries`, func() {
@@ -5495,6 +5516,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5590,7 +5612,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRuleset successfully`, func() {
@@ -5647,6 +5669,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5744,6 +5767,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5862,6 +5886,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -6286,7 +6311,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRulesetVersion successfully with retries`, func() {
@@ -6343,7 +6368,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneRulesetVersion successfully`, func() {
@@ -6592,7 +6617,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully with retries`, func() {
@@ -6648,7 +6673,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntrypointRuleset successfully`, func() {
@@ -6815,6 +6840,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -6909,7 +6935,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully with retries`, func() {
@@ -6961,6 +6987,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7056,7 +7083,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneEntrypointRuleset successfully`, func() {
@@ -7113,6 +7140,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7210,6 +7238,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7328,6 +7357,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7678,7 +7708,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully with retries`, func() {
@@ -7735,7 +7765,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke GetZoneEntryPointRulesetVersion successfully`, func() {
@@ -7905,6 +7935,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7991,7 +8022,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneRulesetRule successfully with retries`, func() {
@@ -8043,6 +8074,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8130,7 +8162,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke CreateZoneRulesetRule successfully`, func() {
@@ -8187,6 +8219,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8276,6 +8309,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8386,6 +8420,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8498,6 +8533,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8585,7 +8621,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully with retries`, func() {
@@ -8637,6 +8673,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8725,7 +8762,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"description": "Custom instance ruleset", "id": "ID", "kind": "managed", "last_updated": "2000-01-01T00:00:00.000000Z", "name": "Name", "phase": "ddos_l4", "version": "1", "rules": [{"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}]}}`)
 				}))
 			})
 			It(`Invoke UpdateZoneRulesetRule successfully`, func() {
@@ -8782,6 +8819,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8872,6 +8910,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8983,6 +9022,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9100,7 +9140,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully with retries`, func() {
@@ -9157,7 +9197,7 @@ var _ = Describe(`RulesetsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "messages": [{"code": 10000, "message": "something failed in the request", "source": {"pointer": "/rules/0/action"}}], "result": {"id": "ID", "version": "Version", "action": "Action", "action_parameters": {"id": "ID", "overrides": {"action": "Action", "enabled": false, "sensitivity_level": "high", "rules": [{"id": "ID", "enabled": false, "action": "Action", "sensitivity_level": "high", "score_threshold": 60}], "categories": [{"category": "Category", "enabled": false, "action": "Action"}]}, "version": "Version", "ruleset": "Ruleset", "rulesets": ["Rulesets"], "phases": ["Phases"], "products": ["Products"], "response": {"content": "{\"success\": false, \"error\": \"you have been blocked\"}", "content_type": "application/json", "status_code": 400}, "rules": {"mapKey": ["Inner"]}}, "categories": ["Categories"], "enabled": true, "description": "Description", "expression": "ip.src ne 1.1.1.1", "ref": "my_ref", "logging": {"enabled": true}, "last_updated": "2000-01-01T00:00:00.000000Z"}}`)
 				}))
 			})
 			It(`Invoke DeleteZoneRulesetRule successfully`, func() {
@@ -9340,6 +9380,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9348,6 +9389,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9468,6 +9510,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9476,6 +9519,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9830,6 +9874,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9838,6 +9883,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9972,6 +10018,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9980,6 +10027,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10114,6 +10162,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10122,6 +10171,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10245,6 +10295,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10253,6 +10304,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10387,6 +10439,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10395,6 +10448,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10529,6 +10583,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
+				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10537,6 +10592,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10647,6 +10703,7 @@ var _ = Describe(`RulesetsV1`, func() {
 			model.Phases = []string{"testString"}
 			model.Products = []string{"testString"}
 			model.Response = nil
+			model.Rules = map[string][]string{"key1": []string{"testString"}}
 
 			b, err := json.Marshal(model)
 			Expect(err).To(BeNil())
