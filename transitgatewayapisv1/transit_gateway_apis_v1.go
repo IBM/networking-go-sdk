@@ -780,7 +780,7 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWi
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayConnectionOptions.ID,
+		"id": *deleteTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -831,7 +831,7 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithC
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayConnectionOptions.ID,
+		"id": *getTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -894,7 +894,7 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWi
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionOptions.TransitGatewayID,
-		"id":                 *updateTransitGatewayConnectionOptions.ID,
+		"id": *updateTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -970,7 +970,7 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionAc
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayConnectionActionsOptions.TransitGatewayID,
-		"id":                 *createTransitGatewayConnectionActionsOptions.ID,
+		"id": *createTransitGatewayConnectionActionsOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1031,7 +1031,7 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayGreTunnelWithC
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *listTransitGatewayGreTunnelOptions.TransitGatewayID,
-		"id":                 *listTransitGatewayGreTunnelOptions.ID,
+		"id": *listTransitGatewayGreTunnelOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1094,7 +1094,7 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayGreTunnelWit
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayGreTunnelOptions.TransitGatewayID,
-		"id":                 *createTransitGatewayGreTunnelOptions.ID,
+		"id": *createTransitGatewayGreTunnelOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1185,8 +1185,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionTu
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionTunnelsOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayConnectionTunnelsOptions.ID,
-		"gre_tunnel_id":      *deleteTransitGatewayConnectionTunnelsOptions.GreTunnelID,
+		"id": *deleteTransitGatewayConnectionTunnelsOptions.ID,
+		"gre_tunnel_id": *deleteTransitGatewayConnectionTunnelsOptions.GreTunnelID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1237,8 +1237,8 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionTunne
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionTunnelsOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayConnectionTunnelsOptions.ID,
-		"gre_tunnel_id":      *getTransitGatewayConnectionTunnelsOptions.GreTunnelID,
+		"id": *getTransitGatewayConnectionTunnelsOptions.ID,
+		"gre_tunnel_id": *getTransitGatewayConnectionTunnelsOptions.GreTunnelID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1301,8 +1301,8 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionTu
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionTunnelsOptions.TransitGatewayID,
-		"id":                 *updateTransitGatewayConnectionTunnelsOptions.ID,
-		"gre_tunnel_id":      *updateTransitGatewayConnectionTunnelsOptions.GreTunnelID,
+		"id": *updateTransitGatewayConnectionTunnelsOptions.ID,
+		"gre_tunnel_id": *updateTransitGatewayConnectionTunnelsOptions.GreTunnelID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -1487,7 +1487,7 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *listTransitGatewayConnectionPrefixFiltersOptions.TransitGatewayID,
-		"id":                 *listTransitGatewayConnectionPrefixFiltersOptions.ID,
+		"id": *listTransitGatewayConnectionPrefixFiltersOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1532,7 +1532,7 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 }
 
 // CreateTransitGatewayConnectionPrefixFilter : Add a prefix filter to a Transit Gateway connection
-// Add a prefix filter to a Transit Gateway connection.
+// Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to all Connection types.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	return transitGatewayApis.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
 }
@@ -1550,7 +1550,7 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPr
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *createTransitGatewayConnectionPrefixFilterOptions.ID,
+		"id": *createTransitGatewayConnectionPrefixFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1635,7 +1635,7 @@ func (transitGatewayApis *TransitGatewayApisV1) ReplaceTransitGatewayConnectionP
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *replaceTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *replaceTransitGatewayConnectionPrefixFilterOptions.ID,
+		"id": *replaceTransitGatewayConnectionPrefixFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -1708,8 +1708,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionPr
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayConnectionPrefixFilterOptions.ID,
-		"filter_id":          *deleteTransitGatewayConnectionPrefixFilterOptions.FilterID,
+		"id": *deleteTransitGatewayConnectionPrefixFilterOptions.ID,
+		"filter_id": *deleteTransitGatewayConnectionPrefixFilterOptions.FilterID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1760,8 +1760,8 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionPrefi
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayConnectionPrefixFilterOptions.ID,
-		"filter_id":          *getTransitGatewayConnectionPrefixFilterOptions.FilterID,
+		"id": *getTransitGatewayConnectionPrefixFilterOptions.ID,
+		"filter_id": *getTransitGatewayConnectionPrefixFilterOptions.FilterID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1824,8 +1824,8 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionPr
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *updateTransitGatewayConnectionPrefixFilterOptions.ID,
-		"filter_id":          *updateTransitGatewayConnectionPrefixFilterOptions.FilterID,
+		"id": *updateTransitGatewayConnectionPrefixFilterOptions.ID,
+		"filter_id": *updateTransitGatewayConnectionPrefixFilterOptions.FilterID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -2036,7 +2036,7 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReportW
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayRouteReportOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayRouteReportOptions.ID,
+		"id": *deleteTransitGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2087,7 +2087,7 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReportWith
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayRouteReportOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayRouteReportOptions.ID,
+		"id": *getTransitGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -2150,15 +2150,15 @@ type CreateTransitGatewayConnectionActionsOptions struct {
 // The action that is to be performed against the connection request.
 const (
 	CreateTransitGatewayConnectionActionsOptions_Action_Approve = "approve"
-	CreateTransitGatewayConnectionActionsOptions_Action_Reject  = "reject"
+	CreateTransitGatewayConnectionActionsOptions_Action_Reject = "reject"
 )
 
 // NewCreateTransitGatewayConnectionActionsOptions : Instantiate CreateTransitGatewayConnectionActionsOptions
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionActionsOptions(transitGatewayID string, id string, action string) *CreateTransitGatewayConnectionActionsOptions {
 	return &CreateTransitGatewayConnectionActionsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		Action:           core.StringPtr(action),
+		ID: core.StringPtr(id),
+		Action: core.StringPtr(action),
 	}
 }
 
@@ -2212,7 +2212,10 @@ type CreateTransitGatewayConnectionOptions struct {
 
 	// network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
 	//
-	// This field is required for network type `vpn_gateway` connections.
+	// This field is optional for network type `vpn_gateway` connections.
+	//
+	// If left unspecified when creating a `vpn_gateway` connection, a default cidr address of `100.64.0.0/10` will be
+	// used.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
 	// `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -2268,9 +2271,9 @@ type CreateTransitGatewayConnectionOptions struct {
 	// connections.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel or
-	// unbound_gre_tunnel connection create requests IBM will assign an ASN.
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
+	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999. If `remote_bgp_asn` is
+	// omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
 	//
 	// This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
 	//
@@ -2292,14 +2295,16 @@ type CreateTransitGatewayConnectionOptions struct {
 	// `vpn_gateway` and `redundant_gre` connections.
 	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
 
-	// Array of GRE tunnels for a transit gateway `redundant_gre` and `vpn_gateway` connections.  This field is required
-	// for `redundant_gre` and `vpn_gateway` connections.
+	// Array of GRE tunnels for a transit gateway `redundant_gre` connections.  This field is required for `redundant_gre`
+	// connections.
 	Tunnels []TransitGatewayTunnelTemplate `json:"tunnels,omitempty"`
 
 	// Specify the connection's location.  The specified availability zone must reside in the gateway's region.
 	// Use the IBM Cloud global catalog to list zones within the desired region.
 	//
-	// This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
+	// This field is required for network type `gre_tunnel`, and `unbound_gre_tunnel` connections.
+	//
+	// This field is optional for network type `vpn_gateway` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server` and
 	// `redundant_gre` connections.
@@ -2312,14 +2317,14 @@ type CreateTransitGatewayConnectionOptions struct {
 // Constants associated with the CreateTransitGatewayConnectionOptions.NetworkType property.
 // Defines what type of network is connected via this connection.
 const (
-	CreateTransitGatewayConnectionOptions_NetworkType_Classic            = "classic"
-	CreateTransitGatewayConnectionOptions_NetworkType_Directlink         = "directlink"
-	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel          = "gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_Classic = "classic"
+	CreateTransitGatewayConnectionOptions_NetworkType_Directlink = "directlink"
+	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel = "gre_tunnel"
 	CreateTransitGatewayConnectionOptions_NetworkType_PowerVirtualServer = "power_virtual_server"
-	CreateTransitGatewayConnectionOptions_NetworkType_RedundantGre       = "redundant_gre"
-	CreateTransitGatewayConnectionOptions_NetworkType_UnboundGreTunnel   = "unbound_gre_tunnel"
-	CreateTransitGatewayConnectionOptions_NetworkType_Vpc                = "vpc"
-	CreateTransitGatewayConnectionOptions_NetworkType_VpnGateway         = "vpn_gateway"
+	CreateTransitGatewayConnectionOptions_NetworkType_RedundantGre = "redundant_gre"
+	CreateTransitGatewayConnectionOptions_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_Vpc = "vpc"
+	CreateTransitGatewayConnectionOptions_NetworkType_VpnGateway = "vpn_gateway"
 )
 
 // Constants associated with the CreateTransitGatewayConnectionOptions.BaseNetworkType property.
@@ -2329,7 +2334,7 @@ const (
 // `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
 const (
 	CreateTransitGatewayConnectionOptions_BaseNetworkType_Classic = "classic"
-	CreateTransitGatewayConnectionOptions_BaseNetworkType_Vpc     = "vpc"
+	CreateTransitGatewayConnectionOptions_BaseNetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the CreateTransitGatewayConnectionOptions.PrefixFiltersDefault property.
@@ -2338,7 +2343,7 @@ const (
 // required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
 // connections.
 const (
-	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny   = "deny"
+	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny = "deny"
 	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -2346,7 +2351,7 @@ const (
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionOptions(transitGatewayID string, networkType string) *CreateTransitGatewayConnectionOptions {
 	return &CreateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		NetworkType:      core.StringPtr(networkType),
+		NetworkType: core.StringPtr(networkType),
 	}
 }
 
@@ -2508,7 +2513,7 @@ type CreateTransitGatewayConnectionPrefixFilterOptions struct {
 // Constants associated with the CreateTransitGatewayConnectionPrefixFilterOptions.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	CreateTransitGatewayConnectionPrefixFilterOptions_Action_Deny   = "deny"
+	CreateTransitGatewayConnectionPrefixFilterOptions_Action_Deny = "deny"
 	CreateTransitGatewayConnectionPrefixFilterOptions_Action_Permit = "permit"
 )
 
@@ -2516,9 +2521,9 @@ const (
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, action string, prefix string) *CreateTransitGatewayConnectionPrefixFilterOptions {
 	return &CreateTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		Action:           core.StringPtr(action),
-		Prefix:           core.StringPtr(prefix),
+		ID: core.StringPtr(id),
+		Action: core.StringPtr(action),
+		Prefix: core.StringPtr(prefix),
 	}
 }
 
@@ -2599,9 +2604,9 @@ type CreateTransitGatewayGreTunnelOptions struct {
 	// Use the IBM Cloud global catalog to list zones within the desired region.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
-	// will assign an ASN.
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
+	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is omitted
+	// on create requests, IBM will assign an ASN.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -2612,13 +2617,13 @@ type CreateTransitGatewayGreTunnelOptions struct {
 func (*TransitGatewayApisV1) NewCreateTransitGatewayGreTunnelOptions(transitGatewayID string, id string, localGatewayIp string, localTunnelIp string, name string, remoteGatewayIp string, remoteTunnelIp string, zone ZoneIdentityIntf) *CreateTransitGatewayGreTunnelOptions {
 	return &CreateTransitGatewayGreTunnelOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		LocalGatewayIp:   core.StringPtr(localGatewayIp),
-		LocalTunnelIp:    core.StringPtr(localTunnelIp),
-		Name:             core.StringPtr(name),
-		RemoteGatewayIp:  core.StringPtr(remoteGatewayIp),
-		RemoteTunnelIp:   core.StringPtr(remoteTunnelIp),
-		Zone:             zone,
+		ID: core.StringPtr(id),
+		LocalGatewayIp: core.StringPtr(localGatewayIp),
+		LocalTunnelIp: core.StringPtr(localTunnelIp),
+		Name: core.StringPtr(name),
+		RemoteGatewayIp: core.StringPtr(remoteGatewayIp),
+		RemoteTunnelIp: core.StringPtr(remoteTunnelIp),
+		Zone: zone,
 	}
 }
 
@@ -2693,7 +2698,8 @@ type CreateTransitGatewayOptions struct {
 	// Allow global routing for a Transit Gateway. If unspecified, the default value is false.
 	Global *bool `json:"global,omitempty"`
 
-	// Allow GRE Enhanced Route Propagation on this gateway.
+	// Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
+	// gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
 	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -2708,7 +2714,7 @@ type CreateTransitGatewayOptions struct {
 func (*TransitGatewayApisV1) NewCreateTransitGatewayOptions(location string, name string) *CreateTransitGatewayOptions {
 	return &CreateTransitGatewayOptions{
 		Location: core.StringPtr(location),
-		Name:     core.StringPtr(name),
+		Name: core.StringPtr(name),
 	}
 }
 
@@ -2792,7 +2798,7 @@ type DeleteTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionOptions(transitGatewayID string, id string) *DeleteTransitGatewayConnectionOptions {
 	return &DeleteTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -2833,8 +2839,8 @@ type DeleteTransitGatewayConnectionPrefixFilterOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, filterID string) *DeleteTransitGatewayConnectionPrefixFilterOptions {
 	return &DeleteTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		FilterID:         core.StringPtr(filterID),
+		ID: core.StringPtr(id),
+		FilterID: core.StringPtr(filterID),
 	}
 }
 
@@ -2881,8 +2887,8 @@ type DeleteTransitGatewayConnectionTunnelsOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionTunnelsOptions(transitGatewayID string, id string, greTunnelID string) *DeleteTransitGatewayConnectionTunnelsOptions {
 	return &DeleteTransitGatewayConnectionTunnelsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		GreTunnelID:      core.StringPtr(greTunnelID),
+		ID: core.StringPtr(id),
+		GreTunnelID: core.StringPtr(greTunnelID),
 	}
 }
 
@@ -2954,7 +2960,7 @@ type DeleteTransitGatewayRouteReportOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayRouteReportOptions(transitGatewayID string, id string) *DeleteTransitGatewayRouteReportOptions {
 	return &DeleteTransitGatewayRouteReportOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3020,7 +3026,7 @@ type GetTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionOptions(transitGatewayID string, id string) *GetTransitGatewayConnectionOptions {
 	return &GetTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3061,8 +3067,8 @@ type GetTransitGatewayConnectionPrefixFilterOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, filterID string) *GetTransitGatewayConnectionPrefixFilterOptions {
 	return &GetTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		FilterID:         core.StringPtr(filterID),
+		ID: core.StringPtr(id),
+		FilterID: core.StringPtr(filterID),
 	}
 }
 
@@ -3109,8 +3115,8 @@ type GetTransitGatewayConnectionTunnelsOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionTunnelsOptions(transitGatewayID string, id string, greTunnelID string) *GetTransitGatewayConnectionTunnelsOptions {
 	return &GetTransitGatewayConnectionTunnelsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		GreTunnelID:      core.StringPtr(greTunnelID),
+		ID: core.StringPtr(id),
+		GreTunnelID: core.StringPtr(greTunnelID),
 	}
 }
 
@@ -3182,7 +3188,7 @@ type GetTransitGatewayRouteReportOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayRouteReportOptions(transitGatewayID string, id string) *GetTransitGatewayRouteReportOptions {
 	return &GetTransitGatewayRouteReportOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3291,7 +3297,7 @@ type ListTransitGatewayConnectionPrefixFiltersOptions struct {
 func (*TransitGatewayApisV1) NewListTransitGatewayConnectionPrefixFiltersOptions(transitGatewayID string, id string) *ListTransitGatewayConnectionPrefixFiltersOptions {
 	return &ListTransitGatewayConnectionPrefixFiltersOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3384,7 +3390,7 @@ type ListTransitGatewayGreTunnelOptions struct {
 func (*TransitGatewayApisV1) NewListTransitGatewayGreTunnelOptions(transitGatewayID string, id string) *ListTransitGatewayGreTunnelOptions {
 	return &ListTransitGatewayGreTunnelOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3659,7 +3665,7 @@ type PrefixFilterCust struct {
 // Constants associated with the PrefixFilterCust.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	PrefixFilterCust_Action_Deny   = "deny"
+	PrefixFilterCust_Action_Deny = "deny"
 	PrefixFilterCust_Action_Permit = "permit"
 )
 
@@ -3734,7 +3740,7 @@ type PrefixFilterPut struct {
 // Constants associated with the PrefixFilterPut.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	PrefixFilterPut_Action_Deny   = "deny"
+	PrefixFilterPut_Action_Deny = "deny"
 	PrefixFilterPut_Action_Permit = "permit"
 )
 
@@ -3790,8 +3796,8 @@ type ReplaceTransitGatewayConnectionPrefixFilterOptions struct {
 func (*TransitGatewayApisV1) NewReplaceTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, prefixFilters []PrefixFilterPut) *ReplaceTransitGatewayConnectionPrefixFilterOptions {
 	return &ReplaceTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		PrefixFilters:    prefixFilters,
+		ID: core.StringPtr(id),
+		PrefixFilters: prefixFilters,
 	}
 }
 
@@ -3898,8 +3904,8 @@ type RouteReport struct {
 // using this field must tolerate unexpected values.
 const (
 	RouteReport_Status_Complete = "complete"
-	RouteReport_Status_Failed   = "failed"
-	RouteReport_Status_Pending  = "pending"
+	RouteReport_Status_Failed = "failed"
+	RouteReport_Status_Pending = "pending"
 )
 
 // UnmarshalRouteReport unmarshals an instance of RouteReport from the specified map of raw messages.
@@ -4001,7 +4007,7 @@ type RouteReportConnectionBgp struct {
 	AsPath *string `json:"as_path,omitempty"`
 
 	// Indicates whether current route is used or not.
-	IsUsed *bool `json:"is_used,omitempty"`
+	IsUsed *bool `json:"is_used" validate:"required"`
 
 	// local preference.
 	LocalPreference *string `json:"local_preference,omitempty"`
@@ -4130,7 +4136,7 @@ type TSLocalLocation struct {
 // list of enumerated values for this property may expand in the future. Code and processes using this field must
 // tolerate unexpected values.
 const (
-	TSLocalLocation_Type_Dc     = "dc"
+	TSLocalLocation_Type_Dc = "dc"
 	TSLocalLocation_Type_Region = "region"
 )
 
@@ -4283,13 +4289,9 @@ type TransitConnection struct {
 
 	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
 	// array being applied first, and those at the end of the array is applied last, or just before the default.
-	//
-	// This field does not apply to the `redundant_gre` network types.
 	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
 
 	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-	//
-	// This field does not apply to the `redundant_gre` network types.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
 	// Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
@@ -4329,29 +4331,28 @@ type TransitConnection struct {
 // The type of network the GRE tunnel is targeting.
 const (
 	TransitConnection_BaseNetworkType_Classic = "classic"
-	TransitConnection_BaseNetworkType_Vpc     = "vpc"
+	TransitConnection_BaseNetworkType_Vpc = "vpc"
+	TransitConnection_BaseNetworkType_Vpn = "vpn"
 )
 
 // Constants associated with the TransitConnection.NetworkType property.
 // Defines what type of network is connected via this connection. The list of enumerated values for this property may
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnection_NetworkType_Classic            = "classic"
-	TransitConnection_NetworkType_Directlink         = "directlink"
-	TransitConnection_NetworkType_GreTunnel          = "gre_tunnel"
+	TransitConnection_NetworkType_Classic = "classic"
+	TransitConnection_NetworkType_Directlink = "directlink"
+	TransitConnection_NetworkType_GreTunnel = "gre_tunnel"
 	TransitConnection_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitConnection_NetworkType_RedundantGre       = "redundant_gre"
-	TransitConnection_NetworkType_UnboundGreTunnel   = "unbound_gre_tunnel"
-	TransitConnection_NetworkType_Vpc                = "vpc"
-	TransitConnection_NetworkType_VpnGateway         = "vpn_gateway"
+	TransitConnection_NetworkType_RedundantGre = "redundant_gre"
+	TransitConnection_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	TransitConnection_NetworkType_Vpc = "vpc"
+	TransitConnection_NetworkType_VpnGateway = "vpn_gateway"
 )
 
 // Constants associated with the TransitConnection.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter.
-//
-// This field does not apply to the `redundant_gre` network types.
 const (
-	TransitConnection_PrefixFiltersDefault_Deny   = "deny"
+	TransitConnection_PrefixFiltersDefault_Deny = "deny"
 	TransitConnection_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -4362,8 +4363,8 @@ const (
 const (
 	TransitConnection_RequestStatus_Approved = "approved"
 	TransitConnection_RequestStatus_Detached = "detached"
-	TransitConnection_RequestStatus_Expired  = "expired"
-	TransitConnection_RequestStatus_Pending  = "pending"
+	TransitConnection_RequestStatus_Expired = "expired"
+	TransitConnection_RequestStatus_Pending = "pending"
 	TransitConnection_RequestStatus_Rejected = "rejected"
 )
 
@@ -4371,15 +4372,15 @@ const (
 // Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 // Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnection_Status_Attached       = "attached"
-	TransitConnection_Status_Deleting       = "deleting"
-	TransitConnection_Status_Detached       = "detached"
-	TransitConnection_Status_Detaching      = "detaching"
-	TransitConnection_Status_Failed         = "failed"
+	TransitConnection_Status_Attached = "attached"
+	TransitConnection_Status_Deleting = "deleting"
+	TransitConnection_Status_Detached = "detached"
+	TransitConnection_Status_Detaching = "detaching"
+	TransitConnection_Status_Failed = "failed"
 	TransitConnection_Status_NetworkPending = "network_pending"
-	TransitConnection_Status_Pending        = "pending"
-	TransitConnection_Status_Suspended      = "suspended"
-	TransitConnection_Status_Suspending     = "suspending"
+	TransitConnection_Status_Pending = "pending"
+	TransitConnection_Status_Suspended = "suspended"
+	TransitConnection_Status_Suspending = "suspending"
 )
 
 // UnmarshalTransitConnection unmarshals an instance of TransitConnection from the specified map of raw messages.
@@ -4533,7 +4534,7 @@ type TransitGateway struct {
 	ConnectionCount *int64 `json:"connection_count,omitempty"`
 
 	// Indicates if this Transit Gateway has a connection that needs attention (Such as cross account approval).
-	ConnectionNeedsAttention *bool `json:"connection_needs_attention,omitempty"`
+	ConnectionNeedsAttention *bool `json:"connection_needs_attention" validate:"required"`
 
 	// The date and time that this gateway was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
@@ -4544,8 +4545,9 @@ type TransitGateway struct {
 	// Allow global routing for a Transit Gateway.
 	Global *bool `json:"global" validate:"required"`
 
-	// Allow GRE Enhanced Route Propagation on this gateway.
-	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation,omitempty"`
+	// Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
+	// gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
+	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation" validate:"required"`
 
 	// A unique identifier for this transit gateway.
 	ID *string `json:"id" validate:"required"`
@@ -4572,11 +4574,11 @@ type TransitGateway struct {
 // The status of the Transit Gateway. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field must tolerate unexpected values.
 const (
-	TransitGateway_Status_Available  = "available"
-	TransitGateway_Status_Deleting   = "deleting"
-	TransitGateway_Status_Failed     = "failed"
-	TransitGateway_Status_Pending    = "pending"
-	TransitGateway_Status_Suspended  = "suspended"
+	TransitGateway_Status_Available = "available"
+	TransitGateway_Status_Deleting = "deleting"
+	TransitGateway_Status_Failed = "failed"
+	TransitGateway_Status_Pending = "pending"
+	TransitGateway_Status_Suspended = "suspended"
 	TransitGateway_Status_Suspending = "suspending"
 )
 
@@ -4831,7 +4833,8 @@ type TransitGatewayConnectionCust struct {
 	// The date and time that this connection was last updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
-	// Location of GRE tunnel. This field is required for network type `gre_tunnel` and `vpn_gateway` connections.
+	// Location of GRE tunnel. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
+	// This field is optional for network type `vpn_gateway` connections.
 	Zone *ZoneReference `json:"zone,omitempty"`
 }
 
@@ -4842,27 +4845,28 @@ type TransitGatewayConnectionCust struct {
 // `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
 const (
 	TransitGatewayConnectionCust_BaseNetworkType_Classic = "classic"
-	TransitGatewayConnectionCust_BaseNetworkType_Vpc     = "vpc"
+	TransitGatewayConnectionCust_BaseNetworkType_Vpc = "vpc"
+	TransitGatewayConnectionCust_BaseNetworkType_Vpn = "vpn"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.NetworkType property.
 // Defines what type of network is connected via this connection.
 const (
-	TransitGatewayConnectionCust_NetworkType_Classic            = "classic"
-	TransitGatewayConnectionCust_NetworkType_Directlink         = "directlink"
-	TransitGatewayConnectionCust_NetworkType_GreTunnel          = "gre_tunnel"
+	TransitGatewayConnectionCust_NetworkType_Classic = "classic"
+	TransitGatewayConnectionCust_NetworkType_Directlink = "directlink"
+	TransitGatewayConnectionCust_NetworkType_GreTunnel = "gre_tunnel"
 	TransitGatewayConnectionCust_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionCust_NetworkType_RedundantGre       = "redundant_gre"
-	TransitGatewayConnectionCust_NetworkType_UnboundGreTunnel   = "unbound_gre_tunnel"
-	TransitGatewayConnectionCust_NetworkType_Vpc                = "vpc"
-	TransitGatewayConnectionCust_NetworkType_VpnGateway         = "vpn_gateway"
+	TransitGatewayConnectionCust_NetworkType_RedundantGre = "redundant_gre"
+	TransitGatewayConnectionCust_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	TransitGatewayConnectionCust_NetworkType_Vpc = "vpc"
+	TransitGatewayConnectionCust_NetworkType_VpnGateway = "vpn_gateway"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
 // not apply to the `redundant_gre` network type.
 const (
-	TransitGatewayConnectionCust_PrefixFiltersDefault_Deny   = "deny"
+	TransitGatewayConnectionCust_PrefixFiltersDefault_Deny = "deny"
 	TransitGatewayConnectionCust_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -4873,8 +4877,8 @@ const (
 const (
 	TransitGatewayConnectionCust_RequestStatus_Approved = "approved"
 	TransitGatewayConnectionCust_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCust_RequestStatus_Expired  = "expired"
-	TransitGatewayConnectionCust_RequestStatus_Pending  = "pending"
+	TransitGatewayConnectionCust_RequestStatus_Expired = "expired"
+	TransitGatewayConnectionCust_RequestStatus_Pending = "pending"
 	TransitGatewayConnectionCust_RequestStatus_Rejected = "rejected"
 )
 
@@ -4882,15 +4886,15 @@ const (
 // Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 // Code and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCust_Status_Attached       = "attached"
-	TransitGatewayConnectionCust_Status_Deleting       = "deleting"
-	TransitGatewayConnectionCust_Status_Detached       = "detached"
-	TransitGatewayConnectionCust_Status_Detaching      = "detaching"
-	TransitGatewayConnectionCust_Status_Failed         = "failed"
+	TransitGatewayConnectionCust_Status_Attached = "attached"
+	TransitGatewayConnectionCust_Status_Deleting = "deleting"
+	TransitGatewayConnectionCust_Status_Detached = "detached"
+	TransitGatewayConnectionCust_Status_Detaching = "detaching"
+	TransitGatewayConnectionCust_Status_Failed = "failed"
 	TransitGatewayConnectionCust_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCust_Status_Pending        = "pending"
-	TransitGatewayConnectionCust_Status_Suspended      = "suspended"
-	TransitGatewayConnectionCust_Status_Suspending     = "suspending"
+	TransitGatewayConnectionCust_Status_Pending = "pending"
+	TransitGatewayConnectionCust_Status_Suspended = "suspended"
+	TransitGatewayConnectionCust_Status_Suspending = "suspending"
 )
 
 // UnmarshalTransitGatewayConnectionCust unmarshals an instance of TransitGatewayConnectionCust from the specified map of raw messages.
@@ -5010,7 +5014,7 @@ type TransitGatewayConnectionPrefixFilter struct {
 // Constants associated with the TransitGatewayConnectionPrefixFilter.Action property.
 // Whether to permit or deny prefix filter.
 const (
-	TransitGatewayConnectionPrefixFilter_Action_Deny   = "deny"
+	TransitGatewayConnectionPrefixFilter_Action_Deny = "deny"
 	TransitGatewayConnectionPrefixFilter_Action_Permit = "permit"
 )
 
@@ -5092,7 +5096,7 @@ type TransitGatewayConnectionPrefixFilterReference struct {
 // Constants associated with the TransitGatewayConnectionPrefixFilterReference.Action property.
 // Whether to permit or deny prefix filter.
 const (
-	TransitGatewayConnectionPrefixFilterReference_Action_Deny   = "deny"
+	TransitGatewayConnectionPrefixFilterReference_Action_Deny = "deny"
 	TransitGatewayConnectionPrefixFilterReference_Action_Permit = "permit"
 )
 
@@ -5188,7 +5192,7 @@ type TransitGatewayTunnel struct {
 	LocalTunnelIp *string `json:"local_tunnel_ip" validate:"required"`
 
 	// GRE tunnel MTU.
-	Mtu *int64 `json:"mtu" validate:"required"`
+	Mtu *int64 `json:"mtu,omitempty"`
 
 	// The user-defined name for this tunnel.
 	Name *string `json:"name" validate:"required"`
@@ -5200,9 +5204,16 @@ type TransitGatewayTunnel struct {
 	// The ID of the network VPC being connected via this connection.
 	NetworkID *string `json:"network_id,omitempty"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
-	// will assign an ASN.
+	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
+	// array being applied first, and those at the end of the array is applied last, or just before the default.
+	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
+
+	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
+
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
+	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is omitted
+	// on create requests, IBM will assign an ASN.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn" validate:"required"`
 
 	// Remote gateway IP address.
@@ -5227,20 +5238,28 @@ type TransitGatewayTunnel struct {
 // The type of network the redundant GRE tunnel is targeting.
 const (
 	TransitGatewayTunnel_BaseNetworkType_Classic = "classic"
-	TransitGatewayTunnel_BaseNetworkType_Vpc     = "vpc"
+	TransitGatewayTunnel_BaseNetworkType_Vpc = "vpc"
+	TransitGatewayTunnel_BaseNetworkType_Vpn = "vpn"
+)
+
+// Constants associated with the TransitGatewayTunnel.PrefixFiltersDefault property.
+// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+const (
+	TransitGatewayTunnel_PrefixFiltersDefault_Deny = "deny"
+	TransitGatewayTunnel_PrefixFiltersDefault_Permit = "permit"
 )
 
 // Constants associated with the TransitGatewayTunnel.Status property.
 // Tunnel's current configuration state. The list of enumerated values for this property may expand in the future. Code
 // and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayTunnel_Status_Attached   = "attached"
-	TransitGatewayTunnel_Status_Deleting   = "deleting"
-	TransitGatewayTunnel_Status_Detached   = "detached"
-	TransitGatewayTunnel_Status_Detaching  = "detaching"
-	TransitGatewayTunnel_Status_Failed     = "failed"
-	TransitGatewayTunnel_Status_Pending    = "pending"
-	TransitGatewayTunnel_Status_Suspended  = "suspended"
+	TransitGatewayTunnel_Status_Attached = "attached"
+	TransitGatewayTunnel_Status_Deleting = "deleting"
+	TransitGatewayTunnel_Status_Detached = "detached"
+	TransitGatewayTunnel_Status_Detaching = "detaching"
+	TransitGatewayTunnel_Status_Failed = "failed"
+	TransitGatewayTunnel_Status_Pending = "pending"
+	TransitGatewayTunnel_Status_Suspended = "suspended"
 	TransitGatewayTunnel_Status_Suspending = "suspending"
 )
 
@@ -5284,6 +5303,14 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
 	if err != nil {
 		return
 	}
@@ -5371,9 +5398,9 @@ type TransitGatewayTunnelTemplate struct {
 	// The user-defined name for this tunnel connection.
 	Name *string `json:"name" validate:"required"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
-	// will assign an ASN.
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
+	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is omitted
+	// on create requests, IBM will assign an ASN.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
 	// Remote gateway IP address.
@@ -5391,12 +5418,12 @@ type TransitGatewayTunnelTemplate struct {
 // NewTransitGatewayTunnelTemplate : Instantiate TransitGatewayTunnelTemplate (Generic Model Constructor)
 func (*TransitGatewayApisV1) NewTransitGatewayTunnelTemplate(localGatewayIp string, localTunnelIp string, name string, remoteGatewayIp string, remoteTunnelIp string, zone ZoneIdentityIntf) (_model *TransitGatewayTunnelTemplate, err error) {
 	_model = &TransitGatewayTunnelTemplate{
-		LocalGatewayIp:  core.StringPtr(localGatewayIp),
-		LocalTunnelIp:   core.StringPtr(localTunnelIp),
-		Name:            core.StringPtr(name),
+		LocalGatewayIp: core.StringPtr(localGatewayIp),
+		LocalTunnelIp: core.StringPtr(localTunnelIp),
+		Name: core.StringPtr(name),
 		RemoteGatewayIp: core.StringPtr(remoteGatewayIp),
-		RemoteTunnelIp:  core.StringPtr(remoteTunnelIp),
-		Zone:            zone,
+		RemoteTunnelIp: core.StringPtr(remoteTunnelIp),
+		Zone: zone,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -5460,7 +5487,7 @@ type UpdateTransitGatewayConnectionOptions struct {
 // Constants associated with the UpdateTransitGatewayConnectionOptions.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter.
 const (
-	UpdateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny   = "deny"
+	UpdateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny = "deny"
 	UpdateTransitGatewayConnectionOptions_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -5468,7 +5495,7 @@ const (
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionOptions(transitGatewayID string, id string) *UpdateTransitGatewayConnectionOptions {
 	return &UpdateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -5551,7 +5578,7 @@ type UpdateTransitGatewayConnectionPrefixFilterOptions struct {
 // Constants associated with the UpdateTransitGatewayConnectionPrefixFilterOptions.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	UpdateTransitGatewayConnectionPrefixFilterOptions_Action_Deny   = "deny"
+	UpdateTransitGatewayConnectionPrefixFilterOptions_Action_Deny = "deny"
 	UpdateTransitGatewayConnectionPrefixFilterOptions_Action_Permit = "permit"
 )
 
@@ -5559,8 +5586,8 @@ const (
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, filterID string) *UpdateTransitGatewayConnectionPrefixFilterOptions {
 	return &UpdateTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		FilterID:         core.StringPtr(filterID),
+		ID: core.StringPtr(id),
+		FilterID: core.StringPtr(filterID),
 	}
 }
 
@@ -5639,9 +5666,9 @@ type UpdateTransitGatewayConnectionTunnelsOptions struct {
 // NewUpdateTransitGatewayConnectionTunnelsOptions : Instantiate UpdateTransitGatewayConnectionTunnelsOptions
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionTunnelsOptions(transitGatewayID string, id string, greTunnelID string, transitGatewayTunnelPatch map[string]interface{}) *UpdateTransitGatewayConnectionTunnelsOptions {
 	return &UpdateTransitGatewayConnectionTunnelsOptions{
-		TransitGatewayID:          core.StringPtr(transitGatewayID),
-		ID:                        core.StringPtr(id),
-		GreTunnelID:               core.StringPtr(greTunnelID),
+		TransitGatewayID: core.StringPtr(transitGatewayID),
+		ID: core.StringPtr(id),
+		GreTunnelID: core.StringPtr(greTunnelID),
 		TransitGatewayTunnelPatch: transitGatewayTunnelPatch,
 	}
 }
@@ -5684,7 +5711,9 @@ type UpdateTransitGatewayOptions struct {
 	// Allow global routing for a Transit Gateway.
 	Global *bool `json:"global,omitempty"`
 
-	// Allow GRE Enhanced Route Propagation on this gateway.
+	// Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
+	// gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`. It takes a few minutes for the change to
+	// take effect.
 	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation,omitempty"`
 
 	// A human readable name for a resource.
@@ -5738,7 +5767,6 @@ type ZoneIdentity struct {
 	// Availability zone name.
 	Name *string `json:"name,omitempty"`
 }
-
 func (*ZoneIdentity) isaZoneIdentity() bool {
 	return true
 }
@@ -5797,11 +5825,13 @@ func UnmarshalZoneIdentityByName(m map[string]json.RawMessage, result interface{
 	return
 }
 
+//
 // TransitGatewaysPager can be used to simplify the use of the "ListTransitGateways" method.
+//
 type TransitGatewaysPager struct {
-	hasNext     bool
-	options     *ListTransitGatewaysOptions
-	client      *TransitGatewayApisV1
+	hasNext bool
+	options *ListTransitGatewaysOptions
+	client  *TransitGatewayApisV1
 	pageContext struct {
 		next *string
 	}
@@ -5876,11 +5906,13 @@ func (pager *TransitGatewaysPager) GetAll() (allItems []TransitGateway, err erro
 	return pager.GetAllWithContext(context.Background())
 }
 
+//
 // ConnectionsPager can be used to simplify the use of the "ListConnections" method.
+//
 type ConnectionsPager struct {
-	hasNext     bool
-	options     *ListConnectionsOptions
-	client      *TransitGatewayApisV1
+	hasNext bool
+	options *ListConnectionsOptions
+	client  *TransitGatewayApisV1
 	pageContext struct {
 		next *string
 	}
@@ -5955,11 +5987,13 @@ func (pager *ConnectionsPager) GetAll() (allItems []TransitConnection, err error
 	return pager.GetAllWithContext(context.Background())
 }
 
+//
 // TransitGatewayConnectionsPager can be used to simplify the use of the "ListTransitGatewayConnections" method.
+//
 type TransitGatewayConnectionsPager struct {
-	hasNext     bool
-	options     *ListTransitGatewayConnectionsOptions
-	client      *TransitGatewayApisV1
+	hasNext bool
+	options *ListTransitGatewayConnectionsOptions
+	client  *TransitGatewayApisV1
 	pageContext struct {
 		next *string
 	}
