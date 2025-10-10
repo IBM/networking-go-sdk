@@ -26,10 +26,6 @@ import (
 	"os"
 	"strconv"
 	"time"
-	"crypto/sha1"
-	"encoding/binary"
-	"net"
-	"strings"
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/networking-go-sdk/directlinkproviderv2"
@@ -101,58 +97,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 		shouldSkipTest()
 		Expect(err).To(BeNil())
 	})
-
-	// pickCandidate29 returns base network .0/29 and the two host IPs .1 and .2 as strings with /29 suffix.
-func pickCandidate29(seed uint32) (string, string, string) {
-	// Use 172.31.0.0/16 as a test pool; 512 blocks of /29 per /16 subnet, plenty of room.
-	// We map seed -> subnet and offset to avoid collisions.
-	base := net.IPv4(172, 31, byte(seed>>8), byte(seed)) // 172.31.X.Y
-	// Align to /29 boundary: zero out last 3 bits of the last octet
-	base4 := []byte(base.To4())
-	base4[3] &= 0xF8 // mask last octet to multiples of 8: .0, .8, .16, ...
-	netIP := net.IPv4(base4[0], base4[1], base4[2], base4[3]).String()
-	local := net.IPv4(base4[0], base4[1], base4[2], base4[3]+1).String()
-	remote := net.IPv4(base4[0], base4[1], base4[2], base4[3]+2).String()
-	return netIP + "/29", local + "/29", remote + "/29"
-}
-
-func hashToSeed(s string) uint32 {
-	h := sha1.Sum([]byte(s))
-	return binary.BigEndian.Uint32(h[:4])
-}
-
-// collectUsedCIDRs returns a set of strings like "172.17.252.1/29"
-func collectUsedCIDRs(serviceV1 *directlinkv1.DirectLinkV1) map[string]struct{} {
-	used := map[string]struct{}{}
-	// You can scope this by port or by account, depending on what the backend enforces.
-	lst, _, err := serviceV1.ListGateways(serviceV1.NewListGatewaysOptions())
-	if err != nil || lst == nil || lst.Gateways == nil {
-		return used
-	}
-	for _, g := range lst.Gateways {
-		if g.BgpIbmCidr != nil {
-			used[*g.BgpIbmCidr] = struct{}{}
-		}
-		if g.BgpCerCidr != nil {
-			used[*g.BgpCerCidr] = struct{}{}
-		}
-	}
-	return used
-}
-
-func nextFreePair(used map[string]struct{}, seed uint32, maxTries int) (local, remote string) {
-	for i := 0; i < maxTries; i++ {
-		_, loc, rem := pickCandidate29(seed+uint32(i))
-		if _, ok := used[loc]; ok {
-			continue
-		}
-		if _, ok := used[rem]; ok {
-			continue
-		}
-		return loc, rem
-	}
-	return "", ""
-}
 
 	Describe("Direct Link Provider Ports", func() {
 		listPortsOptions := serviceV2.NewListProviderPortsOptions()
@@ -988,22 +932,11 @@ func nextFreePair(used map[string]struct{}, seed uint32, maxTries int) (local, r
 			shouldSkipTest()
 
 			bgpAsn := int64(63999)
-			
-	// Derive a deterministic seed from the new gateway id (less collision than just time)
-	gwID := os.Getenv("GATEWAY_ID")
-	seed := hashToSeed(gwID + gatewayName)
+			// localIP := "172.17.252.1/29"
+			// remoteIP := "172.17.252.2/29"
 
-	used := collectUsedCIDRs(serviceV1)
-	localIP, remoteIP := nextFreePair(used, seed, 64) // try up to 64 candidates
-
-	// Fallback to time-based seed if somehow empty
-	if localIP == "" || remoteIP == "" {
-		seed = uint32(time.Now().Unix())
-		localIP, remoteIP = nextFreePair(used, seed, 64)
-	}
-	Expect(localIP).NotTo(BeEmpty(), "could not find a free /29 for BGP")
-	Expect(remoteIP).NotTo(BeEmpty(), "could not find a free /29 for BGP")
-
+			localIP := "172.31.200.1/29"  // IBM side
+			remoteIP := "172.31.200.2/29" // Customer side
 
 			updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
 			updateGatewayOptions.SetBgpAsn(bgpAsn).SetBgpCerCidr(remoteIP).SetBgpIbmCidr(localIP)
