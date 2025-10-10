@@ -22,7 +22,9 @@ package directlinkproviderv2_test
 */
 
 import (
+	"crypto/sha1"
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -927,22 +929,46 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			}
 		})
 
-		//jk
+		var updBgpAsn int64
+		var updLocalIP, updRemoteIP string
+
 		It("should successfully send the update request for bgp ASN AND BGP IP", func() {
 			shouldSkipTest()
 
+			gwID := os.Getenv("GATEWAY_ID")
 			bgpAsn := int64(63999)
+			//USED TO BE:
 			// localIP := "172.17.252.1/29"
 			// remoteIP := "172.17.252.2/29"
+			//NEW:
+			// localIP := "172.31.200.1/29"  // IBM side
+			// remoteIP := "172.31.200.2/29" // Customer side
+			// --- deterministic unique /29, inline, no helper funcs ---
+			// Use gatewayID + parallel process idx to carve out a non-overlapping /29 in 172.31.0.0/16.
+			sum := sha1.Sum([]byte(gwID + gatewayName + fmt.Sprint(GinkgoParallelProcess())))
+			// third octet (0..255) but keep it in a safe high range to avoid other suites:
+			third := 200 + int(sum[0])%40 // 200..239
+			// fourth octet aligned to /29 boundary (multiples of 8), avoid .0 and leave space:
+			fourth := int(sum[1]) & 0xF8 // 0,8,16,...,248
+			if fourth == 0 {
+				fourth = 8
+			} // avoid the very first block just in case
 
-			localIP := "172.31.200.1/29"  // IBM side
-			remoteIP := "172.31.200.2/29" // Customer side
+			updLocalIP = fmt.Sprintf("172.31.%d.%d/29", third, fourth+1)  // IBM side
+			updRemoteIP = fmt.Sprintf("172.31.%d.%d/29", third, fourth+2) // Customer side
 
-			updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
-			updateGatewayOptions.SetBgpAsn(bgpAsn).SetBgpCerCidr(remoteIP).SetBgpIbmCidr(localIP)
+			opts := serviceV2.NewUpdateProviderGatewayOptions(gwID).
+				SetBgpAsn(updBgpAsn).
+				SetBgpCerCidr(updRemoteIP).
+				SetBgpIbmCidr(updLocalIP)
+
+			// updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
+			// updateGatewayOptions.SetBgpAsn(bgpAsn).SetBgpCerCidr(remoteIP).SetBgpIbmCidr(localIP)
 
 			// Get the current status for the gateway
-			result, detailedResponse, err := serviceV2.UpdateProviderGateway(updateGatewayOptions)
+			result, detailedResponse, err := serviceV2.UpdateProviderGateway(opts)
+
+			//result, detailedResponse, err := serviceV2.UpdateProviderGateway(updateGatewayOptions)
 			Expect(err).To(BeNil())
 			Expect(detailedResponse.StatusCode).To(Equal(200))
 			Expect(*result.ID).To(Equal(os.Getenv("GATEWAY_ID")))
