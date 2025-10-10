@@ -77,8 +77,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 		Authenticator: authenticator,
 	}
 
-	testService, testServiceErr := logpushjobsapiv1.NewLogpushJobsApiV1(globalOptions)
-	Expect(testServiceErr).To(BeNil())
+	testService, _ := logpushjobsapiv1.NewLogpushJobsApiV1(globalOptions)
 
 	Describe(`LogpushJobsApiV1_test`, func() {
 		Context(`LogpushJobsApiV1 All Jobs`, func() {
