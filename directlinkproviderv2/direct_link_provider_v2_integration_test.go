@@ -927,7 +927,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			}
 		})
 
-		//jk
 		It("should successfully send the update request for bgp ASN AND BGP IP", func() {
 			shouldSkipTest()
 
@@ -937,7 +936,6 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 
 			updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
 			updateGatewayOptions.SetBgpAsn(bgpAsn).SetBgpCerCidr(remoteIP).SetBgpIbmCidr(localIP)
-			time.Sleep(3 * time.Second)
 			// Get the current status for the gateway
 			result, detailedResponse, err := serviceV2.UpdateProviderGateway(updateGatewayOptions)
 			Expect(err).To(BeNil())
