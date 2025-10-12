@@ -44,8 +44,8 @@ func shouldSkipTest() {
 }
 
 var _ = Describe(`DirectLinkProviderV2`, func() {
-	Skip("Skipping due to test failures on BGP IT")
 	defer GinkgoRecover()
+	Skip("Skipping due to test failures on BGP IT")
 	err := godotenv.Load("../directlink.env")
 	It(`Successfully loading .env file`, func() {
 		if err == nil {
