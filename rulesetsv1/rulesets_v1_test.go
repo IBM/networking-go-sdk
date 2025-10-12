@@ -695,7 +695,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -842,7 +842,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -995,7 +995,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -1093,7 +1093,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -1212,7 +1212,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2166,7 +2166,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2313,7 +2313,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2466,7 +2466,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2564,7 +2564,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -2683,7 +2683,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3261,7 +3261,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3400,7 +3400,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3545,7 +3545,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3635,7 +3635,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3746,7 +3746,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3859,7 +3859,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -3999,7 +3999,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4145,7 +4145,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4236,7 +4236,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -4348,7 +4348,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5369,7 +5369,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5516,7 +5516,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5669,7 +5669,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5767,7 +5767,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -5886,7 +5886,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -6840,7 +6840,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -6987,7 +6987,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7140,7 +7140,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7238,7 +7238,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7357,7 +7357,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -7935,7 +7935,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8074,7 +8074,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8219,7 +8219,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8309,7 +8309,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8420,7 +8420,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8533,7 +8533,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8673,7 +8673,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8819,7 +8819,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -8910,7 +8910,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9022,7 +9022,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9380,7 +9380,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9389,7 +9389,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9510,7 +9510,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9519,7 +9519,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -9874,7 +9874,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -9883,7 +9883,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10018,7 +10018,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10027,7 +10027,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10162,7 +10162,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10171,7 +10171,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10295,7 +10295,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10304,7 +10304,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10439,7 +10439,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10448,7 +10448,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10583,7 +10583,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				actionParametersModel.Phases = []string{"testString"}
 				actionParametersModel.Products = []string{"testString"}
 				actionParametersModel.Response = actionParametersResponseModel
-				actionParametersModel.Rules = map[string][]string{"key1": []string{"testString"}}
+				actionParametersModel.Rules = map[string][]string{"key1": {"testString"}}
 				Expect(actionParametersModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(actionParametersModel.Overrides).To(Equal(overridesModel))
 				Expect(actionParametersModel.Version).To(Equal(core.StringPtr("testString")))
@@ -10592,7 +10592,7 @@ var _ = Describe(`RulesetsV1`, func() {
 				Expect(actionParametersModel.Phases).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Products).To(Equal([]string{"testString"}))
 				Expect(actionParametersModel.Response).To(Equal(actionParametersResponseModel))
-				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": []string{"testString"}}))
+				Expect(actionParametersModel.Rules).To(Equal(map[string][]string{"key1": {"testString"}}))
 
 				// Construct an instance of the Ratelimit model
 				ratelimitModel := new(rulesetsv1.Ratelimit)
@@ -10703,7 +10703,7 @@ var _ = Describe(`RulesetsV1`, func() {
 			model.Phases = []string{"testString"}
 			model.Products = []string{"testString"}
 			model.Response = nil
-			model.Rules = map[string][]string{"key1": []string{"testString"}}
+			model.Rules = map[string][]string{"key1": {"testString"}}
 
 			b, err := json.Marshal(model)
 			Expect(err).To(BeNil())
