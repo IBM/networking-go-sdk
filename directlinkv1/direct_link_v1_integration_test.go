@@ -2246,8 +2246,8 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 				// Construct an instance of the GatewayPatchTemplate model
 				gatewayPatchTemplateModel := new(directlinkv1.GatewayPatchTemplate)
-				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("172.17.252.2/29")
-				gatewayPatchTemplateModel.BgpIbmCidr = core.StringPtr("172.17.252.1/29")
+				gatewayPatchTemplateModel.BgpCerCidr = core.StringPtr("172.18.252.2/29")
+				gatewayPatchTemplateModel.BgpIbmCidr = core.StringPtr("172.18.252.1/29")
 
 				gatewayPatchTemplateModelAsPatch, asPatchErr := gatewayPatchTemplateModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())

@@ -932,8 +932,8 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			shouldSkipTest()
 
 			bgpAsn := int64(63999)
-			localIP := "172.17.252.1/29"
-			remoteIP := "172.17.252.2/29"
+			localIP := "172.18.252.1/29"
+			remoteIP := "172.18.252.2/29"
 
 			updateGatewayOptions := serviceV2.NewUpdateProviderGatewayOptions(os.Getenv("GATEWAY_ID"))
 			updateGatewayOptions.SetBgpAsn(bgpAsn).SetBgpCerCidr(remoteIP).SetBgpIbmCidr(localIP)
@@ -953,8 +953,8 @@ var _ = Describe(`DirectLinkProviderV2`, func() {
 			shouldSkipTest()
 
 			bgpAsn := int64(63999)
-			localIP := "172.17.252.1/29"
-			remoteIP := "172.17.252.2/29"
+			localIP := "172.18.252.1/29"
+			remoteIP := "172.18.252.2/29"
 
 			// Create []updates array
 			bgpAsnUpdate := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate)
