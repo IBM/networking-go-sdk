@@ -863,6 +863,86 @@ var _ = Describe(`RulesetsV1 Integration Tests`, func() {
 
 		})
 
+		It("Create Zone Ruleset Rule for multiple rules skip", func() {
+			getZoneEntrypointRulesetOptions := &rulesetsv1.GetZoneEntrypointRulesetOptions{
+				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
+			}
+			rulesetResp, _, _ := rulesetsService.GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions)
+			entryPointRulesetId := *rulesetResp.Result.ID
+
+			actionParametersModel := &rulesetsv1.ActionParameters{
+				Rules: map[string][]string{
+					"efb7b8c949ac4650a09736fc376e9aee": {"980c5b4fa30f4214b836ebd8521e1eff", "d52aa57408a144afa35e0fd96e3897dc"},
+					"4814384a9e5d4991b9815dcfc25d2f1f": {"2bf10c44df3e4506959ed82d64218570"},
+				},
+			}
+
+			createZoneRulesetRuleOptions := &rulesetsv1.CreateZoneRulesetRuleOptions{
+				RulesetID:        core.StringPtr(entryPointRulesetId),
+				Action:           core.StringPtr("skip"),
+				ActionParameters: actionParametersModel,
+				Description:      core.StringPtr("creating skip rule for multiple rules"),
+				Enabled:          core.BoolPtr(false),
+				Expression:       core.StringPtr("true"),
+			}
+
+			ruleResp, response, err := rulesetsService.CreateZoneRulesetRule(createZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ruleResp).ToNot(BeNil())
+		})
+
+		It("Update/Delete Zone Ruleset Rule for multiple rules skip", func() {
+
+			getZoneEntrypointRulesetOptions := &rulesetsv1.GetZoneEntrypointRulesetOptions{
+				RulesetPhase: core.StringPtr("http_request_firewall_managed"),
+			}
+			rulesetResp, _, _ := rulesetsService.GetZoneEntrypointRuleset(getZoneEntrypointRulesetOptions)
+			entryPointRulesetId := *rulesetResp.Result.ID
+
+			lastRuleIndex := len(rulesetResp.Result.Rules) - 1
+
+			if lastRuleIndex < 0 {
+				Fail("No rules found in the ruleset")
+			}
+			createdSkipRulesetRuleId := *rulesetResp.Result.Rules[lastRuleIndex].ID
+
+			Expect(err).To(BeNil())
+			Expect(rulesetResp).ToNot(BeNil())
+			Expect(createdSkipRulesetRuleId).ToNot(BeNil())
+
+			actionParametersModel := &rulesetsv1.ActionParameters{
+				Rules: map[string][]string{
+					"4814384a9e5d4991b9815dcfc25d2f1f": {"3500d96add324dcbbc0a93b2bd22c723"},
+				},
+			}
+
+			updateZoneRulesetRuleOptions := &rulesetsv1.UpdateZoneRulesetRuleOptions{
+				RulesetID:        core.StringPtr(entryPointRulesetId),
+				RuleID:           core.StringPtr(createdSkipRulesetRuleId),
+				Action:           core.StringPtr("skip"),
+				ActionParameters: actionParametersModel,
+				Description:      core.StringPtr("Updating this rule by removing a rule from skip"),
+				Enabled:          core.BoolPtr(true),
+				Expression:       core.StringPtr("true"),
+			}
+
+			ruleResp, response, err := rulesetsService.UpdateZoneRulesetRule(updateZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ruleResp).ToNot(BeNil())
+
+			deleteZoneRulesetRuleOptions := &rulesetsv1.DeleteZoneRulesetRuleOptions{
+				RulesetID: core.StringPtr(entryPointRulesetId),
+				RuleID:    core.StringPtr(createdSkipRulesetRuleId),
+			}
+
+			rulesResp, response, err := rulesetsService.DeleteZoneRulesetRule(deleteZoneRulesetRuleOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(rulesResp).ToNot(BeNil())
+		})
+
 		It("Create Zone Ruleset Rule for http ratelimit", func() {
 
 			ratelimitModel := &rulesetsv1.Ratelimit{
