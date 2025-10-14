@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.107.0-b68ebf7a-20250811-145645
+ * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
  */
 
 // Package transitgatewayapisv1 : Operations and models for the TransitGatewayApisV1 service
@@ -1735,7 +1735,9 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 }
 
 // CreateTransitGatewayConnectionPrefixFilter : Add a prefix filter to a Transit Gateway connection
-// Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to all Connection types.
+// Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to `vpc`, `classic`, `directlink`,
+// and `power_virtual_server` Connection types. Prefix Filters cannot be added to `gre_tunnel`, `unbound_gre_tunnel`,
+// `redundant_gre` or `vpn_gateway` Connection types.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	result, response, err = transitGatewayApis.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -2506,10 +2508,7 @@ type CreateTransitGatewayConnectionOptions struct {
 
 	// network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
 	//
-	// This field is optional for network type `vpn_gateway` connections.
-	//
-	// If left unspecified when creating a `vpn_gateway` connection, a default cidr address of `100.64.0.0/10` will be
-	// used.
+	// This field is required for network type `vpn_gateway` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
 	// `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -4647,9 +4646,13 @@ type TransitConnection struct {
 
 	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
 	// array being applied first, and those at the end of the array is applied last, or just before the default.
+	//
+	// This field does not apply to the `redundant_gre` network types.
 	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
 
 	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
+	//
+	// This field does not apply to the `redundant_gre` network types.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
 	// Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
@@ -4709,6 +4712,8 @@ const (
 
 // Constants associated with the TransitConnection.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter.
+//
+// This field does not apply to the `redundant_gre` network types.
 const (
 	TransitConnection_PrefixFiltersDefault_Deny   = "deny"
 	TransitConnection_PrefixFiltersDefault_Permit = "permit"
@@ -5651,13 +5656,6 @@ type TransitGatewayTunnel struct {
 	// The ID of the network VPC being connected via this connection.
 	NetworkID *string `json:"network_id,omitempty"`
 
-	// Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-	// array being applied first, and those at the end of the array is applied last, or just before the default.
-	PrefixFilters []TransitGatewayConnectionPrefixFilterReference `json:"prefix_filters,omitempty"`
-
-	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
-
 	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
 	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is omitted
 	// on create requests, IBM will assign an ASN.
@@ -5687,13 +5685,6 @@ const (
 	TransitGatewayTunnel_BaseNetworkType_Classic = "classic"
 	TransitGatewayTunnel_BaseNetworkType_Vpc     = "vpc"
 	TransitGatewayTunnel_BaseNetworkType_Vpn     = "vpn"
-)
-
-// Constants associated with the TransitGatewayTunnel.PrefixFiltersDefault property.
-// Default setting of permit or deny which applies to any routes that don't match a specified filter.
-const (
-	TransitGatewayTunnel_PrefixFiltersDefault_Deny   = "deny"
-	TransitGatewayTunnel_PrefixFiltersDefault_Permit = "permit"
 )
 
 // Constants associated with the TransitGatewayTunnel.Status property.
@@ -5760,14 +5751,7 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
+		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
