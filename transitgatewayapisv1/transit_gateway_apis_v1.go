@@ -5770,15 +5770,6 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
