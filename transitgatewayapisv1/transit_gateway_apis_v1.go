@@ -2481,9 +2481,9 @@ type CreateTransitGatewayConnectionOptions struct {
 	// connections.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
-	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999. If `remote_bgp_asn` is
-	// omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel or
+	// unbound_gre_tunnel connection create requests IBM will assign an ASN.
 	//
 	// This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
 	//
@@ -2505,16 +2505,14 @@ type CreateTransitGatewayConnectionOptions struct {
 	// `vpn_gateway` and `redundant_gre` connections.
 	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
 
-	// Array of GRE tunnels for a transit gateway `redundant_gre` connections.  This field is required for `redundant_gre`
-	// connections.
+	// Array of GRE tunnels for a transit gateway `redundant_gre` and `vpn_gateway` connections.  This field is required
+	// for `redundant_gre` and `vpn_gateway` connections.
 	Tunnels []TransitGatewayTunnelTemplate `json:"tunnels,omitempty"`
 
 	// Specify the connection's location.  The specified availability zone must reside in the gateway's region.
 	// Use the IBM Cloud global catalog to list zones within the desired region.
 	//
-	// This field is required for network type `gre_tunnel`, and `unbound_gre_tunnel` connections.
-	//
-	// This field is optional for network type `vpn_gateway` connections.
+	// This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server` and
 	// `redundant_gre` connections.
@@ -2814,9 +2812,9 @@ type CreateTransitGatewayGreTunnelOptions struct {
 	// Use the IBM Cloud global catalog to list zones within the desired region.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
-	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is omitted
-	// on create requests, IBM will assign an ASN.
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
+	// will assign an ASN.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
 	// Allows users to set headers on API requests.
@@ -2908,8 +2906,7 @@ type CreateTransitGatewayOptions struct {
 	// Allow global routing for a Transit Gateway. If unspecified, the default value is false.
 	Global *bool `json:"global,omitempty"`
 
-	// Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
-	// gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
+	// Allow GRE Enhanced Route Propagation on this gateway.
 	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -4136,7 +4133,7 @@ type RouteReportConnectionBgp struct {
 	AsPath *string `json:"as_path,omitempty"`
 
 	// Indicates whether current route is used or not.
-	IsUsed *bool `json:"is_used" validate:"required"`
+	IsUsed *bool `json:"is_used,omitempty"`
 
 	// local preference.
 	LocalPreference *string `json:"local_preference,omitempty"`
@@ -4486,7 +4483,6 @@ type TransitConnection struct {
 const (
 	TransitConnection_BaseNetworkType_Classic = "classic"
 	TransitConnection_BaseNetworkType_Vpc     = "vpc"
-	TransitConnection_BaseNetworkType_Vpn     = "vpn"
 )
 
 // Constants associated with the TransitConnection.NetworkType property.
@@ -4717,7 +4713,7 @@ type TransitGateway struct {
 	ConnectionCount *int64 `json:"connection_count,omitempty"`
 
 	// Indicates if this Transit Gateway has a connection that needs attention (Such as cross account approval).
-	ConnectionNeedsAttention *bool `json:"connection_needs_attention" validate:"required"`
+	ConnectionNeedsAttention *bool `json:"connection_needs_attention,omitempty"`
 
 	// The date and time that this gateway was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
@@ -4728,9 +4724,8 @@ type TransitGateway struct {
 	// Allow global routing for a Transit Gateway.
 	Global *bool `json:"global" validate:"required"`
 
-	// Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
-	// gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
-	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation" validate:"required"`
+	// Allow GRE Enhanced Route Propagation on this gateway.
+	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation,omitempty"`
 
 	// A unique identifier for this transit gateway.
 	ID *string `json:"id" validate:"required"`
@@ -5037,8 +5032,7 @@ type TransitGatewayConnectionCust struct {
 	// The date and time that this connection was last updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
-	// Location of GRE tunnel. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
-	// This field is optional for network type `vpn_gateway` connections.
+	// Location of GRE tunnel. This field is required for network type `gre_tunnel` and `vpn_gateway` connections.
 	Zone *ZoneReference `json:"zone,omitempty"`
 }
 
@@ -5050,7 +5044,6 @@ type TransitGatewayConnectionCust struct {
 const (
 	TransitGatewayConnectionCust_BaseNetworkType_Classic = "classic"
 	TransitGatewayConnectionCust_BaseNetworkType_Vpc     = "vpc"
-	TransitGatewayConnectionCust_BaseNetworkType_Vpn     = "vpn"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.NetworkType property.
@@ -5437,7 +5430,7 @@ type TransitGatewayTunnel struct {
 	LocalTunnelIp *string `json:"local_tunnel_ip" validate:"required"`
 
 	// GRE tunnel MTU.
-	Mtu *int64 `json:"mtu,omitempty"`
+	Mtu *int64 `json:"mtu" validate:"required"`
 
 	// The user-defined name for this tunnel.
 	Name *string `json:"name" validate:"required"`
@@ -5639,9 +5632,9 @@ type TransitGatewayTunnelTemplate struct {
 	// The user-defined name for this tunnel connection.
 	Name *string `json:"name" validate:"required"`
 
-	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
-	// 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is omitted
-	// on create requests, IBM will assign an ASN.
+	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+	// 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
+	// will assign an ASN.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
 	// Remote gateway IP address.
@@ -5962,9 +5955,7 @@ type UpdateTransitGatewayOptions struct {
 	// Allow global routing for a Transit Gateway.
 	Global *bool `json:"global,omitempty"`
 
-	// Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
-	// gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`. It takes a few minutes for the change to
-	// take effect.
+	// Allow GRE Enhanced Route Propagation on this gateway.
 	GreEnhancedRoutePropagation *bool `json:"gre_enhanced_route_propagation,omitempty"`
 
 	// A human readable name for a resource.
