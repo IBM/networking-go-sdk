@@ -19,6 +19,8 @@ package transitgatewayapisv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -5222,305 +5224,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 	})
-	Describe(`ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptions *ReplaceTransitGatewayConnectionPrefixFilterOptions) - Operation response error`, func() {
-		version := "testString"
-		replaceTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters"
-		Context(`Using mock server endpoint with invalid JSON response`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceTransitGatewayConnectionPrefixFilterPath))
-					Expect(req.Method).To(Equal("PUT"))
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprint(res, `} this is not valid json {`)
-				}))
-			})
-			It(`Invoke ReplaceTransitGatewayConnectionPrefixFilter with error: Operation response processing error`, func() {
-				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(transitGatewayApisService).ToNot(BeNil())
-
-				// Construct an instance of the PrefixFilterPut model
-				prefixFilterPutModel := new(transitgatewayapisv1.PrefixFilterPut)
-				prefixFilterPutModel.Action = core.StringPtr("permit")
-				prefixFilterPutModel.Ge = core.Int64Ptr(int64(0))
-				prefixFilterPutModel.Le = core.Int64Ptr(int64(32))
-				prefixFilterPutModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.ReplaceTransitGatewayConnectionPrefixFilterOptions)
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.PrefixFilters = []transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel}
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-
-				// Enable retries and test again
-				transitGatewayApisService.EnableRetries(0, 0)
-				result, response, operationErr = transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
-	Describe(`ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptions *ReplaceTransitGatewayConnectionPrefixFilterOptions)`, func() {
-		version := "testString"
-		replaceTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters"
-		Context(`Using mock server endpoint with timeout`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceTransitGatewayConnectionPrefixFilterPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Sleep a short time to support a timeout test
-					time.Sleep(100 * time.Millisecond)
-
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ReplaceTransitGatewayConnectionPrefixFilter successfully with retries`, func() {
-				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(transitGatewayApisService).ToNot(BeNil())
-				transitGatewayApisService.EnableRetries(0, 0)
-
-				// Construct an instance of the PrefixFilterPut model
-				prefixFilterPutModel := new(transitgatewayapisv1.PrefixFilterPut)
-				prefixFilterPutModel.Action = core.StringPtr("permit")
-				prefixFilterPutModel.Ge = core.Int64Ptr(int64(0))
-				prefixFilterPutModel.Le = core.Int64Ptr(int64(32))
-				prefixFilterPutModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.ReplaceTransitGatewayConnectionPrefixFilterOptions)
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.PrefixFilters = []transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel}
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				_, _, operationErr := transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilterWithContext(ctx, replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-
-				// Disable retries and test again
-				transitGatewayApisService.DisableRetries()
-				result, response, operationErr := transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				_, _, operationErr = transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilterWithContext(ctx, replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Verify the contents of the request
-					Expect(req.URL.EscapedPath()).To(Equal(replaceTransitGatewayConnectionPrefixFilterPath))
-					Expect(req.Method).To(Equal("PUT"))
-
-					// For gzip-disabled operation, verify Content-Encoding is not set.
-					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
-
-					// If there is a body, then make sure we can read it
-					bodyBuf := new(bytes.Buffer)
-					if req.Header.Get("Content-Encoding") == "gzip" {
-						body, err := core.NewGzipDecompressionReader(req.Body)
-						Expect(err).To(BeNil())
-						_, err = bodyBuf.ReadFrom(body)
-						Expect(err).To(BeNil())
-					} else {
-						_, err := bodyBuf.ReadFrom(req.Body)
-						Expect(err).To(BeNil())
-					}
-					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
-
-					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
-					// Set mock response
-					res.Header().Set("Content-type", "application/json")
-					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}`)
-				}))
-			})
-			It(`Invoke ReplaceTransitGatewayConnectionPrefixFilter successfully`, func() {
-				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(transitGatewayApisService).ToNot(BeNil())
-
-				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(nil)
-				Expect(operationErr).NotTo(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-
-				// Construct an instance of the PrefixFilterPut model
-				prefixFilterPutModel := new(transitgatewayapisv1.PrefixFilterPut)
-				prefixFilterPutModel.Action = core.StringPtr("permit")
-				prefixFilterPutModel.Ge = core.Int64Ptr(int64(0))
-				prefixFilterPutModel.Le = core.Int64Ptr(int64(32))
-				prefixFilterPutModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.ReplaceTransitGatewayConnectionPrefixFilterOptions)
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.PrefixFilters = []transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel}
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-			})
-			It(`Invoke ReplaceTransitGatewayConnectionPrefixFilter with error: Operation validation and request error`, func() {
-				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(transitGatewayApisService).ToNot(BeNil())
-
-				// Construct an instance of the PrefixFilterPut model
-				prefixFilterPutModel := new(transitgatewayapisv1.PrefixFilterPut)
-				prefixFilterPutModel.Action = core.StringPtr("permit")
-				prefixFilterPutModel.Ge = core.Int64Ptr(int64(0))
-				prefixFilterPutModel.Le = core.Int64Ptr(int64(32))
-				prefixFilterPutModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.ReplaceTransitGatewayConnectionPrefixFilterOptions)
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.PrefixFilters = []transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel}
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-				// Invoke operation with empty URL (negative test)
-				err := transitGatewayApisService.SetServiceURL("")
-				Expect(err).To(BeNil())
-				result, response, operationErr := transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-				// Construct a second instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model with no property values
-				replaceTransitGatewayConnectionPrefixFilterOptionsModelNew := new(transitgatewayapisv1.ReplaceTransitGatewayConnectionPrefixFilterOptions)
-				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModelNew)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(response).To(BeNil())
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-		Context(`Using mock server endpoint with missing response body`, func() {
-			BeforeEach(func() {
-				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-					defer GinkgoRecover()
-
-					// Set success status code with no respoonse body
-					res.WriteHeader(201)
-				}))
-			})
-			It(`Invoke ReplaceTransitGatewayConnectionPrefixFilter successfully`, func() {
-				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:           testServer.URL,
-					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
-				})
-				Expect(serviceErr).To(BeNil())
-				Expect(transitGatewayApisService).ToNot(BeNil())
-
-				// Construct an instance of the PrefixFilterPut model
-				prefixFilterPutModel := new(transitgatewayapisv1.PrefixFilterPut)
-				prefixFilterPutModel.Action = core.StringPtr("permit")
-				prefixFilterPutModel.Ge = core.Int64Ptr(int64(0))
-				prefixFilterPutModel.Le = core.Int64Ptr(int64(32))
-				prefixFilterPutModel.Prefix = core.StringPtr("192.168.100.0/24")
-
-				// Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel := new(transitgatewayapisv1.ReplaceTransitGatewayConnectionPrefixFilterOptions)
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.ID = core.StringPtr("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.PrefixFilters = []transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel}
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
-
-				// Invoke operation
-				result, response, operationErr := transitGatewayApisService.ReplaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-
-				// Verify a nil result
-				Expect(result).To(BeNil())
-			})
-			AfterEach(func() {
-				testServer.Close()
-			})
-		})
-	})
 	Describe(`DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions)`, func() {
 		version := "testString"
 		deleteTransitGatewayConnectionPrefixFilterPath := "/transit_gateways/testString/connections/testString/prefix_filters/testString"
@@ -7296,41 +6999,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(listTransitGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
 				Expect(listTransitGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewPrefixFilterPut successfully`, func() {
-				action := "permit"
-				prefix := "192.168.100.0/24"
-				_model, err := transitGatewayApisService.NewPrefixFilterPut(action, prefix)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewReplaceTransitGatewayConnectionPrefixFilterOptions successfully`, func() {
-				// Construct an instance of the PrefixFilterPut model
-				prefixFilterPutModel := new(transitgatewayapisv1.PrefixFilterPut)
-				Expect(prefixFilterPutModel).ToNot(BeNil())
-				prefixFilterPutModel.Action = core.StringPtr("permit")
-				prefixFilterPutModel.Ge = core.Int64Ptr(int64(0))
-				prefixFilterPutModel.Le = core.Int64Ptr(int64(32))
-				prefixFilterPutModel.Prefix = core.StringPtr("192.168.100.0/24")
-				Expect(prefixFilterPutModel.Action).To(Equal(core.StringPtr("permit")))
-				Expect(prefixFilterPutModel.Ge).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(prefixFilterPutModel.Le).To(Equal(core.Int64Ptr(int64(32))))
-				Expect(prefixFilterPutModel.Prefix).To(Equal(core.StringPtr("192.168.100.0/24")))
-
-				// Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-				transitGatewayID := "testString"
-				id := "testString"
-				replaceTransitGatewayConnectionPrefixFilterOptionsPrefixFilters := []transitgatewayapisv1.PrefixFilterPut{}
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel := transitGatewayApisService.NewReplaceTransitGatewayConnectionPrefixFilterOptions(transitGatewayID, id, replaceTransitGatewayConnectionPrefixFilterOptionsPrefixFilters)
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.SetTransitGatewayID("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.SetID("testString")
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.SetPrefixFilters([]transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel})
-				replaceTransitGatewayConnectionPrefixFilterOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(replaceTransitGatewayConnectionPrefixFilterOptionsModel).ToNot(BeNil())
-				Expect(replaceTransitGatewayConnectionPrefixFilterOptionsModel.TransitGatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(replaceTransitGatewayConnectionPrefixFilterOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(replaceTransitGatewayConnectionPrefixFilterOptionsModel.PrefixFilters).To(Equal([]transitgatewayapisv1.PrefixFilterPut{*prefixFilterPutModel}))
-				Expect(replaceTransitGatewayConnectionPrefixFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
 			It(`Invoke NewResourceGroupIdentity successfully`, func() {
 				id := "56969d6043e9465c883cb9f7363e78e8"
 				_model, err := transitGatewayApisService.NewResourceGroupIdentity(id)
@@ -7434,9 +7102,128 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalResourceGroupIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ResourceGroupIdentity)
+			model.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ResourceGroupIdentity
+			err = transitgatewayapisv1.UnmarshalResourceGroupIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayConnectionPrefixFilter successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+			model.Action = core.StringPtr("permit")
+			model.Ge = core.Int64Ptr(int64(0))
+			model.Le = core.Int64Ptr(int64(32))
+			model.Prefix = core.StringPtr("192.168.100.0/24")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayConnectionPrefixFilter
+			err = transitgatewayapisv1.UnmarshalTransitGatewayConnectionPrefixFilter(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayTunnelPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+			model.Name = core.StringPtr("gre2")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayTunnelPatch
+			err = transitgatewayapisv1.UnmarshalTransitGatewayTunnelPatch(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayTunnelTemplate successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+			model.LocalGatewayIp = core.StringPtr("10.242.63.12")
+			model.LocalTunnelIp = core.StringPtr("192.168.100.20")
+			model.Name = core.StringPtr("gre1")
+			model.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+			model.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+			model.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+			model.Zone = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayTunnelTemplate
+			err = transitgatewayapisv1.UnmarshalTransitGatewayTunnelTemplate(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalZoneIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ZoneIdentity)
+			model.Name = core.StringPtr("us-south-1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ZoneIdentity
+			err = transitgatewayapisv1.UnmarshalZoneIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalZoneIdentityByName successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ZoneIdentityByName)
+			model.Name = core.StringPtr("us-south-1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ZoneIdentityByName
+			err = transitgatewayapisv1.UnmarshalZoneIdentityByName(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -7462,9 +7249,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 
