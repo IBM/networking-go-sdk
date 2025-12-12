@@ -848,7 +848,6 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				updateOpt.SetHeaders(map[string]string{"key": "name"})
 				updateOpt.SetValue("off")
 				updateResult, updateResp, updateErr := service.UpdateReplaceInsecureJs(updateOpt)
-				fmt.Printf(*updateResult.Result.Value)
 				Expect(updateErr).To(BeNil())
 				Expect(updateResp).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())
