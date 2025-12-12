@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.102.0-615ec964-20250307-203034
+ * IBM OpenAPI SDK Code Generator Version: 3.108.0-56772134-20251111-102802
  */
 
 // Package zonessettingsv1 : Operations and models for the ZonesSettingsV1 service
@@ -219,12 +219,12 @@ func (zonesSettings *ZonesSettingsV1) GetZoneDnssecWithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range getZoneDnssecOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetZoneDnssec")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetZoneDnssec")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneDnssecOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -284,12 +284,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateZoneDnssecWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range updateZoneDnssecOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateZoneDnssec")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateZoneDnssec")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateZoneDnssecOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -360,12 +360,12 @@ func (zonesSettings *ZonesSettingsV1) GetZoneCnameFlatteningWithContext(ctx cont
 		return
 	}
 
-	for headerName, headerValue := range getZoneCnameFlatteningOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetZoneCnameFlattening")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetZoneCnameFlattening")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getZoneCnameFlatteningOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -425,12 +425,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateZoneCnameFlatteningWithContext(ctx c
 		return
 	}
 
-	for headerName, headerValue := range updateZoneCnameFlatteningOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateZoneCnameFlattening")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateZoneCnameFlattening")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateZoneCnameFlatteningOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -501,12 +501,12 @@ func (zonesSettings *ZonesSettingsV1) GetOpportunisticEncryptionWithContext(ctx 
 		return
 	}
 
-	for headerName, headerValue := range getOpportunisticEncryptionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOpportunisticEncryption")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOpportunisticEncryption")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getOpportunisticEncryptionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -566,12 +566,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateOpportunisticEncryptionWithContext(c
 		return
 	}
 
-	for headerName, headerValue := range updateOpportunisticEncryptionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOpportunisticEncryption")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOpportunisticEncryption")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateOpportunisticEncryptionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -642,12 +642,12 @@ func (zonesSettings *ZonesSettingsV1) GetOpportunisticOnionWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range getOpportunisticOnionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOpportunisticOnion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOpportunisticOnion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getOpportunisticOnionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -707,12 +707,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateOpportunisticOnionWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range updateOpportunisticOnionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOpportunisticOnion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOpportunisticOnion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateOpportunisticOnionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -783,12 +783,12 @@ func (zonesSettings *ZonesSettingsV1) GetChallengeTTLWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getChallengeTtlOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetChallengeTTL")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetChallengeTTL")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getChallengeTtlOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -848,12 +848,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateChallengeTTLWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range updateChallengeTtlOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateChallengeTTL")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateChallengeTTL")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateChallengeTtlOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -924,12 +924,12 @@ func (zonesSettings *ZonesSettingsV1) GetAutomaticHttpsRewritesWithContext(ctx c
 		return
 	}
 
-	for headerName, headerValue := range getAutomaticHttpsRewritesOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetAutomaticHttpsRewrites")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetAutomaticHttpsRewrites")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getAutomaticHttpsRewritesOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -989,12 +989,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateAutomaticHttpsRewritesWithContext(ct
 		return
 	}
 
-	for headerName, headerValue := range updateAutomaticHttpsRewritesOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateAutomaticHttpsRewrites")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateAutomaticHttpsRewrites")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateAutomaticHttpsRewritesOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1065,12 +1065,12 @@ func (zonesSettings *ZonesSettingsV1) GetTrueClientIpWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getTrueClientIpOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetTrueClientIp")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetTrueClientIp")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getTrueClientIpOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1130,12 +1130,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateTrueClientIpWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range updateTrueClientIpOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateTrueClientIp")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateTrueClientIp")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateTrueClientIpOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1206,12 +1206,12 @@ func (zonesSettings *ZonesSettingsV1) GetAlwaysUseHttpsWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range getAlwaysUseHttpsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetAlwaysUseHttps")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetAlwaysUseHttps")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getAlwaysUseHttpsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1271,12 +1271,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateAlwaysUseHttpsWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range updateAlwaysUseHttpsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateAlwaysUseHttps")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateAlwaysUseHttps")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateAlwaysUseHttpsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1347,12 +1347,12 @@ func (zonesSettings *ZonesSettingsV1) GetImageSizeOptimizationWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range getImageSizeOptimizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetImageSizeOptimization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetImageSizeOptimization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getImageSizeOptimizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1412,12 +1412,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateImageSizeOptimizationWithContext(ctx
 		return
 	}
 
-	for headerName, headerValue := range updateImageSizeOptimizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateImageSizeOptimization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateImageSizeOptimization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateImageSizeOptimizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1488,12 +1488,12 @@ func (zonesSettings *ZonesSettingsV1) GetScriptLoadOptimizationWithContext(ctx c
 		return
 	}
 
-	for headerName, headerValue := range getScriptLoadOptimizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetScriptLoadOptimization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetScriptLoadOptimization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getScriptLoadOptimizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1553,12 +1553,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateScriptLoadOptimizationWithContext(ct
 		return
 	}
 
-	for headerName, headerValue := range updateScriptLoadOptimizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateScriptLoadOptimization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateScriptLoadOptimization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateScriptLoadOptimizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1629,12 +1629,12 @@ func (zonesSettings *ZonesSettingsV1) GetImageLoadOptimizationWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range getImageLoadOptimizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetImageLoadOptimization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetImageLoadOptimization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getImageLoadOptimizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1694,12 +1694,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateImageLoadOptimizationWithContext(ctx
 		return
 	}
 
-	for headerName, headerValue := range updateImageLoadOptimizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateImageLoadOptimization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateImageLoadOptimization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateImageLoadOptimizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1770,12 +1770,12 @@ func (zonesSettings *ZonesSettingsV1) GetMinifyWithContext(ctx context.Context, 
 		return
 	}
 
-	for headerName, headerValue := range getMinifyOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMinify")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMinify")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getMinifyOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1835,12 +1835,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateMinifyWithContext(ctx context.Contex
 		return
 	}
 
-	for headerName, headerValue := range updateMinifyOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMinify")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMinify")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateMinifyOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1911,12 +1911,12 @@ func (zonesSettings *ZonesSettingsV1) GetMinTlsVersionWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range getMinTlsVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMinTlsVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMinTlsVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getMinTlsVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1976,12 +1976,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateMinTlsVersionWithContext(ctx context
 		return
 	}
 
-	for headerName, headerValue := range updateMinTlsVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMinTlsVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMinTlsVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateMinTlsVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2052,12 +2052,12 @@ func (zonesSettings *ZonesSettingsV1) GetIpGeolocationWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range getIpGeolocationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetIpGeolocation")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetIpGeolocation")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getIpGeolocationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2117,12 +2117,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateIpGeolocationWithContext(ctx context
 		return
 	}
 
-	for headerName, headerValue := range updateIpGeolocationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateIpGeolocation")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateIpGeolocation")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateIpGeolocationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2193,12 +2193,12 @@ func (zonesSettings *ZonesSettingsV1) GetServerSideExcludeWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range getServerSideExcludeOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetServerSideExclude")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetServerSideExclude")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getServerSideExcludeOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2258,12 +2258,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateServerSideExcludeWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range updateServerSideExcludeOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateServerSideExclude")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateServerSideExclude")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateServerSideExcludeOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2334,12 +2334,12 @@ func (zonesSettings *ZonesSettingsV1) GetSecurityHeaderWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range getSecurityHeaderOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetSecurityHeader")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetSecurityHeader")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getSecurityHeaderOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2399,12 +2399,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateSecurityHeaderWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range updateSecurityHeaderOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateSecurityHeader")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateSecurityHeader")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateSecurityHeaderOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2475,12 +2475,12 @@ func (zonesSettings *ZonesSettingsV1) GetMobileRedirectWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range getMobileRedirectOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMobileRedirect")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMobileRedirect")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getMobileRedirectOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2540,12 +2540,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateMobileRedirectWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range updateMobileRedirectOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMobileRedirect")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMobileRedirect")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateMobileRedirectOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2616,12 +2616,12 @@ func (zonesSettings *ZonesSettingsV1) GetPrefetchPreloadWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range getPrefetchPreloadOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetPrefetchPreload")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetPrefetchPreload")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getPrefetchPreloadOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2681,12 +2681,12 @@ func (zonesSettings *ZonesSettingsV1) UpdatePrefetchPreloadWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range updatePrefetchPreloadOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdatePrefetchPreload")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdatePrefetchPreload")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updatePrefetchPreloadOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2757,12 +2757,12 @@ func (zonesSettings *ZonesSettingsV1) GetHttp2WithContext(ctx context.Context, g
 		return
 	}
 
-	for headerName, headerValue := range getHttp2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetHttp2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetHttp2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getHttp2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2822,12 +2822,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateHttp2WithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range updateHttp2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateHttp2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateHttp2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateHttp2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2898,12 +2898,12 @@ func (zonesSettings *ZonesSettingsV1) GetHttp3WithContext(ctx context.Context, g
 		return
 	}
 
-	for headerName, headerValue := range getHttp3Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetHttp3")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetHttp3")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getHttp3Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2963,12 +2963,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateHttp3WithContext(ctx context.Context
 		return
 	}
 
-	for headerName, headerValue := range updateHttp3Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateHttp3")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateHttp3")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateHttp3Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3039,12 +3039,12 @@ func (zonesSettings *ZonesSettingsV1) GetIpv6WithContext(ctx context.Context, ge
 		return
 	}
 
-	for headerName, headerValue := range getIpv6Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetIpv6")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetIpv6")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getIpv6Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3104,12 +3104,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateIpv6WithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range updateIpv6Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateIpv6")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateIpv6")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateIpv6Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3180,12 +3180,12 @@ func (zonesSettings *ZonesSettingsV1) GetWebSocketsWithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range getWebSocketsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetWebSockets")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetWebSockets")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getWebSocketsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3245,12 +3245,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateWebSocketsWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range updateWebSocketsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateWebSockets")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateWebSockets")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateWebSocketsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3321,12 +3321,12 @@ func (zonesSettings *ZonesSettingsV1) GetPseudoIpv4WithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range getPseudoIpv4Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetPseudoIpv4")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetPseudoIpv4")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getPseudoIpv4Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3386,12 +3386,12 @@ func (zonesSettings *ZonesSettingsV1) UpdatePseudoIpv4WithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range updatePseudoIpv4Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdatePseudoIpv4")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdatePseudoIpv4")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updatePseudoIpv4Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3462,12 +3462,12 @@ func (zonesSettings *ZonesSettingsV1) GetResponseBufferingWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range getResponseBufferingOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetResponseBuffering")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetResponseBuffering")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getResponseBufferingOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3527,12 +3527,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateResponseBufferingWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range updateResponseBufferingOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateResponseBuffering")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateResponseBuffering")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateResponseBufferingOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3603,12 +3603,12 @@ func (zonesSettings *ZonesSettingsV1) GetHotlinkProtectionWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range getHotlinkProtectionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetHotlinkProtection")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetHotlinkProtection")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getHotlinkProtectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3668,12 +3668,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateHotlinkProtectionWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range updateHotlinkProtectionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateHotlinkProtection")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateHotlinkProtection")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateHotlinkProtectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3744,12 +3744,12 @@ func (zonesSettings *ZonesSettingsV1) GetMaxUploadWithContext(ctx context.Contex
 		return
 	}
 
-	for headerName, headerValue := range getMaxUploadOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMaxUpload")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetMaxUpload")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getMaxUploadOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3809,12 +3809,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateMaxUploadWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range updateMaxUploadOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMaxUpload")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateMaxUpload")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateMaxUploadOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3885,12 +3885,12 @@ func (zonesSettings *ZonesSettingsV1) GetTlsClientAuthWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range getTlsClientAuthOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetTlsClientAuth")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetTlsClientAuth")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getTlsClientAuthOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3950,12 +3950,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateTlsClientAuthWithContext(ctx context
 		return
 	}
 
-	for headerName, headerValue := range updateTlsClientAuthOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateTlsClientAuth")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateTlsClientAuth")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateTlsClientAuthOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4026,12 +4026,12 @@ func (zonesSettings *ZonesSettingsV1) GetBrotliWithContext(ctx context.Context, 
 		return
 	}
 
-	for headerName, headerValue := range getBrotliOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetBrotli")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetBrotli")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getBrotliOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4091,12 +4091,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateBrotliWithContext(ctx context.Contex
 		return
 	}
 
-	for headerName, headerValue := range updateBrotliOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateBrotli")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateBrotli")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateBrotliOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4167,12 +4167,12 @@ func (zonesSettings *ZonesSettingsV1) GetProxyReadTimeoutWithContext(ctx context
 		return
 	}
 
-	for headerName, headerValue := range getProxyReadTimeoutOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetProxyReadTimeout")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetProxyReadTimeout")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getProxyReadTimeoutOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4232,12 +4232,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateProxyReadTimeoutWithContext(ctx cont
 		return
 	}
 
-	for headerName, headerValue := range updateProxyReadTimeoutOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateProxyReadTimeout")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateProxyReadTimeout")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateProxyReadTimeoutOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4308,12 +4308,12 @@ func (zonesSettings *ZonesSettingsV1) GetBrowserCheckWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getBrowserCheckOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetBrowserCheck")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetBrowserCheck")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getBrowserCheckOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4373,12 +4373,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateBrowserCheckWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range updateBrowserCheckOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateBrowserCheck")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateBrowserCheck")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateBrowserCheckOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4449,12 +4449,12 @@ func (zonesSettings *ZonesSettingsV1) GetEnableErrorPagesOnWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range getEnableErrorPagesOnOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetEnableErrorPagesOn")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetEnableErrorPagesOn")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getEnableErrorPagesOnOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4514,12 +4514,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateEnableErrorPagesOnWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range updateEnableErrorPagesOnOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateEnableErrorPagesOn")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateEnableErrorPagesOn")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateEnableErrorPagesOnOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4590,12 +4590,12 @@ func (zonesSettings *ZonesSettingsV1) GetWebApplicationFirewallWithContext(ctx c
 		return
 	}
 
-	for headerName, headerValue := range getWebApplicationFirewallOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetWebApplicationFirewall")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetWebApplicationFirewall")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getWebApplicationFirewallOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4655,12 +4655,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateWebApplicationFirewallWithContext(ct
 		return
 	}
 
-	for headerName, headerValue := range updateWebApplicationFirewallOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateWebApplicationFirewall")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateWebApplicationFirewall")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateWebApplicationFirewallOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4731,12 +4731,12 @@ func (zonesSettings *ZonesSettingsV1) GetCiphersWithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range getCiphersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetCiphers")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetCiphers")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getCiphersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4796,12 +4796,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateCiphersWithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range updateCiphersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateCiphers")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateCiphers")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateCiphersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4872,12 +4872,12 @@ func (zonesSettings *ZonesSettingsV1) GetOriginMaxHttpVersionWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range getOriginMaxHttpVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOriginMaxHttpVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOriginMaxHttpVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getOriginMaxHttpVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4937,12 +4937,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateOriginMaxHttpVersionWithContext(ctx 
 		return
 	}
 
-	for headerName, headerValue := range updateOriginMaxHttpVersionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOriginMaxHttpVersion")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOriginMaxHttpVersion")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateOriginMaxHttpVersionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -5013,12 +5013,12 @@ func (zonesSettings *ZonesSettingsV1) GetOriginPostQuantumEncryptionWithContext(
 		return
 	}
 
-	for headerName, headerValue := range getOriginPostQuantumEncryptionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOriginPostQuantumEncryption")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetOriginPostQuantumEncryption")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getOriginPostQuantumEncryptionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -5078,12 +5078,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateOriginPostQuantumEncryptionWithConte
 		return
 	}
 
-	for headerName, headerValue := range updateOriginPostQuantumEncryptionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOriginPostQuantumEncryption")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateOriginPostQuantumEncryption")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateOriginPostQuantumEncryptionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -5160,12 +5160,12 @@ func (zonesSettings *ZonesSettingsV1) GetLogRetentionWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getLogRetentionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetLogRetention")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetLogRetention")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getLogRetentionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -5230,12 +5230,12 @@ func (zonesSettings *ZonesSettingsV1) UpdateLogRetentionWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range updateLogRetentionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateLogRetention")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateLogRetention")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateLogRetentionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -5266,6 +5266,438 @@ func (zonesSettings *ZonesSettingsV1) UpdateLogRetentionWithContext(ctx context.
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLogRetentionResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetBotManagement : Get Bot management settings
+// Get Bot management settings for a given zone.
+func (zonesSettings *ZonesSettingsV1) GetBotManagement(getBotManagementOptions *GetBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.GetBotManagementWithContext(context.Background(), getBotManagementOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetBotManagementWithContext is an alternate form of the GetBotManagement method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) GetBotManagementWithContext(ctx context.Context, getBotManagementOptions *GetBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getBotManagementOptions, "getBotManagementOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/bot_management`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetBotManagement")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getBotManagementOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_bot_management", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBotMgtResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateBotManagement : Update Bot management settings
+// Update Bot management settings for given zone.
+func (zonesSettings *ZonesSettingsV1) UpdateBotManagement(updateBotManagementOptions *UpdateBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.UpdateBotManagementWithContext(context.Background(), updateBotManagementOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateBotManagementWithContext is an alternate form of the UpdateBotManagement method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) UpdateBotManagementWithContext(ctx context.Context, updateBotManagementOptions *UpdateBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(updateBotManagementOptions, "updateBotManagementOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/bot_management`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateBotManagement")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateBotManagementOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateBotManagementOptions.SessionScore != nil {
+		body["session_score"] = updateBotManagementOptions.SessionScore
+	}
+	if updateBotManagementOptions.EnableJs != nil {
+		body["enable_js"] = updateBotManagementOptions.EnableJs
+	}
+	if updateBotManagementOptions.UseLatestModel != nil {
+		body["use_latest_model"] = updateBotManagementOptions.UseLatestModel
+	}
+	if updateBotManagementOptions.AiBotsProtection != nil {
+		body["ai_bots_protection"] = updateBotManagementOptions.AiBotsProtection
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_bot_management", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBotMgtResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetReplaceInsecureJs : Get replace insecure Javascript setting
+// Get replace insecure Javascript for a zone.
+func (zonesSettings *ZonesSettingsV1) GetReplaceInsecureJs(getReplaceInsecureJsOptions *GetReplaceInsecureJsOptions) (result *ReplaceInsecureJsResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.GetReplaceInsecureJsWithContext(context.Background(), getReplaceInsecureJsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetReplaceInsecureJsWithContext is an alternate form of the GetReplaceInsecureJs method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) GetReplaceInsecureJsWithContext(ctx context.Context, getReplaceInsecureJsOptions *GetReplaceInsecureJsOptions) (result *ReplaceInsecureJsResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getReplaceInsecureJsOptions, "getReplaceInsecureJsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/replace_insecure_js`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetReplaceInsecureJs")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getReplaceInsecureJsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_replace_insecure_js", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalReplaceInsecureJsResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateReplaceInsecureJs : Update replace insecure Javascript setting
+// Update replace insecure Javascript setting for a zone.
+func (zonesSettings *ZonesSettingsV1) UpdateReplaceInsecureJs(updateReplaceInsecureJsOptions *UpdateReplaceInsecureJsOptions) (result *ReplaceInsecureJsResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.UpdateReplaceInsecureJsWithContext(context.Background(), updateReplaceInsecureJsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateReplaceInsecureJsWithContext is an alternate form of the UpdateReplaceInsecureJs method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) UpdateReplaceInsecureJsWithContext(ctx context.Context, updateReplaceInsecureJsOptions *UpdateReplaceInsecureJsOptions) (result *ReplaceInsecureJsResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(updateReplaceInsecureJsOptions, "updateReplaceInsecureJsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/replace_insecure_js`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateReplaceInsecureJs")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateReplaceInsecureJsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateReplaceInsecureJsOptions.Value != nil {
+		body["value"] = updateReplaceInsecureJsOptions.Value
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_replace_insecure_js", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalReplaceInsecureJsResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetEmailObfuscation : Get email address obfuscation setting
+// Get email address obfuscation for a zone.
+func (zonesSettings *ZonesSettingsV1) GetEmailObfuscation(getEmailObfuscationOptions *GetEmailObfuscationOptions) (result *EmailObfuscationResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.GetEmailObfuscationWithContext(context.Background(), getEmailObfuscationOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetEmailObfuscationWithContext is an alternate form of the GetEmailObfuscation method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) GetEmailObfuscationWithContext(ctx context.Context, getEmailObfuscationOptions *GetEmailObfuscationOptions) (result *EmailObfuscationResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getEmailObfuscationOptions, "getEmailObfuscationOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/email_obfuscation`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetEmailObfuscation")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getEmailObfuscationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_email_obfuscation", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalEmailObfuscationResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateEmailObfuscation : Update email address obfuscation setting
+// Update email address obfuscation setting for a zone.
+func (zonesSettings *ZonesSettingsV1) UpdateEmailObfuscation(updateEmailObfuscationOptions *UpdateEmailObfuscationOptions) (result *EmailObfuscationResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.UpdateEmailObfuscationWithContext(context.Background(), updateEmailObfuscationOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateEmailObfuscationWithContext is an alternate form of the UpdateEmailObfuscation method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) UpdateEmailObfuscationWithContext(ctx context.Context, updateEmailObfuscationOptions *UpdateEmailObfuscationOptions) (result *EmailObfuscationResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(updateEmailObfuscationOptions, "updateEmailObfuscationOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/email_obfuscation`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateEmailObfuscation")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateEmailObfuscationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateEmailObfuscationOptions.Value != nil {
+		body["value"] = updateEmailObfuscationOptions.Value
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_email_obfuscation", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalEmailObfuscationResp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
@@ -5531,6 +5963,48 @@ func UnmarshalCiphersRespResult(m map[string]json.RawMessage, result interface{}
 	return
 }
 
+// EmailObfuscationRespResult : Container for response information.
+type EmailObfuscationRespResult struct {
+	// ID.
+	ID *string `json:"id" validate:"required"`
+
+	// Value.
+	Value *string `json:"value" validate:"required"`
+
+	// Editable.
+	Editable *bool `json:"editable" validate:"required"`
+
+	// Modified date.
+	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
+}
+
+// UnmarshalEmailObfuscationRespResult unmarshals an instance of EmailObfuscationRespResult from the specified map of raw messages.
+func UnmarshalEmailObfuscationRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EmailObfuscationRespResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "editable-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "modified_on-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // GetAlwaysUseHttpsOptions : The GetAlwaysUseHttps options.
 type GetAlwaysUseHttpsOptions struct {
 
@@ -5563,6 +6037,24 @@ func (*ZonesSettingsV1) NewGetAutomaticHttpsRewritesOptions() *GetAutomaticHttps
 
 // SetHeaders : Allow user to set Headers
 func (options *GetAutomaticHttpsRewritesOptions) SetHeaders(param map[string]string) *GetAutomaticHttpsRewritesOptions {
+	options.Headers = param
+	return options
+}
+
+// GetBotManagementOptions : The GetBotManagement options.
+type GetBotManagementOptions struct {
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetBotManagementOptions : Instantiate GetBotManagementOptions
+func (*ZonesSettingsV1) NewGetBotManagementOptions() *GetBotManagementOptions {
+	return &GetBotManagementOptions{}
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetBotManagementOptions) SetHeaders(param map[string]string) *GetBotManagementOptions {
 	options.Headers = param
 	return options
 }
@@ -5635,6 +6127,24 @@ func (*ZonesSettingsV1) NewGetCiphersOptions() *GetCiphersOptions {
 
 // SetHeaders : Allow user to set Headers
 func (options *GetCiphersOptions) SetHeaders(param map[string]string) *GetCiphersOptions {
+	options.Headers = param
+	return options
+}
+
+// GetEmailObfuscationOptions : The GetEmailObfuscation options.
+type GetEmailObfuscationOptions struct {
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetEmailObfuscationOptions : Instantiate GetEmailObfuscationOptions
+func (*ZonesSettingsV1) NewGetEmailObfuscationOptions() *GetEmailObfuscationOptions {
+	return &GetEmailObfuscationOptions{}
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetEmailObfuscationOptions) SetHeaders(param map[string]string) *GetEmailObfuscationOptions {
 	options.Headers = param
 	return options
 }
@@ -6015,6 +6525,24 @@ func (*ZonesSettingsV1) NewGetPseudoIpv4Options() *GetPseudoIpv4Options {
 
 // SetHeaders : Allow user to set Headers
 func (options *GetPseudoIpv4Options) SetHeaders(param map[string]string) *GetPseudoIpv4Options {
+	options.Headers = param
+	return options
+}
+
+// GetReplaceInsecureJsOptions : The GetReplaceInsecureJs options.
+type GetReplaceInsecureJsOptions struct {
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetReplaceInsecureJsOptions : Instantiate GetReplaceInsecureJsOptions
+func (*ZonesSettingsV1) NewGetReplaceInsecureJsOptions() *GetReplaceInsecureJsOptions {
+	return &GetReplaceInsecureJsOptions{}
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetReplaceInsecureJsOptions) SetHeaders(param map[string]string) *GetReplaceInsecureJsOptions {
 	options.Headers = param
 	return options
 }
@@ -7139,7 +7667,7 @@ type ProxyReadTimeoutRespResult struct {
 	ID *string `json:"id" validate:"required"`
 
 	// Value.
-	Value *string `json:"value" validate:"required"`
+	Value *float64 `json:"value" validate:"required"`
 
 	// Editable.
 	Editable *bool `json:"editable" validate:"required"`
@@ -7193,6 +7721,48 @@ type PseudoIpv4RespResult struct {
 // UnmarshalPseudoIpv4RespResult unmarshals an instance of PseudoIpv4RespResult from the specified map of raw messages.
 func UnmarshalPseudoIpv4RespResult(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PseudoIpv4RespResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "editable-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "modified_on-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ReplaceInsecureJsRespResult : Container for response information.
+type ReplaceInsecureJsRespResult struct {
+	// ID.
+	ID *string `json:"id" validate:"required"`
+
+	// Value.
+	Value *string `json:"value" validate:"required"`
+
+	// Editable.
+	Editable *bool `json:"editable" validate:"required"`
+
+	// Modified date.
+	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
+}
+
+// UnmarshalReplaceInsecureJsRespResult unmarshals an instance of ReplaceInsecureJsRespResult from the specified map of raw messages.
+func UnmarshalReplaceInsecureJsRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ReplaceInsecureJsRespResult)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
@@ -7699,6 +8269,66 @@ func (options *UpdateAutomaticHttpsRewritesOptions) SetHeaders(param map[string]
 	return options
 }
 
+// UpdateBotManagementOptions : The UpdateBotManagement options.
+type UpdateBotManagementOptions struct {
+	// Set to disable tracking the max bot score during a session using the Bot Management cookie.
+	SessionScore *bool `json:"session_score,omitempty"`
+
+	// Use JavaScript detections to improve bot detection.
+	EnableJs *bool `json:"enable_js,omitempty"`
+
+	// Automatically update to the newest bot detection models as they are released.
+	UseLatestModel *bool `json:"use_latest_model,omitempty"`
+
+	// Block scrapers and crawlers known to be feeding AI training data.
+	AiBotsProtection *string `json:"ai_bots_protection,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateBotManagementOptions.AiBotsProtection property.
+// Block scrapers and crawlers known to be feeding AI training data.
+const (
+	UpdateBotManagementOptions_AiBotsProtection_Block    = "block"
+	UpdateBotManagementOptions_AiBotsProtection_Disabled = "disabled"
+)
+
+// NewUpdateBotManagementOptions : Instantiate UpdateBotManagementOptions
+func (*ZonesSettingsV1) NewUpdateBotManagementOptions() *UpdateBotManagementOptions {
+	return &UpdateBotManagementOptions{}
+}
+
+// SetSessionScore : Allow user to set SessionScore
+func (_options *UpdateBotManagementOptions) SetSessionScore(sessionScore bool) *UpdateBotManagementOptions {
+	_options.SessionScore = core.BoolPtr(sessionScore)
+	return _options
+}
+
+// SetEnableJs : Allow user to set EnableJs
+func (_options *UpdateBotManagementOptions) SetEnableJs(enableJs bool) *UpdateBotManagementOptions {
+	_options.EnableJs = core.BoolPtr(enableJs)
+	return _options
+}
+
+// SetUseLatestModel : Allow user to set UseLatestModel
+func (_options *UpdateBotManagementOptions) SetUseLatestModel(useLatestModel bool) *UpdateBotManagementOptions {
+	_options.UseLatestModel = core.BoolPtr(useLatestModel)
+	return _options
+}
+
+// SetAiBotsProtection : Allow user to set AiBotsProtection
+func (_options *UpdateBotManagementOptions) SetAiBotsProtection(aiBotsProtection string) *UpdateBotManagementOptions {
+	_options.AiBotsProtection = core.StringPtr(aiBotsProtection)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateBotManagementOptions) SetHeaders(param map[string]string) *UpdateBotManagementOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateBrotliOptions : The UpdateBrotli options.
 type UpdateBrotliOptions struct {
 	// Value.
@@ -7837,6 +8467,39 @@ func (_options *UpdateCiphersOptions) SetValue(value []string) *UpdateCiphersOpt
 
 // SetHeaders : Allow user to set Headers
 func (options *UpdateCiphersOptions) SetHeaders(param map[string]string) *UpdateCiphersOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateEmailObfuscationOptions : The UpdateEmailObfuscation options.
+type UpdateEmailObfuscationOptions struct {
+	// Value.
+	Value *string `json:"value,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateEmailObfuscationOptions.Value property.
+// Value.
+const (
+	UpdateEmailObfuscationOptions_Value_Off = "off"
+	UpdateEmailObfuscationOptions_Value_On  = "on"
+)
+
+// NewUpdateEmailObfuscationOptions : Instantiate UpdateEmailObfuscationOptions
+func (*ZonesSettingsV1) NewUpdateEmailObfuscationOptions() *UpdateEmailObfuscationOptions {
+	return &UpdateEmailObfuscationOptions{}
+}
+
+// SetValue : Allow user to set Value
+func (_options *UpdateEmailObfuscationOptions) SetValue(value string) *UpdateEmailObfuscationOptions {
+	_options.Value = core.StringPtr(value)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateEmailObfuscationOptions) SetHeaders(param map[string]string) *UpdateEmailObfuscationOptions {
 	options.Headers = param
 	return options
 }
@@ -8489,6 +9152,39 @@ func (options *UpdatePseudoIpv4Options) SetHeaders(param map[string]string) *Upd
 	return options
 }
 
+// UpdateReplaceInsecureJsOptions : The UpdateReplaceInsecureJs options.
+type UpdateReplaceInsecureJsOptions struct {
+	// Value.
+	Value *string `json:"value,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateReplaceInsecureJsOptions.Value property.
+// Value.
+const (
+	UpdateReplaceInsecureJsOptions_Value_Off = "off"
+	UpdateReplaceInsecureJsOptions_Value_On  = "on"
+)
+
+// NewUpdateReplaceInsecureJsOptions : Instantiate UpdateReplaceInsecureJsOptions
+func (*ZonesSettingsV1) NewUpdateReplaceInsecureJsOptions() *UpdateReplaceInsecureJsOptions {
+	return &UpdateReplaceInsecureJsOptions{}
+}
+
+// SetValue : Allow user to set Value
+func (_options *UpdateReplaceInsecureJsOptions) SetValue(value string) *UpdateReplaceInsecureJsOptions {
+	_options.Value = core.StringPtr(value)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateReplaceInsecureJsOptions) SetHeaders(param map[string]string) *UpdateReplaceInsecureJsOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateResponseBufferingOptions : The UpdateResponseBuffering options.
 type UpdateResponseBufferingOptions struct {
 	// Value.
@@ -9082,6 +9778,97 @@ func UnmarshalAutomaticHttpsRewritesResp(m map[string]json.RawMessage, result in
 	return
 }
 
+// BotMgtResp : Bot Management Response.
+type BotMgtResp struct {
+	// Was operation successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Bot Management settings.
+	Result *BotMgtSettings `json:"result" validate:"required"`
+}
+
+// UnmarshalBotMgtResp unmarshals an instance of BotMgtResp from the specified map of raw messages.
+func UnmarshalBotMgtResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BotMgtResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalBotMgtSettings)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BotMgtSettings : Bot Management settings.
+type BotMgtSettings struct {
+	// Set to disable tracking the max bot score during a session using the Bot Management cookie.
+	SessionScore *bool `json:"session_score,omitempty"`
+
+	// Use JavaScript detections to improve bot detection.
+	EnableJs *bool `json:"enable_js,omitempty"`
+
+	// Automatically update to the newest bot detection models as they are released.
+	UseLatestModel *bool `json:"use_latest_model,omitempty"`
+
+	// Block scrapers and crawlers known to be feeding AI training data.
+	AiBotsProtection *string `json:"ai_bots_protection,omitempty"`
+}
+
+// Constants associated with the BotMgtSettings.AiBotsProtection property.
+// Block scrapers and crawlers known to be feeding AI training data.
+const (
+	BotMgtSettings_AiBotsProtection_Block    = "block"
+	BotMgtSettings_AiBotsProtection_Disabled = "disabled"
+)
+
+// UnmarshalBotMgtSettings unmarshals an instance of BotMgtSettings from the specified map of raw messages.
+func UnmarshalBotMgtSettings(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BotMgtSettings)
+	err = core.UnmarshalPrimitive(m, "session_score", &obj.SessionScore)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "session_score-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_js", &obj.EnableJs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "enable_js-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "use_latest_model", &obj.UseLatestModel)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "use_latest_model-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ai_bots_protection", &obj.AiBotsProtection)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "ai_bots_protection-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // BrotliResp : Brotli response.
 type BrotliResp struct {
 	// Container for response information.
@@ -9293,6 +10080,48 @@ func UnmarshalCnameFlatteningResponse(m map[string]json.RawMessage, result inter
 	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "editable-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// EmailObfuscationResp : email address obfuscation response.
+type EmailObfuscationResp struct {
+	// Container for response information.
+	Result *EmailObfuscationRespResult `json:"result" validate:"required"`
+
+	// Was the get successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+}
+
+// UnmarshalEmailObfuscationResp unmarshals an instance of EmailObfuscationResp from the specified map of raw messages.
+func UnmarshalEmailObfuscationResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EmailObfuscationResp)
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalEmailObfuscationRespResult)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10115,6 +10944,48 @@ type PseudoIpv4Resp struct {
 func UnmarshalPseudoIpv4Resp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PseudoIpv4Resp)
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalPseudoIpv4RespResult)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ReplaceInsecureJsResp : Replace insecure Javascript response.
+type ReplaceInsecureJsResp struct {
+	// Container for response information.
+	Result *ReplaceInsecureJsRespResult `json:"result" validate:"required"`
+
+	// Was the get successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+}
+
+// UnmarshalReplaceInsecureJsResp unmarshals an instance of ReplaceInsecureJsResp from the specified map of raw messages.
+func UnmarshalReplaceInsecureJsResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ReplaceInsecureJsResp)
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalReplaceInsecureJsRespResult)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return
