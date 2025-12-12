@@ -13397,7 +13397,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetProxyReadTimeout successfully with retries`, func() {
@@ -13452,7 +13452,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke GetProxyReadTimeout successfully`, func() {
@@ -13628,7 +13628,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateProxyReadTimeout successfully with retries`, func() {
@@ -13700,7 +13700,7 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": "100", "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "proxy_read_timeout", "value": 100, "editable": true, "modified_on": "2018-12-08T18:57:52.826Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
 				}))
 			})
 			It(`Invoke UpdateProxyReadTimeout successfully`, func() {
@@ -17084,6 +17084,1416 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 			})
 		})
 	})
+	Describe(`GetBotManagement(getBotManagementOptions *GetBotManagementOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getBotManagementPath := "/v1/testString/zones/testString/bot_management"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBotManagementPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetBotManagement with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetBotManagementOptions model
+				getBotManagementOptionsModel := new(zonessettingsv1.GetBotManagementOptions)
+				getBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetBotManagement(getBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetBotManagement(getBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetBotManagement(getBotManagementOptions *GetBotManagementOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getBotManagementPath := "/v1/testString/zones/testString/bot_management"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBotManagementPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"session_score": false, "enable_js": false, "use_latest_model": false, "ai_bots_protection": "block"}}`)
+				}))
+			})
+			It(`Invoke GetBotManagement successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetBotManagementOptions model
+				getBotManagementOptionsModel := new(zonessettingsv1.GetBotManagementOptions)
+				getBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetBotManagementWithContext(ctx, getBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetBotManagement(getBotManagementOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetBotManagementWithContext(ctx, getBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getBotManagementPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"session_score": false, "enable_js": false, "use_latest_model": false, "ai_bots_protection": "block"}}`)
+				}))
+			})
+			It(`Invoke GetBotManagement successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetBotManagement(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetBotManagementOptions model
+				getBotManagementOptionsModel := new(zonessettingsv1.GetBotManagementOptions)
+				getBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetBotManagement(getBotManagementOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetBotManagement with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetBotManagementOptions model
+				getBotManagementOptionsModel := new(zonessettingsv1.GetBotManagementOptions)
+				getBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetBotManagement(getBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetBotManagement successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetBotManagementOptions model
+				getBotManagementOptionsModel := new(zonessettingsv1.GetBotManagementOptions)
+				getBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.GetBotManagement(getBotManagementOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateBotManagement(updateBotManagementOptions *UpdateBotManagementOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateBotManagementPath := "/v1/testString/zones/testString/bot_management"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBotManagementPath))
+					Expect(req.Method).To(Equal("PUT"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateBotManagement with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateBotManagementOptions model
+				updateBotManagementOptionsModel := new(zonessettingsv1.UpdateBotManagementOptions)
+				updateBotManagementOptionsModel.SessionScore = core.BoolPtr(false)
+				updateBotManagementOptionsModel.EnableJs = core.BoolPtr(false)
+				updateBotManagementOptionsModel.UseLatestModel = core.BoolPtr(false)
+				updateBotManagementOptionsModel.AiBotsProtection = core.StringPtr("block")
+				updateBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateBotManagement(updateBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateBotManagement(updateBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateBotManagement(updateBotManagementOptions *UpdateBotManagementOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateBotManagementPath := "/v1/testString/zones/testString/bot_management"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBotManagementPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"session_score": false, "enable_js": false, "use_latest_model": false, "ai_bots_protection": "block"}}`)
+				}))
+			})
+			It(`Invoke UpdateBotManagement successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateBotManagementOptions model
+				updateBotManagementOptionsModel := new(zonessettingsv1.UpdateBotManagementOptions)
+				updateBotManagementOptionsModel.SessionScore = core.BoolPtr(false)
+				updateBotManagementOptionsModel.EnableJs = core.BoolPtr(false)
+				updateBotManagementOptionsModel.UseLatestModel = core.BoolPtr(false)
+				updateBotManagementOptionsModel.AiBotsProtection = core.StringPtr("block")
+				updateBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateBotManagementWithContext(ctx, updateBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateBotManagement(updateBotManagementOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateBotManagementWithContext(ctx, updateBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateBotManagementPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"session_score": false, "enable_js": false, "use_latest_model": false, "ai_bots_protection": "block"}}`)
+				}))
+			})
+			It(`Invoke UpdateBotManagement successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateBotManagement(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateBotManagementOptions model
+				updateBotManagementOptionsModel := new(zonessettingsv1.UpdateBotManagementOptions)
+				updateBotManagementOptionsModel.SessionScore = core.BoolPtr(false)
+				updateBotManagementOptionsModel.EnableJs = core.BoolPtr(false)
+				updateBotManagementOptionsModel.UseLatestModel = core.BoolPtr(false)
+				updateBotManagementOptionsModel.AiBotsProtection = core.StringPtr("block")
+				updateBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateBotManagement(updateBotManagementOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateBotManagement with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateBotManagementOptions model
+				updateBotManagementOptionsModel := new(zonessettingsv1.UpdateBotManagementOptions)
+				updateBotManagementOptionsModel.SessionScore = core.BoolPtr(false)
+				updateBotManagementOptionsModel.EnableJs = core.BoolPtr(false)
+				updateBotManagementOptionsModel.UseLatestModel = core.BoolPtr(false)
+				updateBotManagementOptionsModel.AiBotsProtection = core.StringPtr("block")
+				updateBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateBotManagement(updateBotManagementOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateBotManagement successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateBotManagementOptions model
+				updateBotManagementOptionsModel := new(zonessettingsv1.UpdateBotManagementOptions)
+				updateBotManagementOptionsModel.SessionScore = core.BoolPtr(false)
+				updateBotManagementOptionsModel.EnableJs = core.BoolPtr(false)
+				updateBotManagementOptionsModel.UseLatestModel = core.BoolPtr(false)
+				updateBotManagementOptionsModel.AiBotsProtection = core.StringPtr("block")
+				updateBotManagementOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.UpdateBotManagement(updateBotManagementOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetReplaceInsecureJs(getReplaceInsecureJsOptions *GetReplaceInsecureJsOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getReplaceInsecureJsPath := "/v1/testString/zones/testString/settings/replace_insecure_js"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getReplaceInsecureJsPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetReplaceInsecureJs with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetReplaceInsecureJsOptions model
+				getReplaceInsecureJsOptionsModel := new(zonessettingsv1.GetReplaceInsecureJsOptions)
+				getReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetReplaceInsecureJs(getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetReplaceInsecureJs(getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetReplaceInsecureJs(getReplaceInsecureJsOptions *GetReplaceInsecureJsOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getReplaceInsecureJsPath := "/v1/testString/zones/testString/settings/replace_insecure_js"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getReplaceInsecureJsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetReplaceInsecureJs successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetReplaceInsecureJsOptions model
+				getReplaceInsecureJsOptionsModel := new(zonessettingsv1.GetReplaceInsecureJsOptions)
+				getReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetReplaceInsecureJsWithContext(ctx, getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetReplaceInsecureJs(getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetReplaceInsecureJsWithContext(ctx, getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getReplaceInsecureJsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetReplaceInsecureJs successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetReplaceInsecureJs(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetReplaceInsecureJsOptions model
+				getReplaceInsecureJsOptionsModel := new(zonessettingsv1.GetReplaceInsecureJsOptions)
+				getReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetReplaceInsecureJs(getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetReplaceInsecureJs with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetReplaceInsecureJsOptions model
+				getReplaceInsecureJsOptionsModel := new(zonessettingsv1.GetReplaceInsecureJsOptions)
+				getReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetReplaceInsecureJs(getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetReplaceInsecureJs successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetReplaceInsecureJsOptions model
+				getReplaceInsecureJsOptionsModel := new(zonessettingsv1.GetReplaceInsecureJsOptions)
+				getReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.GetReplaceInsecureJs(getReplaceInsecureJsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateReplaceInsecureJs(updateReplaceInsecureJsOptions *UpdateReplaceInsecureJsOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateReplaceInsecureJsPath := "/v1/testString/zones/testString/settings/replace_insecure_js"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateReplaceInsecureJsPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateReplaceInsecureJs with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateReplaceInsecureJsOptions model
+				updateReplaceInsecureJsOptionsModel := new(zonessettingsv1.UpdateReplaceInsecureJsOptions)
+				updateReplaceInsecureJsOptionsModel.Value = core.StringPtr("off")
+				updateReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateReplaceInsecureJs(updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateReplaceInsecureJs(updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateReplaceInsecureJs(updateReplaceInsecureJsOptions *UpdateReplaceInsecureJsOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateReplaceInsecureJsPath := "/v1/testString/zones/testString/settings/replace_insecure_js"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateReplaceInsecureJsPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateReplaceInsecureJs successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateReplaceInsecureJsOptions model
+				updateReplaceInsecureJsOptionsModel := new(zonessettingsv1.UpdateReplaceInsecureJsOptions)
+				updateReplaceInsecureJsOptionsModel.Value = core.StringPtr("off")
+				updateReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateReplaceInsecureJsWithContext(ctx, updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateReplaceInsecureJs(updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateReplaceInsecureJsWithContext(ctx, updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateReplaceInsecureJsPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateReplaceInsecureJs successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateReplaceInsecureJs(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateReplaceInsecureJsOptions model
+				updateReplaceInsecureJsOptionsModel := new(zonessettingsv1.UpdateReplaceInsecureJsOptions)
+				updateReplaceInsecureJsOptionsModel.Value = core.StringPtr("off")
+				updateReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateReplaceInsecureJs(updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateReplaceInsecureJs with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateReplaceInsecureJsOptions model
+				updateReplaceInsecureJsOptionsModel := new(zonessettingsv1.UpdateReplaceInsecureJsOptions)
+				updateReplaceInsecureJsOptionsModel.Value = core.StringPtr("off")
+				updateReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateReplaceInsecureJs(updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateReplaceInsecureJs successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateReplaceInsecureJsOptions model
+				updateReplaceInsecureJsOptionsModel := new(zonessettingsv1.UpdateReplaceInsecureJsOptions)
+				updateReplaceInsecureJsOptionsModel.Value = core.StringPtr("off")
+				updateReplaceInsecureJsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.UpdateReplaceInsecureJs(updateReplaceInsecureJsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetEmailObfuscation(getEmailObfuscationOptions *GetEmailObfuscationOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getEmailObfuscationPath := "/v1/testString/zones/testString/settings/email_obfuscation"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getEmailObfuscationPath))
+					Expect(req.Method).To(Equal("GET"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetEmailObfuscation with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetEmailObfuscationOptions model
+				getEmailObfuscationOptionsModel := new(zonessettingsv1.GetEmailObfuscationOptions)
+				getEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.GetEmailObfuscation(getEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.GetEmailObfuscation(getEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetEmailObfuscation(getEmailObfuscationOptions *GetEmailObfuscationOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		getEmailObfuscationPath := "/v1/testString/zones/testString/settings/email_obfuscation"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getEmailObfuscationPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetEmailObfuscation successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetEmailObfuscationOptions model
+				getEmailObfuscationOptionsModel := new(zonessettingsv1.GetEmailObfuscationOptions)
+				getEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.GetEmailObfuscationWithContext(ctx, getEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.GetEmailObfuscation(getEmailObfuscationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.GetEmailObfuscationWithContext(ctx, getEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getEmailObfuscationPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke GetEmailObfuscation successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.GetEmailObfuscation(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetEmailObfuscationOptions model
+				getEmailObfuscationOptionsModel := new(zonessettingsv1.GetEmailObfuscationOptions)
+				getEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.GetEmailObfuscation(getEmailObfuscationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetEmailObfuscation with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetEmailObfuscationOptions model
+				getEmailObfuscationOptionsModel := new(zonessettingsv1.GetEmailObfuscationOptions)
+				getEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.GetEmailObfuscation(getEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetEmailObfuscation successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the GetEmailObfuscationOptions model
+				getEmailObfuscationOptionsModel := new(zonessettingsv1.GetEmailObfuscationOptions)
+				getEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.GetEmailObfuscation(getEmailObfuscationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateEmailObfuscation(updateEmailObfuscationOptions *UpdateEmailObfuscationOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateEmailObfuscationPath := "/v1/testString/zones/testString/settings/email_obfuscation"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateEmailObfuscationPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateEmailObfuscation with error: Operation response processing error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateEmailObfuscationOptions model
+				updateEmailObfuscationOptionsModel := new(zonessettingsv1.UpdateEmailObfuscationOptions)
+				updateEmailObfuscationOptionsModel.Value = core.StringPtr("off")
+				updateEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := zonesSettingsService.UpdateEmailObfuscation(updateEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				zonesSettingsService.EnableRetries(0, 0)
+				result, response, operationErr = zonesSettingsService.UpdateEmailObfuscation(updateEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateEmailObfuscation(updateEmailObfuscationOptions *UpdateEmailObfuscationOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		updateEmailObfuscationPath := "/v1/testString/zones/testString/settings/email_obfuscation"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateEmailObfuscationPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateEmailObfuscation successfully with retries`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+				zonesSettingsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateEmailObfuscationOptions model
+				updateEmailObfuscationOptionsModel := new(zonessettingsv1.UpdateEmailObfuscationOptions)
+				updateEmailObfuscationOptionsModel.Value = core.StringPtr("off")
+				updateEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := zonesSettingsService.UpdateEmailObfuscationWithContext(ctx, updateEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				zonesSettingsService.DisableRetries()
+				result, response, operationErr := zonesSettingsService.UpdateEmailObfuscation(updateEmailObfuscationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = zonesSettingsService.UpdateEmailObfuscationWithContext(ctx, updateEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateEmailObfuscationPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["Errors"]], "messages": [["Messages"]]}`)
+				}))
+			})
+			It(`Invoke UpdateEmailObfuscation successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := zonesSettingsService.UpdateEmailObfuscation(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UpdateEmailObfuscationOptions model
+				updateEmailObfuscationOptionsModel := new(zonessettingsv1.UpdateEmailObfuscationOptions)
+				updateEmailObfuscationOptionsModel.Value = core.StringPtr("off")
+				updateEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = zonesSettingsService.UpdateEmailObfuscation(updateEmailObfuscationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateEmailObfuscation with error: Operation request error`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateEmailObfuscationOptions model
+				updateEmailObfuscationOptionsModel := new(zonessettingsv1.UpdateEmailObfuscationOptions)
+				updateEmailObfuscationOptionsModel.Value = core.StringPtr("off")
+				updateEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := zonesSettingsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := zonesSettingsService.UpdateEmailObfuscation(updateEmailObfuscationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateEmailObfuscation successfully`, func() {
+				zonesSettingsService, serviceErr := zonessettingsv1.NewZonesSettingsV1(&zonessettingsv1.ZonesSettingsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(zonesSettingsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateEmailObfuscationOptions model
+				updateEmailObfuscationOptionsModel := new(zonessettingsv1.UpdateEmailObfuscationOptions)
+				updateEmailObfuscationOptionsModel.Value = core.StringPtr("off")
+				updateEmailObfuscationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := zonesSettingsService.UpdateEmailObfuscation(updateEmailObfuscationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
 			crn := "testString"
@@ -17107,6 +18517,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				getAutomaticHttpsRewritesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getAutomaticHttpsRewritesOptionsModel).ToNot(BeNil())
 				Expect(getAutomaticHttpsRewritesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetBotManagementOptions successfully`, func() {
+				// Construct an instance of the GetBotManagementOptions model
+				getBotManagementOptionsModel := zonesSettingsService.NewGetBotManagementOptions()
+				getBotManagementOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getBotManagementOptionsModel).ToNot(BeNil())
+				Expect(getBotManagementOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetBrotliOptions successfully`, func() {
 				// Construct an instance of the GetBrotliOptions model
@@ -17135,6 +18552,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				getCiphersOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getCiphersOptionsModel).ToNot(BeNil())
 				Expect(getCiphersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetEmailObfuscationOptions successfully`, func() {
+				// Construct an instance of the GetEmailObfuscationOptions model
+				getEmailObfuscationOptionsModel := zonesSettingsService.NewGetEmailObfuscationOptions()
+				getEmailObfuscationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getEmailObfuscationOptionsModel).ToNot(BeNil())
+				Expect(getEmailObfuscationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetEnableErrorPagesOnOptions successfully`, func() {
 				// Construct an instance of the GetEnableErrorPagesOnOptions model
@@ -17282,6 +18706,13 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(getPseudoIpv4OptionsModel).ToNot(BeNil())
 				Expect(getPseudoIpv4OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetReplaceInsecureJsOptions successfully`, func() {
+				// Construct an instance of the GetReplaceInsecureJsOptions model
+				getReplaceInsecureJsOptionsModel := zonesSettingsService.NewGetReplaceInsecureJsOptions()
+				getReplaceInsecureJsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getReplaceInsecureJsOptionsModel).ToNot(BeNil())
+				Expect(getReplaceInsecureJsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetResponseBufferingOptions successfully`, func() {
 				// Construct an instance of the GetResponseBufferingOptions model
 				getResponseBufferingOptionsModel := zonesSettingsService.NewGetResponseBufferingOptions()
@@ -17401,6 +18832,21 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updateAutomaticHttpsRewritesOptionsModel.Value).To(Equal(core.StringPtr("off")))
 				Expect(updateAutomaticHttpsRewritesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewUpdateBotManagementOptions successfully`, func() {
+				// Construct an instance of the UpdateBotManagementOptions model
+				updateBotManagementOptionsModel := zonesSettingsService.NewUpdateBotManagementOptions()
+				updateBotManagementOptionsModel.SetSessionScore(false)
+				updateBotManagementOptionsModel.SetEnableJs(false)
+				updateBotManagementOptionsModel.SetUseLatestModel(false)
+				updateBotManagementOptionsModel.SetAiBotsProtection("block")
+				updateBotManagementOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateBotManagementOptionsModel).ToNot(BeNil())
+				Expect(updateBotManagementOptionsModel.SessionScore).To(Equal(core.BoolPtr(false)))
+				Expect(updateBotManagementOptionsModel.EnableJs).To(Equal(core.BoolPtr(false)))
+				Expect(updateBotManagementOptionsModel.UseLatestModel).To(Equal(core.BoolPtr(false)))
+				Expect(updateBotManagementOptionsModel.AiBotsProtection).To(Equal(core.StringPtr("block")))
+				Expect(updateBotManagementOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateBrotliOptions successfully`, func() {
 				// Construct an instance of the UpdateBrotliOptions model
 				updateBrotliOptionsModel := zonesSettingsService.NewUpdateBrotliOptions()
@@ -17436,6 +18882,15 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updateCiphersOptionsModel).ToNot(BeNil())
 				Expect(updateCiphersOptionsModel.Value).To(Equal([]string{"AES256-GCM-SHA384", "AES256-SHA256"}))
 				Expect(updateCiphersOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateEmailObfuscationOptions successfully`, func() {
+				// Construct an instance of the UpdateEmailObfuscationOptions model
+				updateEmailObfuscationOptionsModel := zonesSettingsService.NewUpdateEmailObfuscationOptions()
+				updateEmailObfuscationOptionsModel.SetValue("off")
+				updateEmailObfuscationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateEmailObfuscationOptionsModel).ToNot(BeNil())
+				Expect(updateEmailObfuscationOptionsModel.Value).To(Equal(core.StringPtr("off")))
+				Expect(updateEmailObfuscationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateEnableErrorPagesOnOptions successfully`, func() {
 				// Construct an instance of the UpdateEnableErrorPagesOnOptions model
@@ -17643,6 +19098,15 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 				Expect(updatePseudoIpv4OptionsModel.Value).To(Equal(core.StringPtr("add_header")))
 				Expect(updatePseudoIpv4OptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewUpdateReplaceInsecureJsOptions successfully`, func() {
+				// Construct an instance of the UpdateReplaceInsecureJsOptions model
+				updateReplaceInsecureJsOptionsModel := zonesSettingsService.NewUpdateReplaceInsecureJsOptions()
+				updateReplaceInsecureJsOptionsModel.SetValue("off")
+				updateReplaceInsecureJsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateReplaceInsecureJsOptionsModel).ToNot(BeNil())
+				Expect(updateReplaceInsecureJsOptionsModel.Value).To(Equal(core.StringPtr("off")))
+				Expect(updateReplaceInsecureJsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateResponseBufferingOptions successfully`, func() {
 				// Construct an instance of the UpdateResponseBufferingOptions model
 				updateResponseBufferingOptionsModel := zonesSettingsService.NewUpdateResponseBufferingOptions()
@@ -17832,6 +19296,27 @@ var _ = Describe(`ZonesSettingsV1`, func() {
 
 			var result *zonessettingsv1.SecurityHeaderSettingValueStrictTransportSecurity
 			err = zonessettingsv1.UnmarshalSecurityHeaderSettingValueStrictTransportSecurity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalBotMgtSettings successfully`, func() {
+			// Construct an instance of the model.
+			model := new(zonessettingsv1.BotMgtSettings)
+			model.SessionScore = core.BoolPtr(false)
+			model.EnableJs = core.BoolPtr(false)
+			model.UseLatestModel = core.BoolPtr(false)
+			model.AiBotsProtection = core.StringPtr("block")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *zonessettingsv1.BotMgtSettings
+			err = zonessettingsv1.UnmarshalBotMgtSettings(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
