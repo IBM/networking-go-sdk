@@ -738,6 +738,7 @@ var _ = Describe(`zone_settings_v1_test`, func() {
 				}
 			})
 			It("proxy read timeout setting test", func() {
+				Skip("skipping test due to cf error")
 				shouldSkipTest()
 				getOpt := service.NewGetProxyReadTimeoutOptions()
 				getResult, getResp, getErr := service.GetProxyReadTimeout(getOpt)
