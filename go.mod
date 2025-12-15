@@ -4,7 +4,7 @@ go 1.23.2
 
 require (
 	github.com/IBM/go-sdk-core/v5 v5.21.0
-	github.com/go-openapi/strfmt v0.23.0
+	github.com/go-openapi/strfmt v0.25.0
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/onsi/ginkgo v1.16.5
