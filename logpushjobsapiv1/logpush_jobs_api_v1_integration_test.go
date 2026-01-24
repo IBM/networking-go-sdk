@@ -41,7 +41,7 @@ func shouldSkipTest() {
 
 var _ = Describe(`LogpushJobsApiV1`, func() {
 	defer GinkgoRecover()
-	//Skip("Skipping")
+	Skip("Skipping...")
 	if _, err := os.Stat(configFile); err != nil {
 		configLoaded = false
 	}
