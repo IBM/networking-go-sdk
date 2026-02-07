@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/networking-go-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-go-sdk)
+[![Build & Release](https://github.com/IBM/networking-go-sdk/actions/workflows/build-release.yml/badge.svg)](https://github.com/IBM/networking-go-sdk/actions/workflows/build-release.yml)
 [![Release](https://img.shields.io/github/v/release/IBM/networking-go-sdk)](https://github.com/IBM/networking-go-sdk/releases/latest)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/networking-go-sdk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

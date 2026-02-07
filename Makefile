@@ -2,8 +2,6 @@
 
 all: build unittest lint tidy
 
-travis-ci: build alltest lint tidy
-
 build:
 	go build ./...
 

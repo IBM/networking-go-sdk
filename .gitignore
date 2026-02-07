@@ -12,5 +12,6 @@ vendor/
 # credentials files
 *.env
 
-package-lock.json
+node_modules/
+
 .vscode/
