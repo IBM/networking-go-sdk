@@ -56,6 +56,17 @@ jobs:
       contents: write
 
     steps:
+      - name: Notify Slack - Release Started
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-go-sdk",
+              "language": "go",
+              "status": "started",
+              "actor": "${{ github.actor }}"
+            }'
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -81,3 +92,27 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
+
+      - name: Notify Slack - Release Completed
+        if: success()
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-go-sdk",
+              "language": "go",
+              "status": "completed",
+              "actor": "${{ github.actor }}"
+            }'
+
+      - name: Notify Slack - Release Failed
+        if: failure()
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-go-sdk",
+              "language": "go",
+              "status": "failed",
+              "actor": "${{ github.actor }}"
+            }'
