@@ -1,3 +1,14 @@
+## [0.51.16](https://github.com/IBM/networking-go-sdk/compare/v0.51.15...v0.51.16) (2026-02-12)
+
+
+### Bug Fixes
+
+* **CI:** added github actions ([4a837c4](https://github.com/IBM/networking-go-sdk/commit/4a837c4c0b613e8e5a9b6d2f836edf99c4bcc4df))
+* **CI:** changed UT execution config ([4c9630d](https://github.com/IBM/networking-go-sdk/commit/4c9630d6998ea94b916411260f69cc2e6813ab3e))
+* **CI:** skipping failed test case due to config ([b5f5164](https://github.com/IBM/networking-go-sdk/commit/b5f5164a7b5fd7d45ace12be1ffe32f3d6d8e824))
+* npm vulnerability ([dc6ccda](https://github.com/IBM/networking-go-sdk/commit/dc6ccda5af7b0309743e305a527bdd830a1cd9e9))
+* semantic release failure for older version mentioned ([#286](https://github.com/IBM/networking-go-sdk/issues/286)) ([6426756](https://github.com/IBM/networking-go-sdk/commit/6426756977e14312177e7e1099cb753261b94142))
+
 # [0.51.5](https://github.com/IBM/networking-go-sdk/compare/v0.51.4...v0.51.5) (2025-05-13)
 
 
