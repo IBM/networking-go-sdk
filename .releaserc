@@ -14,7 +14,11 @@
       "@semantic-release/git",
       {
         "assets": ["package.json", "common/version.go", "README.md", "CHANGELOG.md"],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "author": {
+          "name": "IBM",
+          "email": "devx.network.services@ibm.com"
+        }
       }
     ],
     "@semantic-release/github"
