@@ -88,6 +88,35 @@ jobs:
           pip install bump2version
           npm ci
 
+      - name: Validate version consistency
+        run: |
+          echo "=== Checking version consistency across files ==="
+          
+          # Extract versions from each file
+          VERSION_GO=$(grep -oP 'const Version = "\K[^"]+' common/version.go)
+          VERSION_CFG=$(grep -oP 'current_version = \K.*' .bumpversion.cfg)
+          VERSION_README_TITLE=$(grep -oP 'IBM Cloud Networking Go SDK Version \K[0-9.]+' README.md | head -1)
+          VERSION_README_CURRENT=$(grep -oP 'The current version of this SDK: \K[0-9.]+' README.md)
+          VERSION_README_GOPKG=$(grep -oP 'version = "\K[^"]+' README.md | head -1)
+          
+          echo "common/version.go:     $VERSION_GO"
+          echo ".bumpversion.cfg:      $VERSION_CFG"
+          echo "README.md (title):     $VERSION_README_TITLE"
+          echo "README.md (current):   $VERSION_README_CURRENT"
+          echo "README.md (Gopkg):     $VERSION_README_GOPKG"
+          
+          # Check if all versions match
+          if [ "$VERSION_GO" != "$VERSION_CFG" ] || \
+             [ "$VERSION_GO" != "$VERSION_README_TITLE" ] || \
+             [ "$VERSION_GO" != "$VERSION_README_CURRENT" ] || \
+             [ "$VERSION_GO" != "$VERSION_README_GOPKG" ]; then
+            echo "❌ ERROR: Version mismatch detected!"
+            echo "All version strings must match before release."
+            exit 1
+          fi
+          
+          echo "✅ All version strings match: $VERSION_GO"
+
       - name: Run semantic-release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
