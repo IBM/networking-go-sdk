@@ -2,13 +2,11 @@
 
 all: build unittest lint tidy
 
-travis-ci: build alltest lint tidy
-
 build:
 	go build ./...
 
 unittest:
-	go test `go list ./... | grep -v samples`
+	go test `go list ./... | grep -v samples` -v -tags=unit
 
 alltest:
 	go test `go list ./... | grep -v samples` -v -tags=integration -timeout 15m
