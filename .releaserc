@@ -13,7 +13,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["package.json", "common/version.go", "README.md", "CHANGELOG.md"],
+        "assets": ["package.json", "common/version.go", "README.md", "CHANGELOG.md", ".bumpversion.cfg"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         "author": {
           "name": "IBM",
