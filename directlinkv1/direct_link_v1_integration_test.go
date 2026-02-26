@@ -1763,103 +1763,123 @@ var _ = Describe(`DirectLinkV1`, func() {
 			})
 		})
 	})
-	/*
-		 Describe("BGP MD5", func() {
-			 timestamp := time.Now().Unix()
-			 gatewayName := "GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10)
-			 bgpAsn := int64(64999)
-			 crossConnectRouter := "LAB-xcr01.dal09"
-			 global := true
-			 locationName := os.Getenv("LOCATION_NAME")
-			 speedMbps := int64(1000)
-			 metered := false
-			 carrierName := "carrier1"
-			 customerName := "customer1"
-			 gatewayType := "dedicated"
-			 authCrn := os.Getenv("AUTHENTICATION_KEY")
+	Describe("BGP MD5", func() {
+		timestamp := time.Now().Unix()
+		gatewayName := "GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10)
+		bgpAsn := int64(64999)
+		crossConnectRouter := "LAB-xcr01.dal09"
+		global := true
+		locationName := os.Getenv("LOCATION_NAME")
+		speedMbps := int64(1000)
+		metered := false
+		carrierName := "carrier1"
+		customerName := "customer1"
+		gatewayType := "dedicated"
+		authCrn := os.Getenv("AUTHENTICATION_KEY")
 
-			 Context("Create a Gateway with Authentication Key", func() {
-				 It("should successfully create a gateway", func() {
-					 shouldSkipTest()
+		Context("Create a Gateway with Authentication Key", func() {
+			It("should successfully create a gateway", func() {
+				shouldSkipTest()
 
-					 // gateway, _ := service.NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn, global, metered, gatewayName, speedMbps, gatewayType, carrierName, crossConnectRouter, customerName, locationName)
-					 authenticationKey, _ := service.NewGatewayTemplateAuthenticationKey(authCrn)
+				// Create authentication key using new SDK model
+				// SDK automatically determines service type from CRN format
+				authenticationKey, err := service.NewAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(authCrn)
+				Expect(err).To(BeNil())
 
-					 gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
-					 gatewayTemplateModel.AuthenticationKey = authenticationKey
-					 gatewayTemplateModel.BgpAsn = core.Int64Ptr(int64(64999))
-					 gatewayTemplateModel.Global = core.BoolPtr(true)
-					 gatewayTemplateModel.Metered = core.BoolPtr(false)
-					 gatewayTemplateModel.Name = core.StringPtr(gatewayName)
-					 gatewayTemplateModel.SpeedMbps = core.Int64Ptr(int64(1000))
-					 gatewayTemplateModel.Type = core.StringPtr(gatewayType)
-					 gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
-					 gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
-					 gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
-					 gatewayTemplateModel.LocationName = core.StringPtr(locationName)
+				gatewayTemplateModel := new(directlinkv1.GatewayTemplateGatewayTypeDedicatedTemplate)
+				gatewayTemplateModel.AuthenticationKey = authenticationKey
+				gatewayTemplateModel.BgpAsn = core.Int64Ptr(bgpAsn)
+				gatewayTemplateModel.Global = core.BoolPtr(global)
+				gatewayTemplateModel.Metered = core.BoolPtr(metered)
+				gatewayTemplateModel.Name = core.StringPtr("GO-INT-MD5-SDK-" + strconv.FormatInt(timestamp, 10))
+				gatewayTemplateModel.SpeedMbps = core.Int64Ptr(speedMbps)
+				gatewayTemplateModel.Type = core.StringPtr(gatewayType)
+				gatewayTemplateModel.CarrierName = core.StringPtr(carrierName)
+				gatewayTemplateModel.CrossConnectRouter = core.StringPtr(crossConnectRouter)
+				gatewayTemplateModel.CustomerName = core.StringPtr(customerName)
+				gatewayTemplateModel.LocationName = core.StringPtr(locationName)
 
-					 createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
+				createGatewayOptions := service.NewCreateGatewayOptions(gatewayTemplateModel)
 
-					 result, resp, err := service.CreateGateway(createGatewayOptions)
+				result, resp, err := service.CreateGateway(createGatewayOptions)
 
-					 Expect(err).To(BeNil())
-					 Expect(resp.StatusCode).To(Equal(201))
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(201))
 
-					 os.Setenv("GATEWAY_ID", *result.ID)
+				os.Setenv("GATEWAY_ID", *result.ID)
 
-					 Expect(*result.Name).To(Equal(gatewayName))
-					 Expect(*result.AuthenticationKey.Crn).To(Equal(authCrn))
-					 Expect(*result.BgpAsn).To(Equal(bgpAsn))
-					 Expect(*result.Global).To(Equal(global))
-					 Expect(*result.Metered).To(Equal(metered))
-					 Expect(*result.SpeedMbps).To(Equal(speedMbps))
-					 Expect(*result.Type).To(Equal(gatewayType))
-					 Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
-					 Expect(*result.LocationName).To(Equal(locationName))
-					 Expect(*result.LocationDisplayName).NotTo(Equal(""))
-					 Expect(*result.BgpCerCidr).NotTo(BeEmpty())
-					 Expect(*result.BgpIbmCidr).NotTo(Equal(""))
-					 Expect(*result.BgpIbmAsn).NotTo(Equal(""))
-					 Expect(*result.CreatedAt).NotTo(Equal(""))
-					 Expect(*result.Crn).To(HavePrefix("crn:v1"))
-					 Expect(*result.LinkStatus).To(Equal("down"))
-					 Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
-					 Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
+				Expect(*result.Name).To(Equal(gatewayName))
+				// AuthenticationKey is now an interface, verify it exists and has correct CRN
+				Expect(result.AuthenticationKey).ToNot(BeNil())
+				// Type assert to get the CRN - works for any service (SM, HPCS, Key Protect)
+				switch authKey := result.AuthenticationKey.(type) {
+				case *directlinkv1.AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference:
+					Expect(*authKey.Crn).To(Equal(authCrn))
+				case *directlinkv1.AuthenticationKeyReferenceHpcsAuthenticationKeyReference:
+					Expect(*authKey.Crn).To(Equal(authCrn))
+				case *directlinkv1.AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference:
+					Expect(*authKey.Crn).To(Equal(authCrn))
+				}
+				Expect(*result.BgpAsn).To(Equal(bgpAsn))
+				Expect(*result.Global).To(Equal(global))
+				Expect(*result.Metered).To(Equal(metered))
+				Expect(*result.SpeedMbps).To(Equal(speedMbps))
+				Expect(*result.Type).To(Equal(gatewayType))
+				Expect(*result.CrossConnectRouter).To(Equal(crossConnectRouter))
+				Expect(*result.LocationName).To(Equal(locationName))
+				Expect(*result.LocationDisplayName).NotTo(Equal(""))
+				Expect(*result.BgpCerCidr).NotTo(BeEmpty())
+				Expect(*result.BgpIbmCidr).NotTo(Equal(""))
+				Expect(*result.BgpIbmAsn).NotTo(Equal(""))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.Crn).To(HavePrefix("crn:v1"))
+				Expect(*result.LinkStatus).To(Equal("down"))
+				Expect(*result.OperationalStatus).To(Equal("awaiting_loa"))
+				Expect(*result.ResourceGroup.ID).NotTo(Equal(""))
 
-				 })
-			 })
+			})
+		})
 
-			 Context("Update the Authentication key for the gateway", func() {
-				 It("should successfully clear the auth key", func() {
-					 shouldSkipTest()
-					 authKey, _ := service.NewGatewayPatchTemplateAuthenticationKey("")
-					 gatewayId := os.Getenv("GATEWAY_ID")
+		Context("Update the Authentication key for the gateway", func() {
+			It("should successfully clear the auth key", func() {
+				shouldSkipTest()
+				gatewayId := os.Getenv("GATEWAY_ID")
 
-					 updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId).SetAuthenticationKey(authKey)
-					 res, resp, err := service.UpdateGateway(updateGatewayOptions)
-					 Expect(err).To(BeNil())
-					 Expect(resp.StatusCode).To(Equal(200))
+				// Fix: Instead of an empty map, provide an object with an empty CRN string.
+				// This is the standard pattern for clearing BGP MD5 keys in IBM Direct Link.
+				patchMap := map[string]interface{}{
+					"authentication_key": map[string]interface{}{
+						"crn": "",
+					},
+				}
 
-					 Expect(*res.ID).To(Equal(gatewayId))
-					 Expect(res.AuthenticationKey).To(BeNil())
-					 Expect(*res.Name).To(Equal(gatewayName))
-				 })
-			 })
+				updateGatewayOptions := service.NewUpdateGatewayOptions(gatewayId, patchMap)
 
-			 Context("Delete a gateway", func() {
-				 It("Successfully deletes a gateway", func() {
-					 shouldSkipTest()
+				res, resp, err := service.UpdateGateway(updateGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(resp.StatusCode).To(Equal(200))
 
-					 gatewayId := os.Getenv("GATEWAY_ID")
-					 deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+				Expect(*res.ID).To(Equal(gatewayId))
+				Expect(res.AuthenticationKey).To(BeNil())
+				Expect(*res.Name).To(Equal(gatewayName))
 
-					 detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
-					 Expect(err).To(BeNil())
-					 Expect(detailedResponse.StatusCode).To(Equal(204))
-				 })
-			 })
-		 })
-	*/
+			})
+		})
+
+		Context("Delete a gateway", func() {
+			It("Successfully deletes a gateway", func() {
+				shouldSkipTest()
+
+				gatewayId := os.Getenv("GATEWAY_ID")
+				deteleGatewayOptions := service.NewDeleteGatewayOptions(gatewayId)
+
+				detailedResponse, err := service.DeleteGateway(deteleGatewayOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+		})
+	})
+
 	Describe("DLAAS", func() {
 
 		Describe("Create/Verify/update a connect gateway", func() {
@@ -2419,15 +2439,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 		Expect(result).ToNot(BeNil())
 		gatewayID := result.ID
 
-		// Construct HPCS Key Identity
-
-		// Construct an instance of the HpcsKeyIdentity model
-		hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-		hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602")
+		// Construct HPCS CAK key reference using new SDK model
+		hpcsCakKey, err := service.NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference(
+			"crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602",
+		)
+		Expect(err).To(BeNil())
 
 		// Construct an instance of the GatewayMacsecCakPrototype model
 		gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-		gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+		gatewayMacsecCakPrototypeModel.Key = hpcsCakKey
 		gatewayMacsecCakPrototypeModel.Name = core.StringPtr("AA01")
 		gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -2478,15 +2498,16 @@ var _ = Describe(`DirectLinkV1`, func() {
 			Expect(res).ToNot(BeNil())
 
 			// Create Gateway Macsec CAK
-			// Construct HPCS Key Indetity for create CAK
-			// Construct an instance of the HpcsKeyIdentity model
-			hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-			hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
+			// Construct HPCS CAK key reference for fallback CAK using new SDK model
+			hpcsFallbackCakKey, err := service.NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference(
+				"crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6",
+			)
+			Expect(err).To(BeNil())
 
 			// Construct an instance of the CreateGatewayMacsecCakOptions model
 			createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
 			createGatewayMacsecCakOptionsModel.ID = gatewayID
-			createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+			createGatewayMacsecCakOptionsModel.Key = hpcsFallbackCakKey
 			createGatewayMacsecCakOptionsModel.Name = core.StringPtr("BB02")
 			createGatewayMacsecCakOptionsModel.Session = core.StringPtr("fallback")
 			createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2510,10 +2531,15 @@ var _ = Describe(`DirectLinkV1`, func() {
 			Expect(resultCak).ToNot(BeNil())
 
 			// Update Gateway Macsec CAK
+			// Create another HPCS CAK key reference for update
+			hpcsUpdateCakKey, err := service.NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference(
+				"crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602",
+			)
+			Expect(err).To(BeNil())
 
 			// Construct an instance of the GatewayMacsecCakPatch model
 			gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-			gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
+			gatewayMacsecCakPatchModel.Key = hpcsUpdateCakKey
 			gatewayMacsecCakPatchModel.Name = core.StringPtr("AA02")
 			gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
 			Expect(asPatchErr).To(BeNil())
