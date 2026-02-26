@@ -737,7 +737,7 @@ func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx con
 		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
-	if (createGatewayCompletionNoticeOptions.Upload == nil) {
+	if createGatewayCompletionNoticeOptions.Upload == nil {
 		err = core.SDKErrorf(nil, "upload must be supplied", "condition-not-met", common.GetComponentInfo())
 		return
 	}
@@ -1447,7 +1447,7 @@ func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx co
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *deleteGatewayExportRouteFilterOptions.GatewayID,
-		"id": *deleteGatewayExportRouteFilterOptions.ID,
+		"id":         *deleteGatewayExportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1509,7 +1509,7 @@ func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx conte
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *getGatewayExportRouteFilterOptions.GatewayID,
-		"id": *getGatewayExportRouteFilterOptions.ID,
+		"id":         *getGatewayExportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1589,7 +1589,7 @@ func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx co
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *updateGatewayExportRouteFilterOptions.GatewayID,
-		"id": *updateGatewayExportRouteFilterOptions.ID,
+		"id":         *updateGatewayExportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -1938,7 +1938,7 @@ func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx co
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *deleteGatewayImportRouteFilterOptions.GatewayID,
-		"id": *deleteGatewayImportRouteFilterOptions.ID,
+		"id":         *deleteGatewayImportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2000,7 +2000,7 @@ func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx conte
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *getGatewayImportRouteFilterOptions.GatewayID,
-		"id": *getGatewayImportRouteFilterOptions.ID,
+		"id":         *getGatewayImportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -2080,7 +2080,7 @@ func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx co
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *updateGatewayImportRouteFilterOptions.GatewayID,
-		"id": *updateGatewayImportRouteFilterOptions.ID,
+		"id":         *updateGatewayImportRouteFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -2624,7 +2624,7 @@ func (directLink *DirectLinkV1) DeleteGatewayMacsecCakWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"id": *deleteGatewayMacsecCakOptions.ID,
+		"id":     *deleteGatewayMacsecCakOptions.ID,
 		"cak_id": *deleteGatewayMacsecCakOptions.CakID,
 	}
 
@@ -2686,7 +2686,7 @@ func (directLink *DirectLinkV1) GetGatewayMacsecCakWithContext(ctx context.Conte
 	}
 
 	pathParamsMap := map[string]string{
-		"id": *getGatewayMacsecCakOptions.ID,
+		"id":     *getGatewayMacsecCakOptions.ID,
 		"cak_id": *getGatewayMacsecCakOptions.CakID,
 	}
 
@@ -2758,7 +2758,7 @@ func (directLink *DirectLinkV1) UpdateGatewayMacsecCakWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"id": *updateGatewayMacsecCakOptions.ID,
+		"id":     *updateGatewayMacsecCakOptions.ID,
 		"cak_id": *updateGatewayMacsecCakOptions.CakID,
 	}
 
@@ -2984,7 +2984,7 @@ func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *deleteGatewayRouteReportOptions.GatewayID,
-		"id": *deleteGatewayRouteReportOptions.ID,
+		"id":         *deleteGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -3046,7 +3046,7 @@ func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Con
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *getGatewayRouteReportOptions.GatewayID,
-		"id": *getGatewayRouteReportOptions.ID,
+		"id":         *getGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -3278,7 +3278,7 @@ func (directLink *DirectLinkV1) DeleteGatewayVirtualConnectionWithContext(ctx co
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *deleteGatewayVirtualConnectionOptions.GatewayID,
-		"id": *deleteGatewayVirtualConnectionOptions.ID,
+		"id":         *deleteGatewayVirtualConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -3340,7 +3340,7 @@ func (directLink *DirectLinkV1) GetGatewayVirtualConnectionWithContext(ctx conte
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *getGatewayVirtualConnectionOptions.GatewayID,
-		"id": *getGatewayVirtualConnectionOptions.ID,
+		"id":         *getGatewayVirtualConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -3412,7 +3412,7 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 
 	pathParamsMap := map[string]string{
 		"gateway_id": *updateGatewayVirtualConnectionOptions.GatewayID,
-		"id": *updateGatewayVirtualConnectionOptions.ID,
+		"id":         *updateGatewayVirtualConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -4115,6 +4115,7 @@ type AuthenticationKeyIdentity struct {
 	// The CRN of the key.
 	Crn *string `json:"crn,omitempty"`
 }
+
 func (*AuthenticationKeyIdentity) isaAuthenticationKeyIdentity() bool {
 	return true
 }
@@ -4155,6 +4156,7 @@ type AuthenticationKeyReference struct {
 	// The CRN of the referenced key.
 	Crn *string `json:"crn,omitempty"`
 }
+
 func (*AuthenticationKeyReference) isaAuthenticationKeyReference() bool {
 	return true
 }
@@ -4238,12 +4240,12 @@ type CreateGatewayActionOptions struct {
 // Constants associated with the CreateGatewayActionOptions.Action property.
 // Action request.
 const (
-	CreateGatewayActionOptions_Action_CreateGatewayApprove = "create_gateway_approve"
-	CreateGatewayActionOptions_Action_CreateGatewayReject = "create_gateway_reject"
-	CreateGatewayActionOptions_Action_DeleteGatewayApprove = "delete_gateway_approve"
-	CreateGatewayActionOptions_Action_DeleteGatewayReject = "delete_gateway_reject"
+	CreateGatewayActionOptions_Action_CreateGatewayApprove    = "create_gateway_approve"
+	CreateGatewayActionOptions_Action_CreateGatewayReject     = "create_gateway_reject"
+	CreateGatewayActionOptions_Action_DeleteGatewayApprove    = "delete_gateway_approve"
+	CreateGatewayActionOptions_Action_DeleteGatewayReject     = "delete_gateway_reject"
 	CreateGatewayActionOptions_Action_UpdateAttributesApprove = "update_attributes_approve"
-	CreateGatewayActionOptions_Action_UpdateAttributesReject = "update_attributes_reject"
+	CreateGatewayActionOptions_Action_UpdateAttributesReject  = "update_attributes_reject"
 )
 
 // Constants associated with the CreateGatewayActionOptions.ConnectionMode property.
@@ -4253,21 +4255,21 @@ const (
 // list of enumerated values for this property may expand in the future. Code and processes using this field must
 // tolerate unexpected values.
 const (
-	CreateGatewayActionOptions_ConnectionMode_Direct = "direct"
+	CreateGatewayActionOptions_ConnectionMode_Direct  = "direct"
 	CreateGatewayActionOptions_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the CreateGatewayActionOptions.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	CreateGatewayActionOptions_DefaultExportRouteFilter_Deny = "deny"
+	CreateGatewayActionOptions_DefaultExportRouteFilter_Deny   = "deny"
 	CreateGatewayActionOptions_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the CreateGatewayActionOptions.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	CreateGatewayActionOptions_DefaultImportRouteFilter_Deny = "deny"
+	CreateGatewayActionOptions_DefaultImportRouteFilter_Deny   = "deny"
 	CreateGatewayActionOptions_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -4449,7 +4451,7 @@ type CreateGatewayExportRouteFilterOptions struct {
 // Constants associated with the CreateGatewayExportRouteFilterOptions.Action property.
 // Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
 const (
-	CreateGatewayExportRouteFilterOptions_Action_Deny = "deny"
+	CreateGatewayExportRouteFilterOptions_Action_Deny   = "deny"
 	CreateGatewayExportRouteFilterOptions_Action_Permit = "permit"
 )
 
@@ -4457,8 +4459,8 @@ const (
 func (*DirectLinkV1) NewCreateGatewayExportRouteFilterOptions(gatewayID string, action string, prefix string) *CreateGatewayExportRouteFilterOptions {
 	return &CreateGatewayExportRouteFilterOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		Action: core.StringPtr(action),
-		Prefix: core.StringPtr(prefix),
+		Action:    core.StringPtr(action),
+		Prefix:    core.StringPtr(prefix),
 	}
 }
 
@@ -4539,7 +4541,7 @@ type CreateGatewayImportRouteFilterOptions struct {
 // Constants associated with the CreateGatewayImportRouteFilterOptions.Action property.
 // Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
 const (
-	CreateGatewayImportRouteFilterOptions_Action_Deny = "deny"
+	CreateGatewayImportRouteFilterOptions_Action_Deny   = "deny"
 	CreateGatewayImportRouteFilterOptions_Action_Permit = "permit"
 )
 
@@ -4547,8 +4549,8 @@ const (
 func (*DirectLinkV1) NewCreateGatewayImportRouteFilterOptions(gatewayID string, action string, prefix string) *CreateGatewayImportRouteFilterOptions {
 	return &CreateGatewayImportRouteFilterOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		Action: core.StringPtr(action),
-		Prefix: core.StringPtr(prefix),
+		Action:    core.StringPtr(action),
+		Prefix:    core.StringPtr(prefix),
 	}
 }
 
@@ -4629,15 +4631,15 @@ type CreateGatewayMacsecCakOptions struct {
 // There must be a `primary` session CAK. A `fallback` CAK is optional.
 const (
 	CreateGatewayMacsecCakOptions_Session_Fallback = "fallback"
-	CreateGatewayMacsecCakOptions_Session_Primary = "primary"
+	CreateGatewayMacsecCakOptions_Session_Primary  = "primary"
 )
 
 // NewCreateGatewayMacsecCakOptions : Instantiate CreateGatewayMacsecCakOptions
 func (*DirectLinkV1) NewCreateGatewayMacsecCakOptions(id string, key GatewayMacsecCakKeyReferenceIntf, name string, session string) *CreateGatewayMacsecCakOptions {
 	return &CreateGatewayMacsecCakOptions{
-		ID: core.StringPtr(id),
-		Key: key,
-		Name: core.StringPtr(name),
+		ID:      core.StringPtr(id),
+		Key:     key,
+		Name:    core.StringPtr(name),
 		Session: core.StringPtr(session),
 	}
 }
@@ -4752,15 +4754,15 @@ type CreateGatewayVirtualConnectionOptions struct {
 // The type of virtual connection.
 const (
 	CreateGatewayVirtualConnectionOptions_Type_Classic = "classic"
-	CreateGatewayVirtualConnectionOptions_Type_Vpc = "vpc"
+	CreateGatewayVirtualConnectionOptions_Type_Vpc     = "vpc"
 )
 
 // NewCreateGatewayVirtualConnectionOptions : Instantiate CreateGatewayVirtualConnectionOptions
 func (*DirectLinkV1) NewCreateGatewayVirtualConnectionOptions(gatewayID string, name string, typeVar string) *CreateGatewayVirtualConnectionOptions {
 	return &CreateGatewayVirtualConnectionOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		Name: core.StringPtr(name),
-		Type: core.StringPtr(typeVar),
+		Name:      core.StringPtr(name),
+		Type:      core.StringPtr(typeVar),
 	}
 }
 
@@ -4847,7 +4849,7 @@ type DeleteGatewayExportRouteFilterOptions struct {
 func (*DirectLinkV1) NewDeleteGatewayExportRouteFilterOptions(gatewayID string, id string) *DeleteGatewayExportRouteFilterOptions {
 	return &DeleteGatewayExportRouteFilterOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -4885,7 +4887,7 @@ type DeleteGatewayImportRouteFilterOptions struct {
 func (*DirectLinkV1) NewDeleteGatewayImportRouteFilterOptions(gatewayID string, id string) *DeleteGatewayImportRouteFilterOptions {
 	return &DeleteGatewayImportRouteFilterOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -4922,7 +4924,7 @@ type DeleteGatewayMacsecCakOptions struct {
 // NewDeleteGatewayMacsecCakOptions : Instantiate DeleteGatewayMacsecCakOptions
 func (*DirectLinkV1) NewDeleteGatewayMacsecCakOptions(id string, cakID string) *DeleteGatewayMacsecCakOptions {
 	return &DeleteGatewayMacsecCakOptions{
-		ID: core.StringPtr(id),
+		ID:    core.StringPtr(id),
 		CakID: core.StringPtr(cakID),
 	}
 }
@@ -4989,7 +4991,7 @@ type DeleteGatewayRouteReportOptions struct {
 func (*DirectLinkV1) NewDeleteGatewayRouteReportOptions(gatewayID string, id string) *DeleteGatewayRouteReportOptions {
 	return &DeleteGatewayRouteReportOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -5027,7 +5029,7 @@ type DeleteGatewayVirtualConnectionOptions struct {
 func (*DirectLinkV1) NewDeleteGatewayVirtualConnectionOptions(gatewayID string, id string) *DeleteGatewayVirtualConnectionOptions {
 	return &DeleteGatewayVirtualConnectionOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -5215,10 +5217,10 @@ type Gateway struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	Gateway_BgpStatus_Active = "active"
-	Gateway_BgpStatus_Connect = "connect"
+	Gateway_BgpStatus_Active      = "active"
+	Gateway_BgpStatus_Connect     = "connect"
 	Gateway_BgpStatus_Established = "established"
-	Gateway_BgpStatus_Idle = "idle"
+	Gateway_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the Gateway.ConnectionMode property.
@@ -5226,21 +5228,21 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	Gateway_ConnectionMode_Direct = "direct"
+	Gateway_ConnectionMode_Direct  = "direct"
 	Gateway_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the Gateway.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	Gateway_DefaultExportRouteFilter_Deny = "deny"
+	Gateway_DefaultExportRouteFilter_Deny   = "deny"
 	Gateway_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the Gateway.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	Gateway_DefaultImportRouteFilter_Deny = "deny"
+	Gateway_DefaultImportRouteFilter_Deny   = "deny"
 	Gateway_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -5249,7 +5251,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	Gateway_LinkStatus_Down = "down"
-	Gateway_LinkStatus_Up = "up"
+	Gateway_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the Gateway.MacsecCapability property.
@@ -5263,9 +5265,9 @@ const (
 // - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
-	Gateway_MacsecCapability_Macsec = "macsec"
+	Gateway_MacsecCapability_Macsec         = "macsec"
 	Gateway_MacsecCapability_MacsecOptional = "macsec_optional"
-	Gateway_MacsecCapability_NonMacsec = "non_macsec"
+	Gateway_MacsecCapability_NonMacsec      = "non_macsec"
 )
 
 // Constants associated with the Gateway.OperationalStatus property.
@@ -5275,26 +5277,26 @@ const (
 // See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	Gateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	Gateway_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	Gateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	Gateway_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	Gateway_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	Gateway_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	Gateway_OperationalStatus_Configuring = "configuring"
-	Gateway_OperationalStatus_CreatePending = "create_pending"
-	Gateway_OperationalStatus_CreateRejected = "create_rejected"
-	Gateway_OperationalStatus_DeletePending = "delete_pending"
-	Gateway_OperationalStatus_Failed = "failed"
-	Gateway_OperationalStatus_LoaAccepted = "loa_accepted"
-	Gateway_OperationalStatus_LoaCreated = "loa_created"
-	Gateway_OperationalStatus_LoaRejected = "loa_rejected"
-	Gateway_OperationalStatus_Provisioned = "provisioned"
+	Gateway_OperationalStatus_Configuring              = "configuring"
+	Gateway_OperationalStatus_CreatePending            = "create_pending"
+	Gateway_OperationalStatus_CreateRejected           = "create_rejected"
+	Gateway_OperationalStatus_DeletePending            = "delete_pending"
+	Gateway_OperationalStatus_Failed                   = "failed"
+	Gateway_OperationalStatus_LoaAccepted              = "loa_accepted"
+	Gateway_OperationalStatus_LoaCreated               = "loa_created"
+	Gateway_OperationalStatus_LoaRejected              = "loa_rejected"
+	Gateway_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the Gateway.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	Gateway_Type_Connect = "connect"
+	Gateway_Type_Connect   = "connect"
 	Gateway_Type_Dedicated = "dedicated"
 )
 
@@ -5540,6 +5542,7 @@ type GatewayActionTemplateUpdatesItem struct {
 	// VLAN to be updated for this gateway.
 	Vlan *int64 `json:"vlan,omitempty"`
 }
+
 func (*GatewayActionTemplateUpdatesItem) isaGatewayActionTemplateUpdatesItem() bool {
 	return true
 }
@@ -5603,7 +5606,7 @@ type GatewayBfdConfig struct {
 const (
 	GatewayBfdConfig_BfdStatus_Down = "down"
 	GatewayBfdConfig_BfdStatus_Init = "init"
-	GatewayBfdConfig_BfdStatus_Up = "up"
+	GatewayBfdConfig_BfdStatus_Up   = "up"
 )
 
 // UnmarshalGatewayBfdConfig unmarshals an instance of GatewayBfdConfig from the specified map of raw messages.
@@ -5771,6 +5774,7 @@ type GatewayChangeRequest struct {
 const (
 	GatewayChangeRequest_Type_CreateGateway = "create_gateway"
 )
+
 func (*GatewayChangeRequest) isaGatewayChangeRequest() bool {
 	return true
 }
@@ -5831,6 +5835,7 @@ type GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem struct 
 	// VLAN to be updated for this gateway.
 	Vlan *int64 `json:"vlan,omitempty"`
 }
+
 func (*GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem) isaGatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem() bool {
 	return true
 }
@@ -5906,6 +5911,7 @@ type GatewayChangeRequestUpdatesItem struct {
 	// VLAN to be updated for this gateway.
 	Vlan *int64 `json:"vlan,omitempty"`
 }
+
 func (*GatewayChangeRequestUpdatesItem) isaGatewayChangeRequestUpdatesItem() bool {
 	return true
 }
@@ -6115,10 +6121,10 @@ type GatewayCollectionGatewaysItem struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItem_BgpStatus_Active = "active"
-	GatewayCollectionGatewaysItem_BgpStatus_Connect = "connect"
+	GatewayCollectionGatewaysItem_BgpStatus_Active      = "active"
+	GatewayCollectionGatewaysItem_BgpStatus_Connect     = "connect"
 	GatewayCollectionGatewaysItem_BgpStatus_Established = "established"
-	GatewayCollectionGatewaysItem_BgpStatus_Idle = "idle"
+	GatewayCollectionGatewaysItem_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItem.ConnectionMode property.
@@ -6126,21 +6132,21 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItem_ConnectionMode_Direct = "direct"
+	GatewayCollectionGatewaysItem_ConnectionMode_Direct  = "direct"
 	GatewayCollectionGatewaysItem_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItem.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayCollectionGatewaysItem_DefaultExportRouteFilter_Deny = "deny"
+	GatewayCollectionGatewaysItem_DefaultExportRouteFilter_Deny   = "deny"
 	GatewayCollectionGatewaysItem_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItem.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayCollectionGatewaysItem_DefaultImportRouteFilter_Deny = "deny"
+	GatewayCollectionGatewaysItem_DefaultImportRouteFilter_Deny   = "deny"
 	GatewayCollectionGatewaysItem_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -6149,7 +6155,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	GatewayCollectionGatewaysItem_LinkStatus_Down = "down"
-	GatewayCollectionGatewaysItem_LinkStatus_Up = "up"
+	GatewayCollectionGatewaysItem_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItem.MacsecCapability property.
@@ -6163,9 +6169,9 @@ const (
 // - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
-	GatewayCollectionGatewaysItem_MacsecCapability_Macsec = "macsec"
+	GatewayCollectionGatewaysItem_MacsecCapability_Macsec         = "macsec"
 	GatewayCollectionGatewaysItem_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayCollectionGatewaysItem_MacsecCapability_NonMacsec = "non_macsec"
+	GatewayCollectionGatewaysItem_MacsecCapability_NonMacsec      = "non_macsec"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItem.OperationalStatus property.
@@ -6175,28 +6181,29 @@ const (
 // See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GatewayCollectionGatewaysItem_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	GatewayCollectionGatewaysItem_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	GatewayCollectionGatewaysItem_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	GatewayCollectionGatewaysItem_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	GatewayCollectionGatewaysItem_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	GatewayCollectionGatewaysItem_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	GatewayCollectionGatewaysItem_OperationalStatus_Configuring = "configuring"
-	GatewayCollectionGatewaysItem_OperationalStatus_CreatePending = "create_pending"
-	GatewayCollectionGatewaysItem_OperationalStatus_CreateRejected = "create_rejected"
-	GatewayCollectionGatewaysItem_OperationalStatus_DeletePending = "delete_pending"
-	GatewayCollectionGatewaysItem_OperationalStatus_Failed = "failed"
-	GatewayCollectionGatewaysItem_OperationalStatus_LoaAccepted = "loa_accepted"
-	GatewayCollectionGatewaysItem_OperationalStatus_LoaCreated = "loa_created"
-	GatewayCollectionGatewaysItem_OperationalStatus_LoaRejected = "loa_rejected"
-	GatewayCollectionGatewaysItem_OperationalStatus_Provisioned = "provisioned"
+	GatewayCollectionGatewaysItem_OperationalStatus_Configuring              = "configuring"
+	GatewayCollectionGatewaysItem_OperationalStatus_CreatePending            = "create_pending"
+	GatewayCollectionGatewaysItem_OperationalStatus_CreateRejected           = "create_rejected"
+	GatewayCollectionGatewaysItem_OperationalStatus_DeletePending            = "delete_pending"
+	GatewayCollectionGatewaysItem_OperationalStatus_Failed                   = "failed"
+	GatewayCollectionGatewaysItem_OperationalStatus_LoaAccepted              = "loa_accepted"
+	GatewayCollectionGatewaysItem_OperationalStatus_LoaCreated               = "loa_created"
+	GatewayCollectionGatewaysItem_OperationalStatus_LoaRejected              = "loa_rejected"
+	GatewayCollectionGatewaysItem_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItem.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItem_Type_Connect = "connect"
+	GatewayCollectionGatewaysItem_Type_Connect   = "connect"
 	GatewayCollectionGatewaysItem_Type_Dedicated = "dedicated"
 )
+
 func (*GatewayCollectionGatewaysItem) isaGatewayCollectionGatewaysItem() bool {
 	return true
 }
@@ -6481,7 +6488,7 @@ const (
 // - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
 // security.
 const (
-	GatewayMacsec_SecurityPolicy_MustSecure = "must_secure"
+	GatewayMacsec_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsec_SecurityPolicy_ShouldSecure = "should_secure"
 )
 
@@ -6496,11 +6503,11 @@ const (
 // See `status_reasons[]` for possible remediation of the `failed` `status`.
 const (
 	GatewayMacsec_Status_Deleting = "deleting"
-	GatewayMacsec_Status_Failed = "failed"
-	GatewayMacsec_Status_Init = "init"
-	GatewayMacsec_Status_Offline = "offline"
-	GatewayMacsec_Status_Pending = "pending"
-	GatewayMacsec_Status_Secured = "secured"
+	GatewayMacsec_Status_Failed   = "failed"
+	GatewayMacsec_Status_Init     = "init"
+	GatewayMacsec_Status_Offline  = "offline"
+	GatewayMacsec_Status_Pending  = "pending"
+	GatewayMacsec_Status_Secured  = "secured"
 )
 
 // UnmarshalGatewayMacsec unmarshals an instance of GatewayMacsec from the specified map of raw messages.
@@ -6640,7 +6647,7 @@ type GatewayMacsecCak struct {
 // There must be a `primary` session CAK. A `fallback` CAK is optional.
 const (
 	GatewayMacsecCak_Session_Fallback = "fallback"
-	GatewayMacsecCak_Session_Primary = "primary"
+	GatewayMacsecCak_Session_Primary  = "primary"
 )
 
 // Constants associated with the GatewayMacsecCak.Status property.
@@ -6665,11 +6672,11 @@ const (
 // key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
 // session.
 const (
-	GatewayMacsecCak_Status_Active = "active"
-	GatewayMacsecCak_Status_Failed = "failed"
-	GatewayMacsecCak_Status_Inactive = "inactive"
+	GatewayMacsecCak_Status_Active      = "active"
+	GatewayMacsecCak_Status_Failed      = "failed"
+	GatewayMacsecCak_Status_Inactive    = "inactive"
 	GatewayMacsecCak_Status_Operational = "operational"
-	GatewayMacsecCak_Status_Rotating = "rotating"
+	GatewayMacsecCak_Status_Rotating    = "rotating"
 )
 
 // UnmarshalGatewayMacsecCak unmarshals an instance of GatewayMacsecCak from the specified map of raw messages.
@@ -6782,11 +6789,11 @@ type GatewayMacsecCakActiveDelta struct {
 // key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
 // session.
 const (
-	GatewayMacsecCakActiveDelta_Status_Active = "active"
-	GatewayMacsecCakActiveDelta_Status_Failed = "failed"
-	GatewayMacsecCakActiveDelta_Status_Inactive = "inactive"
+	GatewayMacsecCakActiveDelta_Status_Active      = "active"
+	GatewayMacsecCakActiveDelta_Status_Failed      = "failed"
+	GatewayMacsecCakActiveDelta_Status_Inactive    = "inactive"
 	GatewayMacsecCakActiveDelta_Status_Operational = "operational"
-	GatewayMacsecCakActiveDelta_Status_Rotating = "rotating"
+	GatewayMacsecCakActiveDelta_Status_Rotating    = "rotating"
 )
 
 // UnmarshalGatewayMacsecCakActiveDelta unmarshals an instance of GatewayMacsecCakActiveDelta from the specified map of raw messages.
@@ -6837,6 +6844,7 @@ type GatewayMacsecCakKeyReference struct {
 	// The CRN of the referenced key.
 	Crn *string `json:"crn,omitempty"`
 }
+
 func (*GatewayMacsecCakKeyReference) isaGatewayMacsecCakKeyReference() bool {
 	return true
 }
@@ -6942,14 +6950,14 @@ type GatewayMacsecCakPrototype struct {
 // There must be a `primary` session CAK. A `fallback` CAK is optional.
 const (
 	GatewayMacsecCakPrototype_Session_Fallback = "fallback"
-	GatewayMacsecCakPrototype_Session_Primary = "primary"
+	GatewayMacsecCakPrototype_Session_Primary  = "primary"
 )
 
 // NewGatewayMacsecCakPrototype : Instantiate GatewayMacsecCakPrototype (Generic Model Constructor)
 func (*DirectLinkV1) NewGatewayMacsecCakPrototype(key GatewayMacsecCakKeyReferenceIntf, name string, session string) (_model *GatewayMacsecCakPrototype, err error) {
 	_model = &GatewayMacsecCakPrototype{
-		Key: key,
-		Name: core.StringPtr(name),
+		Key:     key,
+		Name:    core.StringPtr(name),
 		Session: core.StringPtr(session),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -7012,7 +7020,7 @@ type GatewayMacsecPatch struct {
 // - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
 // security.
 const (
-	GatewayMacsecPatch_SecurityPolicy_MustSecure = "must_secure"
+	GatewayMacsecPatch_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsecPatch_SecurityPolicy_ShouldSecure = "should_secure"
 )
 
@@ -7101,16 +7109,16 @@ type GatewayMacsecPrototype struct {
 // - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
 // security.
 const (
-	GatewayMacsecPrototype_SecurityPolicy_MustSecure = "must_secure"
+	GatewayMacsecPrototype_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsecPrototype_SecurityPolicy_ShouldSecure = "should_secure"
 )
 
 // NewGatewayMacsecPrototype : Instantiate GatewayMacsecPrototype (Generic Model Constructor)
 func (*DirectLinkV1) NewGatewayMacsecPrototype(active bool, caks []GatewayMacsecCakPrototype, sakRekey SakRekeyPrototypeIntf, securityPolicy string) (_model *GatewayMacsecPrototype, err error) {
 	_model = &GatewayMacsecPrototype{
-		Active: core.BoolPtr(active),
-		Caks: caks,
-		SakRekey: sakRekey,
+		Active:         core.BoolPtr(active),
+		Caks:           caks,
+		SakRekey:       sakRekey,
 		SecurityPolicy: core.StringPtr(securityPolicy),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -7187,7 +7195,7 @@ type GatewayMacsecReference struct {
 // - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
 // security.
 const (
-	GatewayMacsecReference_SecurityPolicy_MustSecure = "must_secure"
+	GatewayMacsecReference_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsecReference_SecurityPolicy_ShouldSecure = "should_secure"
 )
 
@@ -7202,11 +7210,11 @@ const (
 // See `status_reasons[]` for possible remediation of the `failed` `status`.
 const (
 	GatewayMacsecReference_Status_Deleting = "deleting"
-	GatewayMacsecReference_Status_Failed = "failed"
-	GatewayMacsecReference_Status_Init = "init"
-	GatewayMacsecReference_Status_Offline = "offline"
-	GatewayMacsecReference_Status_Pending = "pending"
-	GatewayMacsecReference_Status_Secured = "secured"
+	GatewayMacsecReference_Status_Failed   = "failed"
+	GatewayMacsecReference_Status_Init     = "init"
+	GatewayMacsecReference_Status_Offline  = "offline"
+	GatewayMacsecReference_Status_Pending  = "pending"
+	GatewayMacsecReference_Status_Secured  = "secured"
 )
 
 // UnmarshalGatewayMacsecReference unmarshals an instance of GatewayMacsecReference from the specified map of raw messages.
@@ -7367,21 +7375,21 @@ type GatewayPatchTemplate struct {
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayPatchTemplate_ConnectionMode_Direct = "direct"
+	GatewayPatchTemplate_ConnectionMode_Direct  = "direct"
 	GatewayPatchTemplate_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GatewayPatchTemplate.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayPatchTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayPatchTemplate_DefaultExportRouteFilter_Deny   = "deny"
 	GatewayPatchTemplate_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayPatchTemplate.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayPatchTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayPatchTemplate_DefaultImportRouteFilter_Deny   = "deny"
 	GatewayPatchTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -7602,10 +7610,10 @@ type GatewayStatistic struct {
 // Constants associated with the GatewayStatistic.Type property.
 // statistic type.
 const (
-	GatewayStatistic_Type_BfdSession = "bfd_session"
-	GatewayStatistic_Type_MacsecMkaSession = "macsec_mka_session"
+	GatewayStatistic_Type_BfdSession          = "bfd_session"
+	GatewayStatistic_Type_MacsecMkaSession    = "macsec_mka_session"
 	GatewayStatistic_Type_MacsecMkaStatistics = "macsec_mka_statistics"
-	GatewayStatistic_Type_MacsecPolicy = "macsec_policy"
+	GatewayStatistic_Type_MacsecPolicy        = "macsec_policy"
 )
 
 // UnmarshalGatewayStatistic unmarshals an instance of GatewayStatistic from the specified map of raw messages.
@@ -7673,11 +7681,12 @@ const (
 // Constants associated with the GatewayStatus.Value property.
 // Status.
 const (
-	GatewayStatus_Value_Active = "active"
-	GatewayStatus_Value_Connect = "connect"
+	GatewayStatus_Value_Active      = "active"
+	GatewayStatus_Value_Connect     = "connect"
 	GatewayStatus_Value_Established = "established"
-	GatewayStatus_Value_Idle = "idle"
+	GatewayStatus_Value_Idle        = "idle"
 )
+
 func (*GatewayStatus) isaGatewayStatus() bool {
 	return true
 }
@@ -7901,28 +7910,28 @@ type GatewayTemplate struct {
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayTemplate_ConnectionMode_Direct = "direct"
+	GatewayTemplate_ConnectionMode_Direct  = "direct"
 	GatewayTemplate_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GatewayTemplate.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayTemplate_DefaultExportRouteFilter_Deny   = "deny"
 	GatewayTemplate_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplate.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayTemplate_DefaultImportRouteFilter_Deny   = "deny"
 	GatewayTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplate.Type property.
 // Offering type.
 const (
-	GatewayTemplate_Type_Connect = "connect"
+	GatewayTemplate_Type_Connect   = "connect"
 	GatewayTemplate_Type_Dedicated = "dedicated"
 )
 
@@ -7938,16 +7947,17 @@ const (
 // If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
 // capabilities and available ports:
 //   - `macsec` was not provided in the request
-//     - `non_macsec`
-//     - `macsec_optional`
+//   - `non_macsec`
+//   - `macsec_optional`
 //   - `macsec` was provided in the request
-//     - `macsec_optional`
-//     - `macsec`.
+//   - `macsec_optional`
+//   - `macsec`.
 const (
-	GatewayTemplate_MacsecCapability_Macsec = "macsec"
+	GatewayTemplate_MacsecCapability_Macsec         = "macsec"
 	GatewayTemplate_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayTemplate_MacsecCapability_NonMacsec = "non_macsec"
+	GatewayTemplate_MacsecCapability_NonMacsec      = "non_macsec"
 )
+
 func (*GatewayTemplate) isaGatewayTemplate() bool {
 	return true
 }
@@ -8116,7 +8126,7 @@ type GatewayTemplateRouteFilter struct {
 // Constants associated with the GatewayTemplateRouteFilter.Action property.
 // Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
 const (
-	GatewayTemplateRouteFilter_Action_Deny = "deny"
+	GatewayTemplateRouteFilter_Action_Deny   = "deny"
 	GatewayTemplateRouteFilter_Action_Permit = "permit"
 )
 
@@ -8199,14 +8209,14 @@ type GatewayVirtualConnection struct {
 // The list of enumerated values for this property may expand in the future. Code and processes using this field  must
 // tolerate unexpected values.
 const (
-	GatewayVirtualConnection_Status_ApprovalPending = "approval_pending"
-	GatewayVirtualConnection_Status_Attached = "attached"
-	GatewayVirtualConnection_Status_Deleting = "deleting"
-	GatewayVirtualConnection_Status_DetachedByNetwork = "detached_by_network"
+	GatewayVirtualConnection_Status_ApprovalPending          = "approval_pending"
+	GatewayVirtualConnection_Status_Attached                 = "attached"
+	GatewayVirtualConnection_Status_Deleting                 = "deleting"
+	GatewayVirtualConnection_Status_DetachedByNetwork        = "detached_by_network"
 	GatewayVirtualConnection_Status_DetachedByNetworkPending = "detached_by_network_pending"
-	GatewayVirtualConnection_Status_Expired = "expired"
-	GatewayVirtualConnection_Status_Pending = "pending"
-	GatewayVirtualConnection_Status_Rejected = "rejected"
+	GatewayVirtualConnection_Status_Expired                  = "expired"
+	GatewayVirtualConnection_Status_Pending                  = "pending"
+	GatewayVirtualConnection_Status_Rejected                 = "rejected"
 )
 
 // Constants associated with the GatewayVirtualConnection.Type property.
@@ -8217,7 +8227,7 @@ const (
 const (
 	GatewayVirtualConnection_Type_Classic = "classic"
 	GatewayVirtualConnection_Type_Transit = "transit"
-	GatewayVirtualConnection_Type_Vpc = "vpc"
+	GatewayVirtualConnection_Type_Vpc     = "vpc"
 )
 
 // UnmarshalGatewayVirtualConnection unmarshals an instance of GatewayVirtualConnection from the specified map of raw messages.
@@ -8347,7 +8357,7 @@ type GetGatewayExportRouteFilterOptions struct {
 func (*DirectLinkV1) NewGetGatewayExportRouteFilterOptions(gatewayID string, id string) *GetGatewayExportRouteFilterOptions {
 	return &GetGatewayExportRouteFilterOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -8385,7 +8395,7 @@ type GetGatewayImportRouteFilterOptions struct {
 func (*DirectLinkV1) NewGetGatewayImportRouteFilterOptions(gatewayID string, id string) *GetGatewayImportRouteFilterOptions {
 	return &GetGatewayImportRouteFilterOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -8422,7 +8432,7 @@ type GetGatewayMacsecCakOptions struct {
 // NewGetGatewayMacsecCakOptions : Instantiate GetGatewayMacsecCakOptions
 func (*DirectLinkV1) NewGetGatewayMacsecCakOptions(id string, cakID string) *GetGatewayMacsecCakOptions {
 	return &GetGatewayMacsecCakOptions{
-		ID: core.StringPtr(id),
+		ID:    core.StringPtr(id),
 		CakID: core.StringPtr(cakID),
 	}
 }
@@ -8652,10 +8662,10 @@ type GetGatewayResponse struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	GetGatewayResponse_BgpStatus_Active = "active"
-	GetGatewayResponse_BgpStatus_Connect = "connect"
+	GetGatewayResponse_BgpStatus_Active      = "active"
+	GetGatewayResponse_BgpStatus_Connect     = "connect"
 	GetGatewayResponse_BgpStatus_Established = "established"
-	GetGatewayResponse_BgpStatus_Idle = "idle"
+	GetGatewayResponse_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the GetGatewayResponse.ConnectionMode property.
@@ -8663,21 +8673,21 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GetGatewayResponse_ConnectionMode_Direct = "direct"
+	GetGatewayResponse_ConnectionMode_Direct  = "direct"
 	GetGatewayResponse_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GetGatewayResponse.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GetGatewayResponse_DefaultExportRouteFilter_Deny = "deny"
+	GetGatewayResponse_DefaultExportRouteFilter_Deny   = "deny"
 	GetGatewayResponse_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GetGatewayResponse.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GetGatewayResponse_DefaultImportRouteFilter_Deny = "deny"
+	GetGatewayResponse_DefaultImportRouteFilter_Deny   = "deny"
 	GetGatewayResponse_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -8686,7 +8696,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	GetGatewayResponse_LinkStatus_Down = "down"
-	GetGatewayResponse_LinkStatus_Up = "up"
+	GetGatewayResponse_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the GetGatewayResponse.MacsecCapability property.
@@ -8700,9 +8710,9 @@ const (
 // - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
-	GetGatewayResponse_MacsecCapability_Macsec = "macsec"
+	GetGatewayResponse_MacsecCapability_Macsec         = "macsec"
 	GetGatewayResponse_MacsecCapability_MacsecOptional = "macsec_optional"
-	GetGatewayResponse_MacsecCapability_NonMacsec = "non_macsec"
+	GetGatewayResponse_MacsecCapability_NonMacsec      = "non_macsec"
 )
 
 // Constants associated with the GetGatewayResponse.OperationalStatus property.
@@ -8712,28 +8722,29 @@ const (
 // See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GetGatewayResponse_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	GetGatewayResponse_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	GetGatewayResponse_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	GetGatewayResponse_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	GetGatewayResponse_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	GetGatewayResponse_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	GetGatewayResponse_OperationalStatus_Configuring = "configuring"
-	GetGatewayResponse_OperationalStatus_CreatePending = "create_pending"
-	GetGatewayResponse_OperationalStatus_CreateRejected = "create_rejected"
-	GetGatewayResponse_OperationalStatus_DeletePending = "delete_pending"
-	GetGatewayResponse_OperationalStatus_Failed = "failed"
-	GetGatewayResponse_OperationalStatus_LoaAccepted = "loa_accepted"
-	GetGatewayResponse_OperationalStatus_LoaCreated = "loa_created"
-	GetGatewayResponse_OperationalStatus_LoaRejected = "loa_rejected"
-	GetGatewayResponse_OperationalStatus_Provisioned = "provisioned"
+	GetGatewayResponse_OperationalStatus_Configuring              = "configuring"
+	GetGatewayResponse_OperationalStatus_CreatePending            = "create_pending"
+	GetGatewayResponse_OperationalStatus_CreateRejected           = "create_rejected"
+	GetGatewayResponse_OperationalStatus_DeletePending            = "delete_pending"
+	GetGatewayResponse_OperationalStatus_Failed                   = "failed"
+	GetGatewayResponse_OperationalStatus_LoaAccepted              = "loa_accepted"
+	GetGatewayResponse_OperationalStatus_LoaCreated               = "loa_created"
+	GetGatewayResponse_OperationalStatus_LoaRejected              = "loa_rejected"
+	GetGatewayResponse_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the GetGatewayResponse.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	GetGatewayResponse_Type_Connect = "connect"
+	GetGatewayResponse_Type_Connect   = "connect"
 	GetGatewayResponse_Type_Dedicated = "dedicated"
 )
+
 func (*GetGatewayResponse) isaGetGatewayResponse() bool {
 	return true
 }
@@ -8965,7 +8976,7 @@ type GetGatewayRouteReportOptions struct {
 func (*DirectLinkV1) NewGetGatewayRouteReportOptions(gatewayID string, id string) *GetGatewayRouteReportOptions {
 	return &GetGatewayRouteReportOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -9002,16 +9013,16 @@ type GetGatewayStatisticsOptions struct {
 // Constants associated with the GetGatewayStatisticsOptions.Type property.
 // Specify statistic to retrieve.
 const (
-	GetGatewayStatisticsOptions_Type_BfdSession = "bfd_session"
-	GetGatewayStatisticsOptions_Type_MacsecMkaSession = "macsec_mka_session"
+	GetGatewayStatisticsOptions_Type_BfdSession          = "bfd_session"
+	GetGatewayStatisticsOptions_Type_MacsecMkaSession    = "macsec_mka_session"
 	GetGatewayStatisticsOptions_Type_MacsecMkaStatistics = "macsec_mka_statistics"
-	GetGatewayStatisticsOptions_Type_MacsecPolicy = "macsec_policy"
+	GetGatewayStatisticsOptions_Type_MacsecPolicy        = "macsec_policy"
 )
 
 // NewGetGatewayStatisticsOptions : Instantiate GetGatewayStatisticsOptions
 func (*DirectLinkV1) NewGetGatewayStatisticsOptions(id string, typeVar string) *GetGatewayStatisticsOptions {
 	return &GetGatewayStatisticsOptions{
-		ID: core.StringPtr(id),
+		ID:   core.StringPtr(id),
 		Type: core.StringPtr(typeVar),
 	}
 }
@@ -9049,8 +9060,8 @@ type GetGatewayStatusOptions struct {
 // Constants associated with the GetGatewayStatusOptions.Type property.
 // Specify status to retrieve.
 const (
-	GetGatewayStatusOptions_Type_Bfd = "bfd"
-	GetGatewayStatusOptions_Type_Bgp = "bgp"
+	GetGatewayStatusOptions_Type_Bfd  = "bfd"
+	GetGatewayStatusOptions_Type_Bgp  = "bgp"
 	GetGatewayStatusOptions_Type_Link = "link"
 )
 
@@ -9095,7 +9106,7 @@ type GetGatewayVirtualConnectionOptions struct {
 func (*DirectLinkV1) NewGetGatewayVirtualConnectionOptions(gatewayID string, id string) *GetGatewayVirtualConnectionOptions {
 	return &GetGatewayVirtualConnectionOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 	}
 }
 
@@ -9420,7 +9431,7 @@ type ListOfferingTypeLocationCrossConnectRoutersOptions struct {
 // Constants associated with the ListOfferingTypeLocationCrossConnectRoutersOptions.OfferingType property.
 // The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 const (
-	ListOfferingTypeLocationCrossConnectRoutersOptions_OfferingType_Connect = "connect"
+	ListOfferingTypeLocationCrossConnectRoutersOptions_OfferingType_Connect   = "connect"
 	ListOfferingTypeLocationCrossConnectRoutersOptions_OfferingType_Dedicated = "dedicated"
 )
 
@@ -9462,7 +9473,7 @@ type ListOfferingTypeLocationsOptions struct {
 // Constants associated with the ListOfferingTypeLocationsOptions.OfferingType property.
 // The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 const (
-	ListOfferingTypeLocationsOptions_OfferingType_Connect = "connect"
+	ListOfferingTypeLocationsOptions_OfferingType_Connect   = "connect"
 	ListOfferingTypeLocationsOptions_OfferingType_Dedicated = "dedicated"
 )
 
@@ -9497,7 +9508,7 @@ type ListOfferingTypeSpeedsOptions struct {
 // Constants associated with the ListOfferingTypeSpeedsOptions.OfferingType property.
 // The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`.
 const (
-	ListOfferingTypeSpeedsOptions_OfferingType_Connect = "connect"
+	ListOfferingTypeSpeedsOptions_OfferingType_Connect   = "connect"
 	ListOfferingTypeSpeedsOptions_OfferingType_Dedicated = "dedicated"
 )
 
@@ -9945,7 +9956,7 @@ type ReplaceGatewayAsPrependsOptions struct {
 func (*DirectLinkV1) NewReplaceGatewayAsPrependsOptions(gatewayID string, ifMatch string) *ReplaceGatewayAsPrependsOptions {
 	return &ReplaceGatewayAsPrependsOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:   core.StringPtr(ifMatch),
 	}
 }
 
@@ -9993,7 +10004,7 @@ type ReplaceGatewayExportRouteFiltersOptions struct {
 func (*DirectLinkV1) NewReplaceGatewayExportRouteFiltersOptions(gatewayID string, ifMatch string) *ReplaceGatewayExportRouteFiltersOptions {
 	return &ReplaceGatewayExportRouteFiltersOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:   core.StringPtr(ifMatch),
 	}
 }
 
@@ -10041,7 +10052,7 @@ type ReplaceGatewayImportRouteFiltersOptions struct {
 func (*DirectLinkV1) NewReplaceGatewayImportRouteFiltersOptions(gatewayID string, ifMatch string) *ReplaceGatewayImportRouteFiltersOptions {
 	return &ReplaceGatewayImportRouteFiltersOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:   core.StringPtr(ifMatch),
 	}
 }
 
@@ -10156,7 +10167,7 @@ type RouteFilter struct {
 // Constants associated with the RouteFilter.Action property.
 // Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
 const (
-	RouteFilter_Action_Deny = "deny"
+	RouteFilter_Action_Deny   = "deny"
 	RouteFilter_Action_Permit = "permit"
 )
 
@@ -10244,7 +10255,7 @@ type RouteReport struct {
 // using this field must tolerate unexpected values.
 const (
 	RouteReport_Status_Complete = "complete"
-	RouteReport_Status_Pending = "pending"
+	RouteReport_Status_Pending  = "pending"
 )
 
 // UnmarshalRouteReport unmarshals an instance of RouteReport from the specified map of raw messages.
@@ -10439,6 +10450,7 @@ type RouteReportOverlappingRoute struct {
 const (
 	RouteReportOverlappingRoute_Type_VirtualConnection = "virtual_connection"
 )
+
 func (*RouteReportOverlappingRoute) isaRouteReportOverlappingRoute() bool {
 	return true
 }
@@ -10556,6 +10568,7 @@ type SakRekey struct {
 const (
 	SakRekey_Mode_Timer = "timer"
 )
+
 func (*SakRekey) isaSakRekey() bool {
 	return true
 }
@@ -10598,6 +10611,7 @@ type SakRekeyPatch struct {
 const (
 	SakRekeyPatch_Mode_Timer = "timer"
 )
+
 func (*SakRekeyPatch) isaSakRekeyPatch() bool {
 	return true
 }
@@ -10654,6 +10668,7 @@ type SakRekeyPrototype struct {
 const (
 	SakRekeyPrototype_Mode_Timer = "timer"
 )
+
 func (*SakRekeyPrototype) isaSakRekeyPrototype() bool {
 	return true
 }
@@ -10729,17 +10744,17 @@ type SetGatewayMacsecOptions struct {
 // - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
 // security.
 const (
-	SetGatewayMacsecOptions_SecurityPolicy_MustSecure = "must_secure"
+	SetGatewayMacsecOptions_SecurityPolicy_MustSecure   = "must_secure"
 	SetGatewayMacsecOptions_SecurityPolicy_ShouldSecure = "should_secure"
 )
 
 // NewSetGatewayMacsecOptions : Instantiate SetGatewayMacsecOptions
 func (*DirectLinkV1) NewSetGatewayMacsecOptions(id string, active bool, caks []GatewayMacsecCakPrototype, sakRekey SakRekeyPrototypeIntf, securityPolicy string) *SetGatewayMacsecOptions {
 	return &SetGatewayMacsecOptions{
-		ID: core.StringPtr(id),
-		Active: core.BoolPtr(active),
-		Caks: caks,
-		SakRekey: sakRekey,
+		ID:             core.StringPtr(id),
+		Active:         core.BoolPtr(active),
+		Caks:           caks,
+		SakRekey:       sakRekey,
 		SecurityPolicy: core.StringPtr(securityPolicy),
 	}
 }
@@ -10838,8 +10853,8 @@ type UpdateGatewayExportRouteFilterOptions struct {
 // NewUpdateGatewayExportRouteFilterOptions : Instantiate UpdateGatewayExportRouteFilterOptions
 func (*DirectLinkV1) NewUpdateGatewayExportRouteFilterOptions(gatewayID string, id string, updateRouteFilterTemplatePatch map[string]interface{}) *UpdateGatewayExportRouteFilterOptions {
 	return &UpdateGatewayExportRouteFilterOptions{
-		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		GatewayID:                      core.StringPtr(gatewayID),
+		ID:                             core.StringPtr(id),
 		UpdateRouteFilterTemplatePatch: updateRouteFilterTemplatePatch,
 	}
 }
@@ -10886,8 +10901,8 @@ type UpdateGatewayImportRouteFilterOptions struct {
 // NewUpdateGatewayImportRouteFilterOptions : Instantiate UpdateGatewayImportRouteFilterOptions
 func (*DirectLinkV1) NewUpdateGatewayImportRouteFilterOptions(gatewayID string, id string, updateRouteFilterTemplatePatch map[string]interface{}) *UpdateGatewayImportRouteFilterOptions {
 	return &UpdateGatewayImportRouteFilterOptions{
-		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		GatewayID:                      core.StringPtr(gatewayID),
+		ID:                             core.StringPtr(id),
 		UpdateRouteFilterTemplatePatch: updateRouteFilterTemplatePatch,
 	}
 }
@@ -10934,8 +10949,8 @@ type UpdateGatewayMacsecCakOptions struct {
 // NewUpdateGatewayMacsecCakOptions : Instantiate UpdateGatewayMacsecCakOptions
 func (*DirectLinkV1) NewUpdateGatewayMacsecCakOptions(id string, cakID string, gatewayMacsecCakPatch map[string]interface{}) *UpdateGatewayMacsecCakOptions {
 	return &UpdateGatewayMacsecCakOptions{
-		ID: core.StringPtr(id),
-		CakID: core.StringPtr(cakID),
+		ID:                    core.StringPtr(id),
+		CakID:                 core.StringPtr(cakID),
 		GatewayMacsecCakPatch: gatewayMacsecCakPatch,
 	}
 }
@@ -10979,7 +10994,7 @@ type UpdateGatewayMacsecOptions struct {
 // NewUpdateGatewayMacsecOptions : Instantiate UpdateGatewayMacsecOptions
 func (*DirectLinkV1) NewUpdateGatewayMacsecOptions(id string, gatewayMacsecPatch map[string]interface{}) *UpdateGatewayMacsecOptions {
 	return &UpdateGatewayMacsecOptions{
-		ID: core.StringPtr(id),
+		ID:                 core.StringPtr(id),
 		GatewayMacsecPatch: gatewayMacsecPatch,
 	}
 }
@@ -11017,7 +11032,7 @@ type UpdateGatewayOptions struct {
 // NewUpdateGatewayOptions : Instantiate UpdateGatewayOptions
 func (*DirectLinkV1) NewUpdateGatewayOptions(id string, gatewayPatchTemplatePatch map[string]interface{}) *UpdateGatewayOptions {
 	return &UpdateGatewayOptions{
-		ID: core.StringPtr(id),
+		ID:                        core.StringPtr(id),
 		GatewayPatchTemplatePatch: gatewayPatchTemplatePatch,
 	}
 }
@@ -11059,7 +11074,7 @@ type UpdateGatewayVirtualConnectionOptions struct {
 func (*DirectLinkV1) NewUpdateGatewayVirtualConnectionOptions(gatewayID string, id string, gatewayVirtualConnectionPatchTemplatePatch map[string]interface{}) *UpdateGatewayVirtualConnectionOptions {
 	return &UpdateGatewayVirtualConnectionOptions{
 		GatewayID: core.StringPtr(gatewayID),
-		ID: core.StringPtr(id),
+		ID:        core.StringPtr(id),
 		GatewayVirtualConnectionPatchTemplatePatch: gatewayVirtualConnectionPatchTemplatePatch,
 	}
 }
@@ -11121,7 +11136,7 @@ type UpdateRouteFilterTemplate struct {
 // Constants associated with the UpdateRouteFilterTemplate.Action property.
 // Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter.
 const (
-	UpdateRouteFilterTemplate_Action_Deny = "deny"
+	UpdateRouteFilterTemplate_Action_Deny   = "deny"
 	UpdateRouteFilterTemplate_Action_Permit = "permit"
 )
 
@@ -11898,10 +11913,10 @@ type GatewayCollectionGatewaysItemCrossAccountGateway struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Active = "active"
-	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Connect = "connect"
+	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Active      = "active"
+	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Connect     = "connect"
 	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Established = "established"
-	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Idle = "idle"
+	GatewayCollectionGatewaysItemCrossAccountGateway_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemCrossAccountGateway.ConnectionMode property.
@@ -11909,7 +11924,7 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItemCrossAccountGateway_ConnectionMode_Direct = "direct"
+	GatewayCollectionGatewaysItemCrossAccountGateway_ConnectionMode_Direct  = "direct"
 	GatewayCollectionGatewaysItemCrossAccountGateway_ConnectionMode_Transit = "transit"
 )
 
@@ -11918,7 +11933,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	GatewayCollectionGatewaysItemCrossAccountGateway_LinkStatus_Down = "down"
-	GatewayCollectionGatewaysItemCrossAccountGateway_LinkStatus_Up = "up"
+	GatewayCollectionGatewaysItemCrossAccountGateway_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemCrossAccountGateway.OperationalStatus property.
@@ -11926,25 +11941,25 @@ const (
 // processes using this field  must tolerate unexpected values.
 const (
 	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_Configuring = "configuring"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CreatePending = "create_pending"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CreateRejected = "create_rejected"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_DeletePending = "delete_pending"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_LoaAccepted = "loa_accepted"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_LoaCreated = "loa_created"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_LoaRejected = "loa_rejected"
-	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_Provisioned = "provisioned"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_Configuring              = "configuring"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CreatePending            = "create_pending"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_CreateRejected           = "create_rejected"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_DeletePending            = "delete_pending"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_LoaAccepted              = "loa_accepted"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_LoaCreated               = "loa_created"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_LoaRejected              = "loa_rejected"
+	GatewayCollectionGatewaysItemCrossAccountGateway_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemCrossAccountGateway.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItemCrossAccountGateway_Type_Connect = "connect"
+	GatewayCollectionGatewaysItemCrossAccountGateway_Type_Connect   = "connect"
 	GatewayCollectionGatewaysItemCrossAccountGateway_Type_Dedicated = "dedicated"
 )
 
@@ -12198,10 +12213,10 @@ type GatewayCollectionGatewaysItemGateway struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItemGateway_BgpStatus_Active = "active"
-	GatewayCollectionGatewaysItemGateway_BgpStatus_Connect = "connect"
+	GatewayCollectionGatewaysItemGateway_BgpStatus_Active      = "active"
+	GatewayCollectionGatewaysItemGateway_BgpStatus_Connect     = "connect"
 	GatewayCollectionGatewaysItemGateway_BgpStatus_Established = "established"
-	GatewayCollectionGatewaysItemGateway_BgpStatus_Idle = "idle"
+	GatewayCollectionGatewaysItemGateway_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemGateway.ConnectionMode property.
@@ -12209,21 +12224,21 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItemGateway_ConnectionMode_Direct = "direct"
+	GatewayCollectionGatewaysItemGateway_ConnectionMode_Direct  = "direct"
 	GatewayCollectionGatewaysItemGateway_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemGateway.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayCollectionGatewaysItemGateway_DefaultExportRouteFilter_Deny = "deny"
+	GatewayCollectionGatewaysItemGateway_DefaultExportRouteFilter_Deny   = "deny"
 	GatewayCollectionGatewaysItemGateway_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemGateway.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayCollectionGatewaysItemGateway_DefaultImportRouteFilter_Deny = "deny"
+	GatewayCollectionGatewaysItemGateway_DefaultImportRouteFilter_Deny   = "deny"
 	GatewayCollectionGatewaysItemGateway_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -12232,7 +12247,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	GatewayCollectionGatewaysItemGateway_LinkStatus_Down = "down"
-	GatewayCollectionGatewaysItemGateway_LinkStatus_Up = "up"
+	GatewayCollectionGatewaysItemGateway_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemGateway.MacsecCapability property.
@@ -12246,9 +12261,9 @@ const (
 // - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
-	GatewayCollectionGatewaysItemGateway_MacsecCapability_Macsec = "macsec"
+	GatewayCollectionGatewaysItemGateway_MacsecCapability_Macsec         = "macsec"
 	GatewayCollectionGatewaysItemGateway_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayCollectionGatewaysItemGateway_MacsecCapability_NonMacsec = "non_macsec"
+	GatewayCollectionGatewaysItemGateway_MacsecCapability_NonMacsec      = "non_macsec"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemGateway.OperationalStatus property.
@@ -12258,26 +12273,26 @@ const (
 // See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	GatewayCollectionGatewaysItemGateway_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_Configuring = "configuring"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_CreatePending = "create_pending"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_CreateRejected = "create_rejected"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_DeletePending = "delete_pending"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_Failed = "failed"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaAccepted = "loa_accepted"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaCreated = "loa_created"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaRejected = "loa_rejected"
-	GatewayCollectionGatewaysItemGateway_OperationalStatus_Provisioned = "provisioned"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_Configuring              = "configuring"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_CreatePending            = "create_pending"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_CreateRejected           = "create_rejected"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_DeletePending            = "delete_pending"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_Failed                   = "failed"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaAccepted              = "loa_accepted"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaCreated               = "loa_created"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_LoaRejected              = "loa_rejected"
+	GatewayCollectionGatewaysItemGateway_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the GatewayCollectionGatewaysItemGateway.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	GatewayCollectionGatewaysItemGateway_Type_Connect = "connect"
+	GatewayCollectionGatewaysItemGateway_Type_Connect   = "connect"
 	GatewayCollectionGatewaysItemGateway_Type_Dedicated = "dedicated"
 )
 
@@ -12606,10 +12621,10 @@ const (
 // Constants associated with the GatewayStatusGatewayBFDStatus.Value property.
 // Status.
 const (
-	GatewayStatusGatewayBFDStatus_Value_Down = "down"
-	GatewayStatusGatewayBFDStatus_Value_Init = "init"
+	GatewayStatusGatewayBFDStatus_Value_Down         = "down"
+	GatewayStatusGatewayBFDStatus_Value_Init         = "init"
 	GatewayStatusGatewayBFDStatus_Value_NotAvailable = "not_available"
-	GatewayStatusGatewayBFDStatus_Value_Up = "up"
+	GatewayStatusGatewayBFDStatus_Value_Up           = "up"
 )
 
 func (*GatewayStatusGatewayBFDStatus) isaGatewayStatus() bool {
@@ -12660,10 +12675,10 @@ const (
 // Constants associated with the GatewayStatusGatewayBGPStatus.Value property.
 // Status.
 const (
-	GatewayStatusGatewayBGPStatus_Value_Active = "active"
-	GatewayStatusGatewayBGPStatus_Value_Connect = "connect"
+	GatewayStatusGatewayBGPStatus_Value_Active      = "active"
+	GatewayStatusGatewayBGPStatus_Value_Connect     = "connect"
 	GatewayStatusGatewayBGPStatus_Value_Established = "established"
-	GatewayStatusGatewayBGPStatus_Value_Idle = "idle"
+	GatewayStatusGatewayBGPStatus_Value_Idle        = "idle"
 )
 
 func (*GatewayStatusGatewayBGPStatus) isaGatewayStatus() bool {
@@ -12715,7 +12730,7 @@ const (
 // Status.
 const (
 	GatewayStatusGatewayLinkStatus_Value_Down = "down"
-	GatewayStatusGatewayLinkStatus_Value_Up = "up"
+	GatewayStatusGatewayLinkStatus_Value_Up   = "up"
 )
 
 func (*GatewayStatusGatewayLinkStatus) isaGatewayStatus() bool {
@@ -12834,41 +12849,41 @@ type GatewayTemplateGatewayTypeConnectTemplate struct {
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Direct = "direct"
+	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Direct  = "direct"
 	GatewayTemplateGatewayTypeConnectTemplate_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayTemplateGatewayTypeConnectTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeConnectTemplate_DefaultExportRouteFilter_Deny   = "deny"
 	GatewayTemplateGatewayTypeConnectTemplate_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayTemplateGatewayTypeConnectTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeConnectTemplate_DefaultImportRouteFilter_Deny   = "deny"
 	GatewayTemplateGatewayTypeConnectTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeConnectTemplate.Type property.
 // Offering type.
 const (
-	GatewayTemplateGatewayTypeConnectTemplate_Type_Connect = "connect"
+	GatewayTemplateGatewayTypeConnectTemplate_Type_Connect   = "connect"
 	GatewayTemplateGatewayTypeConnectTemplate_Type_Dedicated = "dedicated"
 )
 
 // NewGatewayTemplateGatewayTypeConnectTemplate : Instantiate GatewayTemplateGatewayTypeConnectTemplate (Generic Model Constructor)
 func (*DirectLinkV1) NewGatewayTemplateGatewayTypeConnectTemplate(bgpAsn int64, global bool, metered bool, name string, speedMbps int64, typeVar string, port *GatewayPortIdentity) (_model *GatewayTemplateGatewayTypeConnectTemplate, err error) {
 	_model = &GatewayTemplateGatewayTypeConnectTemplate{
-		BgpAsn: core.Int64Ptr(bgpAsn),
-		Global: core.BoolPtr(global),
-		Metered: core.BoolPtr(metered),
-		Name: core.StringPtr(name),
+		BgpAsn:    core.Int64Ptr(bgpAsn),
+		Global:    core.BoolPtr(global),
+		Metered:   core.BoolPtr(metered),
+		Name:      core.StringPtr(name),
 		SpeedMbps: core.Int64Ptr(speedMbps),
-		Type: core.StringPtr(typeVar),
-		Port: port,
+		Type:      core.StringPtr(typeVar),
+		Port:      port,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -13111,28 +13126,28 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Direct = "direct"
+	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Direct  = "direct"
 	GatewayTemplateGatewayTypeDedicatedTemplate_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultExportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultExportRouteFilter_Deny   = "deny"
 	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultImportRouteFilter_Deny = "deny"
+	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultImportRouteFilter_Deny   = "deny"
 	GatewayTemplateGatewayTypeDedicatedTemplate_DefaultImportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GatewayTemplateGatewayTypeDedicatedTemplate.Type property.
 // Offering type.
 const (
-	GatewayTemplateGatewayTypeDedicatedTemplate_Type_Connect = "connect"
+	GatewayTemplateGatewayTypeDedicatedTemplate_Type_Connect   = "connect"
 	GatewayTemplateGatewayTypeDedicatedTemplate_Type_Dedicated = "dedicated"
 )
 
@@ -13148,30 +13163,30 @@ const (
 // If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
 // capabilities and available ports:
 //   - `macsec` was not provided in the request
-//     - `non_macsec`
-//     - `macsec_optional`
+//   - `non_macsec`
+//   - `macsec_optional`
 //   - `macsec` was provided in the request
-//     - `macsec_optional`
-//     - `macsec`.
+//   - `macsec_optional`
+//   - `macsec`.
 const (
-	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_Macsec = "macsec"
+	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_Macsec         = "macsec"
 	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_MacsecOptional = "macsec_optional"
-	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_NonMacsec = "non_macsec"
+	GatewayTemplateGatewayTypeDedicatedTemplate_MacsecCapability_NonMacsec      = "non_macsec"
 )
 
 // NewGatewayTemplateGatewayTypeDedicatedTemplate : Instantiate GatewayTemplateGatewayTypeDedicatedTemplate (Generic Model Constructor)
 func (*DirectLinkV1) NewGatewayTemplateGatewayTypeDedicatedTemplate(bgpAsn int64, global bool, metered bool, name string, speedMbps int64, typeVar string, carrierName string, crossConnectRouter string, customerName string, locationName string) (_model *GatewayTemplateGatewayTypeDedicatedTemplate, err error) {
 	_model = &GatewayTemplateGatewayTypeDedicatedTemplate{
-		BgpAsn: core.Int64Ptr(bgpAsn),
-		Global: core.BoolPtr(global),
-		Metered: core.BoolPtr(metered),
-		Name: core.StringPtr(name),
-		SpeedMbps: core.Int64Ptr(speedMbps),
-		Type: core.StringPtr(typeVar),
-		CarrierName: core.StringPtr(carrierName),
+		BgpAsn:             core.Int64Ptr(bgpAsn),
+		Global:             core.BoolPtr(global),
+		Metered:            core.BoolPtr(metered),
+		Name:               core.StringPtr(name),
+		SpeedMbps:          core.Int64Ptr(speedMbps),
+		Type:               core.StringPtr(typeVar),
+		CarrierName:        core.StringPtr(carrierName),
 		CrossConnectRouter: core.StringPtr(crossConnectRouter),
-		CustomerName: core.StringPtr(customerName),
-		LocationName: core.StringPtr(locationName),
+		CustomerName:       core.StringPtr(customerName),
+		LocationName:       core.StringPtr(locationName),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -13389,10 +13404,10 @@ type GetGatewayResponseCrossAccountGateway struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	GetGatewayResponseCrossAccountGateway_BgpStatus_Active = "active"
-	GetGatewayResponseCrossAccountGateway_BgpStatus_Connect = "connect"
+	GetGatewayResponseCrossAccountGateway_BgpStatus_Active      = "active"
+	GetGatewayResponseCrossAccountGateway_BgpStatus_Connect     = "connect"
 	GetGatewayResponseCrossAccountGateway_BgpStatus_Established = "established"
-	GetGatewayResponseCrossAccountGateway_BgpStatus_Idle = "idle"
+	GetGatewayResponseCrossAccountGateway_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the GetGatewayResponseCrossAccountGateway.ConnectionMode property.
@@ -13400,7 +13415,7 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GetGatewayResponseCrossAccountGateway_ConnectionMode_Direct = "direct"
+	GetGatewayResponseCrossAccountGateway_ConnectionMode_Direct  = "direct"
 	GetGatewayResponseCrossAccountGateway_ConnectionMode_Transit = "transit"
 )
 
@@ -13409,7 +13424,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	GetGatewayResponseCrossAccountGateway_LinkStatus_Down = "down"
-	GetGatewayResponseCrossAccountGateway_LinkStatus_Up = "up"
+	GetGatewayResponseCrossAccountGateway_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the GetGatewayResponseCrossAccountGateway.OperationalStatus property.
@@ -13417,25 +13432,25 @@ const (
 // processes using this field  must tolerate unexpected values.
 const (
 	GetGatewayResponseCrossAccountGateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	GetGatewayResponseCrossAccountGateway_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	GetGatewayResponseCrossAccountGateway_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	GetGatewayResponseCrossAccountGateway_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_Configuring = "configuring"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_CreatePending = "create_pending"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_CreateRejected = "create_rejected"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_DeletePending = "delete_pending"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_LoaAccepted = "loa_accepted"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_LoaCreated = "loa_created"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_LoaRejected = "loa_rejected"
-	GetGatewayResponseCrossAccountGateway_OperationalStatus_Provisioned = "provisioned"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_Configuring              = "configuring"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_CreatePending            = "create_pending"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_CreateRejected           = "create_rejected"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_DeletePending            = "delete_pending"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_LoaAccepted              = "loa_accepted"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_LoaCreated               = "loa_created"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_LoaRejected              = "loa_rejected"
+	GetGatewayResponseCrossAccountGateway_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the GetGatewayResponseCrossAccountGateway.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	GetGatewayResponseCrossAccountGateway_Type_Connect = "connect"
+	GetGatewayResponseCrossAccountGateway_Type_Connect   = "connect"
 	GetGatewayResponseCrossAccountGateway_Type_Dedicated = "dedicated"
 )
 
@@ -13689,10 +13704,10 @@ type GetGatewayResponseGateway struct {
 // Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
 // using this field  must tolerate unexpected values.
 const (
-	GetGatewayResponseGateway_BgpStatus_Active = "active"
-	GetGatewayResponseGateway_BgpStatus_Connect = "connect"
+	GetGatewayResponseGateway_BgpStatus_Active      = "active"
+	GetGatewayResponseGateway_BgpStatus_Connect     = "connect"
 	GetGatewayResponseGateway_BgpStatus_Established = "established"
-	GetGatewayResponseGateway_BgpStatus_Idle = "idle"
+	GetGatewayResponseGateway_BgpStatus_Idle        = "idle"
 )
 
 // Constants associated with the GetGatewayResponseGateway.ConnectionMode property.
@@ -13700,21 +13715,21 @@ const (
 // Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
 // for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
-	GetGatewayResponseGateway_ConnectionMode_Direct = "direct"
+	GetGatewayResponseGateway_ConnectionMode_Direct  = "direct"
 	GetGatewayResponseGateway_ConnectionMode_Transit = "transit"
 )
 
 // Constants associated with the GetGatewayResponseGateway.DefaultExportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GetGatewayResponseGateway_DefaultExportRouteFilter_Deny = "deny"
+	GetGatewayResponseGateway_DefaultExportRouteFilter_Deny   = "deny"
 	GetGatewayResponseGateway_DefaultExportRouteFilter_Permit = "permit"
 )
 
 // Constants associated with the GetGatewayResponseGateway.DefaultImportRouteFilter property.
 // The default directional route filter action that applies to routes that do not match any directional route filters.
 const (
-	GetGatewayResponseGateway_DefaultImportRouteFilter_Deny = "deny"
+	GetGatewayResponseGateway_DefaultImportRouteFilter_Deny   = "deny"
 	GetGatewayResponseGateway_DefaultImportRouteFilter_Permit = "permit"
 )
 
@@ -13723,7 +13738,7 @@ const (
 // expand in the future. Code and processes using this field  must tolerate unexpected values.
 const (
 	GetGatewayResponseGateway_LinkStatus_Down = "down"
-	GetGatewayResponseGateway_LinkStatus_Up = "up"
+	GetGatewayResponseGateway_LinkStatus_Up   = "up"
 )
 
 // Constants associated with the GetGatewayResponseGateway.MacsecCapability property.
@@ -13737,9 +13752,9 @@ const (
 // - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
-	GetGatewayResponseGateway_MacsecCapability_Macsec = "macsec"
+	GetGatewayResponseGateway_MacsecCapability_Macsec         = "macsec"
 	GetGatewayResponseGateway_MacsecCapability_MacsecOptional = "macsec_optional"
-	GetGatewayResponseGateway_MacsecCapability_NonMacsec = "non_macsec"
+	GetGatewayResponseGateway_MacsecCapability_NonMacsec      = "non_macsec"
 )
 
 // Constants associated with the GetGatewayResponseGateway.OperationalStatus property.
@@ -13749,26 +13764,26 @@ const (
 // See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
 const (
 	GetGatewayResponseGateway_OperationalStatus_AwaitingCompletionNotice = "awaiting_completion_notice"
-	GetGatewayResponseGateway_OperationalStatus_AwaitingLoa = "awaiting_loa"
+	GetGatewayResponseGateway_OperationalStatus_AwaitingLoa              = "awaiting_loa"
 	GetGatewayResponseGateway_OperationalStatus_CompletionNoticeApproved = "completion_notice_approved"
 	GetGatewayResponseGateway_OperationalStatus_CompletionNoticeReceived = "completion_notice_received"
 	GetGatewayResponseGateway_OperationalStatus_CompletionNoticeRejected = "completion_notice_rejected"
-	GetGatewayResponseGateway_OperationalStatus_Configuring = "configuring"
-	GetGatewayResponseGateway_OperationalStatus_CreatePending = "create_pending"
-	GetGatewayResponseGateway_OperationalStatus_CreateRejected = "create_rejected"
-	GetGatewayResponseGateway_OperationalStatus_DeletePending = "delete_pending"
-	GetGatewayResponseGateway_OperationalStatus_Failed = "failed"
-	GetGatewayResponseGateway_OperationalStatus_LoaAccepted = "loa_accepted"
-	GetGatewayResponseGateway_OperationalStatus_LoaCreated = "loa_created"
-	GetGatewayResponseGateway_OperationalStatus_LoaRejected = "loa_rejected"
-	GetGatewayResponseGateway_OperationalStatus_Provisioned = "provisioned"
+	GetGatewayResponseGateway_OperationalStatus_Configuring              = "configuring"
+	GetGatewayResponseGateway_OperationalStatus_CreatePending            = "create_pending"
+	GetGatewayResponseGateway_OperationalStatus_CreateRejected           = "create_rejected"
+	GetGatewayResponseGateway_OperationalStatus_DeletePending            = "delete_pending"
+	GetGatewayResponseGateway_OperationalStatus_Failed                   = "failed"
+	GetGatewayResponseGateway_OperationalStatus_LoaAccepted              = "loa_accepted"
+	GetGatewayResponseGateway_OperationalStatus_LoaCreated               = "loa_created"
+	GetGatewayResponseGateway_OperationalStatus_LoaRejected              = "loa_rejected"
+	GetGatewayResponseGateway_OperationalStatus_Provisioned              = "provisioned"
 )
 
 // Constants associated with the GetGatewayResponseGateway.Type property.
 // Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
 // this field  must tolerate unexpected values.
 const (
-	GetGatewayResponseGateway_Type_Connect = "connect"
+	GetGatewayResponseGateway_Type_Connect   = "connect"
 	GetGatewayResponseGateway_Type_Dedicated = "dedicated"
 )
 
@@ -14042,7 +14057,7 @@ type RouteReportOverlappingRouteForOthers struct {
 // type of the route.
 const (
 	RouteReportOverlappingRouteForOthers_Type_Gateway = "gateway"
-	RouteReportOverlappingRouteForOthers_Type_OnPrem = "on_prem"
+	RouteReportOverlappingRouteForOthers_Type_OnPrem  = "on_prem"
 )
 
 func (*RouteReportOverlappingRouteForOthers) isaRouteReportOverlappingRoute() bool {
@@ -14168,7 +14183,7 @@ const (
 func (*DirectLinkV1) NewSakRekeyPatchSakRekeyTimerModePatch(interval int64, mode string) (_model *SakRekeyPatchSakRekeyTimerModePatch, err error) {
 	_model = &SakRekeyPatchSakRekeyTimerModePatch{
 		Interval: core.Int64Ptr(interval),
-		Mode: core.StringPtr(mode),
+		Mode:     core.StringPtr(mode),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -14273,7 +14288,7 @@ const (
 func (*DirectLinkV1) NewSakRekeyPrototypeSakRekeyTimerModePrototype(interval int64, mode string) (_model *SakRekeyPrototypeSakRekeyTimerModePrototype, err error) {
 	_model = &SakRekeyPrototypeSakRekeyTimerModePrototype{
 		Interval: core.Int64Ptr(interval),
-		Mode: core.StringPtr(mode),
+		Mode:     core.StringPtr(mode),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -14340,13 +14355,11 @@ func UnmarshalSakRekeyTimerMode(m map[string]json.RawMessage, result interface{}
 	return
 }
 
-//
 // PortsPager can be used to simplify the use of the "ListPorts" method.
-//
 type PortsPager struct {
-	hasNext bool
-	options *ListPortsOptions
-	client  *DirectLinkV1
+	hasNext     bool
+	options     *ListPortsOptions
+	client      *DirectLinkV1
 	pageContext struct {
 		next *string
 	}
