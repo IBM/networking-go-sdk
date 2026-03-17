@@ -1,3 +1,10 @@
+# [0.52.0](https://github.com/IBM/networking-go-sdk/compare/v0.51.16...v0.52.0) (2026-03-17)
+
+
+### Features
+
+* **directlink:** Support Secrets Manager CRNs for authentication_key ([#288](https://github.com/IBM/networking-go-sdk/issues/288)) ([f88b2bc](https://github.com/IBM/networking-go-sdk/commit/f88b2bcab8ea51890303c9018a8e70c1fc5d42cd))
+
 ## [0.51.16](https://github.com/IBM/networking-go-sdk/compare/v0.51.15...v0.51.16) (2026-02-12)
 
 
