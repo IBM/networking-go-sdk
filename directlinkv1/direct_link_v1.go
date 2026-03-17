@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.82.1-2082d402-20231115-195014
+ * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
  */
 
 // Package directlinkv1 : Operations and models for the DirectLinkV1 service
@@ -213,12 +213,12 @@ func (directLink *DirectLinkV1) ListGatewaysWithContext(ctx context.Context, lis
 		return
 	}
 
-	for headerName, headerValue := range listGatewaysOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGateways")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGateways")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewaysOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -280,12 +280,12 @@ func (directLink *DirectLinkV1) CreateGatewayWithContext(ctx context.Context, cr
 		return
 	}
 
-	for headerName, headerValue := range createGatewayOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGateway")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGateway")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -358,12 +358,12 @@ func (directLink *DirectLinkV1) DeleteGatewayWithContext(ctx context.Context, de
 		return
 	}
 
-	for headerName, headerValue := range deleteGatewayOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGateway")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGateway")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -419,12 +419,12 @@ func (directLink *DirectLinkV1) GetGatewayWithContext(ctx context.Context, getGa
 		return
 	}
 
-	for headerName, headerValue := range getGatewayOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGateway")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGateway")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -490,12 +490,12 @@ func (directLink *DirectLinkV1) UpdateGatewayWithContext(ctx context.Context, up
 		return
 	}
 
-	for headerName, headerValue := range updateGatewayOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGateway")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGateway")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -571,12 +571,12 @@ func (directLink *DirectLinkV1) CreateGatewayActionWithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range createGatewayActionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayAction")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayAction")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayActionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -689,12 +689,12 @@ func (directLink *DirectLinkV1) ListGatewayCompletionNoticeWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range listGatewayCompletionNoticeOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayCompletionNotice")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayCompletionNotice")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayCompletionNoticeOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/pdf")
@@ -755,12 +755,12 @@ func (directLink *DirectLinkV1) CreateGatewayCompletionNoticeWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range createGatewayCompletionNoticeOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayCompletionNotice")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayCompletionNotice")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayCompletionNoticeOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -821,12 +821,12 @@ func (directLink *DirectLinkV1) ListGatewayLetterOfAuthorizationWithContext(ctx 
 		return
 	}
 
-	for headerName, headerValue := range listGatewayLetterOfAuthorizationOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayLetterOfAuthorization")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayLetterOfAuthorization")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayLetterOfAuthorizationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/pdf")
@@ -884,12 +884,12 @@ func (directLink *DirectLinkV1) GetGatewayStatisticsWithContext(ctx context.Cont
 		return
 	}
 
-	for headerName, headerValue := range getGatewayStatisticsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayStatistics")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayStatistics")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayStatisticsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -956,12 +956,12 @@ func (directLink *DirectLinkV1) GetGatewayStatusWithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range getGatewayStatusOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayStatus")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayStatus")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayStatusOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1030,12 +1030,12 @@ func (directLink *DirectLinkV1) ListGatewayAsPrependsWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayAsPrependsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1102,12 +1102,12 @@ func (directLink *DirectLinkV1) ReplaceGatewayAsPrependsWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayAsPrepends")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range replaceGatewayAsPrependsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1194,12 +1194,12 @@ func (directLink *DirectLinkV1) ListGatewayExportRouteFiltersWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range listGatewayExportRouteFiltersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayExportRouteFilters")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayExportRouteFilters")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayExportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1275,12 +1275,12 @@ func (directLink *DirectLinkV1) CreateGatewayExportRouteFilterWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range createGatewayExportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayExportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayExportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayExportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1369,12 +1369,12 @@ func (directLink *DirectLinkV1) ReplaceGatewayExportRouteFiltersWithContext(ctx 
 		return
 	}
 
-	for headerName, headerValue := range replaceGatewayExportRouteFiltersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayExportRouteFilters")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayExportRouteFilters")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range replaceGatewayExportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1459,12 +1459,12 @@ func (directLink *DirectLinkV1) DeleteGatewayExportRouteFilterWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range deleteGatewayExportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayExportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayExportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteGatewayExportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -1521,12 +1521,12 @@ func (directLink *DirectLinkV1) GetGatewayExportRouteFilterWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range getGatewayExportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayExportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayExportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayExportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1601,12 +1601,12 @@ func (directLink *DirectLinkV1) UpdateGatewayExportRouteFilterWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range updateGatewayExportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayExportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayExportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateGatewayExportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1685,12 +1685,12 @@ func (directLink *DirectLinkV1) ListGatewayImportRouteFiltersWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range listGatewayImportRouteFiltersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayImportRouteFilters")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayImportRouteFilters")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayImportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1766,12 +1766,12 @@ func (directLink *DirectLinkV1) CreateGatewayImportRouteFilterWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range createGatewayImportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayImportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayImportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1860,12 +1860,12 @@ func (directLink *DirectLinkV1) ReplaceGatewayImportRouteFiltersWithContext(ctx 
 		return
 	}
 
-	for headerName, headerValue := range replaceGatewayImportRouteFiltersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayImportRouteFilters")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ReplaceGatewayImportRouteFilters")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range replaceGatewayImportRouteFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1950,12 +1950,12 @@ func (directLink *DirectLinkV1) DeleteGatewayImportRouteFilterWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range deleteGatewayImportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayImportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteGatewayImportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -2012,12 +2012,12 @@ func (directLink *DirectLinkV1) GetGatewayImportRouteFilterWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range getGatewayImportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayImportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayImportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2092,12 +2092,12 @@ func (directLink *DirectLinkV1) UpdateGatewayImportRouteFilterWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range updateGatewayImportRouteFilterOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayImportRouteFilter")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayImportRouteFilter")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateGatewayImportRouteFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2170,12 +2170,12 @@ func (directLink *DirectLinkV1) UnsetGatewayMacsecWithContext(ctx context.Contex
 		return
 	}
 
-	for headerName, headerValue := range unsetGatewayMacsecOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UnsetGatewayMacsec")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UnsetGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range unsetGatewayMacsecOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -2231,12 +2231,12 @@ func (directLink *DirectLinkV1) GetGatewayMacsecWithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range getGatewayMacsecOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayMacsec")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayMacsecOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2302,12 +2302,12 @@ func (directLink *DirectLinkV1) UpdateGatewayMacsecWithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range updateGatewayMacsecOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayMacsec")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateGatewayMacsecOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2380,12 +2380,12 @@ func (directLink *DirectLinkV1) SetGatewayMacsecWithContext(ctx context.Context,
 		return
 	}
 
-	for headerName, headerValue := range setGatewayMacsecOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "SetGatewayMacsec")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "SetGatewayMacsec")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range setGatewayMacsecOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2477,12 +2477,12 @@ func (directLink *DirectLinkV1) ListGatewayMacsecCaksWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range listGatewayMacsecCaksOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayMacsecCaks")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayMacsecCaks")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayMacsecCaksOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2548,12 +2548,12 @@ func (directLink *DirectLinkV1) CreateGatewayMacsecCakWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range createGatewayMacsecCakOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayMacsecCak")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayMacsecCakOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2637,12 +2637,12 @@ func (directLink *DirectLinkV1) DeleteGatewayMacsecCakWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range deleteGatewayMacsecCakOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayMacsecCak")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteGatewayMacsecCakOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -2699,12 +2699,12 @@ func (directLink *DirectLinkV1) GetGatewayMacsecCakWithContext(ctx context.Conte
 		return
 	}
 
-	for headerName, headerValue := range getGatewayMacsecCakOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayMacsecCak")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayMacsecCakOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2771,12 +2771,12 @@ func (directLink *DirectLinkV1) UpdateGatewayMacsecCakWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range updateGatewayMacsecCakOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayMacsecCak")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayMacsecCak")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateGatewayMacsecCakOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2849,12 +2849,12 @@ func (directLink *DirectLinkV1) ListGatewayRouteReportsWithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range listGatewayRouteReportsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayRouteReports")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayRouteReports")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayRouteReportsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2924,12 +2924,12 @@ func (directLink *DirectLinkV1) CreateGatewayRouteReportWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range createGatewayRouteReportOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayRouteReport")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayRouteReport")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayRouteReportOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2996,12 +2996,12 @@ func (directLink *DirectLinkV1) DeleteGatewayRouteReportWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range deleteGatewayRouteReportOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayRouteReport")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayRouteReport")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteGatewayRouteReportOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -3058,12 +3058,12 @@ func (directLink *DirectLinkV1) GetGatewayRouteReportWithContext(ctx context.Con
 		return
 	}
 
-	for headerName, headerValue := range getGatewayRouteReportOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayRouteReport")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayRouteReport")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayRouteReportOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3130,12 +3130,12 @@ func (directLink *DirectLinkV1) ListGatewayVirtualConnectionsWithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range listGatewayVirtualConnectionsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayVirtualConnections")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListGatewayVirtualConnections")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listGatewayVirtualConnectionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3201,12 +3201,12 @@ func (directLink *DirectLinkV1) CreateGatewayVirtualConnectionWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range createGatewayVirtualConnectionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayVirtualConnection")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "CreateGatewayVirtualConnection")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createGatewayVirtualConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3290,12 +3290,12 @@ func (directLink *DirectLinkV1) DeleteGatewayVirtualConnectionWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range deleteGatewayVirtualConnectionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayVirtualConnection")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "DeleteGatewayVirtualConnection")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteGatewayVirtualConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
@@ -3352,12 +3352,12 @@ func (directLink *DirectLinkV1) GetGatewayVirtualConnectionWithContext(ctx conte
 		return
 	}
 
-	for headerName, headerValue := range getGatewayVirtualConnectionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayVirtualConnection")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetGatewayVirtualConnection")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getGatewayVirtualConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3424,12 +3424,12 @@ func (directLink *DirectLinkV1) UpdateGatewayVirtualConnectionWithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range updateGatewayVirtualConnectionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayVirtualConnection")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "UpdateGatewayVirtualConnection")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateGatewayVirtualConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3502,12 +3502,12 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationsWithContext(ctx context
 		return
 	}
 
-	for headerName, headerValue := range listOfferingTypeLocationsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocations")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocations")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listOfferingTypeLocationsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3574,12 +3574,12 @@ func (directLink *DirectLinkV1) ListOfferingTypeLocationCrossConnectRoutersWithC
 		return
 	}
 
-	for headerName, headerValue := range listOfferingTypeLocationCrossConnectRoutersOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocationCrossConnectRouters")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeLocationCrossConnectRouters")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listOfferingTypeLocationCrossConnectRoutersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3645,12 +3645,12 @@ func (directLink *DirectLinkV1) ListOfferingTypeSpeedsWithContext(ctx context.Co
 		return
 	}
 
-	for headerName, headerValue := range listOfferingTypeSpeedsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeSpeeds")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListOfferingTypeSpeeds")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listOfferingTypeSpeedsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3708,12 +3708,12 @@ func (directLink *DirectLinkV1) ListPortsWithContext(ctx context.Context, listPo
 		return
 	}
 
-	for headerName, headerValue := range listPortsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListPorts")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "ListPorts")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listPortsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -3788,12 +3788,12 @@ func (directLink *DirectLinkV1) GetPortWithContext(ctx context.Context, getPortO
 		return
 	}
 
-	for headerName, headerValue := range getPortOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetPort")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("direct_link", "V1", "GetPort")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getPortOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -4110,6 +4110,7 @@ func UnmarshalAsPrependTemplate(m map[string]json.RawMessage, result interface{}
 // Models which "extend" this model:
 // - AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
 // - AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity
+// - AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity
 type AuthenticationKeyIdentity struct {
 	// The CRN of the key.
 	Crn *string `json:"crn,omitempty"`
@@ -4148,8 +4149,9 @@ func (authenticationKeyIdentity *AuthenticationKeyIdentity) asPatch() (_patch ma
 
 // AuthenticationKeyReference : AuthenticationKeyReference struct
 // Models which "extend" this model:
-// - AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
 // - AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+// - AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+// - AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference
 type AuthenticationKeyReference struct {
 	// The CRN of the referenced key.
 	Crn *string `json:"crn,omitempty"`
@@ -4599,8 +4601,7 @@ type CreateGatewayMacsecCakOptions struct {
 	// Direct Link gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyIdentity `json:"key" validate:"required"`
+	Key GatewayMacsecCakKeyReferenceIntf `json:"key" validate:"required"`
 
 	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
 	//
@@ -4634,7 +4635,7 @@ const (
 )
 
 // NewCreateGatewayMacsecCakOptions : Instantiate CreateGatewayMacsecCakOptions
-func (*DirectLinkV1) NewCreateGatewayMacsecCakOptions(id string, key *HpcsKeyIdentity, name string, session string) *CreateGatewayMacsecCakOptions {
+func (*DirectLinkV1) NewCreateGatewayMacsecCakOptions(id string, key GatewayMacsecCakKeyReferenceIntf, name string, session string) *CreateGatewayMacsecCakOptions {
 	return &CreateGatewayMacsecCakOptions{
 		ID:      core.StringPtr(id),
 		Key:     key,
@@ -4650,7 +4651,7 @@ func (_options *CreateGatewayMacsecCakOptions) SetID(id string) *CreateGatewayMa
 }
 
 // SetKey : Allow user to set Key
-func (_options *CreateGatewayMacsecCakOptions) SetKey(key *HpcsKeyIdentity) *CreateGatewayMacsecCakOptions {
+func (_options *CreateGatewayMacsecCakOptions) SetKey(key GatewayMacsecCakKeyReferenceIntf) *CreateGatewayMacsecCakOptions {
 	_options.Key = key
 	return _options
 }
@@ -4800,7 +4801,7 @@ type CrossConnectRouter struct {
 	// List of capabilities for this router.
 	//
 	// Listed `MacsecCapability` values indicate the router is associated with switch ports with that capability, and is
-	// able to provision direct links with that capability. Multiple `MacsecCapability` values may be listed.
+	// able to provision direct links with that capability. Multiple `MacsecCapability` values can be listed.
 	Capabilities []string `json:"capabilities,omitempty"`
 
 	// The name of the Router.
@@ -5158,7 +5159,7 @@ type Gateway struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
@@ -5166,9 +5167,9 @@ type Gateway struct {
 	//
 	// Only included on type=dedicated direct links.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	MacsecCapability *string `json:"macsec_capability,omitempty"`
 
@@ -5259,9 +5260,9 @@ const (
 //
 // Only included on type=dedicated direct links.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
 	Gateway_MacsecCapability_Macsec         = "macsec"
@@ -6062,7 +6063,7 @@ type GatewayCollectionGatewaysItem struct {
 	// Gateway location.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
@@ -6070,9 +6071,9 @@ type GatewayCollectionGatewaysItem struct {
 	//
 	// Only included on type=dedicated direct links.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	MacsecCapability *string `json:"macsec_capability,omitempty"`
 
@@ -6163,9 +6164,9 @@ const (
 //
 // Only included on type=dedicated direct links.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
 	GatewayCollectionGatewaysItem_MacsecCapability_Macsec         = "macsec"
@@ -6418,9 +6419,9 @@ func UnmarshalGatewayCollectionGatewaysItem(m map[string]json.RawMessage, result
 	return
 }
 
-// GatewayMacsec : MACsec configuration information of a Direct Link gateway.
+// GatewayMacsec : MACsec configuration information of a direct link.
 type GatewayMacsec struct {
-	// Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway.
+	// Indicates if the MACsec feature is currently active (true) or inactive (false) for a direct link.
 	Active *bool `json:"active" validate:"required"`
 
 	// The cipher suite used in generating the security association key (SAK).
@@ -6444,10 +6445,10 @@ type GatewayMacsec struct {
 
 	// Determines how packets without MACsec headers are handled.
 	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
+	// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+	// availability.
+	// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+	// security.
 	SecurityPolicy *string `json:"security_policy" validate:"required"`
 
 	// Current status of MACsec on this direct link.
@@ -6482,10 +6483,10 @@ const (
 // Constants associated with the GatewayMacsec.SecurityPolicy property.
 // Determines how packets without MACsec headers are handled.
 //
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
+// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+// availability.
+// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+// security.
 const (
 	GatewayMacsec_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsec_SecurityPolicy_ShouldSecure = "should_secure"
@@ -6578,10 +6579,10 @@ func UnmarshalGatewayMacsec(m map[string]json.RawMessage, result interface{}) (e
 // Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) type=standard with key material a hexadecimal
 // string exactly 64 characters in length.
 type GatewayMacsecCak struct {
-	// This field will be present when the `status` of the MACsec CAK is `rotating` and may be present when the `status` is
-	// `failed`.
+	// This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It might be present when
+	// the CAK `status` is `failed`.
 	//
-	// This object denotes the MACsec CAK's values prior to beginning the rotation and represent the previous key still
+	// This object denotes the MACsec CAK's values prior to beginning a CAK rotation and represents the previous key still
 	// configured in the direct link's MACsec key chain.
 	//
 	// This object will be removed when the MACsec CAK rotation completes, indicating that the previous key has been
@@ -6594,9 +6595,7 @@ type GatewayMacsecCak struct {
 	// The unique identifier for this connectivity association key (CAK).
 	ID *string `json:"id" validate:"required"`
 
-	// A reference to a [Hyper Protect Crypto Service Standard
-	// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyReference `json:"key" validate:"required"`
+	Key GatewayMacsecCakKeyReferenceIntf `json:"key" validate:"required"`
 
 	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
 	//
@@ -6617,11 +6616,18 @@ type GatewayMacsecCak struct {
 	//
 	// Status `operational` is returned when the CAK is configured successfully.
 	//
+	// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the
+	// device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a
+	// period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will
+	// either enter `active` or `inactive` status.
+	//
 	// Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
 	// session.
 	//
-	// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is securing the MACsec
-	// session. The status will remain `rotating` until the new key is `active`.
+	// Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the
+	// MACsec session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be used
+	// to secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key name
+	// mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
 	//
 	// Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS
 	// key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
@@ -6649,11 +6655,18 @@ const (
 //
 // Status `operational` is returned when the CAK is configured successfully.
 //
+// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the
+// device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a
+// period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will
+// either enter `active` or `inactive` status.
+//
 // Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
 // session.
 //
-// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is securing the MACsec
-// session. The status will remain `rotating` until the new key is `active`.
+// Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec
+// session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be used to
+// secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key name
+// mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
 //
 // Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS
 // key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
@@ -6661,6 +6674,7 @@ const (
 const (
 	GatewayMacsecCak_Status_Active      = "active"
 	GatewayMacsecCak_Status_Failed      = "failed"
+	GatewayMacsecCak_Status_Inactive    = "inactive"
 	GatewayMacsecCak_Status_Operational = "operational"
 	GatewayMacsecCak_Status_Rotating    = "rotating"
 )
@@ -6683,7 +6697,7 @@ func UnmarshalGatewayMacsecCak(m map[string]json.RawMessage, result interface{})
 		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyReference)
+	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalGatewayMacsecCakKeyReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
 		return
@@ -6712,31 +6726,80 @@ func UnmarshalGatewayMacsecCak(m map[string]json.RawMessage, result interface{})
 	return
 }
 
-// GatewayMacsecCakActiveDelta : This field will be present when the `status` of the MACsec CAK is `rotating` and may be present when the `status` is
-// `failed`.
+// GatewayMacsecCakActiveDelta : This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It might be present when
+// the CAK `status` is `failed`.
 //
-// This object denotes the MACsec CAK's values prior to beginning the rotation and represent the previous key still
+// This object denotes the MACsec CAK's values prior to beginning a CAK rotation and represents the previous key still
 // configured in the direct link's MACsec key chain.
 //
 // This object will be removed when the MACsec CAK rotation completes, indicating that the previous key has been removed
 // from the key chain, and the current CAK's values are in use.
 type GatewayMacsecCakActiveDelta struct {
-	// A reference to a [Hyper Protect Crypto Service Standard
-	// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyReference `json:"key,omitempty"`
+	Key GatewayMacsecCakKeyReferenceIntf `json:"key" validate:"required"`
 
 	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
 	//
 	// The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
 	//
 	// This value, along with the material of the `key`, must match on the MACsec peers.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name" validate:"required"`
+
+	// Current status of the CAK.
+	//
+	// Status `operational` is returned when the CAK is configured successfully.
+	//
+	// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the
+	// device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a
+	// period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will
+	// either enter `active` or `inactive` status.
+	//
+	// Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
+	// session.
+	//
+	// Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the
+	// MACsec session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be used
+	// to secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key name
+	// mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
+	//
+	// Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS
+	// key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
+	// session.
+	Status *string `json:"status" validate:"required"`
 }
+
+// Constants associated with the GatewayMacsecCakActiveDelta.Status property.
+// Current status of the CAK.
+//
+// Status `operational` is returned when the CAK is configured successfully.
+//
+// Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the
+// device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a
+// period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will
+// either enter `active` or `inactive` status.
+//
+// Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
+// session.
+//
+// Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec
+// session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be used to
+// secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key name
+// mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
+//
+// Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS
+// key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback`
+// session.
+const (
+	GatewayMacsecCakActiveDelta_Status_Active      = "active"
+	GatewayMacsecCakActiveDelta_Status_Failed      = "failed"
+	GatewayMacsecCakActiveDelta_Status_Inactive    = "inactive"
+	GatewayMacsecCakActiveDelta_Status_Operational = "operational"
+	GatewayMacsecCakActiveDelta_Status_Rotating    = "rotating"
+)
 
 // UnmarshalGatewayMacsecCakActiveDelta unmarshals an instance of GatewayMacsecCakActiveDelta from the specified map of raw messages.
 func UnmarshalGatewayMacsecCakActiveDelta(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayMacsecCakActiveDelta)
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyReference)
+	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalGatewayMacsecCakKeyReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
 		return
@@ -6744,6 +6807,11 @@ func UnmarshalGatewayMacsecCakActiveDelta(m map[string]json.RawMessage, result i
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6768,13 +6836,52 @@ func UnmarshalGatewayMacsecCakCollection(m map[string]json.RawMessage, result in
 	return
 }
 
+// GatewayMacsecCakKeyReference : GatewayMacsecCakKeyReference struct
+// Models which "extend" this model:
+// - GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+// - GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference
+type GatewayMacsecCakKeyReference struct {
+	// The CRN of the referenced key.
+	Crn *string `json:"crn,omitempty"`
+}
+
+func (*GatewayMacsecCakKeyReference) isaGatewayMacsecCakKeyReference() bool {
+	return true
+}
+
+type GatewayMacsecCakKeyReferenceIntf interface {
+	isaGatewayMacsecCakKeyReference() bool
+	asPatch() map[string]interface{}
+}
+
+// UnmarshalGatewayMacsecCakKeyReference unmarshals an instance of GatewayMacsecCakKeyReference from the specified map of raw messages.
+func UnmarshalGatewayMacsecCakKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecCakKeyReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// asPatch returns a generic map representation of the GatewayMacsecCakKeyReference
+func (gatewayMacsecCakKeyReference *GatewayMacsecCakKeyReference) asPatch() (_patch map[string]interface{}) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(gatewayMacsecCakKeyReference.Crn) {
+		_patch["crn"] = gatewayMacsecCakKeyReference.Crn
+	}
+
+	return
+}
+
 // GatewayMacsecCakPatch : Patch fields for CAK of MACsec configuration on a direct link.
 //
 // When rotating a CAK, patch both the `name` and `key` fields simultaneously. Both must have new values and cannot
 // match with another CAK. Neither `name` nor `key` is allowed to be patched on its own.
 type GatewayMacsecCakPatch struct {
-	// A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyIdentity `json:"key,omitempty"`
+	Key GatewayMacsecCakKeyReferenceIntf `json:"key,omitempty"`
 
 	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
 	//
@@ -6787,7 +6894,7 @@ type GatewayMacsecCakPatch struct {
 // UnmarshalGatewayMacsecCakPatch unmarshals an instance of GatewayMacsecCakPatch from the specified map of raw messages.
 func UnmarshalGatewayMacsecCakPatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayMacsecCakPatch)
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyIdentity)
+	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalGatewayMacsecCakKeyReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
 		return
@@ -6816,8 +6923,7 @@ func (gatewayMacsecCakPatch *GatewayMacsecCakPatch) AsPatch() (_patch map[string
 
 // GatewayMacsecCakPrototype : The prototype for a connectivity association key (CAK) used in the MACsec Key Agreement (MKA) protocol.
 type GatewayMacsecCakPrototype struct {
-	// A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-	Key *HpcsKeyIdentity `json:"key" validate:"required"`
+	Key GatewayMacsecCakKeyReferenceIntf `json:"key" validate:"required"`
 
 	// The name identifies the connectivity association key (CAK) within the MACsec key chain.
 	//
@@ -6848,7 +6954,7 @@ const (
 )
 
 // NewGatewayMacsecCakPrototype : Instantiate GatewayMacsecCakPrototype (Generic Model Constructor)
-func (*DirectLinkV1) NewGatewayMacsecCakPrototype(key *HpcsKeyIdentity, name string, session string) (_model *GatewayMacsecCakPrototype, err error) {
+func (*DirectLinkV1) NewGatewayMacsecCakPrototype(key GatewayMacsecCakKeyReferenceIntf, name string, session string) (_model *GatewayMacsecCakPrototype, err error) {
 	_model = &GatewayMacsecCakPrototype{
 		Key:     key,
 		Name:    core.StringPtr(name),
@@ -6864,7 +6970,7 @@ func (*DirectLinkV1) NewGatewayMacsecCakPrototype(key *HpcsKeyIdentity, name str
 // UnmarshalGatewayMacsecCakPrototype unmarshals an instance of GatewayMacsecCakPrototype from the specified map of raw messages.
 func UnmarshalGatewayMacsecCakPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GatewayMacsecCakPrototype)
-	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalHpcsKeyIdentity)
+	err = core.UnmarshalModel(m, "key", &obj.Key, UnmarshalGatewayMacsecCakKeyReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "key-error", common.GetComponentInfo())
 		return
@@ -6883,9 +6989,9 @@ func UnmarshalGatewayMacsecCakPrototype(m map[string]json.RawMessage, result int
 	return
 }
 
-// GatewayMacsecPatch : Patch fields for MACsec configuration of a Direct Link gateway.
+// GatewayMacsecPatch : Patch fields for MACsec configuration of a direct link.
 type GatewayMacsecPatch struct {
-	// Sets the MACsec feature to be active (true) or inactive (false) for a gateway.
+	// Sets the MACsec feature to be active (true) or inactive (false) for a direct link.
 	Active *bool `json:"active,omitempty"`
 
 	// Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
@@ -6893,10 +6999,10 @@ type GatewayMacsecPatch struct {
 
 	// Determines how packets without MACsec headers are handled.
 	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
+	// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+	// availability.
+	// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+	// security.
 	SecurityPolicy *string `json:"security_policy,omitempty"`
 
 	// The window size determines the number of frames in a window for replay protection.
@@ -6909,10 +7015,10 @@ type GatewayMacsecPatch struct {
 // Constants associated with the GatewayMacsecPatch.SecurityPolicy property.
 // Determines how packets without MACsec headers are handled.
 //
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
+// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+// availability.
+// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+// security.
 const (
 	GatewayMacsecPatch_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsecPatch_SecurityPolicy_ShouldSecure = "should_secure"
@@ -6964,9 +7070,9 @@ func (gatewayMacsecPatch *GatewayMacsecPatch) AsPatch() (_patch map[string]inter
 	return
 }
 
-// GatewayMacsecPrototype : MACsec configuration information of a Direct Link gateway.
+// GatewayMacsecPrototype : MACsec configuration information of a direct link.
 type GatewayMacsecPrototype struct {
-	// Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway.
+	// Determines if the MACsec feature will initially be active (true) or inactive (false) for a direct link.
 	Active *bool `json:"active" validate:"required"`
 
 	// List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a direct
@@ -6982,10 +7088,10 @@ type GatewayMacsecPrototype struct {
 
 	// Determines how packets without MACsec headers are handled.
 	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
+	// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+	// availability.
+	// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+	// security.
 	SecurityPolicy *string `json:"security_policy" validate:"required"`
 
 	// The window size determines the number of frames in a window for replay protection.
@@ -6998,10 +7104,10 @@ type GatewayMacsecPrototype struct {
 // Constants associated with the GatewayMacsecPrototype.SecurityPolicy property.
 // Determines how packets without MACsec headers are handled.
 //
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
+// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+// availability.
+// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+// security.
 const (
 	GatewayMacsecPrototype_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsecPrototype_SecurityPolicy_ShouldSecure = "should_secure"
@@ -7054,17 +7160,17 @@ func UnmarshalGatewayMacsecPrototype(m map[string]json.RawMessage, result interf
 	return
 }
 
-// GatewayMacsecReference : MACsec configuration information of a Direct Link gateway.
+// GatewayMacsecReference : MACsec configuration information of a direct link.
 type GatewayMacsecReference struct {
-	// Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway.
+	// Indicates if the MACsec feature is currently active (true) or inactive (false) for a direct link.
 	Active *bool `json:"active" validate:"required"`
 
 	// Determines how packets without MACsec headers are handled.
 	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
+	// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+	// availability.
+	// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+	// security.
 	SecurityPolicy *string `json:"security_policy" validate:"required"`
 
 	// Current status of MACsec on this direct link.
@@ -7084,10 +7190,10 @@ type GatewayMacsecReference struct {
 // Constants associated with the GatewayMacsecReference.SecurityPolicy property.
 // Determines how packets without MACsec headers are handled.
 //
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
+// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+// availability.
+// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+// security.
 const (
 	GatewayMacsecReference_SecurityPolicy_MustSecure   = "must_secure"
 	GatewayMacsecReference_SecurityPolicy_ShouldSecure = "should_secure"
@@ -7142,8 +7248,8 @@ func UnmarshalGatewayMacsecReference(m map[string]json.RawMessage, result interf
 type GatewayMacsecStatusReason struct {
 	// A reason code for the status:
 	// - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec
-	// configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs associated
-	// with the MACsec configuration to find the the source of this reason.
+	// configuration was unable to be configured on the direct link. Refer to the `status` of the CAKs associated with the
+	// MACsec configuration to find the the source of this reason.
 	Code *string `json:"code" validate:"required"`
 
 	// An explanation of the status reason.
@@ -7156,8 +7262,8 @@ type GatewayMacsecStatusReason struct {
 // Constants associated with the GatewayMacsecStatusReason.Code property.
 // A reason code for the status:
 // - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec
-// configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs associated
-// with the MACsec configuration to find the the source of this reason.
+// configuration was unable to be configured on the direct link. Refer to the `status` of the CAKs associated with the
+// MACsec configuration to find the the source of this reason.
 const (
 	GatewayMacsecStatusReason_Code_MacsecCakFailed = "macsec_cak_failed"
 )
@@ -7771,15 +7877,15 @@ type GatewayTemplate struct {
 	// Gateway location.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecPrototype `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
 	// `cross_connect_router`.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	//
 	// If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
@@ -7833,9 +7939,9 @@ const (
 // Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
 // `cross_connect_router`.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 //
 // If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
@@ -8498,7 +8604,7 @@ type GetGatewayResponse struct {
 	// Gateway location.
 	LocationName *string `json:"location_name,omitempty"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
@@ -8506,9 +8612,9 @@ type GetGatewayResponse struct {
 	//
 	// Only included on type=dedicated direct links.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	MacsecCapability *string `json:"macsec_capability,omitempty"`
 
@@ -8599,9 +8705,9 @@ const (
 //
 // Only included on type=dedicated direct links.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
 	GetGatewayResponse_MacsecCapability_Macsec         = "macsec"
@@ -9048,65 +9154,6 @@ func (_options *GetPortOptions) SetID(id string) *GetPortOptions {
 func (options *GetPortOptions) SetHeaders(param map[string]string) *GetPortOptions {
 	options.Headers = param
 	return options
-}
-
-// HpcsKeyIdentity : A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-type HpcsKeyIdentity struct {
-	// The CRN of the key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// NewHpcsKeyIdentity : Instantiate HpcsKeyIdentity (Generic Model Constructor)
-func (*DirectLinkV1) NewHpcsKeyIdentity(crn string) (_model *HpcsKeyIdentity, err error) {
-	_model = &HpcsKeyIdentity{
-		Crn: core.StringPtr(crn),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
-
-// UnmarshalHpcsKeyIdentity unmarshals an instance of HpcsKeyIdentity from the specified map of raw messages.
-func UnmarshalHpcsKeyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(HpcsKeyIdentity)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// asPatch returns a generic map representation of the HpcsKeyIdentity
-func (hpcsKeyIdentity *HpcsKeyIdentity) asPatch() (_patch map[string]interface{}) {
-	_patch = map[string]interface{}{}
-	if !core.IsNil(hpcsKeyIdentity.Crn) {
-		_patch["crn"] = hpcsKeyIdentity.Crn
-	}
-
-	return
-}
-
-// HpcsKeyReference : A reference to a [Hyper Protect Crypto Service Standard
-// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-type HpcsKeyReference struct {
-	// The CRN of the referenced key.
-	Crn *string `json:"crn" validate:"required"`
-}
-
-// UnmarshalHpcsKeyReference unmarshals an instance of HpcsKeyReference from the specified map of raw messages.
-func UnmarshalHpcsKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(HpcsKeyReference)
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
 }
 
 // ImportRouteFilterCollection : Collection of import route filters.
@@ -9578,8 +9625,7 @@ type LocationOutput struct {
 	// Location type.
 	LocationType *string `json:"location_type" validate:"required"`
 
-	// Indicate whether location supports MACsec.  Only returned for gateway type=dedicated locations.  Contact IBM support
-	// for access to MACsec.
+	// Indicate whether location supports MACsec.  Only returned for direct link type=dedicated locations.
 	MacsecEnabled *bool `json:"macsec_enabled,omitempty"`
 
 	// Location market.
@@ -9679,8 +9725,7 @@ type OfferingSpeed struct {
 	// Link speed in megabits per second.
 	LinkSpeed *int64 `json:"link_speed" validate:"required"`
 
-	// Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM support for
-	// access to MACsec.
+	// Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.
 	MacsecEnabled *bool `json:"macsec_enabled,omitempty"`
 }
 
@@ -10654,7 +10699,7 @@ type SetGatewayMacsecOptions struct {
 	// Direct Link gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway.
+	// Determines if the MACsec feature will initially be active (true) or inactive (false) for a direct link.
 	Active *bool `json:"active" validate:"required"`
 
 	// List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a direct
@@ -10670,10 +10715,10 @@ type SetGatewayMacsecOptions struct {
 
 	// Determines how packets without MACsec headers are handled.
 	//
-	// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-	// network availability.
-	// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-	// availability over security.
+	// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+	// availability.
+	// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+	// security.
 	SecurityPolicy *string `json:"security_policy" validate:"required"`
 
 	// The window size determines the number of frames in a window for replay protection.
@@ -10694,10 +10739,10 @@ type SetGatewayMacsecOptions struct {
 // Constants associated with the SetGatewayMacsecOptions.SecurityPolicy property.
 // Determines how packets without MACsec headers are handled.
 //
-// `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-// network availability.
-// `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-// availability over security.
+// - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+// availability.
+// - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+// security.
 const (
 	SetGatewayMacsecOptions_SecurityPolicy_MustSecure   = "must_secure"
 	SetGatewayMacsecOptions_SecurityPolicy_ShouldSecure = "should_secure"
@@ -11239,6 +11284,52 @@ func (authenticationKeyIdentityKeyProtectAuthenticationKeyIdentity *Authenticati
 	return
 }
 
+// AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity : A [Secrets Manager Arbitrary
+// Secret](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-getting-started).
+// This model "extends" AuthenticationKeyIdentity
+type AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity struct {
+	// The CRN of the secret.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity : Instantiate AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity (Generic Model Constructor)
+func (*DirectLinkV1) NewAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(crn string) (_model *AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity, err error) {
+	_model = &AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity) isaAuthenticationKeyIdentity() bool {
+	return true
+}
+
+// UnmarshalAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity unmarshals an instance of AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity from the specified map of raw messages.
+func UnmarshalAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// asPatch returns a generic map representation of the AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity
+func (authenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity *AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity) asPatch() (_patch map[string]interface{}) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(authenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity.Crn) {
+		_patch["crn"] = authenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity.Crn
+	}
+
+	return
+}
+
 // AuthenticationKeyReferenceHpcsAuthenticationKeyReference : A reference to a [Hyper Protect Crypto Service Standard
 // Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
 // This model "extends" AuthenticationKeyReference
@@ -11278,6 +11369,30 @@ func (*AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference) isaAuthen
 // UnmarshalAuthenticationKeyReferenceKeyProtectAuthenticationKeyReference unmarshals an instance of AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference from the specified map of raw messages.
 func UnmarshalAuthenticationKeyReferenceKeyProtectAuthenticationKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference : A reference to a [Secrets Manager Arbitrary
+// Secret](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-getting-started).
+// This model "extends" AuthenticationKeyReference
+type AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference struct {
+	// The CRN of the referenced key.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+func (*AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference) isaAuthenticationKeyReference() bool {
+	return true
+}
+
+// UnmarshalAuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference unmarshals an instance of AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference from the specified map of raw messages.
+func UnmarshalAuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
@@ -12040,7 +12155,7 @@ type GatewayCollectionGatewaysItemGateway struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
@@ -12048,9 +12163,9 @@ type GatewayCollectionGatewaysItemGateway struct {
 	//
 	// Only included on type=dedicated direct links.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	MacsecCapability *string `json:"macsec_capability,omitempty"`
 
@@ -12141,9 +12256,9 @@ const (
 //
 // Only included on type=dedicated direct links.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
 	GatewayCollectionGatewaysItemGateway_MacsecCapability_Macsec         = "macsec"
@@ -12389,6 +12504,98 @@ func UnmarshalGatewayCollectionGatewaysItemGateway(m map[string]json.RawMessage,
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GatewayMacsecCakKeyReferenceHpcsCakKeyReference : A reference to a [Hyper Protect Crypto Service Standard
+// Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+// This model "extends" GatewayMacsecCakKeyReference
+type GatewayMacsecCakKeyReferenceHpcsCakKeyReference struct {
+	// The CRN of the referenced key.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference : Instantiate GatewayMacsecCakKeyReferenceHpcsCakKeyReference (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference(crn string) (_model *GatewayMacsecCakKeyReferenceHpcsCakKeyReference, err error) {
+	_model = &GatewayMacsecCakKeyReferenceHpcsCakKeyReference{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*GatewayMacsecCakKeyReferenceHpcsCakKeyReference) isaGatewayMacsecCakKeyReference() bool {
+	return true
+}
+
+// UnmarshalGatewayMacsecCakKeyReferenceHpcsCakKeyReference unmarshals an instance of GatewayMacsecCakKeyReferenceHpcsCakKeyReference from the specified map of raw messages.
+func UnmarshalGatewayMacsecCakKeyReferenceHpcsCakKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// asPatch returns a generic map representation of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+func (gatewayMacsecCakKeyReferenceHpcsCakKeyReference *GatewayMacsecCakKeyReferenceHpcsCakKeyReference) asPatch() (_patch map[string]interface{}) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(gatewayMacsecCakKeyReferenceHpcsCakKeyReference.Crn) {
+		_patch["crn"] = gatewayMacsecCakKeyReferenceHpcsCakKeyReference.Crn
+	}
+
+	return
+}
+
+// GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference : A reference to a [Secrets Manager Arbitrary
+// Secret](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-getting-started).
+// This model "extends" GatewayMacsecCakKeyReference
+type GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference struct {
+	// The CRN of the referenced key.
+	Crn *string `json:"crn" validate:"required"`
+}
+
+// NewGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference : Instantiate GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference (Generic Model Constructor)
+func (*DirectLinkV1) NewGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference(crn string) (_model *GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference, err error) {
+	_model = &GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference{
+		Crn: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference) isaGatewayMacsecCakKeyReference() bool {
+	return true
+}
+
+// UnmarshalGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference unmarshals an instance of GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference from the specified map of raw messages.
+func UnmarshalGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// asPatch returns a generic map representation of the GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference
+func (gatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference *GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference) asPatch() (_patch map[string]interface{}) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(gatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference.Crn) {
+		_patch["crn"] = gatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference.Crn
+	}
+
 	return
 }
 
@@ -12889,15 +13096,15 @@ type GatewayTemplateGatewayTypeDedicatedTemplate struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecPrototype `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
 	// `cross_connect_router`.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	//
 	// If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
@@ -12948,9 +13155,9 @@ const (
 // Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
 // `cross_connect_router`.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 //
 // If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router`
@@ -13439,7 +13646,7 @@ type GetGatewayResponseGateway struct {
 	// Gateway location.
 	LocationName *string `json:"location_name" validate:"required"`
 
-	// MACsec configuration information of a Direct Link gateway.
+	// MACsec configuration information of a direct link.
 	Macsec *GatewayMacsecReference `json:"macsec,omitempty"`
 
 	// Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
@@ -13447,9 +13654,9 @@ type GetGatewayResponseGateway struct {
 	//
 	// Only included on type=dedicated direct links.
 	//
-	// - non_macsec: The direct link does not support MACsec.
-	// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-	// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+	// - `non_macsec`: The direct link does not support MACsec.
+	// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+	// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 	// direct link creation.
 	MacsecCapability *string `json:"macsec_capability,omitempty"`
 
@@ -13540,9 +13747,9 @@ const (
 //
 // Only included on type=dedicated direct links.
 //
-// - non_macsec: The direct link does not support MACsec.
-// - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-// - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+// - `non_macsec`: The direct link does not support MACsec.
+// - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+// - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
 // direct link creation.
 const (
 	GetGatewayResponseGateway_MacsecCapability_Macsec         = "macsec"

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			directLinkService, serviceErr := directlinkv1.NewDirectLinkV1(&directlinkv1.DirectLinkV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
 				Version:       core.StringPtr(version),
-				ServiceName:   "dl_services",
 			})
 			Expect(directLinkService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
@@ -247,7 +246,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully with retries`, func() {
@@ -302,7 +301,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
+					fmt.Fprintf(res, "%s", `{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}`)
 				}))
 			})
 			It(`Invoke ListGateways successfully`, func() {
@@ -444,13 +443,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -553,7 +552,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully with retries`, func() {
@@ -593,13 +592,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -704,7 +703,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGateway successfully`, func() {
@@ -749,13 +748,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -849,13 +848,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -970,13 +969,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel := new(directlinkv1.ResourceGroupIdentity)
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -1179,7 +1178,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully with retries`, func() {
@@ -1235,7 +1234,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke GetGateway successfully`, func() {
@@ -1448,7 +1447,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully with retries`, func() {
@@ -1551,7 +1550,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke UpdateGateway successfully`, func() {
@@ -1870,7 +1869,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully with retries`, func() {
@@ -1986,7 +1985,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
+					fmt.Fprintf(res, "%s", `{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "BgpBaseCidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The authentication_key failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}`)
 				}))
 			})
 			It(`Invoke CreateGatewayAction successfully`, func() {
@@ -7140,13 +7139,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -7233,13 +7232,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -7333,13 +7332,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -7375,13 +7374,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -7438,13 +7437,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
 
@@ -7544,7 +7543,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
 				}))
 			})
 			It(`Invoke ListGatewayMacsecCaks successfully with retries`, func() {
@@ -7600,7 +7599,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}`)
 				}))
 			})
 			It(`Invoke ListGatewayMacsecCaks successfully`, func() {
@@ -7725,14 +7724,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the CreateGatewayMacsecCakOptions model
 				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
 				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+				createGatewayMacsecCakOptionsModel.Key = gatewayMacsecCakKeyReferenceModel
 				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
 				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
 				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -7789,7 +7788,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
 			It(`Invoke CreateGatewayMacsecCak successfully with retries`, func() {
@@ -7802,14 +7801,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the CreateGatewayMacsecCakOptions model
 				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
 				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+				createGatewayMacsecCakOptionsModel.Key = gatewayMacsecCakKeyReferenceModel
 				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
 				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
 				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -7868,7 +7867,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
 			It(`Invoke CreateGatewayMacsecCak successfully`, func() {
@@ -7886,14 +7885,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the CreateGatewayMacsecCakOptions model
 				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
 				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+				createGatewayMacsecCakOptionsModel.Key = gatewayMacsecCakKeyReferenceModel
 				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
 				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
 				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -7914,14 +7913,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the CreateGatewayMacsecCakOptions model
 				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
 				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+				createGatewayMacsecCakOptionsModel.Key = gatewayMacsecCakKeyReferenceModel
 				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
 				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
 				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -7963,14 +7962,14 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the CreateGatewayMacsecCakOptions model
 				createGatewayMacsecCakOptionsModel := new(directlinkv1.CreateGatewayMacsecCakOptions)
 				createGatewayMacsecCakOptionsModel.ID = core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.Key = hpcsKeyIdentityModel
+				createGatewayMacsecCakOptionsModel.Key = gatewayMacsecCakKeyReferenceModel
 				createGatewayMacsecCakOptionsModel.Name = core.StringPtr("1000")
 				createGatewayMacsecCakOptionsModel.Session = core.StringPtr("primary")
 				createGatewayMacsecCakOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -8130,7 +8129,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
 			It(`Invoke GetGatewayMacsecCak successfully with retries`, func() {
@@ -8187,7 +8186,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
 			It(`Invoke GetGatewayMacsecCak successfully`, func() {
@@ -8315,13 +8314,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPatch model
 				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPatchModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -8385,7 +8384,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
 			It(`Invoke UpdateGatewayMacsecCak successfully with retries`, func() {
@@ -8398,13 +8397,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(directLinkService).ToNot(BeNil())
 				directLinkService.EnableRetries(0, 0)
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPatch model
 				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPatchModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -8470,7 +8469,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
+					fmt.Fprintf(res, "%s", `{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}`)
 				}))
 			})
 			It(`Invoke UpdateGatewayMacsecCak successfully`, func() {
@@ -8488,13 +8487,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPatch model
 				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPatchModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -8522,13 +8521,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPatch model
 				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPatchModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -8577,13 +8576,13 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(directLinkService).ToNot(BeNil())
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
 
 				// Construct an instance of the GatewayMacsecCakPatch model
 				gatewayMacsecCakPatchModel := new(directlinkv1.GatewayMacsecCakPatch)
-				gatewayMacsecCakPatchModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPatchModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPatchModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPatchModelAsPatch, asPatchErr := gatewayMacsecCakPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -11831,26 +11830,26 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(createGatewayImportRouteFilterOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateGatewayMacsecCakOptions successfully`, func() {
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				Expect(hpcsKeyIdentityModel).ToNot(BeNil())
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(hpcsKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				Expect(gatewayMacsecCakKeyReferenceModel).ToNot(BeNil())
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecCakKeyReferenceModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
 
 				// Construct an instance of the CreateGatewayMacsecCakOptions model
 				id := "0a06fb9b-820f-4c44-8a31-77f1f0806d28"
-				var createGatewayMacsecCakOptionsKey *directlinkv1.HpcsKeyIdentity = nil
+				var createGatewayMacsecCakOptionsKey directlinkv1.GatewayMacsecCakKeyReferenceIntf = nil
 				createGatewayMacsecCakOptionsName := "1000"
 				createGatewayMacsecCakOptionsSession := "primary"
 				createGatewayMacsecCakOptionsModel := directLinkService.NewCreateGatewayMacsecCakOptions(id, createGatewayMacsecCakOptionsKey, createGatewayMacsecCakOptionsName, createGatewayMacsecCakOptionsSession)
 				createGatewayMacsecCakOptionsModel.SetID("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-				createGatewayMacsecCakOptionsModel.SetKey(hpcsKeyIdentityModel)
+				createGatewayMacsecCakOptionsModel.SetKey(gatewayMacsecCakKeyReferenceModel)
 				createGatewayMacsecCakOptionsModel.SetName("1000")
 				createGatewayMacsecCakOptionsModel.SetSession("primary")
 				createGatewayMacsecCakOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createGatewayMacsecCakOptionsModel).ToNot(BeNil())
 				Expect(createGatewayMacsecCakOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
-				Expect(createGatewayMacsecCakOptionsModel.Key).To(Equal(hpcsKeyIdentityModel))
+				Expect(createGatewayMacsecCakOptionsModel.Key).To(Equal(gatewayMacsecCakKeyReferenceModel))
 				Expect(createGatewayMacsecCakOptionsModel.Name).To(Equal(core.StringPtr("1000")))
 				Expect(createGatewayMacsecCakOptionsModel.Session).To(Equal(core.StringPtr("primary")))
 				Expect(createGatewayMacsecCakOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -11900,19 +11899,19 @@ var _ = Describe(`DirectLinkV1`, func() {
 				resourceGroupIdentityModel.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("56969d6043e9465c883cb9f7363e78e8")))
 
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				Expect(hpcsKeyIdentityModel).ToNot(BeNil())
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(hpcsKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				Expect(gatewayMacsecCakKeyReferenceModel).ToNot(BeNil())
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecCakKeyReferenceModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
 				Expect(gatewayMacsecCakPrototypeModel).ToNot(BeNil())
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-				Expect(gatewayMacsecCakPrototypeModel.Key).To(Equal(hpcsKeyIdentityModel))
+				Expect(gatewayMacsecCakPrototypeModel.Key).To(Equal(gatewayMacsecCakKeyReferenceModel))
 				Expect(gatewayMacsecCakPrototypeModel.Name).To(Equal(core.StringPtr("1000")))
 				Expect(gatewayMacsecCakPrototypeModel.Session).To(Equal(core.StringPtr("primary")))
 
@@ -12119,7 +12118,7 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGatewayMacsecCakPrototype successfully`, func() {
-				var key *directlinkv1.HpcsKeyIdentity = nil
+				var key directlinkv1.GatewayMacsecCakKeyReferenceIntf = nil
 				name := "1000"
 				session := "primary"
 				_, err := directLinkService.NewGatewayMacsecCakPrototype(key, name, session)
@@ -12265,12 +12264,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(getPortOptionsModel).ToNot(BeNil())
 				Expect(getPortOptionsModel.ID).To(Equal(core.StringPtr("0a06fb9b-820f-4c44-8a31-77f1f0806d28")))
 				Expect(getPortOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewHpcsKeyIdentity successfully`, func() {
-				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
-				_model, err := directLinkService.NewHpcsKeyIdentity(crn)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewListGatewayAsPrependsOptions successfully`, func() {
 				// Construct an instance of the ListGatewayAsPrependsOptions model
@@ -12491,19 +12484,19 @@ var _ = Describe(`DirectLinkV1`, func() {
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewSetGatewayMacsecOptions successfully`, func() {
-				// Construct an instance of the HpcsKeyIdentity model
-				hpcsKeyIdentityModel := new(directlinkv1.HpcsKeyIdentity)
-				Expect(hpcsKeyIdentityModel).ToNot(BeNil())
-				hpcsKeyIdentityModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-				Expect(hpcsKeyIdentityModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
+				// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+				gatewayMacsecCakKeyReferenceModel := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+				Expect(gatewayMacsecCakKeyReferenceModel).ToNot(BeNil())
+				gatewayMacsecCakKeyReferenceModel.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+				Expect(gatewayMacsecCakKeyReferenceModel.Crn).To(Equal(core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")))
 
 				// Construct an instance of the GatewayMacsecCakPrototype model
 				gatewayMacsecCakPrototypeModel := new(directlinkv1.GatewayMacsecCakPrototype)
 				Expect(gatewayMacsecCakPrototypeModel).ToNot(BeNil())
-				gatewayMacsecCakPrototypeModel.Key = hpcsKeyIdentityModel
+				gatewayMacsecCakPrototypeModel.Key = gatewayMacsecCakKeyReferenceModel
 				gatewayMacsecCakPrototypeModel.Name = core.StringPtr("1000")
 				gatewayMacsecCakPrototypeModel.Session = core.StringPtr("primary")
-				Expect(gatewayMacsecCakPrototypeModel.Key).To(Equal(hpcsKeyIdentityModel))
+				Expect(gatewayMacsecCakPrototypeModel.Key).To(Equal(gatewayMacsecCakKeyReferenceModel))
 				Expect(gatewayMacsecCakPrototypeModel.Name).To(Equal(core.StringPtr("1000")))
 				Expect(gatewayMacsecCakPrototypeModel.Session).To(Equal(core.StringPtr("primary")))
 
@@ -12649,6 +12642,24 @@ var _ = Describe(`DirectLinkV1`, func() {
 			It(`Invoke NewAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity successfully`, func() {
 				crn := "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
 				_model, err := directLinkService.NewAuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity successfully`, func() {
+				crn := "crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference successfully`, func() {
+				crn := "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewGatewayMacsecCakKeyReferenceHpcsCakKeyReference(crn)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference successfully`, func() {
+				crn := "crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222"
+				_model, err := directLinkService.NewGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference(crn)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -12841,6 +12852,24 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 			var result *directlinkv1.GatewayBfdPatchTemplate
 			err = directlinkv1.UnmarshalGatewayBfdPatchTemplate(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalGatewayMacsecCakKeyReference successfully`, func() {
+			// Construct an instance of the model.
+			model := new(directlinkv1.GatewayMacsecCakKeyReference)
+			model.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *directlinkv1.GatewayMacsecCakKeyReference
+			err = directlinkv1.UnmarshalGatewayMacsecCakKeyReference(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
@@ -13062,24 +13091,6 @@ var _ = Describe(`DirectLinkV1`, func() {
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
 		})
-		It(`Invoke UnmarshalHpcsKeyIdentity successfully`, func() {
-			// Construct an instance of the model.
-			model := new(directlinkv1.HpcsKeyIdentity)
-			model.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-
-			b, err := json.Marshal(model)
-			Expect(err).To(BeNil())
-
-			var raw map[string]json.RawMessage
-			err = json.Unmarshal(b, &raw)
-			Expect(err).To(BeNil())
-
-			var result *directlinkv1.HpcsKeyIdentity
-			err = directlinkv1.UnmarshalHpcsKeyIdentity(raw, &result)
-			Expect(err).To(BeNil())
-			Expect(result).ToNot(BeNil())
-			Expect(result).To(Equal(model))
-		})
 		It(`Invoke UnmarshalResourceGroupIdentity successfully`, func() {
 			// Construct an instance of the model.
 			model := new(directlinkv1.ResourceGroupIdentity)
@@ -13194,6 +13205,24 @@ var _ = Describe(`DirectLinkV1`, func() {
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
 		})
+		It(`Invoke UnmarshalAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(directlinkv1.AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity)
+			model.Crn = core.StringPtr("crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *directlinkv1.AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity
+			err = directlinkv1.UnmarshalAuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
 		It(`Invoke UnmarshalGatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate successfully`, func() {
 			// Construct an instance of the model.
 			model := new(directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate)
@@ -13263,6 +13292,42 @@ var _ = Describe(`DirectLinkV1`, func() {
 
 			var result *directlinkv1.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate
 			err = directlinkv1.UnmarshalGatewayActionTemplateUpdatesItemGatewayClientVLANUpdate(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalGatewayMacsecCakKeyReferenceHpcsCakKeyReference successfully`, func() {
+			// Construct an instance of the model.
+			model := new(directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference)
+			model.Crn = core.StringPtr("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *directlinkv1.GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+			err = directlinkv1.UnmarshalGatewayMacsecCakKeyReferenceHpcsCakKeyReference(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference successfully`, func() {
+			// Construct an instance of the model.
+			model := new(directlinkv1.GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference)
+			model.Crn = core.StringPtr("crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *directlinkv1.GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference
+			err = directlinkv1.UnmarshalGatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
